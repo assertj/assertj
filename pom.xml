@@ -52,6 +52,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <!-- 
+        PowerMock is not in Maven Central. Add a repository to your settings.xml pointing to 
+        http://powermock.googlecode.com/svn/repo/  
+      -->
       <groupId>org.powermock.api</groupId>
       <artifactId>powermock-api-mockito</artifactId>
       <version>1.4</version>
