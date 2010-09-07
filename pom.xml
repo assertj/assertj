@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.easytesting</groupId>
+  <artifactId>fest-assert-core</artifactId>
+  <version>2.0-SNAPSHOT</version>
+  <name>FEST Fluent Assertions</name>
+  <description>'Flexible' or 'fluent' assertions for testing</description>
+  <inceptionYear>2007</inceptionYear>
+  <url>http://fest.easytesting.org/assert</url>
+  <parent>
+    <groupId>org.easytesting</groupId>
+    <artifactId>fest</artifactId>
+    <version>1.0.1</version>
+  </parent>
+  <mailingLists>
+    <mailingList>
+      <name>Easy Testing Group</name>
+      <post>http://groups.google.com/group/easytesting</post>
+      <subscribe>http://groups.google.com/group/easytesting</subscribe>
+      <unsubscribe>http://groups.google.com/group/easytesting</unsubscribe>
+    </mailingList>
+  </mailingLists>
+  <scm>
+    <developerConnection>scm:svn:https://svn.codehaus.org/fest/</developerConnection>
+    <connection>scm:svn:http://svn.codehaus.org/fest/</connection>
+    <url>http://fisheye.codehaus.org/browse/fest/</url>
+  </scm>
+  <issueManagement>
+    <system>JIRA</system>
+    <url>http://jira.codehaus.org/browse/FEST</url>
+  </issueManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-util</artifactId>
+      <version>1.1.4</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-reflect</artifactId>
+      <version>1.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.modules</groupId>
+      <artifactId>powermock-module-junit4</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.powermock.api</groupId>
+      <artifactId>powermock-api-mockito</artifactId>
+      <version>1.4</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.7</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
