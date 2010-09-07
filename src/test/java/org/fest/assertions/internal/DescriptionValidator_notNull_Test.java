@@ -15,13 +15,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedExceptions.expectErrorWhenDescriptionIsNull;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.junit.Assert.*;
-import static org.junit.rules.ExpectedException.none;
 
 import org.fest.assertions.description.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link DescriptionValidator#notNull(org.fest.assertions.description.Description)}</code> and
@@ -37,14 +37,14 @@ public class DescriptionValidator_notNull_Test {
 
   @Test
   public void should_throw_error_if_description_is_null() {
-    expectErrorWhenDescriptionIsNull(thrown);
+    thrown.expectNullPointerException(descriptionIsNull());
     Description d = null;
     DescriptionValidator.notNull(d);
   }
 
   @Test
   public void should_throw_error_if_text_description_is_null() {
-    expectErrorWhenDescriptionIsNull(thrown);
+    thrown.expectNullPointerException(descriptionIsNull());
     String d = null;
     DescriptionValidator.notNull(d);
   }

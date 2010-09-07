@@ -16,15 +16,14 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.internal.DescriptionFormatter.format;
-import static org.fest.assertions.test.ExpectedExceptions.*;
-import static org.junit.rules.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -54,7 +53,7 @@ public class Failures_fail_with_AssertionInfo_Test {
 
   @Test
   public void should_create_own_AssertionError_and_when_overriding_error_message_is_specified() {
-    expectAssertionErrorWithMessage(thrown, "my message");
+    thrown.expectAssertionError("my message");
     assertionInfo.overridingErrorMessage("my message");
     Failures.fail(assertionInfo, errorFactory);
   }
@@ -62,7 +61,7 @@ public class Failures_fail_with_AssertionInfo_Test {
   @Test
   public void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
-    expectError(thrown, expectedError);
+    thrown.expect(expectedError);
     assertionInfo.description(new TestDescription("description"));
     String formattedDescription = "[description] ";
     when(format(assertionInfo.description())).thenReturn(formattedDescription);

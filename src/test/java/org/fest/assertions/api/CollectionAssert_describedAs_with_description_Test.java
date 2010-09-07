@@ -17,12 +17,12 @@ package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
 import static junit.framework.Assert.*;
-import static org.fest.assertions.test.ExpectedExceptions.expectErrorWhenDescriptionIsNull;
-import static org.junit.rules.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 
 import org.fest.assertions.description.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link CollectionAssert#describedAs(Description)}</code>
@@ -57,7 +57,7 @@ public class CollectionAssert_describedAs_with_description_Test {
 
   @Test
   public void should_throw_error_if_description_is_null() {
-    expectErrorWhenDescriptionIsNull(thrown);
+    thrown.expectNullPointerException(descriptionIsNull());
     assertions.describedAs((Description)null);
   }
 }

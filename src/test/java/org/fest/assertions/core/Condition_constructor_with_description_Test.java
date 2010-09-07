@@ -16,12 +16,12 @@
 package org.fest.assertions.core;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ExpectedExceptions.expectErrorWhenDescriptionIsNull;
-import static org.junit.rules.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 
 import org.fest.assertions.description.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
-import org.junit.rules.ExpectedException;
 
 /**
  * Tests for <code>{@link Condition#Condition(Description)}</code>
@@ -47,7 +47,7 @@ public class Condition_constructor_with_description_Test {
 
   @Test
   public void should_throw_error_if_description_is_null() {
-    expectErrorWhenDescriptionIsNull(thrown);
+    thrown.expectNullPointerException(descriptionIsNull());
     new Condition<Object>((Description)null) {
       @Override public boolean matches(Object value) {
         return false;
