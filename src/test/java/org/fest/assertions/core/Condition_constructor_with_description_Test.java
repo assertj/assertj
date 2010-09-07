@@ -36,7 +36,7 @@ public class Condition_constructor_with_description_Test {
 
   @Test
   public void should_set_description() {
-    Description d = new TextDescription("Hello World!");
+    Description d = new TextDescription("always in motion is the future");
     Condition<Object> condition = new Condition<Object>(d) {
       @Override public boolean matches(Object value) {
         return false;

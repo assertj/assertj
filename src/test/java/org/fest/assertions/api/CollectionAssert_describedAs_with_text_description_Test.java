@@ -34,21 +34,23 @@ public class CollectionAssert_describedAs_with_text_description_Test {
   public ExpectedException thrown = none();
 
   private CollectionAssert assertions;
+  private String description;
 
   @Before
   public void setUp() {
     assertions = new CollectionAssert(emptyList());
+    description = "there's always a bigger fish";
   }
 
   @Test
   public void should_set_description() {
-    assertions.describedAs("Hello World!");
-    assertSame("Hello World!", assertions.descriptionText());
+    assertions.describedAs(description);
+    assertSame(description, assertions.descriptionText());
   }
 
   @Test
   public void should_return_this() {
-    CollectionAssert a = assertions.describedAs("Hello World!");
+    CollectionAssert a = assertions.describedAs(description);
     assertSame(assertions, a);
   }
 

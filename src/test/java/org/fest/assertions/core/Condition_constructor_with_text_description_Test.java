@@ -35,12 +35,13 @@ public class Condition_constructor_with_text_description_Test {
 
   @Test
   public void should_set_description() {
-    Condition<Object> condition = new Condition<Object>("Hello World!") {
+    String text = "your eyes can deceive you; don't trust them";
+    Condition<Object> condition = new Condition<Object>(text) {
       @Override public boolean matches(Object value) {
         return false;
       }
     };
-    assertEquals("Hello World!", condition.description.value());
+    assertEquals(text, condition.description.value());
   }
 
   @Test

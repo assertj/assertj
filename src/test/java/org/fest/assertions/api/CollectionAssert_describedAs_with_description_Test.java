@@ -40,7 +40,7 @@ public class CollectionAssert_describedAs_with_description_Test {
   @Before
   public void setUp() {
     assertions = new CollectionAssert(emptyList());
-    d = new TextDescription("Hello World!");
+    d = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
   }
 
   @Test
