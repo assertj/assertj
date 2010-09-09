@@ -16,7 +16,6 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertEquals;
 
 import java.util.*;
 
@@ -39,9 +38,7 @@ public class CollectionAssert_isEqualTo_Test {
   }
 
   @Test
-  public void should_return_true_if_expected_value_is_equal_to_actual_value() {
-    Collection<String> c = Arrays.asList("one","two");
-    CollectionAssert a = assertions.isEqualTo(c);
-    assertEquals(c, a);
+  public void should_pass_if_expected_value_is_equal_to_actual_value() {
+    assertions.isEqualTo(new ArrayList<String>());
   }
 }

@@ -15,9 +15,11 @@
  */
 package org.fest.assertions.error;
 
+import static org.fest.assertions.error.Formatter.*;
 import static org.fest.assertions.util.ToString.toStringOf;
 import static org.fest.util.Arrays.array;
 
+import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -50,22 +52,22 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
    * Creates an <code>{@link AssertionError}</code> when two objects that are expected to be equal, aren't. If JUnit 4
    * is in the classpath, this method will instead create a {@code org.junit.ComparisonFailure} that highlights the
    * difference(s) between the expected and actual objects.
-   * @param description the description of the failed assertion.
+   * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
-  public AssertionError newAssertionError(String description) {
-    AssertionError error = comparisonFailure(description.trim());
+  public AssertionError newAssertionError(Description d) {
+    AssertionError error = comparisonFailure(d);
     if (error != null) return error;
-    return new AssertionError(defaultErrorMessage(description));
+    return new AssertionError(defaultErrorMessage(d));
   }
 
-  private String defaultErrorMessage(String description) {
-    return String.format("%sexpected:<%s> but was:<%s>", msgArgs(description));
+  private String defaultErrorMessage(Description d) {
+    return formatMessage("%sexpected:<%s> but was:<%s>", d, expected, actual);
   }
 
-  private AssertionError comparisonFailure(String description) {
+  private AssertionError comparisonFailure(Description d) {
     try {
-      return newComparisonFailure(description);
+      return newComparisonFailure(format(d).trim());
     } catch (Exception e) {
       return null;
     }

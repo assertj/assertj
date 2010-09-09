@@ -37,7 +37,7 @@ public interface GroupAssert {
 
   /**
    * Verifies that the actual group of values is not empty.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
   GroupAssert isNotEmpty();
@@ -45,7 +45,7 @@ public interface GroupAssert {
   /**
    * Verifies that the number of values in the actual group is equal to the given one.
    * @param expected the expected number of values in the actual group.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
    */
   GroupAssert hasSize(int expected);

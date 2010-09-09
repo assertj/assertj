@@ -15,7 +15,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.internal.DescriptionFormatter.format;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -56,7 +55,7 @@ public final class Failures {
    * @throws AssertionError indicating an assertion failure.
    */
   public static void fail(Description description, AssertionErrorFactory assertionErrorFactory) {
-    throw assertionErrorFactory.newAssertionError(format(description));
+    throw assertionErrorFactory.newAssertionError(description);
   }
 
   /**

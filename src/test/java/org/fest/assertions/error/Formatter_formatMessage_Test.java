@@ -1,5 +1,5 @@
 /*
- * Created on Aug 6, 2010
+ * Created on Sep 8, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -16,52 +16,36 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.Formatter.format;
+import static org.fest.assertions.util.ToString.toStringOf;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
+import org.fest.assertions.util.ToString;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
- * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link Formatter#formatMessage(String, Description, Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-@PrepareForTest(Formatter.class)
+@PrepareForTest(ToString.class)
 @RunWith(PowerMockRunner.class)
-public class ErrorWhenNotEqualFactory_newAssertionError_Test {
-
-  private Description description;
-  private ErrorWhenNotEqualFactory factory;
+public class Formatter_formatMessage_Test {
 
   @Before
   public void setUp() {
-    description = new TestDescription("Jedi");
-    factory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
-    mockStatic(Formatter.class);
+    mockStatic(ToString.class);
   }
 
   @Test
-  public void should_create_ComparisonFailure_if_JUnit4_is_in_classpath() {
-    when(format(description)).thenReturn("[Jedi]");
-    AssertionError error = factory.newAssertionError(description);
-    verify(error);
-  }
-
-  @Test
-  public void should_trim_formatted_description() {
-    when(format(description)).thenReturn("[Jedi] ");
-    AssertionError error = factory.newAssertionError(description);
-    verify(error);
-  }
-
-  private void verify(AssertionError error) {
-    assertEquals(ComparisonFailure.class, error.getClass());
-    assertEquals("[Jedi] expected:<'[Yoda]'> but was:<'[Luke]'>", error.getMessage());
+  public void should_format_message() {
+    when(toStringOf("World")).thenReturn("World!");
+    String s = Formatter.formatMessage("%sHello %s", new TestDescription("Testing"), "World");
+    assertEquals("[Testing] Hello World!", s);
   }
 }

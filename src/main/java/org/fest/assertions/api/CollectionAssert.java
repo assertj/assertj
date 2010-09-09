@@ -30,7 +30,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert implements GroupAssert, BaseAssert<Collection<?>> {
+public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   private final WritableAssertionInfo info = new WritableAssertionInfo();
 

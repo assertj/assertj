@@ -15,25 +15,29 @@
  */
 package org.fest.assertions.error;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ErrorWhenNotEqualFactory.MSG_ARG_TYPES;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
+import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(String)}</code>.
+ * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenNotEqualFactory_newAssertionError_with_mocks_Test {
+public class ErrorWhenNotEqualFactory_newAssertionError_without_JUnit_Test {
 
+  private Description description;
   private ErrorWhenNotEqualFactory errorFactory;
   private ConstructorInvoker invoker;
 
   @Before
   public void setUp() {
+    description = new TestDescription("Jedi");
     errorFactory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
     invoker = mock(ConstructorInvoker.class);
     errorFactory.constructorInvoker(invoker);
@@ -41,21 +45,24 @@ public class ErrorWhenNotEqualFactory_newAssertionError_with_mocks_Test {
 
   @Test
   public void should_create_AssertionError_if_created_ComparisonFailure_is_null() throws Exception {
-    when(invoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, array("'Yoda'", "'Luke'"))).thenReturn(null);
-    AssertionError error = errorFactory.newAssertionError("[Jedi] ");
+    when(createComparisonFailure()).thenReturn(null);
+    AssertionError error = errorFactory.newAssertionError(description);
     verify(error);
   }
 
   @Test
   public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
-    when(invoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, array("'Yoda'", "'Luke'")))
-      .thenThrow(new Exception("Thrown on purpose"));
-    AssertionError error = errorFactory.newAssertionError("[Jedi] ");
+    when(createComparisonFailure()).thenThrow(new Exception("Thrown on purpose"));
+    AssertionError error = errorFactory.newAssertionError(description);
     verify(error);
   }
 
+  private Object createComparisonFailure() throws Exception {
+    return invoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, array("'Yoda'", "'Luke'"));
+  }
+
   private void verify(AssertionError error) {
-    assertFalse(error instanceof ComparisonFailure);
+    assertEquals(AssertionError.class, error.getClass());
     assertEquals("[Jedi] expected:<'Yoda'> but was:<'Luke'>", error.getMessage());
   }
 }

@@ -13,37 +13,38 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.TestDescription;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.
+ * Tests for <code>{@link Formatter#format(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class DescriptionFormatter_format_Test {
+public class Formatter_format_Test {
 
   @Test
   public void should_return_empty_String_if_description_is_null() {
-    assertEquals("", DescriptionFormatter.format(null));
+    assertEquals("", Formatter.format(null));
   }
 
   @Test
   public void should_return_empty_String_if_description_value_is_null() {
-    assertEquals("", DescriptionFormatter.format(new TestDescription(null)));
+    assertEquals("", Formatter.format(new TestDescription(null)));
   }
 
   @Test
   public void should_return_empty_String_if_description_value_is_empty() {
-    assertEquals("", DescriptionFormatter.format(new TestDescription("")));
+    assertEquals("", Formatter.format(new TestDescription("")));
   }
 
   @Test
   public void should_format_description_if_value_is_not_empty_or_null() {
-    assertEquals("[Leia] ", DescriptionFormatter.format(new TestDescription("Leia")));
+    assertEquals("[Leia] ", Formatter.format(new TestDescription("Leia")));
   }
 }

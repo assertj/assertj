@@ -22,23 +22,23 @@ package org.fest.assertions.core;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface BaseAssert<T> extends Descriptable {
+public interface Assert<T> extends Descriptable {
 
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  BaseAssert<T> isEqualTo(T expected);
+  Assert<T> isEqualTo(T expected);
 
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  BaseAssert<T> isNotEqualTo(T other);
+  Assert<T> isNotEqualTo(T other);
 
   /**
    * Asserts that the actual value is {@code null}.
@@ -48,62 +48,62 @@ public interface BaseAssert<T> extends Descriptable {
 
   /**
    * Verifies that the actual value is not {@code null}.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    */
-  BaseAssert<T> isNotNull();
+  Assert<T> isNotNull();
 
   /**
    * Verifies that the actual value is the same as the given one.
    * @param expected the given value to compare the actual value to.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
    */
-  BaseAssert<T> isSameAs(T expected);
+  Assert<T> isSameAs(T expected);
 
   /**
    * Verifies that the actual value is not the same as the given one.
    * @param other the given value to compare the actual value to.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
    */
-  BaseAssert<T> isNotSameAs(T other);
+  Assert<T> isNotSameAs(T other);
 
   /**
    * Verifies that the actual value satisfies the given condition.
    * @param condition the given condition.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  BaseAssert<T> satisfies(Condition<T> condition);
+  Assert<T> satisfies(Condition<T> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition.
    * @param condition the given condition.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  BaseAssert<T> doesNotSatisfy(Condition<T> condition);
+  Assert<T> doesNotSatisfy(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #satisfies(Condition)}</code>.
    * @param condition the given condition.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    */
-  BaseAssert<T> is(Condition<T> condition);
+  Assert<T> is(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
    * @param condition the given condition.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    */
-  BaseAssert<T> isNot(Condition<T> condition);
+  Assert<T> isNot(Condition<T> condition);
 }

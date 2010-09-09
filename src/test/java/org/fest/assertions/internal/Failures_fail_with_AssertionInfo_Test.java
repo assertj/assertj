@@ -15,18 +15,14 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.internal.DescriptionFormatter.format;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import org.fest.assertions.core.*;
+import org.fest.assertions.description.Description;
 import org.fest.assertions.error.AssertionErrorFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for <code>{@link Failures#fail(AssertionInfo, AssertionErrorFactory)}</code>.
@@ -34,8 +30,6 @@ import org.powermock.modules.junit4.PowerMockRunner;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-@PrepareForTest(DescriptionFormatter.class)
-@RunWith(PowerMockRunner.class)
 public class Failures_fail_with_AssertionInfo_Test {
 
   @Rule
@@ -47,12 +41,11 @@ public class Failures_fail_with_AssertionInfo_Test {
   @Before
   public void setUp() {
     assertionInfo = new WritableAssertionInfo();
-    mockStatic(DescriptionFormatter.class);
     errorFactory = mock(AssertionErrorFactory.class);
   }
 
   @Test
-  public void should_create_own_AssertionError_and_when_overriding_error_message_is_specified() {
+  public void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
     thrown.expectAssertionError("my message");
     assertionInfo.overridingErrorMessage("my message");
     Failures.fail(assertionInfo, errorFactory);
@@ -62,10 +55,9 @@ public class Failures_fail_with_AssertionInfo_Test {
   public void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
     thrown.expect(expectedError);
-    assertionInfo.description(new TestDescription("description"));
-    String formattedDescription = "[description] ";
-    when(format(assertionInfo.description())).thenReturn(formattedDescription);
-    when(errorFactory.newAssertionError(formattedDescription)).thenReturn(expectedError);
+    Description description = new TestDescription("description");
+    assertionInfo.description(description);
+    when(errorFactory.newAssertionError(description)).thenReturn(expectedError);
     Failures.fail(assertionInfo, errorFactory);
   }
 

@@ -26,7 +26,7 @@ public interface ObjectGroupAssert extends GroupAssert {
   /**
    * Verifies that the actual group contains the given objects.
    * @param objects the given objects.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given objects.
@@ -36,7 +36,7 @@ public interface ObjectGroupAssert extends GroupAssert {
   /**
    * Verifies that the actual group contains only the given objects.
    * @param objects the given objects.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given objects, i.e. the given group contains some
@@ -47,7 +47,7 @@ public interface ObjectGroupAssert extends GroupAssert {
   /**
    * Verifies that the actual group does not contain the given objects.
    * @param objects the given objects.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains the given objects.
@@ -56,7 +56,7 @@ public interface ObjectGroupAssert extends GroupAssert {
 
   /**
    * Verifies that the actual group does not contain duplicates.
-   * @return this assertion object.
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains duplicates.
    */

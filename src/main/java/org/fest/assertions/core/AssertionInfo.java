@@ -28,12 +28,12 @@ public interface AssertionInfo {
    * Returns the message that, if specified, will replace the default message of an assertion failure.
    * @return the message that, if specified, will replace the default message of an assertion failure.
    */
-  public abstract String overridingErrorMessage();
+  String overridingErrorMessage();
 
   /**
    * Returns the description of an assertion.
    * @return the description of an assertion.
    */
-  public abstract Description description();
+  Description description();
 
 }
