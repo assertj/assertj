@@ -16,36 +16,33 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.util.ToString.toStringOf;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.mockito.Mockito.*;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.formatting.ToStringConverter;
 import org.fest.assertions.internal.TestDescription;
-import org.fest.assertions.util.ToString;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for <code>{@link Formatter#formatMessage(String, Description, Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-@PrepareForTest(ToString.class)
-@RunWith(PowerMockRunner.class)
 public class Formatter_formatMessage_Test {
 
-  @Before
-  public void setUp() {
-    mockStatic(ToString.class);
+  private static ToStringConverter converter;
+  private static Formatter formatter;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    converter = mock(ToStringConverter.class);
+    formatter = new Formatter(converter);
   }
 
   @Test
   public void should_format_message() {
-    when(toStringOf("World")).thenReturn("World!");
-    String s = Formatter.formatMessage("%sHello %s", new TestDescription("Testing"), "World");
+    when(converter.toStringOf("World")).thenReturn("World!");
+    String s = formatter.formatMessage("%sHello %s", new TestDescription("Testing"), "World");
     assertEquals("[Testing] Hello World!", s);
   }
 }

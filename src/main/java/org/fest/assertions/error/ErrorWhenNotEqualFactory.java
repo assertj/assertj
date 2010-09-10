@@ -15,7 +15,6 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.assertions.error.Formatter.*;
 import static org.fest.assertions.util.ToString.toStringOf;
 import static org.fest.util.Arrays.array;
 
@@ -38,6 +37,8 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   @VisibleForTesting final Object expected;
   @VisibleForTesting final Object actual;
 
+  private final Formatter formatter;
+
   /**
    * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
    * @param expected the expected value in the failed assertion.
@@ -50,8 +51,14 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
 
   @VisibleForTesting
   ErrorWhenNotEqualFactory(Object expected, Object actual) {
+    this(expected, actual, Formatter.instance());
+  }
+
+  @VisibleForTesting
+  ErrorWhenNotEqualFactory(Object expected, Object actual, Formatter formatter) {
     this.expected = expected;
     this.actual = actual;
+    this.formatter = formatter;
   }
 
   /**
@@ -68,12 +75,12 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    return formatMessage("%sexpected:<%s> but was:<%s>", d, expected, actual);
+    return formatter.formatMessage("%sexpected:<%s> but was:<%s>", d, expected, actual);
   }
 
   private AssertionError comparisonFailure(Description d) {
     try {
-      return newComparisonFailure(format(d).trim());
+      return newComparisonFailure(formatter.format(d).trim());
     } catch (Exception e) {
       return null;
     }
@@ -85,7 +92,6 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
     if (o instanceof AssertionError) return (AssertionError)o;
     return null;
   }
-
   private Object[] msgArgs(String description) {
     return array(description, toStringOf(expected), toStringOf(actual));
   }

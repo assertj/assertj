@@ -15,11 +15,12 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.assertions.util.ToString.toStringOf;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.formatting.ToStringConverter;
 import org.fest.assertions.util.ToString;
+import org.fest.util.VisibleForTesting;
 
 /**
  * General-purpose formatter.
@@ -27,6 +28,27 @@ import org.fest.assertions.util.ToString;
  * @author Alex Ruiz
  */
 public class Formatter {
+
+  private final ToStringConverter converter;
+
+  private static final Formatter INSTANCE = new Formatter();
+
+  /**
+   * Returns the singleton instance of this class.
+   * @return the singleton instance of this class.
+   */
+  public static Formatter instance() {
+    return INSTANCE;
+  }
+
+  private Formatter() {
+    this(ToStringConverter.instance());
+  }
+
+  @VisibleForTesting
+  Formatter(ToStringConverter converter) {
+    this.converter = converter;
+  }
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to
@@ -43,15 +65,15 @@ public class Formatter {
    * @throws NullPointerException If the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public static String formatMessage(String format, Description d, Object...args) {
+  public String formatMessage(String format, Description d, Object...args) {
     return String.format(format, format(d, args));
   }
 
-  private static Object[] format(Description d, Object[] args) {
+  private Object[] format(Description d, Object[] args) {
     int argCount = args.length;
     String[] formatted = new String[argCount + 1];
     formatted[0] = format(d);
-    for (int i = 0; i < argCount; i++) formatted[i + 1] = toStringOf(args[i]);
+    for (int i = 0; i < argCount; i++) formatted[i + 1] = converter.toStringOf(args[i]);
     return formatted;
   }
 
@@ -61,11 +83,9 @@ public class Formatter {
    * @param d the description to format. It can be {@code null}.
    * @return the formatted description, or an empty {@code String} if the the {@code Description} is {@code null}.
    */
-  public static String format(Description d) {
+  public String format(Description d) {
     String s = (d != null) ? d.value() : null;
     if (isEmpty(s)) return "";
     return String.format("[%s] ", s);
   }
-
-  private Formatter() {}
 }

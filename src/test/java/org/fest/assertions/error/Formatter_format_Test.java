@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Formatter#format(Description)}</code>.
@@ -28,23 +28,30 @@ import org.junit.Test;
  */
 public class Formatter_format_Test {
 
+  private static Formatter formatter;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    formatter = Formatter.instance();
+  }
+
   @Test
   public void should_return_empty_String_if_description_is_null() {
-    assertEquals("", Formatter.format(null));
+    assertEquals("", formatter.format(null));
   }
 
   @Test
   public void should_return_empty_String_if_description_value_is_null() {
-    assertEquals("", Formatter.format(new TestDescription(null)));
+    assertEquals("", formatter.format(new TestDescription(null)));
   }
 
   @Test
   public void should_return_empty_String_if_description_value_is_empty() {
-    assertEquals("", Formatter.format(new TestDescription("")));
+    assertEquals("", formatter.format(new TestDescription("")));
   }
 
   @Test
   public void should_format_description_if_value_is_not_empty_or_null() {
-    assertEquals("[Leia] ", Formatter.format(new TestDescription("Leia")));
+    assertEquals("[Leia] ", formatter.format(new TestDescription("Leia")));
   }
 }

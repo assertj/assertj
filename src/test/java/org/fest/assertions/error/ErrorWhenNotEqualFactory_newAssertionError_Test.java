@@ -16,46 +16,40 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.Formatter.format;
-import static org.mockito.Mockito.when;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.mockito.Mockito.*;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-@PrepareForTest(Formatter.class)
-@RunWith(PowerMockRunner.class)
 public class ErrorWhenNotEqualFactory_newAssertionError_Test {
 
   private Description description;
+  private Formatter formatter;
   private ErrorWhenNotEqualFactory factory;
 
   @Before
   public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
-    mockStatic(Formatter.class);
+    formatter = mock(Formatter.class);
+    factory = new ErrorWhenNotEqualFactory("Yoda", "Luke", formatter);
   }
 
   @Test
   public void should_create_ComparisonFailure_if_JUnit4_is_in_classpath() {
-    when(format(description)).thenReturn("[Jedi]");
+    when(formatter.format(description)).thenReturn("[Jedi]");
     AssertionError error = factory.newAssertionError(description);
     verify(error);
   }
 
   @Test
   public void should_trim_formatted_description() {
-    when(format(description)).thenReturn("[Jedi] ");
+    when(formatter.format(description)).thenReturn("[Jedi] ");
     AssertionError error = factory.newAssertionError(description);
     verify(error);
   }

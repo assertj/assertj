@@ -27,9 +27,18 @@ import org.fest.util.VisibleForTesting;
  */
 public class ToStringConverter {
 
-  private final Set<ToStringRule> rules = new HashSet<ToStringRule>();
-
+  private final Collection<ToStringRule> rules = new HashSet<ToStringRule>();
   private final ToStringRule defaultRule = new ObjectToStringRule();
+
+  private static final ToStringConverter INSTANCE = new ToStringConverter();
+
+  /**
+   * Returns the singleton instance of this class.
+   * @return the singleton instance of this class.
+   */
+  public static ToStringConverter instance() {
+    return INSTANCE;
+  }
 
   @VisibleForTesting
   ToStringConverter() {
@@ -38,6 +47,7 @@ public class ToStringConverter {
     rules.add(new CollectionToStringConverter());
     rules.add(new FileToStringConverter());
     rules.add(new MapToStringConverter());
+    rules.add(new StringToStringConverter());
   }
 
   public String toStringOf(Object o) {
