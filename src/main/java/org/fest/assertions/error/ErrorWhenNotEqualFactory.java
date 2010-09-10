@@ -35,8 +35,8 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
 
   private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
 
-  private final Object expected;
-  private final Object actual;
+  @VisibleForTesting final Object expected;
+  @VisibleForTesting final Object actual;
 
   /**
    * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
@@ -49,7 +49,7 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   }
 
   @VisibleForTesting
-  protected ErrorWhenNotEqualFactory(Object expected, Object actual) {
+  ErrorWhenNotEqualFactory(Object expected, Object actual) {
     this.expected = expected;
     this.actual = actual;
   }

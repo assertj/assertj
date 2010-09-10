@@ -38,7 +38,7 @@ public class ErrorWhenNotEqualFactory_newAssertionError_without_JUnit_Test {
   @Before
   public void setUp() {
     description = new TestDescription("Jedi");
-    errorFactory = (ErrorWhenNotEqualFactory) ErrorWhenNotEqualFactory.errorWhenNotEqual("Yoda", "Luke");
+    errorFactory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
     invoker = mock(ConstructorInvoker.class);
     errorFactory.constructorInvoker(invoker);
   }
