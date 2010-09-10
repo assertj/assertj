@@ -42,7 +42,7 @@ public class ErrorWhenNotEqualFactory_newAssertionError_Test {
   @Before
   public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
+    factory = (ErrorWhenNotEqualFactory) ErrorWhenNotEqualFactory.errorWhenNotEqual("Yoda", "Luke");
     mockStatic(Formatter.class);
   }
 

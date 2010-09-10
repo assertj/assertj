@@ -42,8 +42,14 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
    * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
    * @param expected the expected value in the failed assertion.
    * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorWhenNotEqualFactory}.
    */
-  public ErrorWhenNotEqualFactory(Object expected, Object actual) {
+  public static AssertionErrorFactory errorWhenNotEqual(Object expected, Object actual) {
+    return new ErrorWhenNotEqualFactory(expected, actual);
+  }
+
+  @VisibleForTesting
+  protected ErrorWhenNotEqualFactory(Object expected, Object actual) {
     this.expected = expected;
     this.actual = actual;
   }

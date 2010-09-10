@@ -15,14 +15,14 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
 import static org.fest.assertions.internal.Failures.fail;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.ErrorWhenNotEqualFactory;
 
 /**
- * Reusable assertion methods for {@code Object}s.
+ * Reusable assertions for {@code Object}s.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -34,11 +34,13 @@ public final class Objects {
    * @param info contains information about the assertion.
    * @param expected the expected value.
    * @param actual the actual value.
-   * @throws AssertionError if the actual value is not equal to the expected one.
+   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
+   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
+   * equal.
    */
   public static void assertEqual(AssertionInfo info, Object expected, Object actual) {
     if (areEqual(expected, actual)) return;
-    fail(info, new ErrorWhenNotEqualFactory(expected, actual));
+    fail(info, errorWhenNotEqual(expected, actual));
   }
 
   private Objects() {}
