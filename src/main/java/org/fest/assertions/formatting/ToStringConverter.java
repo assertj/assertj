@@ -44,10 +44,10 @@ public class ToStringConverter {
   ToStringConverter() {
     rules.add(new ArrayToStringRule());
     rules.add(new ClassToStringRule());
-    rules.add(new CollectionToStringConverter());
-    rules.add(new FileToStringConverter());
-    rules.add(new MapToStringConverter());
-    rules.add(new StringToStringConverter());
+    rules.add(new CollectionToStringRule());
+    rules.add(new FileToStringRule());
+    rules.add(new MapToStringRule());
+    rules.add(new StringToStringRule());
   }
 
   public String toStringOf(Object o) {

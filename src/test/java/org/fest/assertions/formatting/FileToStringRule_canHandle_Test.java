@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 10, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -15,24 +15,34 @@
  */
 package org.fest.assertions.formatting;
 
-import static org.fest.util.Collections.format;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
-import java.util.Collection;
+import java.io.File;
+
+import org.junit.*;
 
 /**
- * Returns the {@code String} representation of an <code>{@link Collection}</code>.
+ * Tests for <code>{@link FileToStringRule#canHandle(Object)}</code>.
  *
  * @author Alex Ruiz
  */
-class CollectionToStringConverter extends TypeBasedToStringRule<Collection<?>> {
+public class FileToStringRule_canHandle_Test {
 
-  @Override String doGetToString(Collection<?> c) {
-    return format(c);
+  private static FileToStringRule rule;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    rule = new FileToStringRule();
   }
 
-  @SuppressWarnings("unchecked")
-  @Override Class<Collection<?>> supportedType() {
-    Class<?> type = Collection.class;
-    return (Class<Collection<?>>) type;
+  @Test
+  public void should_return_true_if_object_is_File() {
+    assertTrue(rule.canHandle(mock(File.class)));
+  }
+
+  @Test
+  public void should_return_false_if_object_is_not_File() {
+    assertFalse(rule.canHandle("Luke"));
   }
 }

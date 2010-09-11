@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 10, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -15,18 +15,26 @@
  */
 package org.fest.assertions.formatting;
 
+import static org.junit.Assert.assertFalse;
+
+import org.junit.*;
+
 /**
- * Returns the {@code String} representation of an {@code Object}.
+ * Tests for <code>{@link CollectionToStringRule#canHandle(Object)}</code>.
  *
  * @author Alex Ruiz
  */
-class ObjectToStringRule implements ToStringRule {
+public class CollectionToStringRule_canHandle_Test {
 
-  public String toStringOf(Object o) {
-    return o == null ? null : o.toString();
+  private static CollectionToStringRule rule;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    rule = new CollectionToStringRule();
   }
 
-  public boolean canHandle(Object o) {
-    return true;
+  @Test
+  public void should_return_false_if_object_is_not_collection() {
+    assertFalse(rule.canHandle("Yoda"));
   }
 }

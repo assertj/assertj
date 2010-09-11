@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 10, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -15,18 +15,28 @@
  */
 package org.fest.assertions.formatting;
 
+import static org.fest.util.Collections.list;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.*;
+
 /**
- * Returns the {@code String} representation of an {@code Object}.
+ * Tests for <code>{@link CollectionToStringRule#toStringOf(Object)}</code>.
  *
  * @author Alex Ruiz
  */
-class ObjectToStringRule implements ToStringRule {
+public class CollectionToStringRule_toStringOf_Test {
 
-  public String toStringOf(Object o) {
-    return o == null ? null : o.toString();
+  private static CollectionToStringRule rule;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    rule = new CollectionToStringRule();
   }
 
-  public boolean canHandle(Object o) {
-    return true;
+  @Test
+  public void should_return_formatted_Collection() {
+    String s = rule.toStringOf(list("Luke", "Yoda"));
+    assertEquals("['Luke', 'Yoda']", s);
   }
 }

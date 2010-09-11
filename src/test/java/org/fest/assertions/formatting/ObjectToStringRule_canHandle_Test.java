@@ -15,24 +15,26 @@
  */
 package org.fest.assertions.formatting;
 
-import static org.fest.util.Maps.format;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
+import org.junit.*;
 
 /**
- * Returns the {@code String} representation of a <code>{@link Map}</code>.
+ * Tests for <code>{@link ObjectToStringRule#canHandle(Object)}</code>.
  *
  * @author Alex Ruiz
  */
-class MapToStringConverter extends TypeBasedToStringRule<Map<?, ?>> {
+public class ObjectToStringRule_canHandle_Test {
 
-  @Override String doGetToString(Map<?, ?> m) {
-    return format(m);
+  private static ObjectToStringRule rule;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    rule = new ObjectToStringRule();
   }
 
-  @SuppressWarnings("unchecked")
-  @Override Class<Map<?, ?>> supportedType() {
-    Class<?> type = Map.class;
-    return (Class<Map<?, ?>>) type;
+  @Test
+  public void should_always_return_true() {
+    assertTrue(rule.canHandle(new Object()));
   }
 }

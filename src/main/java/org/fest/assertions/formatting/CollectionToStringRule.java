@@ -15,20 +15,24 @@
  */
 package org.fest.assertions.formatting;
 
-import java.io.File;
+import static org.fest.util.Collections.format;
+
+import java.util.Collection;
 
 /**
- * Returns the {@code String} representation of a <code>{@link File}</code>.
+ * Returns the {@code String} representation of an <code>{@link Collection}</code>.
  *
  * @author Alex Ruiz
  */
-class FileToStringConverter extends TypeBasedToStringRule<File> {
+class CollectionToStringRule extends TypeBasedToStringRule<Collection<?>> {
 
-  @Override String doGetToString(File f) {
-    return f.getAbsolutePath();
+  @Override String doGetToString(Collection<?> c) {
+    return format(c);
   }
 
-  @Override Class<File> supportedType() {
-    return File.class;
+  @SuppressWarnings("unchecked")
+  @Override Class<Collection<?>> supportedType() {
+    Class<?> type = Collection.class;
+    return (Class<Collection<?>>) type;
   }
 }

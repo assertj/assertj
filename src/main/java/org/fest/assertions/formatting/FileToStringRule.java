@@ -15,18 +15,20 @@
  */
 package org.fest.assertions.formatting;
 
+import java.io.File;
+
 /**
- * Returns the {@code String} representation of an {@code Object}.
+ * Returns the {@code String} representation of a <code>{@link File}</code>.
  *
  * @author Alex Ruiz
  */
-class ObjectToStringRule implements ToStringRule {
+class FileToStringRule extends TypeBasedToStringRule<File> {
 
-  public String toStringOf(Object o) {
-    return o == null ? null : o.toString();
+  @Override String doGetToString(File f) {
+    return f.getAbsolutePath();
   }
 
-  public boolean canHandle(Object o) {
-    return true;
+  @Override Class<File> supportedType() {
+    return File.class;
   }
 }
