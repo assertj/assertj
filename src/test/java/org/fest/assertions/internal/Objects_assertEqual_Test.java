@@ -15,7 +15,12 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.mockito.Mockito.*;
+
 import org.fest.assertions.core.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
@@ -27,6 +32,12 @@ public class Objects_assertEqual_Test {
 
   private static WritableAssertionInfo info;
 
+  @Rule
+  public ExpectedException thrown = none();
+
+  private Failures failures;
+  private Objects objects;
+
   @BeforeClass
   public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -34,15 +45,22 @@ public class Objects_assertEqual_Test {
 
   @Before
   public void setUp() {
+    failures = mock(Failures.class);
+    objects = new Objects(failures);
   }
 
   @Test
   public void should_pass_if_objects_are_equal() {
-    Objects.assertEqual(info, "Yoda", "Yoda");
+    objects.assertEqual(info, "Yoda", "Yoda");
   }
 
-  @Test(expected = ComparisonFailure.class)
+  @Test
   public void should_fail_if_objects_are_not_equal() {
-    Objects.assertEqual(info, "Yoda", "Luke");
+    AssertionError expectedError = new AssertionError("Thrown on purpose");
+    String e = "Yoda";
+    String a = "Luke";
+    when(failures.failure(info, errorWhenNotEqual(e, a))).thenReturn(expectedError);
+    thrown.expect(expectedError);
+    objects.assertEqual(info, e, a);
   }
 }

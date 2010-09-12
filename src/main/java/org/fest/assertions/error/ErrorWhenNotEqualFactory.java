@@ -17,6 +17,7 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.util.ToString.toStringOf;
 import static org.fest.util.Arrays.array;
+import static org.fest.util.Objects.*;
 
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
@@ -49,13 +50,11 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
     return new ErrorWhenNotEqualFactory(expected, actual);
   }
 
-  @VisibleForTesting
-  ErrorWhenNotEqualFactory(Object expected, Object actual) {
+  @VisibleForTesting ErrorWhenNotEqualFactory(Object expected, Object actual) {
     this(expected, actual, Formatter.instance());
   }
 
-  @VisibleForTesting
-  ErrorWhenNotEqualFactory(Object expected, Object actual, Formatter formatter) {
+  @VisibleForTesting ErrorWhenNotEqualFactory(Object expected, Object actual, Formatter formatter) {
     this.expected = expected;
     this.actual = actual;
     this.formatter = formatter;
@@ -99,5 +98,21 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   @VisibleForTesting
   void constructorInvoker(ConstructorInvoker newVal) {
     constructorInvoker = newVal;
+  }
+
+  @Override public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null) return false;
+    if (getClass() != o.getClass()) return false;
+    ErrorWhenNotEqualFactory other = (ErrorWhenNotEqualFactory) o;
+    if (!areEqual(expected, other.expected)) return false;
+    return areEqual(actual, other.actual);
+  }
+
+  @Override public int hashCode() {
+    int result = 1;
+    result = HASH_CODE_PRIME * result + hashCodeFor(expected);
+    result = HASH_CODE_PRIME * result + hashCodeFor(actual);
+    return result;
   }
 }

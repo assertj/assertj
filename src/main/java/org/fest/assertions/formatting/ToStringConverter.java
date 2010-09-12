@@ -17,8 +17,6 @@ package org.fest.assertions.formatting;
 
 import java.util.*;
 
-import org.fest.util.VisibleForTesting;
-
 /**
  * Returns the {@code String} representation of a {@code Object}, based on registered
  * <code>{@link ToStringRule}</code>s.
@@ -40,8 +38,7 @@ public class ToStringConverter {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  ToStringConverter() {
+  private ToStringConverter() {
     rules.add(new ArrayToStringRule());
     rules.add(new ClassToStringRule());
     rules.add(new CollectionToStringRule());

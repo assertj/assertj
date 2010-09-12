@@ -15,12 +15,11 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.internal.Objects.assertEqual;
-
 import java.util.Collection;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -35,9 +34,16 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
   private final WritableAssertionInfo info = new WritableAssertionInfo();
 
   private final Collection<?> actual;
+  private final Objects objects;
 
   protected CollectionAssert(Collection<?> actual) {
+    this(actual, Objects.instance());
+  }
+
+  @VisibleForTesting
+  CollectionAssert(Collection<?> actual, Objects objects) {
     this.actual = actual;
+    this.objects = objects;
   }
 
   /** {@inheritDoc} */
@@ -64,7 +70,7 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert isEqualTo(Collection<?> expected) {
-    assertEqual(info, expected, actual);
+    objects.assertEqual(info, expected, actual);
     return this;
   }
 

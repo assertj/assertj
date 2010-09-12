@@ -27,10 +27,22 @@ import org.fest.assertions.error.AssertionErrorFactory;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public final class Failures {
+public class Failures {
+
+  private static final Failures INSTANCE = new Failures();
 
   /**
-   * Throws an <code>{@link AssertionError}</code>. The method creates the exception to throw as follows:
+   * Returns the singleton instance of this class.
+   * @return the singleton instance of this class.
+   */
+  public static Failures instance() {
+    return INSTANCE;
+  }
+
+  private Failures() {}
+
+  /**
+   * Creates a <code>{@link AssertionError}</code> following this pattern:
    * <ol>
    * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
    * as the error message if such value is not {@code null}, or</li>
@@ -39,23 +51,22 @@ public final class Failures {
    * </ol>
    * @param info contains information about the failed assertion.
    * @param assertionErrorFactory knows how to create {@code AssertionError}s.
-   * @throws AssertionError indicating an assertion failure.
+   * @return the created <code>{@link AssertionError}</code>.
    */
-  public static void fail(AssertionInfo info, AssertionErrorFactory assertionErrorFactory) {
+  public AssertionError failure(AssertionInfo info, AssertionErrorFactory assertionErrorFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    if (!isEmpty(overridingErrorMessage)) throw failure(overridingErrorMessage);
-    fail(info.description(), assertionErrorFactory);
+    if (!isEmpty(overridingErrorMessage)) return failure(overridingErrorMessage);
+    return failure(info.description(), assertionErrorFactory);
   }
 
   /**
-   * Throws an <code>{@link AssertionError}</code>. The exception to throw is created by the given
-   * <code>{@link AssertionErrorFactory}</code>.
+   * Returns the <code>{@link AssertionError}</code> created by the given <code>{@link AssertionErrorFactory}</code>.
    * @param description the description of the failed assertion, to be included at the beginning of the error message.
    * @param assertionErrorFactory knows how to create {@code AssertionError}s.
-   * @throws AssertionError indicating an assertion failure.
+   * @return the created <code>{@link AssertionError}</code>.
    */
-  public static void fail(Description description, AssertionErrorFactory assertionErrorFactory) {
-    throw assertionErrorFactory.newAssertionError(description);
+  AssertionError failure(Description description, AssertionErrorFactory assertionErrorFactory) {
+    return assertionErrorFactory.newAssertionError(description);
   }
 
   /**
@@ -63,9 +74,7 @@ public final class Failures {
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  public static AssertionError failure(String message) {
+  public AssertionError failure(String message) {
     return new AssertionError(message);
   }
-
-  private Failures() {}
 }

@@ -15,50 +15,48 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static junit.framework.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.error.AssertionErrorFactory;
-import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Failures#fail(AssertionInfo, AssertionErrorFactory)}</code>.
+ * Tests for <code>{@link Failures#failure(AssertionInfo, AssertionErrorFactory)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
 public class Failures_fail_with_AssertionInfo_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
-
   private WritableAssertionInfo assertionInfo;
   private AssertionErrorFactory errorFactory;
+  private Failures failures;
 
   @Before
   public void setUp() {
     assertionInfo = new WritableAssertionInfo();
     errorFactory = mock(AssertionErrorFactory.class);
+    failures = Failures.instance();
   }
 
   @Test
   public void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
-    thrown.expectAssertionError("my message");
     assertionInfo.overridingErrorMessage("my message");
-    Failures.fail(assertionInfo, errorFactory);
+    AssertionError failure = failures.failure(assertionInfo, errorFactory);
+    assertEquals("my message", failure.getMessage());
   }
 
   @Test
   public void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
-    thrown.expect(expectedError);
     Description description = new TestDescription("description");
     assertionInfo.description(description);
     when(errorFactory.newAssertionError(description)).thenReturn(expectedError);
-    Failures.fail(assertionInfo, errorFactory);
+    AssertionError failure = failures.failure(assertionInfo, errorFactory);
+    assertSame(expectedError, failure);
   }
 
   private static class MyOwnAssertionError extends AssertionError {

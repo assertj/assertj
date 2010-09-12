@@ -16,10 +16,10 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
-import static org.fest.assertions.internal.Failures.fail;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -27,7 +27,27 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public final class Objects {
+public class Objects {
+
+  private static final Objects INSTANCE = new Objects();
+
+  /**
+   * Returns the singleton instance of this class.
+   * @return the singleton instance of this class.
+   */
+  public static Objects instance() {
+    return INSTANCE;
+  }
+
+  private final Failures failures;
+
+  private Objects() {
+    this(Failures.instance());
+  }
+
+  @VisibleForTesting Objects(Failures failures) {
+    this.failures = failures;
+  }
 
   /**
    * Asserts that two objects are equal.
@@ -38,10 +58,8 @@ public final class Objects {
    * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
    * equal.
    */
-  public static void assertEqual(AssertionInfo info, Object expected, Object actual) {
+  public void assertEqual(AssertionInfo info, Object expected, Object actual) {
     if (areEqual(expected, actual)) return;
-    fail(info, errorWhenNotEqual(expected, actual));
+    throw failures.failure(info, errorWhenNotEqual(expected, actual));
   }
-
-  private Objects() {}
 }
