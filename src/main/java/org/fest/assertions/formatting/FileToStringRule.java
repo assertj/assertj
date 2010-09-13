@@ -20,7 +20,7 @@ import java.io.File;
  * Returns the {@code String} representation of a <code>{@link File}</code>.
  * @author Alex Ruiz
  */
-class FileToStringRule extends TypeBasedToStringRule<File> {
+class FileToStringRule extends GenericToStringRule<File> {
 
   @Override String doGetToString(File f) {
     return f.getAbsolutePath();

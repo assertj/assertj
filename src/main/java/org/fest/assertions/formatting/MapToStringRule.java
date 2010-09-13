@@ -22,7 +22,7 @@ import java.util.Map;
  * Returns the {@code String} representation of a <code>{@link Map}</code>.
  * @author Alex Ruiz
  */
-class MapToStringRule extends TypeBasedToStringRule<Map<?, ?>> {
+class MapToStringRule extends GenericToStringRule<Map<?, ?>> {
 
   @Override String doGetToString(Map<?, ?> m) {
     return format(m);

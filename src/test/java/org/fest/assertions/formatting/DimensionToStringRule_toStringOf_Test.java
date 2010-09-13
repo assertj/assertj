@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 10, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,22 +14,26 @@
  */
 package org.fest.assertions.formatting;
 
-import static org.fest.util.Collections.format;
+import static org.junit.Assert.assertEquals;
 
-import java.util.Collection;
+import java.awt.Dimension;
+
+import org.junit.*;
 
 /**
- * Returns the {@code String} representation of a <code>{@link Collection}</code>.
+ * Tests for <code>{@link DimensionToStringRule#toStringOf(Object)}</code>.
  * @author Alex Ruiz
  */
-class CollectionToStringRule extends GenericToStringRule<Collection<?>> {
+public class DimensionToStringRule_toStringOf_Test {
 
-  @Override String doGetToString(Collection<?> c) {
-    return format(c);
+  private static DimensionToStringRule rule;
+
+  @BeforeClass public static void setUpOnce() {
+    rule = new DimensionToStringRule();
   }
 
-  @SuppressWarnings("unchecked") @Override Class<Collection<?>> supportedType() {
-    Class<?> type = Collection.class;
-    return (Class<Collection<?>>) type;
+  @Test public void should_return_formatted_Dimension() {
+    String s = rule.toStringOf(new Dimension(6, 8));
+    assertEquals("(6, 8)", s);
   }
 }

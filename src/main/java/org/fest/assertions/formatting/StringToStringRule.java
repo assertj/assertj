@@ -20,7 +20,7 @@ import static org.fest.util.Strings.quote;
  * Returns the {@code String} representation of a <code>{@link String}</code>.
  * @author Alex Ruiz
  */
-class StringToStringRule extends TypeBasedToStringRule<String> {
+class StringToStringRule extends GenericToStringRule<String> {
 
   @Override String doGetToString(String s) {
     return quote(s);

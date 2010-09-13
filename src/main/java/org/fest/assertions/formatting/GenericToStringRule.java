@@ -14,22 +14,21 @@
  */
 package org.fest.assertions.formatting;
 
-import static org.fest.util.Collections.format;
-
-import java.util.Collection;
-
 /**
- * Returns the {@code String} representation of a <code>{@link Collection}</code>.
+ * Uses Generics to simplify creation of <code>{@link ToStringRule}</code>s.
  * @author Alex Ruiz
  */
-class CollectionToStringRule extends GenericToStringRule<Collection<?>> {
+abstract class GenericToStringRule<T> implements ToStringRule {
 
-  @Override String doGetToString(Collection<?> c) {
-    return format(c);
+  public final String toStringOf(Object o) {
+    return doGetToString(supportedType().cast(o));
   }
 
-  @SuppressWarnings("unchecked") @Override Class<Collection<?>> supportedType() {
-    Class<?> type = Collection.class;
-    return (Class<Collection<?>>) type;
+  abstract String doGetToString(T o);
+
+  public final boolean canHandle(Object o) {
+    return supportedType().isInstance(o);
   }
+
+  abstract Class<T> supportedType();
 }
