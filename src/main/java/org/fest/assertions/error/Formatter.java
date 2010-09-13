@@ -1,15 +1,14 @@
 /*
  * Created on Sep 8, 2010
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  *
  * Copyright @2010 the original author or authors.
  */
@@ -24,7 +23,6 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * General-purpose formatter.
- *
  * @author Alex Ruiz
  */
 public class Formatter {
@@ -45,8 +43,7 @@ public class Formatter {
     this(ToStringConverter.instance());
   }
 
-  @VisibleForTesting
-  Formatter(ToStringConverter converter) {
+  @VisibleForTesting Formatter(ToStringConverter converter) {
     this.converter = converter;
   }
 
@@ -65,7 +62,7 @@ public class Formatter {
    * @throws NullPointerException If the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public String formatMessage(String format, Description d, Object...args) {
+  public String formatMessage(String format, Description d, Object... args) {
     return String.format(format, format(d, args));
   }
 
@@ -73,7 +70,8 @@ public class Formatter {
     int argCount = args.length;
     String[] formatted = new String[argCount + 1];
     formatted[0] = format(d);
-    for (int i = 0; i < argCount; i++) formatted[i + 1] = converter.toStringOf(args[i]);
+    for (int i = 0; i < argCount; i++)
+      formatted[i + 1] = converter.toStringOf(args[i]);
     return formatted;
   }
 

@@ -1,15 +1,14 @@
 /*
  * Created on Oct 7, 2009
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
- * in compliance with the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License
- * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing permissions and limitations under
- * the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  *
  * Copyright @2009-2010 the original author or authors.
  */
@@ -27,7 +26,6 @@ import org.fest.util.Collections;
 
 /**
  * The {@code String} representation of an object.
- *
  * @author Alex Ruiz
  */
 public final class ToString {
@@ -39,12 +37,12 @@ public final class ToString {
    */
   public static String toStringOf(Object o) {
     if (isArray(o)) return Arrays.format(o);
-    if (o instanceof Class<?>) return toStringOf((Class<?>)o);
-    if (o instanceof File) return toStringOf((File)o);
-    if (o instanceof Collection<?>) return Collections.format((Collection<?>)o);
-    if (o instanceof Map<?, ?>) return Maps.format((Map<?, ?>)o);
-    if (o instanceof Dimension) return toStringOf((Dimension)o);
-    if (o instanceof String) return quote((String)o);
+    if (o instanceof Class<?>) return toStringOf((Class<?>) o);
+    if (o instanceof File) return toStringOf((File) o);
+    if (o instanceof Collection<?>) return Collections.format((Collection<?>) o);
+    if (o instanceof Map<?, ?>) return Maps.format((Map<?, ?>) o);
+    if (o instanceof Dimension) return toStringOf((Dimension) o);
+    if (o instanceof String) return quote((String) o);
     return o == null ? null : o.toString();
   }
 

@@ -19,7 +19,6 @@ import java.security.*;
 
 /**
  * Access to constructors using Java reflection.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
