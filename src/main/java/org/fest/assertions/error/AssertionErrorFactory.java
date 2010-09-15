@@ -25,9 +25,9 @@ import org.fest.assertions.description.Description;
 public interface AssertionErrorFactory {
 
   /**
-   * Creates a <code>{@link AssertionError}</code>.
-   * @param description the description of the failed assertion.
+   * Creates an <code>{@link AssertionError}</code>.
+   * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
-  AssertionError newAssertionError(Description description);
+  AssertionError newAssertionError(Description d);
 }

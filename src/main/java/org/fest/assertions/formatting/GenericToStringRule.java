@@ -16,6 +16,7 @@ package org.fest.assertions.formatting;
 
 /**
  * Uses Generics to simplify creation of <code>{@link ToStringRule}</code>s.
+ *
  * @author Alex Ruiz
  */
 abstract class GenericToStringRule<T> implements ToStringRule {

@@ -16,6 +16,7 @@ package org.fest.assertions.formatting;
 
 /**
  * Returns the {@code String} representation of a {@code String}.
+ *
  * @author Alex Ruiz
  */
 interface ToStringRule {

@@ -18,6 +18,7 @@ import org.fest.assertions.description.*;
 
 /**
  * Validation of a <code>{@link Description}</code>.
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */

@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
+import static org.fest.assertions.error.ErrorWhenEqualFactory.errorWhenEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
@@ -23,11 +23,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertNotEqual(AssertionInfo, Object, Object)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Objects_assertEqual_Test {
+public class Objects_assertNotEqual_Test {
 
   private static WritableAssertionInfo info;
 
@@ -45,16 +45,16 @@ public class Objects_assertEqual_Test {
     objects = new Objects(failures);
   }
 
-  @Test public void should_pass_if_objects_are_equal() {
-    objects.assertEqual(info, "Yoda", "Yoda");
+  @Test public void should_pass_if_objects_are_not_equal() {
+    objects.assertNotEqual(info, "Yoda", "Luke");
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
     AssertionError expectedError = new AssertionError("Thrown on purpose");
-    String e = "Yoda";
-    String a = "Luke";
-    when(failures.failure(info, errorWhenNotEqual(e, a))).thenReturn(expectedError);
+    String a = "Yoda";
+    String o = "Yoda";
+    when(failures.failure(info, errorWhenEqual(a, o))).thenReturn(expectedError);
     thrown.expect(expectedError);
-    objects.assertEqual(info, a, e);
+    objects.assertNotEqual(info, a, o);
   }
 }

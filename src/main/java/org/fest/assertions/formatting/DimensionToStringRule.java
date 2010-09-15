@@ -18,6 +18,7 @@ import java.awt.Dimension;
 
 /**
  * Returns the {@code String} representation of a <code>{@link Dimension}</code>.
+ *
  * @author Alex Ruiz
  */
 public class DimensionToStringRule extends GenericToStringRule<Dimension> {

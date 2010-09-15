@@ -23,6 +23,7 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * General-purpose formatter.
+ *
  * @author Alex Ruiz
  */
 public class Formatter {

@@ -20,6 +20,7 @@ import java.util.Collection;
 
 /**
  * Returns the {@code String} representation of a <code>{@link Collection}</code>.
+ *
  * @author Alex Ruiz
  */
 class CollectionToStringRule extends GenericToStringRule<Collection<?>> {

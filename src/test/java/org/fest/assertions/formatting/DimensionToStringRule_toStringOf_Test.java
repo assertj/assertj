@@ -22,6 +22,7 @@ import org.junit.*;
 
 /**
  * Tests for <code>{@link DimensionToStringRule#toStringOf(Object)}</code>.
+ *
  * @author Alex Ruiz
  */
 public class DimensionToStringRule_toStringOf_Test {

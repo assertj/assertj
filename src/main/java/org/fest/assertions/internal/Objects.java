@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenEqualFactory.errorWhenEqual;
 import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
 import static org.fest.util.Objects.areEqual;
 
@@ -22,6 +23,7 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for {@code Object}s.
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
@@ -50,14 +52,26 @@ public class Objects {
   /**
    * Asserts that two objects are equal.
    * @param info contains information about the assertion.
-   * @param expected the expected value.
    * @param actual the actual value.
+   * @param expected the expected value.
    * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
    * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
    * equal.
    */
-  public void assertEqual(AssertionInfo info, Object expected, Object actual) {
+  public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(expected, actual)) return;
     throw failures.failure(info, errorWhenNotEqual(expected, actual));
+  }
+
+  /**
+   * Asserts that two objects are not equal.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is equal to the other one.
+   */
+  public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
+    if (!areEqual(other, actual)) return;
+    throw failures.failure(info, errorWhenEqual(actual, other));
   }
 }

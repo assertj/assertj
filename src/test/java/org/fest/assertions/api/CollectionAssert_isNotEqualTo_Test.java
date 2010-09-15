@@ -1,5 +1,5 @@
 /*
- * Created on Aug 3, 2010
+ * Created on Sep 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -26,9 +26,9 @@ import org.junit.*;
 /**
  * Tests for <code>{@link CollectionAssert#isEqualTo(Collection)}</code>.
  *
- * @author Yvonne Wang
+ * @author Alex Ruiz
  */
-public class CollectionAssert_isEqualTo_Test {
+public class CollectionAssert_isNotEqualTo_Test {
 
   private static List<String> actual;
 
@@ -44,14 +44,14 @@ public class CollectionAssert_isEqualTo_Test {
     assertions = new CollectionAssert(actual, objects);
   }
 
-  @Test public void should_verify_that_expected_value_is_equal_to_actual_value() {
+  @Test public void should_verify_that_expected_value_is_not_equal_to_actual_value() {
     List<String> expected = new ArrayList<String>();
-    assertions.isEqualTo(expected);
-    verify(objects).assertEqual(assertions.info, actual, expected);
+    assertions.isNotEqualTo(expected);
+    verify(objects).assertNotEqual(assertions.info, actual, expected);
   }
 
   @Test public void should_return_this() {
-    CollectionAssert returned = assertions.isEqualTo(emptyList());
+    CollectionAssert returned = assertions.isNotEqualTo(emptyList());
     assertSame(assertions, returned);
   }
 }

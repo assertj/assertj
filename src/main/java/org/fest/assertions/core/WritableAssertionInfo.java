@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.core;
 
+import static java.lang.String.format;
 import static org.fest.assertions.internal.DescriptionValidator.notNull;
+import static org.fest.util.Strings.quote;
 
 import org.fest.assertions.description.*;
 
@@ -73,5 +75,11 @@ public final class WritableAssertionInfo implements AssertionInfo {
    */
   public void description(Description newDescription) {
     description = notNull(newDescription);
+  }
+
+  /** {@inheritDoc} */
+  @Override public String toString() {
+    String format = "%s[overridingErrorMessage=%s, description=%s]";
+    return format(format, getClass().getName(), quote(overridingErrorMessage()), quote(descriptionText()));
   }
 }

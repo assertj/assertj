@@ -22,6 +22,7 @@ import org.fest.assertions.error.AssertionErrorFactory;
 
 /**
  * Failure actions.
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */

@@ -26,6 +26,7 @@ import org.fest.util.Collections;
 
 /**
  * The {@code String} representation of an object.
+ *
  * @author Alex Ruiz
  */
 public final class ToString {
