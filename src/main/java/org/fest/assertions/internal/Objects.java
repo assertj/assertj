@@ -14,10 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenEqualFactory.errorWhenEqual;
-import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
-import static org.fest.assertions.error.ErrorWhenNotNullFactory.errorWhenNotNull;
-import static org.fest.assertions.error.ErrorWhenNullFactory.errorWhenNull;
+import static org.fest.assertions.error.WhenEqualErrorFactory.errorWhenEqual;
+import static org.fest.assertions.error.WhenNotEqualErrorFactory.errorWhenNotEqual;
+import static org.fest.assertions.error.WhenNotSameErrorFactory.errorWhenNotSame;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -62,7 +61,7 @@ public class Objects {
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(expected, actual)) return;
-    throw failures.failure(info, errorWhenNotEqual(expected, actual));
+    throw failures.failure(info, errorWhenNotEqual(actual, expected));
   }
 
   /**
@@ -85,7 +84,7 @@ public class Objects {
    */
   public void assertNull(AssertionInfo info, Object obj) {
     if (obj == null) return;
-    throw failures.failure(info, errorWhenNotNull(obj));
+    throw failures.failure(info, errorWhenNotEqual(obj, null));
   }
 
   /**
@@ -96,6 +95,18 @@ public class Objects {
    */
   public void assertNotNull(AssertionInfo info, Object obj) {
     if (obj != null) return;
-    throw failures.failure(info, errorWhenNull());
+    throw failures.failure(info, errorWhenEqual(obj, null));
+  }
+
+  /**
+   * Asserts that two objects refer to the same object.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param expected the expected value.
+   * @throws AssertionError if the given objects do not refer to the same object.
+   */
+  public void assertSame(AssertionInfo info, Object actual, Object expected) {
+    if (actual == expected) return;
+    throw failures.failure(info, errorWhenNotSame(actual, expected));
   }
 }

@@ -27,7 +27,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
+public class WhenNotEqualErrorFactory implements AssertionErrorFactory {
 
   @VisibleForTesting static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
 
@@ -36,26 +36,21 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   @VisibleForTesting final Object expected;
   @VisibleForTesting final Object actual;
 
-  private final Formatter formatter;
+  private Formatter formatter = Formatter.instance();
 
   /**
-   * Creates instances of <code>{@link ErrorWhenNotEqualFactory}</code>.
-   * @param expected the expected value in the failed assertion.
+   * Creates instances of <code>{@link WhenNotEqualErrorFactory}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param expected the expected value in the failed assertion.
    * @return an instance of {@code ErrorWhenNotEqualFactory}.
    */
-  public static AssertionErrorFactory errorWhenNotEqual(Object expected, Object actual) {
-    return new ErrorWhenNotEqualFactory(expected, actual);
+  public static AssertionErrorFactory errorWhenNotEqual(Object actual, Object expected) {
+    return new WhenNotEqualErrorFactory(actual, expected);
   }
 
-  @VisibleForTesting ErrorWhenNotEqualFactory(Object expected, Object actual) {
-    this(expected, actual, Formatter.instance());
-  }
-
-  @VisibleForTesting ErrorWhenNotEqualFactory(Object expected, Object actual, Formatter formatter) {
+  @VisibleForTesting WhenNotEqualErrorFactory(Object actual, Object expected) {
     this.expected = expected;
     this.actual = actual;
-    this.formatter = formatter;
   }
 
   /**
@@ -102,7 +97,7 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
     if (this == o) return true;
     if (o == null) return false;
     if (getClass() != o.getClass()) return false;
-    ErrorWhenNotEqualFactory other = (ErrorWhenNotEqualFactory) o;
+    WhenNotEqualErrorFactory other = (WhenNotEqualErrorFactory) o;
     if (!areEqual(expected, other.expected)) return false;
     return areEqual(actual, other.actual);
   }
@@ -112,5 +107,9 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
     result = HASH_CODE_PRIME * result + hashCodeFor(expected);
     result = HASH_CODE_PRIME * result + hashCodeFor(actual);
     return result;
+  }
+
+  @VisibleForTesting final void updateFormatter(Formatter newFormatter) {
+    formatter = newFormatter;
   }
 }

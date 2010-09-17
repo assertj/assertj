@@ -19,29 +19,28 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenEqualFactory#errorWhenEqual(Object, Object)}</code>.
+ * Tests for <code>{@link WhenNotEqualErrorFactory#errorWhenNotEqual(Object, Object)}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class ErrorWhenEqualFactory_errorWhenEqual_Test {
+public class WhenNotEqualErrorFactory_errorWhenNotEqual_Test {
 
   private static Object a;
-  private static Object o;
+  private static Object e;
 
   @BeforeClass public static void setUpOnce() {
     a = "Luke";
-    o = "Yoda";
+    e = "Yoda";
   }
 
-  @Test public void should_create_new_ErrorWhenEqualFactory() {
-    AssertionErrorFactory factory = ErrorWhenEqualFactory.errorWhenEqual(a, o);
-    assertEquals(ErrorWhenEqualFactory.class, factory.getClass());
+  @Test public void should_create_new_ErrorWhenNotEqualFactory() {
+    AssertionErrorFactory factory = WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
+    assertEquals(WhenNotEqualErrorFactory.class, factory.getClass());
   }
 
   @Test public void should_pass_expected_and_actual() {
-    ErrorWhenEqualFactory factory = (ErrorWhenEqualFactory) ErrorWhenEqualFactory.errorWhenEqual(a, o);
+    WhenNotEqualErrorFactory factory = (WhenNotEqualErrorFactory) WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
+    assertEquals(e, factory.expected);
     assertEquals(a, factory.actual);
-    assertEquals(o, factory.other);
   }
 }

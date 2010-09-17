@@ -1,5 +1,5 @@
 /*
- * Created on Sep 14, 2010
+ * Created on Sep 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,22 +21,22 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenEqualFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenNotSameErrorFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenEqualFactory_newAssertionError_Test {
+public class WhenNotSameErrorFactory_newAssertionError_Test {
 
   private Description description;
-  private ErrorWhenEqualFactory factory;
+  private WhenNotSameErrorFactory factory;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new ErrorWhenEqualFactory("Yoda", "Luke");
+    factory = new WhenNotSameErrorFactory("Yoda", "Luke");
   }
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    assertEquals("[Jedi] <'Yoda'> should not be equal to:<'Luke'>", error.getMessage());
+    assertEquals("[Jedi] expected:<'Luke'> and actual:<'Yoda'> should reference the same object", error.getMessage());
   }
 }

@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.ErrorWhenNotEqualFactory.MSG_ARG_TYPES;
+import static org.fest.assertions.error.WhenNotEqualErrorFactory.MSG_ARG_TYPES;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
@@ -25,19 +25,19 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenNotEqualErrorFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenNotEqualFactory_newAssertionError_without_JUnit_Test {
+public class WhenNotEqualErrorFactory_newAssertionError_without_JUnit_Test {
 
   private Description description;
-  private ErrorWhenNotEqualFactory errorFactory;
+  private WhenNotEqualErrorFactory errorFactory;
   private ConstructorInvoker invoker;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    errorFactory = new ErrorWhenNotEqualFactory("Yoda", "Luke");
+    errorFactory = new WhenNotEqualErrorFactory("Luke", "Yoda");
     invoker = mock(ConstructorInvoker.class);
     errorFactory.constructorInvoker(invoker);
   }

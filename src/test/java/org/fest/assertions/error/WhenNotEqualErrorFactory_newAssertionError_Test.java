@@ -22,20 +22,21 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNotEqualFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenNotEqualErrorFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenNotEqualFactory_newAssertionError_Test {
+public class WhenNotEqualErrorFactory_newAssertionError_Test {
 
   private Description description;
   private Formatter formatter;
-  private ErrorWhenNotEqualFactory factory;
+  private WhenNotEqualErrorFactory factory;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
     formatter = mock(Formatter.class);
-    factory = new ErrorWhenNotEqualFactory("Yoda", "Luke", formatter);
+    factory = new WhenNotEqualErrorFactory("Luke", "Yoda");
+    factory.updateFormatter(formatter);
   }
 
   @Test public void should_create_ComparisonFailure_if_JUnit4_is_in_classpath() {

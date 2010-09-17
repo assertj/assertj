@@ -1,5 +1,5 @@
 /*
- * Created on Sep 16, 2010
+ * Created on Sep 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,23 +21,22 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNullFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenEqualErrorFactory#newAssertionError(Description)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ErrorWhenNullFactory_newAssertionError_Test {
+public class WhenEqualErrorFactory_newAssertionError_Test {
 
   private Description description;
-  private ErrorWhenNullFactory factory;
+  private WhenEqualErrorFactory factory;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new ErrorWhenNullFactory();
+    factory = new WhenEqualErrorFactory("Yoda", "Luke");
   }
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    assertEquals("[Jedi] expecting non-null value but got:<null>", error.getMessage());
+    assertEquals("[Jedi] <'Yoda'> should not be equal to:<'Luke'>", error.getMessage());
   }
 }

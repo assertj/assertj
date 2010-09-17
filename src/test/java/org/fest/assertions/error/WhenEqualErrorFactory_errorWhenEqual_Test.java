@@ -1,5 +1,5 @@
 /*
- * Created on Sep 16, 2010
+ * Created on Sep 10, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,31 +14,34 @@
  */
 package org.fest.assertions.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNotNullFactory#errorWhenNotNull(Object)}</code>.
+ * Tests for <code>{@link WhenEqualErrorFactory#errorWhenEqual(Object, Object)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class ErrorWhenNotNullFactory_errorWhenNotNull_Test {
+public class WhenEqualErrorFactory_errorWhenEqual_Test {
 
-  private static Object value;
+  private static Object a;
+  private static Object o;
 
   @BeforeClass public static void setUpOnce() {
-    value = new Object();
+    a = "Luke";
+    o = "Yoda";
   }
 
-  @Test public void should_create_new_ErrorWhenNullFactory() {
-    AssertionErrorFactory factory = ErrorWhenNotNullFactory.errorWhenNotNull(value);
-    assertEquals(ErrorWhenNotNullFactory.class, factory.getClass());
+  @Test public void should_create_new_ErrorWhenEqualFactory() {
+    AssertionErrorFactory factory = WhenEqualErrorFactory.errorWhenEqual(a, o);
+    assertEquals(WhenEqualErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_actual_value() {
-    ErrorWhenNotNullFactory factory =  (ErrorWhenNotNullFactory) ErrorWhenNotNullFactory.errorWhenNotNull(value);
-    assertEquals(value, factory.value);
+  @Test public void should_pass_expected_and_actual() {
+    WhenEqualErrorFactory factory = (WhenEqualErrorFactory) WhenEqualErrorFactory.errorWhenEqual(a, o);
+    assertEquals(a, factory.actual);
+    assertEquals(o, factory.other);
   }
 }

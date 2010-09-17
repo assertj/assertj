@@ -24,22 +24,22 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenEqualFactory implements AssertionErrorFactory {
+public class WhenEqualErrorFactory implements AssertionErrorFactory {
 
   @VisibleForTesting final Object actual;
   @VisibleForTesting final Object other;
 
   /**
-   * Creates instances of <code>{@link ErrorWhenEqualFactory}</code>.
+   * Creates instances of <code>{@link WhenEqualErrorFactory}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return an instance of {@code ErrorWhenEqualFactory}.
    */
   public static AssertionErrorFactory errorWhenEqual(Object actual, Object other) {
-    return new ErrorWhenEqualFactory(actual, other);
+    return new WhenEqualErrorFactory(actual, other);
   }
 
-  @VisibleForTesting ErrorWhenEqualFactory(Object actual, Object other) {
+  @VisibleForTesting WhenEqualErrorFactory(Object actual, Object other) {
     this.actual = actual;
     this.other = other;
   }
@@ -62,7 +62,7 @@ public class ErrorWhenEqualFactory implements AssertionErrorFactory {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ErrorWhenEqualFactory o = (ErrorWhenEqualFactory) obj;
+    WhenEqualErrorFactory o = (WhenEqualErrorFactory) obj;
     if (!areEqual(actual, o.actual)) return false;
     return areEqual(other, o.other);
   }
