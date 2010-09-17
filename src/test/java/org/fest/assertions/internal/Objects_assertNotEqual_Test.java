@@ -49,7 +49,7 @@ public class Objects_assertNotEqual_Test {
     objects.assertNotEqual(info, "Yoda", "Luke");
   }
 
-  @Test public void should_fail_if_objects_are_not_equal() {
+  @Test public void should_fail_if_objects_are_equal() {
     AssertionError expectedError = new AssertionError("Thrown on purpose");
     String a = "Yoda";
     String o = "Yoda";
