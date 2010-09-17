@@ -98,6 +98,29 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
   }
 
   /** {@inheritDoc} */
+  public void isNullOrEmpty() {
+    // TODO Auto-generated method stub
+  }
+
+  /** {@inheritDoc} */
+  public void isEmpty() {
+    // TODO Auto-generated method stub
+
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert isNotEmpty() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert hasSize(int expected) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
   public CollectionAssert satisfies(Condition<Collection<?>> condition) {
     // TODO Auto-generated method stub
     return null;
@@ -117,30 +140,6 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert isNot(Condition<Collection<?>> condition) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public void isNullOrEmpty() {
-    // TODO Auto-generated method stub
-
-  }
-
-  /** {@inheritDoc} */
-  public void isEmpty() {
-    // TODO Auto-generated method stub
-
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isNotEmpty() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert hasSize(int expected) {
     // TODO Auto-generated method stub
     return null;
   }

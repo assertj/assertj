@@ -27,7 +27,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class ErrorWhenNotNullFactory implements AssertionErrorFactory {
 
-  private final Object value;
+  @VisibleForTesting final Object value;
 
   /**
    * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
