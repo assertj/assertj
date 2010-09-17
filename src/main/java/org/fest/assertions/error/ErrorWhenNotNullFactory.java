@@ -1,5 +1,5 @@
 /*
- * Created on Sep 14, 2010
+ * Created on Sep 16, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,32 +20,30 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are not equal fails.
+ * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is {@code null} fails.
  *
+ * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ErrorWhenEqualFactory implements AssertionErrorFactory {
+public class ErrorWhenNotNullFactory implements AssertionErrorFactory {
 
-  @VisibleForTesting final Object actual;
-  @VisibleForTesting final Object other;
+  private final Object value;
 
   /**
-   * Creates a new <code>{@link ErrorWhenEqualFactory}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @return the created {@code ErrorWhenEqualFactory}.
+   * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
+   * @param o the verified object.
+   * @return the created {@code ErrorWhenNotEqualFactory}.
    */
-  public static AssertionErrorFactory errorWhenEqual(Object actual, Object other) {
-    return new ErrorWhenEqualFactory(actual, other);
+  public static AssertionErrorFactory errorWhenNotNull(Object o) {
+    return new ErrorWhenNotNullFactory(o);
   }
 
-  @VisibleForTesting ErrorWhenEqualFactory(Object actual, Object other) {
-    this.actual = actual;
-    this.other = other;
+  @VisibleForTesting ErrorWhenNotNullFactory(Object value) {
+    this.value = value;
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are not equal
+   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is {@code null}
    * fails.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
@@ -55,22 +53,20 @@ public class ErrorWhenEqualFactory implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    return Formatter.instance().formatMessage("%s<%s> should not be equal to:<%s>", d, actual, other);
+    return Formatter.instance().formatMessage("%sexpecting <null> but got:<%s>", d, value);
   }
 
   @Override public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ErrorWhenEqualFactory o = (ErrorWhenEqualFactory) obj;
-    if (!areEqual(actual, o.actual)) return false;
-    return areEqual(other, o.other);
+    ErrorWhenNotNullFactory other = (ErrorWhenNotNullFactory) obj;
+    return areEqual(value, other.value);
   }
 
   @Override public int hashCode() {
     int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(actual);
-    result = HASH_CODE_PRIME * result + hashCodeFor(other);
+    result = HASH_CODE_PRIME * result + hashCodeFor(value);
     return result;
   }
 }

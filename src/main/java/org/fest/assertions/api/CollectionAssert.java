@@ -30,18 +30,14 @@ import org.fest.util.VisibleForTesting;
  */
 public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
-  @VisibleForTesting final WritableAssertionInfo info = new WritableAssertionInfo();
+  private Objects objects = Objects.instance();
 
-  private final Collection<?> actual;
-  private final Objects objects;
+  @VisibleForTesting final WritableAssertionInfo info;
+  @VisibleForTesting final Collection<?> actual;
 
   protected CollectionAssert(Collection<?> actual) {
-    this(actual, Objects.instance());
-  }
-
-  @VisibleForTesting CollectionAssert(Collection<?> actual, Objects objects) {
     this.actual = actual;
-    this.objects = objects;
+    info = new WritableAssertionInfo();
   }
 
   /** {@inheritDoc} */
@@ -80,8 +76,7 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public void isNull() {
-    // TODO Auto-generated method stub
-
+    objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
@@ -152,5 +147,9 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   @VisibleForTesting final String descriptionText() {
     return info.descriptionText();
+  }
+
+  @VisibleForTesting final void updateObjects(Objects newObjects) {
+    objects = newObjects;
   }
 }

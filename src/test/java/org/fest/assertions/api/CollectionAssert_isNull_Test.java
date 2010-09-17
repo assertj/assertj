@@ -1,5 +1,5 @@
 /*
- * Created on Sep 14, 2010
+ * Created on Sep 16, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,21 +15,17 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertSame;
-import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
-
-import java.util.*;
 
 import org.fest.assertions.internal.Objects;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#isNotEqualTo(Collection)}</code>.
+ * Tests for <code>{@link CollectionAssert#isNull()}</code>.
  *
- * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class CollectionAssert_isNotEqualTo_Test {
+public class CollectionAssert_isNull_Test {
 
   private Objects objects;
   private CollectionAssert assertions;
@@ -40,14 +36,8 @@ public class CollectionAssert_isNotEqualTo_Test {
     assertions.updateObjects(objects);
   }
 
-  @Test public void should_verify_that_expected_value_is_not_equal_to_actual_value() {
-    List<String> expected = new ArrayList<String>();
-    assertions.isNotEqualTo(expected);
-    verify(objects).assertNotEqual(assertions.info, assertions.actual, expected);
-  }
-
-  @Test public void should_return_this() {
-    CollectionAssert returned = assertions.isNotEqualTo(list("Luke"));
-    assertSame(assertions, returned);
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(assertions.info, assertions.actual);
   }
 }

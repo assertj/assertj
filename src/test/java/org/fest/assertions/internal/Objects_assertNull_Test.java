@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 16, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
+import static org.fest.assertions.error.ErrorWhenNotNullFactory.errorWhenNotNull;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
@@ -24,11 +24,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertNull(AssertionInfo, Object)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Objects_assertEqual_Test {
+public class Objects_assertNull_Test {
 
   private static WritableAssertionInfo info;
 
@@ -46,16 +46,15 @@ public class Objects_assertEqual_Test {
     objects = new Objects(failures);
   }
 
-  @Test public void should_pass_if_objects_are_equal() {
-    objects.assertEqual(info, "Yoda", "Yoda");
+  @Test public void should_pass_if_object_is_null() {
+    objects.assertNull(info, null);
   }
 
-  @Test public void should_fail_if_objects_are_not_equal() {
+  @Test public void should_fail_if_object_is_not_null() {
     AssertionError expectedError = assertionFailingOnPurpose();
-    String e = "Yoda";
-    String a = "Luke";
-    when(failures.failure(info, errorWhenNotEqual(e, a))).thenReturn(expectedError);
+    Object o = new Object();
+    when(failures.failure(info, errorWhenNotNull(o))).thenReturn(expectedError);
     thrown.expect(expectedError);
-    objects.assertEqual(info, a, e);
+    objects.assertNull(info, o);
   }
 }

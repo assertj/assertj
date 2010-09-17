@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenEqualFactory.errorWhenEqual;
+import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
@@ -50,7 +51,7 @@ public class Objects_assertNotEqual_Test {
   }
 
   @Test public void should_fail_if_objects_are_equal() {
-    AssertionError expectedError = new AssertionError("Thrown on purpose");
+    AssertionError expectedError = assertionFailingOnPurpose();
     String a = "Yoda";
     String o = "Yoda";
     when(failures.failure(info, errorWhenEqual(a, o))).thenReturn(expectedError);

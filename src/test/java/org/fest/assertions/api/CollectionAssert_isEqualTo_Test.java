@@ -30,24 +30,19 @@ import org.junit.*;
  */
 public class CollectionAssert_isEqualTo_Test {
 
-  private static List<String> actual;
-
   private Objects objects;
   private CollectionAssert assertions;
 
-  @BeforeClass public static void setUpOnce() {
-    actual = emptyList();
-  }
-
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new CollectionAssert(actual, objects);
+    assertions = new CollectionAssert(emptyList());
+    assertions.updateObjects(objects);
   }
 
   @Test public void should_verify_that_expected_value_is_equal_to_actual_value() {
     List<String> expected = new ArrayList<String>();
     assertions.isEqualTo(expected);
-    verify(objects).assertEqual(assertions.info, actual, expected);
+    verify(objects).assertEqual(assertions.info, assertions.actual, expected);
   }
 
   @Test public void should_return_this() {

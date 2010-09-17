@@ -16,6 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ErrorWhenNotEqualFactory.MSG_ARG_TYPES;
+import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
@@ -48,7 +49,7 @@ public class ErrorWhenNotEqualFactory_newAssertionError_without_JUnit_Test {
   }
 
   @Test public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
-    when(createComparisonFailure()).thenThrow(new Exception("Thrown on purpose"));
+    when(createComparisonFailure()).thenThrow(assertionFailingOnPurpose());
     AssertionError error = errorFactory.newAssertionError(description);
     verify(error);
   }
