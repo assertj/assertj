@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ErrorWhenEqualFactory.errorWhenEqual;
 import static org.fest.assertions.error.ErrorWhenNotEqualFactory.errorWhenNotEqual;
 import static org.fest.assertions.error.ErrorWhenNotNullFactory.errorWhenNotNull;
+import static org.fest.assertions.error.ErrorWhenNullFactory.errorWhenNull;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -80,9 +81,21 @@ public class Objects {
    * Asserts that the given object is {@code null}.
    * @param info contains information about the assertion.
    * @param obj the given object.
+   * @throws AssertionError if the given value is not {@code null}.
    */
   public void assertNull(AssertionInfo info, Object obj) {
     if (obj == null) return;
     throw failures.failure(info, errorWhenNotNull(obj));
+  }
+
+  /**
+   * Asserts that the given object is not {@code null}.
+   * @param info contains information about the assertion.
+   * @param obj the given object.
+   * @throws AssertionError if the given value is {@code null}.
+   */
+  public void assertNotNull(AssertionInfo info, Object obj) {
+    if (obj != null) return;
+    throw failures.failure(info, errorWhenNull());
   }
 }

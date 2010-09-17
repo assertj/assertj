@@ -30,9 +30,9 @@ public class ErrorWhenNotNullFactory implements AssertionErrorFactory {
   @VisibleForTesting final Object value;
 
   /**
-   * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
+   * Creates instances of <code>{@link ErrorWhenNotEqualFactory}</code>.
    * @param o the verified object.
-   * @return the created {@code ErrorWhenNotEqualFactory}.
+   * @return an instance of {@code ErrorWhenNotEqualFactory}.
    */
   public static AssertionErrorFactory errorWhenNotNull(Object o) {
     return new ErrorWhenNotNullFactory(o);

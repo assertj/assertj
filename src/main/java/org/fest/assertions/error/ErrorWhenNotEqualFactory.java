@@ -39,10 +39,10 @@ public class ErrorWhenNotEqualFactory implements AssertionErrorFactory {
   private final Formatter formatter;
 
   /**
-   * Creates a new <code>{@link ErrorWhenNotEqualFactory}</code>.
+   * Creates instances of <code>{@link ErrorWhenNotEqualFactory}</code>.
    * @param expected the expected value in the failed assertion.
    * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorWhenNotEqualFactory}.
+   * @return an instance of {@code ErrorWhenNotEqualFactory}.
    */
   public static AssertionErrorFactory errorWhenNotEqual(Object expected, Object actual) {
     return new ErrorWhenNotEqualFactory(expected, actual);

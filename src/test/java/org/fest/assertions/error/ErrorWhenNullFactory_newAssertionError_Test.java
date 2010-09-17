@@ -16,29 +16,28 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 
+import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ErrorWhenNotNullFactory#errorWhenNotNull(Object)}</code>.
+ * Tests for <code>{@link ErrorWhenNullFactory#newAssertionError(Description)}</code>.
  *
- * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Alex Ruiz
  */
-public class ErrorWhenNotNullFactory_errorWhenNotNull_Test {
+public class ErrorWhenNullFactory_newAssertionError_Test {
 
-  private static Object value;
+  private Description description;
+  private ErrorWhenNullFactory factory;
 
-  @BeforeClass public static void setUpOnce() {
-    value = new Object();
+  @Before public void setUp() {
+    description = new TestDescription("Jedi");
+    factory = new ErrorWhenNullFactory();
   }
 
-  @Test public void should_create_new_ErrorWhenNullFactory() {
-    AssertionErrorFactory factory = ErrorWhenNotNullFactory.errorWhenNotNull(value);
-    assertEquals(ErrorWhenNotNullFactory.class, factory.getClass());
-  }
-
-  @Test public void should_pass_actual_value() {
-    ErrorWhenNotNullFactory factory =  (ErrorWhenNotNullFactory) ErrorWhenNotNullFactory.errorWhenNotNull(value);
-    assertEquals(value, factory.value);
+  @Test public void should_create_AssertionError() {
+    AssertionError error = factory.newAssertionError(description);
+    assertEquals("[Jedi] expecting non-null value but got:<null>", error.getMessage());
   }
 }
