@@ -81,8 +81,8 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert isNotNull() {
-    // TODO Auto-generated method stub
-    return null;
+    objects.assertNotNull(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */

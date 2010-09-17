@@ -30,10 +30,10 @@ public class ErrorWhenEqualFactory implements AssertionErrorFactory {
   @VisibleForTesting final Object other;
 
   /**
-   * Creates a new <code>{@link ErrorWhenEqualFactory}</code>.
+   * Creates instances of <code>{@link ErrorWhenEqualFactory}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
-   * @return the created {@code ErrorWhenEqualFactory}.
+   * @return an instance of {@code ErrorWhenEqualFactory}.
    */
   public static AssertionErrorFactory errorWhenEqual(Object actual, Object other) {
     return new ErrorWhenEqualFactory(actual, other);
