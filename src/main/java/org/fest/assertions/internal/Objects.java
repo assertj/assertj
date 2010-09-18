@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.WhenEqualErrorFactory.errorWhenEqual;
 import static org.fest.assertions.error.WhenNotEqualErrorFactory.errorWhenNotEqual;
 import static org.fest.assertions.error.WhenNotSameErrorFactory.errorWhenNotSame;
+import static org.fest.assertions.error.WhenSameErrorFactory.errorWhenSame;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -108,5 +109,17 @@ public class Objects {
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
     if (actual == expected) return;
     throw failures.failure(info, errorWhenNotSame(actual, expected));
+  }
+
+  /**
+   * Asserts that two objects do not refer to the same object.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the given objects refer to the same object.
+   */
+  public void assertNotSame(AssertionInfo info, Object actual, Object other) {
+    if (actual != other) return;
+    throw failures.failure(info, errorWhenSame(actual));
   }
 }

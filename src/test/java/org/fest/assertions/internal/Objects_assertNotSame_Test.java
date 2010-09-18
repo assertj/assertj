@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenNotSameErrorFactory.errorWhenNotSame;
+import static org.fest.assertions.error.WhenSameErrorFactory.errorWhenSame;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
@@ -24,11 +24,11 @@ import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertSame(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertNotSame(AssertionInfo, Object, Object)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Objects_assertSame_Test {
+public class Objects_assertNotSame_Test {
 
   private static WritableAssertionInfo info;
 
@@ -46,17 +46,15 @@ public class Objects_assertSame_Test {
     objects = new Objects(failures);
   }
 
-  @Test public void should_pass_if_objects_are_same() {
-    Object o = new Object();
-    objects.assertSame(info, o, o);
+  @Test public void should_pass_if_objects_are_not_same() {
+    objects.assertNotSame(info, "Yoda", "Luke");
   }
 
-  @Test public void should_fail_if_objects_are_not_same() {
+  @Test public void should_fail_if_objects_are_same() {
     AssertionError expectedError = assertionFailingOnPurpose();
     Object a = new Person("Yoda");
-    Object e = new Person("Yoda");
-    when(failures.failure(info, errorWhenNotSame(a, e))).thenReturn(expectedError);
+    when(failures.failure(info, errorWhenSame(a))).thenReturn(expectedError);
     thrown.expect(expectedError);
-    objects.assertSame(info, a, e);
+    objects.assertNotSame(info, a, a);
   }
 }

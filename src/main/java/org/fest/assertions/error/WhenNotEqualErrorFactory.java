@@ -33,8 +33,8 @@ public class WhenNotEqualErrorFactory implements AssertionErrorFactory {
 
   private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
 
-  @VisibleForTesting final Object expected;
   @VisibleForTesting final Object actual;
+  @VisibleForTesting final Object expected;
 
   private Formatter formatter = Formatter.instance();
 
@@ -49,8 +49,8 @@ public class WhenNotEqualErrorFactory implements AssertionErrorFactory {
   }
 
   @VisibleForTesting WhenNotEqualErrorFactory(Object actual, Object expected) {
-    this.expected = expected;
     this.actual = actual;
+    this.expected = expected;
   }
 
   /**
@@ -98,14 +98,14 @@ public class WhenNotEqualErrorFactory implements AssertionErrorFactory {
     if (o == null) return false;
     if (getClass() != o.getClass()) return false;
     WhenNotEqualErrorFactory other = (WhenNotEqualErrorFactory) o;
-    if (!areEqual(expected, other.expected)) return false;
-    return areEqual(actual, other.actual);
+    if (!areEqual(actual, other.actual)) return false;
+    return areEqual(expected, other.expected);
   }
 
   @Override public int hashCode() {
     int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(expected);
     result = HASH_CODE_PRIME * result + hashCodeFor(actual);
+    result = HASH_CODE_PRIME * result + hashCodeFor(expected);
     return result;
   }
 

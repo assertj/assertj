@@ -1,5 +1,5 @@
 /*
- * Created on Sep 10, 2010
+ * Created on Sep 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,28 +19,26 @@ import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenNotEqualErrorFactory#errorWhenNotEqual(Object, Object)}</code>.
+ * Tests for <code>{@link WhenSameErrorFactory#errorWhenSame(Object)}</code>.
  *
+ * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class WhenNotEqualErrorFactory_errorWhenNotEqual_Test {
+public class WhenSameErrorFactory_errorWhenSame_Test {
 
   private static Object a;
-  private static Object e;
 
   @BeforeClass public static void setUpOnce() {
     a = "Luke";
-    e = "Yoda";
   }
 
-  @Test public void should_create_new_ErrorWhenNotEqualFactory() {
-    AssertionErrorFactory factory = WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
-    assertEquals(WhenNotEqualErrorFactory.class, factory.getClass());
+  @Test public void should_create_new_ErrorWhenNotSameFactory() {
+    AssertionErrorFactory factory = WhenSameErrorFactory.errorWhenSame(a);
+    assertEquals(WhenSameErrorFactory.class, factory.getClass());
   }
 
   @Test public void should_pass_expected_and_actual() {
-    WhenNotEqualErrorFactory factory = (WhenNotEqualErrorFactory) WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
+    WhenSameErrorFactory factory = (WhenSameErrorFactory) WhenSameErrorFactory.errorWhenSame(a);
     assertEquals(a, factory.actual);
-    assertEquals(e, factory.expected);
   }
 }

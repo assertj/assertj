@@ -18,9 +18,9 @@ package org.fest.assertions.error;
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
-
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is {@code null} fails.
+ * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two object refer to same object
+ * fails.
  *
  * @author Alex Ruiz
  */
@@ -45,7 +45,7 @@ public class WhenNotSameErrorFactory implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is {@code null}
+   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two object refer to same object
    * fails.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
@@ -55,7 +55,7 @@ public class WhenNotSameErrorFactory implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    String format = "%sexpected:<%s> and actual:<%s> should reference the same object";
+    String format = "%sexpected:<%s> and actual:<%s> should refer to the same object";
     return Formatter.instance().formatMessage(format, d, expected, actual);
   }
 

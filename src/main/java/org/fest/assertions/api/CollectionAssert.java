@@ -93,8 +93,8 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert isNotSameAs(Collection<?> other) {
-    // TODO Auto-generated method stub
-    return null;
+    objects.assertNotSame(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */

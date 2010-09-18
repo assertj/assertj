@@ -21,22 +21,23 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenNotSameErrorFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenSameErrorFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class WhenNotSameErrorFactory_newAssertionError_Test {
+public class WhenSameErrorFactory_newAssertionError_Test {
 
   private Description description;
-  private WhenNotSameErrorFactory factory;
+  private WhenSameErrorFactory factory;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new WhenNotSameErrorFactory("Yoda", "Luke");
+    factory = new WhenSameErrorFactory("Yoda");
   }
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    assertEquals("[Jedi] expected:<'Luke'> and actual:<'Yoda'> should refer to the same object", error.getMessage());
+    assertEquals("[Jedi] expected not same:<'Yoda'>", error.getMessage());
   }
 }
