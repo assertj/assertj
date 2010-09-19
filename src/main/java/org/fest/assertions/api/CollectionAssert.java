@@ -18,7 +18,7 @@ import java.util.Collection;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -31,9 +31,11 @@ import org.fest.util.VisibleForTesting;
 public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   private Objects objects = Objects.instance();
+  private Collections collections = Collections.instance();
 
   @VisibleForTesting final WritableAssertionInfo info;
   @VisibleForTesting final Collection<?> actual;
+
 
   protected CollectionAssert(Collection<?> actual) {
     this.actual = actual;
@@ -99,7 +101,7 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public void isNullOrEmpty() {
-    // TODO Auto-generated method stub
+    collections.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
@@ -150,5 +152,9 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   @VisibleForTesting final void updateObjects(Objects newObjects) {
     objects = newObjects;
+  }
+
+  @VisibleForTesting final void updateCollections(Collections newCollections) {
+    collections = newCollections;
   }
 }
