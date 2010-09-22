@@ -34,7 +34,7 @@ public class WhenEqualErrorFactory_errorWhenEqual_Test {
     o = "Yoda";
   }
 
-  @Test public void should_create_new_ErrorWhenEqualFactory() {
+  @Test public void should_create_new_AssertionErrorFactory() {
     AssertionErrorFactory factory = WhenEqualErrorFactory.errorWhenEqual(a, o);
     assertEquals(WhenEqualErrorFactory.class, factory.getClass());
   }

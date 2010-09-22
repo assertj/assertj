@@ -33,7 +33,7 @@ public class WhenNotSameErrorFactory_errorWhenNotSame_Test {
     e = "Yoda";
   }
 
-  @Test public void should_create_new_ErrorWhenNotSameFactory() {
+  @Test public void should_create_new_AssertionErrorFactory() {
     AssertionErrorFactory factory = WhenNotSameErrorFactory.errorWhenNotSame(a, e);
     assertEquals(WhenNotSameErrorFactory.class, factory.getClass());
   }

@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.WhenEqualErrorFactory.errorWhenEqual;
 import static org.fest.assertions.error.WhenNotEqualErrorFactory.errorWhenNotEqual;
 import static org.fest.assertions.error.WhenNotSameErrorFactory.errorWhenNotSame;
+import static org.fest.assertions.error.WhenNullErrorFactory.errorWhenNull;
 import static org.fest.assertions.error.WhenSameErrorFactory.errorWhenSame;
 import static org.fest.util.Objects.areEqual;
 
@@ -96,7 +97,7 @@ public class Objects {
    */
   public void assertNotNull(AssertionInfo info, Object obj) {
     if (obj != null) return;
-    throw failures.failure(info, errorWhenEqual(obj, null));
+    throw failures.failure(info, errorWhenNull());
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * Created on Sep 7, 2010
+ * Created on Sep 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,22 +12,21 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.test;
+package org.fest.assertions.error;
+
+import static org.junit.Assert.assertSame;
+
+import org.junit.Test;
 
 /**
- * Common failure messages.
+ * Tests for <code>{@link WhenNullErrorFactory#errorWhenNull()}</code>.
  *
  * @author Alex Ruiz
  */
-public final class FailureMessages {
+public class WhenNullErrorFactory_errorWhenNull_Test {
 
-  public static String descriptionIsNull() {
-    return "The description to set should not be null";
+  @Test public void should_return_singleton() {
+    AssertionErrorFactory factory = WhenNullErrorFactory.errorWhenNull();
+    assertSame(WhenNullErrorFactory.INSTANCE, factory);
   }
-
-  public static String unexpectedNull() {
-    return "expecting non-null object but it was null";
-  }
-
-  private FailureMessages() {}
 }

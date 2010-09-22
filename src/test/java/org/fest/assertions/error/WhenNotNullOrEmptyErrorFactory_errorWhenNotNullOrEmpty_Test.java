@@ -32,7 +32,7 @@ public class WhenNotNullOrEmptyErrorFactory_errorWhenNotNullOrEmpty_Test {
     a = "Luke";
   }
 
-  @Test public void should_create_new_ErrorWhenNotSameFactory() {
+  @Test public void should_create_new_AssertionErrorFactory() {
     AssertionErrorFactory factory = WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty(a);
     assertEquals(WhenNotNullOrEmptyErrorFactory.class, factory.getClass());
   }

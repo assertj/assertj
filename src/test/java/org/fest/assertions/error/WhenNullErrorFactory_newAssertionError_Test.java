@@ -14,31 +14,30 @@
  */
 package org.fest.assertions.error;
 
-import static org.junit.Assert.assertEquals;
+import static junit.framework.Assert.assertEquals;
 
+import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenSameErrorFactory#errorWhenSame(Object)}</code>.
+ * Tests for <code>{@link WhenNullErrorFactory#newAssertionError(Description)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class WhenSameErrorFactory_errorWhenSame_Test {
+public class WhenNullErrorFactory_newAssertionError_Test {
 
-  private static Object a;
+  private Description description;
+  private WhenNullErrorFactory factory;
 
-  @BeforeClass public static void setUpOnce() {
-    a = "Luke";
+  @Before public void setUp() {
+    description = new TestDescription("Jedi");
+    factory = WhenNullErrorFactory.INSTANCE;
   }
 
-  @Test public void should_create_new_AssertionErrorFactory() {
-    AssertionErrorFactory factory = WhenSameErrorFactory.errorWhenSame(a);
-    assertEquals(WhenSameErrorFactory.class, factory.getClass());
-  }
-
-  @Test public void should_pass_expected_and_actual() {
-    WhenSameErrorFactory factory = (WhenSameErrorFactory) WhenSameErrorFactory.errorWhenSame(a);
-    assertEquals(a, factory.actual);
+  @Test public void should_create_AssertionError() {
+    AssertionError error = factory.newAssertionError(description);
+    assertEquals("[Jedi] expecting non-null object but it was null", error.getMessage());
   }
 }

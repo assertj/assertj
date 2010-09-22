@@ -1,5 +1,5 @@
 /*
- * Created on Sep 10, 2010
+ * Created on Sep 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,33 +14,33 @@
  */
 package org.fest.assertions.error;
 
+import static org.fest.util.Collections.list;
 import static org.junit.Assert.assertEquals;
+
+import java.util.Collection;
 
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenNotEqualErrorFactory#errorWhenNotEqual(Object, Object)}</code>.
+ * Tests for <code>{@link WhenNotEmptyErrorFactory#errorWhenNotEmpty(Collection)}</code>.
  *
  * @author Alex Ruiz
  */
-public class WhenNotEqualErrorFactory_errorWhenNotEqual_Test {
+public class WhenNotEmptyErrorFactory_errorWhenNotEmpty_Test {
 
-  private static Object a;
-  private static Object e;
+  private static Collection<String> actual;
 
   @BeforeClass public static void setUpOnce() {
-    a = "Luke";
-    e = "Yoda";
+    actual = list("Yoda");
   }
 
   @Test public void should_create_new_AssertionErrorFactory() {
-    AssertionErrorFactory factory = WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
-    assertEquals(WhenNotEqualErrorFactory.class, factory.getClass());
+    AssertionErrorFactory factory = WhenNotEmptyErrorFactory.errorWhenNotEmpty(actual);
+    assertEquals(WhenNotEmptyErrorFactory.class, factory.getClass());
   }
 
   @Test public void should_pass_expected_and_actual() {
-    WhenNotEqualErrorFactory factory = (WhenNotEqualErrorFactory) WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
-    assertEquals(a, factory.actual);
-    assertEquals(e, factory.expected);
+    WhenNotEmptyErrorFactory factory = (WhenNotEmptyErrorFactory) WhenNotEmptyErrorFactory.errorWhenNotEmpty(actual);
+    assertEquals(actual, factory.actual);
   }
 }

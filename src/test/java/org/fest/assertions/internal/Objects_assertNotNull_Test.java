@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenEqualErrorFactory.errorWhenEqual;
+import static org.fest.assertions.error.WhenNullErrorFactory.errorWhenNull;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
@@ -52,7 +52,7 @@ public class Objects_assertNotNull_Test {
 
   @Test public void should_fail_if_object_is_null() {
     AssertionError expectedError = assertionFailingOnPurpose();
-    when(failures.failure(info, errorWhenEqual(null, null))).thenReturn(expectedError);
+    when(failures.failure(info, errorWhenNull())).thenReturn(expectedError);
     thrown.expect(expectedError);
     objects.assertNotNull(info, null);
   }
