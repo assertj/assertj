@@ -21,7 +21,7 @@ package org.fest.assertions.core;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface Assert<T> extends Descriptable {
+public interface Assert<T> extends Descriptable, ExtensionPoint<T> {
 
   /**
    * Verifies that the actual value is equal to the given one.
@@ -67,42 +67,4 @@ public interface Assert<T> extends Descriptable {
    * @throws AssertionError if the actual value is the same as the given one.
    */
   Assert<T> isNotSameAs(T other);
-
-  /**
-   * Verifies that the actual value satisfies the given condition.
-   * @param condition the given condition.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value does not satisfy the given condition.
-   * @see #is(Condition)
-   */
-  Assert<T> satisfies(Condition<T> condition);
-
-  /**
-   * Verifies that the actual value does not satisfy the given condition.
-   * @param condition the given condition.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value satisfies the given condition.
-   * @see #isNot(Condition)
-   */
-  Assert<T> doesNotSatisfy(Condition<T> condition);
-
-  /**
-   * Alias for <code>{@link #satisfies(Condition)}</code>.
-   * @param condition the given condition.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value does not satisfy the given condition.
-   */
-  Assert<T> is(Condition<T> condition);
-
-  /**
-   * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
-   * @param condition the given condition.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value satisfies the given condition.
-   */
-  Assert<T> isNot(Condition<T> condition);
 }
