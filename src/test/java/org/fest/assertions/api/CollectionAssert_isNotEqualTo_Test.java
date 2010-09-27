@@ -40,7 +40,7 @@ public class CollectionAssert_isNotEqualTo_Test {
     assertions.updateObjects(objects);
   }
 
-  @Test public void should_verify_that_expected_value_is_not_equal_to_actual_value() {
+  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
     List<String> expected = new ArrayList<String>();
     assertions.isNotEqualTo(expected);
     verify(objects).assertNotEqual(assertions.info, assertions.actual, expected);

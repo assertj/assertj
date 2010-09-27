@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.*;
 
@@ -29,7 +29,7 @@ public class WhenSameErrorFactory_errorWhenSame_Test {
   private static Object a;
 
   @BeforeClass public static void setUpOnce() {
-    a = "Luke";
+    a = new Object();
   }
 
   @Test public void should_create_new_AssertionErrorFactory() {
@@ -39,6 +39,6 @@ public class WhenSameErrorFactory_errorWhenSame_Test {
 
   @Test public void should_pass_actual() {
     WhenSameErrorFactory factory = (WhenSameErrorFactory) WhenSameErrorFactory.errorWhenSame(a);
-    assertEquals(a, factory.actual);
+    assertSame(a, factory.actual);
   }
 }

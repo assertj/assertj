@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -48,6 +49,10 @@ public class Collections_assertEmpty_Test {
   @Before public void setUp() {
     failures = mock(Failures.class);
     collections = new Collections(failures);
+  }
+
+  @Test public void should_pass_if_actual_is_empty() {
+    collections.assertEmpty(info, emptyList());
   }
 
   @Test public void should_fail_if_actual_is_null() {

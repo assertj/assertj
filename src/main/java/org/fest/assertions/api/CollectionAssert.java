@@ -117,8 +117,8 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert hasSize(int expected) {
-    // TODO Auto-generated method stub
-    return null;
+    collections.assertHasSize(info, actual, expected);
+    return this;
   }
 
   /** {@inheritDoc} */

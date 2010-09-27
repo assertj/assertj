@@ -40,7 +40,7 @@ public class CollectionAssert_isNotEmpty_Test {
   }
 
   @Test
-  public void should_verify_that_expected_is_not_empty() {
+  public void should_verify_that_actual_is_not_empty() {
     assertions.isNotEmpty();
     verify(collections).assertNotEmpty(assertions.info, assertions.actual);
   }

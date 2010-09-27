@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
+import static org.fest.assertions.error.WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -29,11 +28,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertNotEmpty(AssertionInfo, Collection)}</code>.
+ * Tests for <code>{@link Collections#assertHasSize(AssertionInfo, Collection, int)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertNotEmpty_Test {
+public class Collections_assertHasSize_Test {
 
   private static WritableAssertionInfo info;
 
@@ -51,20 +50,21 @@ public class Collections_assertNotEmpty_Test {
     collections = new Collections(failures);
   }
 
-  @Test public void should_pass_if_actual_is_not_empty() {
-    collections.assertNotEmpty(info, list("Luke"));
+  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+    collections.assertHasSize(info, list("Luke", "Yoda"), 2);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertNotEmpty(info, null);
+    collections.assertHasSize(info, null, 8);
   }
 
-  @Test public void should_fail_if_actual_is_empty() {
+  @Test public void should_fail_if_actual_has_elements() {
     AssertionError expectedError = assertionFailingOnPurpose();
-    Collection<String> actual = emptyList();
-    when(failures.failure(info, errorWhenEmpty())).thenReturn(expectedError);
+    Collection<String> actual = list("Yoda");
+    int expectedSize = 8;
+    when(failures.failure(info, errorWhenSizeNotEqual(actual, actual.size(), expectedSize))).thenReturn(expectedError);
     thrown.expect(expectedError);
-    collections.assertNotEmpty(info, actual);
+    collections.assertHasSize(info, actual, expectedSize);
   }
 }

@@ -15,14 +15,14 @@
 package org.fest.assertions.error;
 
 import static org.fest.util.Collections.list;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.Collection;
 
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenNotEmptyErrorFactory#errorWhenNotEmpty(Collection)}</code>.
+ * Tests for <code>{@link WhenNotEmptyErrorFactory#errorWhenNotEmpty(Object)}</code>.
  *
  * @author Alex Ruiz
  */
@@ -41,6 +41,6 @@ public class WhenNotEmptyErrorFactory_errorWhenNotEmpty_Test {
 
   @Test public void should_pass_actual() {
     WhenNotEmptyErrorFactory factory = (WhenNotEmptyErrorFactory) WhenNotEmptyErrorFactory.errorWhenNotEmpty(actual);
-    assertEquals(actual, factory.actual);
+    assertSame(actual, factory.actual);
   }
 }

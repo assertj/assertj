@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.*;
 
@@ -29,7 +29,7 @@ public class WhenNotNullOrEmptyErrorFactory_errorWhenNotNullOrEmpty_Test {
   private static Object a;
 
   @BeforeClass public static void setUpOnce() {
-    a = "Luke";
+    a = new Object();
   }
 
   @Test public void should_create_new_AssertionErrorFactory() {
@@ -40,6 +40,6 @@ public class WhenNotNullOrEmptyErrorFactory_errorWhenNotNullOrEmpty_Test {
   @Test public void should_pass_actual() {
     WhenNotNullOrEmptyErrorFactory factory =
       (WhenNotNullOrEmptyErrorFactory) WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty(a);
-    assertEquals(a, factory.actual);
+    assertSame(a, factory.actual);
   }
 }

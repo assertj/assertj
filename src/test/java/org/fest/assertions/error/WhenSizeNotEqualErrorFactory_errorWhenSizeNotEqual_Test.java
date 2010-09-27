@@ -1,5 +1,5 @@
 /*
- * Created on Sep 10, 2010
+ * Created on Sep 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,31 +16,39 @@ package org.fest.assertions.error;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
+import org.fest.util.Collections;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link WhenNotEqualErrorFactory#errorWhenNotEqual(Object, Object)}</code>.
+ * Tests for <code>{@link WhenSizeNotEqualErrorFactory#errorWhenSizeNotEqual(Object, int, int)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class WhenNotEqualErrorFactory_errorWhenNotEqual_Test {
+public class WhenSizeNotEqualErrorFactory_errorWhenSizeNotEqual_Test {
 
-  private static Object a;
-  private static Object e;
+  private static List<String> a;
+  private static int as;
+  private static int es;
 
   @BeforeClass public static void setUpOnce() {
-    a = new Object();
-    e = new Object();
+    a = Collections.list("Luke", "Yoda");
+    as = 2;
+    es = 8;
   }
 
   @Test public void should_create_new_AssertionErrorFactory() {
-    AssertionErrorFactory factory = WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
-    assertEquals(WhenNotEqualErrorFactory.class, factory.getClass());
+    AssertionErrorFactory factory = WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual(a, as, es);
+    assertEquals(WhenSizeNotEqualErrorFactory.class, factory.getClass());
   }
 
   @Test public void should_pass_actual_and_expected() {
-    WhenNotEqualErrorFactory factory = (WhenNotEqualErrorFactory) WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
+    WhenSizeNotEqualErrorFactory factory =
+      (WhenSizeNotEqualErrorFactory) WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual(a, as, es);
     assertSame(a, factory.actual);
-    assertSame(e, factory.expected);
+    assertEquals(as, factory.actualSize);
+    assertEquals(es, factory.expectedSize);
   }
 }

@@ -16,37 +16,35 @@ package org.fest.assertions.error;
 
 import static org.fest.util.Objects.*;
 
-import java.util.Collection;
-
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a <code>{@link Collection}</code> is
- * empty fails.
+ * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements is empty fails.
+ * A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
 public class WhenNotEmptyErrorFactory implements AssertionErrorFactory {
 
-  @VisibleForTesting final Collection<?> actual;
+  @VisibleForTesting final Object actual;
 
   /**
    * Creates instances of <code>{@link WhenNotEmptyErrorFactory}</code>.
    * @param actual the actual value in the failed assertion.
    * @return an instance of {@code WhenNotEmptyErrorFactory}.
    */
-  public static AssertionErrorFactory errorWhenNotEmpty(Collection<?> actual) {
+  public static AssertionErrorFactory errorWhenNotEmpty(Object actual) {
     return new WhenNotEmptyErrorFactory(actual);
   }
 
-  @VisibleForTesting WhenNotEmptyErrorFactory(Collection<?> actual) {
+  @VisibleForTesting WhenNotEmptyErrorFactory(Object actual) {
     this.actual = actual;
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a <code>{@link Collection}</code> is
-   * empty fails.
+   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements is empty fails.
+   * A group of elements can be a collection, an array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

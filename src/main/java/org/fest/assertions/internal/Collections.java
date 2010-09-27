@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
 import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
 import static org.fest.assertions.error.WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty;
+import static org.fest.assertions.error.WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual;
 
 import java.util.Collection;
 
@@ -86,6 +87,22 @@ public class Collections {
     assertNotNull(info, actual);
     if (!actual.isEmpty()) return;
     throw failures.failure(info, errorWhenEmpty());
+  }
+
+  /**
+   * Asserts that the number of elements in the given collection is equal to the expected one.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param expectedSize the expected size of the {@code actual}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the number of elements in the given {@code Collection} is different than the expected
+   * one.
+   */
+  public void assertHasSize(AssertionInfo info, Collection<?> actual, int expectedSize) {
+    assertNotNull(info, actual);
+    int actualSize = actual.size();
+    if (actualSize == expectedSize) return;
+    throw failures.failure(info, errorWhenSizeNotEqual(actual, actualSize, expectedSize));
   }
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {

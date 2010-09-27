@@ -39,7 +39,7 @@ public class CollectionAssert_isEqualTo_Test {
     assertions.updateObjects(objects);
   }
 
-  @Test public void should_verify_that_expected_value_is_equal_to_actual_value() {
+  @Test public void should_verify_that_actual_is_equal_to_expected() {
     List<String> expected = new ArrayList<String>();
     assertions.isEqualTo(expected);
     verify(objects).assertEqual(assertions.info, assertions.actual, expected);
