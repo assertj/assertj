@@ -16,12 +16,12 @@ package org.fest.assertions.core;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
- * @param <T> the type of object this assertion supports.
+ * @param <T> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface Assert<T> extends Descriptable, ExtensionPoint<T> {
+public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
 
   /**
    * Verifies that the actual value is equal to the given one.

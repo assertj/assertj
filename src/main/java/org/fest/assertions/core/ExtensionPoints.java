@@ -15,48 +15,48 @@
 package org.fest.assertions.core;
 
 /**
- * Understands SOMETHING DUMMY.
- * @param <T> the type of object this extension point supports.
+ * Mechanism for extending assertion classes.
+ * @param <T> the type of the "actual" value.
  *
  * @author Alex Ruiz
  */
-public interface ExtensionPoint<T> {
+public interface ExtensionPoints<T> {
 
   /**
    * Verifies that the actual value satisfies the given condition.
    * @param condition the given condition.
-   * @return {@code this} assertion object.
+   * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  public abstract Assert<T> satisfies(Condition<T> condition);
+  public abstract ExtensionPoints<T> satisfies(Condition<T> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition.
    * @param condition the given condition.
-   * @return {@code this} assertion object.
+   * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  public abstract Assert<T> doesNotSatisfy(Condition<T> condition);
+  public abstract ExtensionPoints<T> doesNotSatisfy(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #satisfies(Condition)}</code>.
    * @param condition the given condition.
-   * @return {@code this} assertion object.
+   * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    */
-  public abstract Assert<T> is(Condition<T> condition);
+  public abstract ExtensionPoints<T> is(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
    * @param condition the given condition.
-   * @return {@code this} assertion object.
+   * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    */
-  public abstract Assert<T> isNot(Condition<T> condition);
+  public abstract ExtensionPoints<T> isNot(Condition<T> condition);
 }
