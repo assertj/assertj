@@ -1,5 +1,5 @@
 /*
- * Created on Sep 21, 2010
+ * Created on Sep 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,36 +14,40 @@
  */
 package org.fest.assertions.error;
 
+import java.util.Collection;
+
 import org.fest.assertions.description.Description;
+import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is not {@code null}
- * fails.
+ * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a <code>{@link Collection}</code> is
+ * not empty fails.
  *
  * @author Alex Ruiz
  */
-public class WhenNullErrorFactory implements AssertionErrorFactory {
+public class WhenEmptyErrorFactory implements AssertionErrorFactory {
 
-  public static final WhenNullErrorFactory INSTANCE = new WhenNullErrorFactory();
+  @VisibleForTesting static final WhenEmptyErrorFactory INSTANCE = new WhenEmptyErrorFactory();
 
   /**
-   * Creates instances of <code>{@link WhenNullErrorFactory}</code>.
-   * @return an instance of {@code WhenNullErrorFactory}.
+   * Creates instances of <code>{@link WhenEmptyErrorFactory}</code>.
+   * @return an instance of {@code WhenEmptyErrorFactory}.
    */
-  public static AssertionErrorFactory errorWhenNull() {
+  public static AssertionErrorFactory errorWhenEmpty() {
     return INSTANCE;
   }
 
-  private WhenNullErrorFactory() {}
+  private WhenEmptyErrorFactory() {}
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is not {@code null}
-   * fails.
+   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a <code>{@link Collection}</code> is
+   * not empty fails.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
   public AssertionError newAssertionError(Description d) {
-    String message = Formatter.instance().formatMessage("%sexpecting non-null object but it was null", d);
-    return new AssertionError(message);
+    String msg = Formatter.instance().formatMessage("%sunexpected empty", d);
+    return new AssertionError(msg);
   }
+
 }

@@ -39,7 +39,7 @@ public class WhenEqualErrorFactory_errorWhenEqual_Test {
     assertEquals(WhenEqualErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_expected_and_actual() {
+  @Test public void should_pass_actual_and_other() {
     WhenEqualErrorFactory factory = (WhenEqualErrorFactory) WhenEqualErrorFactory.errorWhenEqual(a, o);
     assertEquals(a, factory.actual);
     assertEquals(o, factory.other);

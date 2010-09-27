@@ -39,7 +39,7 @@ public class WhenNotEmptyErrorFactory_errorWhenNotEmpty_Test {
     assertEquals(WhenNotEmptyErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_expected_and_actual() {
+  @Test public void should_pass_actual() {
     WhenNotEmptyErrorFactory factory = (WhenNotEmptyErrorFactory) WhenNotEmptyErrorFactory.errorWhenNotEmpty(actual);
     assertEquals(actual, factory.actual);
   }

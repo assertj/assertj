@@ -37,7 +37,7 @@ public class WhenSameErrorFactory_errorWhenSame_Test {
     assertEquals(WhenSameErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_expected_and_actual() {
+  @Test public void should_pass_actual() {
     WhenSameErrorFactory factory = (WhenSameErrorFactory) WhenSameErrorFactory.errorWhenSame(a);
     assertEquals(a, factory.actual);
   }

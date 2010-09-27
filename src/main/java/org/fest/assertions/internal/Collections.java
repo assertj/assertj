@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
 import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
 import static org.fest.assertions.error.WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty;
 
@@ -69,8 +70,25 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} is not empty.
    */
   public void assertEmpty(AssertionInfo info, Collection<?> actual) {
-    Objects.instance().assertNotNull(info, actual);
+    assertNotNull(info, actual);
     if (actual.isEmpty()) return;
     throw failures.failure(info, errorWhenNotEmpty(actual));
+  }
+
+  /**
+   * Asserts that the given collection is not empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} is empty.
+   */
+  public void assertNotEmpty(AssertionInfo info, Collection<?> actual) {
+    assertNotNull(info, actual);
+    if (!actual.isEmpty()) return;
+    throw failures.failure(info, errorWhenEmpty());
+  }
+
+  private void assertNotNull(AssertionInfo info, Collection<?> actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 }

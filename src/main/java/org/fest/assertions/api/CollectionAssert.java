@@ -111,8 +111,8 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert isNotEmpty() {
-    // TODO Auto-generated method stub
-    return null;
+    collections.assertNotEmpty(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */

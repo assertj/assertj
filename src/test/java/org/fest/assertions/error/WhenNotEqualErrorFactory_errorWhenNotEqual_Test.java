@@ -38,7 +38,7 @@ public class WhenNotEqualErrorFactory_errorWhenNotEqual_Test {
     assertEquals(WhenNotEqualErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_expected_and_actual() {
+  @Test public void should_pass_actual_and_expected() {
     WhenNotEqualErrorFactory factory = (WhenNotEqualErrorFactory) WhenNotEqualErrorFactory.errorWhenNotEqual(a, e);
     assertEquals(a, factory.actual);
     assertEquals(e, factory.expected);
