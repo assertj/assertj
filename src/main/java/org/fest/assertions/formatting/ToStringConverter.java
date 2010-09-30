@@ -44,6 +44,7 @@ public class ToStringConverter {
     rules.add(new FileToStringRule());
     rules.add(new MapToStringRule());
     rules.add(new StringToStringRule());
+    rules.add(new ConditionToStringRule());
   }
 
   /**

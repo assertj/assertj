@@ -1,5 +1,5 @@
 /*
- * Created on Jul 15, 2010
+ * Created on Sep 30, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,30 +12,31 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.core;
+package org.fest.assertions.formatting;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.core.TestCondition;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Condition#description()}</code>.
+ * Tests for <code>{@link ConditionToStringRule#canHandle(Object)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Condition_description_Test {
+public class ConditionToStringRule_canHandle_Test {
 
-  private Condition<Object> condition;
+  private static ConditionToStringRule rule;
 
-  @Before public void setUp() {
-    condition = new TestCondition<Object>();
+  @BeforeClass public static void setUpOnce() {
+    rule = new ConditionToStringRule();
   }
 
-  @Test public void should_return_description() {
-    String description = "do or do not, there is not try";
-    condition.description = new TextDescription(description);
-    assertEquals(description, condition.description().value());
+  @Test public void should_return_true_if_object_is_Condition() {
+    assertTrue(rule.canHandle(new TestCondition<Object>()));
+  }
+
+  @Test public void should_return_false_if_object_is_not_Condition() {
+    assertFalse(rule.canHandle("Yoda"));
   }
 }

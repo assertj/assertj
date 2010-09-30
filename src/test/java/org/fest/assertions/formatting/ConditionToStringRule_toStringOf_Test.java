@@ -1,5 +1,5 @@
 /*
- * Created on Jul 15, 2010
+ * Created on Sep 30, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,32 +12,28 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.core;
+package org.fest.assertions.formatting;
+
+import static org.junit.Assert.assertEquals;
+
+import org.fest.assertions.core.TestCondition;
+import org.junit.*;
 
 /**
- * A <code>{@link Condition}</code> for testing.
- * @param <T> the type of object this condition accepts.
+ * Tests for <code>{@link ConditionToStringRule#toStringOf(Object)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class TestCondition<T> extends Condition<T> {
+public class ConditionToStringRule_toStringOf_Test {
 
-  private boolean matches;
+  private static ConditionToStringRule rule;
 
-  public TestCondition() {
-    super();
+  @BeforeClass public static void setUpOnce() {
+    rule = new ConditionToStringRule();
   }
 
-  public TestCondition(String description) {
-    super(description);
-  }
-
-  public void shouldMatch(boolean val) {
-    matches = val;
-  }
-
-  @Override public boolean matches(Object value) {
-    return matches;
+  @Test public void should_return_formatted_Dimension() {
+    String s = rule.toStringOf(new TestCondition<Object>("Hello"));
+    assertEquals("Hello", s);
   }
 }

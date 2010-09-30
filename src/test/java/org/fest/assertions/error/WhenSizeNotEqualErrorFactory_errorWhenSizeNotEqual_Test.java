@@ -44,7 +44,7 @@ public class WhenSizeNotEqualErrorFactory_errorWhenSizeNotEqual_Test {
     assertEquals(WhenSizeNotEqualErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_actual_and_expected() {
+  @Test public void should_pass_actual_and_sizes() {
     WhenSizeNotEqualErrorFactory factory =
       (WhenSizeNotEqualErrorFactory) WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual(a, as, es);
     assertSame(a, factory.actual);

@@ -28,8 +28,7 @@ import org.fest.util.VisibleForTesting;
  */
 public abstract class Condition<T> implements Descriptable {
 
-  @VisibleForTesting
-  Description description;
+  @VisibleForTesting Description description;
 
   /**
    * Creates a new </code>{@link Condition}</code>. The default description of this condition will the simple name of

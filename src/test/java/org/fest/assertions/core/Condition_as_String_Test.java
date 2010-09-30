@@ -29,7 +29,7 @@ public class Condition_as_String_Test {
   private Condition<Object> condition;
 
   @Before public void setUp() {
-    condition = new TestCondition();
+    condition = new TestCondition<Object>();
   }
 
   @Test public void should_set_description() {
