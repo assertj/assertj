@@ -27,8 +27,7 @@ import org.junit.Test;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-// TODO FIX NAME
-public class WhenConditionNotMetErrorFactory_errorWhenConditionMet_Test {
+public class WhenConditionNotMetErrorFactory_errorWhenConditionNotMet_Test {
 
   private static Object actual;
   private static Condition<?> condition;
