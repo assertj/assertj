@@ -14,9 +14,11 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.WhenConditionMetErrorFactory.errorWhenConditionMet;
 import static org.fest.assertions.error.WhenConditionNotMetErrorFactory.errorWhenConditionNotMet;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -59,5 +61,20 @@ public class Conditions {
     if (condition == null) throw new NullPointerException("The condition to verify should not be null");
     if (condition.matches(actual)) return;
     throw failures.failure(info, errorWhenConditionNotMet(actual, condition));
+  }
+
+  /**
+   * Asserts that the actual value does not satisfy the given <code>{@link Condition}</code>.
+   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   * @throws AssertionError if the actual value satisfies the given {@code Condition}.
+   */
+  public <T> void assertDoesNotSatisfy(AssertionInfo info, T actual, Condition<T> condition) {
+    if (condition == null) throw new NullPointerException("The condition to verify should not be null");
+    if (!condition.matches(actual)) return;
+    throw failures.failure(info, errorWhenConditionMet(actual, condition));
   }
 }

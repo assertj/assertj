@@ -16,8 +16,10 @@ package org.fest.assertions.error;
 
 import static org.junit.Assert.*;
 
-import org.fest.assertions.core.*;
-import org.junit.*;
+import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.TestCondition;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link WhenConditionNotMetErrorFactory#errorWhenConditionNotMet(Object, Condition)}</code>.
@@ -25,7 +27,8 @@ import org.junit.*;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class WhenConditionNotMetErrorFactory_errorWhenConditionNotMet_Test {
+// TODO FIX NAME
+public class WhenConditionNotMetErrorFactory_errorWhenConditionMet_Test {
 
   private static Object actual;
   private static Condition<?> condition;

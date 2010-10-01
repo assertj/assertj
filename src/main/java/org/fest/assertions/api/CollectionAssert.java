@@ -37,7 +37,6 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
   @VisibleForTesting final WritableAssertionInfo info;
   @VisibleForTesting final Collection<?> actual;
 
-
   protected CollectionAssert(Collection<?> actual) {
     this.actual = actual;
     info = new WritableAssertionInfo();
@@ -130,20 +129,18 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
 
   /** {@inheritDoc} */
   public CollectionAssert doesNotSatisfy(Condition<Collection<?>> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    conditions.assertDoesNotSatisfy(info, actual, condition);
+    return this;
   }
 
   /** {@inheritDoc} */
   public CollectionAssert is(Condition<Collection<?>> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    return satisfies(condition);
   }
 
   /** {@inheritDoc} */
   public CollectionAssert isNot(Condition<Collection<?>> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    return doesNotSatisfy(condition);
   }
 
   @VisibleForTesting final String descriptionText() {
