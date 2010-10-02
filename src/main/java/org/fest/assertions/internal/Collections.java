@@ -14,12 +14,14 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.WhenDoesNotContainErrorFactory.errorWhenDoesNotContain;
 import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
 import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
 import static org.fest.assertions.error.WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty;
 import static org.fest.assertions.error.WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual;
 
 import java.util.Collection;
+import java.util.LinkedHashSet;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -64,7 +66,7 @@ public class Collections {
   }
 
   /**
-   * Asserts that the given collection is empty.
+   * Asserts that the given {@code Collection} is empty.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @throws AssertionError if the given {@code Collection} is {@code null}.
@@ -77,7 +79,7 @@ public class Collections {
   }
 
   /**
-   * Asserts that the given collection is not empty.
+   * Asserts that the given {@code Collection} is not empty.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @throws AssertionError if the given {@code Collection} is {@code null}.
@@ -90,7 +92,7 @@ public class Collections {
   }
 
   /**
-   * Asserts that the number of elements in the given collection is equal to the expected one.
+   * Asserts that the number of elements in the given {@code Collection} is equal to the expected one.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @param expectedSize the expected size of the {@code actual}.
@@ -103,6 +105,24 @@ public class Collections {
     int actualSize = actual.size();
     if (actualSize == expectedSize) return;
     throw failures.failure(info, errorWhenSizeNotEqual(actual, actualSize, expectedSize));
+  }
+
+  /**
+   * Asserts that the given {@code Collection} contains the given values.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param values the values that are expected to be in the given {@code Collection}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} does not contain the given values.
+   */
+  public void assertContains(AssertionInfo info, Collection<?> actual, Object[] values) {
+    assertNotNull(info, actual);
+    if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
+    Collection<Object> notFound = new LinkedHashSet<Object>();
+    for (Object value : values) if (!actual.contains(value)) notFound.add(value);
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, errorWhenDoesNotContain(actual, values, notFound));
   }
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {

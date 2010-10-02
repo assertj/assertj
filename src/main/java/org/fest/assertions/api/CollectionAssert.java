@@ -28,7 +28,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
+public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>> {
 
   private Objects objects = Objects.instance();
   private Collections collections = Collections.instance();
@@ -119,6 +119,30 @@ public class CollectionAssert implements GroupAssert, Assert<Collection<?>> {
   public CollectionAssert hasSize(int expected) {
     collections.assertHasSize(info, actual, expected);
     return this;
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert contains(Object... values) {
+    collections.assertContains(info, actual, values);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert containsOnly(Object... values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert doesNotContain(Object... values) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
+  public CollectionAssert doesNotHaveDuplicates() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   /** {@inheritDoc} */

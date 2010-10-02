@@ -23,35 +23,35 @@ package org.fest.assertions.core;
 public interface ObjectGroupAssert extends GroupAssert {
 
   /**
-   * Verifies that the actual group contains the given objects.
-   * @param objects the given objects.
+   * Verifies that the actual group contains the given values.
+   * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given objects.
+   * @throws AssertionError if the actual group does not contain the given values.
    */
-  ObjectGroupAssert contains(Object... objects);
+  ObjectGroupAssert contains(Object... values);
 
   /**
-   * Verifies that the actual group contains only the given objects.
-   * @param objects the given objects.
+   * Verifies that the actual group contains only the given values.
+   * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given objects, i.e. the given group contains some
-   * or none of the given objects, or the actual group contains more objects than the given ones.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the given group contains some
+   * or none of the given values, or the actual group contains more values than the given ones.
    */
-  ObjectGroupAssert containsOnly(Object... objects);
+  ObjectGroupAssert containsOnly(Object... values);
 
   /**
-   * Verifies that the actual group does not contain the given objects.
-   * @param objects the given objects.
+   * Verifies that the actual group does not contain the given values.
+   * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains the given objects.
+   * @throws AssertionError if the actual group contains the given values.
    */
-  ObjectGroupAssert doesNotContain(Object... objects);
+  ObjectGroupAssert doesNotContain(Object... values);
 
   /**
    * Verifies that the actual group does not contain duplicates.

@@ -58,7 +58,7 @@ public class Conditions {
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
   public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<T> condition) {
-    if (condition == null) throw new NullPointerException("The condition to verify should not be null");
+    verifyIsNotNull(condition);
     if (condition.matches(actual)) return;
     throw failures.failure(info, errorWhenConditionNotMet(actual, condition));
   }
@@ -73,8 +73,12 @@ public class Conditions {
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
   public <T> void assertDoesNotSatisfy(AssertionInfo info, T actual, Condition<T> condition) {
-    if (condition == null) throw new NullPointerException("The condition to verify should not be null");
+    verifyIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, errorWhenConditionMet(actual, condition));
+  }
+
+  private void verifyIsNotNull(Condition<?> condition) {
+    if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
   }
 }
