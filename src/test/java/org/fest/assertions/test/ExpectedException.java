@@ -15,7 +15,8 @@
 package org.fest.assertions.test;
 
 import org.junit.rules.MethodRule;
-import org.junit.runners.model.*;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 
 /**
  * Allows in-test specification of expected exception types and messages.
@@ -38,12 +39,19 @@ public class ExpectedException implements MethodRule {
   }
 
   public void expectAssertionError(String message) {
-    expect(AssertionError.class);
-    expectMessage(message);
+    expect(AssertionError.class, message);
   }
 
   public void expectNullPointerException(String message) {
-    expect(NullPointerException.class);
+    expect(NullPointerException.class, message);
+  }
+
+  public void expectIllegalArgumentException(String message) {
+    expect(IllegalArgumentException.class, message);
+  }
+
+  private void expect(Class<? extends Throwable> type, String message) {
+    expect(type);
     expectMessage(message);
   }
 

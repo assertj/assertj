@@ -113,16 +113,22 @@ public class Collections {
    * @param actual the given {@code Collection}.
    * @param values the values that are expected to be in the given {@code Collection}.
    * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given {@code Collection} is {@code null}.
    * @throws AssertionError if the given {@code Collection} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Collection<?> actual, Object[] values) {
     assertNotNull(info, actual);
-    if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
+    isNotEmptyOrNull(values);
     Collection<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, errorWhenDoesNotContain(actual, values, notFound));
+  }
+
+  private void isNotEmptyOrNull(Object[] values) {
+    if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
+    if (values.length == 0) throw new IllegalArgumentException("The array of values to evaluate should not be empty");
   }
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {

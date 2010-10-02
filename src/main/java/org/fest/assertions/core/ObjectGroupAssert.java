@@ -27,6 +27,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
@@ -37,6 +38,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the given group contains some
    * or none of the given values, or the actual group contains more values than the given ones.
@@ -48,6 +50,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains the given values.
    */

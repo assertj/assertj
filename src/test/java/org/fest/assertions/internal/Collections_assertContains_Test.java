@@ -38,14 +38,17 @@ import org.junit.*;
 public class Collections_assertContains_Test {
 
   private static WritableAssertionInfo info;
+  private static List<String> actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Collections collections;
 
+
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
+    actual = list("Luke", "Yoda", "Leia");
   }
 
   @Before public void setUp() {
@@ -54,7 +57,20 @@ public class Collections_assertContains_Test {
   }
 
   @Test public void should_pass_if_actual_contains_values() {
-    collections.assertContains(info, list("Luke", "Yoda"), array("Luke"));
+    collections.assertContains(info, actual, array("Luke"));
+  }
+
+  @Test public void should_pass_if_actual_contains_values_in_different_order() {
+    collections.assertContains(info, actual, array("Leia", "Yoda"));
+  }
+
+  @Test public void should_pass_if_actual_contains_all_values() {
+    collections.assertContains(info, actual, array("Luke", "Yoda"));
+  }
+
+  @Test public void should_throw_error_if_array_of_values_is_empty() {
+    thrown.expectIllegalArgumentException("The array of values to evaluate should not be empty");
+    collections.assertContains(info, actual, array());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -69,9 +85,8 @@ public class Collections_assertContains_Test {
 
   @Test public void should_fail_if_actual_does_not_contain_values() {
     AssertionError expectedError = assertionFailingOnPurpose();
-    Collection<String> actual = list("Yoda");
-    Object[] expected = { "Yoda", "Luke" };
-    when(failures.failure(info, errorWhenDoesNotContain(actual, expected, set("Luke")))).thenReturn(expectedError);
+    Object[] expected = { "Han", "Luke" };
+    when(failures.failure(info, errorWhenDoesNotContain(actual, expected, set("Han")))).thenReturn(expectedError);
     thrown.expect(expectedError);
     collections.assertContains(info, actual, expected);
   }
