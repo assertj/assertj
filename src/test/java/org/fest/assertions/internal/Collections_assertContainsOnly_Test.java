@@ -1,5 +1,5 @@
 /*
- * Created on Sep 30, 2010
+ * Created on Oct 3, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.WhenDoesNotContainErrorFactory.errorWhenDoesNotContain;
+import static org.fest.assertions.error.WhenDoesNotContainOnlyErrorFactory.errorWhenDoesNotContainOnly;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
@@ -27,15 +27,16 @@ import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.error.AssertionErrorFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertContains(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Collections#assertContainsOnly(AssertionInfo, Collection, Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertContains_Test {
+public class Collections_assertContainsOnly_Test {
 
   private static WritableAssertionInfo info;
   private static List<String> actual;
@@ -56,48 +57,46 @@ public class Collections_assertContains_Test {
     collections = new Collections(failures);
   }
 
-  @Test public void should_pass_if_actual_contains_given_values() {
-    collections.assertContains(info, actual, array("Luke"));
+
+  @Test public void should_pass_if_actual_contains_only_given_values() {
+    collections.assertContainsOnly(info, actual, array("Luke"));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    collections.assertContains(info, actual, array("Leia", "Yoda"));
+  @Test public void should_pass_if_actual_contains_only_given_values_in_different_order() {
+    collections.assertContainsOnly(info, actual, array("Leia", "Yoda"));
   }
 
-  @Test public void should_pass_if_actual_contains_all_given_values() {
-    collections.assertContains(info, actual, array("Luke", "Yoda"));
-  }
-
-  @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
+  @Test public void should_pass_if_actual_contains_only_given_values_more_than_once() {
     actual.addAll(list("Luke", "Luke"));
-    collections.assertContains(info, actual, array("Luke"));
+    collections.assertContainsOnly(info, actual, array("Luke"));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    collections.assertContains(info, actual, array("Luke", "Luke"));
+  @Test public void should_pass_if_actual_contains_only_given_values_even_if_duplicated() {
+    collections.assertContainsOnly(info, actual, array("Luke", "Luke"));
   }
 
   @Test public void should_throw_error_if_array_of_values_is_empty() {
     thrown.expectIllegalArgumentException(arrayIsEmpty());
-    collections.assertContains(info, actual, array());
+    collections.assertContainsOnly(info, actual, array());
   }
 
   @Test public void should_throw_error_if_array_of_values_is_null() {
     thrown.expectNullPointerException(arrayIsNull());
-    collections.assertContains(info, emptyList(), null);
+    collections.assertContainsOnly(info, emptyList(), null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertContains(info, null, array("Yoda"));
+    collections.assertContainsOnly(info, null, array("Yoda"));
   }
 
-  @Test public void should_fail_if_actual_does_not_contain_values() {
+  @Test public void should_fail_if_actual_does_not_contain_only_given_values() {
     AssertionError expectedError = assertionFailingOnPurpose();
-    Object[] expected = { "Han", "Luke" };
-    when(failures.failure(info, errorWhenDoesNotContain(actual, expected, set("Han")))).thenReturn(expectedError);
+    Object[] expected = { "Luke", "Yoda", "Han" };
+    AssertionErrorFactory errorFactory = errorWhenDoesNotContainOnly(expected, expected, set("Han"), list("Leia"));
+    when(failures.failure(info, errorFactory)).thenReturn(expectedError);
     thrown.expect(expectedError);
-    collections.assertContains(info, actual, expected);
+    collections.assertContainsOnly(info, actual, expected);
   }
 
   private static <T> Set<T> set(T...elements) {

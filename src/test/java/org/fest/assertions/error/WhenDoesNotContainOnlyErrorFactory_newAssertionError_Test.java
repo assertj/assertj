@@ -24,24 +24,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link WhenDoesNotContainErrorFactory#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link WhenDoesNotContainOnlyErrorFactory#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class WhenDoesNotContainErrorFactory_newAssertionError_Test {
+public class WhenDoesNotContainOnlyErrorFactory_newAssertionError_Test {
 
   private Description description;
-  private WhenDoesNotContainErrorFactory factory;
+  private WhenDoesNotContainOnlyErrorFactory factory;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    factory = new WhenDoesNotContainErrorFactory(list("Yoda"), array("Luke", "Yoda"), list("Luke"));
+    factory =
+        new WhenDoesNotContainOnlyErrorFactory(list("Yoda", "Han"), array("Luke", "Yoda"), list("Luke"), list("Han"));
   }
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    String msg = "[Jedi] expected:<['Yoda']> to contain:<['Luke', 'Yoda']>; could not find:<['Luke']>";
+    String msg = "[Jedi] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda']>; could not find:<['Luke']> and got unexpected:<['Han']>";
     assertEquals(msg, error.getMessage());
   }
 }

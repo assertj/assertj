@@ -23,7 +23,7 @@ package org.fest.assertions.core;
 public interface ObjectGroupAssert extends GroupAssert {
 
   /**
-   * Verifies that the actual group contains the given values.
+   * Verifies that the actual group contains the given values, in any order.
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -34,7 +34,7 @@ public interface ObjectGroupAssert extends GroupAssert {
   ObjectGroupAssert contains(Object... values);
 
   /**
-   * Verifies that the actual group contains only the given values.
+   * Verifies that the actual group contains only the given values, in any order.
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

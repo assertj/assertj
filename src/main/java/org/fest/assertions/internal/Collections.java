@@ -108,7 +108,7 @@ public class Collections {
   }
 
   /**
-   * Asserts that the given {@code Collection} contains the given values.
+   * Asserts that the given {@code Collection} contains the given values, in any order.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @param values the values that are expected to be in the given {@code Collection}.
@@ -118,12 +118,30 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Collection<?> actual, Object[] values) {
-    assertNotNull(info, actual);
     isNotEmptyOrNull(values);
+    assertNotNull(info, actual);
     Collection<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, errorWhenDoesNotContain(actual, values, notFound));
+  }
+
+  /**
+   * Asserts that the given {@code Collection} contains only the given values, in any order.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param values the values that are expected to be in the given {@code Collection}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} does not contain the given values or if the given
+   * {@code Collection} contains values that are not in the given array.
+   */
+  public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
+    isNotEmptyOrNull(values);
+    assertNotNull(info, actual);
+    // TODO finish
+
   }
 
   private void isNotEmptyOrNull(Object[] values) {

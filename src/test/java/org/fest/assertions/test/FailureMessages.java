@@ -29,5 +29,13 @@ public final class FailureMessages {
     return "expecting non-null object but it was null";
   }
 
+  public static String arrayIsEmpty() {
+    return "The array of values to evaluate should not be empty";
+  }
+
+  public static String arrayIsNull() {
+    return "The array of values to evaluate should not be null";
+  }
+
   private FailureMessages() {}
 }

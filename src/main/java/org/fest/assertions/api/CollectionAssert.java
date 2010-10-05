@@ -129,8 +129,8 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
 
   /** {@inheritDoc} */
   public CollectionAssert containsOnly(Object... values) {
-    // TODO Auto-generated method stub
-    return null;
+    collections.assertContainsOnly(info, actual, values);
+    return this;
   }
 
   /** {@inheritDoc} */

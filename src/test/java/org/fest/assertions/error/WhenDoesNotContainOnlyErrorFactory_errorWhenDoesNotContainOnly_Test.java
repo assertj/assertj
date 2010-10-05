@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Oct 3, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,33 +20,37 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link WhenDoesNotContainErrorFactory#errorWhenDoesNotContain(Object, Object, Object)}</code>.
+ * Tests for
+ * <code>{@link WhenDoesNotContainOnlyErrorFactory#errorWhenDoesNotContainOnly(Object, Object, Object, Object)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class WhenDoesNotContainErrorFactory_errorWhenDoesNotContain_Test {
+public class WhenDoesNotContainOnlyErrorFactory_errorWhenDoesNotContainOnly_Test {
 
   private static Object actual;
   private static Object expected;
   private static Object notFound;
+  private static Object notExpected;
 
   @BeforeClass public static void setUpOnce() {
     actual = new Object();
     expected = new Object();
     notFound = new Object();
+    notExpected = new Object();
   }
 
   @Test public void should_create_new_AssertionErrorFactory() {
-    AssertionErrorFactory factory = WhenDoesNotContainErrorFactory.errorWhenDoesNotContain(actual, expected, notFound);
-    assertEquals(WhenDoesNotContainErrorFactory.class, factory.getClass());
+    AssertionErrorFactory factory =
+        WhenDoesNotContainOnlyErrorFactory.errorWhenDoesNotContainOnly(actual, expected, notFound, notExpected);
+    assertEquals(WhenDoesNotContainOnlyErrorFactory.class, factory.getClass());
   }
 
-  @Test public void should_pass_actual_expected_and_notFound() {
-    WhenDoesNotContainErrorFactory factory = (WhenDoesNotContainErrorFactory)
-        WhenDoesNotContainErrorFactory.errorWhenDoesNotContain(actual, expected, notFound);
+  @Test public void should_pass_actual_expected_notFound_and_notExpected() {
+    WhenDoesNotContainOnlyErrorFactory factory = (WhenDoesNotContainOnlyErrorFactory)
+        WhenDoesNotContainOnlyErrorFactory.errorWhenDoesNotContainOnly(actual, expected, notFound, notExpected);
     assertSame(actual, factory.actual);
     assertSame(expected, factory.expected);
     assertSame(notFound, factory.notFound);
+    assertSame(notExpected, factory.notExpected);
   }
 }
