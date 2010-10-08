@@ -1,5 +1,5 @@
 /*
- * Created on Sep 10, 2010
+ * Created on Oct 7, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,33 +12,32 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.formatting;
+package org.fest.assertions.group;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-
-import java.io.File;
+import static org.fest.util.Arrays.array;
+import static org.junit.Assert.*;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link FileToStringRule#toStringOf(Object)}</code>.
+ * Tests for <code>{@link ArrayIsEmptyChecker#isEmpty(Object)}</code>
  *
  * @author Alex Ruiz
  */
-public class FileToStringRule_toStringOf_Test {
+public class ArrayIsEmptyChecker_isEmpty_Test {
 
-  private static FileToStringRule rule;
+  private static ArrayIsEmptyChecker checker;
 
   @BeforeClass public static void setUpOnce() {
-    rule = new FileToStringRule();
+    checker = ArrayIsEmptyChecker.instance();
   }
 
-  @Test public void should_return_formatted_array() {
-    File file = mock(File.class);
-    when(file.getAbsolutePath()).thenReturn("c:\\temp");
-    String s = rule.toStringOf(file);
-    assertEquals("c:\\temp", s);
+  @Test public void should_return_true_if_array_is_empty() {
+    assertTrue(checker.isEmpty(new Object[0]));
+  }
+
+  @Test public void should_return_false_if_array_is_not_empty() {
+    assertFalse(checker.isEmpty(array("Luke")));
   }
 }

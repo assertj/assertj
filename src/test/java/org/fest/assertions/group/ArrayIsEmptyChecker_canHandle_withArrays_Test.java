@@ -1,5 +1,5 @@
 /*
- * Created on Sep 10, 2010
+ * Created on Oct 7, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,14 +12,13 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.formatting;
+package org.fest.assertions.group;
 
+import static org.fest.assertions.test.ArrayFactory.emptyArrayOf;
 import static org.fest.assertions.test.ParameterSource.parametersFrom;
-import static org.fest.assertions.test.Types.collectionTypes;
+import static org.fest.assertions.test.Types.primitiveTypes;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -29,30 +28,32 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 /**
- * Tests for <code>{@link CollectionToStringRule#canHandle(Object)}</code>.
+ * Tests for <code>{@link ArrayIsEmptyChecker#canHandle(Object)}</code>
  *
  * @author Alex Ruiz
  */
 @RunWith(Parameterized.class)
-public class CollectionToStringRule_canHandle_with_Collections_Test {
+public class ArrayIsEmptyChecker_canHandle_withArrays_Test {
 
-  private final Class<? extends Collection<?>> type;
+  private final Object array;
 
   @Parameters public static List<Object[]> parameters() {
-    return parametersFrom(collectionTypes());
+    List<Class<?>> types = primitiveTypes();
+    types.add(Object.class);
+    return parametersFrom(types);
   }
 
-  public CollectionToStringRule_canHandle_with_Collections_Test(Class<? extends Collection<?>> type) {
-    this.type = type;
+  public ArrayIsEmptyChecker_canHandle_withArrays_Test(Class<?> type) {
+    this.array = emptyArrayOf(type);
   }
 
-  private static CollectionToStringRule rule;
+  private static ArrayIsEmptyChecker checker;
 
   @BeforeClass public static void setUpOnce() {
-    rule = new CollectionToStringRule();
+    checker = ArrayIsEmptyChecker.instance();
   }
 
-  @Test public void should_return_true_if_object_is_collection() {
-    assertTrue(rule.canHandle(mock(type)));
+  @Test public void should_return_true_if_object_is_array() {
+    assertTrue(checker.canHandle(array));
   }
 }
