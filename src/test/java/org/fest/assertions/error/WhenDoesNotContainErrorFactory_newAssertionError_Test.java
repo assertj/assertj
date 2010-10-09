@@ -41,7 +41,7 @@ public class WhenDoesNotContainErrorFactory_newAssertionError_Test {
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    String msg = "[Jedi] expected:<['Yoda']> to contain:<['Luke', 'Yoda']>; could not find:<['Luke']>";
+    String msg = "[Jedi] expected:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>";
     assertEquals(msg, error.getMessage());
   }
 }
