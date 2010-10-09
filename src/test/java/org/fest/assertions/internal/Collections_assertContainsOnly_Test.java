@@ -20,13 +20,12 @@ import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Collections.*;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.error.AssertionErrorFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -57,22 +56,21 @@ public class Collections_assertContainsOnly_Test {
     collections = new Collections(failures);
   }
 
-
   @Test public void should_pass_if_actual_contains_only_given_values() {
-    collections.assertContainsOnly(info, actual, array("Luke"));
+    collections.assertContainsOnly(info, actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test public void should_pass_if_actual_contains_only_given_values_in_different_order() {
-    collections.assertContainsOnly(info, actual, array("Leia", "Yoda"));
+    collections.assertContainsOnly(info, actual, array("Leia", "Yoda", "Luke"));
   }
 
   @Test public void should_pass_if_actual_contains_only_given_values_more_than_once() {
     actual.addAll(list("Luke", "Luke"));
-    collections.assertContainsOnly(info, actual, array("Luke"));
+    collections.assertContainsOnly(info, actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test public void should_pass_if_actual_contains_only_given_values_even_if_duplicated() {
-    collections.assertContainsOnly(info, actual, array("Luke", "Luke"));
+    collections.assertContainsOnly(info, actual, array("Luke", "Luke", "Luke", "Yoda", "Leia"));
   }
 
   @Test public void should_throw_error_if_array_of_values_is_empty() {
@@ -93,13 +91,9 @@ public class Collections_assertContainsOnly_Test {
   @Test public void should_fail_if_actual_does_not_contain_only_given_values() {
     AssertionError expectedError = assertionFailingOnPurpose();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    AssertionErrorFactory errorFactory = errorWhenDoesNotContainOnly(expected, expected, set("Han"), list("Leia"));
+    AssertionErrorFactory errorFactory = errorWhenDoesNotContainOnly(actual, expected, list("Han"), set("Leia"));
     when(failures.failure(info, errorFactory)).thenReturn(expectedError);
     thrown.expect(expectedError);
     collections.assertContainsOnly(info, actual, expected);
-  }
-
-  private static <T> Set<T> set(T...elements) {
-    return new LinkedHashSet<T>(list(elements));
   }
 }

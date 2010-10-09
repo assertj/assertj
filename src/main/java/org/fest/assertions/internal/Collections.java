@@ -15,13 +15,14 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.WhenDoesNotContainErrorFactory.errorWhenDoesNotContain;
+import static org.fest.assertions.error.WhenDoesNotContainOnlyErrorFactory.errorWhenDoesNotContainOnly;
 import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
 import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
 import static org.fest.assertions.error.WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty;
 import static org.fest.assertions.error.WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual;
+import static org.fest.util.Collections.set;
 
-import java.util.Collection;
-import java.util.LinkedHashSet;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -140,8 +141,14 @@ public class Collections {
   public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
-    // TODO finish
-
+    Collection<Object> notExpected = new LinkedHashSet<Object>(actual);
+    Collection<Object> notFound = new ArrayList<Object>();
+    for (Object o : set(values)) {
+      if (!notExpected.contains(o)) notFound.add(o);
+      else notExpected.remove(o);
+    }
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info, errorWhenDoesNotContainOnly(actual, values, notFound, notExpected));
   }
 
   private void isNotEmptyOrNull(Object[] values) {

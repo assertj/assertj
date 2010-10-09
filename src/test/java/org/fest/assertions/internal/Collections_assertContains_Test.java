@@ -20,13 +20,12 @@ import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Collections.*;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -98,9 +97,5 @@ public class Collections_assertContains_Test {
     when(failures.failure(info, errorWhenDoesNotContain(actual, expected, set("Han")))).thenReturn(expectedError);
     thrown.expect(expectedError);
     collections.assertContains(info, actual, expected);
-  }
-
-  private static <T> Set<T> set(T...elements) {
-    return new LinkedHashSet<T>(list(elements));
   }
 }
