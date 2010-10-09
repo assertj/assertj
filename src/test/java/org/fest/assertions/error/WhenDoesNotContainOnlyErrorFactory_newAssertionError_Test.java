@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertEquals;
-import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 
 import org.fest.assertions.description.Description;
@@ -36,13 +36,26 @@ public class WhenDoesNotContainOnlyErrorFactory_newAssertionError_Test {
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
-    factory =
-        new WhenDoesNotContainOnlyErrorFactory(list("Yoda", "Han"), array("Luke", "Yoda"), list("Luke"), list("Han"));
   }
 
   @Test public void should_create_AssertionError() {
+    factory = new WhenDoesNotContainOnlyErrorFactory(list("Yoda", "Han"), list("Luke", "Yoda"), list("Luke"), list("Han"));
     AssertionError error = factory.newAssertionError(description);
     String msg = "[Jedi] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda']>; could not find:<['Luke']> and got unexpected:<['Han']>";
+    assertEquals(msg, error.getMessage());
+  }
+
+  @Test public void should_ignore_notFound_if_empty() {
+    factory = new WhenDoesNotContainOnlyErrorFactory(list("Yoda", "Han"), list("Yoda"), emptyList(), list("Han"));
+    AssertionError error = factory.newAssertionError(description);
+    String msg = "[Jedi] expected:<['Yoda', 'Han']> to contain only:<['Yoda']> but got unexpected:<['Han']>";
+    assertEquals(msg, error.getMessage());
+  }
+
+  @Test public void should_ignore_unexpected_if_empty() {
+    factory = new WhenDoesNotContainOnlyErrorFactory(list("Yoda", "Han"), list("Luke", "Yoda", "Han"), list("Luke"), emptyList());
+    AssertionError error = factory.newAssertionError(description);
+    String msg = "[Jedi] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda', 'Han']> but could not find:<['Luke']>";
     assertEquals(msg, error.getMessage());
   }
 }

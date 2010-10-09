@@ -17,6 +17,7 @@ package org.fest.assertions.error;
 import static org.fest.util.Objects.*;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.group.IsNullOrEmptyChecker;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -62,12 +63,29 @@ public class WhenDoesNotContainOnlyErrorFactory implements AssertionErrorFactory
    * @return the created {@code AssertionError}.
    */
   public AssertionError newAssertionError(Description d) {
-    return new AssertionError(defaultErrorMessage(d));
+    return new AssertionError(errorMessage(d));
+  }
+
+  private String errorMessage(Description d) {
+    IsNullOrEmptyChecker checker = IsNullOrEmptyChecker.instance();
+    if (checker.isNullOrEmpty(notFound)) return errorMessageWithNotExpectedOnly(d);
+    if (checker.isNullOrEmpty(notExpected)) return errorMessageWithNotFoundOnly(d);
+    return defaultErrorMessage(d);
   }
 
   private String defaultErrorMessage(Description d) {
     String msg = "%sexpected:<%s> to contain only:<%s>; could not find:<%s> and got unexpected:<%s>";
     return Formatter.instance().formatMessage(msg, d, actual, expected, notFound, notExpected);
+  }
+
+  private String errorMessageWithNotFoundOnly(Description d) {
+    String msg = "%sexpected:<%s> to contain only:<%s> but could not find:<%s>";
+    return Formatter.instance().formatMessage(msg, d, actual, expected, notFound);
+  }
+
+  private String errorMessageWithNotExpectedOnly(Description d) {
+    String msg = "%sexpected:<%s> to contain only:<%s> but got unexpected:<%s>";
+    return Formatter.instance().formatMessage(msg, d, actual, expected, notExpected);
   }
 
   @Override public boolean equals(Object obj) {
