@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenDoesNotContainErrorFactory.errorWhenDoesNotContain;
-import static org.fest.assertions.error.WhenDoesNotContainOnlyErrorFactory.errorWhenDoesNotContainOnly;
-import static org.fest.assertions.error.WhenEmptyErrorFactory.errorWhenEmpty;
-import static org.fest.assertions.error.WhenNotEmptyErrorFactory.errorWhenNotEmpty;
-import static org.fest.assertions.error.WhenNotNullOrEmptyErrorFactory.errorWhenNotNullOrEmpty;
-import static org.fest.assertions.error.WhenSizeNotEqualErrorFactory.errorWhenSizeNotEqual;
+import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
+import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
+import static org.fest.assertions.error.ErrorWhenGroupIsEmpty.errorWhenEmpty;
+import static org.fest.assertions.error.ErrorWhenGroupIsNotEmpty.errorWhenNotEmpty;
+import static org.fest.assertions.error.ErrorWhenGroupIsNotNullOrEmpty.errorWhenNotNullOrEmpty;
+import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
 import static org.fest.util.Collections.set;
 
 import java.util.*;
@@ -138,7 +138,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not contain the given values or if the given
    * {@code Collection} contains values that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
+  public void assertContainsExclusively(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Collection<Object> notExpected = new LinkedHashSet<Object>(actual);
@@ -148,7 +148,7 @@ public class Collections {
       else notExpected.remove(o);
     }
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, errorWhenDoesNotContainOnly(actual, values, notFound, notExpected));
+    throw failures.failure(info, errorWhenDoesNotContainExclusively(actual, values, notFound, notExpected));
   }
 
   private void isNotEmptyOrNull(Object[] values) {

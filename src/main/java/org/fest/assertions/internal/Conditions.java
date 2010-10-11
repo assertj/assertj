@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenConditionMetErrorFactory.errorWhenConditionMet;
-import static org.fest.assertions.error.WhenConditionNotMetErrorFactory.errorWhenConditionNotMet;
+import static org.fest.assertions.error.ErrorWhenConditionIsMet.errorWhenConditionMet;
+import static org.fest.assertions.error.ErrorWhenConditionIsNotMet.errorWhenConditionNotMet;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.Condition;

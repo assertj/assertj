@@ -128,8 +128,8 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
   }
 
   /** {@inheritDoc} */
-  public CollectionAssert containsOnly(Object... values) {
-    collections.assertContainsOnly(info, actual, values);
+  public CollectionAssert containsExclusively(Object... values) {
+    collections.assertContainsExclusively(info, actual, values);
     return this;
   }
 

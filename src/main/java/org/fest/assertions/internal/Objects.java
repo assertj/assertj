@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenEqualErrorFactory.errorWhenEqual;
-import static org.fest.assertions.error.WhenNotEqualErrorFactory.errorWhenNotEqual;
-import static org.fest.assertions.error.WhenNotSameErrorFactory.errorWhenNotSame;
-import static org.fest.assertions.error.WhenNullErrorFactory.errorWhenNull;
-import static org.fest.assertions.error.WhenSameErrorFactory.errorWhenSame;
+import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
+import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
+import static org.fest.assertions.error.ErrorWhenObjecsAreNotSame.errorWhenNotSame;
+import static org.fest.assertions.error.ErrorWhenObjectIsNull.errorWhenNull;
+import static org.fest.assertions.error.ErrorWhenObjectsAreSame.errorWhenSame;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;

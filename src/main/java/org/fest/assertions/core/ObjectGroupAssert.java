@@ -34,7 +34,7 @@ public interface ObjectGroupAssert extends GroupAssert {
   ObjectGroupAssert contains(Object... values);
 
   /**
-   * Verifies that the actual group contains only the given values, in any order.
+   * Verifies that the actual group contains only the given values and nothing else, in any order.
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -43,7 +43,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @throws AssertionError if the actual group does not contain the given values, i.e. the given group contains some
    * or none of the given values, or the actual group contains more values than the given ones.
    */
-  ObjectGroupAssert containsOnly(Object... values);
+  ObjectGroupAssert containsExclusively(Object... values);
 
   /**
    * Verifies that the actual group does not contain the given values.

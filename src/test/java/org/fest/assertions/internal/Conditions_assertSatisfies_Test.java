@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.WhenConditionNotMetErrorFactory.errorWhenConditionNotMet;
+import static org.fest.assertions.error.ErrorWhenConditionIsNotMet.errorWhenConditionNotMet;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
