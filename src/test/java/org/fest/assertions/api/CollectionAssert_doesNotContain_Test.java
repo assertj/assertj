@@ -1,5 +1,5 @@
 /*
- * Created on Sep 16, 2010
+ * Created on Oct 9, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,29 +15,37 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Objects;
-import org.junit.*;
+import org.fest.assertions.internal.Collections;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link CollectionAssert#isNull()}</code>.
+ * Tests for <code>{@link CollectionAssert#doesNotContain(Object...)}</code>.
  *
- * @author Yvonne Wang
+ * @author Alex Ruiz
  */
-public class CollectionAssert_isNull_Test {
+public class CollectionAssert_doesNotContain_Test {
 
-  private Objects objects;
+  private Collections collections;
   private CollectionAssert assertions;
 
   @Before public void setUp() {
-    objects = mock(Objects.class);
+    collections = mock(Collections.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.objects = objects;
+    assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_value_is_null() {
-    assertions.isNull();
-    verify(objects).assertNull(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_does_not_contain_given_values() {
+    Object[] values = { "Yoda", "Luke" };
+    assertions.doesNotContain(values);
+    verify(collections).assertDoesNotContain(assertions.info, assertions.actual, values);
+  }
+
+  @Test public void should_return_this() {
+    CollectionAssert returned = assertions.doesNotContain("Luke");
+    assertSame(assertions, returned);
   }
 }

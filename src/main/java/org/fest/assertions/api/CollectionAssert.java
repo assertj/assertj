@@ -30,9 +30,9 @@ import org.fest.util.VisibleForTesting;
  */
 public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>> {
 
-  private Objects objects = Objects.instance();
-  private Collections collections = Collections.instance();
-  private Conditions conditions = Conditions.instance();
+  @VisibleForTesting Objects objects = Objects.instance();
+  @VisibleForTesting Collections collections = Collections.instance();
+  @VisibleForTesting Conditions conditions = Conditions.instance();
 
   @VisibleForTesting final WritableAssertionInfo info;
   @VisibleForTesting final Collection<?> actual;
@@ -135,8 +135,8 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
 
   /** {@inheritDoc} */
   public CollectionAssert doesNotContain(Object... values) {
-    // TODO Auto-generated method stub
-    return null;
+    collections.assertDoesNotContain(info, actual, values);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -169,17 +169,5 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
 
   @VisibleForTesting final String descriptionText() {
     return info.descriptionText();
-  }
-
-  @VisibleForTesting final void updateObjects(Objects newObjects) {
-    objects = newObjects;
-  }
-
-  @VisibleForTesting final void updateCollections(Collections newCollections) {
-    collections = newCollections;
-  }
-
-  @VisibleForTesting final void updateConditions(Conditions newConditions) {
-    conditions = newConditions;
   }
 }

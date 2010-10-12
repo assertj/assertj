@@ -16,10 +16,10 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
+import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
 import static org.fest.assertions.error.ErrorWhenGroupIsEmpty.errorWhenEmpty;
 import static org.fest.assertions.error.ErrorWhenGroupIsNotEmpty.errorWhenNotEmpty;
 import static org.fest.assertions.error.ErrorWhenGroupIsNotNullOrEmpty.errorWhenNotNullOrEmpty;
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
 import static org.fest.util.Collections.set;
 
 import java.util.*;
@@ -128,7 +128,7 @@ public class Collections {
   }
 
   /**
-   * Asserts that the given {@code Collection} contains only the given values, in any order.
+   * Asserts that the given {@code Collection} contains only the given values and nothing else, in any order.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @param values the values that are expected to be in the given {@code Collection}.
@@ -158,5 +158,15 @@ public class Collections {
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  /**
+   * @param info
+   * @param actual
+   * @param values
+   */
+  public void assertDoesNotContain(AssertionInfo info, Collection<?> actual, Object[] values) {
+    // TODO Auto-generated method stub
+
   }
 }

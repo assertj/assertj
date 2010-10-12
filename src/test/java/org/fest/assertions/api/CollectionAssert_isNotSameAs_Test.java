@@ -38,7 +38,7 @@ public class CollectionAssert_isNotSameAs_Test {
   @Before public void setUp() {
     objects = mock(Objects.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateObjects(objects);
+    assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_value_is_not_same_as_expected_value() {

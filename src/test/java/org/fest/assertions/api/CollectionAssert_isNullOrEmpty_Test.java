@@ -34,7 +34,7 @@ public class CollectionAssert_isNullOrEmpty_Test {
   @Before public void setUp() {
     collections = mock(Collections.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateCollections(collections);
+    assertions.collections = collections;
   }
 
   @Test public void should_verify_that_actual_value_is_same_as_expected_value() {

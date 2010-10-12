@@ -35,10 +35,10 @@ public class CollectionAssert_contains_Test {
   @Before public void setUp() {
     collections = mock(Collections.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateCollections(collections);
+    assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_satisfies_Condition() {
+  @Test public void should_verify_that_actual_contains_given_values() {
     Object[] values = { "Yoda", "Luke" };
     assertions.contains(values);
     verify(collections).assertContains(assertions.info, assertions.actual, values);

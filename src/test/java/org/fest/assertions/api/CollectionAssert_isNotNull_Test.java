@@ -35,7 +35,7 @@ public class CollectionAssert_isNotNull_Test {
   @Before public void setUp() {
     objects = mock(Objects.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateObjects(objects);
+    assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_value_is_null() {

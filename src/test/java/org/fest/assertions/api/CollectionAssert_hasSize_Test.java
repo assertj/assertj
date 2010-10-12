@@ -35,7 +35,7 @@ public class CollectionAssert_hasSize_Test {
   public void setUp() {
     collections = mock(Collections.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateCollections(collections);
+    assertions.collections = collections;
   }
 
   @Test

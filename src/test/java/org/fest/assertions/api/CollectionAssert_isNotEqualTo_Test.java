@@ -37,7 +37,7 @@ public class CollectionAssert_isNotEqualTo_Test {
   @Before public void setUp() {
     objects = mock(Objects.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateObjects(objects);
+    assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_expected() {

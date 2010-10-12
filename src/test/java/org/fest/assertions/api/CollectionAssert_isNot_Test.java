@@ -44,10 +44,10 @@ public class CollectionAssert_isNot_Test {
   @Before public void setUp() {
     conditions = mock(Conditions.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateConditions(conditions);
+    assertions.conditions = conditions;
   }
 
-  @Test public void should_verify_that_actual_satisfies_Condition() {
+  @Test public void should_verify_that_actual_does_not_satisfy_Condition() {
     assertions.isNot(condition);
     verify(conditions).assertDoesNotSatisfy(assertions.info, assertions.actual, condition);
   }

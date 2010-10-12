@@ -44,7 +44,7 @@ public class CollectionAssert_is_Test {
   @Before public void setUp() {
     conditions = mock(Conditions.class);
     assertions = new CollectionAssert(emptyList());
-    assertions.updateConditions(conditions);
+    assertions.conditions = conditions;
   }
 
   @Test public void should_verify_that_actual_satisfies_Condition() {
