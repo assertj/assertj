@@ -30,7 +30,7 @@ public interface ExtensionPoints<T> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  public abstract ExtensionPoints<T> satisfies(Condition<T> condition);
+  ExtensionPoints<T> satisfies(Condition<T> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition.
@@ -40,7 +40,7 @@ public interface ExtensionPoints<T> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  public abstract ExtensionPoints<T> doesNotSatisfy(Condition<T> condition);
+  ExtensionPoints<T> doesNotSatisfy(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #satisfies(Condition)}</code>.
@@ -49,7 +49,7 @@ public interface ExtensionPoints<T> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    */
-  public abstract ExtensionPoints<T> is(Condition<T> condition);
+  ExtensionPoints<T> is(Condition<T> condition);
 
   /**
    * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
@@ -58,5 +58,5 @@ public interface ExtensionPoints<T> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    */
-  public abstract ExtensionPoints<T> isNot(Condition<T> condition);
+  ExtensionPoints<T> isNot(Condition<T> condition);
 }
