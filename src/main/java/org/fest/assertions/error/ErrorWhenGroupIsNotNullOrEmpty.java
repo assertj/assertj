@@ -33,7 +33,7 @@ public class ErrorWhenGroupIsNotNullOrEmpty implements AssertionErrorFactory {
   /**
    * Creates instances of <code>{@link ErrorWhenGroupIsNotNullOrEmpty}</code>.
    * @param actual the actual value in the failed assertion.
-   * @return an instance of {@code WhenNotEmptyOrNullErrorFactory}.
+   * @return an instance of {@code ErrorWhenGroupIsNotNullOrEmpty}.
    */
   public static AssertionErrorFactory errorWhenNotNullOrEmpty(Object actual) {
     return new ErrorWhenGroupIsNotNullOrEmpty(actual);

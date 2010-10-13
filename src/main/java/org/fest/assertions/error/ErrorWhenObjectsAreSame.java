@@ -33,7 +33,7 @@ public class ErrorWhenObjectsAreSame implements AssertionErrorFactory {
   /**
    * Creates instances of <code>{@link ErrorWhenObjectsAreSame}</code>.
    * @param actual the actual value in the failed assertion.
-   * @return an instance of {@code WhenSameErrorFactory}.
+   * @return an instance of {@code ErrorWhenObjectsAreSame}.
    */
   public static AssertionErrorFactory errorWhenSame(Object actual) {
     return new ErrorWhenObjectsAreSame(actual);

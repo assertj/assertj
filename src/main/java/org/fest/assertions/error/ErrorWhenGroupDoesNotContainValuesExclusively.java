@@ -41,7 +41,7 @@ public class ErrorWhenGroupDoesNotContainValuesExclusively implements AssertionE
    * @param notFound the values in {@code expected} not found in {@code actual}. It is an {@code Object} in order to
    * support arrays of primitives as well.
    * @param notExpected the values in {@code actual} that were not in {@code expected}.
-   * @return an instance of {@code WhenDoesNotContainErrorFactory}.
+   * @return an instance of {@code ErrorWhenGroupDoesNotContainValuesExclusively}.
    */
   public static AssertionErrorFactory errorWhenDoesNotContainExclusively(Object actual, Object expected,
       Object notFound, Object notExpected) {

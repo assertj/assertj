@@ -28,7 +28,7 @@ public class ErrorWhenObjectIsNull implements AssertionErrorFactory {
 
   /**
    * Creates instances of <code>{@link ErrorWhenObjectIsNull}</code>.
-   * @return an instance of {@code WhenNullErrorFactory}.
+   * @return an instance of {@code ErrorWhenObjectIsNull}.
    */
   public static AssertionErrorFactory errorWhenNull() {
     return INSTANCE;

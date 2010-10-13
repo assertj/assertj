@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenGroupContainsValues.errorWhenContains;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
@@ -151,6 +152,27 @@ public class Collections {
     throw failures.failure(info, errorWhenDoesNotContainExclusively(actual, values, notFound, notExpected));
   }
 
+  /**
+   * Asserts that the given {@code Collection} does not contain the given values.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param values the values that are expected not to be in the given {@code Collection}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} contains any of given values.
+   */
+  public void assertDoesNotContain(AssertionInfo info, Collection<?> actual, Object[] values) {
+    isNotEmptyOrNull(values);
+    assertNotNull(info, actual);
+    Collection<Object> found = new LinkedHashSet<Object>();
+    for (Object o: values)
+      if (actual.contains(o)) found.add(o);
+    System.out.println("found: " + found);
+    if (found.isEmpty()) return;
+    throw failures.failure(info, errorWhenContains(actual, values, found));
+  }
+
   private void isNotEmptyOrNull(Object[] values) {
     if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
     if (values.length == 0) throw new IllegalArgumentException("The array of values to evaluate should not be empty");
@@ -158,15 +180,5 @@ public class Collections {
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {
     Objects.instance().assertNotNull(info, actual);
-  }
-
-  /**
-   * @param info
-   * @param actual
-   * @param values
-   */
-  public void assertDoesNotContain(AssertionInfo info, Collection<?> actual, Object[] values) {
-    // TODO Auto-generated method stub
-
   }
 }

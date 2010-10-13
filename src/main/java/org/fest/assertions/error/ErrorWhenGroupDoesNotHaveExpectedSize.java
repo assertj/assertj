@@ -38,7 +38,7 @@ public class ErrorWhenGroupDoesNotHaveExpectedSize implements AssertionErrorFact
    * @param actual the actual value in the failed assertion.
    * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
-   * @return an instance of {@code WhenSizeNotEqualErrorFactory}.
+   * @return an instance of {@code ErrorWhenGroupDoesNotHaveExpectedSize}.
    */
   public static AssertionErrorFactory errorWhenSizeNotEqual(Object actual, int actualSize, int expectedSize) {
     return new ErrorWhenGroupDoesNotHaveExpectedSize(actual, actualSize, expectedSize);

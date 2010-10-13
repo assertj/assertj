@@ -1,5 +1,5 @@
 /*
- * Created on Sep 30, 2010
+ * Created on Oct 12, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,37 +20,37 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains a given
- * set of values. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements does not contain a
+ * given set of values. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenGroupDoesNotContainValues implements AssertionErrorFactory {
+public class ErrorWhenGroupContainsValues implements AssertionErrorFactory {
 
-  @VisibleForTesting Object actual;
-  @VisibleForTesting Object expected;
-  @VisibleForTesting Object notFound;
+  @VisibleForTesting final Object actual;
+  @VisibleForTesting final Object expected;
+  @VisibleForTesting final Object found;
 
   /**
-   * Creates instances of <code>{@link ErrorWhenGroupDoesNotContainValues}</code>.
+   * Creates instances of <code>{@link ErrorWhenGroupContainsValues}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param expected the values expected to be contained in {@code actual}.
-   * @param notFound the values in {@code expected} not found in {@code actual}.
-   * @return an instance of {@code ErrorWhenGroupDoesNotContainValues}.
+   * @param expected the values expected not to be contained in {@code actual}.
+   * @param found the values in {@code expected} found in {@code actual}.
+   * @return an instance of {@code ErrorWhenGroupContainsValues}.
    */
-  public static AssertionErrorFactory errorWhenDoesNotContain(Object actual, Object expected, Object notFound) {
-    return new ErrorWhenGroupDoesNotContainValues(actual, expected, notFound);
+  public static AssertionErrorFactory errorWhenContains(Object actual, Object expected, Object found) {
+    return new ErrorWhenGroupContainsValues(actual, expected, found);
   }
 
-  @VisibleForTesting ErrorWhenGroupDoesNotContainValues(Object actual, Object expected, Object notFound) {
+  @VisibleForTesting ErrorWhenGroupContainsValues(Object actual, Object expected, Object found) {
     this.actual = actual;
     this.expected = expected;
-    this.notFound = notFound;
+    this.found = found;
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains a given
-   * set of values. A group of elements can be a collection, an array or a {@code String}.
+   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements does not contain a
+   * given set of values. A group of elements can be a collection, an array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
@@ -59,25 +59,25 @@ public class ErrorWhenGroupDoesNotContainValues implements AssertionErrorFactory
   }
 
   private String defaultErrorMessage(Description d) {
-    String msg = "%sexpected:<%s> to contain:<%s> but could not find:<%s>";
-    return Formatter.instance().formatMessage(msg, d, actual, expected, notFound);
+    String msg = "%sexpected:<%s> to not contain:<%s> but found:<%s>";
+    return Formatter.instance().formatMessage(msg, d, actual, expected, found);
   }
 
   @Override public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ErrorWhenGroupDoesNotContainValues other = (ErrorWhenGroupDoesNotContainValues) obj;
+    ErrorWhenGroupContainsValues other = (ErrorWhenGroupContainsValues) obj;
     if (!areEqual(actual, other.actual)) return false;
     if (!areEqual(expected, other.expected)) return false;
-    return areEqual(notFound, other.notFound);
+    return areEqual(found, other.found);
   }
 
   @Override public int hashCode() {
     int result = 1;
     result = HASH_CODE_PRIME * result + hashCodeFor(actual);
     result = HASH_CODE_PRIME * result + hashCodeFor(expected);
-    result = HASH_CODE_PRIME * result + hashCodeFor(notFound);
+    result = HASH_CODE_PRIME * result + hashCodeFor(found);
     return result;
   }
 }

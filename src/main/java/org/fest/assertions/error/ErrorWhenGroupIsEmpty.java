@@ -29,7 +29,7 @@ public class ErrorWhenGroupIsEmpty implements AssertionErrorFactory {
 
   /**
    * Creates instances of <code>{@link ErrorWhenGroupIsEmpty}</code>.
-   * @return an instance of {@code WhenEmptyErrorFactory}.
+   * @return an instance of {@code ErrorWhenGroupIsEmpty}.
    */
   public static AssertionErrorFactory errorWhenEmpty() {
     return INSTANCE;

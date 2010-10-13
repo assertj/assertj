@@ -35,7 +35,7 @@ public class ErrorWhenConditionIsMet implements AssertionErrorFactory {
    * Creates instances of <code>{@link ErrorWhenConditionIsMet}</code>.
    * @param actual the actual value in the failed assertion.
    * @param condition the {@code Condition}.
-   * @return an instance of {@code WhenConditionMetErrorFactory}.
+   * @return an instance of {@code ErrorWhenConditionIsMet}.
    */
   public static AssertionErrorFactory errorWhenConditionMet(Object actual, Condition<?> condition) {
     return new ErrorWhenConditionIsMet(actual, condition);

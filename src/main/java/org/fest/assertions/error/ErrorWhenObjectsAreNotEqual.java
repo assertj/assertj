@@ -42,7 +42,7 @@ public class ErrorWhenObjectsAreNotEqual implements AssertionErrorFactory {
    * Creates instances of <code>{@link ErrorWhenObjectsAreNotEqual}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
-   * @return an instance of {@code ErrorWhenNotEqualFactory}.
+   * @return an instance of {@code ErrorWhenObjectsAreNotEqual}.
    */
   public static AssertionErrorFactory errorWhenNotEqual(Object actual, Object expected) {
     return new ErrorWhenObjectsAreNotEqual(actual, expected);
