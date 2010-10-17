@@ -23,7 +23,7 @@ import java.util.Collection;
  * For example:
  * <pre>
  * int removed = employees.removeFired();
- * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntAssert#isZero isZero}();
+ * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Collection) assertThat}(newEmployees).{@link CollectionAssert#hasSize(int) hasSize}(6);
@@ -44,6 +44,24 @@ public class Assertions {
    */
   public static CollectionAssert assertThat(Collection<?> actual) {
     return new CollectionAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IntegerAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static IntegerAssert assertThat(int actual) {
+    return new IntegerAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IntegerAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static IntegerAssert assertThat(Integer actual) {
+    return new IntegerAssert(actual);
   }
 
   /** Creates a new </code>{@link Assertions}</code>. */
