@@ -20,7 +20,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are not equal fails.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are not
+ * equal failed.
  *
  * @author Alex Ruiz
  */
@@ -45,8 +46,8 @@ public class ErrorWhenObjectsAreEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are not equal
-   * fails.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are not
+   * equal failed.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

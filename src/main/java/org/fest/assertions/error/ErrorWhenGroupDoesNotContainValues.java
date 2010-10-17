@@ -20,8 +20,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains a given
- * set of values. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements
+ * contains a given set of values failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
@@ -49,8 +49,8 @@ public class ErrorWhenGroupDoesNotContainValues implements AssertionErrorFactory
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains a given
-   * set of values. A group of elements can be a collection, an array or a {@code String}.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements
+   * contains a given set of values failed. A group of elements can be a collection, an array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

@@ -1,5 +1,5 @@
 /*
- * Created on Sep 22, 2010
+ * Created on Oct 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -20,31 +20,34 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements is
- * empty failed. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements is does
+ * not have duplicates failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
-public class ErrorWhenGroupIsNotEmpty implements AssertionErrorFactory {
+public class ErrorWhenGroupHasDuplicates implements AssertionErrorFactory {
 
   @VisibleForTesting final Object actual;
+  @VisibleForTesting final Object duplicates;
 
   /**
-   * Creates instances of <code>{@link ErrorWhenGroupIsNotEmpty}</code>.
+   * Creates instances of <code>{@link ErrorWhenGroupHasDuplicates}</code>.
    * @param actual the actual value in the failed assertion.
-   * @return an instance of {@code ErrorWhenGroupIsNotEmpty}.
+   * @param duplicates the duplicate values found in {@code actual}.
+   * @return an instance of {@code ErrorWhenGroupHasDuplicates}.
    */
-  public static AssertionErrorFactory errorWhenNotEmpty(Object actual) {
-    return new ErrorWhenGroupIsNotEmpty(actual);
+  public static AssertionErrorFactory errorWhenHavingDuplicates(Object actual, Object duplicates) {
+    return new ErrorWhenGroupHasDuplicates(actual, duplicates);
   }
 
-  @VisibleForTesting ErrorWhenGroupIsNotEmpty(Object actual) {
+  @VisibleForTesting ErrorWhenGroupHasDuplicates(Object actual, Object duplicates) {
     this.actual = actual;
+    this.duplicates = duplicates;
   }
 
   /**
    * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements is
-   * empty failed. A group of elements can be a collection, an array or a {@code String}.
+   * does not have duplicates failed. A group of elements can be a collection, an array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
@@ -53,20 +56,23 @@ public class ErrorWhenGroupIsNotEmpty implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    return Formatter.instance().formatMessage("%sexpecting empty but was:<%s>", d, actual);
+    String format = "%sfound duplicate(s):<%s> in:<%s>";
+    return Formatter.instance().formatMessage(format, d, duplicates, actual);
   }
 
   @Override public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ErrorWhenGroupIsNotEmpty other = (ErrorWhenGroupIsNotEmpty) obj;
-    return areEqual(actual, other.actual);
+    ErrorWhenGroupHasDuplicates other = (ErrorWhenGroupHasDuplicates) obj;
+    if (!areEqual(actual, other.actual)) return false;
+    return areEqual(duplicates, other.duplicates);
   }
 
   @Override public int hashCode() {
     int result = 1;
     result = HASH_CODE_PRIME * result + hashCodeFor(actual);
+    result = HASH_CODE_PRIME * result + hashCodeFor(duplicates);
     return result;
   }
 }

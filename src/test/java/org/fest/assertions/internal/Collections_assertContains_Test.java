@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -83,7 +82,7 @@ public class Collections_assertContains_Test {
 
   @Test public void should_throw_error_if_array_of_values_is_null() {
     thrown.expectNullPointerException(arrayIsNull());
-    collections.assertContains(info, emptyList(), null);
+    collections.assertContains(info, actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {

@@ -141,8 +141,8 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
 
   /** {@inheritDoc} */
   public CollectionAssert doesNotHaveDuplicates() {
-    // TODO Auto-generated method stub
-    return null;
+    collections.assertDoesHaveDuplicates(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */

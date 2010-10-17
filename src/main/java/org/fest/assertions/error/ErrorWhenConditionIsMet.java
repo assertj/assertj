@@ -21,8 +21,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that a value does not satisfy a
- * <code>{@link Condition}</code> fails.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that a value does not
+ * satisfy a <code>{@link Condition}</code> failed.
  *
  * @author Alex Ruiz
  */
@@ -47,8 +47,8 @@ public class ErrorWhenConditionIsMet implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that a value does not satisfy a
-   * <code>{@link Condition}</code> fails.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that a value does not
+   * satisfy a <code>{@link Condition}</code> failed.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

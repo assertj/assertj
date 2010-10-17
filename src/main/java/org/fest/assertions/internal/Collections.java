@@ -18,10 +18,11 @@ import static org.fest.assertions.error.ErrorWhenGroupContainsValues.errorWhenCo
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
+import static org.fest.assertions.error.ErrorWhenGroupHasDuplicates.errorWhenHavingDuplicates;
 import static org.fest.assertions.error.ErrorWhenGroupIsEmpty.errorWhenEmpty;
 import static org.fest.assertions.error.ErrorWhenGroupIsNotEmpty.errorWhenNotEmpty;
 import static org.fest.assertions.error.ErrorWhenGroupIsNotNullOrEmpty.errorWhenNotNullOrEmpty;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Collections.*;
 
 import java.util.*;
 
@@ -168,7 +169,6 @@ public class Collections {
     Collection<Object> found = new LinkedHashSet<Object>();
     for (Object o: values)
       if (actual.contains(o)) found.add(o);
-    System.out.println("found: " + found);
     if (found.isEmpty()) return;
     throw failures.failure(info, errorWhenContains(actual, values, found));
   }
@@ -176,6 +176,22 @@ public class Collections {
   private void isNotEmptyOrNull(Object[] values) {
     if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
     if (values.length == 0) throw new IllegalArgumentException("The array of values to evaluate should not be empty");
+  }
+
+  /**
+   * Asserts that the given {@code Collection} does not have duplicate values.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} contains duplicate values.
+   */
+  public void assertDoesHaveDuplicates(AssertionInfo info, Collection<?> actual) {
+    assertNotNull(info, actual);
+    Collection<?> duplicates = duplicatesFrom(actual);
+    if (isEmpty(duplicates)) return;
+    throw failures.failure(info, errorWhenHavingDuplicates(actual, duplicates));
   }
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {

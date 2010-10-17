@@ -20,8 +20,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that the number of elements in a group
- * of elements is equal to the expected one fails. A group of elements can be a collection, an array or a
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that the number of elements
+ * in a group of elements is equal to the expected one failed. A group of elements can be a collection, an array or a
  * {@code String}.
  *
  * @author Alex Ruiz
@@ -51,9 +51,9 @@ public class ErrorWhenGroupDoesNotHaveExpectedSize implements AssertionErrorFact
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that the number of elements in a
-   * group of elements is equal to the expected one fails. A group of elements can be a collection, an array or a
-   * {@code String}.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that the number of
+   * elements in a group of elements is equal to the expected one failed. A group of elements can be a collection, an
+   * array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

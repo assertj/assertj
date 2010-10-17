@@ -20,8 +20,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements is {@code null} or
- * empty fails. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements is
+ * {@code null} or empty failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -44,8 +44,8 @@ public class ErrorWhenGroupIsNotNullOrEmpty implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements is {@code null}
-   * or empty fails. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements is
+ * {@code null} or empty failed. A group of elements can be a collection, an array or a {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

@@ -22,7 +22,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are equal fails.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
+ * failed.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -54,9 +55,12 @@ public class ErrorWhenObjectsAreNotEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two objects are equal fails. If
-   * JUnit 4 is in the classpath, this method will instead create a {@code org.junit.ComparisonFailure} that highlights
-   * the difference(s) between the expected and actual objects.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
+   * equal failed.
+   * <p>
+   * If JUnit 4 is in the classpath, this method will instead create a {@code org.junit.ComparisonFailure}
+   * that highlights the difference(s) between the expected and actual objects.
+   * </p>
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

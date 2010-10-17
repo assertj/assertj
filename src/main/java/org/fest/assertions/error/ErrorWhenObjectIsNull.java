@@ -17,8 +17,8 @@ package org.fest.assertions.error;
 import org.fest.assertions.description.Description;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is not {@code null}
- * fails.
+ * Creates an <code>{@link AssertionError}</code> that indicates an assertion that verifies that an object is not {@code null}
+ * failed.
  *
  * @author Alex Ruiz
  */
@@ -37,8 +37,8 @@ public class ErrorWhenObjectIsNull implements AssertionErrorFactory {
   private ErrorWhenObjectIsNull() {}
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that an object is not {@code null}
-   * fails.
+   * Creates an <code>{@link AssertionError}</code> that indicates an assertion that verifies that an object is not
+   * {@code null} failed.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

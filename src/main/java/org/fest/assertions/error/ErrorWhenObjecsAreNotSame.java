@@ -19,8 +19,8 @@ import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two object refer to same object
- * fails.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two object refer to
+ * same object failed.
  *
  * @author Alex Ruiz
  */
@@ -45,8 +45,8 @@ public class ErrorWhenObjecsAreNotSame implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies that two object refer to same object
-   * fails.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two object refer to
+   * same object failed.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */

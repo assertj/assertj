@@ -21,8 +21,9 @@ import org.fest.assertions.group.IsNullOrEmptyChecker;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains only a
- * given set of values and nothing else. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements
+ * contains only a given set of values and nothing else failed. A group of elements can be a collection, an array or a
+ * {@code String}.
  *
  * @author Alex Ruiz
  */
@@ -57,8 +58,9 @@ public class ErrorWhenGroupDoesNotContainValuesExclusively implements AssertionE
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> when an assertion that verifies a group of elements contains only a
-   * given set of values and nothing else. A group of elements can be a collection, an array or a {@code String}.
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies a group of elements
+   * contains only a given set of values and nothing else failed. A group of elements can be a collection, an array or a
+   * {@code String}.
    * @param d the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
