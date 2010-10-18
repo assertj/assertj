@@ -37,7 +37,6 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
   @VisibleForTesting final Integer actual;
   @VisibleForTesting final WritableAssertionInfo info;
 
-
   protected IntegerAssert(Integer actual) {
     this.actual = actual;
     info = new WritableAssertionInfo();
@@ -84,8 +83,8 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isNotEqualTo(Integer other) {
-    // TODO Auto-generated method stub
-    return null;
+    objects.assertNotEqual(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -96,8 +95,8 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isNotSameAs(Integer other) {
-    // TODO Auto-generated method stub
-    return null;
+    objects.assertNotSame(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -126,8 +125,8 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isNotEqualByComparingTo(Integer other) {
-    // TODO Auto-generated method stub
-    return null;
+    comparables.assertNotEqual(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */

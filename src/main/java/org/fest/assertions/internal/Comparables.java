@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
 import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -62,5 +63,21 @@ public class Comparables {
     Objects.instance().assertNotNull(info, actual);
     if (actual.compareTo(expected) == 0) return;
     throw failures.failure(info, errorWhenNotEqual(actual, expected));
+  }
+
+  /**
+   * Asserts that two <code>{@link Comparable}</code>s are not equal by invoking
+   * <code>{@link Comparable#compareTo(Object)}</code>.
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the other one.
+   */
+  public <T extends Comparable<T>> void assertNotEqual(AssertionInfo info, T actual, T other) {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.compareTo(other) != 0) return;
+    throw failures.failure(info, errorWhenEqual(actual, other));
   }
 }
