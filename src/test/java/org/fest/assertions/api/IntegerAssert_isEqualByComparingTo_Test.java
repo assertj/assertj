@@ -14,30 +14,37 @@
  */
 package org.fest.assertions.api;
 
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.Comparables;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNull()}</code>.
+ * Tests for <code>{@link IntegerAssert#isEqualByComparingTo(Integer)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isNull_Test {
+public class IntegerAssert_isEqualByComparingTo_Test {
 
-  private Objects objects;
+  private Comparables comparables;
   private IntegerAssert assertions;
 
   @Before public void setUp() {
-    objects = mock(Objects.class);
-    assertions = new IntegerAssert(null);
-    assertions.objects = objects;
+    comparables = mock(Comparables.class);
+    assertions = new IntegerAssert(6);
+    assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_value_is_null() {
-    assertions.isNull();
-    verify(objects).assertNull(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_is_equal_to_expected() {
+    Integer expected = 8;
+    assertions.isEqualByComparingTo(expected);
+    verify(comparables).assertEqual(assertions.info, assertions.actual, expected);
+  }
+
+  @Test public void should_return_this() {
+    IntegerAssert returned = assertions.isEqualByComparingTo(8);
+    assertSame(assertions, returned);
   }
 }

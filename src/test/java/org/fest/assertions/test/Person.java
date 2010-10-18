@@ -22,7 +22,7 @@ import static org.fest.util.Strings.quote;
  *
  * @author Alex Ruiz
  */
-public class Person {
+public class Person implements Comparable<Person> {
 
   private final String name;
 
@@ -46,6 +46,10 @@ public class Person {
     if (getClass() != obj.getClass()) return false;
     Person other = (Person) obj;
     return areEqual(name, other.name);
+  }
+
+  public int compareTo(Person other) {
+    return name.compareTo(other.name);
   }
 
   @Override public String toString() {

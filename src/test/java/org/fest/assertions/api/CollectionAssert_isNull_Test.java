@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Objects;
@@ -33,7 +32,7 @@ public class CollectionAssert_isNull_Test {
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new CollectionAssert(null);
     assertions.objects = objects;
   }
 

@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.Comparables;
 import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
 
@@ -31,9 +32,11 @@ import org.fest.util.VisibleForTesting;
 public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<Integer> {
 
   @VisibleForTesting Objects objects = Objects.instance();
+  @VisibleForTesting Comparables comparables = Comparables.instance();
 
   @VisibleForTesting final Integer actual;
   @VisibleForTesting final WritableAssertionInfo info;
+
 
   protected IntegerAssert(Integer actual) {
     this.actual = actual;
@@ -69,14 +72,26 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isNotNull() {
+    objects.assertNotNull(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public IntegerAssert isEqualTo(Integer expected) {
+    objects.assertEqual(info, actual, expected);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public IntegerAssert isNotEqualTo(Integer other) {
     // TODO Auto-generated method stub
     return null;
   }
 
   /** {@inheritDoc} */
   public IntegerAssert isSameAs(Integer expected) {
-    // TODO Auto-generated method stub
-    return null;
+    objects.assertSame(info, actual, expected);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -104,13 +119,13 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
   }
 
   /** {@inheritDoc} */
-  public IntegerAssert isEqualTo(Integer expected) {
-    // TODO Auto-generated method stub
-    return null;
+  public IntegerAssert isEqualByComparingTo(Integer expected) {
+    comparables.assertEqual(info, actual, expected);
+    return this;
   }
 
   /** {@inheritDoc} */
-  public IntegerAssert isNotEqualTo(Integer other) {
+  public IntegerAssert isNotEqualByComparingTo(Integer other) {
     // TODO Auto-generated method stub
     return null;
   }
