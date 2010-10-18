@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ErrorWhenComparableIsNotLessThan.errorWhenNotLessThan;
 import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
 import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
 
@@ -60,7 +61,7 @@ public class Comparables {
    * values are not equal.
    */
   public <T extends Comparable<T>> void assertEqual(AssertionInfo info, T actual, T expected) {
-    Objects.instance().assertNotNull(info, actual);
+    assertNotNull(info, actual);
     if (actual.compareTo(expected) == 0) return;
     throw failures.failure(info, errorWhenNotEqual(actual, expected));
   }
@@ -76,7 +77,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is equal to the other one.
    */
   public <T extends Comparable<T>> void assertNotEqual(AssertionInfo info, T actual, T other) {
-    Objects.instance().assertNotNull(info, actual);
+    assertNotNull(info, actual);
     if (actual.compareTo(other) != 0) return;
     throw failures.failure(info, errorWhenEqual(actual, other));
   }
@@ -92,7 +93,12 @@ public class Comparables {
    * fail if the actual value is equal to or greater than the other value.
    */
   public <T extends Comparable<T>> void assertLessThan(AssertionInfo info, T actual, T other) {
-    // TODO Auto-generated method stub
+    assertNotNull(info, actual);
+    if (actual.compareTo(other) < 0) return;
+    throw failures.failure(info, errorWhenNotLessThan(actual, other));
+  }
 
+  private <T> void assertNotNull(AssertionInfo info, T actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 }

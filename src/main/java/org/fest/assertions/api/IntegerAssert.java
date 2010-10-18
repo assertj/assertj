@@ -119,8 +119,7 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert isNegative() {
-    // TODO Auto-generated method stub
-    return null;
+    return isLessThan(ZERO);
   }
 
   /** {@inheritDoc} */

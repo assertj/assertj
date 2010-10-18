@@ -1,5 +1,5 @@
 /*
- * Created on Oct 12, 2010
+ * Created on Oct 18, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,8 +15,6 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -24,24 +22,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ErrorWhenGroupContainsValues#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link ErrorWhenComparableIsNotLessThan#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class ErrorWhenGroupContainsValues_newAssertionError_Test {
+public class ErrorWhenComparableIsNotLessThan_newAssertionError_Test {
 
   private Description description;
-  private ErrorWhenGroupContainsValues factory;
+  private ErrorWhenComparableIsNotLessThan factory;
 
   @Before public void setUp() {
-    description = new TestDescription("Jedi");
-    factory = new ErrorWhenGroupContainsValues(list("Yoda"), array("Luke", "Yoda"), list("Yoda"));
+    description = new TestDescription("Test");
+    factory = new ErrorWhenComparableIsNotLessThan(8, 6);
   }
 
   @Test public void should_create_AssertionError() {
     AssertionError error = factory.newAssertionError(description);
-    String msg = "[Jedi] expected:<['Yoda']> to not contain:<['Luke', 'Yoda']> but found:<['Yoda']>";
+    String msg = "[Test] expected:<8> to be less than:<6>";
     assertEquals(msg, error.getMessage());
   }
 }
