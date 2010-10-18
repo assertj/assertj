@@ -15,42 +15,18 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.core.Assert;
 
 /**
  * Tests for <code>{@link CollectionAssert#describedAs(String)}</code>.
  *
  * @author Yvonne Wang
+ * @author Alex Ruiz
  */
-public class CollectionAssert_describedAs_with_text_description_Test {
+public class CollectionAssert_describedAs_with_text_description_Test extends Assert_describedAs_with_text_description_TestCase {
 
-  @Rule public ExpectedException thrown = none();
-
-  private CollectionAssert assertions;
-  private String description;
-
-  @Before public void setUp() {
-    assertions = new CollectionAssert(emptyList());
-    description = "there's always a bigger fish";
-  }
-
-  @Test public void should_set_description() {
-    assertions.describedAs(description);
-    assertSame(description, assertions.descriptionText());
-  }
-
-  @Test public void should_return_this() {
-    CollectionAssert a = assertions.describedAs(description);
-    assertSame(assertions, a);
-  }
-
-  @Test public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException(descriptionIsNull());
-    assertions.describedAs((String) null);
+  @Override Assert<?> createAssertToTest() {
+    return new CollectionAssert(emptyList());
   }
 }

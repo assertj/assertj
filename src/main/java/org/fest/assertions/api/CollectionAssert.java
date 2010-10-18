@@ -34,8 +34,8 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
   @VisibleForTesting Collections collections = Collections.instance();
   @VisibleForTesting Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting final WritableAssertionInfo info;
   @VisibleForTesting final Collection<?> actual;
+  @VisibleForTesting final WritableAssertionInfo info;
 
   protected CollectionAssert(Collection<?> actual) {
     this.actual = actual;

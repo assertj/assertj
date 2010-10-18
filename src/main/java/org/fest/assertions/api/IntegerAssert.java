@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,39 +30,41 @@ import org.fest.util.VisibleForTesting;
  */
 public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<Integer> {
 
+  @VisibleForTesting Objects objects = Objects.instance();
+
   @VisibleForTesting final Integer actual;
+  @VisibleForTesting final WritableAssertionInfo info;
 
   protected IntegerAssert(Integer actual) {
     this.actual = actual;
+    info = new WritableAssertionInfo();
   }
 
   /** {@inheritDoc} */
   public IntegerAssert as(String description) {
-    // TODO Auto-generated method stub
-    return null;
+    return describedAs(description);
   }
 
   /** {@inheritDoc} */
   public IntegerAssert as(Description description) {
-    // TODO Auto-generated method stub
-    return null;
+    return describedAs(description);
   }
 
   /** {@inheritDoc} */
   public IntegerAssert describedAs(String description) {
-    // TODO Auto-generated method stub
-    return null;
+    info.description(description);
+    return this;
   }
 
   /** {@inheritDoc} */
   public IntegerAssert describedAs(Description description) {
-    // TODO Auto-generated method stub
-    return null;
+    info.description(description);
+    return this;
   }
 
   /** {@inheritDoc} */
   public void isNull() {
-    // TODO Auto-generated method stub
+    objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
@@ -158,5 +161,9 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
   public IntegerAssert isNot(Condition<Integer> condition) {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  @VisibleForTesting final String descriptionText() {
+    return info.descriptionText();
   }
 }

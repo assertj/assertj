@@ -1,5 +1,5 @@
 /*
- * Created on Sep 16, 2010
+ * Created on Oct 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,22 +14,16 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
-
 import org.fest.assertions.core.Assert;
-import org.fest.assertions.internal.Objects;
 
 /**
- * Tests for <code>{@link CollectionAssert#isNull()}</code>.
+ * Tests for <code>{@link IntegerAssert#describedAs(String)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert_isNull_Test extends Assert_isNull_TestCase {
+public class IntegerAssert_describedAs_with_text_description_Test extends Assert_describedAs_with_text_description_TestCase {
 
-  @Override Assert<?> createAssertToTest(Objects objects) {
-    CollectionAssert assertions = new CollectionAssert(emptyList());
-    assertions.objects = objects;
-    return assertions;
+  @Override Assert<?> createAssertToTest() {
+    return new IntegerAssert(6);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Sep 16, 2010
+ * Created on Oct 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,22 +14,33 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
+import static org.fest.assertions.api.AssertInternals.*;
+import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.Assert;
 import org.fest.assertions.internal.Objects;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#isNull()}</code>.
+ * Test case for implementations of <code>{@link Assert#isNull()}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert_isNull_Test extends Assert_isNull_TestCase {
+public abstract class Assert_isNull_TestCase {
 
-  @Override Assert<?> createAssertToTest(Objects objects) {
-    CollectionAssert assertions = new CollectionAssert(emptyList());
-    assertions.objects = objects;
-    return assertions;
+  private Objects objects;
+  private Assert<?> assertions;
+
+  @Before public void setUp() {
+    objects = mock(Objects.class);
+    assertions = createAssertToTest(objects);
+  }
+
+  @SuppressWarnings("hiding")
+  abstract Assert<?> createAssertToTest(Objects objects);
+
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(infoIn(assertions), actualIn(assertions));
   }
 }

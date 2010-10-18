@@ -15,13 +15,9 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.*;
-import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 
-import org.fest.assertions.description.*;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.core.Assert;
+import org.fest.assertions.description.Description;
 
 /**
  * Tests for <code>{@link CollectionAssert#describedAs(Description)}</code>
@@ -29,30 +25,9 @@ import org.junit.*;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert_as_with_description_Test {
+public class CollectionAssert_as_with_description_Test extends Assert_as_with_description_TestCase {
 
-  @Rule public ExpectedException thrown = none();
-
-  private CollectionAssert assertions;
-  private Description d;
-
-  @Before public void setUp() {
-    assertions = new CollectionAssert(emptyList());
-    d = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
-  }
-
-  @Test public void should_set_description() {
-    assertions.describedAs(d);
-    assertEquals(d.value(), assertions.descriptionText());
-  }
-
-  @Test public void should_return_this() {
-    CollectionAssert a = assertions.as(d);
-    assertSame(assertions, a);
-  }
-
-  @Test public void should_throw_error_if_description_is_null() {
-    thrown.expectNullPointerException(descriptionIsNull());
-    assertions.as((Description) null);
+  @Override Assert<?> createAssertToTest() {
+    return new CollectionAssert(emptyList());
   }
 }
