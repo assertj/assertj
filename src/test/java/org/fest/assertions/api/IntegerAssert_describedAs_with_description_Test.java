@@ -14,17 +14,44 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.Assert;
+import static junit.framework.Assert.*;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
+import static org.fest.assertions.test.TestData.someDescription;
+
+import org.fest.assertions.core.Descriptable;
 import org.fest.assertions.description.Description;
+import org.fest.assertions.test.ExpectedException;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IntegerAssert#describedAs(Description)}</code>
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_describedAs_with_description_Test extends Assert_describedAs_with_description_TestCase {
+public class IntegerAssert_describedAs_with_description_Test {
 
-  @Override Assert<?> createAssertToTest() {
-    return new IntegerAssert(6);
+  @Rule public ExpectedException thrown = none();
+
+  private IntegerAssert assertions;
+  private Description d;
+
+  @Before public void setUp() {
+    assertions = new IntegerAssert(6);
+    d = someDescription();
   }
-}
+
+  @Test public void should_set_description() {
+    assertions.describedAs(d);
+    assertEquals(d.value(), assertions.descriptionText());
+  }
+
+  @Test public void should_return_this() {
+    Descriptable descriptable = assertions.describedAs(d);
+    assertSame(assertions, descriptable);
+  }
+
+  @Test public void should_throw_error_if_description_is_null() {
+    thrown.expectNullPointerException(descriptionIsNull());
+    assertions.describedAs((Description) null);
+  }}

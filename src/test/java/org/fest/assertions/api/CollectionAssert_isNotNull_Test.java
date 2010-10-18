@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CollectionAssert#isNotNull()}</code>.
@@ -34,7 +34,7 @@ public class CollectionAssert_isNotNull_Test {
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new CollectionAssert(null);
     assertions.objects = objects;
   }
 

@@ -15,21 +15,30 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
+import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.Assert;
 import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CollectionAssert#isNull()}</code>.
  *
  * @author Yvonne Wang
- * @author Alex Ruiz
  */
-public class CollectionAssert_isNull_Test extends Assert_isNull_TestCase {
+public class CollectionAssert_isNull_Test {
 
-  @Override Assert<?> createAssertToTest(Objects objects) {
-    CollectionAssert assertions = new CollectionAssert(emptyList());
+  private Objects objects;
+  private CollectionAssert assertions;
+
+  @Before public void setUp() {
+    objects = mock(Objects.class);
+    assertions = new CollectionAssert(emptyList());
     assertions.objects = objects;
-    return assertions;
+  }
+
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(assertions.info, assertions.actual);
   }
 }

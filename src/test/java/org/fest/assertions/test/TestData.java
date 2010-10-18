@@ -12,32 +12,25 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.test;
 
-import static org.mockito.Mockito.*;
-
-import org.fest.assertions.internal.Objects;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNull()}</code>.
- *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isNull_Test {
+public final class TestData {
 
-  private Objects objects;
-  private IntegerAssert assertions;
+  private static final TextDescription DESCRIPTION = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
 
-  @Before public void setUp() {
-    objects = mock(Objects.class);
-    assertions = new IntegerAssert(6);
-    assertions.objects = objects;
+  public static Description someDescription() {
+    return DESCRIPTION;
   }
 
-  @Test public void should_verify_that_actual_value_is_null() {
-    assertions.isNull();
-    verify(objects).assertNull(assertions.info, assertions.actual);
+  public static String someTextDescription() {
+    return "there's always a bigger fish";
   }
+
+  private TestData() {}
 }
