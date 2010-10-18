@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +41,7 @@ public class Objects_assertEqual_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     objects = new Objects(failures);
   }
 
@@ -51,11 +50,10 @@ public class Objects_assertEqual_Test {
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
-    AssertionError expectedError = assertionFailingOnPurpose();
     String e = "Yoda";
     String a = "Luke";
-    when(failures.failure(info, errorWhenNotEqual(a, e))).thenReturn(expectedError);
-    thrown.expect(expectedError);
+    thrown.expectAssertionErrorButNotFromMockito();
     objects.assertEqual(info, a, e);
+    verify(failures).failure(info, errorWhenNotEqual(a, e));
   }
 }

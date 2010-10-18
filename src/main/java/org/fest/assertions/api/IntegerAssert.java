@@ -16,8 +16,7 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.Comparables;
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -31,13 +30,13 @@ import org.fest.util.VisibleForTesting;
  */
 public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>, NumberAssert<Integer> {
 
-  private static final Integer ZERO = 0;
-
   @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
+  @VisibleForTesting Integers integers = Integers.instance();
 
   @VisibleForTesting final Integer actual;
   @VisibleForTesting final WritableAssertionInfo info;
+
 
   protected IntegerAssert(Integer actual) {
     this.actual = actual;
@@ -103,12 +102,14 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert isZero() {
-    return isEqualByComparingTo(ZERO);
+    integers.assertIsZero(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */
   public IntegerAssert isNotZero() {
-    return isNotEqualByComparingTo(ZERO);
+    integers.assertIsNotZero(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -119,7 +120,8 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert isNegative() {
-    return isLessThan(ZERO);
+    integers.assertIsNegative(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */

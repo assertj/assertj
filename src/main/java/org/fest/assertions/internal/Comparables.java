@@ -28,7 +28,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class Comparables {
 
-  public static final Comparables INSTANCE = new Comparables();
+  private static final Comparables INSTANCE = new Comparables();
 
   /**
    * Returns the singleton instance of this class.

@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenObjectsAreSame.errorWhenSame;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
@@ -42,7 +41,7 @@ public class Objects_assertNotSame_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     objects = new Objects(failures);
   }
 
@@ -51,10 +50,9 @@ public class Objects_assertNotSame_Test {
   }
 
   @Test public void should_fail_if_objects_are_same() {
-    AssertionError expectedError = assertionFailingOnPurpose();
     Object a = new Person("Yoda");
-    when(failures.failure(info, errorWhenSame(a))).thenReturn(expectedError);
-    thrown.expect(expectedError);
+    thrown.expectAssertionErrorButNotFromMockito();
     objects.assertNotSame(info, a, a);
+    verify(failures).failure(info, errorWhenSame(a));
   }
 }

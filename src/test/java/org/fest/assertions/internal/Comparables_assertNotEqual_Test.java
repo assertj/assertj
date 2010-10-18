@@ -15,15 +15,12 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.test.Person;
+import org.fest.assertions.core.*;
+import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**
@@ -45,7 +42,7 @@ public class Comparables_assertNotEqual_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     comparables = new Comparables(failures);
   }
 
@@ -62,11 +59,10 @@ public class Comparables_assertNotEqual_Test {
   }
 
   @Test public void should_fail_if_objects_are_equal() {
-    AssertionError expectedError = assertionFailingOnPurpose();
     String a = "Yoda";
     String o = "Yoda";
-    when(failures.failure(info, errorWhenEqual(a, o))).thenReturn(expectedError);
-    thrown.expect(expectedError);
+    thrown.expectAssertionErrorButNotFromMockito();
     comparables.assertNotEqual(info, a, o);
+    verify(failures).failure(info, errorWhenEqual(a, o));
   }
 }

@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ErrorWhenConditionIsMet.errorWhenConditionMet;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
@@ -45,7 +44,7 @@ public class Conditions_assertDoesNotSatisfy_Test {
   private Conditions conditions;
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     condition = new TestCondition<Object>();
     conditions = new Conditions(failures);
   }
@@ -61,10 +60,9 @@ public class Conditions_assertDoesNotSatisfy_Test {
   }
 
   @Test public void should_fail_if_Condition_is_met() {
-    AssertionError expectedError = assertionFailingOnPurpose();
     condition.shouldMatch(true);
-    when(failures.failure(info, errorWhenConditionMet(actual, condition))).thenReturn(expectedError);
-    thrown.expect(expectedError);
+    thrown.expectAssertionErrorButNotFromMockito();
     conditions.assertDoesNotSatisfy(info, actual, condition);
+    verify(failures).failure(info, errorWhenConditionMet(actual, condition));
   }
 }

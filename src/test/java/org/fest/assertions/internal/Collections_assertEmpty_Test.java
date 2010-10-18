@@ -16,7 +16,6 @@ package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ErrorWhenGroupIsNotEmpty.errorWhenNotEmpty;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.util.Collections.list;
@@ -47,7 +46,7 @@ public class Collections_assertEmpty_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     collections = new Collections(failures);
   }
 
@@ -61,10 +60,9 @@ public class Collections_assertEmpty_Test {
   }
 
   @Test public void should_fail_if_actual_has_elements() {
-    AssertionError expectedError = assertionFailingOnPurpose();
+    thrown.expectAssertionErrorButNotFromMockito();
     Collection<String> actual = list("Yoda");
-    when(failures.failure(info, errorWhenNotEmpty(actual))).thenReturn(expectedError);
-    thrown.expect(expectedError);
     collections.assertEmpty(info, actual);
+    verify(failures).failure(info, errorWhenNotEmpty(actual));
   }
 }

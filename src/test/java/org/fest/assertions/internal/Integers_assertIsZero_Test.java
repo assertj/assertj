@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Oct 18, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,47 +14,38 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjecsAreNotSame.errorWhenNotSame;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.test.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertSame(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Integers#assertIsZero(AssertionInfo, Integer)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Objects_assertSame_Test {
+public class Integers_assertIsZero_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
-  private Failures failures;
-  private Objects objects;
+  private Comparables comparables;
+  private Integers integers;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
-    objects = new Objects(failures);
+    comparables = mock(Comparables.class);
+    integers = new Integers(comparables);
   }
 
-  @Test public void should_pass_if_objects_are_same() {
-    Object o = new Object();
-    objects.assertSame(info, o, o);
-  }
-
-  @Test public void should_fail_if_objects_are_not_same() {
-    Object a = new Person("Yoda");
-    Object e = new Person("Yoda");
-    thrown.expectAssertionErrorButNotFromMockito();
-    objects.assertSame(info, a, e);
-    verify(failures).failure(info, errorWhenNotSame(a, e));
+  @Test public void should_verify_that_actual_is_equal_to_zero() {
+    integers.assertIsZero(info, 6);
+    verify(comparables).assertEqual(info, 6, 0);
   }
 }

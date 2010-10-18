@@ -16,18 +16,15 @@ package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.error.AssertionErrorFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -54,7 +51,7 @@ public class Collections_assertContainsExclusively_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     collections = new Collections(failures);
   }
 
@@ -91,11 +88,10 @@ public class Collections_assertContainsExclusively_Test {
   }
 
   @Test public void should_fail_if_actual_does_not_contain_given_values_exclusively() {
-    AssertionError expectedError = assertionFailingOnPurpose();
+    thrown.expectAssertionErrorButNotFromMockito();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    AssertionErrorFactory errorFactory = errorWhenDoesNotContainExclusively(actual, expected, list("Han"), set("Leia"));
-    when(failures.failure(info, errorFactory)).thenReturn(expectedError);
-    thrown.expect(expectedError);
     collections.assertContainsExclusively(info, actual, expected);
+    AssertionErrorFactory errorFactory = errorWhenDoesNotContainExclusively(actual, expected, list("Han"), set("Leia"));
+    verify(failures).failure(info, errorFactory);
   }
 }

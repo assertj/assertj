@@ -17,9 +17,8 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Comparables;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.internal.Integers;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IntegerAssert#isNotZero()}</code>.
@@ -28,18 +27,18 @@ import org.junit.Test;
  */
 public class IntegerAssert_isNotZero_Test {
 
-  private Comparables comparables;
+  private Integers integers;
   private IntegerAssert assertions;
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
+    integers = mock(Integers.class);
     assertions = new IntegerAssert(6);
-    assertions.comparables = comparables;
+    assertions.integers = integers;
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
     assertions.isNotZero();
-    verify(comparables).assertNotEqual(assertions.info, assertions.actual, 0);
+    verify(integers).assertIsNotZero(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {

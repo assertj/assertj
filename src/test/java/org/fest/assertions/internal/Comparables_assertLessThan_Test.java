@@ -20,8 +20,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -44,7 +43,7 @@ public class Comparables_assertLessThan_Test {
   }
 
   @Before public void setUp() {
-    failures = mock(Failures.class);
+    failures = spy(Failures.instance());
     comparables = new Comparables(failures);
   }
 
@@ -67,11 +66,10 @@ public class Comparables_assertLessThan_Test {
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
-    AssertionError expectedError = assertionFailingOnPurpose();
     Integer a = 8;
     Integer o = 6;
-    when(failures.failure(info, errorWhenNotLessThan(a, o))).thenReturn(expectedError);
-    thrown.expect(expectedError);
+    thrown.expectAssertionErrorButNotFromMockito();
     comparables.assertLessThan(info, a, o);
+    verify(failures).failure(info, errorWhenNotLessThan(a, o));
   }
 }
