@@ -31,6 +31,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<Integer> {
 
+  private static final Integer ZERO = 0;
+
   @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
 
@@ -101,8 +103,12 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isZero() {
-    // TODO Auto-generated method stub
-    return null;
+    return isEqualByComparingTo(ZERO);
+  }
+
+  /** {@inheritDoc} */
+  public IntegerAssert isNotZero() {
+    return isNotEqualByComparingTo(ZERO);
   }
 
   /** {@inheritDoc} */
