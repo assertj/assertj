@@ -80,4 +80,19 @@ public class Comparables {
     if (actual.compareTo(other) != 0) return;
     throw failures.failure(info, errorWhenEqual(actual, other));
   }
+
+  /**
+   * Asserts that the actual value is less than the other one.
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not less than the other one. In another words, this assertion will
+   * fail if the actual value is equal to or greater than the other value.
+   */
+  public <T extends Comparable<T>> void assertLessThan(AssertionInfo info, T actual, T other) {
+    // TODO Auto-generated method stub
+
+  }
 }

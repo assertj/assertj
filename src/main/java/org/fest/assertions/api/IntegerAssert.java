@@ -29,7 +29,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<Integer> {
+public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>, NumberAssert<Integer> {
 
   private static final Integer ZERO = 0;
 
@@ -137,8 +137,8 @@ public class IntegerAssert implements ComparableAssert<Integer>, NumberAssert<In
 
   /** {@inheritDoc} */
   public IntegerAssert isLessThan(Integer other) {
-    // TODO Auto-generated method stub
-    return null;
+    comparables.assertLessThan(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */

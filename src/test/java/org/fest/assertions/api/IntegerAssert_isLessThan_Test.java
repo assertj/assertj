@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,11 +22,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNotZero()}</code>.
+ * Tests for <code>{@link IntegerAssert#isLessThan(Integer)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isNotZero_Test {
+public class IntegerAssert_isLessThan_Test {
 
   private Comparables comparables;
   private IntegerAssert assertions;
@@ -37,13 +37,13 @@ public class IntegerAssert_isNotZero_Test {
     assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_zero() {
-    assertions.isNotZero();
-    verify(comparables).assertNotEqual(assertions.info, assertions.actual, 0);
+  @Test public void should_verify_that_actual_is_less_than_expected() {
+    assertions.isLessThan(8);
+    verify(comparables).assertLessThan(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isNotZero();
+    IntegerAssert returned = assertions.isLessThan(8);
     assertSame(assertions, returned);
   }
 }

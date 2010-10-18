@@ -21,7 +21,7 @@ package org.fest.assertions.core;
  * @author Alex Ruiz
  * @author Ted M. Young
  */
-public interface ComparableAssert<T extends Comparable<T>> extends Assert<T> {
+public interface ComparableAssert<T extends Comparable<T>> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking
@@ -47,6 +47,7 @@ public interface ComparableAssert<T extends Comparable<T>> extends Assert<T> {
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   ComparableAssert<T> isLessThan(T other);
@@ -55,6 +56,7 @@ public interface ComparableAssert<T extends Comparable<T>> extends Assert<T> {
    * Verifies that the actual value is less than or equal to the given one.
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
   ComparableAssert<T> isLessThanOrEqualTo(T other);
@@ -63,6 +65,7 @@ public interface ComparableAssert<T extends Comparable<T>> extends Assert<T> {
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   ComparableAssert<T> isGreaterThan(T other);
@@ -71,6 +74,7 @@ public interface ComparableAssert<T extends Comparable<T>> extends Assert<T> {
    * Verifies that the actual value is greater than or equal to the given one.
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
   ComparableAssert<T> isGreaterThanOrEqualTo(T other);

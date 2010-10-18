@@ -38,9 +38,8 @@ public class IntegerAssert_isNotEqualTo_Test {
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    Integer expected = 8;
-    assertions.isNotEqualTo(expected);
-    verify(objects).assertNotEqual(assertions.info, assertions.actual, expected);
+    assertions.isNotEqualTo(8);
+    verify(objects).assertNotEqual(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
