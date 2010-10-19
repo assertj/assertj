@@ -14,11 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjectIsNull.errorWhenNull;
+import static org.fest.assertions.error.IsNull.isNull;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -50,8 +52,10 @@ public class Objects_assertNotNull_Test {
   }
 
   @Test public void should_fail_if_object_is_null() {
-    thrown.expectAssertionErrorButNotFromMockito();
-    objects.assertNotNull(info, null);
-    verify(failures).failure(info, errorWhenNull());
+    try {
+      objects.assertNotNull(info, null);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNull());
   }
 }

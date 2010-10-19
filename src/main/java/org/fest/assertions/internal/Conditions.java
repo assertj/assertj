@@ -14,10 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenConditionIsMet.errorWhenConditionMet;
-import static org.fest.assertions.error.NotSatisfied.notSatisfied;
+import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
+import static org.fest.assertions.error.IsSatisfied.satisfied;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -59,7 +60,7 @@ public class Conditions {
   public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<T> condition) {
     verifyIsNotNull(condition);
     if (condition.matches(actual)) return;
-    throw failures.failure(info, notSatisfied(actual, condition));
+    throw failures.failure(info, isNotSatisfied(actual, condition));
   }
 
   /**
@@ -74,7 +75,7 @@ public class Conditions {
   public <T> void assertDoesNotSatisfy(AssertionInfo info, T actual, Condition<T> condition) {
     verifyIsNotNull(condition);
     if (!condition.matches(actual)) return;
-    throw failures.failure(info, errorWhenConditionMet(actual, condition));
+    throw failures.failure(info, satisfied(actual, condition));
   }
 
   private void verifyIsNotNull(Condition<?> condition) {

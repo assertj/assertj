@@ -15,15 +15,15 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ErrorWhenGroupIsNotNullOrEmpty.errorWhenNotNullOrEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.util.Collections.list;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.junit.*;
 
 /**
@@ -35,8 +35,6 @@ import org.junit.*;
 public class Collections_assertNullOrEmpty_Test {
 
   private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Collections collections;
@@ -59,9 +57,11 @@ public class Collections_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_actual_has_elements() {
-    thrown.expectAssertionErrorButNotFromMockito();
     Collection<String> actual = list("Yoda");
-    collections.assertNullOrEmpty(info, actual);
-    verify(failures).failure(info, errorWhenNotNullOrEmpty(actual));
+    try {
+      collections.assertNullOrEmpty(info, actual);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotNullOrEmpty(actual));
   }
 }

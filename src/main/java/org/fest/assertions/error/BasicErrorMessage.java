@@ -28,7 +28,7 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public class BasicErrorMessage {
+public class BasicErrorMessage implements ErrorMessage {
 
   private final String format;
   private final Object[] arguments;
@@ -43,11 +43,7 @@ public class BasicErrorMessage {
     this.arguments = arguments;
   }
 
-  /**
-   * Creates a new error message as a result of a failed assertion.
-   * @param d the description of the failed assertion.
-   * @return the created error message.
-   */
+  /** {@inheritDoc} */
   public String create(Description d) {
     return Formatter.instance().formatMessage(format, d, arguments);
   }

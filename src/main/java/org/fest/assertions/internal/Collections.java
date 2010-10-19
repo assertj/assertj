@@ -14,14 +14,14 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenGroupContainsValues.errorWhenContains;
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
-import static org.fest.assertions.error.ErrorWhenGroupHasDuplicates.errorWhenHavingDuplicates;
-import static org.fest.assertions.error.ErrorWhenGroupIsEmpty.errorWhenEmpty;
-import static org.fest.assertions.error.ErrorWhenGroupIsNotEmpty.errorWhenNotEmpty;
-import static org.fest.assertions.error.ErrorWhenGroupIsNotNullOrEmpty.errorWhenNotNullOrEmpty;
+import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
+import static org.fest.assertions.error.IsEmpty.isEmpty;
+import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.util.Collections.*;
 
 import java.util.*;
@@ -65,7 +65,7 @@ public class Collections {
    */
   public void assertNullOrEmpty(AssertionInfo info, Collection<?> actual) {
     if (actual == null || actual.isEmpty()) return;
-    throw failures.failure(info, errorWhenNotNullOrEmpty(actual));
+    throw failures.failure(info, isNotNullOrEmpty(actual));
   }
 
   /**
@@ -78,7 +78,7 @@ public class Collections {
   public void assertEmpty(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     if (actual.isEmpty()) return;
-    throw failures.failure(info, errorWhenNotEmpty(actual));
+    throw failures.failure(info, isNotEmpty(actual));
   }
 
   /**
@@ -91,7 +91,7 @@ public class Collections {
   public void assertNotEmpty(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isEmpty()) return;
-    throw failures.failure(info, errorWhenEmpty());
+    throw failures.failure(info, isEmpty());
   }
 
   /**
@@ -107,7 +107,7 @@ public class Collections {
     assertNotNull(info, actual);
     int actualSize = actual.size();
     if (actualSize == expectedSize) return;
-    throw failures.failure(info, errorWhenSizeNotEqual(actual, actualSize, expectedSize));
+    throw failures.failure(info, doesNotHaveSize(actual, actualSize, expectedSize));
   }
 
   /**
@@ -126,7 +126,7 @@ public class Collections {
     Collection<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, errorWhenDoesNotContain(actual, values, notFound));
+    throw failures.failure(info, doesNotContain(actual, values, notFound));
   }
 
   /**
@@ -150,7 +150,7 @@ public class Collections {
       else notExpected.remove(o);
     }
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, errorWhenDoesNotContainExclusively(actual, values, notFound, notExpected));
+    throw failures.failure(info, doesNotContainExclusively(actual, values, notExpected, notFound));
   }
 
   /**
@@ -167,10 +167,9 @@ public class Collections {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Collection<Object> found = new LinkedHashSet<Object>();
-    for (Object o: values)
-      if (actual.contains(o)) found.add(o);
+    for (Object o: values) if (actual.contains(o)) found.add(o);
     if (found.isEmpty()) return;
-    throw failures.failure(info, errorWhenContains(actual, values, found));
+    throw failures.failure(info, contains(actual, values, found));
   }
 
   private void isNotEmptyOrNull(Object[] values) {
@@ -191,7 +190,7 @@ public class Collections {
     assertNotNull(info, actual);
     Collection<?> duplicates = duplicatesFrom(actual);
     if (isEmpty(duplicates)) return;
-    throw failures.failure(info, errorWhenHavingDuplicates(actual, duplicates));
+    throw failures.failure(info, hasDuplicates(actual, duplicates));
   }
 
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {

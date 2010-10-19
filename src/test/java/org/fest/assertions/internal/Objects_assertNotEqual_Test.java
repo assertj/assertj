@@ -14,11 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
+import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -50,10 +52,10 @@ public class Objects_assertNotEqual_Test {
   }
 
   @Test public void should_fail_if_objects_are_equal() {
-    String a = "Yoda";
-    String o = "Yoda";
-    thrown.expectAssertionErrorButNotFromMockito();
-    objects.assertNotEqual(info, a, o);
-    verify(failures).failure(info, errorWhenEqual(a, o));
+    try {
+      objects.assertNotEqual(info, "Yoda", "Yoda");
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isEqual("Yoda", "Yoda"));
   }
 }

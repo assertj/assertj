@@ -14,12 +14,14 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.NotLessThan.notLessThan;
+import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -56,14 +58,18 @@ public class Comparables_assertLessThan_Test {
   }
 
   @Test public void should_fail_if_actual_is_equal_to_other() {
-    thrown.expectAssertionErrorButNotFromMockito();
-    comparables.assertLessThan(info, "Yoda", "Yoda");
-    verify(failures).failure(info, notLessThan("Yoda", "Yoda"));
+    try {
+      comparables.assertLessThan(info, "Yoda", "Yoda");
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotLessThan("Yoda", "Yoda"));
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
-    thrown.expectAssertionErrorButNotFromMockito();
-    comparables.assertLessThan(info, 8, 6);
-    verify(failures).failure(info, notLessThan(8, 6));
+    try {
+      comparables.assertLessThan(info, 8, 6);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotLessThan(8, 6));
   }
 }

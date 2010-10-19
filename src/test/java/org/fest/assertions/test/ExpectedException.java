@@ -14,10 +14,9 @@
  */
 package org.fest.assertions.test;
 
-import static org.fest.assertions.test.ExcludeFromMockitoMatcher.excludeFromMockito;
-
 import org.junit.rules.MethodRule;
-import org.junit.runners.model.*;
+import org.junit.runners.model.FrameworkMethod;
+import org.junit.runners.model.Statement;
 
 /**
  * Allows in-test specification of expected exception types and messages.
@@ -41,10 +40,6 @@ public class ExpectedException implements MethodRule {
 
   public void expectAssertionError(String message) {
     expect(AssertionError.class, message);
-  }
-
-  public void expectAssertionErrorButNotFromMockito() {
-    delegate.expect(excludeFromMockito());
   }
 
   public void expectNullPointerException(String message) {

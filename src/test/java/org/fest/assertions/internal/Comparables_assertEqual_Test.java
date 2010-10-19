@@ -14,15 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
+import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -64,10 +65,10 @@ public class Comparables_assertEqual_Test {
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
-    String e = "Yoda";
-    String a = "Luke";
-    thrown.expectAssertionErrorButNotFromMockito();
-    comparables.assertEqual(info, a, e);
-    verify(failures).failure(info, errorWhenNotEqual(a, e));
+    try {
+      comparables.assertEqual(info, "Luke", "Yoda");
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
   }
 }

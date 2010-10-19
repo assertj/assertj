@@ -15,17 +15,19 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValuesExclusively.errorWhenDoesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -37,20 +39,20 @@ import org.junit.*;
 public class Collections_assertContainsExclusively_Test {
 
   private static WritableAssertionInfo info;
-  private static List<String> actual;
 
   @Rule public ExpectedException thrown = none();
 
+  private List<String> actual;
   private Failures failures;
   private Collections collections;
 
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = list("Luke", "Yoda", "Leia");
   }
 
   @Before public void setUp() {
+    actual = list("Luke", "Yoda", "Leia");
     failures = spy(Failures.instance());
     collections = new Collections(failures);
   }
@@ -88,10 +90,11 @@ public class Collections_assertContainsExclusively_Test {
   }
 
   @Test public void should_fail_if_actual_does_not_contain_given_values_exclusively() {
-    thrown.expectAssertionErrorButNotFromMockito();
     Object[] expected = { "Luke", "Yoda", "Han" };
-    collections.assertContainsExclusively(info, actual, expected);
-    AssertionErrorFactory errorFactory = errorWhenDoesNotContainExclusively(actual, expected, list("Han"), set("Leia"));
-    verify(failures).failure(info, errorFactory);
+    try {
+      collections.assertContainsExclusively(info, actual, expected);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, doesNotContainExclusively(actual, expected, set("Leia"), list("Han")));
   }
 }

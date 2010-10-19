@@ -14,12 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjecsAreNotSame.errorWhenNotSame;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.IsNotSame.isNotSame;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.Person;
 import org.junit.*;
 
 /**
@@ -30,8 +31,6 @@ import org.junit.*;
 public class Objects_assertSame_Test {
 
   private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Objects objects;
@@ -53,8 +52,10 @@ public class Objects_assertSame_Test {
   @Test public void should_fail_if_objects_are_not_same() {
     Object a = new Person("Yoda");
     Object e = new Person("Yoda");
-    thrown.expectAssertionErrorButNotFromMockito();
-    objects.assertSame(info, a, e);
-    verify(failures).failure(info, errorWhenNotSame(a, e));
+    try {
+      objects.assertSame(info, a, e);
+      fail();
+    } catch (AssertionError err) {}
+    verify(failures).failure(info, isNotSame(a, e));
   }
 }

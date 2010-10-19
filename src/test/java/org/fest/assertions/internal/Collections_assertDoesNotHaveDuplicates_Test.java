@@ -15,16 +15,18 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ErrorWhenGroupHasDuplicates.errorWhenHavingDuplicates;
+import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.util.Collections.*;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -69,9 +71,10 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<String> duplicates = set("Luke", "Yoda");
     actual.addAll(duplicates);
-    thrown.expectAssertionErrorButNotFromMockito();
-    collections.assertDoesHaveDuplicates(info, actual);
-    AssertionErrorFactory errorFactory = errorWhenHavingDuplicates(actual, duplicates);
-    verify(failures).failure(info, errorFactory);
+    try {
+      collections.assertDoesHaveDuplicates(info, actual);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, hasDuplicates(actual, duplicates));
   }
 }

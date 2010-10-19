@@ -18,7 +18,7 @@ import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.error.AssertionErrorFactory;
-import org.fest.assertions.error.BasicErrorMessage;
+import org.fest.assertions.error.ErrorMessage;
 
 /**
  * Failure actions.
@@ -63,7 +63,7 @@ public class Failures {
    * <ol>
    * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
    * as the error message if such value is not {@code null}, or</li>
-   * <li>uses the given <code>{@link BasicErrorMessage}</code> to create the detail message of the
+   * <li>uses the given <code>{@link ErrorMessage}</code> to create the detail message of the
    * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to
    * the error message</li>
    * </ol>
@@ -71,7 +71,7 @@ public class Failures {
    * @param message knows how to create detail messages for {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  public AssertionError failure(AssertionInfo info, BasicErrorMessage message) {
+  public AssertionError failure(AssertionInfo info, ErrorMessage message) {
     // TODO test
     AssertionError error = failureIfErrorMessageIsOverriden(info);
     if (error != null) return error;

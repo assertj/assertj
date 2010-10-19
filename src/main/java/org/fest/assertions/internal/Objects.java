@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenObjectsAreEqual.errorWhenEqual;
-import static org.fest.assertions.error.ErrorWhenObjectsAreNotEqual.errorWhenNotEqual;
-import static org.fest.assertions.error.ErrorWhenObjecsAreNotSame.errorWhenNotSame;
-import static org.fest.assertions.error.ErrorWhenObjectIsNull.errorWhenNull;
-import static org.fest.assertions.error.ErrorWhenObjectsAreSame.errorWhenSame;
+import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.IsSame.isSame;
+import static org.fest.assertions.error.IsNotSame.isNotSame;
+import static org.fest.assertions.error.IsNull.isNull;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -63,7 +63,7 @@ public class Objects {
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(expected, actual)) return;
-    throw failures.failure(info, errorWhenNotEqual(actual, expected));
+    throw failures.failure(info, isNotEqual(actual, expected));
   }
 
   /**
@@ -75,7 +75,7 @@ public class Objects {
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
     if (!areEqual(other, actual)) return;
-    throw failures.failure(info, errorWhenEqual(actual, other));
+    throw failures.failure(info, isEqual(actual, other));
   }
 
   /**
@@ -86,7 +86,7 @@ public class Objects {
    */
   public void assertNull(AssertionInfo info, Object obj) {
     if (obj == null) return;
-    throw failures.failure(info, errorWhenNotEqual(obj, null));
+    throw failures.failure(info, isNotEqual(obj, null));
   }
 
   /**
@@ -97,7 +97,7 @@ public class Objects {
    */
   public void assertNotNull(AssertionInfo info, Object obj) {
     if (obj != null) return;
-    throw failures.failure(info, errorWhenNull());
+    throw failures.failure(info, isNull());
   }
 
   /**
@@ -109,7 +109,7 @@ public class Objects {
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
     if (actual == expected) return;
-    throw failures.failure(info, errorWhenNotSame(actual, expected));
+    throw failures.failure(info, isNotSame(actual, expected));
   }
 
   /**
@@ -121,6 +121,6 @@ public class Objects {
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
     if (actual != other) return;
-    throw failures.failure(info, errorWhenSame(actual));
+    throw failures.failure(info, isSame(actual));
   }
 }

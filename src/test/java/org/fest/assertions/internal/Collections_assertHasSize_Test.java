@@ -14,16 +14,17 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotHaveExpectedSize.errorWhenSizeNotEqual;
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.util.Collections.list;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -61,10 +62,10 @@ public class Collections_assertHasSize_Test {
 
   @Test public void should_fail_if_actual_has_elements() {
     Collection<String> actual = list("Yoda");
-    int expectedSize = 8;
-    thrown.expectAssertionErrorButNotFromMockito();
-    collections.assertHasSize(info, actual, expectedSize);
-    AssertionErrorFactory errorFactory = errorWhenSizeNotEqual(actual, actual.size(), expectedSize);
-    verify(failures).failure(info, errorFactory);
+    try {
+      collections.assertHasSize(info, actual, 8);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
   }
 }

@@ -14,17 +14,19 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenGroupDoesNotContainValues.errorWhenDoesNotContain;
+import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -91,10 +93,11 @@ public class Collections_assertContains_Test {
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {
-    thrown.expectAssertionErrorButNotFromMockito();
     Object[] expected = { "Han", "Luke" };
-    collections.assertContains(info, actual, expected);
-    AssertionErrorFactory errorFactory = errorWhenDoesNotContain(actual, expected, set("Han"));
-    verify(failures).failure(info, errorFactory);
+    try {
+      collections.assertContains(info, actual, expected);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, doesNotContain(actual, expected, set("Han")));
   }
 }

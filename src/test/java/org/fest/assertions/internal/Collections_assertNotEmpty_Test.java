@@ -15,15 +15,17 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ErrorWhenGroupIsEmpty.errorWhenEmpty;
+import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.util.Collections.list;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -60,9 +62,11 @@ public class Collections_assertNotEmpty_Test {
   }
 
   @Test public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionErrorButNotFromMockito();
     Collection<String> actual = emptyList();
-    collections.assertNotEmpty(info, actual);
-    verify(failures).failure(info, errorWhenEmpty());
+    try {
+      collections.assertNotEmpty(info, actual);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isEmpty());
   }
 }

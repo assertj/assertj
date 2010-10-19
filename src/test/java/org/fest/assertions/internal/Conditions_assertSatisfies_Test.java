@@ -14,8 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.NotSatisfied.notSatisfied;
+import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
@@ -61,8 +62,10 @@ public class Conditions_assertSatisfies_Test {
 
   @Test public void should_fail_if_Condition_is_not_met() {
     condition.shouldMatch(false);
-    thrown.expectAssertionErrorButNotFromMockito();
-    conditions.assertSatisfies(info, actual, condition);
-    verify(failures).failure(info, notSatisfied(actual, condition));
+    try {
+      conditions.assertSatisfies(info, actual, condition);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotSatisfied(actual, condition));
   }
 }
