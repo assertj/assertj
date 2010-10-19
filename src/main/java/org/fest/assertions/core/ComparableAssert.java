@@ -24,26 +24,6 @@ package org.fest.assertions.core;
 public interface ComparableAssert<T extends Comparable<T>> {
 
   /**
-   * Verifies that the actual value is equal to the given one by invoking
-   * <code>{@link Comparable#compareTo(Object)}</code>.
-   * @param expected the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
-   */
-  ComparableAssert<T> isEqualByComparingTo(T expected);
-
-  /**
-   * Verifies that the actual value is not equal to the given one by invoking
-   * <code>{@link Comparable#compareTo(Object)}</code>.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the given one.
-   */
-  ComparableAssert<T> isNotEqualByComparingTo(T other);
-
-  /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.

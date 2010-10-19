@@ -125,18 +125,6 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
   }
 
   /** {@inheritDoc} */
-  public IntegerAssert isEqualByComparingTo(Integer expected) {
-    comparables.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isNotEqualByComparingTo(Integer other) {
-    comparables.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
   public IntegerAssert isLessThan(Integer other) {
     comparables.assertLessThan(info, actual, other);
     return this;
