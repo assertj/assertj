@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ErrorWhenComparableIsNotLessThan.errorWhenNotLessThan;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
+import static org.fest.assertions.error.NotLessThan.notLessThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.mockito.Mockito.*;
@@ -57,19 +56,14 @@ public class Comparables_assertLessThan_Test {
   }
 
   @Test public void should_fail_if_actual_is_equal_to_other() {
-    AssertionError expectedError = assertionFailingOnPurpose();
-    String a = "Yoda";
-    String o = "Yoda";
-    when(failures.failure(info, errorWhenNotLessThan(a, o))).thenReturn(expectedError);
-    thrown.expect(expectedError);
-    comparables.assertLessThan(info, a, o);
+    thrown.expectAssertionErrorButNotFromMockito();
+    comparables.assertLessThan(info, "Yoda", "Yoda");
+    verify(failures).failure(info, notLessThan("Yoda", "Yoda"));
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
-    Integer a = 8;
-    Integer o = 6;
     thrown.expectAssertionErrorButNotFromMockito();
-    comparables.assertLessThan(info, a, o);
-    verify(failures).failure(info, errorWhenNotLessThan(a, o));
+    comparables.assertLessThan(info, 8, 6);
+    verify(failures).failure(info, notLessThan(8, 6));
   }
 }

@@ -150,8 +150,8 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert isGreaterThan(Integer other) {
-    // TODO Auto-generated method stub
-    return null;
+    comparables.assertGreaterThan(info, actual, other);
+    return this;
   }
 
   /** {@inheritDoc} */

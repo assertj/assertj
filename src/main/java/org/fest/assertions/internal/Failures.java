@@ -17,8 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.error.*;
 
 /**
  * Failure actions.
@@ -49,23 +48,39 @@ public class Failures {
    * prepending the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
    * </ol>
    * @param info contains information about the failed assertion.
-   * @param assertionErrorFactory knows how to create {@code AssertionError}s.
+   * @param factory knows how to create {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  public AssertionError failure(AssertionInfo info, AssertionErrorFactory assertionErrorFactory) {
-    String overridingErrorMessage = info.overridingErrorMessage();
-    if (!isEmpty(overridingErrorMessage)) return failure(overridingErrorMessage);
-    return failure(info.description(), assertionErrorFactory);
+  public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
+    AssertionError error = failureIfErrorMessageIsOverriden(info);
+    if (error != null) return error;
+    return factory.newAssertionError(info.description());
   }
 
   /**
-   * Returns the <code>{@link AssertionError}</code> created by the given <code>{@link AssertionErrorFactory}</code>.
-   * @param description the description of the failed assertion, to be included at the beginning of the error message.
-   * @param assertionErrorFactory knows how to create {@code AssertionError}s.
+   * Creates a <code>{@link AssertionError}</code> following this pattern:
+   * <ol>
+   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
+   * as the error message if such value is not {@code null}, or</li>
+   * <li>uses the given <code>{@link ErrorMessage}</code> to create the detail message of the
+   * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to
+   * the error message</li>
+   * </ol>
+   * @param info contains information about the failed assertion.
+   * @param message knows how to create detail messages for {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
-  AssertionError failure(Description description, AssertionErrorFactory assertionErrorFactory) {
-    return assertionErrorFactory.newAssertionError(description);
+  public AssertionError failure(AssertionInfo info, ErrorMessage message) {
+    // TODO test
+    AssertionError error = failureIfErrorMessageIsOverriden(info);
+    if (error != null) return error;
+    return new AssertionError(message.create(info.description()));
+  }
+
+  private AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
+    String overridingErrorMessage = info.overridingErrorMessage();
+    if (!isEmpty(overridingErrorMessage)) return failure(overridingErrorMessage);
+    return null;
   }
 
   /**
