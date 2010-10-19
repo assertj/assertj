@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import java.util.Collection;
+
 /**
  * Creates an error message indicating that an assertion that verifies that the number of elements in a group of
  * elements is equal to the expected one failed. A group of elements can be a collection, an array or a {@code String}.
@@ -25,12 +27,11 @@ public class DoesNotHaveSize extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotHaveSize(Object actual, int actualSize, int expectedSize) {
-    return new DoesNotHaveSize(actual, actualSize, expectedSize);
+  public static ErrorMessage doesNotHaveSize(Collection<?> actual, int expectedSize) {
+    return new DoesNotHaveSize(actual, actual.size(), expectedSize);
   }
 
   private DoesNotHaveSize(Object actual, int actualSize, int expectedSize) {

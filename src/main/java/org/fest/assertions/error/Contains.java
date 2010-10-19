@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import java.util.*;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a given set
  * of values failed. A group of elements can be a collection, an array or a {@code String}.
@@ -29,7 +31,7 @@ public class Contains extends BasicErrorMessage {
    * @param found the values in {@code expected} found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage contains(Object actual, Object expected, Object found) {
+  public static ErrorMessage contains(Collection<?> actual, Object[] expected, Set<?> found) {
     return new Contains(actual, expected, found);
   }
 

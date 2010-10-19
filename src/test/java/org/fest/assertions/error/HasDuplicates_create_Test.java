@@ -16,13 +16,10 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link HasDuplicates#create(Description)}</code>.
@@ -34,7 +31,7 @@ public class HasDuplicates_create_Test {
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = hasDuplicates(list("Yoda", "Yoda", "Luke"), array("Yoda"));
+    errorMessage = hasDuplicates(list("Yoda", "Yoda", "Luke"), list("Yoda"));
   }
 
   @Test public void should_create_error_message() {

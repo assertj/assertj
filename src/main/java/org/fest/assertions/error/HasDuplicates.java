@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import java.util.Collection;
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is does
  * not have duplicates failed. A group of elements can be a collection, an array or a {@code String}.
@@ -28,7 +30,7 @@ public class HasDuplicates extends BasicErrorMessage {
    * @param duplicates the duplicate values found in {@code actual}.
    * @return an instance of {@code ErrorMessage}.
    */
-  public static ErrorMessage hasDuplicates(Object actual, Object duplicates) {
+  public static ErrorMessage hasDuplicates(Collection<?> actual, Collection<?> duplicates) {
     return new HasDuplicates(actual, duplicates);
   }
 

@@ -105,9 +105,8 @@ public class Collections {
    */
   public void assertHasSize(AssertionInfo info, Collection<?> actual, int expectedSize) {
     assertNotNull(info, actual);
-    int actualSize = actual.size();
-    if (actualSize == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(actual, actualSize, expectedSize));
+    if (actual.size() == expectedSize) return;
+    throw failures.failure(info, doesNotHaveSize(actual, expectedSize));
   }
 
   /**
@@ -123,7 +122,7 @@ public class Collections {
   public void assertContains(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
-    Collection<Object> notFound = new LinkedHashSet<Object>();
+    Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, doesNotContain(actual, values, notFound));
@@ -143,8 +142,8 @@ public class Collections {
   public void assertContainsExclusively(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
-    Collection<Object> notExpected = new LinkedHashSet<Object>(actual);
-    Collection<Object> notFound = new ArrayList<Object>();
+    Set<Object> notExpected = new LinkedHashSet<Object>(actual);
+    Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object o : set(values)) {
       if (!notExpected.contains(o)) notFound.add(o);
       else notExpected.remove(o);
@@ -166,7 +165,7 @@ public class Collections {
   public void assertDoesNotContain(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
-    Collection<Object> found = new LinkedHashSet<Object>();
+    Set<Object> found = new LinkedHashSet<Object>();
     for (Object o: values) if (actual.contains(o)) found.add(o);
     if (found.isEmpty()) return;
     throw failures.failure(info, contains(actual, values, found));

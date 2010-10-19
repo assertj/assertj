@@ -14,17 +14,17 @@
  */
 package org.fest.assertions.error;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Arrays.array;
+import static org.fest.util.Collections.*;
 
 import java.util.List;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotContainExclusively#create(Description)}</code>.
@@ -44,19 +44,19 @@ public class DoesNotContainExclusively_create_Test {
   }
 
   @Test public void should_create_default_error_message() {
-    errorMessage = doesNotContainExclusively(actual, list("Luke", "Yoda"), list("Han"), list("Luke"));
+    errorMessage = doesNotContainExclusively(actual, array("Luke", "Yoda"), set("Han"), set("Luke"));
     String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Luke', 'Yoda']> exclusively; could not find:<['Luke']> and got unexpected:<['Han']>";
     assertEquals(msg, errorMessage.create(description));
   }
 
   @Test public void should_ignore_notFound_if_empty() {
-    errorMessage = doesNotContainExclusively(actual, list("Yoda"), list("Han"), emptyList());
+    errorMessage = doesNotContainExclusively(actual, array("Yoda"), set("Han"), emptySet());
     String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Yoda']> exclusively, but got unexpected:<['Han']>";
     assertEquals(msg, errorMessage.create(description));
   }
 
   @Test public void should_ignore_notExpected_if_empty() {
-    errorMessage = doesNotContainExclusively(actual, list("Luke", "Yoda", "Han"), emptyList(), list("Luke"));
+    errorMessage = doesNotContainExclusively(actual, array("Luke", "Yoda", "Han"), emptySet(), set("Luke"));
     String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Luke', 'Yoda', 'Han']> exclusively, but could not find:<['Luke']>";
     assertEquals(msg, errorMessage.create(description));
   }

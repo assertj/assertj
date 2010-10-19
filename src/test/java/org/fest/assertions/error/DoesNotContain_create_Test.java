@@ -17,12 +17,10 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Collections.*;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotContain#create(Description)}</code>.
@@ -35,7 +33,7 @@ public class DoesNotContain_create_Test {
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = doesNotContain(list("Yoda"), array("Luke", "Yoda"), list("Luke"));
+    errorMessage = doesNotContain(list("Yoda"), array("Luke", "Yoda"), set("Luke"));
   }
 
   @Test public void should_create_error_message() {

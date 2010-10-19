@@ -23,11 +23,9 @@ import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -95,6 +93,6 @@ public class Collections_assertContainsExclusively_Test {
       collections.assertContainsExclusively(info, actual, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainExclusively(actual, expected, set("Leia"), list("Han")));
+    verify(failures).failure(info, doesNotContainExclusively(actual, expected, set("Leia"), set("Han")));
   }
 }

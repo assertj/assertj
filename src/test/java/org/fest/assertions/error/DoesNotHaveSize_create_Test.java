@@ -18,10 +18,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.util.Collections.list;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotHaveSize#create(Description)}</code>.
@@ -34,7 +32,7 @@ public class DoesNotHaveSize_create_Test {
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = doesNotHaveSize(list("Luke", "Yoda"), 2, 8);
+    errorMessage = doesNotHaveSize(list("Luke", "Yoda"), 8);
   }
 
   @Test public void should_create_error_message() {

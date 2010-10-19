@@ -16,6 +16,8 @@ package org.fest.assertions.error;
 
 import static org.fest.util.Objects.*;
 
+import java.util.*;
+
 import org.fest.assertions.description.Description;
 import org.fest.assertions.group.IsNullOrEmptyChecker;
 
@@ -40,8 +42,8 @@ public class DoesNotContainExclusively implements ErrorMessage {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainExclusively(Object actual, Object expected, Object notExpected,
-      Object notFound) {
+  public static ErrorMessage doesNotContainExclusively(Collection<?> actual, Object[] expected, Set<?> notExpected,
+      Set<?> notFound) {
     return new DoesNotContainExclusively(actual, expected, notExpected, notFound);
   }
 
