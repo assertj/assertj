@@ -19,7 +19,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class NotLessThan extends ErrorMessage {
+public class NotLessThan extends BasicErrorMessage {
 
   /**
    * Creates a new </code>{@link NotLessThan}</code>.

@@ -22,7 +22,7 @@ import org.fest.assertions.core.Condition;
  *
  * @author Alex Ruiz
  */
-public class NotSatisfied extends ErrorMessage {
+public class NotSatisfied extends BasicErrorMessage {
 
   /**
    * Creates a new </code>{@link NotSatisfied}</code>.

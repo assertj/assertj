@@ -28,17 +28,17 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public abstract class ErrorMessage {
+public class BasicErrorMessage {
 
   private final String format;
   private final Object[] arguments;
 
   /**
-   * Creates a new </code>{@link ErrorMessage}</code>.
+   * Creates a new </code>{@link BasicErrorMessage}</code>.
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
-  public ErrorMessage(String format, Object... arguments) {
+  public BasicErrorMessage(String format, Object... arguments) {
     this.format = format;
     this.arguments = arguments;
   }
@@ -56,7 +56,7 @@ public abstract class ErrorMessage {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    ErrorMessage other = (ErrorMessage) obj;
+    BasicErrorMessage other = (BasicErrorMessage) obj;
     if (!areEqual(format, other.format)) return false;
     return Arrays.equals(arguments, other.arguments);
   }
