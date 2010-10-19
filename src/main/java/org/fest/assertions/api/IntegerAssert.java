@@ -33,10 +33,10 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
   @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Integers integers = Integers.instance();
+  @VisibleForTesting Conditions conditions = Conditions.instance();
 
   @VisibleForTesting final Integer actual;
   @VisibleForTesting final WritableAssertionInfo info;
-
 
   protected IntegerAssert(Integer actual) {
     this.actual = actual;
@@ -82,9 +82,33 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
     return this;
   }
 
+  /**
+   * Verifies that the actual value is equal to the given one.
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public IntegerAssert isEqualTo(int expected) {
+    integers.assertEqual(info, actual, expected);
+    return this;
+  }
+
   /** {@inheritDoc} */
   public IntegerAssert isNotEqualTo(Integer other) {
     objects.assertNotEqual(info, actual, other);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is not equal to the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the given one.
+   */
+  public IntegerAssert isNotEqualTo(int other) {
+    integers.assertNotEqual(info, actual, other);
     return this;
   }
 
@@ -114,8 +138,8 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert isPositive() {
-    // TODO Auto-generated method stub
-    return null;
+    integers.assertIsPositive(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -150,26 +174,24 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
 
   /** {@inheritDoc} */
   public IntegerAssert satisfies(Condition<Integer> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    conditions.assertSatisfies(info, actual, condition);
+    return this;
   }
 
   /** {@inheritDoc} */
   public IntegerAssert doesNotSatisfy(Condition<Integer> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    conditions.assertDoesNotSatisfy(info, actual, condition);
+    return this;
   }
 
   /** {@inheritDoc} */
   public IntegerAssert is(Condition<Integer> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    return satisfies(condition);
   }
 
   /** {@inheritDoc} */
   public IntegerAssert isNot(Condition<Integer> condition) {
-    // TODO Auto-generated method stub
-    return null;
+    return doesNotSatisfy(condition);
   }
 
   @VisibleForTesting final String descriptionText() {

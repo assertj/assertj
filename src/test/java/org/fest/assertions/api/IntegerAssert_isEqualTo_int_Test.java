@@ -17,32 +17,32 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.Integers;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNotEqualTo(Integer)}</code>.
+ * Tests for <code>{@link IntegerAssert#isEqualTo(int)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isNotEqualTo_Test {
+public class IntegerAssert_isEqualTo_int_Test {
 
-  private Objects objects;
+  private Integers integers;
   private IntegerAssert assertions;
 
   @Before public void setUp() {
-    objects = mock(Objects.class);
+    integers = mock(Integers.class);
     assertions = new IntegerAssert(6);
-    assertions.objects = objects;
+    assertions.integers = integers;
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(new Integer(8));
-    verify(objects).assertNotEqual(assertions.info, assertions.actual, 8);
+  @Test public void should_verify_that_actual_is_equal_to_expected() {
+    assertions.isEqualTo(8);
+    verify(integers).assertEqual(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isNotEqualTo(new Integer(8));
+    IntegerAssert returned = assertions.isEqualTo(8);
     assertSame(assertions, returned);
   }
 }

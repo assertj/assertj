@@ -41,7 +41,8 @@ public class Integers_assertIsZero_Test {
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    integers = new Integers(comparables);
+    integers = new Integers();
+    integers.comparables = comparables;
   }
 
   @Test public void should_verify_that_actual_is_equal_to_zero() {

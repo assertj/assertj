@@ -25,6 +25,7 @@ public interface NumberAssert<T extends Number> {
   /**
    * Verifies that the actual value is equal to zero.
    * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
    */
   NumberAssert<T> isZero();
@@ -32,6 +33,7 @@ public interface NumberAssert<T extends Number> {
   /**
    * Verifies that the actual value is not equal to zero.
    * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
    */
   NumberAssert<T> isNotZero();
@@ -39,6 +41,7 @@ public interface NumberAssert<T extends Number> {
   /**
    * Verifies that the actual value is positive.
    * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
    */
   NumberAssert<T> isPositive();
@@ -46,6 +49,7 @@ public interface NumberAssert<T extends Number> {
   /**
    * Verifies that the actual value is negative.
    * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative.
    */
   NumberAssert<T> isNegative();

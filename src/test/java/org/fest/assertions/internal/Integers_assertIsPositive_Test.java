@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 19, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,11 +22,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Integers#assertIsNotZero(AssertionInfo, Integer)}</code>.
+ * Tests for <code>{@link Integers#assertIsPositive(AssertionInfo, Integer)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Integers_assertIsNotZero_Test {
+public class Integers_assertIsPositive_Test {
 
   private static WritableAssertionInfo info;
 
@@ -45,8 +45,8 @@ public class Integers_assertIsNotZero_Test {
     integers.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_zero() {
-    integers.assertIsNotZero(info, 6);
-    verify(comparables).assertNotEqual(info, 6, 0);
+  @Test public void should_verify_that_actual_is_negative() {
+    integers.assertIsPositive(info, 8);
+    verify(comparables).assertGreaterThan(info, 8, 0);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 17, 2010
+ * Created on Sep 30, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,32 +17,39 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.core.*;
+import org.fest.assertions.internal.Conditions;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntegerAssert#isNotEqualTo(Integer)}</code>.
+ * Tests for <code>{@link IntegerAssert#isNot(Condition)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isNotEqualTo_Test {
+public class IntegerAssert_isNot_Test {
 
-  private Objects objects;
+  private static Condition<Integer> condition;
+
+  private Conditions conditions;
   private IntegerAssert assertions;
 
-  @Before public void setUp() {
-    objects = mock(Objects.class);
-    assertions = new IntegerAssert(6);
-    assertions.objects = objects;
+  @BeforeClass public static void setUpOnce() {
+    condition = new TestCondition<Integer>();
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(new Integer(8));
-    verify(objects).assertNotEqual(assertions.info, assertions.actual, 8);
+  @Before public void setUp() {
+    conditions = mock(Conditions.class);
+    assertions = new IntegerAssert(8);
+    assertions.conditions = conditions;
+  }
+
+  @Test public void should_verify_that_actual_does_not_satisfy_Condition() {
+    assertions.isNot(condition);
+    verify(conditions).assertDoesNotSatisfy(assertions.info, assertions.actual, condition);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isNotEqualTo(new Integer(8));
+    IntegerAssert returned = assertions.isNot(condition);
     assertSame(assertions, returned);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 19, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,41 +12,37 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Integers;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Integers#assertIsNegative(AssertionInfo, Integer)}</code>.
+ * Tests for <code>{@link IntegerAssert#isPositive()}</code>.
  *
  * @author Alex Ruiz
  */
-public class Integers_assertIsNegative_Test {
+public class IntegerAssert_isPositive_Test {
 
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
-
-  private Comparables comparables;
   private Integers integers;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
+  private IntegerAssert assertions;
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    integers = new Integers();
-    integers.comparables = comparables;
+    integers = mock(Integers.class);
+    assertions = new IntegerAssert(6);
+    assertions.integers = integers;
   }
 
   @Test public void should_verify_that_actual_is_negative() {
-    integers.assertIsNegative(info, -6);
-    verify(comparables).assertLessThan(info, -6, 0);
+    assertions.isPositive();
+    verify(integers).assertIsPositive(assertions.info, assertions.actual);
+  }
+
+  @Test public void should_return_this() {
+    IntegerAssert returned = assertions.isPositive();
+    assertSame(assertions, returned);
   }
 }

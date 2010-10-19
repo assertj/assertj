@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IntegerAssert#isEqualTo(Integer)}</code>.
@@ -38,12 +37,12 @@ public class IntegerAssert_isEqualTo_Test {
   }
 
   @Test public void should_verify_that_actual_is_equal_to_expected() {
-    assertions.isEqualTo(8);
+    assertions.isEqualTo(new Integer(8));
     verify(objects).assertEqual(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isEqualTo(8);
+    IntegerAssert returned = assertions.isEqualTo(new Integer(8));
     assertSame(assertions, returned);
   }
 }

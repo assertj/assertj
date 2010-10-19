@@ -15,13 +15,10 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.core.*;
 import org.junit.*;
 
 /**
@@ -32,8 +29,6 @@ import org.junit.*;
 public class Objects_assertNull_Test {
 
   private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Objects objects;

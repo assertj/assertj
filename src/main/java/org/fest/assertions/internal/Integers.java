@@ -14,6 +14,9 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
 
@@ -36,15 +39,10 @@ public class Integers {
     return INSTANCE;
   }
 
-  private final Comparables comparables;
+  @VisibleForTesting Comparables comparables = Comparables.instance();
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Integers() {
-    this(Comparables.instance());
-  }
-
-  @VisibleForTesting Integers(Comparables comparables) {
-    this.comparables = comparables;
-  }
+  @VisibleForTesting Integers() {}
 
   /**
    * Asserts that the actual value is equal to zero.
@@ -77,5 +75,50 @@ public class Integers {
    */
   public void assertIsNegative(AssertionInfo info, Integer actual) {
     comparables.assertLessThan(info, actual, ZERO);
+  }
+
+  /**
+   * Asserts that the actual value is positive.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
+   */
+  public void assertIsPositive(AssertionInfo info, Integer actual) {
+    comparables.assertGreaterThan(info, actual, ZERO);
+  }
+
+  /**
+   * Asserts that two integers are equal.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param expected the expected value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
+   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
+   * equal.
+   */
+  public void assertEqual(AssertionInfo info, Integer actual, int expected) {
+    assertNotNull(info, actual);
+    if (actual.intValue() == expected) return;
+    failures.failure(info, isNotEqual(actual, expected));
+  }
+
+  /**
+   * Asserts that two integers are not equal.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the other one.
+   */
+  public void assertNotEqual(AssertionInfo info, Integer actual, int other) {
+    assertNotNull(info, actual);
+    if (actual.intValue() != other) return;
+    failures.failure(info, isEqual(actual, other));
+  }
+
+  private void assertNotNull(AssertionInfo info, Integer actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 }
