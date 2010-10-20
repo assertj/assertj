@@ -16,6 +16,10 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
+import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
+import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
+import static org.fest.assertions.error.IsNotLessThanOrEqualTo.isNotLessThanOrEqualTo;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -118,7 +122,73 @@ public class Integers {
     failures.failure(info, isEqual(actual, other));
   }
 
-  private void assertNotNull(AssertionInfo info, Integer actual) {
+  /**
+   * Asserts that the actual value is less than the other one.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not less than the other one: this assertion will
+   * fail if the actual value is equal to or greater than the other value.
+   */
+  public void assertLessThan(AssertionInfo info, Integer actual, int other) {
+    assertNotNull(info, actual);
+    if (isLessThan(actual, other)) return;
+    failures.failure(info, isNotLessThan(actual, other));
+  }
+
+  /**
+   * Asserts that the actual value is less than or equal to the other one.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is greater than the other one.
+   */
+  public void assertLessThanOrEqualTo(AssertionInfo info, Integer actual, int other) {
+    assertNotNull(info, actual);
+    if (!isGreaterThan(actual, other)) return;
+    failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+  }
+
+  /**
+   * Asserts that the actual value is greater than the other one.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not greater than the other one: this assertion will
+   * fail if the actual value is equal to or less than the other value.
+   */
+  public void assertGreaterThan(AssertionInfo info, Integer actual, int other) {
+    assertNotNull(info, actual);
+    if (isGreaterThan(actual, other)) return;
+    failures.failure(info, isNotGreaterThan(actual, other));
+  }
+
+  private static boolean isGreaterThan(Integer actual, int other) {
+    return actual.intValue() > other;
+  }
+
+  /**
+   * Asserts that the actual value is greater than or equal to the other one.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is less than the other one.
+   */
+  public void assertGreaterThanOrEqualTo(AssertionInfo info, Integer actual, int other) {
+    assertNotNull(info, actual);
+    if (!isLessThan(actual, other)) return;
+    failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
+  }
+
+  private static boolean isLessThan(Integer actual, int other) {
+    return actual.intValue() < other;
+  }
+
+  private static void assertNotNull(AssertionInfo info, Integer actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 }

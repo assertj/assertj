@@ -154,9 +154,33 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
     return this;
   }
 
+  /**
+   * Verifies that the actual value is less than the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to or greater than the given one.
+   */
+  public IntegerAssert isLessThan(int other) {
+    integers.assertLessThan(info, actual, other);
+    return this;
+  }
+
   /** {@inheritDoc} */
   public IntegerAssert isLessThanOrEqualTo(Integer other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is less than or equal to the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is greater than the given one.
+   */
+  public IntegerAssert isLessThanOrEqualTo(int other) {
+    integers.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -166,9 +190,33 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
     return this;
   }
 
+  /**
+   * Verifies that the actual value is greater than the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to or less than the given one.
+   */
+  public IntegerAssert isGreaterThan(int other) {
+    integers.assertGreaterThan(info, actual, other);
+    return this;
+  }
+
   /** {@inheritDoc} */
   public IntegerAssert isGreaterThanOrEqualTo(Integer other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is greater than or equal to the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is less than the given one.
+   */
+  public IntegerAssert isGreaterThanOrEqualTo(int other) {
+    integers.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

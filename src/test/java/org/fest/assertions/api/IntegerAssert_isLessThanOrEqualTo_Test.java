@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Comparables;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link IntegerAssert#isLessThanOrEqualTo(Integer)}</code>.
@@ -37,12 +38,12 @@ public class IntegerAssert_isLessThanOrEqualTo_Test {
   }
 
   @Test public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThanOrEqualTo(8);
+    assertions.isLessThanOrEqualTo(new Integer(8));
     verify(comparables).assertLessThanOrEqualTo(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isLessThanOrEqualTo(8);
+    IntegerAssert returned = assertions.isLessThanOrEqualTo(new Integer(8));
     assertSame(assertions, returned);
   }
 }

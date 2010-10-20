@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Comparables;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link IntegerAssert#isGreaterThan(Integer)}</code>.
@@ -37,12 +38,12 @@ public class IntegerAssert_isGreaterThan_Test {
   }
 
   @Test public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThan(6);
+    assertions.isGreaterThan(new Integer(6));
     verify(comparables).assertGreaterThan(assertions.info, assertions.actual, 6);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isGreaterThan(6);
+    IntegerAssert returned = assertions.isGreaterThan(new Integer(6));
     assertSame(assertions, returned);
   }
 }

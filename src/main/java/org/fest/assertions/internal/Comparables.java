@@ -102,6 +102,21 @@ public class Comparables {
   }
 
   /**
+   * Asserts that the actual value is less than or equal to the other one.
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is greater than the other one.
+   */
+  public <T extends Comparable<T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertNotNull(info, actual);
+    if (!isGreaterThan(actual, other)) return;
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+  }
+
+  /**
    * Asserts that the actual value is greater than the other one.
    * @param <T> used to guarantee that two objects of the same type are being compared against each other.
    * @param info contains information about the assertion.
@@ -115,21 +130,6 @@ public class Comparables {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
     throw failures.failure(info, isNotGreaterThan(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is less than or equal to the other one.
-   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is greater than the other one.
-   */
-  public <T extends Comparable<T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
-    assertNotNull(info, actual);
-    if (!isGreaterThan(actual, other)) return;
-    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
   }
 
   private static <T extends Comparable<T>> boolean isGreaterThan(T actual, T other) {

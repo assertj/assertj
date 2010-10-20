@@ -38,12 +38,12 @@ public class IntegerAssert_isLessThan_Test {
   }
 
   @Test public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThan(8);
+    assertions.isLessThan(new Integer(8));
     verify(comparables).assertLessThan(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isLessThan(8);
+    IntegerAssert returned = assertions.isLessThan(new Integer(8));
     assertSame(assertions, returned);
   }
 }

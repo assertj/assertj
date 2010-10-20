@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,33 +17,33 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.Integers;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link IntegerAssert#isGreaterThanOrEqualTo(Integer)}</code>.
+ * Tests for <code>{@link IntegerAssert#isGreaterThan(int)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isGreaterThanOrEqualTo_Test {
+public class IntegerAssert_isGreaterThan_int_Test {
 
-  private Comparables comparables;
+  private Integers integers;
   private IntegerAssert assertions;
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
+    integers = mock(Integers.class);
     assertions = new IntegerAssert(8);
-    assertions.comparables = comparables;
+    assertions.integers = integers;
   }
 
   @Test public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThanOrEqualTo(new Integer(6));
-    verify(comparables).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, 6);
+    assertions.isGreaterThan(6);
+    verify(integers).assertGreaterThan(assertions.info, assertions.actual, 6);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isGreaterThanOrEqualTo(new Integer(6));
+    IntegerAssert returned = assertions.isGreaterThan(6);
     assertSame(assertions, returned);
   }
 }
