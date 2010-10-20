@@ -64,6 +64,24 @@ public class Assertions {
     return new IntegerAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link LongAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static LongAssert assertThat(long actual) {
+    return new LongAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link LongAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static LongAssert assertThat(Long actual) {
+    return new LongAssert(actual);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

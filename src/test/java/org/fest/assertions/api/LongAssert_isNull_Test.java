@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,24 +14,30 @@
  */
 package org.fest.assertions.api;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
+import org.fest.assertions.internal.Objects;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(int)}</code>.
+ * Tests for <code>{@link LongAssert#isNull()}</code>.
  *
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_int_Test {
+public class LongAssert_isNull_Test {
 
-  @Test public void should_create_Assert() {
-    IntegerAssert assertions = Assertions.assertThat(0);
-    assertNotNull(assertions);
+  private Objects objects;
+  private LongAssert assertions;
+
+  @Before public void setUp() {
+    objects = mock(Objects.class);
+    assertions = new LongAssert(null);
+    assertions.objects = objects;
   }
 
-  @Test public void should_pass_actual() {
-    IntegerAssert assertions = Assertions.assertThat(8);
-    assertEquals(new Integer(8), assertions.actual);
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(assertions.info, assertions.actual);
   }
 }
