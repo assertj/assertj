@@ -17,8 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.AssertionErrorFactory;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.error.*;
 
 /**
  * Failure actions.
@@ -72,7 +71,6 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessage message) {
-    // TODO test
     AssertionError error = failureIfErrorMessageIsOverriden(info);
     if (error != null) return error;
     return new AssertionError(message.create(info.description()));

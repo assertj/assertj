@@ -28,7 +28,7 @@ import org.junit.*;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Failures_fail_with_AssertionInfo_Test {
+public class Failures_failure_with_AssertionErrorFactory_Test {
 
   private WritableAssertionInfo assertionInfo;
   private AssertionErrorFactory errorFactory;

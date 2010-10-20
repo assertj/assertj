@@ -16,7 +16,10 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
+import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
 import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
+import static org.fest.assertions.error.IsNotLessThanOrEqualTo.isNotLessThanOrEqualTo;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -94,7 +97,7 @@ public class Comparables {
    */
   public <T extends Comparable<T>> void assertLessThan(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
-    if (actual.compareTo(other) < 0) return;
+    if (isLessThan(actual, other)) return;
     throw failures.failure(info, isNotLessThan(actual, other));
   }
 
@@ -109,10 +112,51 @@ public class Comparables {
    * fail if the actual value is equal to or less than the other value.
    */
   public <T extends Comparable<T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
-    // TODO Auto-generated method stub
+    assertNotNull(info, actual);
+    if (isGreaterThan(actual, other)) return;
+    throw failures.failure(info, isNotGreaterThan(actual, other));
   }
 
-  private <T> void assertNotNull(AssertionInfo info, T actual) {
+  /**
+   * Asserts that the actual value is less than or equal to the other one.
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is greater than the other one.
+   */
+  public <T extends Comparable<T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertNotNull(info, actual);
+    if (!isGreaterThan(actual, other)) return;
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+  }
+
+  private static <T extends Comparable<T>> boolean isGreaterThan(T actual, T other) {
+    return actual.compareTo(other) > 0;
+  }
+
+  /**
+   * Asserts that the actual value is greater than or equal to the other one.
+   * @param <T> used to guarantee that two objects of the same type are being compared against each other.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the value to compare the actual value to.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is less than the other one.
+   */
+  public <T extends Comparable<T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
+    assertNotNull(info, actual);
+    if (!isLessThan(actual, other)) return;
+    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
+  }
+
+  private static <T extends Comparable<T>> boolean isLessThan(T actual, T other) {
+    return actual.compareTo(other) < 0;
+  }
+
+  private static <T> void assertNotNull(AssertionInfo info, T actual) {
     Objects.instance().assertNotNull(info, actual);
   }
+
 }
