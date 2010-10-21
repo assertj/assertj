@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Oct 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,32 +17,34 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.Objects;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isNotEqualTo(long)}</code>.
+ * Tests for <code>{@link ByteAssert#isNotSameAs(Byte)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class LongAssert_isNotEqualTo_long_Test {
+public class ByteAssert_isNotSameAs_Test {
 
-  private Longs longs;
-  private LongAssert assertions;
+  private Objects objects;
+  private ByteAssert assertions;
 
   @Before public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+    objects = mock(Objects.class);
+    assertions = new ByteAssert((byte)6);
+    assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(8L);
-    verify(longs).assertNotEqual(assertions.info, assertions.actual, 8L);
+  @Test public void should_verify_that_actual_value_is_not_same_as_expected_value() {
+    Byte expected = (byte)8;
+    assertions.isNotSameAs(expected);
+    verify(objects).assertNotSame(assertions.info, assertions.actual, expected);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isNotEqualTo(8L);
+    ByteAssert returned = assertions.isNotSameAs((byte)8);
     assertSame(assertions, returned);
   }
 }

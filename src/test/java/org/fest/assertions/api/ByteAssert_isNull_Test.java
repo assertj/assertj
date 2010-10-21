@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Oct 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,24 +14,30 @@
  */
 package org.fest.assertions.api;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
+import org.fest.assertions.internal.Objects;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(short)}</code>.
+ * Tests for <code>{@link ByteAssert#isNull()}</code>.
  *
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_short_Test {
+public class ByteAssert_isNull_Test {
 
-  @Test public void should_create_Assert() {
-    ShortAssert assertions = Assertions.assertThat((short)8);
-    assertNotNull(assertions);
+  private Objects objects;
+  private ByteAssert assertions;
+
+  @Before public void setUp() {
+    objects = mock(Objects.class);
+    assertions = new ByteAssert(null);
+    assertions.objects = objects;
   }
 
-  @Test public void should_pass_actual() {
-    ShortAssert assertions = Assertions.assertThat((short)8);
-    assertEquals(new Short((short)8), assertions.actual);
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(assertions.info, assertions.actual);
   }
 }

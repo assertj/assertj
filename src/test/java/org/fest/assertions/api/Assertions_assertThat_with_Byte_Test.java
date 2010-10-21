@@ -19,19 +19,21 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(short)}</code>.
+ * Tests for <code>{@link Assertions#assertThat(Byte)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_primitive_short_Test {
+public class Assertions_assertThat_with_Byte_Test {
 
   @Test public void should_create_Assert() {
-    ShortAssert assertions = Assertions.assertThat((short)8);
+    Byte zero = 0;
+    ByteAssert assertions = Assertions.assertThat(zero);
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    ShortAssert assertions = Assertions.assertThat((short)8);
-    assertEquals(new Short((short)8), assertions.actual);
+    Byte eight = 8;
+    ByteAssert assertions = Assertions.assertThat(eight);
+    assertSame(eight, assertions.actual);
   }
 }

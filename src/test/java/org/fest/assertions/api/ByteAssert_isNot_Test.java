@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Oct 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,32 +17,39 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.core.*;
+import org.fest.assertions.internal.Conditions;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isNotEqualTo(long)}</code>.
+ * Tests for <code>{@link ByteAssert#isNot(Condition)}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongAssert_isNotEqualTo_long_Test {
+public class ByteAssert_isNot_Test {
 
-  private Longs longs;
-  private LongAssert assertions;
+  private static Condition<Byte> condition;
 
-  @Before public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+  private Conditions conditions;
+  private ByteAssert assertions;
+
+  @BeforeClass public static void setUpOnce() {
+    condition = new TestCondition<Byte>();
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(8L);
-    verify(longs).assertNotEqual(assertions.info, assertions.actual, 8L);
+  @Before public void setUp() {
+    conditions = mock(Conditions.class);
+    assertions = new ByteAssert((byte)8);
+    assertions.conditions = conditions;
+  }
+
+  @Test public void should_verify_that_actual_does_not_satisfy_Condition() {
+    assertions.isNot(condition);
+    verify(conditions).assertDoesNotSatisfy(assertions.info, assertions.actual, condition);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isNotEqualTo(8L);
+    ByteAssert returned = assertions.isNot(condition);
     assertSame(assertions, returned);
   }
 }
