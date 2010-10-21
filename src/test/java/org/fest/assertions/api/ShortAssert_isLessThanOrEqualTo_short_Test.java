@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Shorts;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ShortAssert#isLessThanOrEqualTo(short)}</code>.
@@ -28,18 +27,18 @@ import org.junit.Test;
  */
 public class ShortAssert_isLessThanOrEqualTo_short_Test {
 
-  private Shorts Shorts;
+  private Shorts shorts;
   private ShortAssert assertions;
 
   @Before public void setUp() {
-    Shorts = mock(Shorts.class);
+    shorts = mock(Shorts.class);
     assertions = new ShortAssert((short)6);
-    assertions.shorts = Shorts;
+    assertions.shorts = shorts;
   }
 
   @Test public void should_verify_that_actual_is_less_than_expected() {
     assertions.isLessThanOrEqualTo((short)8);
-    verify(Shorts).assertLessThanOrEqualTo(assertions.info, assertions.actual, (short)8);
+    verify(shorts).assertLessThanOrEqualTo(assertions.info, assertions.actual, (short)8);
   }
 
   @Test public void should_return_this() {

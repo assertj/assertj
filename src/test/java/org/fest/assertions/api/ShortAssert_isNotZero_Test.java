@@ -27,18 +27,18 @@ import org.junit.*;
  */
 public class ShortAssert_isNotZero_Test {
 
-  private Shorts Shorts;
+  private Shorts shorts;
   private ShortAssert assertions;
 
   @Before public void setUp() {
-    Shorts = mock(Shorts.class);
+    shorts = mock(Shorts.class);
     assertions = new ShortAssert((short)6);
-    assertions.shorts = Shorts;
+    assertions.shorts = shorts;
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
     assertions.isNotZero();
-    verify(Shorts).assertIsNotZero(assertions.info, assertions.actual);
+    verify(shorts).assertIsNotZero(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {

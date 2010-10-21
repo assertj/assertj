@@ -27,18 +27,18 @@ import org.junit.*;
  */
 public class LongAssert_isNotZero_Test {
 
-  private Longs Longs;
+  private Longs longs;
   private LongAssert assertions;
 
   @Before public void setUp() {
-    Longs = mock(Longs.class);
+    longs = mock(Longs.class);
     assertions = new LongAssert(6L);
-    assertions.longs = Longs;
+    assertions.longs = longs;
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
     assertions.isNotZero();
-    verify(Longs).assertIsNotZero(assertions.info, assertions.actual);
+    verify(longs).assertIsNotZero(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
