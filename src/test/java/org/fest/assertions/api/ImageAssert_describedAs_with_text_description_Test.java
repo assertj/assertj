@@ -1,5 +1,5 @@
 /*
- * Created on Aug 3, 2010
+ * Created on Oct 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,36 +14,34 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
-import static org.fest.assertions.test.TestData.someTextDescription;
+import static org.fest.assertions.test.TestData.*;
 
 import org.fest.assertions.core.Descriptable;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#describedAs(String)}</code>.
+ * Tests for <code>{@link ImageAssert#describedAs(String)}</code>.
  *
  * @author Yvonne Wang
  */
-public class CollectionAssert_describedAs_with_text_description_Test {
+public class ImageAssert_describedAs_with_text_description_Test {
 
   @Rule public ExpectedException thrown = none();
 
-  private CollectionAssert assertions;
+  private ImageAssert assertions;
   private String description;
 
   @Before public void setUp() {
-    assertions = new CollectionAssert(emptyList());
+    assertions = new ImageAssert(fivePixelBlueImage());
     description = someTextDescription();
   }
 
   @Test public void should_set_description() {
     assertions.describedAs(description);
-    // TODO replace assertSame with assertEquals in all tests for describedAs(String)
     assertEquals(description, assertions.descriptionText());
   }
 

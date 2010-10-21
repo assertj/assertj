@@ -14,11 +14,17 @@
  */
 package org.fest.assertions.test;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import static java.awt.Color.*;
+import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+
+import org.fest.assertions.description.*;
 
 /**
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public final class TestData {
 
@@ -30,6 +36,22 @@ public final class TestData {
 
   public static String someTextDescription() {
     return "there's always a bigger fish";
+  }
+
+  public static BufferedImage fivePixelBlueImage() {
+    return image(5, 5, BLUE);
+  }
+
+ public  static BufferedImage fivePixelYellowImage() {
+    return image(5, 5, YELLOW);
+  }
+
+  public static BufferedImage image(int width, int height, Color color) {
+    BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
+    Graphics graphics = image.createGraphics();
+    graphics.setColor(color);
+    graphics.fillRect(0, 0, width, height);
+    return image;
   }
 
   private TestData() {}

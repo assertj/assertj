@@ -81,22 +81,22 @@ public class Objects {
   /**
    * Asserts that the given object is {@code null}.
    * @param info contains information about the assertion.
-   * @param obj the given object.
+   * @param actual the given object.
    * @throws AssertionError if the given value is not {@code null}.
    */
-  public void assertNull(AssertionInfo info, Object obj) {
-    if (obj == null) return;
-    throw failures.failure(info, isNotEqual(obj, null));
+  public void assertNull(AssertionInfo info, Object actual) {
+    if (actual == null) return;
+    throw failures.failure(info, isNotEqual(actual, null));
   }
 
   /**
    * Asserts that the given object is not {@code null}.
    * @param info contains information about the assertion.
-   * @param obj the given object.
+   * @param actual the given object.
    * @throws AssertionError if the given value is {@code null}.
    */
-  public void assertNotNull(AssertionInfo info, Object obj) {
-    if (obj != null) return;
+  public void assertNotNull(AssertionInfo info, Object actual) {
+    if (actual != null) return;
     throw failures.failure(info, isNull());
   }
 
