@@ -82,6 +82,24 @@ public class Assertions {
     return new LongAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ShortAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ShortAssert assertThat(short actual) {
+    return new ShortAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ShortAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ShortAssert assertThat(Short actual) {
+    return new ShortAssert(actual);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

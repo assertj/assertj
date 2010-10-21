@@ -12,41 +12,37 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Shorts;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertIsPositive(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link ShortAssert#isPositive()}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertIsPositive_Test {
+public class ShortAssert_isPositive_Test {
 
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
-
-  private Comparables comparables;
-  private Longs longs;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
+  private Shorts Shorts;
+  private ShortAssert assertions;
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    longs = new Longs();
-    longs.comparables = comparables;
+    Shorts = mock(Shorts.class);
+    assertions = new ShortAssert((short)6);
+    assertions.shorts = Shorts;
   }
 
   @Test public void should_verify_that_actual_is_negative() {
-    longs.assertIsPositive(info, 8L);
-    verify(comparables).assertGreaterThan(info, 8L, 0L);
+    assertions.isPositive();
+    verify(Shorts).assertIsPositive(assertions.info, assertions.actual);
+  }
+
+  @Test public void should_return_this() {
+    ShortAssert returned = assertions.isPositive();
+    assertSame(assertions, returned);
   }
 }

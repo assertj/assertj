@@ -17,32 +17,34 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.Objects;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isNotEqualTo(long)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotSameAs(Short)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class LongAssert_isNotEqualTo_int_Test {
+public class ShortAssert_isNotSameAs_Test {
 
-  private Longs Longs;
-  private LongAssert assertions;
+  private Objects objects;
+  private ShortAssert assertions;
 
   @Before public void setUp() {
-    Longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = Longs;
+    objects = mock(Objects.class);
+    assertions = new ShortAssert((short)6);
+    assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(8);
-    verify(Longs).assertNotEqual(assertions.info, assertions.actual, 8);
+  @Test public void should_verify_that_actual_value_is_not_same_as_expected_value() {
+    Short expected = (short)8;
+    assertions.isNotSameAs(expected);
+    verify(objects).assertNotSame(assertions.info, assertions.actual, expected);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isNotEqualTo(8);
+    ShortAssert returned = assertions.isNotSameAs((short)8);
     assertSame(assertions, returned);
   }
 }

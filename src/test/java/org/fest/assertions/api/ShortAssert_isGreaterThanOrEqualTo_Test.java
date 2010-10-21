@@ -12,41 +12,37 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Comparables;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertIsZero(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link ShortAssert#isGreaterThanOrEqualTo(Short)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertIsZero_Test {
-
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
+public class ShortAssert_isGreaterThanOrEqualTo_Test {
 
   private Comparables comparables;
-  private Longs longs;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
+  private ShortAssert assertions;
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    longs = new Longs();
-    longs.comparables = comparables;
+    assertions = new ShortAssert((short)8);
+    assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_zero() {
-    longs.assertIsZero(info, 6L);
-    verify(comparables).assertEqual(info, 6L, 0L);
+  @Test public void should_verify_that_actual_is_greater_than_expected() {
+    assertions.isGreaterThanOrEqualTo(new Short((short)6));
+    verify(comparables).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, (short)6);
+  }
+
+  @Test public void should_return_this() {
+    ShortAssert returned = assertions.isGreaterThanOrEqualTo(new Short((short)6));
+    assertSame(assertions, returned);
   }
 }

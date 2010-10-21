@@ -17,33 +17,33 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.Objects;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link LongAssert#isGreaterThan(long)}</code>.
+ * Tests for <code>{@link ShortAssert#isNotNull()}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongAssert_isGreaterThan_int_Test {
+public class ShortAssert_isNotNull_Test {
 
-  private Longs Longs;
-  private LongAssert assertions;
+  private Objects objects;
+  private ShortAssert assertions;
 
   @Before public void setUp() {
-    Longs = mock(Longs.class);
-    assertions = new LongAssert(8L);
-    assertions.longs = Longs;
+    objects = mock(Objects.class);
+    assertions = new ShortAssert((short)6);
+    assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThan(6);
-    verify(Longs).assertGreaterThan(assertions.info, assertions.actual, 6);
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNotNull();
+    verify(objects).assertNotNull(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isGreaterThan(6);
+    ShortAssert returned = assertions.isNotNull();
     assertSame(assertions, returned);
   }
 }

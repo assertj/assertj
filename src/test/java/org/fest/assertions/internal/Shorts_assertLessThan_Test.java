@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
@@ -25,18 +25,18 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertNotEqual(AssertionInfo, Long, long)}</code>.
+ * Tests for <code>{@link Shorts#assertLessThan(AssertionInfo, Short, short)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertNotEqual_Test {
+public class Shorts_assertLessThan_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Longs longs;
+  private Shorts shorts;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -44,24 +44,32 @@ public class Longs_assertNotEqual_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    longs = new Longs();
-    longs.failures = failures;
+    shorts = new Shorts();
+    shorts.failures = failures;
   }
 
   @Test public void should_throw_error_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    longs.assertNotEqual(info, null, 8L);
+    shorts.assertLessThan(info, null, (short)8);
   }
 
-  @Test public void should_pass_if_longs_are_not_equal() {
-    longs.assertNotEqual(info, 8L, 6L);
+  @Test public void should_pass_if_actual_is_less_than_other() {
+    shorts.assertLessThan(info, (short)6, (short)8);
   }
 
-  @Test public void should_fail_if_longs_are_equal() {
+  @Test public void should_fail_if_actual_is_equal_to_other() {
     try {
-      longs.assertNotEqual(info, 6L, 6L);
+      shorts.assertLessThan(info, (short)6, (short)6);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual(6L, 6L));
+    verify(failures).failure(info, isNotLessThan((short)6, (short)6));
+  }
+
+  @Test public void should_fail_if_actual_is_greater_than_other() {
+    try {
+      shorts.assertLessThan(info, (short)8, (short)6);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isNotLessThan((short)8, (short)6));
   }
 }

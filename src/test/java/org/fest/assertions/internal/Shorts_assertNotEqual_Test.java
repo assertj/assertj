@@ -14,7 +14,10 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
@@ -22,31 +25,43 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertIsZero(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link Shorts#assertNotEqual(AssertionInfo, Short, short)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertIsZero_Test {
+public class Shorts_assertNotEqual_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
-  private Comparables comparables;
-  private Longs longs;
+  private Failures failures;
+  private Shorts shorts;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
   }
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    longs = new Longs();
-    longs.comparables = comparables;
+    failures = spy(Failures.instance());
+    shorts = new Shorts();
+    shorts.failures = failures;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_zero() {
-    longs.assertIsZero(info, 6L);
-    verify(comparables).assertEqual(info, 6L, 0L);
+  @Test public void should_throw_error_if_actual_is_null() {
+    thrown.expectAssertionError(unexpectedNull());
+    shorts.assertNotEqual(info, null, (short)8);
+  }
+
+  @Test public void should_pass_if_shorts_are_not_equal() {
+    shorts.assertNotEqual(info, (short)8, (short)6);
+  }
+
+  @Test public void should_fail_if_shorts_are_equal() {
+    try {
+      shorts.assertNotEqual(info, (short)6, (short)6);
+      fail();
+    } catch (AssertionError e) {}
+    verify(failures).failure(info, isEqual((short)6, (short)6));
   }
 }

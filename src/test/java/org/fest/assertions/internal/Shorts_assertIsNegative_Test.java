@@ -22,18 +22,18 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertIsZero(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link Shorts#assertIsNegative(AssertionInfo, Short)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertIsZero_Test {
+public class Shorts_assertIsNegative_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Comparables comparables;
-  private Longs longs;
+  private Shorts shorts;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -41,12 +41,12 @@ public class Longs_assertIsZero_Test {
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    longs = new Longs();
-    longs.comparables = comparables;
+    shorts = new Shorts();
+    shorts.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_zero() {
-    longs.assertIsZero(info, 6L);
-    verify(comparables).assertEqual(info, 6L, 0L);
+  @Test public void should_verify_that_actual_is_negative() {
+    shorts.assertIsNegative(info, (short)-6);
+    verify(comparables).assertLessThan(info, (short)-6, (short)0);
   }
 }

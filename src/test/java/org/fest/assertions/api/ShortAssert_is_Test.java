@@ -12,41 +12,44 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Conditions;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Longs#assertIsZero(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link ShortAssert#is(Condition)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Longs_assertIsZero_Test {
+public class ShortAssert_is_Test {
 
-  private static WritableAssertionInfo info;
+  private static Condition<Short> condition;
 
-  @Rule public ExpectedException thrown = none();
-
-  private Comparables comparables;
-  private Longs longs;
+  private Conditions conditions;
+  private ShortAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
+    condition = new TestCondition<Short>();
   }
 
   @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    longs = new Longs();
-    longs.comparables = comparables;
+    conditions = mock(Conditions.class);
+    assertions = new ShortAssert((short)8);
+    assertions.conditions = conditions;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_zero() {
-    longs.assertIsZero(info, 6L);
-    verify(comparables).assertEqual(info, 6L, 0L);
+  @Test public void should_verify_that_actual_satisfies_Condition() {
+    assertions.is(condition);
+    verify(conditions).assertSatisfies(assertions.info, assertions.actual, condition);
+  }
+
+  @Test public void should_return_this() {
+    ShortAssert returned = assertions.is(condition);
+    assertSame(assertions, returned);
   }
 }

@@ -17,33 +17,32 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.internal.Shorts;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isLessThanOrEqualTo(long)}</code>.
+ * Tests for <code>{@link ShortAssert#isNegative()}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongAssert_isLessThanOrEqualTo_int_Test {
+public class ShortAssert_isNegative_Test {
 
-  private Longs Longs;
-  private LongAssert assertions;
+  private Shorts Shorts;
+  private ShortAssert assertions;
 
   @Before public void setUp() {
-    Longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = Longs;
+    Shorts = mock(Shorts.class);
+    assertions = new ShortAssert((short)6);
+    assertions.shorts = Shorts;
   }
 
-  @Test public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThanOrEqualTo(8);
-    verify(Longs).assertLessThanOrEqualTo(assertions.info, assertions.actual, 8);
+  @Test public void should_verify_that_actual_is_negative() {
+    assertions.isNegative();
+    verify(Shorts).assertIsNegative(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isLessThanOrEqualTo(8);
+    ShortAssert returned = assertions.isNegative();
     assertSame(assertions, returned);
   }
 }
