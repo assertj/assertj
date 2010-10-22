@@ -38,6 +38,24 @@ import java.util.Collection;
 public class Assertions {
 
   /**
+   * Creates a new instance of <code>{@link BooleanAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BooleanAssert assertThat(boolean actual) {
+    return new BooleanAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BooleanAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BooleanAssert assertThat(Boolean actual) {
+    return new BooleanAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ByteAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.

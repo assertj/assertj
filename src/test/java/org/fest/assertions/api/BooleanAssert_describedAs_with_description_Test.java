@@ -1,5 +1,5 @@
 /*
- * Created on Oct 21, 2010
+ * Created on Oct 22, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static java.lang.Boolean.TRUE;
 import static junit.framework.Assert.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
@@ -25,34 +26,33 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ByteAssert#as(Description)}</code>
+ * Tests for <code>{@link BooleanAssert#describedAs(Description)}</code>
  *
  * @author Alex Ruiz
  */
-public class ByteAssert_as_with_description_Test {
+public class BooleanAssert_describedAs_with_description_Test {
 
   @Rule public ExpectedException thrown = none();
 
-  private ByteAssert assertions;
+  private BooleanAssert assertions;
   private Description d;
 
   @Before public void setUp() {
-    assertions = new ByteAssert((byte)6);
+    assertions = new BooleanAssert(TRUE);
     d = someDescription();
   }
 
   @Test public void should_set_description() {
-    assertions.as(d);
+    assertions.describedAs(d);
     assertEquals(d.value(), assertions.descriptionText());
   }
 
   @Test public void should_return_this() {
-    Descriptable descriptable = assertions.as(d);
+    Descriptable descriptable = assertions.describedAs(d);
     assertSame(assertions, descriptable);
   }
 
   @Test public void should_throw_error_if_description_is_null() {
     thrown.expectNullPointerException(descriptionIsNull());
-    assertions.as((Description) null);
-  }
-}
+    assertions.describedAs((Description) null);
+  }}

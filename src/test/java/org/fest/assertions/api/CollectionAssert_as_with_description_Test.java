@@ -26,7 +26,7 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#describedAs(Description)}</code>
+ * Tests for <code>{@link CollectionAssert#as(Description)}</code>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -44,7 +44,7 @@ public class CollectionAssert_as_with_description_Test {
   }
 
   @Test public void should_set_description() {
-    assertions.describedAs(d);
+    assertions.as(d);
     assertEquals(d.value(), assertions.descriptionText());
   }
 
