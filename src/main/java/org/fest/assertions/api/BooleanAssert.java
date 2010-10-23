@@ -32,10 +32,10 @@ public class BooleanAssert implements Assert<Boolean> {
 
   @VisibleForTesting Conditions conditions = Conditions.instance();
   @VisibleForTesting Objects objects = Objects.instance();
+  @VisibleForTesting Booleans booleans = Booleans.instance();
 
   @VisibleForTesting final Boolean actual;
   @VisibleForTesting final WritableAssertionInfo info;
-
 
   protected BooleanAssert(Boolean actual) {
     this.actual = actual;
@@ -64,15 +64,59 @@ public class BooleanAssert implements Assert<Boolean> {
     return this;
   }
 
+  /**
+   * Verifies that the actual value is {@code true}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code true}.
+   */
+  public BooleanAssert isTrue() {
+    return isEqualTo(true);
+  }
+
+  /**
+   * Verifies that the actual value is {@code false}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not {@code false}.
+   */
+  public BooleanAssert isFalse() {
+    return isEqualTo(false);
+  }
+
   /** {@inheritDoc} */
   public BooleanAssert isEqualTo(Boolean expected) {
     objects.assertEqual(info, actual, expected);
     return this;
   }
 
+  /**
+   * Verifies that the actual value is equal to the given one.
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public BooleanAssert isEqualTo(boolean expected) {
+    booleans.assertEqual(info, actual, expected);
+    return this;
+  }
+
   /** {@inheritDoc} */
   public BooleanAssert isNotEqualTo(Boolean other) {
     objects.assertNotEqual(info, actual, other);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is not equal to the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is equal to the given one.
+   */
+  public BooleanAssert isNotEqualTo(boolean other) {
+    booleans.assertNotEqual(info, actual, other);
     return this;
   }
 
