@@ -37,6 +37,14 @@ public final class FailureMessages {
     return "The given offset should not be null";
   }
 
+  public static String offsetValueIsNotPositive() {
+    return "The value of the offset should be greater than zero";
+  }
+
+  public static String offsetValueIsNull() {
+    return "The value of the offset to create should not be null";
+  }
+
   public static String unexpectedNull() {
     return "expecting non-null object but it was null";
   }

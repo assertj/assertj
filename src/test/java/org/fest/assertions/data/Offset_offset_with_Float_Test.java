@@ -15,8 +15,11 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.*;
 
-import org.junit.Test;
+import org.fest.assertions.test.ExpectedException;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Offset#offset(Float)}</code>.
@@ -24,6 +27,24 @@ import org.junit.Test;
  * @author Alex Ruiz
  */
 public class Offset_offset_with_Float_Test {
+
+  @Rule public ExpectedException thrown = none();
+
+  @Test public void should_throw_error_if_value_is_null() {
+    thrown.expectNullPointerException(offsetValueIsNull());
+    Float value = null;
+    Offset.offset(value);
+  }
+
+  @Test public void should_throw_error_if_value_is_zero() {
+    thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
+    Offset.offset(0f);
+  }
+
+  @Test public void should_throw_error_if_value_is_negative() {
+    thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
+    Offset.offset(-1f);
+  }
 
   @Test public void should_create_Offset() {
     Float value = 0.8f;

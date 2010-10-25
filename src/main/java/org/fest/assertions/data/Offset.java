@@ -17,10 +17,11 @@ package org.fest.assertions.data;
 import static org.fest.util.Objects.*;
 
 /**
- * An offset.
- * @param <T> the type of number a offset handles.
+ * A positive offset.
+ * @param <T> the type of the offset value.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public class Offset<T extends Number> {
 
@@ -31,8 +32,11 @@ public class Offset<T extends Number> {
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
    */
   public static Offset<Double> offset(Double value) {
+    validateIsNotNull(value);
+    if (value.doubleValue() <= 0d) throw valueNotPositive();
     return new Offset<Double>(value);
   }
 
@@ -41,18 +45,23 @@ public class Offset<T extends Number> {
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
    */
   public static Offset<Float> offset(Float value) {
+    validateIsNotNull(value);
+    if (value.floatValue() <= 0f) throw valueNotPositive();
     return new Offset<Float>(value);
   }
 
-  /**
-   * Creates a new </code>{@link Offset}</code>.
-   * @param value the value of the offset.
-   * @throws NullPointerException if the given value is {@code null}.
-   */
-  public Offset(T value) {
+  private static <T extends Number> void validateIsNotNull(T value) {
     if (value == null) throw new NullPointerException("The value of the offset to create should not be null");
+  }
+
+  private static IllegalArgumentException valueNotPositive() {
+    return new IllegalArgumentException("The value of the offset should be greater than zero");
+  }
+
+  private Offset(T value) {
     this.value = value;
   }
 
