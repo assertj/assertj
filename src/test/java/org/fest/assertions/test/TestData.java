@@ -39,14 +39,14 @@ public final class TestData {
   }
 
   public static BufferedImage fivePixelBlueImage() {
-    return image(5, 5, BLUE);
+    return newImage(5, 5, BLUE);
   }
 
  public  static BufferedImage fivePixelYellowImage() {
-    return image(5, 5, YELLOW);
+    return newImage(5, 5, YELLOW);
   }
 
-  public static BufferedImage image(int width, int height, Color color) {
+  public static BufferedImage newImage(int width, int height, Color color) {
     BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
     Graphics graphics = image.createGraphics();
     graphics.setColor(color);

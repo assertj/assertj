@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Oct 24, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,27 +15,20 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.test.ExpectedException.none;
 
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link Threshold#threshold(int)}</code>.
+ * Tests for <code>{@link RgbColor#RgbColor(int)}</code>.
  *
  * @author Yvonne Wang
  */
-public class Threshold_threshold_Test {
+public class RgbColor_constructor_with_single_RGB_Test {
 
-  @Rule public ExpectedException thrown = none();
-
-  @Test public void should_throw_error_if_value_is_negative() {
-    thrown.expectIllegalArgumentException("The value of the threshold should not be negative");
-    Threshold.threshold(-6);
-  }
-
-  @Test public void should_create_new_Threshold_with_given_value() {
-    Threshold threshold = Threshold.threshold(8);
-    assertEquals(8, threshold.value());
+  @Test public void should_decompose_single_value_into_individual_RGB_values() {
+    RgbColor color = new RgbColor(0x69FC62);
+    assertEquals(105, color.r);
+    assertEquals(252, color.g);
+    assertEquals(98, color.b);
   }
 }

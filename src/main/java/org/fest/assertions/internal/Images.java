@@ -14,9 +14,14 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.util.Objects.areEqual;
+
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link BufferedImage}</code>s.
@@ -35,7 +40,9 @@ public class Images {
     return INSTANCE;
   }
 
-  private Images() {}
+  @VisibleForTesting Failures failures = Failures.instance();
+
+  @VisibleForTesting Images() {}
 
   /**
    * Asserts that two images are equal.
@@ -47,8 +54,17 @@ public class Images {
    * equal.
    */
   public void assertEqual(AssertionInfo info, BufferedImage actual, BufferedImage expected) {
-    // TODO Auto-generated method stub
     // BufferedImage does not have an implementation of 'equals,' which means that "equality" is verified by identity.
     // We need to verify that two images are equal ourselves.
+    assertEqualSize(info, actual, sizeOf(actual), sizeOf(expected));
+  }
+
+  private void assertEqualSize(AssertionInfo info, BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
+    if (areEqual(actualSize, expectedSize)) return;
+    throw failures.failure(info, doesNotHaveSize(actual, actualSize, expectedSize));
+  }
+
+  @VisibleForTesting static Dimension sizeOf(BufferedImage image) {
+    return new Dimension(image.getWidth(), image.getHeight());
   }
 }

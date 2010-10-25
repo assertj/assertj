@@ -14,11 +14,13 @@
  */
 package org.fest.assertions.error;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 import java.util.Collection;
 
 /**
- * Creates an error message indicating that an assertion that verifies that the number of elements in a group of
- * elements is equal to the expected one failed. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an error message indicating that an assertion that verifies that two values that represent size are equal
+ * failed.
  *
  * @author Alex Ruiz
  */
@@ -34,7 +36,18 @@ public class DoesNotHaveSize extends BasicErrorMessage {
     return new DoesNotHaveSize(actual, actual.size(), expectedSize);
   }
 
-  private DoesNotHaveSize(Object actual, int actualSize, int expectedSize) {
+  /**
+   * Creates a new </code>{@link DoesNotHaveSize}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param actualSize the size of {@code actual}.
+   * @param expectedSize the expected size.
+   * @return the created {@code ErrorMessage}.
+   */
+  public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
+    return new DoesNotHaveSize(actual, actualSize, expectedSize);
+  }
+
+  private DoesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
     super("%sexpected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
   }
 }
