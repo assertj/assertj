@@ -29,6 +29,7 @@ public interface FloatingPointNumberAssert<T extends Number> extends NumberAsser
    * @param expected the given value to compare the actual value to.
    * @param delta the given delta.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given delta is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   FloatingPointNumberAssert<T> isEqualTo(T expected, Delta<T> delta);

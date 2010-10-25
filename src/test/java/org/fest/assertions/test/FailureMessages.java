@@ -21,20 +21,24 @@ package org.fest.assertions.test;
  */
 public final class FailureMessages {
 
-  public static String descriptionIsNull() {
-    return "The description to set should not be null";
-  }
-
-  public static String unexpectedNull() {
-    return "expecting non-null object but it was null";
-  }
-
   public static String arrayIsEmpty() {
     return "The array of values to evaluate should not be empty";
   }
 
   public static String arrayIsNull() {
     return "The array of values to evaluate should not be null";
+  }
+
+  public static String deltaIsNull() {
+    return "The given delta should not be null";
+  }
+
+  public static String descriptionIsNull() {
+    return "The description to set should not be null";
+  }
+
+  public static String unexpectedNull() {
+    return "expecting non-null object but it was null";
   }
 
   private FailureMessages() {}

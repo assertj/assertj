@@ -40,7 +40,7 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
   Assert<T> isNotEqualTo(T other);
 
   /**
-   * Asserts that the actual value is {@code null}.
+   * Verifies that the actual value is {@code null}.
    * @throws AssertionError if the actual value is not {@code null}.
    */
   void isNull();

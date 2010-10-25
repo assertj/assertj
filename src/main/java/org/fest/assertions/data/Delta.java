@@ -14,13 +14,15 @@
  */
 package org.fest.assertions.data;
 
+import static org.fest.util.Objects.*;
+
 /**
  * A finite increment in a variable.
  * @param <T> the type of number a delta handles.
  *
  * @author Alex Ruiz
  */
-public final class Delta<T extends Number> {
+public class Delta<T extends Number> {
 
   private final T value;
 
@@ -60,5 +62,23 @@ public final class Delta<T extends Number> {
    */
   public T value() {
     return value;
+  }
+
+  @Override public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Delta<?> other = (Delta<?>) obj;
+    return (areEqual(value, other.value));
+  }
+
+  @Override public int hashCode() {
+    int result = 1;
+    result = HASH_CODE_PRIME * result + hashCodeFor(value);
+    return result;
+  }
+
+  @Override public String toString() {
+    return String.format("%s[value=%s]", getClass().getName(), value);
   }
 }
