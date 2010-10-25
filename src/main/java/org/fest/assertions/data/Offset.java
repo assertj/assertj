@@ -17,48 +17,48 @@ package org.fest.assertions.data;
 import static org.fest.util.Objects.*;
 
 /**
- * A finite increment in a variable.
- * @param <T> the type of number a delta handles.
+ * An offset.
+ * @param <T> the type of number a offset handles.
  *
  * @author Alex Ruiz
  */
-public class Delta<T extends Number> {
+public class Offset<T extends Number> {
 
   private final T value;
 
   /**
-   * Creates a new </code>{@link Delta}</code> with a {@code Double} value.
-   * @param value the value of the delta.
-   * @return the created {@code Delta}.
+   * Creates a new double </code>{@link Offset}</code>.
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    */
-  public static Delta<Double> delta(Double value) {
-    return new Delta<Double>(value);
+  public static Offset<Double> offset(Double value) {
+    return new Offset<Double>(value);
   }
 
   /**
-   * Creates a new </code>{@link Delta}</code> with a {@code Float} value.
-   * @param value the value of the delta.
-   * @return the created {@code Delta}.
+   * Creates a new float </code>{@link Offset}</code>.
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
    */
-  public static Delta<Float> delta(Float value) {
-    return new Delta<Float>(value);
+  public static Offset<Float> offset(Float value) {
+    return new Offset<Float>(value);
   }
 
   /**
-   * Creates a new </code>{@link Delta}</code>.
-   * @param value the value of the delta.
+   * Creates a new </code>{@link Offset}</code>.
+   * @param value the value of the offset.
    * @throws NullPointerException if the given value is {@code null}.
    */
-  public Delta(T value) {
-    if (value == null) throw new NullPointerException("The value of the delta to create should not be null");
+  public Offset(T value) {
+    if (value == null) throw new NullPointerException("The value of the offset to create should not be null");
     this.value = value;
   }
 
   /**
-   * Returns the value of this delta.
-   * @return the value of this delta.
+   * Returns the value of this offset.
+   * @return the value of this offset.
    */
   public T value() {
     return value;
@@ -68,7 +68,7 @@ public class Delta<T extends Number> {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    Delta<?> other = (Delta<?>) obj;
+    Offset<?> other = (Offset<?>) obj;
     return (areEqual(value, other.value));
   }
 

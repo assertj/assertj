@@ -15,42 +15,43 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Delta.delta;
+import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.data.Delta;
+import org.fest.assertions.data.Offset;
 import org.fest.assertions.internal.Floats;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link FloatAssert#isEqualTo(float, Delta)}</code>.
+ * Tests for <code>{@link FloatAssert#isEqualTo(Float, Offset)}</code>.
  *
  * @author Alex Ruiz
  */
-public class FloatAssert_isEqualTo_float_with_delta_Test {
+public class FloatAssert_isEqualTo_with_offset_Test {
 
   @Rule public ExpectedException thrown = none();
 
   private Floats floats;
   private FloatAssert assertions;
-  private Delta<Float> delta;
+  private Offset<Float> offset;
 
   @Before public void setUp() {
     floats = mock(Floats.class);
     assertions = new FloatAssert(6f);
     assertions.floats = floats;
-    delta = delta(5f);
+    offset = offset(5f);
   }
 
   @Test public void should_verify_that_actual_is_equal_to_expected() {
-    assertions.isEqualTo(8f, delta);
-    verify(floats).assertEqual(assertions.info, assertions.actual, 8f, delta);
+    Float expected = new Float(8f);
+    assertions.isEqualTo(expected, offset);
+    verify(floats).assertEqual(assertions.info, assertions.actual, expected, offset);
   }
 
   @Test public void should_return_this() {
-    FloatAssert returned = assertions.isEqualTo(8f, delta);
+    FloatAssert returned = assertions.isEqualTo(new Float(8f), offset);
     assertSame(assertions, returned);
   }
 }

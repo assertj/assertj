@@ -15,28 +15,19 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ExpectedException.none;
 
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link Delta#Delta(Number)}</code>.
+ * Tests for <code>{@link Offset#offset(Double)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Delta_constructor_Test {
+public class Offset_offset_with_Double_Test {
 
-  @Rule public ExpectedException thrown = none();
-
-  @Test public void should_create_new_delta() {
-    Integer value = 6;
-    Delta<Integer> delta = new Delta<Integer>(value);
-    assertSame(value, delta.value());
-  }
-
-  @Test public void should_throw_error_if_value_is_null() {
-    thrown.expectNullPointerException("The value of the delta to create should not be null");
-    new Delta<Integer>(null);
+  @Test public void should_create_Offset() {
+    Double value = 0.8d;
+    Offset<Double> offset = Offset.offset(value);
+    assertSame(value, offset.value());
   }
 }

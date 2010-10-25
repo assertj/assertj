@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.core;
 
-import org.fest.assertions.data.Delta;
+import org.fest.assertions.data.Offset;
 
 /**
  * Assertion methods applicable to floating-point <code>{@link Number}</code>s.
@@ -25,12 +25,12 @@ import org.fest.assertions.data.Delta;
 public interface FloatingPointNumberAssert<T extends Number> extends NumberAssert<T> {
 
   /**
-   * Verifies that the actual value is equal to the given one, within a positive delta.
+   * Verifies that the actual value is equal to the given one, within a positive offset.
    * @param expected the given value to compare the actual value to.
-   * @param delta the given delta.
+   * @param offset the given positive offset.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given delta is {@code null}.
+   * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  FloatingPointNumberAssert<T> isEqualTo(T expected, Delta<T> delta);
+  FloatingPointNumberAssert<T> isEqualTo(T expected, Offset<T> offset);
 }

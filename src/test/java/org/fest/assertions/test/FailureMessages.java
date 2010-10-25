@@ -29,12 +29,12 @@ public final class FailureMessages {
     return "The array of values to evaluate should not be null";
   }
 
-  public static String deltaIsNull() {
-    return "The given delta should not be null";
-  }
-
   public static String descriptionIsNull() {
     return "The description to set should not be null";
+  }
+
+  public static String offsetIsNull() {
+    return "The given offset should not be null";
   }
 
   public static String unexpectedNull() {

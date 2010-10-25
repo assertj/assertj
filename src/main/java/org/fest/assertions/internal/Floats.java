@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.lang.Math.abs;
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
-import static org.fest.assertions.error.IsNotEqualWithDelta.isNotEqual;
+import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
 import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
 import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
 import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
@@ -25,7 +25,7 @@ import static org.fest.assertions.error.IsNotLessThanOrEqualTo.isNotLessThanOrEq
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.data.Delta;
+import org.fest.assertions.data.Offset;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -113,48 +113,48 @@ public class Floats {
   }
 
   /**
-   * Verifies that two floats are equal within a positive delta.
+   * Verifies that two floats are equal within a positive offset.
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
-   * @param delta the given delta.
-   * @throws NullPointerException if the given delta is {@code null}.
+   * @param offset the given positive offset.
+   * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
-  public void assertEqual(AssertionInfo info, Float actual, Float expected, Delta<Float> delta) {
-    validateIsNotNull(delta);
+  public void assertEqual(AssertionInfo info, Float actual, Float expected, Offset<Float> offset) {
+    validateIsNotNull(offset);
     if (areEqual(actual, expected)) return;
-    if (actual != null && expected != null && isEqualTo(actual, expected, delta)) return;
-    failures.failure(info, isNotEqual(actual, expected, delta));
+    if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
+    failures.failure(info, isNotEqual(actual, expected, offset));
   }
 
   /**
-   * Verifies that two floats are equal within a positive delta.
+   * Verifies that two floats are equal within a positive offset.
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
-   * @param delta the given delta.
-   * @throws NullPointerException if the given delta is {@code null}.
+   * @param offset the given positive offset.
+   * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
-  public void assertEqual(AssertionInfo info, Float actual, float expected, Delta<Float> delta) {
-    validateIsNotNull(delta);
+  public void assertEqual(AssertionInfo info, Float actual, float expected, Offset<Float> offset) {
+    validateIsNotNull(offset);
     assertNotNull(info, actual);
-    if (isEqualTo(actual, expected) || isEqualTo(actual, expected, delta)) return;
-    failures.failure(info, isNotEqual(actual, expected, delta));
+    if (isEqualTo(actual, expected) || isEqualTo(actual, expected, offset)) return;
+    failures.failure(info, isNotEqual(actual, expected, offset));
   }
 
-  private void validateIsNotNull(Delta<Float> delta) {
-    if (delta == null) throw new NullPointerException("The given delta should not be null");
+  private void validateIsNotNull(Offset<Float> offset) {
+    if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
 
   private static boolean isEqualTo(Float actual, float expected) {
     return actual.floatValue() == expected;
   }
 
-  private static boolean isEqualTo(Float actual, float expected, Delta<Float> delta) {
-    return abs(expected - actual.floatValue()) <= delta.value().floatValue();
+  private static boolean isEqualTo(Float actual, float expected, Offset<Float> offset) {
+    return abs(expected - actual.floatValue()) <= offset.value().floatValue();
   }
 
   /**

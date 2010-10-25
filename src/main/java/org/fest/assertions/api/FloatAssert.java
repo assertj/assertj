@@ -15,7 +15,7 @@
 package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.data.Delta;
+import org.fest.assertions.data.Offset;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
@@ -95,22 +95,22 @@ public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, Floa
   }
 
   /** {@inheritDoc} */
-  public FloatAssert isEqualTo(Float expected, Delta<Float> delta) {
-    floats.assertEqual(info, actual, expected, delta);
+  public FloatAssert isEqualTo(Float expected, Offset<Float> offset) {
+    floats.assertEqual(info, actual, expected, offset);
     return this;
   }
 
   /**
-   * Verifies that the actual value is equal to the given one, within a positive delta.
+   * Verifies that the actual value is equal to the given one, within a positive offset.
    * @param expected the given value to compare the actual value to.
-   * @param delta the given delta.
+   * @param offset the given positive offset.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given delta is {@code null}.
+   * @throws NullPointerException if the given offset is {@code null}.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  public FloatAssert isEqualTo(float expected, Delta<Float> delta) {
-    floats.assertEqual(info, actual, expected, delta);
+  public FloatAssert isEqualTo(float expected, Offset<Float> offset) {
+    floats.assertEqual(info, actual, expected, offset);
     return this;
   }
 

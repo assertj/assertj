@@ -14,24 +14,25 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.data.Delta.delta;
-import static org.fest.assertions.error.IsNotEqualWithDelta.isNotEqual;
+import static org.fest.assertions.data.Offset.offset;
+import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.deltaIsNull;
+import static org.fest.assertions.test.FailureMessages.offsetIsNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.data.Delta;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.data.Offset;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Floats#assertEqual(AssertionInfo, Float, float, Delta)}</code>.
+ * Tests for <code>{@link Floats#assertEqual(AssertionInfo, Float, Float, Offset)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Floats_assertEqual_float_with_delta_Test {
+public class Floats_assertEqual_with_offset_Test {
 
   private static WritableAssertionInfo info;
 
@@ -50,25 +51,25 @@ public class Floats_assertEqual_float_with_delta_Test {
     floats.failures = failures;
   }
 
-  @Test public void should_throw_error_if_delta_is_null() {
-    thrown.expectNullPointerException(deltaIsNull());
-    floats.assertEqual(info, new Float(8f), 8f, null);
+  @Test public void should_throw_error_if_offset_is_null() {
+    thrown.expectNullPointerException(offsetIsNull());
+    floats.assertEqual(info, new Float(8f), new Float(8f), null);
   }
 
   @Test public void should_pass_if_floats_are_equal() {
-    floats.assertEqual(info, new Float(8f), 8f, delta(1f));
+    floats.assertEqual(info, new Float(8f), new Float(8f), offset(1f));
   }
 
-  @Test public void should_pass_if_floats_are_equal_within_delta() {
-    floats.assertEqual(info, new Float(6f), 8f, delta(2f));
+  @Test public void should_pass_if_floats_are_equal_within_offset() {
+    floats.assertEqual(info, new Float(6f), new Float(8f), offset(2f));
   }
 
-  @Test public void should_fail_if_floats_are_not_equal_within_delta() {
-    Delta<Float> delta = delta(1f);
+  @Test public void should_fail_if_floats_are_not_equal_within_offset() {
+    Offset<Float> offset = offset(1f);
     try {
-      floats.assertEqual(info, new Float(6f), 8f, delta);
+      floats.assertEqual(info, new Float(6f), new Float(8f), offset);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(6f, 8f, delta));
+    verify(failures).failure(info, isNotEqual(6f, 8f, offset));
   }
 }

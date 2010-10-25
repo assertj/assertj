@@ -15,28 +15,29 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.data.Delta.delta;
-import static org.fest.assertions.error.IsNotEqualWithDelta.isNotEqual;
+import static org.fest.assertions.data.Offset.offset;
+import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link IsNotEqualWithDelta#create(Description)}</code>.
+ * Tests for <code>{@link IsNotEqualWithOffset#create(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IsNotEqualWithDelta_create_Test {
+public class IsNotEqualWithOffset_create_Test {
 
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = isNotEqual(6f, 8f, delta(1f));
+    errorMessage = isNotEqual(6f, 8f, offset(1f));
   }
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TestDescription("Test"));
-    assertEquals("[Test] expected:<8.0> but was:<6.0> with delta:<1.0>", message);
+    assertEquals("[Test] expected:<8.0> but was:<6.0> with offset:<1.0>", message);
   }
 }

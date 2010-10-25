@@ -19,15 +19,15 @@ import static junit.framework.Assert.assertSame;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Delta#delta(Double)}</code>.
+ * Tests for <code>{@link Offset#offset(Float)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Delta_delta_with_Double_Test {
+public class Offset_offset_with_Float_Test {
 
-  @Test public void should_create_delta() {
-    Double value = 0.8d;
-    Delta<Double> delta = Delta.delta(value);
-    assertSame(value, delta.value());
+  @Test public void should_create_Offset() {
+    Float value = 0.8f;
+    Offset<Float> offset = Offset.offset(value);
+    assertSame(value, offset.value());
   }
 }
