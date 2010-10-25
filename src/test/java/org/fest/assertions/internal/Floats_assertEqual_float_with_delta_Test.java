@@ -27,11 +27,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Floats#assertEqual(AssertionInfo, Float, Float, Delta)}</code>.
+ * Tests for <code>{@link Floats#assertEqual(AssertionInfo, Float, float, Delta)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Floats_assertEqual_with_delta_Test {
+public class Floats_assertEqual_float_with_delta_Test {
 
   private static WritableAssertionInfo info;
 
@@ -52,21 +52,21 @@ public class Floats_assertEqual_with_delta_Test {
 
   @Test public void should_throw_error_if_delta_is_null() {
     thrown.expectNullPointerException(deltaIsNull());
-    floats.assertEqual(info, new Float(8f), new Float(8f), null);
+    floats.assertEqual(info, new Float(8f), 8f, null);
   }
 
   @Test public void should_pass_if_floats_are_equal() {
-    floats.assertEqual(info, new Float(8f), new Float(8f), delta(1f));
+    floats.assertEqual(info, new Float(8f), 8f, delta(1f));
   }
 
   @Test public void should_pass_if_floats_are_equal_within_delta() {
-    floats.assertEqual(info, new Float(6f), new Float(8f), delta(2f));
+    floats.assertEqual(info, new Float(6f), 8f, delta(2f));
   }
 
   @Test public void should_fail_if_floats_are_not_equal_within_delta() {
     Delta<Float> delta = delta(1f);
     try {
-      floats.assertEqual(info, new Float(6f), new Float(8f), delta);
+      floats.assertEqual(info, new Float(6f), 8f, delta);
       fail();
     } catch (AssertionError e) {}
     verify(failures).failure(info, isNotEqual(6f, 8f, delta));

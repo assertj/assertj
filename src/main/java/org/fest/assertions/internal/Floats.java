@@ -108,7 +108,7 @@ public class Floats {
    */
   public void assertEqual(AssertionInfo info, Float actual, float expected) {
     assertNotNull(info, actual);
-    if (actual.floatValue() == expected) return;
+    if (isEqualTo(actual, expected)) return;
     failures.failure(info, isNotEqual(actual, expected));
   }
 
@@ -122,10 +122,39 @@ public class Floats {
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, Float actual, Float expected, Delta<Float> delta) {
-    if (delta == null) throw new NullPointerException("The given delta should not be null");
+    validateIsNotNull(delta);
     if (areEqual(actual, expected)) return;
-    if (actual != null && expected != null && abs(expected - actual) <= delta.value()) return;
+    if (actual != null && expected != null && isEqualTo(actual, expected, delta)) return;
     failures.failure(info, isNotEqual(actual, expected, delta));
+  }
+
+  /**
+   * Verifies that two floats are equal within a positive delta.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param expected the expected value.
+   * @param delta the given delta.
+   * @throws NullPointerException if the given delta is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the expected one.
+   */
+  public void assertEqual(AssertionInfo info, Float actual, float expected, Delta<Float> delta) {
+    validateIsNotNull(delta);
+    assertNotNull(info, actual);
+    if (isEqualTo(actual, expected) || isEqualTo(actual, expected, delta)) return;
+    failures.failure(info, isNotEqual(actual, expected, delta));
+  }
+
+  private void validateIsNotNull(Delta<Float> delta) {
+    if (delta == null) throw new NullPointerException("The given delta should not be null");
+  }
+
+  private static boolean isEqualTo(Float actual, float expected) {
+    return actual.floatValue() == expected;
+  }
+
+  private static boolean isEqualTo(Float actual, float expected, Delta<Float> delta) {
+    return abs(expected - actual.floatValue()) <= delta.value().floatValue();
   }
 
   /**

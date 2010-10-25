@@ -25,11 +25,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link FloatAssert#isEqualTo(Float, Delta)}</code>.
+ * Tests for <code>{@link FloatAssert#isEqualTo(float, Delta)}</code>.
  *
  * @author Alex Ruiz
  */
-public class FloatAssert_isEqualTo_with_delta_Test {
+public class FloatAssert_isEqualTo_float_with_delta_Test {
 
   @Rule public ExpectedException thrown = none();
 
@@ -45,13 +45,12 @@ public class FloatAssert_isEqualTo_with_delta_Test {
   }
 
   @Test public void should_verify_that_actual_is_equal_to_expected() {
-    Float expected = new Float(8f);
-    assertions.isEqualTo(expected, delta);
-    verify(floats).assertEqual(assertions.info, assertions.actual, expected, delta);
+    assertions.isEqualTo(8f, delta);
+    verify(floats).assertEqual(assertions.info, assertions.actual, 8f, delta);
   }
 
   @Test public void should_return_this() {
-    FloatAssert returned = assertions.isEqualTo(new Float(8f), delta);
+    FloatAssert returned = assertions.isEqualTo(8f, delta);
     assertSame(assertions, returned);
   }
 }

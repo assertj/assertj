@@ -95,14 +95,28 @@ public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, Floa
   }
 
   /** {@inheritDoc} */
-  public FloatAssert isNotEqualTo(Float other) {
-    objects.assertNotEqual(info, actual, other);
+  public FloatAssert isEqualTo(Float expected, Delta<Float> delta) {
+    floats.assertEqual(info, actual, expected, delta);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is equal to the given one, within a positive delta.
+   * @param expected the given value to compare the actual value to.
+   * @param delta the given delta.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given delta is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public FloatAssert isEqualTo(float expected, Delta<Float> delta) {
+    floats.assertEqual(info, actual, expected, delta);
     return this;
   }
 
   /** {@inheritDoc} */
-  public FloatAssert isEqualTo(Float expected, Delta<Float> delta) {
-    floats.assertEqual(info, actual, expected, delta);
+  public FloatAssert isNotEqualTo(Float other) {
+    objects.assertNotEqual(info, actual, other);
     return this;
   }
 
