@@ -38,12 +38,84 @@ import java.util.Collection;
 public class Assertions {
 
   /**
+   * Creates a new instance of <code>{@link BooleanAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BooleanAssert assertThat(boolean actual) {
+    return new BooleanAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link BooleanAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BooleanAssert assertThat(Boolean actual) {
+    return new BooleanAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ByteAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ByteAssert assertThat(byte actual) {
+    return new ByteAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ByteAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ByteAssert assertThat(Byte actual) {
+    return new ByteAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharacterAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static CharacterAssert assertThat(char actual) {
+    return new CharacterAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharacterAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static CharacterAssert assertThat(Character actual) {
+    return new CharacterAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
    */
   public static CollectionAssert assertThat(Collection<?> actual) {
     return new CollectionAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FloatAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static FloatAssert assertThat(float actual) {
+    return new FloatAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FloatAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static FloatAssert assertThat(Float actual) {
+    return new FloatAssert(actual);
   }
 
   /**

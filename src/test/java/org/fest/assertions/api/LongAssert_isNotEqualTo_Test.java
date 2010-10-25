@@ -37,12 +37,12 @@ public class LongAssert_isNotEqualTo_Test {
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_expected() {
-    assertions.isNotEqualTo(new Long(8));
+    assertions.isNotEqualTo(new Long(8L));
     verify(objects).assertNotEqual(assertions.info, assertions.actual, 8L);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isNotEqualTo(new Long(8));
+    LongAssert returned = assertions.isNotEqualTo(new Long(8L));
     assertSame(assertions, returned);
   }
 }

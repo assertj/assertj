@@ -19,7 +19,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(long)}</code>.
+ * Tests for <code>{@link Assertions#assertThat(short)}</code>.
  *
  * @author Alex Ruiz
  */

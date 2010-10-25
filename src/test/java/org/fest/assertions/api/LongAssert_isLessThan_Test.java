@@ -37,12 +37,12 @@ public class LongAssert_isLessThan_Test {
   }
 
   @Test public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThan(new Long(8));
+    assertions.isLessThan(new Long(8L));
     verify(comparables).assertLessThan(assertions.info, assertions.actual, 8L);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isLessThan(new Long(8));
+    LongAssert returned = assertions.isLessThan(new Long(8L));
     assertSame(assertions, returned);
   }
 }

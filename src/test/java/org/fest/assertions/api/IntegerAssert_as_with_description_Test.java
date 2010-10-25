@@ -25,7 +25,7 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntegerAssert#describedAs(Description)}</code>
+ * Tests for <code>{@link IntegerAssert#as(Description)}</code>
  *
  * @author Alex Ruiz
  */
@@ -42,7 +42,7 @@ public class IntegerAssert_as_with_description_Test {
   }
 
   @Test public void should_set_description() {
-    assertions.describedAs(d);
+    assertions.as(d);
     assertEquals(d.value(), assertions.descriptionText());
   }
 
