@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static
@@ -134,6 +135,15 @@ public class Assertions {
    */
   public static IntegerAssert assertThat(Integer actual) {
     return new IntegerAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ListAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ListAssert assertThat(List<?> actual) {
+    return new ListAssert(actual);
   }
 
   /**
