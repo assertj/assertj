@@ -37,6 +37,6 @@ public class IsNotEqualWithOffset extends BasicErrorMessage {
   }
 
   private IsNotEqualWithOffset(Number actual, Number expected, Offset<?> offset) {
-    super("%sexpected:<%s> but was:<%s> with offset:<%s>", expected, actual, offset.value());
+    super("%sexpected:<%s> but was:<%s> with offset:<%s>", expected, actual, offset.value);
   }
 }

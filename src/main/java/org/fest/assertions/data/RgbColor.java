@@ -14,6 +14,9 @@
  */
 package org.fest.assertions.data;
 
+import static java.lang.Math.abs;
+import static org.fest.util.Objects.HASH_CODE_PRIME;
+
 /**
  * A color.
  *
@@ -34,45 +37,60 @@ public final class RgbColor {
   /**
    * Creates a new </code>{@link RgbColor}</code>.
    * @param rgb a value representing a RGB combination.
+   * @return the created color.
    */
-  public RgbColor(int rgb) {
-    this(r(rgb), g(rgb), b(rgb));
+  public static RgbColor color(int rgb) {
+    return new RgbColor(extract(rgb, 16), extract(rgb, 8), extract(rgb, 0));
   }
 
-  private static int r(int rgb) {
-    return color(rgb, 16);
+  private static int extract(int rgb, int value) {
+    return (rgb >> value) & 0xFF;
   }
 
-  private static int g(int rgb) {
-    return color(rgb, 8);
-  }
-
-  private static int b(int rgb) {
-    return color(rgb, 0);
-  }
-
-  private static int color(int rgb, int c) {
-    return (rgb >> c) & 0xFF;
-  }
-
-  /**
-   * Creates a new </code>{@link RgbColor}</code> with the specified red, green, and blue values in the range (0 - 255.)
-   * @param r the red component.
-   * @param g the green component.
-   * @param b the blue component.
-   * @throws IllegalArgumentException if {@code r}, {@code g} or {@code b} are outside of the range 0 to 255, inclusive.
-   */
-  public RgbColor(int r, int g, int b) {
-    validateIsInRange("R", r);
-    validateIsInRange("G", g);
-    validateIsInRange("B", b);
+  private RgbColor(int r, int g, int b) {
     this.r = r;
     this.g = g;
     this.b = b;
   }
 
-  private void validateIsInRange(String name, int value) {
-    if (value >= 0 && value <= 255) return;
-    throw new IllegalArgumentException(String.format("%s should be between 0 and 255 but was %d", name, value));
+  /**
+   * Indicates whether the given <code>{@link RgbColor}</code> is equal to this one.
+   * @param color the {@code RgbColor} to compare this one to.
+   * @param offset used to tolerate a difference between the individual components of the {@code RgbColor}s to compare.
+   * @return {@code true} if the given {@code RgbColor} is equal to this one; {@code false} otherwise.
+   * @throws NullPointerException if the given offset is {@code null}.
+   */
+  public boolean isEqualTo(RgbColor color, Offset<Integer> offset) {
+    if (offset == null) throw new NullPointerException("The given offset should not be null");
+    if (equals(color)) return true;
+    if (color == null) return false;
+    int offsetValue = offset.value.intValue();
+    if (abs(r - color.r) > offsetValue) return false;
+    if (abs(g - color.g) > offsetValue) return false;
+    return abs(b - color.b) <= offsetValue;
+  }
+
+  /** {@inheritDoc} */
+  @Override public int hashCode() {
+    int result = 1;
+    result = HASH_CODE_PRIME * result + r;
+    result = HASH_CODE_PRIME * result + g;
+    result = HASH_CODE_PRIME * result + b;
+    return result;
+  }
+
+  /** {@inheritDoc} */
+  @Override public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    RgbColor other = (RgbColor) obj;
+    if (r != other.r) return false;
+    if (g != other.g) return false;
+    return b == other.b;
+  }
+
+  @Override public String toString() {
+    return String.format("color[r=%d,g=%d,b=%d]", r, g, b);
   }
 }

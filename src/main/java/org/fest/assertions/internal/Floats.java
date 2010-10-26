@@ -154,7 +154,7 @@ public class Floats {
   }
 
   private static boolean isEqualTo(Float actual, float expected, Offset<Float> offset) {
-    return abs(expected - actual.floatValue()) <= offset.value().floatValue();
+    return abs(expected - actual.floatValue()) <= offset.value.floatValue();
   }
 
   /**

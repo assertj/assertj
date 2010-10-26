@@ -22,33 +22,33 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Offset#offset(Float)}</code>.
+ * Tests for <code>{@link Offset#offset(Integer)}</code>.
  *
- * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class Offset_offset_with_Float_Test {
+public class Offset_offset_with_Integer_Test {
 
   @Rule public ExpectedException thrown = none();
 
   @Test public void should_throw_error_if_value_is_null() {
     thrown.expectNullPointerException(offsetValueIsNull());
-    Float value = null;
+    Integer value = null;
     Offset.offset(value);
   }
 
   @Test public void should_throw_error_if_value_is_zero() {
     thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    Offset.offset(0f);
+    Offset.offset(0);
   }
 
   @Test public void should_throw_error_if_value_is_negative() {
     thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    Offset.offset(-1f);
+    Offset.offset(-1);
   }
 
   @Test public void should_create_Offset() {
-    Float value = 0.8f;
-    Offset<Float> offset = Offset.offset(value);
+    Integer value = 8;
+    Offset<Integer> offset = Offset.offset(value);
     assertSame(value, offset.value);
   }
 }

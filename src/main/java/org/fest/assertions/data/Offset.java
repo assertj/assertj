@@ -25,7 +25,8 @@ import static org.fest.util.Objects.*;
  */
 public class Offset<T extends Number> {
 
-  private final T value;
+  /** The value of this offset. */
+  public final T value;
 
   /**
    * Creates a new double </code>{@link Offset}</code>.
@@ -53,6 +54,19 @@ public class Offset<T extends Number> {
     return new Offset<Float>(value);
   }
 
+  /**
+   * Creates a new integer </code>{@link Offset}</code>.
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
+   */
+  public static Offset<Integer> offset(Integer value) {
+    validateIsNotNull(value);
+    if (value.intValue() <= 0) throw valueNotPositive();
+    return new Offset<Integer>(value);
+  }
+
   private static <T extends Number> void validateIsNotNull(T value) {
     if (value == null) throw new NullPointerException("The value of the offset to create should not be null");
   }
@@ -63,14 +77,6 @@ public class Offset<T extends Number> {
 
   private Offset(T value) {
     this.value = value;
-  }
-
-  /**
-   * Returns the value of this offset.
-   * @return the value of this offset.
-   */
-  public T value() {
-    return value;
   }
 
   @Override public boolean equals(Object obj) {
