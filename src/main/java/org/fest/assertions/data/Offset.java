@@ -33,11 +33,11 @@ public class Offset<T extends Number> {
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
-   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
     validateIsNotNull(value);
-    if (value.doubleValue() <= 0d) throw valueNotPositive();
+    if (value.doubleValue() < 0d) throw valueNotPositive();
     return new Offset<Double>(value);
   }
 
@@ -46,11 +46,11 @@ public class Offset<T extends Number> {
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
-   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
     validateIsNotNull(value);
-    if (value.floatValue() <= 0f) throw valueNotPositive();
+    if (value.floatValue() < 0f) throw valueNotPositive();
     return new Offset<Float>(value);
   }
 
@@ -59,11 +59,11 @@ public class Offset<T extends Number> {
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
-   * @throws IllegalArgumentException if the given value is not positive (zero or less than zero.)
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> offset(Integer value) {
     validateIsNotNull(value);
-    if (value.intValue() <= 0) throw valueNotPositive();
+    if (value.intValue() < 0) throw valueNotPositive();
     return new Offset<Integer>(value);
   }
 

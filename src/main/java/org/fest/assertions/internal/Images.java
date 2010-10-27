@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.data.Offset.offset;
+import static org.fest.assertions.data.RgbColor.color;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.util.Objects.areEqual;
 
@@ -21,6 +23,8 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.data.*;
+import org.fest.assertions.error.*;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -31,6 +35,7 @@ import org.fest.util.VisibleForTesting;
 public class Images {
 
   private static final Images INSTANCE = new Images();
+  private static final Offset<Integer> ZERO = offset(0);
 
   /**
    * Returns the singleton instance of this class.
@@ -57,11 +62,29 @@ public class Images {
     // BufferedImage does not have an implementation of 'equals,' which means that "equality" is verified by identity.
     // We need to verify that two images are equal ourselves.
     assertEqualSize(info, actual, sizeOf(actual), sizeOf(expected));
+    assertEqualColor(info, actual, expected, ZERO);
   }
 
   private void assertEqualSize(AssertionInfo info, BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
     if (areEqual(actualSize, expectedSize)) return;
     throw failures.failure(info, doesNotHaveSize(actual, actualSize, expectedSize));
+  }
+
+  private void assertEqualColor(AssertionInfo info, BufferedImage actual, BufferedImage expected, Offset<Integer> offset) {
+    int w = actual.getWidth();
+    int h = actual.getHeight();
+    for (int x = 0; x < w; x++)
+      for (int y = 0; y < h; y++)
+        assertEqual(info, color(actual.getRGB(x, y)), color(expected.getRGB(x, y)), y, x, offset);
+  }
+
+  private void assertEqual(AssertionInfo info, RgbColor actual, RgbColor expected, int y, int x, Offset<Integer> offset) {
+    if (actual.isEqualTo(expected, offset)) return;
+    throw failures.failure(info, doesNotHaveEqualColor(actual, expected, x, y));
+  }
+
+  @VisibleForTesting static ErrorMessage doesNotHaveEqualColor(RgbColor actual, RgbColor expected, int x, int y) {
+    return new BasicErrorMessage("%sexpected:<%s> but was:<%s> at pixel [%s,%s]", expected, actual, x, y);
   }
 
   @VisibleForTesting static Dimension sizeOf(BufferedImage image) {

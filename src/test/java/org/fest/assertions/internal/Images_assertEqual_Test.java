@@ -15,8 +15,9 @@
 package org.fest.assertions.internal;
 
 import static java.awt.Color.BLUE;
+import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.internal.Images.sizeOf;
+import static org.fest.assertions.internal.Images.*;
 import static org.fest.assertions.test.TestData.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -24,6 +25,7 @@ import static org.mockito.Mockito.*;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.*;
+import org.fest.assertions.test.TestData;
 import org.junit.*;
 
 /**
@@ -57,5 +59,16 @@ public class Images_assertEqual_Test {
       fail();
     } catch (AssertionError e) {}
     verify(failures).failure(info, doesNotHaveSize(actual, sizeOf(actual), sizeOf(expected)));
+  }
+
+  @Test public void should_fail_if_images_have_same_size_but_different_color() {
+    BufferedImage expected = fivePixelYellowImage();
+    try {
+      images.assertEqual(info, actual, expected);
+      fail();
+    } catch (AssertionError e) {
+      assertEquals("expected:<color[r=255,g=255,b=0]> but was:<color[r=0,g=0,b=255]> at pixel [0,0]", e.getMessage());
+    }
+    verify(failures).failure(info, doesNotHaveEqualColor(TestData.BLUE, TestData.YELLOW, 0, 0));
   }
 }

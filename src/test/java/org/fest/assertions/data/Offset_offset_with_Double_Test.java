@@ -36,11 +36,6 @@ public class Offset_offset_with_Double_Test {
     Offset.offset(value);
   }
 
-  @Test public void should_throw_error_if_value_is_zero() {
-    thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
-    Offset.offset(0d);
-  }
-
   @Test public void should_throw_error_if_value_is_negative() {
     thrown.expectIllegalArgumentException(offsetValueIsNotPositive());
     Offset.offset(-1d);

@@ -14,12 +14,13 @@
  */
 package org.fest.assertions.test;
 
-import static java.awt.Color.*;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+import static org.fest.assertions.data.RgbColor.color;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import org.fest.assertions.data.RgbColor;
 import org.fest.assertions.description.*;
 
 /**
@@ -30,6 +31,9 @@ public final class TestData {
 
   private static final TextDescription DESCRIPTION = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
 
+  public static final RgbColor BLUE = color(0x0000FF);
+  public static final RgbColor YELLOW = color(0xFFFF00);
+
   public static Description someDescription() {
     return DESCRIPTION;
   }
@@ -39,11 +43,11 @@ public final class TestData {
   }
 
   public static BufferedImage fivePixelBlueImage() {
-    return newImage(5, 5, BLUE);
+    return newImage(5, 5, Color.BLUE);
   }
 
  public  static BufferedImage fivePixelYellowImage() {
-    return newImage(5, 5, YELLOW);
+    return newImage(5, 5, Color.YELLOW);
   }
 
   public static BufferedImage newImage(int width, int height, Color color) {
