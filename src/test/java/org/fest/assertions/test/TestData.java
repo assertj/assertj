@@ -31,8 +31,28 @@ public final class TestData {
 
   private static final TextDescription DESCRIPTION = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
 
-  public static final RgbColor BLUE = color(0x0000FF);
-  public static final RgbColor YELLOW = color(0xFFFF00);
+  private static final RgbColor BLUE = color(0x0000FF);
+  private static final RgbColor YELLOW = color(0xFFFF00);
+
+  public static RgbColor blue() {
+    return BLUE;
+  }
+
+  public static BufferedImage fivePixelBlueImage() {
+    return newImage(5, 5, Color.BLUE);
+  }
+
+  public  static BufferedImage fivePixelYellowImage() {
+      return newImage(5, 5, Color.YELLOW);
+    }
+
+ public static BufferedImage newImage(int width, int height, Color color) {
+  BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
+  Graphics graphics = image.createGraphics();
+  graphics.setColor(color);
+  graphics.fillRect(0, 0, width, height);
+  return image;
+}
 
   public static Description someDescription() {
     return DESCRIPTION;
@@ -42,20 +62,8 @@ public final class TestData {
     return "there's always a bigger fish";
   }
 
-  public static BufferedImage fivePixelBlueImage() {
-    return newImage(5, 5, Color.BLUE);
-  }
-
- public  static BufferedImage fivePixelYellowImage() {
-    return newImage(5, 5, Color.YELLOW);
-  }
-
-  public static BufferedImage newImage(int width, int height, Color color) {
-    BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
-    Graphics graphics = image.createGraphics();
-    graphics.setColor(color);
-    graphics.fillRect(0, 0, width, height);
-    return image;
+  public static RgbColor yellow() {
+    return YELLOW;
   }
 
   private TestData() {}

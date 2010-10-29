@@ -25,7 +25,6 @@ import static org.mockito.Mockito.*;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.test.TestData;
 import org.junit.*;
 
 /**
@@ -69,6 +68,6 @@ public class Images_assertEqual_Test {
     } catch (AssertionError e) {
       assertEquals("expected:<color[r=255,g=255,b=0]> but was:<color[r=0,g=0,b=255]> at pixel [0,0]", e.getMessage());
     }
-    verify(failures).failure(info, doesNotHaveEqualColor(TestData.BLUE, TestData.YELLOW, 0, 0));
+    verify(failures).failure(info, doesNotHaveEqualColor(blue(), yellow(), 0, 0));
   }
 }
