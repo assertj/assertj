@@ -94,6 +94,6 @@ public class Offset<T extends Number> {
   }
 
   @Override public String toString() {
-    return String.format("%s[value=%s]", getClass().getName(), value);
+    return String.format("%s[value=%s]", getClass().getSimpleName(), value);
   }
 }

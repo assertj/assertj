@@ -91,6 +91,6 @@ public final class RgbColor {
   }
 
   @Override public String toString() {
-    return String.format("color[r=%d,g=%d,b=%d]", r, g, b);
+    return String.format("color[r=%d, g=%d, b=%d]", r, g, b);
   }
 }

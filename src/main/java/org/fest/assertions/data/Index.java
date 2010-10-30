@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.data;
 
+import static org.fest.util.Objects.HASH_CODE_PRIME;
+
 /**
  * An index.
  *
@@ -28,12 +30,32 @@ public class Index {
    * Creates a new <code>{@link Index}</code>.
    * @param index the value of the index.
    * @return the created <code>Index</code>.
+   * @throws IllegalArgumentException if the given value is negative.
    */
   public static Index atIndex(int index) {
+    if (index < 0) throw new IllegalArgumentException("The value of the index should not be negative");
     return new Index(index);
   }
 
   private Index(int value) {
     this.value = value;
+  }
+
+  @Override public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
+    Index other = (Index) obj;
+    return value == other.value;
+  }
+
+  @Override public int hashCode() {
+    int result = 1;
+    result = HASH_CODE_PRIME * result + value;
+    return result;
+  }
+
+  @Override public String toString() {
+    return String.format("%s[value=%d]", getClass().getSimpleName(), value);
   }
 }

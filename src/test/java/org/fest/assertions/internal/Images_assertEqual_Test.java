@@ -66,7 +66,7 @@ public class Images_assertEqual_Test {
       images.assertEqual(info, actual, expected);
       fail();
     } catch (AssertionError e) {
-      assertEquals("expected:<color[r=255,g=255,b=0]> but was:<color[r=0,g=0,b=255]> at pixel [0,0]", e.getMessage());
+      assertEquals("expected:<color[r=255, g=255, b=0]> but was:<color[r=0, g=0, b=255]> at pixel [0,0]", e.getMessage());
     }
     verify(failures).failure(info, doesNotHaveEqualColor(blue(), yellow(), 0, 0));
   }
