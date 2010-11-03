@@ -34,6 +34,15 @@ public class IsNotNullOrEmpty extends BasicErrorMessage {
     return new IsNotNullOrEmpty(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link IsNotNullOrEmpty}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @return the created of {@code ErrorMessage}.
+   */
+  public static ErrorMessage isNotNullOrEmpty(Object[] actual) {
+    return new IsNotNullOrEmpty(actual);
+  }
+
   private IsNotNullOrEmpty(Object actual) {
     super("%sexpecting null or empty but was:<%s>", actual);
   }

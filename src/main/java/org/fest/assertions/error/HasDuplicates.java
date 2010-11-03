@@ -34,6 +34,16 @@ public class HasDuplicates extends BasicErrorMessage {
     return new HasDuplicates(actual, duplicates);
   }
 
+  /**
+   * Creates a new <code>{@link HasDuplicates}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param duplicates the duplicate values found in {@code actual}.
+   * @return an instance of {@code ErrorMessage}.
+   */
+  public static ErrorMessage hasDuplicates(Object[] actual, Collection<?> duplicates) {
+    return new HasDuplicates(actual, duplicates);
+  }
+
   private HasDuplicates(Object actual, Object duplicates) {
     super("%sfound duplicate(s):<%s> in:<%s>", duplicates, actual);
   }

@@ -35,6 +35,17 @@ public class Contains extends BasicErrorMessage {
     return new Contains(actual, expected, found);
   }
 
+  /**
+   * Creates a new </code>{@link Contains}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected not to be contained in {@code actual}.
+   * @param found the values in {@code expected} found in {@code actual}.
+   * @return the created {@code ErrorMessage}.
+   */
+  public static ErrorMessage contains(Object[] actual, Object[] expected, Set<?> found) {
+    return new Contains(actual, expected, found);
+  }
+
   private Contains(Object actual, Object expected, Object found) {
     super("%sexpected:<%s> to not contain:<%s> but found:<%s>", actual, expected, found);
   }

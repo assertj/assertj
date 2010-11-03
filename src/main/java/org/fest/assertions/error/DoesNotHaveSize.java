@@ -29,6 +29,17 @@ public class DoesNotHaveSize extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param actualSize the size of {@code actual}.
+   * @param expectedSize the expected size.
+   * @return the created {@code ErrorMessage}.
+   */
+  public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
+    return new DoesNotHaveSize(actual, actualSize, expectedSize);
+  }
+
+  /**
+   * Creates a new </code>{@link DoesNotHaveSize}</code>.
+   * @param actual the actual value in the failed assertion.
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
@@ -39,12 +50,11 @@ public class DoesNotHaveSize extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
-    return new DoesNotHaveSize(actual, actualSize, expectedSize);
+  public static ErrorMessage doesNotHaveSize(Object[] actual, int expectedSize) {
+    return new DoesNotHaveSize(actual, actual.length, expectedSize);
   }
 
   private DoesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {

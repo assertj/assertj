@@ -35,6 +35,17 @@ public class DoesNotContain extends BasicErrorMessage {
     return new DoesNotContain(actual, expected, notFound);
   }
 
+  /**
+   * Creates a new </code>{@link DoesNotContain}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected not to be contained in {@code actual}.
+   * @param notFound the values in {@code expected} not found in {@code actual}.
+   * @return the created {@code ErrorMessage}.
+   */
+  public static ErrorMessage doesNotContain(Object[] actual, Object[] expected, Set<?> notFound) {
+    return new DoesNotContain(actual, expected, notFound);
+  }
+
   private DoesNotContain(Object actual, Object expected, Object notFound) {
     super("%sexpected:<%s> to contain:<%s> but could not find:<%s>", actual, expected, notFound);
   }

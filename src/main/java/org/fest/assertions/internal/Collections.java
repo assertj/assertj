@@ -143,13 +143,18 @@ public class Collections {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
-    Set<Object> notFound = new LinkedHashSet<Object>();
-    for (Object o : set(values)) {
-      if (!notExpected.contains(o)) notFound.add(o);
-      else notExpected.remove(o);
-    }
+    Set<Object> notFound = containsExclusively(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
     throw failures.failure(info, doesNotContainExclusively(actual, values, notExpected, notFound));
+  }
+
+  static Set<Object> containsExclusively(Set<Object> actual, Object[] values) {
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    for (Object o : set(values)) {
+      if (actual.contains(o)) actual.remove(o);
+      else notFound.add(o);
+    }
+    return notFound;
   }
 
   /**
