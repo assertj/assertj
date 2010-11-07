@@ -24,9 +24,9 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <developerConnection>scm:svn:https://svn.codehaus.org/fest/</developerConnection>
-    <connection>scm:svn:http://svn.codehaus.org/fest/</connection>
-    <url>http://fisheye.codehaus.org/browse/fest/</url>
+    <developerConnection>scm:git:git@github.com:alexruiz/fest-assert-2.x.git</developerConnection>
+    <connection>scm:git:git://github.com/alexruiz/fest-assert-2.x.git</connection>
+    <url>https://github.com/alexruiz/fest-assert-2.x</url>
   </scm>
   <issueManagement>
     <system>JIRA</system>
