@@ -14,9 +14,9 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Doubles;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -28,9 +28,8 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements ComparableAssert<Double>, FloatingPointNumberAssert<Double> {
+public class DoubleAssert extends GenericComparableAssert<DoubleAssert, Double> implements FloatingPointNumberAssert<Double> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Doubles doubles = Doubles.instance();
 
   protected DoubleAssert(Double actual) {
@@ -105,12 +104,6 @@ public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements
     return this;
   }
 
-  /** {@inheritDoc} */
-  public DoubleAssert isLessThan(Double other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -120,12 +113,6 @@ public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements
    */
   public DoubleAssert isLessThan(double other) {
     doubles.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isLessThanOrEqualTo(Double other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -141,12 +128,6 @@ public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements
     return this;
   }
 
-  /** {@inheritDoc} */
-  public DoubleAssert isGreaterThan(Double other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -156,12 +137,6 @@ public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements
    */
   public DoubleAssert isGreaterThan(double other) {
     doubles.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isGreaterThanOrEqualTo(Double other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

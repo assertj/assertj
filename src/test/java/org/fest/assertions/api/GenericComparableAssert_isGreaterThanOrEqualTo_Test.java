@@ -21,28 +21,28 @@ import org.fest.assertions.internal.Comparables;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ByteAssert#isLessThanOrEqualTo(Byte)}</code>.
+ * Tests for <code>{@link GenericComparableAssert#isGreaterThanOrEqualTo(Comparable)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ByteAssert_isLessThanOrEqualTo_Test {
+public class GenericComparableAssert_isGreaterThanOrEqualTo_Test {
 
   private Comparables comparables;
-  private ByteAssert assertions;
+  private ConcreteGenericComparableAssert assertions;
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    assertions = new ByteAssert((byte)6);
+    assertions = new ConcreteGenericComparableAssert(8);
     assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThanOrEqualTo(new Byte((byte)8));
-    verify(comparables).assertLessThanOrEqualTo(assertions.info, assertions.actual, (byte)8);
+  @Test public void should_verify_that_actual_is_greater_than_expected() {
+    assertions.isGreaterThanOrEqualTo(6);
+    verify(comparables).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, 6);
   }
 
   @Test public void should_return_this() {
-    ByteAssert returned = assertions.isLessThanOrEqualTo(new Byte((byte)8));
+    ConcreteGenericComparableAssert returned = assertions.isGreaterThanOrEqualTo(6);
     assertSame(assertions, returned);
   }
 }

@@ -14,9 +14,9 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Floats;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +27,8 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class FloatAssert extends GenericAssert<FloatAssert, Float> implements ComparableAssert<Float>, FloatingPointNumberAssert<Float> {
+public class FloatAssert extends GenericComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Floats floats = Floats.instance();
 
   protected FloatAssert(Float actual) {
@@ -104,12 +103,6 @@ public class FloatAssert extends GenericAssert<FloatAssert, Float> implements Co
     return this;
   }
 
-  /** {@inheritDoc} */
-  public FloatAssert isLessThan(Float other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -119,12 +112,6 @@ public class FloatAssert extends GenericAssert<FloatAssert, Float> implements Co
    */
   public FloatAssert isLessThan(float other) {
     floats.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isLessThanOrEqualTo(Float other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -140,12 +127,6 @@ public class FloatAssert extends GenericAssert<FloatAssert, Float> implements Co
     return this;
   }
 
-  /** {@inheritDoc} */
-  public FloatAssert isGreaterThan(Float other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -155,12 +136,6 @@ public class FloatAssert extends GenericAssert<FloatAssert, Float> implements Co
    */
   public FloatAssert isGreaterThan(float other) {
     floats.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isGreaterThanOrEqualTo(Float other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.NumberAssert;
+import org.fest.assertions.internal.Bytes;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +27,8 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements ComparableAssert<Byte>, NumberAssert<Byte> {
+public class ByteAssert extends GenericComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Bytes bytes = Bytes.instance();
 
   protected ByteAssert(Byte actual) {
@@ -84,12 +83,6 @@ public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements Compa
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ByteAssert isLessThan(Byte other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -99,12 +92,6 @@ public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements Compa
    */
   public ByteAssert isLessThan(byte other) {
     bytes.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isLessThanOrEqualTo(Byte other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -120,12 +107,6 @@ public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements Compa
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ByteAssert isGreaterThan(Byte other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -135,12 +116,6 @@ public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements Compa
    */
   public ByteAssert isGreaterThan(byte other) {
     bytes.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isGreaterThanOrEqualTo(Byte other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

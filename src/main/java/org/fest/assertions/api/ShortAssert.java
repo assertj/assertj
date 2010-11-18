@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.NumberAssert;
+import org.fest.assertions.internal.Shorts;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +27,8 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ShortAssert extends GenericAssert<ShortAssert, Short> implements ComparableAssert<Short>, NumberAssert<Short> {
+public class ShortAssert extends GenericComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Shorts shorts = Shorts.instance();
 
   protected ShortAssert(Short actual) {
@@ -84,12 +83,6 @@ public class ShortAssert extends GenericAssert<ShortAssert, Short> implements Co
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ShortAssert isLessThan(Short other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -99,12 +92,6 @@ public class ShortAssert extends GenericAssert<ShortAssert, Short> implements Co
    */
   public ShortAssert isLessThan(short other) {
     shorts.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isLessThanOrEqualTo(Short other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -120,12 +107,6 @@ public class ShortAssert extends GenericAssert<ShortAssert, Short> implements Co
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ShortAssert isGreaterThan(Short other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -135,12 +116,6 @@ public class ShortAssert extends GenericAssert<ShortAssert, Short> implements Co
    */
   public ShortAssert isGreaterThan(short other) {
     shorts.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isGreaterThanOrEqualTo(Short other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 18, 2010
+ * Created on Oct 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,32 +18,31 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Comparables;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link IntegerAssert#isGreaterThanOrEqualTo(Integer)}</code>.
+ * Tests for <code>{@link GenericComparableAssert#isLessThanOrEqualTo(Comparable)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntegerAssert_isGreaterThanOrEqualTo_Test {
+public class GenericComparableAssert_isLessThanOrEqualTo_Test {
 
   private Comparables comparables;
-  private IntegerAssert assertions;
+  private ConcreteGenericComparableAssert assertions;
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    assertions = new IntegerAssert(8);
+    assertions = new ConcreteGenericComparableAssert(6);
     assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThanOrEqualTo(new Integer(6));
-    verify(comparables).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, 6);
+  @Test public void should_verify_that_actual_is_less_than_expected() {
+    assertions.isLessThanOrEqualTo(8);
+    verify(comparables).assertLessThanOrEqualTo(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    IntegerAssert returned = assertions.isGreaterThanOrEqualTo(new Integer(6));
+    ConcreteGenericComparableAssert returned = assertions.isLessThanOrEqualTo(8);
     assertSame(assertions, returned);
   }
 }

@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.ComparableAssert;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Characters;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +26,8 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class CharacterAssert extends GenericAssert<CharacterAssert, Character> implements ComparableAssert<Character> {
+public class CharacterAssert extends GenericComparableAssert<CharacterAssert, Character> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Characters characters = Characters.instance();
 
   protected CharacterAssert(Character actual) {
@@ -60,12 +58,6 @@ public class CharacterAssert extends GenericAssert<CharacterAssert, Character> i
     return this;
   }
 
-  /** {@inheritDoc} */
-  public CharacterAssert isLessThan(Character other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -75,12 +67,6 @@ public class CharacterAssert extends GenericAssert<CharacterAssert, Character> i
    */
   public CharacterAssert isLessThan(char other) {
     characters.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isLessThanOrEqualTo(Character other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -96,12 +82,6 @@ public class CharacterAssert extends GenericAssert<CharacterAssert, Character> i
     return this;
   }
 
-  /** {@inheritDoc} */
-  public CharacterAssert isGreaterThan(Character other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -111,12 +91,6 @@ public class CharacterAssert extends GenericAssert<CharacterAssert, Character> i
    */
   public CharacterAssert isGreaterThan(char other) {
     characters.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isGreaterThanOrEqualTo(Character other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

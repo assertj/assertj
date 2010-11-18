@@ -37,7 +37,7 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
   @VisibleForTesting final A actual;
 
   @SuppressWarnings("unchecked")
-  private final S myself = (S) this;
+  protected final S myself = (S) this;
 
   protected GenericAssert(A actual) {
     this.actual = actual;
@@ -45,36 +45,24 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public S as(String description) {
+  public final S as(String description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
-  public S as(Description description) {
+  public final S as(Description description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
-  public S describedAs(String description) {
+  public final S describedAs(String description) {
     info.description(description);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S describedAs(Description description) {
+  public final S describedAs(Description description) {
     info.description(description);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  public S satisfies(Condition<A> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  public S doesNotSatisfy(Condition<A> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
     return myself;
   }
 
@@ -91,24 +79,24 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public void isNull() {
+  public final void isNull() {
     objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
-  public S isNotNull() {
+  public final S isNotNull() {
     objects.assertNotNull(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S isSameAs(A expected) {
+  public final S isSameAs(A expected) {
     objects.assertSame(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S isNotSameAs(A other) {
+  public final S isNotSameAs(A other) {
     objects.assertNotSame(info, actual, other);
     return myself;
   }
@@ -120,7 +108,7 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    */
-  public S is(Condition<A> condition) {
+  public final S is(Condition<A> condition) {
     return satisfies(condition);
   }
 
@@ -131,8 +119,20 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    */
-  public S isNot(Condition<A> condition) {
+  public final S isNot(Condition<A> condition) {
     return doesNotSatisfy(condition);
+  }
+
+  /** {@inheritDoc} */
+  public final S satisfies(Condition<A> condition) {
+    conditions.assertSatisfies(info, actual, condition);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S doesNotSatisfy(Condition<A> condition) {
+    conditions.assertDoesNotSatisfy(info, actual, condition);
+    return myself;
   }
 
   @VisibleForTesting final String descriptionText() {

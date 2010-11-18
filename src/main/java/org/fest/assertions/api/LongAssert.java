@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.NumberAssert;
+import org.fest.assertions.internal.Longs;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +27,8 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class LongAssert extends GenericAssert<LongAssert, Long> implements ComparableAssert<Long>, NumberAssert<Long> {
+public class LongAssert extends GenericComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Longs longs = Longs.instance();
 
   protected LongAssert(Long actual) {
@@ -84,12 +83,6 @@ public class LongAssert extends GenericAssert<LongAssert, Long> implements Compa
     return this;
   }
 
-  /** {@inheritDoc} */
-  public LongAssert isLessThan(Long other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -99,12 +92,6 @@ public class LongAssert extends GenericAssert<LongAssert, Long> implements Compa
    */
   public LongAssert isLessThan(long other) {
     longs.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isLessThanOrEqualTo(Long other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -120,12 +107,6 @@ public class LongAssert extends GenericAssert<LongAssert, Long> implements Compa
     return this;
   }
 
-  /** {@inheritDoc} */
-  public LongAssert isGreaterThan(Long other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -135,12 +116,6 @@ public class LongAssert extends GenericAssert<LongAssert, Long> implements Compa
    */
   public LongAssert isGreaterThan(long other) {
     longs.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isGreaterThanOrEqualTo(Long other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

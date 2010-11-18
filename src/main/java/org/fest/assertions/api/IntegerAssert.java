@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.NumberAssert;
+import org.fest.assertions.internal.Integers;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -27,9 +27,8 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> implements ComparableAssert<Integer>, NumberAssert<Integer> {
+public class IntegerAssert extends GenericComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Integers integers = Integers.instance();
 
   protected IntegerAssert(Integer actual) {
@@ -84,12 +83,6 @@ public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> impleme
     return this;
   }
 
-  /** {@inheritDoc} */
-  public IntegerAssert isLessThan(Integer other) {
-    comparables.assertLessThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -99,12 +92,6 @@ public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> impleme
    */
   public IntegerAssert isLessThan(int other) {
     integers.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isLessThanOrEqualTo(Integer other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
     return this;
   }
 
@@ -120,12 +107,6 @@ public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> impleme
     return this;
   }
 
-  /** {@inheritDoc} */
-  public IntegerAssert isGreaterThan(Integer other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is greater than the given one.
    * @param other the given value to compare the actual value to.
@@ -135,12 +116,6 @@ public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> impleme
    */
   public IntegerAssert isGreaterThan(int other) {
     integers.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isGreaterThanOrEqualTo(Integer other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
 

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Oct 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -21,28 +21,28 @@ import org.fest.assertions.internal.Comparables;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isGreaterThan(Long)}</code>.
+ * Tests for <code>{@link GenericComparableAssert#isLessThan(Comparable)}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongAssert_isGreaterThan_Test {
+public class GenericComparableAssert_isLessThan_Test {
 
   private Comparables comparables;
-  private LongAssert assertions;
+  private ConcreteGenericComparableAssert assertions;
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    assertions = new LongAssert(8L);
+    assertions = new ConcreteGenericComparableAssert(6);
     assertions.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThan(new Long(6));
-    verify(comparables).assertGreaterThan(assertions.info, assertions.actual, 6L);
+  @Test public void should_verify_that_actual_is_less_than_expected() {
+    assertions.isLessThan(8);
+    verify(comparables).assertLessThan(assertions.info, assertions.actual, 8);
   }
 
   @Test public void should_return_this() {
-    LongAssert returned = assertions.isGreaterThan(new Long(6));
+    ConcreteGenericComparableAssert returned = assertions.isLessThan(8);
     assertSame(assertions, returned);
   }
 }
