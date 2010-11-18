@@ -32,7 +32,7 @@ public class IntegerAssert extends GenericComparableAssert<IntegerAssert, Intege
   @VisibleForTesting Integers integers = Integers.instance();
 
   protected IntegerAssert(Integer actual) {
-    super(actual);
+    super(actual, IntegerAssert.class);
   }
 
   /**

@@ -31,8 +31,8 @@ public abstract class GenericComparableAssert<S, A extends Comparable<A>> extend
 
   @VisibleForTesting Comparables comparables = Comparables.instance();
 
-  protected GenericComparableAssert(A actual) {
-    super(actual);
+  protected GenericComparableAssert(A actual, Class<S> selfType) {
+    super(actual, selfType);
   }
 
   /** {@inheritDoc} */

@@ -30,7 +30,7 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
 
   protected ObjectArrayAssert(Object[] actual) {
-    super(actual);
+    super(actual, ObjectArrayAssert.class);
   }
 
   /** {@inheritDoc} */

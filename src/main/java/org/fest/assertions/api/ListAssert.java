@@ -28,7 +28,7 @@ import org.fest.assertions.data.Index;
 public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
 
   protected ListAssert(List<?> actual) {
-    super(actual);
+    super(actual, ListAssert.class);
   }
 
   /**

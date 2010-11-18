@@ -32,7 +32,7 @@ public class ImageAssert extends GenericAssert<ImageAssert, BufferedImage> {
   @VisibleForTesting Images images = Images.instance();
 
   protected ImageAssert(BufferedImage actual) {
-    super(actual);
+    super(actual, ImageAssert.class);
   }
 
   /** {@inheritDoc} */

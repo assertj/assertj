@@ -22,6 +22,6 @@ import java.util.Collection;
 public class ConcreteGenericCollectionAssert extends GenericCollectionAssert<ConcreteGenericCollectionAssert, Collection<?>> {
 
   public ConcreteGenericCollectionAssert(Collection<?> actual) {
-    super(actual);
+    super(actual, ConcreteGenericCollectionAssert.class);
   }
 }

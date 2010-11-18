@@ -32,7 +32,7 @@ public class FloatAssert extends GenericComparableAssert<FloatAssert, Float> imp
   @VisibleForTesting Floats floats = Floats.instance();
 
   protected FloatAssert(Float actual) {
-    super(actual);
+    super(actual, FloatAssert.class);
   }
 
   /**

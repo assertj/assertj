@@ -31,7 +31,7 @@ public class CharacterAssert extends GenericComparableAssert<CharacterAssert, Ch
   @VisibleForTesting Characters characters = Characters.instance();
 
   protected CharacterAssert(Character actual) {
-    super(actual);
+    super(actual, CharacterAssert.class);
   }
 
   /**

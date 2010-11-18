@@ -31,7 +31,7 @@ public class BooleanAssert extends GenericAssert<BooleanAssert, Boolean> {
   @VisibleForTesting Booleans booleans = Booleans.instance();
 
   protected BooleanAssert(Boolean actual) {
-    super(actual);
+    super(actual, BooleanAssert.class);
   }
 
   /**

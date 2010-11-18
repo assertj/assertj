@@ -20,6 +20,7 @@ package org.fest.assertions.api;
 public class ConcreteGenericComparableAssert extends GenericComparableAssert<ConcreteGenericComparableAssert, Integer> {
 
   public ConcreteGenericComparableAssert(Integer actual) {
-    super(actual);
+    super(actual, ConcreteGenericComparableAssert.class);
   }
+
 }

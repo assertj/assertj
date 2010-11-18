@@ -32,7 +32,7 @@ public class ShortAssert extends GenericComparableAssert<ShortAssert, Short> imp
   @VisibleForTesting Shorts shorts = Shorts.instance();
 
   protected ShortAssert(Short actual) {
-    super(actual);
+    super(actual, ShortAssert.class);
   }
 
   /**

@@ -32,7 +32,7 @@ public class LongAssert extends GenericComparableAssert<LongAssert, Long> implem
   @VisibleForTesting Longs longs = Longs.instance();
 
   protected LongAssert(Long actual) {
-    super(actual);
+    super(actual, LongAssert.class);
   }
 
   /**

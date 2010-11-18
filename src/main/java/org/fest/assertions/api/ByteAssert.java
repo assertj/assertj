@@ -32,7 +32,7 @@ public class ByteAssert extends GenericComparableAssert<ByteAssert, Byte> implem
   @VisibleForTesting Bytes bytes = Bytes.instance();
 
   protected ByteAssert(Byte actual) {
-    super(actual);
+    super(actual, ByteAssert.class);
   }
 
   /**

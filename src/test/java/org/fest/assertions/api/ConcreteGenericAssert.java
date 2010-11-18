@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.api.GenericAssert;
 
 /**
  * @author Alex Ruiz
@@ -22,6 +21,6 @@ import org.fest.assertions.api.GenericAssert;
 public class ConcreteGenericAssert extends GenericAssert<ConcreteGenericAssert, Object> {
 
   public ConcreteGenericAssert(Object actual) {
-    super(actual);
+    super(actual, ConcreteGenericAssert.class);
   }
 }

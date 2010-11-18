@@ -36,10 +36,10 @@ public abstract class GenericAssert<S, A> implements Assert<S, A> {
   @VisibleForTesting final WritableAssertionInfo info;
   @VisibleForTesting final A actual;
 
-  @SuppressWarnings("unchecked")
-  protected final S myself = (S) this;
+  protected final S myself;
 
-  protected GenericAssert(A actual) {
+  protected GenericAssert(A actual, Class<S> selfType) {
+    myself = selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo();
   }

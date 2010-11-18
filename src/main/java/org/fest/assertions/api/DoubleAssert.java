@@ -33,7 +33,7 @@ public class DoubleAssert extends GenericComparableAssert<DoubleAssert, Double> 
   @VisibleForTesting Doubles doubles = Doubles.instance();
 
   protected DoubleAssert(Double actual) {
-    super(actual);
+    super(actual, DoubleAssert.class);
   }
 
   /**

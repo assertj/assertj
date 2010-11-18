@@ -35,8 +35,8 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
 
   @VisibleForTesting Collections collections = Collections.instance();
 
-  protected GenericCollectionAssert(A actual) {
-    super(actual);
+  protected GenericCollectionAssert(A actual, Class<S> selfType) {
+    super(actual, selfType);
   }
 
   /** {@inheritDoc} */
