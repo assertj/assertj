@@ -16,7 +16,6 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -29,58 +28,13 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class DoubleAssert implements Assert<Double>, ComparableAssert<Double>, FloatingPointNumberAssert<Double> {
+public class DoubleAssert extends GenericAssert<DoubleAssert, Double> implements ComparableAssert<Double>, FloatingPointNumberAssert<Double> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Doubles doubles = Doubles.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Double actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected DoubleAssert(Double actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isEqualTo(Double expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -115,12 +69,6 @@ public class DoubleAssert implements Assert<Double>, ComparableAssert<Double>, F
     return this;
   }
 
-  /** {@inheritDoc} */
-  public DoubleAssert isNotEqualTo(Double other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -130,18 +78,6 @@ public class DoubleAssert implements Assert<Double>, ComparableAssert<Double>, F
    */
   public DoubleAssert isNotEqualTo(double other) {
     doubles.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isSameAs(Double expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isNotSameAs(Double other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -239,31 +175,5 @@ public class DoubleAssert implements Assert<Double>, ComparableAssert<Double>, F
   public DoubleAssert isGreaterThanOrEqualTo(double other) {
     doubles.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert satisfies(Condition<Double> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert doesNotSatisfy(Condition<Double> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert is(Condition<Double> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isNot(Condition<Double> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

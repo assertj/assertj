@@ -16,7 +16,6 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, FloatingPointNumberAssert<Float> {
+public class FloatAssert extends GenericAssert<FloatAssert, Float> implements ComparableAssert<Float>, FloatingPointNumberAssert<Float> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Floats floats = Floats.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Float actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected FloatAssert(Float actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isEqualTo(Float expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -114,12 +68,6 @@ public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, Floa
     return this;
   }
 
-  /** {@inheritDoc} */
-  public FloatAssert isNotEqualTo(Float other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -129,18 +77,6 @@ public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, Floa
    */
   public FloatAssert isNotEqualTo(float other) {
     floats.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isSameAs(Float expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isNotSameAs(Float other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -238,31 +174,5 @@ public class FloatAssert implements Assert<Float>, ComparableAssert<Float>, Floa
   public FloatAssert isGreaterThanOrEqualTo(float other) {
     floats.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert satisfies(Condition<Float> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert doesNotSatisfy(Condition<Float> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert is(Condition<Float> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isNot(Condition<Float> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

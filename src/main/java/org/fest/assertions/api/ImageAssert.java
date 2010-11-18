@@ -16,9 +16,7 @@ package org.fest.assertions.api;
 
 import java.awt.image.BufferedImage;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Images;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,105 +27,23 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class ImageAssert implements Assert<BufferedImage> {
+public class ImageAssert extends GenericAssert<ImageAssert, BufferedImage> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Images images = Images.instance();
 
-  @VisibleForTesting final BufferedImage actual;
-  @VisibleForTesting final WritableAssertionInfo info;
-
-
   protected ImageAssert(BufferedImage actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
+    super(actual);
   }
 
   /** {@inheritDoc} */
-  public ImageAssert as(String description) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert as(Description description) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert describedAs(Description description) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert isEqualTo(BufferedImage expected) {
+  @Override public ImageAssert isEqualTo(BufferedImage expected) {
     images.assertEqual(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ImageAssert isNotEqualTo(BufferedImage other) {
+  @Override public ImageAssert isNotEqualTo(BufferedImage other) {
     // TODO Auto-generated method stub
     return null;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    // TODO Auto-generated method stub
-
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert isSameAs(BufferedImage expected) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert isNotSameAs(BufferedImage other) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert satisfies(Condition<BufferedImage> condition) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert doesNotSatisfy(Condition<BufferedImage> condition) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert is(Condition<BufferedImage> condition) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  /** {@inheritDoc} */
-  public ImageAssert isNot(Condition<BufferedImage> condition) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  String descriptionText() {
-    return info.descriptionText();
   }
 }

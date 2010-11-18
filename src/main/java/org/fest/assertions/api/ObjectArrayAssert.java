@@ -14,9 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.ObjectGroupAssert;
+import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -26,75 +25,12 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert implements ObjectGroupAssert, Assert<Object[]> {
+public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectGroupAssert {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Object[] actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected ObjectArrayAssert(Object[] actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isEqualTo(Object[] expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isNotEqualTo(Object[] other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isSameAs(Object[] expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isNotSameAs(Object[] other) {
-    objects.assertNotSame(info, actual, other);
-    return this;
+    super(actual);
   }
 
   /** {@inheritDoc} */
@@ -141,31 +77,5 @@ public class ObjectArrayAssert implements ObjectGroupAssert, Assert<Object[]> {
   public ObjectArrayAssert doesNotHaveDuplicates() {
     arrays.assertDoesHaveDuplicates(info, actual);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert satisfies(Condition<Object[]> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert doesNotSatisfy(Condition<Object[]> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert is(Condition<Object[]> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public ObjectArrayAssert isNot(Condition<Object[]> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

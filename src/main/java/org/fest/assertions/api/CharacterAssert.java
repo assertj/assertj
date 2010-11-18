@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
+import org.fest.assertions.core.ComparableAssert;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class CharacterAssert implements Assert<Character>, ComparableAssert<Character> {
+public class CharacterAssert extends GenericAssert<CharacterAssert, Character> implements ComparableAssert<Character> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Characters characters = Characters.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Character actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected CharacterAssert(Character actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isEqualTo(Character expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -94,12 +48,6 @@ public class CharacterAssert implements Assert<Character>, ComparableAssert<Char
     return this;
   }
 
-  /** {@inheritDoc} */
-  public CharacterAssert isNotEqualTo(Character other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -109,18 +57,6 @@ public class CharacterAssert implements Assert<Character>, ComparableAssert<Char
    */
   public CharacterAssert isNotEqualTo(char other) {
     characters.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isSameAs(Character expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isNotSameAs(Character other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -194,31 +130,5 @@ public class CharacterAssert implements Assert<Character>, ComparableAssert<Char
   public CharacterAssert isGreaterThanOrEqualTo(char other) {
     characters.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert satisfies(Condition<Character> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert doesNotSatisfy(Condition<Character> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert is(Condition<Character> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public CharacterAssert isNot(Condition<Character> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

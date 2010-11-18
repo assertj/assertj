@@ -16,10 +16,9 @@ package org.fest.assertions.api;
 
 import java.util.List;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ObjectGroupAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Collections;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,75 +28,12 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ListAssert implements ObjectGroupAssert, Assert<List<?>> {
+public class ListAssert extends GenericAssert<ListAssert, List<?>> implements ObjectGroupAssert {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Collections collections = Collections.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final List<?> actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected ListAssert(List<?> actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isEqualTo(List<?> expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isNotEqualTo(List<?> other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isSameAs(List<?> expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isNotSameAs(List<?> other) {
-    objects.assertNotSame(info, actual, other);
-    return this;
+    super(actual);
   }
 
   /** {@inheritDoc} */
@@ -206,31 +142,5 @@ public class ListAssert implements ObjectGroupAssert, Assert<List<?>> {
   public ListAssert endsWith(Object... sequence) {
     // TODO implement
     return null;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert satisfies(Condition<List<?>> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert doesNotSatisfy(Condition<List<?>> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert is(Condition<List<?>> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isNot(Condition<List<?>> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

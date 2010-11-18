@@ -16,11 +16,14 @@ package org.fest.assertions.core;
 
 /**
  * Mechanism for extending assertion classes.
- * @param <T> the type of the "actual" value.
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
+ * @param <A> the type of the "actual" value.
  *
  * @author Alex Ruiz
  */
-public interface ExtensionPoints<T> {
+public interface ExtensionPoints<S, A> {
 
   /**
    * Verifies that the actual value satisfies the given condition.
@@ -30,7 +33,7 @@ public interface ExtensionPoints<T> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  ExtensionPoints<T> satisfies(Condition<T> condition);
+  S satisfies(Condition<A> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition.
@@ -40,7 +43,7 @@ public interface ExtensionPoints<T> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  ExtensionPoints<T> doesNotSatisfy(Condition<T> condition);
+  S doesNotSatisfy(Condition<A> condition);
 
   /**
    * Alias for <code>{@link #satisfies(Condition)}</code>.
@@ -49,7 +52,7 @@ public interface ExtensionPoints<T> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    */
-  ExtensionPoints<T> is(Condition<T> condition);
+  S is(Condition<A> condition);
 
   /**
    * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
@@ -58,5 +61,5 @@ public interface ExtensionPoints<T> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value satisfies the given condition.
    */
-  ExtensionPoints<T> isNot(Condition<T> condition);
+  S isNot(Condition<A> condition);
 }

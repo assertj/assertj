@@ -15,7 +15,6 @@
 package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class LongAssert implements Assert<Long>, ComparableAssert<Long>, NumberAssert<Long> {
+public class LongAssert extends GenericAssert<LongAssert, Long> implements ComparableAssert<Long>, NumberAssert<Long> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Longs longs = Longs.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Long actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected LongAssert(Long actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isEqualTo(Long expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -94,12 +48,6 @@ public class LongAssert implements Assert<Long>, ComparableAssert<Long>, NumberA
     return this;
   }
 
-  /** {@inheritDoc} */
-  public LongAssert isNotEqualTo(Long other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -109,18 +57,6 @@ public class LongAssert implements Assert<Long>, ComparableAssert<Long>, NumberA
    */
   public LongAssert isNotEqualTo(long other) {
     longs.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isSameAs(Long expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isNotSameAs(Long other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -218,31 +154,5 @@ public class LongAssert implements Assert<Long>, ComparableAssert<Long>, NumberA
   public LongAssert isGreaterThanOrEqualTo(long other) {
     longs.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert satisfies(Condition<Long> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert doesNotSatisfy(Condition<Long> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert is(Condition<Long> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public LongAssert isNot(Condition<Long> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

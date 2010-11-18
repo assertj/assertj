@@ -15,7 +15,6 @@
 package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>, NumberAssert<Integer> {
+public class IntegerAssert extends GenericAssert<IntegerAssert, Integer> implements ComparableAssert<Integer>, NumberAssert<Integer> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Integers integers = Integers.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Integer actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected IntegerAssert(Integer actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isEqualTo(Integer expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -94,12 +48,6 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
     return this;
   }
 
-  /** {@inheritDoc} */
-  public IntegerAssert isNotEqualTo(Integer other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -109,18 +57,6 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
    */
   public IntegerAssert isNotEqualTo(int other) {
     integers.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isSameAs(Integer expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isNotSameAs(Integer other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -218,31 +154,5 @@ public class IntegerAssert implements Assert<Integer>, ComparableAssert<Integer>
   public IntegerAssert isGreaterThanOrEqualTo(int other) {
     integers.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert satisfies(Condition<Integer> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert doesNotSatisfy(Condition<Integer> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert is(Condition<Integer> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public IntegerAssert isNot(Condition<Integer> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

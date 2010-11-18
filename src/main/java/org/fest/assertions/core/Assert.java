@@ -16,12 +16,15 @@ package org.fest.assertions.core;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
- * @param <T> the type of the "actual" value.
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
+ * @param <A> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
+public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
    * Verifies that the actual value is equal to the given one.
@@ -29,7 +32,7 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  Assert<T> isEqualTo(T expected);
+  S isEqualTo(A expected);
 
   /**
    * Verifies that the actual value is not equal to the given one.
@@ -37,7 +40,7 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  Assert<T> isNotEqualTo(T other);
+  S isNotEqualTo(A other);
 
   /**
    * Verifies that the actual value is {@code null}.
@@ -50,7 +53,7 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    */
-  Assert<T> isNotNull();
+  S isNotNull();
 
   /**
    * Verifies that the actual value is the same as the given one.
@@ -58,7 +61,7 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
    */
-  Assert<T> isSameAs(T expected);
+  S isSameAs(A expected);
 
   /**
    * Verifies that the actual value is not the same as the given one.
@@ -66,5 +69,5 @@ public interface Assert<T> extends Descriptable, ExtensionPoints<T> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
    */
-  Assert<T> isNotSameAs(T other);
+  S isNotSameAs(A other);
 }

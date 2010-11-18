@@ -14,9 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Booleans;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -28,40 +26,12 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  */
-public class BooleanAssert implements Assert<Boolean> {
+public class BooleanAssert extends GenericAssert<BooleanAssert, Boolean> {
 
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Booleans booleans = Booleans.instance();
 
-  @VisibleForTesting final Boolean actual;
-  @VisibleForTesting final WritableAssertionInfo info;
-
   protected BooleanAssert(Boolean actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert describedAs(Description description) {
-    info.description(description);
-    return this;
+    super(actual);
   }
 
   /**
@@ -84,12 +54,6 @@ public class BooleanAssert implements Assert<Boolean> {
     return isEqualTo(false);
   }
 
-  /** {@inheritDoc} */
-  public BooleanAssert isEqualTo(Boolean expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
@@ -99,12 +63,6 @@ public class BooleanAssert implements Assert<Boolean> {
    */
   public BooleanAssert isEqualTo(boolean expected) {
     booleans.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert isNotEqualTo(Boolean other) {
-    objects.assertNotEqual(info, actual, other);
     return this;
   }
 
@@ -118,54 +76,5 @@ public class BooleanAssert implements Assert<Boolean> {
   public BooleanAssert isNotEqualTo(boolean other) {
     booleans.assertNotEqual(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert isSameAs(Boolean expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert isNotSameAs(Boolean other) {
-    objects.assertNotSame(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert satisfies(Condition<Boolean> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert doesNotSatisfy(Condition<Boolean> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert is(Condition<Boolean> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public BooleanAssert isNot(Condition<Boolean> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting String descriptionText() {
-    return info.descriptionText();
   }
 }

@@ -15,7 +15,6 @@
 package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ByteAssert implements Assert<Byte>, ComparableAssert<Byte>, NumberAssert<Byte> {
+public class ByteAssert extends GenericAssert<ByteAssert, Byte> implements ComparableAssert<Byte>, NumberAssert<Byte> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Bytes bytes = Bytes.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Byte actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected ByteAssert(Byte actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isEqualTo(Byte expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -94,12 +48,6 @@ public class ByteAssert implements Assert<Byte>, ComparableAssert<Byte>, NumberA
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ByteAssert isNotEqualTo(Byte other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -109,18 +57,6 @@ public class ByteAssert implements Assert<Byte>, ComparableAssert<Byte>, NumberA
    */
   public ByteAssert isNotEqualTo(byte other) {
     bytes.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isSameAs(Byte expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isNotSameAs(Byte other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -218,31 +154,5 @@ public class ByteAssert implements Assert<Byte>, ComparableAssert<Byte>, NumberA
   public ByteAssert isGreaterThanOrEqualTo(byte other) {
     bytes.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert satisfies(Condition<Byte> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert doesNotSatisfy(Condition<Byte> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert is(Condition<Byte> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public ByteAssert isNot(Condition<Byte> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

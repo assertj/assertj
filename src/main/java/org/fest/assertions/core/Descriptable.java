@@ -18,11 +18,14 @@ import org.fest.assertions.description.*;
 
 /**
  * An object that has a description.
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public interface Descriptable {
+public interface Descriptable<S> {
 
   /**
    * Sets the description of this object.
@@ -31,7 +34,7 @@ public interface Descriptable {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(String)
    */
-  Descriptable as(String description);
+  S as(String description);
 
   /**
    * Sets the description of this object. To remove or clear the description, pass a
@@ -46,7 +49,7 @@ public interface Descriptable {
    * @throws NullPointerException if the description is {@code null}.
    * @see #describedAs(Description)
    */
-  Descriptable as(Description description);
+  S as(Description description);
 
   /**
    * Alias for <code>{@link #as(String)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
@@ -55,7 +58,7 @@ public interface Descriptable {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  Descriptable describedAs(String description);
+  S describedAs(String description);
 
   /**
    * Alias for <code>{@link #as(String)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
@@ -70,5 +73,5 @@ public interface Descriptable {
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  Descriptable describedAs(Description description);
+  S describedAs(Description description);
 }

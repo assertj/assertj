@@ -16,9 +16,8 @@ package org.fest.assertions.api;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.core.ObjectGroupAssert;
+import org.fest.assertions.internal.Collections;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -28,75 +27,12 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>> {
+public class CollectionAssert extends GenericAssert<CollectionAssert, Collection<?>> implements ObjectGroupAssert {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Collections collections = Collections.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Collection<?> actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected CollectionAssert(Collection<?> actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isEqualTo(Collection<?> expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isNotEqualTo(Collection<?> other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isSameAs(Collection<?> expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isNotSameAs(Collection<?> other) {
-    objects.assertNotSame(info, actual, other);
-    return this;
+    super(actual);
   }
 
   /** {@inheritDoc} */
@@ -143,31 +79,5 @@ public class CollectionAssert implements ObjectGroupAssert, Assert<Collection<?>
   public CollectionAssert doesNotHaveDuplicates() {
     collections.assertDoesHaveDuplicates(info, actual);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert satisfies(Condition<Collection<?>> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert doesNotSatisfy(Condition<Collection<?>> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert is(Condition<Collection<?>> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public CollectionAssert isNot(Condition<Collection<?>> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

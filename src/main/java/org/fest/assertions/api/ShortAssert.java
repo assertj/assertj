@@ -15,7 +15,6 @@
 package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
@@ -28,58 +27,13 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ShortAssert implements Assert<Short>, ComparableAssert<Short>, NumberAssert<Short> {
+public class ShortAssert extends GenericAssert<ShortAssert, Short> implements ComparableAssert<Short>, NumberAssert<Short> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
   @VisibleForTesting Comparables comparables = Comparables.instance();
   @VisibleForTesting Shorts shorts = Shorts.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
-
-  @VisibleForTesting final Short actual;
-  @VisibleForTesting final WritableAssertionInfo info;
 
   protected ShortAssert(Short actual) {
-    this.actual = actual;
-    info = new WritableAssertionInfo();
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert as(String description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert as(Description description) {
-    return describedAs(description);
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert describedAs(String description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert describedAs(Description description) {
-    info.description(description);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public void isNull() {
-    objects.assertNull(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isNotNull() {
-    objects.assertNotNull(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isEqualTo(Short expected) {
-    objects.assertEqual(info, actual, expected);
-    return this;
+    super(actual);
   }
 
   /**
@@ -94,12 +48,6 @@ public class ShortAssert implements Assert<Short>, ComparableAssert<Short>, Numb
     return this;
   }
 
-  /** {@inheritDoc} */
-  public ShortAssert isNotEqualTo(Short other) {
-    objects.assertNotEqual(info, actual, other);
-    return this;
-  }
-
   /**
    * Verifies that the actual value is not equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -109,18 +57,6 @@ public class ShortAssert implements Assert<Short>, ComparableAssert<Short>, Numb
    */
   public ShortAssert isNotEqualTo(short other) {
     shorts.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isSameAs(Short expected) {
-    objects.assertSame(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isNotSameAs(Short other) {
-    objects.assertNotSame(info, actual, other);
     return this;
   }
 
@@ -218,31 +154,5 @@ public class ShortAssert implements Assert<Short>, ComparableAssert<Short>, Numb
   public ShortAssert isGreaterThanOrEqualTo(short other) {
     shorts.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert satisfies(Condition<Short> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert doesNotSatisfy(Condition<Short> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert is(Condition<Short> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public ShortAssert isNot(Condition<Short> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  @VisibleForTesting final String descriptionText() {
-    return info.descriptionText();
   }
 }

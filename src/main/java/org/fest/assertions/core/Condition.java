@@ -26,7 +26,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public abstract class Condition<T> implements Descriptable {
+public abstract class Condition<T> implements Descriptable<Condition<T>> {
 
   @VisibleForTesting Description description;
 
