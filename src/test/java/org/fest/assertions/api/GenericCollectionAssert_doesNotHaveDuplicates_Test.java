@@ -1,5 +1,5 @@
 /*
- * Created on Sep 30, 2010
+ * Created on Oct 15, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,33 +19,31 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#contains(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#doesNotHaveDuplicates()}</code>.
  *
  * @author Alex Ruiz
  */
-public class CollectionAssert_contains_Test {
+public class GenericCollectionAssert_doesNotHaveDuplicates_Test {
 
   private Collections collections;
-  private CollectionAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before public void setUp() {
     collections = mock(Collections.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_contains_given_values() {
-    Object[] values = { "Yoda", "Luke" };
-    assertions.contains(values);
-    verify(collections).assertContains(assertions.info, assertions.actual, values);
+  @Test public void should_verify_that_actual_does_not_have_duplicates() {
+    assertions.doesNotHaveDuplicates();
+    verify(collections).assertDoesHaveDuplicates(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    CollectionAssert returned = assertions.contains("Luke");
+    ConcreteGenericCollectionAssert returned = assertions.doesNotHaveDuplicates();
     assertSame(assertions, returned);
   }
 }

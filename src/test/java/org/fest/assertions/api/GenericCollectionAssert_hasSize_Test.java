@@ -1,5 +1,5 @@
 /*
- * Created on Oct 26, 2010
+ * Created on Aug 3, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,24 +19,22 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link ListAssert#hasSize(int)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#hasSize(int)}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ListAssert_hasSize_Test {
+public class GenericCollectionAssert_hasSize_Test {
 
   private Collections collections;
-  private ListAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before
   public void setUp() {
     collections = mock(Collections.class);
-    assertions = new ListAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
@@ -47,7 +45,7 @@ public class ListAssert_hasSize_Test {
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.hasSize(0);
+    ConcreteGenericCollectionAssert returned = assertions.hasSize(0);
     assertSame(assertions, returned);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 15, 2010
+ * Created on Oct 9, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,28 +22,29 @@ import org.fest.assertions.internal.Collections;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#doesNotHaveDuplicates()}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#doesNotContain(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class CollectionAssert_doesNotHaveDuplicates_Test {
+public class GenericCollectionAssert_doesNotContain_Test {
 
   private Collections collections;
-  private CollectionAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before public void setUp() {
     collections = mock(Collections.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_does_not_have_duplicates() {
-    assertions.doesNotHaveDuplicates();
-    verify(collections).assertDoesHaveDuplicates(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_does_not_contain_given_values() {
+    Object[] values = { "Yoda", "Luke" };
+    assertions.doesNotContain(values);
+    verify(collections).assertDoesNotContain(assertions.info, assertions.actual, values);
   }
 
   @Test public void should_return_this() {
-    CollectionAssert returned = assertions.doesNotHaveDuplicates();
+    ConcreteGenericCollectionAssert returned = assertions.doesNotContain("Luke");
     assertSame(assertions, returned);
   }
 }

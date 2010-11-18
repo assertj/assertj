@@ -1,5 +1,5 @@
 /*
- * Created on Oct 26, 2010
+ * Created on Sep 22, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,35 +19,32 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link ListAssert#isNotEmpty()}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#isNotEmpty()}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class ListAssert_isNotEmpty_Test {
+public class GenericCollectionAssert_isNotEmpty_Test {
 
   private Collections collections;
-  private ListAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
-  @Before
-  public void setUp() {
+  @Before public void setUp() {
     collections = mock(Collections.class);
-    assertions = new ListAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
-  @Test
-  public void should_verify_that_actual_is_not_empty() {
+  @Test public void should_verify_that_actual_is_not_empty() {
     assertions.isNotEmpty();
     verify(collections).assertNotEmpty(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.isNotEmpty();
+    ConcreteGenericCollectionAssert returned = assertions.isNotEmpty();
     assertSame(assertions, returned);
   }
 }

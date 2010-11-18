@@ -16,11 +16,14 @@ package org.fest.assertions.core;
 
 /**
  * Assertions applicable to groups of values (e.g. arrays, collections or strings.)
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface GroupAssert {
+public interface GroupAssert<S> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
@@ -39,7 +42,7 @@ public interface GroupAssert {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
-  GroupAssert isNotEmpty();
+  S isNotEmpty();
 
   /**
    * Verifies that the number of values in the actual group is equal to the given one.
@@ -47,5 +50,5 @@ public interface GroupAssert {
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
    */
-  GroupAssert hasSize(int expected);
+  S hasSize(int expected);
 }

@@ -19,22 +19,21 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#containsExclusively(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#containsExclusively(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class CollectionAssert_containsExclusively_Test {
+public class GenericCollectionAssert_containsExclusively_Test {
 
   private Collections collections;
-  private CollectionAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before public void setUp() {
     collections = mock(Collections.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
@@ -45,7 +44,7 @@ public class CollectionAssert_containsExclusively_Test {
   }
 
   @Test public void should_return_this() {
-    CollectionAssert returned = assertions.containsExclusively("Luke");
+    ConcreteGenericCollectionAssert returned = assertions.containsExclusively("Luke");
     assertSame(assertions, returned);
   }
 }

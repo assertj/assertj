@@ -16,10 +16,7 @@ package org.fest.assertions.api;
 
 import java.util.List;
 
-import org.fest.assertions.core.ObjectGroupAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.Collections;
-import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for <code>{@link List}</code>s. To create an instance of this class, use the factory method
@@ -28,46 +25,10 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ListAssert extends GenericAssert<ListAssert, List<?>> implements ObjectGroupAssert {
-
-  @VisibleForTesting Collections collections = Collections.instance();
+public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
 
   protected ListAssert(List<?> actual) {
     super(actual);
-  }
-
-  /** {@inheritDoc} */
-  public void isNullOrEmpty() {
-    collections.assertNullOrEmpty(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public void isEmpty() {
-    collections.assertEmpty(info, actual);
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert isNotEmpty() {
-    collections.assertNotEmpty(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert hasSize(int expected) {
-    collections.assertHasSize(info, actual, expected);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert contains(Object... values) {
-    collections.assertContains(info, actual, values);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert containsExclusively(Object... values) {
-    collections.assertContainsExclusively(info, actual, values);
-    return this;
   }
 
   /**
@@ -98,18 +59,6 @@ public class ListAssert extends GenericAssert<ListAssert, List<?>> implements Ob
   public ListAssert containsSequence(Object... sequence) {
     // TODO implement
     return null;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert doesNotContain(Object... values) {
-    collections.assertDoesNotContain(info, actual, values);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public ListAssert doesNotHaveDuplicates() {
-    collections.assertDoesHaveDuplicates(info, actual);
-    return this;
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * Created on Oct 26, 2010
+ * Created on Sep 17, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,38 +15,30 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link ListAssert#contains(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#isNullOrEmpty()}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class ListAssert_contains_Test {
+public class GenericCollectionAssert_isNullOrEmpty_Test {
 
   private Collections collections;
-  private ListAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before public void setUp() {
     collections = mock(Collections.class);
-    assertions = new ListAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_contains_given_values() {
-    Object[] values = { "Yoda", "Luke" };
-    assertions.contains(values);
-    verify(collections).assertContains(assertions.info, assertions.actual, values);
-  }
-
-  @Test public void should_return_this() {
-    ListAssert returned = assertions.contains("Luke");
-    assertSame(assertions, returned);
+  @Test public void should_verify_that_actual_value_is_same_as_expected_value() {
+    assertions.isNullOrEmpty();
+    verify(collections).assertNullOrEmpty(assertions.info, assertions.actual);
   }
 }

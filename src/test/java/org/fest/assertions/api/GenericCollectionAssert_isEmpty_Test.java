@@ -1,5 +1,5 @@
 /*
- * Created on Sep 22, 2010
+ * Created on Sep 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,38 +15,31 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CollectionAssert#isNotEmpty()}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#isEmpty()}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class CollectionAssert_isNotEmpty_Test {
+public class GenericCollectionAssert_isEmpty_Test {
 
   private Collections collections;
-  private CollectionAssert assertions;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before
   public void setUp() {
     collections = mock(Collections.class);
-    assertions = new CollectionAssert(emptyList());
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
     assertions.collections = collections;
   }
 
   @Test
-  public void should_verify_that_actual_is_not_empty() {
-    assertions.isNotEmpty();
-    verify(collections).assertNotEmpty(assertions.info, assertions.actual);
-  }
-
-  @Test public void should_return_this() {
-    CollectionAssert returned = assertions.isNotEmpty();
-    assertSame(assertions, returned);
+  public void should_verify_that_actual_is_empty() {
+    assertions.isEmpty();
+    verify(collections).assertEmpty(assertions.info, assertions.actual);
   }
 }

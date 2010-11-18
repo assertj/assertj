@@ -16,11 +16,14 @@ package org.fest.assertions.core;
 
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface ObjectGroupAssert extends GroupAssert {
+public interface ObjectGroupAssert<S> extends GroupAssert<S> {
 
   /**
    * Verifies that the actual group contains the given values, in any order.
@@ -31,7 +34,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
-  ObjectGroupAssert contains(Object... values);
+  S contains(Object... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, in any order.
@@ -43,7 +46,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @throws AssertionError if the actual group does not contain the given values, i.e. the given group contains some
    * or none of the given values, or the actual group contains more values than the given ones.
    */
-  ObjectGroupAssert containsExclusively(Object... values);
+  S containsExclusively(Object... values);
 
   /**
    * Verifies that the actual group does not contain the given values.
@@ -54,7 +57,7 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains the given values.
    */
-  ObjectGroupAssert doesNotContain(Object... values);
+  S doesNotContain(Object... values);
 
   /**
    * Verifies that the actual group does not contain duplicates.
@@ -62,5 +65,5 @@ public interface ObjectGroupAssert extends GroupAssert {
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains duplicates.
    */
-  ObjectGroupAssert doesNotHaveDuplicates();
+  S doesNotHaveDuplicates();
 }
