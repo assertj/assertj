@@ -19,11 +19,14 @@ import java.math.BigDecimal;
 /**
  * Assertion methods applicable to <code>{@link Comparable}</code>s whose implementation of {@code compareTo} is not
  * consistent with their implementation of {@code equals} (e.g. <code>{@link BigDecimal}</code>.)
+ * @param <S> the "self" type of this assertion class. Please read
+ * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
+ * API implementation</a>&quot; for more details.
  * @param <T> the type of the "actual" value.
  *
  * @author Alex Ruiz
  */
-public interface InconsistentComparableAssert<T extends Comparable<T>> extends ComparableAssert<T> {
+public interface InconsistentComparableAssert<S, T extends Comparable<T>> extends ComparableAssert<S, T> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking
@@ -33,7 +36,7 @@ public interface InconsistentComparableAssert<T extends Comparable<T>> extends C
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  InconsistentComparableAssert<T> isEqualByComparingTo(T expected);
+  S isEqualByComparingTo(T expected);
 
   /**
    * Verifies that the actual value is not equal to the given one by invoking
@@ -43,5 +46,5 @@ public interface InconsistentComparableAssert<T extends Comparable<T>> extends C
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  InconsistentComparableAssert<T> isNotEqualByComparingTo(T other);
+  S isNotEqualByComparingTo(T other);
 }

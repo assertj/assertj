@@ -17,11 +17,13 @@ package org.fest.assertions.test;
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.fest.assertions.data.RgbColor.color;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.data.RgbColor;
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
  * @author Alex Ruiz
@@ -29,7 +31,8 @@ import org.fest.assertions.description.*;
  */
 public final class TestData {
 
-  private static final TextDescription DESCRIPTION = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
+  private static final TextDescription DESCRIPTION = new TextDescription(
+      "who's the more foolish: the fool, or the fool who follows him?");
 
   private static final RgbColor BLUE = color(0x0000FF);
   private static final RgbColor YELLOW = color(0xFFFF00);
@@ -42,17 +45,17 @@ public final class TestData {
     return newImage(5, 5, Color.BLUE);
   }
 
-  public  static BufferedImage fivePixelYellowImage() {
-      return newImage(5, 5, Color.YELLOW);
-    }
+  public static BufferedImage fivePixelYellowImage() {
+    return newImage(5, 5, Color.YELLOW);
+  }
 
- public static BufferedImage newImage(int width, int height, Color color) {
-  BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
-  Graphics graphics = image.createGraphics();
-  graphics.setColor(color);
-  graphics.fillRect(0, 0, width, height);
-  return image;
-}
+  public static BufferedImage newImage(int width, int height, Color color) {
+    BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
+    Graphics graphics = image.createGraphics();
+    graphics.setColor(color);
+    graphics.fillRect(0, 0, width, height);
+    return image;
+  }
 
   public static Description someDescription() {
     return DESCRIPTION;
