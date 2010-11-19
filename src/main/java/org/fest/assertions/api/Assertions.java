@@ -182,6 +182,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ObjectArrayAssert assertThat(Object[] actual) {
+    return new ObjectArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ShortAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.

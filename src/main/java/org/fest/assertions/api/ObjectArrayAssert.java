@@ -25,7 +25,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectGroupAssert {
+public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectGroupAssert<ObjectArrayAssert> {
 
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
 
