@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of
@@ -27,7 +28,7 @@ public class DoesNotContain extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotContain}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param expected values expected not to be contained in {@code actual}.
+   * @param expected values expected to be in {@code actual}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
@@ -38,7 +39,7 @@ public class DoesNotContain extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotContain}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param expected values expected not to be contained in {@code actual}.
+   * @param expected values expected to be in {@code actual}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */

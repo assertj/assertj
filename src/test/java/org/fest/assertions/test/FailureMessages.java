@@ -49,5 +49,9 @@ public final class FailureMessages {
     return "expecting non-null object but it was null";
   }
 
+  public static String unexpectedEmpty() {
+    return "unexpected empty";
+  }
+
   private FailureMessages() {}
 }

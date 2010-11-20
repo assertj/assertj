@@ -17,6 +17,8 @@ package org.fest.assertions.api;
 import java.util.List;
 
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.Lists;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for <code>{@link List}</code>s. To create an instance of this class, use the factory method
@@ -27,24 +29,26 @@ import org.fest.assertions.data.Index;
  */
 public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
 
+  @VisibleForTesting Lists lists = Lists.instance();
+
   protected ListAssert(List<?> actual) {
     super(actual, ListAssert.class);
   }
 
   /**
-   * Verifies that the list value contains the given object at the given index.
-   * @param o the object to look for.
+   * Verifies that the actual list contains the given object at the given index.
+   * @param value the object to look for.
    * @param index the index where the object should be stored in the actual {@code List}.
    * @return this assertion object.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    * the actual {@code List}.
-   * @throws AssertionError if the actual list is {@code null}.
-   * @throws AssertionError if the actual list does not contain the given object at the given index.
+   * @throws AssertionError if the actual {@code List} is {@code null}.
+   * @throws AssertionError if the actual {@code List} does not contain the given object at the given index.
    */
-  public ListAssert contains(Object o, Index index) {
-    // TODO implement
-    return null;
+  public ListAssert contains(Object value, Index index) {
+    lists.assertContains(info, actual, value, index);
+    return this;
   }
 
   /**
@@ -53,8 +57,8 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @return this assertion object.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual list is {@code null}.
-   * @throws AssertionError if the actual list does not contain the given sequence of objects.
+   * @throws AssertionError if the actual {@code List} is {@code null}.
+   * @throws AssertionError if the actual {@code List} does not contain the given sequence of objects.
    */
   public ListAssert containsSequence(Object... sequence) {
     // TODO implement
@@ -69,8 +73,8 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @return this assertion object.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual list is {@code null}.
-   * @throws AssertionError if the actual list does not start with the given sequence of objects.
+   * @throws AssertionError if the actual {@code List} is {@code null}.
+   * @throws AssertionError if the actual {@code List} does not start with the given sequence of objects.
    */
   public ListAssert startsWith(Object... sequence) {
     // TODO implement
@@ -85,8 +89,8 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @return this assertion object.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual list is {@code null}.
-   * @throws AssertionError if the actual list does not end with the given sequence of objects.
+   * @throws AssertionError if the actual {@code List} is {@code null}.
+   * @throws AssertionError if the actual {@code List} does not end with the given sequence of objects.
    */
   public ListAssert endsWith(Object... sequence) {
     // TODO implement
