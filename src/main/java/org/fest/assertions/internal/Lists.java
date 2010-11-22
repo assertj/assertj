@@ -80,7 +80,7 @@ public class Lists {
     if (index == null) throw new NullPointerException("Index should not be null");
     int lastIndex = actual.size() - 1;
     if (index.value <= lastIndex) return;
-    String format = "The index <%d> should be between <%d> and <%d>, inclusive)";
-    throw new IndexOutOfBoundsException(String.format(format, index.value, 0, lastIndex));
+    String format = "Index should be between <%d> and <%d> (inclusive,) but was <%d>";
+    throw new IndexOutOfBoundsException(String.format(format, 0, lastIndex, index.value));
   }
 }

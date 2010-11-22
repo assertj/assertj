@@ -73,7 +73,7 @@ public class Lists_assertContains_Test {
 
   @Test public void should_throw_error_if_Index_is_out_of_bounds() {
     thrown.expect(IndexOutOfBoundsException.class);
-    thrown.expectMessage("The index <6> should be between <0> and <2>, inclusive");
+    thrown.expectMessage("Index should be between <0> and <2> (inclusive,) but was <6>");
     lists.assertContains(info, actual, "Yoda", atIndex(6));
   }
 
