@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
@@ -139,13 +139,13 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not contain the given values or if the given
    * {@code Collection} contains values that are not in the given array.
    */
-  public void assertContainsExclusively(AssertionInfo info, Collection<?> actual, Object[] values) {
+  public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsExclusively(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainExclusively(actual, values, notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
   }
 
   static Set<Object> containsExclusively(Set<Object> actual, Object[] values) {

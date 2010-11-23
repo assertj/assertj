@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 
@@ -24,15 +24,16 @@ import java.util.List;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link DoesNotContainExclusively#create(Description)}</code>.
+ * Tests for <code>{@link DoesNotContainOnly#create(Description)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class DoesNotContainExclusively_create_Test {
+public class DoesNotContainOnly_create_Test {
 
   private Description description;
   private List<String> actual;
@@ -43,21 +44,21 @@ public class DoesNotContainExclusively_create_Test {
     actual = list("Yoda", "Han");
   }
 
-  @Test public void should_create_default_error_message() {
-    errorMessage = doesNotContainExclusively(actual, array("Luke", "Yoda"), set("Han"), set("Luke"));
-    String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Luke', 'Yoda']> exclusively; could not find:<['Luke']> and got unexpected:<['Han']>";
+  @Test public void should_create_default_error_message_if_notFound_and_notExpected_are_not_empty() {
+    errorMessage = doesNotContainOnly(actual, array("Luke", "Yoda"), set("Han"), set("Luke"));
+    String msg = "[Test] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda']>; could not find:<['Luke']> and got unexpected:<['Han']>";
     assertEquals(msg, errorMessage.create(description));
   }
 
-  @Test public void should_ignore_notFound_if_empty() {
-    errorMessage = doesNotContainExclusively(actual, array("Yoda"), set("Han"), emptySet());
-    String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Yoda']> exclusively, but got unexpected:<['Han']>";
+  @Test public void should_ignore_empty_notFound() {
+    errorMessage = doesNotContainOnly(actual, array("Yoda"), set("Han"), emptySet());
+    String msg = "[Test] expected:<['Yoda', 'Han']> to contain only:<['Yoda']>, but got unexpected:<['Han']>";
     assertEquals(msg, errorMessage.create(description));
   }
 
-  @Test public void should_ignore_notExpected_if_empty() {
-    errorMessage = doesNotContainExclusively(actual, array("Luke", "Yoda", "Han"), emptySet(), set("Luke"));
-    String msg = "[Test] expected:<['Yoda', 'Han']> to contain:<['Luke', 'Yoda', 'Han']> exclusively, but could not find:<['Luke']>";
+  @Test public void should_ignore_empty_notExpected() {
+    errorMessage = doesNotContainOnly(actual, array("Luke", "Yoda", "Han"), emptySet(), set("Luke"));
+    String msg = "[Test] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda', 'Han']>, but could not find:<['Luke']>";
     assertEquals(msg, errorMessage.create(description));
   }
 }

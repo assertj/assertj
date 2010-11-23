@@ -68,8 +68,8 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
   }
 
   /** {@inheritDoc} */
-  public final S containsExclusively(Object... values) {
-    collections.assertContainsExclusively(info, actual, values);
+  public final S containsOnly(Object... values) {
+    collections.assertContainsOnly(info, actual, values);
     return myself;
   }
 

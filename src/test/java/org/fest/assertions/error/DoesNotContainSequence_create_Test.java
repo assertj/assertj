@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Nov 22, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,36 +15,30 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.list;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link DoesNotContain#create(Description)}</code>.
+ * Tests for <code>{@link DoesNotContainSequence#create(Description)}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class DoesNotContain_create_Test {
+public class DoesNotContainSequence_create_Test {
 
   private ErrorMessage errorMessage;
 
-  @Test public void should_create_error_message_when_actual_is_Collection() {
-    errorMessage = doesNotContain(list("Yoda"), array("Luke", "Yoda"), set("Luke"));
-    assertThatErrorMessageIsCorrect();
+  @Before public void setUp() {
+    errorMessage = doesNotContainSequence(list("Yoda", "Luke"), array("Han", "Leia"));
   }
 
-  @Test public void should_create_error_message_when_actual_is_array_of_Object() {
-    errorMessage = doesNotContain(array("Yoda"), array("Luke", "Yoda"), set("Luke"));
-    assertThatErrorMessageIsCorrect();
-  }
-
-  private void assertThatErrorMessageIsCorrect() {
+  @Test public void should_create_error_message() {
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
+    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to contain sequence:<['Han', 'Leia']>", message);
   }
 }

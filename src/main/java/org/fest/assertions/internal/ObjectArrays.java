@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
@@ -38,6 +38,8 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  */
 public class ObjectArrays {
+
+  // TODO test!
 
   private static final ObjectArrays INSTANCE = new ObjectArrays();
 
@@ -145,13 +147,13 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given
    * array contains values that are not in the given array.
    */
-  public void assertContainsExclusively(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = set(actual);
     Set<Object> notFound = containsExclusively(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainExclusively(actual, values, notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
   }
 
   /**

@@ -40,10 +40,10 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual {@code List}.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code List} is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    * the actual {@code List}.
-   * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not contain the given object at the given index.
    */
   public ListAssert contains(Object value, Index index) {
@@ -55,14 +55,14 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * Verifies that the actual list contains the given sequence of objects, without any other objects between them.
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not contain the given sequence of objects.
    */
   public ListAssert containsSequence(Object... sequence) {
-    // TODO implement
-    return null;
+    lists.assertContainSequence(info, actual, sequence);
+    return this;
   }
 
   /**

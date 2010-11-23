@@ -27,6 +27,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectGroupAssert<ObjectArrayAssert> {
 
+  // TODO test!
+
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
 
   protected ObjectArrayAssert(Object[] actual) {
@@ -62,8 +64,8 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert containsExclusively(Object... values) {
-    arrays.assertContainsExclusively(info, actual, values);
+  public ObjectArrayAssert containsOnly(Object... values) {
+    arrays.assertContainsOnly(info, actual, values);
     return this;
   }
 

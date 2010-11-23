@@ -16,7 +16,8 @@ package org.fest.assertions.error;
 
 import static org.fest.util.Objects.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.group.IsNullOrEmptyChecker;
@@ -27,7 +28,7 @@ import org.fest.assertions.group.IsNullOrEmptyChecker;
  *
  * @author Alex Ruiz
  */
-public class DoesNotContainExclusively implements ErrorMessage {
+public class DoesNotContainOnly implements ErrorMessage {
 
   private final Object actual;
   private final Object expected;
@@ -35,32 +36,32 @@ public class DoesNotContainExclusively implements ErrorMessage {
   private final Object notFound;
 
   /**
-   * Creates a new </code>{@link DoesNotContainExclusively}</code>.
+   * Creates a new </code>{@link DoesNotContainOnly}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
    * @param notExpected the values in {@code actual} that were not in {@code expected}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainExclusively(Collection<?> actual, Object[] expected, Set<?> notExpected,
+  public static ErrorMessage doesNotContainOnly(Collection<?> actual, Object[] expected, Set<?> notExpected,
       Set<?> notFound) {
-    return new DoesNotContainExclusively(actual, expected, notExpected, notFound);
+    return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
   /**
-   * Creates a new </code>{@link DoesNotContainExclusively}</code>.
+   * Creates a new </code>{@link DoesNotContainOnly}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
    * @param notExpected the values in {@code actual} that were not in {@code expected}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainExclusively(Object[] actual, Object[] expected, Set<?> notExpected,
+  public static ErrorMessage doesNotContainOnly(Object[] actual, Object[] expected, Set<?> notExpected,
       Set<?> notFound) {
-    return new DoesNotContainExclusively(actual, expected, notExpected, notFound);
+    return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
-  private DoesNotContainExclusively(Object actual, Object expected, Object notExpected, Object notFound) {
+  private DoesNotContainOnly(Object actual, Object expected, Object notExpected, Object notFound) {
     this.actual = actual;
     this.expected = expected;
     this.notExpected = notExpected;
@@ -79,17 +80,17 @@ public class DoesNotContainExclusively implements ErrorMessage {
   }
 
   private String includeOnlyNotFound(Description d) {
-    String format = "%sexpected:<%s> to contain:<%s> exclusively, but could not find:<%s>";
+    String format = "%sexpected:<%s> to contain only:<%s>, but could not find:<%s>";
     return formatMessage(format, d, actual, expected, notFound);
   }
 
   private String includeOnlyNotExpected(Description d) {
-    String format = "%sexpected:<%s> to contain:<%s> exclusively, but got unexpected:<%s>";
+    String format = "%sexpected:<%s> to contain only:<%s>, but got unexpected:<%s>";
     return formatMessage(format, d, actual, expected, notExpected);
   }
 
   private String defaultMessage(Description d) {
-    String format = "%sexpected:<%s> to contain:<%s> exclusively; could not find:<%s> and got unexpected:<%s>";
+    String format = "%sexpected:<%s> to contain only:<%s>; could not find:<%s> and got unexpected:<%s>";
     return formatMessage(format, d, actual, expected, notFound, notExpected);
   }
 
@@ -101,7 +102,7 @@ public class DoesNotContainExclusively implements ErrorMessage {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    DoesNotContainExclusively other = (DoesNotContainExclusively) obj;
+    DoesNotContainOnly other = (DoesNotContainOnly) obj;
     if (!areEqual(actual, other.actual)) return false;
     if (!areEqual(expected, other.expected)) return false;
     if (!areEqual(notExpected, other.notExpected)) return false;

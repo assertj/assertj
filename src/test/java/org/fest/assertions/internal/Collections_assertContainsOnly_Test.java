@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.DoesNotContainExclusively.doesNotContainExclusively;
+import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
@@ -23,18 +23,20 @@ import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertContainsExclusively(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Collections#assertContainsOnly(AssertionInfo, Collection, Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertContainsExclusively_Test {
+public class Collections_assertContainsOnly_Test {
 
   private static WritableAssertionInfo info;
 
@@ -55,44 +57,44 @@ public class Collections_assertContainsExclusively_Test {
     collections = new Collections(failures);
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_exclusively() {
-    collections.assertContainsExclusively(info, actual, array("Luke", "Yoda", "Leia"));
+  @Test public void should_pass_if_actual_contains_given_values_only() {
+    collections.assertContainsOnly(info, actual, array("Luke", "Yoda", "Leia"));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_exclusively_in_different_order() {
-    collections.assertContainsExclusively(info, actual, array("Leia", "Yoda", "Luke"));
+  @Test public void should_pass_if_actual_contains_given_values_only_in_different_order() {
+    collections.assertContainsOnly(info, actual, array("Leia", "Yoda", "Luke"));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_exclusively_more_than_once() {
+  @Test public void should_pass_if_actual_contains_given_values_only_more_than_once() {
     actual.addAll(list("Luke", "Luke"));
-    collections.assertContainsExclusively(info, actual, array("Luke", "Yoda", "Leia"));
+    collections.assertContainsOnly(info, actual, array("Luke", "Yoda", "Leia"));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_exclusively_even_if_duplicated() {
-    collections.assertContainsExclusively(info, actual, array("Luke", "Luke", "Luke", "Yoda", "Leia"));
+  @Test public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
+    collections.assertContainsOnly(info, actual, array("Luke", "Luke", "Luke", "Yoda", "Leia"));
   }
 
   @Test public void should_throw_error_if_array_of_values_is_empty() {
     thrown.expectIllegalArgumentException(arrayIsEmpty());
-    collections.assertContainsExclusively(info, actual, array());
+    collections.assertContainsOnly(info, actual, array());
   }
 
   @Test public void should_throw_error_if_array_of_values_is_null() {
     thrown.expectNullPointerException(arrayIsNull());
-    collections.assertContainsExclusively(info, emptyList(), null);
+    collections.assertContainsOnly(info, emptyList(), null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertContainsExclusively(info, null, array("Yoda"));
+    collections.assertContainsOnly(info, null, array("Yoda"));
   }
 
-  @Test public void should_fail_if_actual_does_not_contain_given_values_exclusively() {
+  @Test public void should_fail_if_actual_does_not_contain_given_values_only() {
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
-      collections.assertContainsExclusively(info, actual, expected);
+      collections.assertContainsOnly(info, actual, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainExclusively(actual, expected, set("Leia"), set("Han")));
+    verify(failures).failure(info, doesNotContainOnly(actual, expected, set("Leia"), set("Han")));
   }
 }

@@ -22,11 +22,11 @@ import org.fest.assertions.internal.Collections;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link GenericCollectionAssert#containsExclusively(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#containsOnly(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class GenericCollectionAssert_containsExclusively_Test {
+public class GenericCollectionAssert_containsOnly_Test {
 
   private Collections collections;
   private ConcreteGenericCollectionAssert assertions;
@@ -39,12 +39,12 @@ public class GenericCollectionAssert_containsExclusively_Test {
 
   @Test public void should_verify_that_actual_contains_given_values_exclusively() {
     Object[] values = { "Yoda", "Luke" };
-    assertions.containsExclusively(values);
-    verify(collections).assertContainsExclusively(assertions.info, assertions.actual, values);
+    assertions.containsOnly(values);
+    verify(collections).assertContainsOnly(assertions.info, assertions.actual, values);
   }
 
   @Test public void should_return_this() {
-    ConcreteGenericCollectionAssert returned = assertions.containsExclusively("Luke");
+    ConcreteGenericCollectionAssert returned = assertions.containsOnly("Luke");
     assertSame(assertions, returned);
   }
 }

@@ -46,7 +46,7 @@ public interface ObjectGroupAssert<S> extends GroupAssert<S> {
    * @throws AssertionError if the actual group does not contain the given values, i.e. the given group contains some
    * or none of the given values, or the actual group contains more values than the given ones.
    */
-  S containsExclusively(Object... values);
+  S containsOnly(Object... values);
 
   /**
    * Verifies that the actual group does not contain the given values.

@@ -20,7 +20,7 @@ import org.fest.assertions.data.Index;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a value at a given
- * index. A group of elements can be a collection, an array or a {@code String}.
+ * index failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
