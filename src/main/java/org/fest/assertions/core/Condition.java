@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.core;
 
-import static org.fest.assertions.internal.DescriptionValidator.notNull;
+import static org.fest.assertions.internal.DescriptionValidations.notNull;
 
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;

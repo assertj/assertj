@@ -15,7 +15,7 @@
 package org.fest.assertions.core;
 
 import static java.lang.String.format;
-import static org.fest.assertions.internal.DescriptionValidator.notNull;
+import static org.fest.assertions.internal.DescriptionValidations.notNull;
 import static org.fest.util.Strings.quote;
 
 import org.fest.assertions.description.*;

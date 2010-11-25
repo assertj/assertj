@@ -78,12 +78,12 @@ public class Collections_assertContains_Test {
   }
 
   @Test public void should_throw_error_if_array_of_values_is_empty() {
-    thrown.expectIllegalArgumentException(arrayIsEmpty());
-    collections.assertContains(info, actual, array());
+    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    collections.assertContains(info, actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_is_null() {
-    thrown.expectNullPointerException(arrayIsNull());
+    thrown.expectNullPointerException(arrayToLookForIsNull());
     collections.assertContains(info, actual, null);
   }
 

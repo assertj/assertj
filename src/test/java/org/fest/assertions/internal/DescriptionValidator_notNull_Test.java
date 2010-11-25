@@ -23,8 +23,8 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link DescriptionValidator#notNull(org.fest.assertions.description.Description)}</code> and
- * <code>{@link DescriptionValidator#notNull(String)}</code>.
+ * Tests for <code>{@link DescriptionValidations#notNull(org.fest.assertions.description.Description)}</code> and
+ * <code>{@link DescriptionValidations#notNull(String)}</code>.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -36,23 +36,23 @@ public class DescriptionValidator_notNull_Test {
   @Test public void should_throw_error_if_description_is_null() {
     thrown.expectNullPointerException(descriptionIsNull());
     Description d = null;
-    DescriptionValidator.notNull(d);
+    DescriptionValidations.notNull(d);
   }
 
   @Test public void should_throw_error_if_text_description_is_null() {
     thrown.expectNullPointerException(descriptionIsNull());
     String d = null;
-    DescriptionValidator.notNull(d);
+    DescriptionValidations.notNull(d);
   }
 
   @Test public void should_return_description_with_given_text() {
-    Description d = DescriptionValidator.notNull("Yoda");
+    Description d = DescriptionValidations.notNull("Yoda");
     assertEquals("Yoda", d.value());
   }
 
   @Test public void should_return_same_description() {
     Description e = new TextDescription("Yoda");
-    Description d = DescriptionValidator.notNull(e);
+    Description d = DescriptionValidations.notNull(e);
     assertSame(e, d);
   }
 }

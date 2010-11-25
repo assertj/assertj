@@ -23,12 +23,12 @@ import org.fest.assertions.formatting.ToStringConverter;
  */
 public final class FailureMessages {
 
-  public static String arrayIsEmpty() {
-    return "The array of values to evaluate should not be empty";
+  public static String arrayToLookForIsEmpty() {
+    return "The array of values to look for should not be empty";
   }
 
-  public static String arrayIsNull() {
-    return "The array of values to evaluate should not be null";
+  public static String arrayToLookForIsNull() {
+    return "The array of values to look for should not be null";
   }
 
   public static String descriptionIsNull() {

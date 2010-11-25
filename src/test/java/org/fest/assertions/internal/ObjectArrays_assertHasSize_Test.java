@@ -26,18 +26,18 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Arrays#assertHasSize(AssertionInfo, Object[], int)}</code>.
+ * Tests for <code>{@link ObjectArrays#assertHasSize(AssertionInfo, Object[], int)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Arrays_assertHasSize_Test {
+public class ObjectArrays_assertHasSize_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Arrays arrays;
+  private ObjectArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -45,7 +45,7 @@ public class Arrays_assertHasSize_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new Arrays(failures);
+    arrays = new ObjectArrays(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {

@@ -37,27 +37,27 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Alex Ruiz
  */
-public class Arrays {
+public class ObjectArrays {
 
   // TODO test!
 
-  private static final Arrays INSTANCE = new Arrays();
+  private static final ObjectArrays INSTANCE = new ObjectArrays();
 
   /**
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static Arrays instance() {
+  public static ObjectArrays instance() {
     return INSTANCE;
   }
 
   private final Failures failures;
 
-  private Arrays() {
+  private ObjectArrays() {
     this(Failures.instance());
   }
 
-  @VisibleForTesting Arrays(Failures failures) {
+  @VisibleForTesting ObjectArrays(Failures failures) {
     this.failures = failures;
   }
 

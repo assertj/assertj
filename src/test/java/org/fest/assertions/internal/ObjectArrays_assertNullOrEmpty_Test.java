@@ -25,18 +25,18 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Arrays#assertNullOrEmpty(AssertionInfo, Object[])}</code>.
+ * Tests for <code>{@link ObjectArrays#assertNullOrEmpty(AssertionInfo, Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Arrays_assertNullOrEmpty_Test {
+public class ObjectArrays_assertNullOrEmpty_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Arrays arrays;
+  private ObjectArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -44,7 +44,7 @@ public class Arrays_assertNullOrEmpty_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new Arrays(failures);
+    arrays = new ObjectArrays(failures);
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {

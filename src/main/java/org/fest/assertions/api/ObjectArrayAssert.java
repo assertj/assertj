@@ -17,7 +17,7 @@ package org.fest.assertions.api;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.Arrays;
+import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -32,7 +32,7 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   // TODO test!
 
-  @VisibleForTesting Arrays arrays = Arrays.instance();
+  @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
 
   protected ObjectArrayAssert(Object[] actual) {
     super(actual, ObjectArrayAssert.class);

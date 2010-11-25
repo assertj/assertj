@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
@@ -60,12 +60,12 @@ public class Collections_assertContainSequence_Test {
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException("The sequence to look for should not be null");
+    thrown.expectNullPointerException(arrayToLookForIsNull());
     collections.assertContainSequence(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException("The sequence to look for should not be empty");
+    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
     collections.assertContainSequence(info, actual, new Object[0]);
   }
 

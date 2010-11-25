@@ -14,15 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
- * Validation of a <code>{@link Description}</code>.
+ * Validates <code>{@link Description}</code>s.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public final class DescriptionValidator {
+public final class DescriptionValidations {
 
   /**
    * Validates that given description (as text) is not {@code null}.
@@ -50,5 +51,5 @@ public final class DescriptionValidator {
     return new NullPointerException("The description to set should not be null");
   }
 
-  private DescriptionValidator() {}
+  private DescriptionValidations() {}
 }
