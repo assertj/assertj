@@ -48,7 +48,7 @@ public class Characters_assertGreaterThan_Test {
     characters.failures = failures;
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     characters.assertGreaterThan(info, null, 'a');
   }

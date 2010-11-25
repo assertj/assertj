@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.test;
 
+import org.fest.assertions.formatting.ToStringConverter;
+
 /**
  * Common failure messages.
  *
@@ -33,6 +35,10 @@ public final class FailureMessages {
     return "The description to set should not be null";
   }
 
+  public static String isNotArray(Object o) {
+    return String.format("The object <%s> should be an array", ToStringConverter.instance().toStringOf(o));
+  }
+
   public static String offsetIsNull() {
     return "The given offset should not be null";
   }
@@ -45,12 +51,12 @@ public final class FailureMessages {
     return "The value of the offset to create should not be null";
   }
 
-  public static String unexpectedNull() {
-    return "expecting non-null object but it was null";
-  }
-
   public static String unexpectedEmpty() {
     return "unexpected empty";
+  }
+
+  public static String unexpectedNull() {
+    return "expecting non-null object but it was null";
   }
 
   private FailureMessages() {}

@@ -38,12 +38,12 @@ public class DoesNotContain extends BasicErrorMessage {
 
   /**
    * Creates a new </code>{@link DoesNotContain}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be in {@code actual}.
+   * @param actual the actual value in the failed assertion. It can be an array of Objects or primitives.
+   * @param expected values expected to be in {@code actual}. Like { can be an array of Objects or primitives.
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContain(Object[] actual, Object[] expected, Set<?> notFound) {
+  public static ErrorMessage doesNotContain(Object actual, Object expected, Set<?> notFound) {
     return new DoesNotContain(actual, expected, notFound);
   }
 

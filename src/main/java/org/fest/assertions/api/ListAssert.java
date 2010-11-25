@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import java.util.List;
 
+import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
 import org.fest.util.VisibleForTesting;

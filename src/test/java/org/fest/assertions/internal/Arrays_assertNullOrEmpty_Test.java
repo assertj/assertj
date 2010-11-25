@@ -1,5 +1,5 @@
 /*
- * Created on Oct 24, 2010
+ * Created on Nov 24, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,29 +14,29 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Characters#assertNotEqual(AssertionInfo, Character, char)}</code>.
+ * Tests for <code>{@link Arrays#assertNullOrEmpty(AssertionInfo, Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Characters_assertNotEqual_Test {
+public class Arrays_assertNullOrEmpty_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Characters characters;
+  private Arrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -44,24 +44,23 @@ public class Characters_assertNotEqual_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    characters = new Characters();
-    characters.failures = failures;
+    arrays = new Arrays(failures);
   }
 
-  @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
-    characters.assertNotEqual(info, null, 'a');
-  }
-
-  @Test public void should_pass_if_characters_are_not_equal() {
-    characters.assertNotEqual(info, 'a', 'b');
-  }
-
-  @Test public void should_fail_if_characters_are_equal() {
+  @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
+    Integer[] actual = new Integer[] { 5, 8 };
     try {
-      characters.assertNotEqual(info, 'b', 'b');
+      arrays.assertNullOrEmpty(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual('b', 'b'));
+    verify(failures).failure(info, isNotNullOrEmpty(actual));
+  }
+
+  @Test public void should_pass_if_array_is_null() {
+    arrays.assertNullOrEmpty(info, null);
+  }
+
+  @Test public void should_pass_if_array_is_empty() {
+    arrays.assertNullOrEmpty(info, new Boolean[0]);
   }
 }

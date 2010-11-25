@@ -48,7 +48,7 @@ public class Longs_assertLessThan_Test {
     longs.failures = failures;
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     longs.assertLessThan(info, null, 8L);
   }

@@ -20,6 +20,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.junit.Test;
 
 /**

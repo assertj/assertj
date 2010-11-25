@@ -49,7 +49,7 @@ public class Booleans_assertEqual_Test {
     booleans.failures = failures;
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     booleans.assertEqual(info, null, true);
   }

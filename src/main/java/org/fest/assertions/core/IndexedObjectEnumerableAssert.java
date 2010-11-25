@@ -12,7 +12,7 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.core;
 
 import org.fest.assertions.data.Index;
 

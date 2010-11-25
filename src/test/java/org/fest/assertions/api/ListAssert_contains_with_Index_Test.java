@@ -19,6 +19,7 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.Index.atIndex;
 import static org.mockito.Mockito.*;
 
+import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
 import org.junit.Before;

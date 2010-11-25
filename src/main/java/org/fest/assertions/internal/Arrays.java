@@ -23,7 +23,7 @@ import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.internal.Collections.containsOnly;
-import static org.fest.util.Arrays.isEmpty;
+import static org.fest.assertions.internal.EnumerableValidations.validateArrayOfValuesToLookForIsNotEmptyOrNull;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
 
@@ -33,31 +33,31 @@ import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Reusable assertions for arrays of objects.
+ * Reusable assertions for arrays.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrays {
+public class Arrays {
 
   // TODO test!
 
-  private static final ObjectArrays INSTANCE = new ObjectArrays();
+  private static final Arrays INSTANCE = new Arrays();
 
   /**
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static ObjectArrays instance() {
+  public static Arrays instance() {
     return INSTANCE;
   }
 
   private final Failures failures;
 
-  private ObjectArrays() {
+  private Arrays() {
     this(Failures.instance());
   }
 
-  @VisibleForTesting ObjectArrays(Failures failures) {
+  @VisibleForTesting Arrays(Failures failures) {
     this.failures = failures;
   }
 
@@ -108,8 +108,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @param expectedSize the expected size of the {@code actual}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the number of elements in the given array is different than the expected
-   * one.
+   * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
   public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
     assertNotNull(info, actual);
@@ -181,8 +180,7 @@ public class ObjectArrays {
   }
 
   private void isNotEmptyOrNull(Object[] values) {
-    if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
-    if (isEmpty(values)) throw new IllegalArgumentException("The array of values to evaluate should not be empty");
+    validateArrayOfValuesToLookForIsNotEmptyOrNull(values);
   }
 
   /**

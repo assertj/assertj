@@ -54,7 +54,7 @@ public class Collections_assertContainSequence_Test {
     collections = new Collections(failures);
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     collections.assertContainSequence(info, null, array("Yoda"));
   }

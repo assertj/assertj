@@ -48,7 +48,7 @@ public class Bytes_assertLessThan_Test {
     bytes.failures = failures;
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     bytes.assertLessThan(info, null, (byte)8);
   }

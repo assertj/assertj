@@ -23,7 +23,7 @@ import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.util.Arrays.isEmpty;
+import static org.fest.assertions.internal.EnumerableValidations.validateArrayOfValuesToLookForIsNotEmptyOrNull;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
 
@@ -173,7 +173,7 @@ public class Collections {
    */
   public void assertContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
     assertNotNull(info, actual);
-    validate(sequence);
+    isNotEmptyOrNull(sequence);
     boolean firstAlreadyFound = false;
     int i = 0;
     int sequenceSize = sequence.length;
@@ -188,11 +188,6 @@ public class Collections {
       if (!areEqual(o, sequence[i++])) throw sequenceNotFoundFailure(info, actual, sequence);
     }
     if (!firstAlreadyFound || i < sequenceSize) throw sequenceNotFoundFailure(info, actual, sequence);
-  }
-
-  private static void validate(Object[] sequence) {
-    if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
-    if (isEmpty(sequence)) throw new IllegalArgumentException("The sequence to look for should not be empty");
   }
 
   private AssertionError sequenceNotFoundFailure(AssertionInfo info, Collection<?> actual, Object[] sequence) {
@@ -219,8 +214,7 @@ public class Collections {
   }
 
   private void isNotEmptyOrNull(Object[] values) {
-    if (values == null) throw new NullPointerException("The array of values to evaluate should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The array of values to evaluate should not be empty");
+    validateArrayOfValuesToLookForIsNotEmptyOrNull(values);
   }
 
   /**

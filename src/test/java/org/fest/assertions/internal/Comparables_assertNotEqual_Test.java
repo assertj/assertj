@@ -49,7 +49,7 @@ public class Comparables_assertNotEqual_Test {
     comparables = new Comparables(failures);
   }
 
-  @Test public void should_throw_error_if_actual_is_null() {
+  @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
     comparables.assertNotEqual(info, null, 8);
   }

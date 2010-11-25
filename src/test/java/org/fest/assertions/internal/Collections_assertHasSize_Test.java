@@ -23,7 +23,8 @@ import static org.mockito.Mockito.*;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -59,7 +60,7 @@ public class Collections_assertHasSize_Test {
     collections.assertHasSize(info, null, 8);
   }
 
-  @Test public void should_fail_if_actual_has_elements() {
+  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     Collection<String> actual = list("Yoda");
     try {
       collections.assertHasSize(info, actual, 8);
