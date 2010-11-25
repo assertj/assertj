@@ -27,7 +27,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
+public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
 
   @VisibleForTesting Lists lists = Lists.instance();
 
@@ -35,18 +35,8 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
     super(actual, ListAssert.class);
   }
 
-  /**
-   * Verifies that the actual list contains the given object at the given index.
-   * @param value the object to look for.
-   * @param index the index where the object should be stored in the actual {@code List}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code List} is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the actual {@code List}.
-   * @throws AssertionError if the actual {@code List} does not contain the given object at the given index.
-   */
-  public ListAssert contains(Object value, Index index) {
+  /** {@inheritDoc} */
+  public IndexedObjectEnumerableAssert contains(Object value, Index index) {
     lists.assertContains(info, actual, value, index);
     return this;
   }
@@ -62,7 +52,7 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not start with the given sequence of objects.
    */
-  public ListAssert startsWith(Object... sequence) {
+  public IndexedObjectEnumerableAssert startsWith(Object... sequence) {
     // TODO implement
     return null;
   }
@@ -78,7 +68,7 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
    * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not end with the given sequence of objects.
    */
-  public ListAssert endsWith(Object... sequence) {
+  public IndexedObjectEnumerableAssert endsWith(Object... sequence) {
     // TODO implement
     return null;
   }

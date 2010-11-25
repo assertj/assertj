@@ -46,7 +46,7 @@ public class ListAssert_contains_with_Index_Test {
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.contains("Luke", atIndex(6));
+    IndexedObjectEnumerableAssert returned = assertions.contains("Luke", atIndex(6));
     assertSame(assertions, returned);
   }
 }

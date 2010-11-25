@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.core;
 
-
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * @param <S> the "self" type of this assertion class. Please read

@@ -31,7 +31,7 @@ import org.junit.Test;
 public class Assertions_assertThat_with_List_Test {
 
   @Test public void should_create_Assert() {
-    ListAssert assertions = Assertions.assertThat(emptyList());
+    IndexedObjectEnumerableAssert assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
   }
 
