@@ -16,12 +16,12 @@ package org.fest.assertions.api;
 
 import java.util.Collection;
 
-import org.fest.assertions.core.ObjectGroupAssert;
+import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.Collections;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Base class for implementations of <code>{@link ObjectGroupAssert}</code> whose actual value type is
+ * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
  * <code>{@link Collection}</code>.
  * @param <S> the "self" type of this assertion class. Please read
  * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
@@ -31,7 +31,8 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public abstract class GenericCollectionAssert<S, A extends Collection<?>> extends GenericAssert<S, A> implements ObjectGroupAssert<S>  {
+public abstract class GenericCollectionAssert<S, A extends Collection<?>> extends GenericAssert<S, A> implements
+    ObjectEnumerableAssert<S> {
 
   @VisibleForTesting Collections collections = Collections.instance();
 
@@ -70,6 +71,12 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
   /** {@inheritDoc} */
   public final S containsOnly(Object... values) {
     collections.assertContainsOnly(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S containsSequence(Object... sequence) {
+    collections.assertContainSequence(info, actual, sequence);
     return myself;
   }
 

@@ -52,20 +52,6 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> {
   }
 
   /**
-   * Verifies that the actual list contains the given sequence of objects, without any other objects between them.
-   * @param sequence the sequence of objects to look for.
-   * @return this assertion object.
-   * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws IllegalArgumentException if the given sequence is empty.
-   * @throws AssertionError if the actual {@code List} is {@code null}.
-   * @throws AssertionError if the actual {@code List} does not contain the given sequence of objects.
-   */
-  public ListAssert containsSequence(Object... sequence) {
-    lists.assertContainSequence(info, actual, sequence);
-    return this;
-  }
-
-  /**
    * Verifies that the actual list starts with the given sequence of objects, without any other objects between them.
    * Similar to <code>{@link #containsSequence}</code>, but verifies also that the first given object is also the first
    * element of the actual list.

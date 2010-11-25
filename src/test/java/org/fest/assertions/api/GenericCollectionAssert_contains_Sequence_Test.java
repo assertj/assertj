@@ -19,33 +19,33 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.Collections;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ListAssert#containsSequence(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#containsSequence(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ListAssert_contains_Sequence_Test {
+public class GenericCollectionAssert_contains_Sequence_Test {
 
-  private Lists lists;
-  private ListAssert assertions;
+  private Collections collections;
+  private ConcreteGenericCollectionAssert assertions;
 
   @Before public void setUp() {
-    lists = mock(Lists.class);
-    assertions = new ListAssert(emptyList());
-    assertions.lists = lists;
+    collections = mock(Collections.class);
+    assertions = new ConcreteGenericCollectionAssert(emptyList());
+    assertions.collections = collections;
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
     assertions.containsSequence("Luke", "Yoda");
-    verify(lists).assertContainSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
+    verify(collections).assertContainSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.containsSequence("Luke", "Yoda");
+    ConcreteGenericCollectionAssert returned = assertions.containsSequence("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

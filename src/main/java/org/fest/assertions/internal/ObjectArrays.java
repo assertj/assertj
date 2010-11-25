@@ -22,7 +22,7 @@ import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.internal.Collections.containsExclusively;
+import static org.fest.assertions.internal.Collections.containsOnly;
 import static org.fest.util.Arrays.isEmpty;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
@@ -151,7 +151,7 @@ public class ObjectArrays {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = set(actual);
-    Set<Object> notFound = containsExclusively(notExpected, values);
+    Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
     throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
   }

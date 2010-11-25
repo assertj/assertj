@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.ObjectGroupAssert;
+import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.VisibleForTesting;
 
@@ -25,7 +25,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectGroupAssert<ObjectArrayAssert> {
+public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements ObjectEnumerableAssert<ObjectArrayAssert> {
 
   // TODO test!
 
@@ -67,6 +67,12 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
   public ObjectArrayAssert containsOnly(Object... values) {
     arrays.assertContainsOnly(info, actual, values);
     return this;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert containsSequence(Object... sequence) {
+    // TODO Auto-generated method stub
+    return null;
   }
 
   /** {@inheritDoc} */

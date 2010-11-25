@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.core;
 
+
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * @param <S> the "self" type of this assertion class. Please read
@@ -23,7 +24,7 @@ package org.fest.assertions.core;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface ObjectGroupAssert<S> extends GroupAssert<S> {
+public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
 
   /**
    * Verifies that the actual group contains the given values, in any order.
@@ -47,6 +48,16 @@ public interface ObjectGroupAssert<S> extends GroupAssert<S> {
    * or none of the given values, or the actual group contains more values than the given ones.
    */
   S containsOnly(Object... values);
+
+  /**
+   * Verifies that the actual group contains the given sequence, without any other values between them.
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given sequence.
+   */
+  S containsSequence(Object... sequence);
 
   /**
    * Verifies that the actual group does not contain the given values.

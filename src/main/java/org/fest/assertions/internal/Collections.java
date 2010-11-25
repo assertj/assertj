@@ -17,12 +17,15 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
+import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.util.Arrays.isEmpty;
 import static org.fest.util.Collections.*;
+import static org.fest.util.Objects.areEqual;
 
 import java.util.*;
 
@@ -143,18 +146,57 @@ public class Collections {
     isNotEmptyOrNull(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
-    Set<Object> notFound = containsExclusively(notExpected, values);
+    Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
     throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
   }
 
-  static Set<Object> containsExclusively(Set<Object> actual, Object[] values) {
+  static Set<Object> containsOnly(Set<Object> actual, Object[] values) {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object o : set(values)) {
       if (actual.contains(o)) actual.remove(o);
       else notFound.add(o);
     }
     return notFound;
+  }
+
+  /**
+   * Verifies that the given <code>{@link Collection}</code> contains the given sequence of objects, without any other
+   * objects between them.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param sequence the sequence of objects to look for.
+   * @throws AssertionError if the actual {@code Collection} is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
+   * @throws AssertionError if the actual {@code Collection} does not contain the given sequence of objects.
+   */
+  public void assertContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    assertNotNull(info, actual);
+    validate(sequence);
+    boolean firstAlreadyFound = false;
+    int i = 0;
+    int sequenceSize = sequence.length;
+    for (Object o : actual) {
+      if (i >= sequenceSize) break;
+      if (!firstAlreadyFound) {
+        if (!areEqual(o, sequence[i])) continue;
+        firstAlreadyFound = true;
+        i++;
+        continue;
+      }
+      if (!areEqual(o, sequence[i++])) throw sequenceNotFoundFailure(info, actual, sequence);
+    }
+    if (!firstAlreadyFound || i < sequenceSize) throw sequenceNotFoundFailure(info, actual, sequence);
+  }
+
+  private static void validate(Object[] sequence) {
+    if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
+    if (isEmpty(sequence)) throw new IllegalArgumentException("The sequence to look for should not be empty");
+  }
+
+  private AssertionError sequenceNotFoundFailure(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    return failures.failure(info, doesNotContainSequence(actual, sequence));
   }
 
   /**
