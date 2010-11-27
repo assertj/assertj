@@ -39,7 +39,7 @@ public class GenericCollectionAssert_doesNotHaveDuplicates_Test {
 
   @Test public void should_verify_that_actual_does_not_have_duplicates() {
     assertions.doesNotHaveDuplicates();
-    verify(collections).assertDoesHaveDuplicates(assertions.info, assertions.actual);
+    verify(collections).assertDoesNotHaveDuplicates(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {

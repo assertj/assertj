@@ -31,7 +31,7 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertDoesHaveDuplicates(AssertionInfo, Collection)}</code>.
+ * Tests for <code>{@link Collections#assertDoesNotHaveDuplicates(AssertionInfo, Collection)}</code>.
  *
  * @author Alex Ruiz
  */
@@ -56,23 +56,23 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_have_duplicates() {
-    collections.assertDoesHaveDuplicates(info, actual);
+    collections.assertDoesNotHaveDuplicates(info, actual);
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesHaveDuplicates(info, emptyList());
+    collections.assertDoesNotHaveDuplicates(info, emptyList());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesHaveDuplicates(info, null);
+    collections.assertDoesNotHaveDuplicates(info, null);
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<String> duplicates = set("Luke", "Yoda");
     actual.addAll(duplicates);
     try {
-      collections.assertDoesHaveDuplicates(info, actual);
+      collections.assertDoesNotHaveDuplicates(info, actual);
       fail();
     } catch (AssertionError e) {}
     verify(failures).failure(info, hasDuplicates(actual, duplicates));

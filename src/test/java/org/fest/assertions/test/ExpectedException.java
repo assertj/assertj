@@ -50,6 +50,10 @@ public class ExpectedException implements MethodRule {
     expect(IllegalArgumentException.class, message);
   }
 
+  public void expectIndexOutOfBoundsException(String message) {
+    expect(IndexOutOfBoundsException.class, message);
+  }
+
   private void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);

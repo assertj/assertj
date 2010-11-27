@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
+import static org.fest.assertions.internal.ArrayWrapperList.wrap;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
@@ -59,7 +60,7 @@ public class ObjectArrays_assertEmpty_Test {
       arrays.assertEmpty(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEmpty(actual));
+    verify(failures).failure(info, isNotEmpty(wrap(actual)));
   }
 
   @Test public void should_pass_if_actual_is_empty() {

@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.internal.ArrayWrapperList.wrap;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
@@ -59,7 +60,7 @@ public class ObjectArrays_assertHasSize_Test {
       arrays.assertHasSize(info, actual, 6);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, 6));
+    verify(failures).failure(info, doesNotHaveSize(wrap(actual), 6));
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {

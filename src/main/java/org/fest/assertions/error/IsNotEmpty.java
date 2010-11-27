@@ -33,15 +33,6 @@ public class IsNotEmpty extends BasicErrorMessage {
     return new IsNotEmpty(actual);
   }
 
-  /**
-   * Creates a new <code>{@link IsNotEmpty}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessage}.
-   */
-  public static ErrorMessage isNotEmpty(Object[] actual) {
-    return new IsNotEmpty(actual);
-  }
-
   private IsNotEmpty(Object actual) {
     super("%sexpecting empty but was:<%s>", actual);
   }

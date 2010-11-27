@@ -48,19 +48,6 @@ public class DoesNotContainOnly implements ErrorMessage {
     return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
-  /**
-   * Creates a new </code>{@link DoesNotContainOnly}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notExpected the values in {@code actual} that were not in {@code expected}.
-   * @param notFound the values in {@code expected} not found in {@code actual}.
-   * @return the created {@code ErrorMessage}.
-   */
-  public static ErrorMessage doesNotContainOnly(Object[] actual, Object[] expected, Set<?> notExpected,
-      Set<?> notFound) {
-    return new DoesNotContainOnly(actual, expected, notExpected, notFound);
-  }
-
   private DoesNotContainOnly(Object actual, Object expected, Object notExpected, Object notFound) {
     this.actual = actual;
     this.expected = expected;

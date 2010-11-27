@@ -47,16 +47,6 @@ public class DoesNotHaveSize extends BasicErrorMessage {
     return new DoesNotHaveSize(actual, actual.size(), expectedSize);
   }
 
-  /**
-   * Creates a new </code>{@link DoesNotHaveSize}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expectedSize the expected size.
-   * @return the created {@code ErrorMessage}.
-   */
-  public static ErrorMessage doesNotHaveSize(Object[] actual, int expectedSize) {
-    return new DoesNotHaveSize(actual, actual.length, expectedSize);
-  }
-
   private DoesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
     super("%sexpected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
   }

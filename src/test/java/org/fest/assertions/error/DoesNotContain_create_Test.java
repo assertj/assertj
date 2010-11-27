@@ -33,17 +33,8 @@ public class DoesNotContain_create_Test {
 
   private ErrorMessage errorMessage;
 
-  @Test public void should_create_error_message_when_actual_is_Collection() {
+  @Test public void should_create_error_message() {
     errorMessage = doesNotContain(list("Yoda"), array("Luke", "Yoda"), set("Luke"));
-    assertThatErrorMessageIsCorrect();
-  }
-
-  @Test public void should_create_error_message_when_actual_is_array_of_Object() {
-    errorMessage = doesNotContain(array("Yoda"), array("Luke", "Yoda"), set("Luke"));
-    assertThatErrorMessageIsCorrect();
-  }
-
-  private void assertThatErrorMessageIsCorrect() {
     String message = errorMessage.create(new TextDescription("Test"));
     assertEquals("[Test] expected:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
   }

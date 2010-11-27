@@ -226,7 +226,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} is {@code null}.
    * @throws AssertionError if the given {@code Collection} contains duplicate values.
    */
-  public void assertDoesHaveDuplicates(AssertionInfo info, Collection<?> actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     Collection<?> duplicates = duplicatesFrom(actual);
     if (isEmpty(duplicates)) return;

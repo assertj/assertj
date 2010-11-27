@@ -88,7 +88,7 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
 
   /** {@inheritDoc} */
   public final S doesNotHaveDuplicates() {
-    collections.assertDoesHaveDuplicates(info, actual);
+    collections.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
 }

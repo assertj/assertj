@@ -19,6 +19,7 @@ package org.fest.assertions.internal;
  */
 class EnumerableValidations {
 
+  // TODO remove duplication
   static void validateArrayOfValuesToLookForIsNotEmptyOrNull(Object[] values) {
     if (values == null) throw new NullPointerException("The array of values to look for should not be null");
     if (values.length == 0) throw new IllegalArgumentException("The array of values to look for should not be empty");
