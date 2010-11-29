@@ -16,6 +16,7 @@ package org.fest.assertions.error;
 
 import java.util.Collection;
 
+
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is {@code null} or empty
  * failed. A group of elements can be a collection, an array or a {@code String}.

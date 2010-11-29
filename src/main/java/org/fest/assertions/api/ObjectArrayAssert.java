@@ -92,7 +92,7 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   /** {@inheritDoc} */
   public ObjectArrayAssert doesNotHaveDuplicates() {
-    arrays.assertDoesHaveDuplicates(info, actual);
+    arrays.assertDoesNotHaveDuplicates(info, actual);
     return this;
   }
 }

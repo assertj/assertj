@@ -23,7 +23,8 @@ import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.internal.EnumerableValidations.validateArrayOfValuesToLookForIsNotEmptyOrNull;
+import static org.fest.assertions.internal.Errors.*;
+import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
 
@@ -108,7 +109,8 @@ public class Collections {
    */
   public void assertHasSize(AssertionInfo info, Collection<?> actual, int expectedSize) {
     assertNotNull(info, actual);
-    if (actual.size() == expectedSize) return;
+    int sizeOfActual = actual.size();
+    if (sizeOfActual == expectedSize) return;
     throw failures.failure(info, doesNotHaveSize(actual, expectedSize));
   }
 
@@ -128,7 +130,7 @@ public class Collections {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(actual, values, notFound));
+    throw failures.failure(info, doesNotContain(actual, wrap(values), notFound));
   }
 
   /**
@@ -214,7 +216,8 @@ public class Collections {
   }
 
   private void isNotEmptyOrNull(Object[] values) {
-    validateArrayOfValuesToLookForIsNotEmptyOrNull(values);
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
   /**

@@ -16,7 +16,6 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 
 import org.fest.assertions.description.Description;
@@ -34,7 +33,7 @@ public class DoesNotContain_create_Test {
   private ErrorMessage errorMessage;
 
   @Test public void should_create_error_message() {
-    errorMessage = doesNotContain(list("Yoda"), array("Luke", "Yoda"), set("Luke"));
+    errorMessage = doesNotContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"));
     String message = errorMessage.create(new TextDescription("Test"));
     assertEquals("[Test] expected:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
   }

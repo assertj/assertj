@@ -14,11 +14,13 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.util.ArrayWrapperList.wrap;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Reusable assertions for arrays.
+ * Reusable assertions for collections.
  *
  * @author Alex Ruiz
  */
@@ -36,14 +38,17 @@ public class ObjectArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays;
+  private final Collections collections;
+  private final Arrays arrays = Arrays.instance();
+  private final Failures failures;
 
   private ObjectArrays() {
     this(Failures.instance());
   }
 
   @VisibleForTesting ObjectArrays(Failures failures) {
-    arrays = new Arrays(failures);
+    this.failures = failures;
+    collections = new Collections(failures);
   }
 
   /**
@@ -53,7 +58,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, Object[] actual) {
-    arrays.assertNullOrEmpty(info, actual);
+    arrays.assertNullOrEmpty(info, failures, actual);
   }
 
   /**
@@ -64,7 +69,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is not empty.
    */
   public void assertEmpty(AssertionInfo info, Object[] actual) {
-    arrays.assertEmpty(info, actual);
+    arrays.assertEmpty(info, failures, actual);
   }
 
   /**
@@ -75,7 +80,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is empty.
    */
   public void assertNotEmpty(AssertionInfo info, Object[] actual) {
-    arrays.assertNotEmpty(info, actual);
+    arrays.assertNotEmpty(info, failures, actual);
   }
 
   /**
@@ -87,7 +92,7 @@ public class ObjectArrays {
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
   public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
-    arrays.assertHasSize(info, actual, expectedSize);
+    arrays.assertHasSize(info, failures, actual, expectedSize);
   }
 
   /**
@@ -101,7 +106,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Object[] actual, Object[] values) {
-    arrays.assertContains(info, actual, values);
+    arrays.assertContains(info, failures, actual, values);
   }
 
   /**
@@ -116,7 +121,7 @@ public class ObjectArrays {
    * array contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
-    arrays.assertContainsOnly(info, actual, values);
+    collections.assertContainsOnly(info, wrap(actual), values);
   }
 
   /**
@@ -130,7 +135,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array contains any of given values.
    */
   public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object[] values) {
-    arrays.assertDoesNotContain(info, actual, values);
+    collections.assertDoesNotContain(info, wrap(actual), values);
   }
 
   /**
@@ -142,7 +147,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains duplicate values.
    */
-  public void assertDoesHaveDuplicates(AssertionInfo info, Object[] actual) {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, Object[] actual) {
+    collections.assertDoesNotHaveDuplicates(info, wrap(actual));
   }
 }

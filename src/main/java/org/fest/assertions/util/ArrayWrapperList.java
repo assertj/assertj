@@ -12,10 +12,12 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.util;
 
 import java.lang.reflect.Array;
 import java.util.AbstractList;
+
+import org.fest.util.VisibleForTesting;
 
 /**
  * An list-like wrapper for arrays. This class does not provide type-safety in order to handle both arrays
@@ -23,16 +25,17 @@ import java.util.AbstractList;
  *
  * @author Alex Ruiz
  */
-class ArrayWrapperList extends AbstractList<Object> {
+public class ArrayWrapperList extends AbstractList<Object> {
 
-  static ArrayWrapperList wrap(Object array) {
+  public static ArrayWrapperList wrap(Object array) {
     if (array == null) return null;
+    if (!array.getClass().isArray()) throw new IllegalArgumentException("The object to wrap should be an array");
     return new ArrayWrapperList(array);
   }
 
-  private final Object array;
+  @VisibleForTesting final Object array;
 
-  private ArrayWrapperList(Object array) {
+  @VisibleForTesting ArrayWrapperList(Object array) {
     this.array = array;
   }
 
@@ -51,5 +54,5 @@ class ArrayWrapperList extends AbstractList<Object> {
     return Array.getLength(array);
   }
 
-  Object array() { return array; }
+  @VisibleForTesting Object array() { return array; }
 }

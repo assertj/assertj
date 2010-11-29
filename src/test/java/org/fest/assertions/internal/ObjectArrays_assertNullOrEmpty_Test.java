@@ -15,8 +15,8 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.internal.ArrayWrapperList.wrap;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 

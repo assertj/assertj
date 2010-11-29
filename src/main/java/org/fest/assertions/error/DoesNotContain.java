@@ -32,7 +32,7 @@ public class DoesNotContain extends BasicErrorMessage {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContain(Collection<?> actual, Object[] expected, Set<?> notFound) {
+  public static ErrorMessage doesNotContain(Collection<?> actual, Collection<?> expected, Set<?> notFound) {
     return new DoesNotContain(actual, expected, notFound);
   }
 

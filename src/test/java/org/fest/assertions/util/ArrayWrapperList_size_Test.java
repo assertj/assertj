@@ -12,14 +12,14 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.util;
 
-import static org.fest.assertions.internal.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
+import org.fest.assertions.util.ArrayWrapperList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -48,7 +48,7 @@ public class ArrayWrapperList_size_Test {
   }
 
   @Test public void should_return_size_of_array() {
-    ArrayWrapperList list = wrap(array);
+    ArrayWrapperList list = new ArrayWrapperList(array);
     assertEquals(array.length, list.size());
   }
 }

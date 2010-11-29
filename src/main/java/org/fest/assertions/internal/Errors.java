@@ -17,13 +17,15 @@ package org.fest.assertions.internal;
 /**
  * @author Alex Ruiz
  */
-class EnumerableValidations {
+class Errors {
 
-  // TODO remove duplication
-  static void validateArrayOfValuesToLookForIsNotEmptyOrNull(Object[] values) {
-    if (values == null) throw new NullPointerException("The array of values to look for should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The array of values to look for should not be empty");
+  static NullPointerException arrayOfValuesToLookForIsNull() {
+    return new NullPointerException("The array of values to look for should not be null");
   }
 
-  private EnumerableValidations() {}
+  static IllegalArgumentException arrayOfValuesToLookForIsEmpty() {
+    return new IllegalArgumentException("The array of values to look for should not be empty");
+  }
+
+  private Errors() {}
 }

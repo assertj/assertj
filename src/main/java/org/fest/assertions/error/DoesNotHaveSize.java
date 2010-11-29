@@ -34,6 +34,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
+    // TODO test!
     return new DoesNotHaveSize(actual, actualSize, expectedSize);
   }
 
