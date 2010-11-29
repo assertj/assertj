@@ -23,7 +23,7 @@ import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.internal.Errors.*;
+import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
@@ -150,10 +150,10 @@ public class Collections {
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(actual, wrap(values), notExpected, notFound));
   }
 
-  static Set<Object> containsOnly(Set<Object> actual, Object[] values) {
+  private static Set<Object> containsOnly(Set<Object> actual, Object[] values) {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object o : set(values)) {
       if (actual.contains(o)) actual.remove(o);
@@ -168,14 +168,14 @@ public class Collections {
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
    * @param sequence the sequence of objects to look for.
-   * @throws AssertionError if the actual {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws IllegalArgumentException if the given sequence is empty.
-   * @throws AssertionError if the actual {@code Collection} does not contain the given sequence of objects.
+   * @throws AssertionError if the given {@code Collection} does not contain the given sequence of objects.
    */
   public void assertContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    assertNotNull(info, actual);
     isNotEmptyOrNull(sequence);
+    assertNotNull(info, actual);
     boolean firstAlreadyFound = false;
     int i = 0;
     int sequenceSize = sequence.length;
@@ -193,7 +193,7 @@ public class Collections {
   }
 
   private AssertionError sequenceNotFoundFailure(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotContainSequence(actual, sequence));
+    return failures.failure(info, doesNotContainSequence(actual, wrap(sequence)));
   }
 
   /**
@@ -212,7 +212,7 @@ public class Collections {
     Set<Object> found = new LinkedHashSet<Object>();
     for (Object o: values) if (actual.contains(o)) found.add(o);
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(actual, values, found));
+    throw failures.failure(info, contains(actual, wrap(values), found));
   }
 
   private void isNotEmptyOrNull(Object[] values) {

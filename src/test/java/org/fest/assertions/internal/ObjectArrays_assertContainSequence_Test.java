@@ -1,5 +1,5 @@
 /*
- * Created on Nov 22, 2010
+ * Created on Nov 29, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,11 +19,8 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
-
-import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
@@ -31,49 +28,49 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertContainSequence(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link ObjectArrays#assertContainSequence(AssertionInfo, Object[], Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertContainSequence_Test {
+public class ObjectArrays_assertContainSequence_Test {
 
   private static WritableAssertionInfo info;
-  private static Collection<String> actual;
+  private static Object[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Collections collections;
+  private ObjectArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
+    actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    collections = new Collections(failures);
+    arrays = new ObjectArrays(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertContainSequence(info, null, array("Yoda"));
+    arrays.assertContainSequence(info, null, array("Yoda"));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(arrayToLookForIsNull());
-    collections.assertContainSequence(info, actual, null);
+    arrays.assertContainSequence(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    collections.assertContainSequence(info, actual, new Object[0]);
+    arrays.assertContainSequence(info, actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_sequence_is_bigger_than_actual() {
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      arrays.assertContainSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
@@ -82,7 +79,7 @@ public class Collections_assertContainSequence_Test {
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
     Object[] sequence = { "Han", "C-3PO" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      arrays.assertContainSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
@@ -91,21 +88,21 @@ public class Collections_assertContainSequence_Test {
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      arrays.assertContainSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
   }
 
   private void assertThatFailureWasThrownWhenSequenceWasNotFound(Object[] sequence) {
-    verify(failures).failure(info, doesNotContainSequence(actual, wrap(sequence)));
+    verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    collections.assertContainSequence(info, actual, array("Luke", "Leia"));
+    arrays.assertContainSequence(info, actual, array("Luke", "Leia"));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    collections.assertContainSequence(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+    arrays.assertContainSequence(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 }

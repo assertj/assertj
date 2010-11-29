@@ -16,7 +16,6 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 
 import org.fest.assertions.description.Description;
@@ -34,7 +33,7 @@ public class DoesNotContainSequence_create_Test {
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = doesNotContainSequence(list("Yoda", "Luke"), array("Han", "Leia"));
+    errorMessage = doesNotContainSequence(list("Yoda", "Luke"), list("Han", "Leia"));
   }
 
   @Test public void should_create_error_message() {

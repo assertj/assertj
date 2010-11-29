@@ -18,7 +18,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
 import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.util.ArrayWrapperList;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -35,7 +34,7 @@ public class ArrayWrapperList_wrap_Test {
     int[] array = { 6, 8 };
     ArrayWrapperList list = ArrayWrapperList.wrap(array);
     assertNotNull(list);
-    assertSame(array, list.array);
+    assertSame(array, list.array());
   }
 
   @Test public void should_return_null_if_array_is_null() {

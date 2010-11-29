@@ -14,22 +14,32 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
+import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
+import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.internal.Errors.*;
+import static org.fest.assertions.internal.CommonErrors.*;
+import static org.fest.assertions.internal.CommonValidations.validateIndexValue;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
+import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
 
 import java.lang.reflect.Array;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.data.Index;
+import org.fest.assertions.util.ArrayWrapperList;
 
 /**
+ * Assertions for object and primitive arrays. It trades off performance for DRY.
+ *
  * @author Alex Ruiz
  */
 class Arrays {
@@ -73,19 +83,85 @@ class Arrays {
     int valueCount = sizeOf(values);
     for (int i = 0; i < valueCount; i++) {
       Object value = Array.get(values, i);
-      if (!contains(array, value)) notFound.add(value);
+      if (!arrayContains(array, value)) notFound.add(value);
     }
     if (notFound.isEmpty()) return;
     throw failures.failure(info, doesNotContain(wrap(array), wrap(values), notFound));
   }
 
-  private boolean contains(Object array, Object value) {
+  void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+    assertNotNull(info, array);
+    assertNotEmpty(info, failures, array);
+    validateIndexValue(index, sizeOf(array) - 1);
+    Object actualElement = Array.get(array, index.value);
+    if (areEqual(actualElement, value)) return;
+    throw failures.failure(info, doesNotContainAtIndex(wrap(array), value, index));
+  }
+
+  void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
+    isNotEmptyOrNull(values);
+    assertNotNull(info, array);
+    Set<Object> notExpected = asSet(array);
+    Set<Object> notFound = containsOnly(notExpected, values);
+    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    throw failures.failure(info, doesNotContainOnly(wrap(array), wrap(values), notExpected, notFound));
+  }
+
+  private Set<Object> containsOnly(Set<Object> actual, Object values) {
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    for (Object o : asSet(values)) {
+      if (actual.contains(o)) actual.remove(o);
+      else notFound.add(o);
+    }
+    return notFound;
+  }
+
+  private Set<Object> asSet(Object array) {
+    Set<Object> set = new LinkedHashSet<Object>();
     int size = sizeOf(array);
     for (int i = 0; i < size; i++) {
       Object element = Array.get(array, i);
-      if (areEqual(element, value)) return true;
+      set.add(element);
     }
-    return false;
+    return set;
+  }
+
+  void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    isNotEmptyOrNull(sequence);
+    assertNotNull(info, array);
+    boolean firstAlreadyFound = false;
+    int i = 0;
+    int sequenceSize = sizeOf(sequence);
+    int sizeOfActual = sizeOf(array);
+    for (int j = 0; j < sizeOfActual; j++) {
+      Object o = Array.get(array, j);
+      if (i >= sequenceSize) break;
+      if (!firstAlreadyFound) {
+        if (!areEqual(o, Array.get(sequence, i))) continue;
+        firstAlreadyFound = true;
+        i++;
+        continue;
+      }
+      if (!areEqual(o, Array.get(sequence, i++))) throw sequenceNotFoundFailure(info, failures, array, sequence);
+    }
+    if (!firstAlreadyFound || i < sequenceSize) throw sequenceNotFoundFailure(info, failures, array, sequence);
+  }
+
+  private AssertionError sequenceNotFoundFailure(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    return failures.failure(info, doesNotContainSequence(wrap(array), wrap(sequence)));
+  }
+
+  void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
+    isNotEmptyOrNull(values);
+    assertNotNull(info, array);
+    Set<Object> found = new LinkedHashSet<Object>();
+    int valueCount = sizeOf(values);
+    for (int i = 0; i < valueCount; i++) {
+      Object value = Array.get(values, i);
+      if (arrayContains(array, value)) found.add(value);
+    }
+    if (found.isEmpty()) return;
+    throw failures.failure(info, contains(wrap(array), wrap(values), found));
   }
 
   private void isNotEmptyOrNull(Object values) {
@@ -99,6 +175,23 @@ class Arrays {
 
   private int sizeOf(Object array) {
     return Array.getLength(array);
+  }
+
+  private boolean arrayContains(Object array, Object value) {
+    int size = sizeOf(array);
+    for (int i = 0; i < size; i++) {
+      Object element = Array.get(array, i);
+      if (areEqual(element, value)) return true;
+    }
+    return false;
+  }
+
+  void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
+    assertNotNull(info, array);
+    ArrayWrapperList wrapped = wrap(array);
+    Collection<?> duplicates = duplicatesFrom(wrapped);
+    if (isEmpty(duplicates)) return;
+    throw failures.failure(info, hasDuplicates(wrapped, duplicates));
   }
 
   private void assertNotNull(AssertionInfo info, Object array) {

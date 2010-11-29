@@ -14,9 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
-
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -25,8 +24,6 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  */
 public class ObjectArrays {
-
-  // TODO test!
 
   private static final ObjectArrays INSTANCE = new ObjectArrays();
 
@@ -38,7 +35,6 @@ public class ObjectArrays {
     return INSTANCE;
   }
 
-  private final Collections collections;
   private final Arrays arrays = Arrays.instance();
   private final Failures failures;
 
@@ -48,7 +44,6 @@ public class ObjectArrays {
 
   @VisibleForTesting ObjectArrays(Failures failures) {
     this.failures = failures;
-    collections = new Collections(failures);
   }
 
   /**
@@ -110,6 +105,22 @@ public class ObjectArrays {
   }
 
   /**
+   * Verifies that the given array contains the given object at the given index.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param value the object to look for.
+   * @param index the index where the object should be stored in the given array.
+   * @throws AssertionError if the given array is {@code null} or empty.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
+   * the given array.
+   * @throws AssertionError if the given array does not contain the given object at the given index.
+   */
+  public void assertContains(AssertionInfo info, Object[] actual, Object value, Index index) {
+    arrays.assertContains(info, failures, actual, value, index);
+  }
+
+  /**
    * Asserts that the given array contains only the given values and nothing else, in any order.
    * @param info contains information about the assertion.
    * @param actual the given array.
@@ -121,7 +132,21 @@ public class ObjectArrays {
    * array contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
-    collections.assertContainsOnly(info, wrap(actual), values);
+    arrays.assertContainsOnly(info, failures, actual, values);
+  }
+
+  /**
+   * Verifies that the given array contains the given sequence of objects, without any other objects between them.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param sequence the sequence of objects to look for.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
+   * @throws AssertionError if the given array does not contain the given sequence of objects.
+   */
+  public void assertContainSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+    arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
   /**
@@ -135,7 +160,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array contains any of given values.
    */
   public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object[] values) {
-    collections.assertDoesNotContain(info, wrap(actual), values);
+    arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
   /**
@@ -148,6 +173,6 @@ public class ObjectArrays {
    * @throws AssertionError if the given array contains duplicate values.
    */
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Object[] actual) {
-    collections.assertDoesNotHaveDuplicates(info, wrap(actual));
+    arrays.assertDoesNotHaveDuplicates(info, failures, actual);
   }
 }

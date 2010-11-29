@@ -30,7 +30,7 @@ public class DoesNotContainSequence extends BasicErrorMessage {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainSequence(Collection<?> actual, Object[] sequence) {
+  public static ErrorMessage doesNotContainSequence(Collection<?> actual, Collection<?> sequence) {
     return new DoesNotContainSequence(actual, sequence);
   }
 

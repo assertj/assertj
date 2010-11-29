@@ -37,7 +37,7 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> imp
   }
 
   /** {@inheritDoc} */
-  public IndexedObjectEnumerableAssert contains(Object value, Index index) {
+  public ListAssert contains(Object value, Index index) {
     lists.assertContains(info, actual, value, index);
     return this;
   }
@@ -53,7 +53,7 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> imp
    * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not start with the given sequence of objects.
    */
-  public IndexedObjectEnumerableAssert startsWith(Object... sequence) {
+  public ListAssert startsWith(Object... sequence) {
     // TODO implement
     return null;
   }
@@ -69,7 +69,7 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> imp
    * @throws AssertionError if the actual {@code List} is {@code null}.
    * @throws AssertionError if the actual {@code List} does not end with the given sequence of objects.
    */
-  public IndexedObjectEnumerableAssert endsWith(Object... sequence) {
+  public ListAssert endsWith(Object... sequence) {
     // TODO implement
     return null;
   }

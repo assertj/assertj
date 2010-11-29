@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 /**
  * @author Alex Ruiz
  */
-class Errors {
+final class CommonErrors {
 
   static NullPointerException arrayOfValuesToLookForIsNull() {
     return new NullPointerException("The array of values to look for should not be null");
@@ -27,5 +27,5 @@ class Errors {
     return new IllegalArgumentException("The array of values to look for should not be empty");
   }
 
-  private Errors() {}
+  private CommonErrors() {}
 }

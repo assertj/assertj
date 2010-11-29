@@ -30,8 +30,6 @@ import org.fest.util.VisibleForTesting;
 public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements
     ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert {
 
-  // TODO test!
-
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
 
   protected ObjectArrayAssert(Object[] actual) {
@@ -74,14 +72,14 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   /** {@inheritDoc} */
   public ObjectArrayAssert containsSequence(Object... sequence) {
-    // TODO Auto-generated method stub
-    return null;
+    arrays.assertContainSequence(info, actual, sequence);
+    return this;
   }
 
   /** {@inheritDoc} */
   public ObjectArrayAssert contains(Object value, Index index) {
-    // TODO Auto-generated method stub
-    return null;
+    arrays.assertContains(info, actual, value, index);
+    return this;
   }
 
   /** {@inheritDoc} */

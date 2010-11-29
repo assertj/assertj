@@ -43,7 +43,7 @@ public class DoesNotContainOnly implements ErrorMessage {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainOnly(Collection<?> actual, Object[] expected, Set<?> notExpected,
+  public static ErrorMessage doesNotContainOnly(Collection<?> actual, Collection<?> expected, Set<?> notExpected,
       Set<?> notFound) {
     return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }

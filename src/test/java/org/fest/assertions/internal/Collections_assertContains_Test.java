@@ -39,20 +39,20 @@ import org.junit.*;
 public class Collections_assertContains_Test {
 
   private static WritableAssertionInfo info;
-  private static List<String> actual;
 
   @Rule public ExpectedException thrown = none();
 
+  private List<String> actual;
   private Failures failures;
   private Collections collections;
 
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = list("Luke", "Yoda", "Leia");
   }
 
   @Before public void setUp() {
+    actual = list("Luke", "Yoda", "Leia");
     failures = spy(Failures.instance());
     collections = new Collections(failures);
   }
@@ -78,12 +78,12 @@ public class Collections_assertContains_Test {
     collections.assertContains(info, actual, array("Luke", "Luke"));
   }
 
-  @Test public void should_throw_error_if_array_of_values_is_empty() {
+  @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
     collections.assertContains(info, actual, new Object[0]);
   }
 
-  @Test public void should_throw_error_if_array_of_values_is_null() {
+  @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(arrayToLookForIsNull());
     collections.assertContains(info, actual, null);
   }

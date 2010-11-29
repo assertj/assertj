@@ -1,5 +1,5 @@
 /*
- * Created on Nov 19, 2010
+ * Created on Nov 29, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,40 +14,38 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.Index.atIndex;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.ObjectArrays;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ListAssert#contains(Object, Index)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#contains(Object, Index)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ListAssert_contains_with_Index_Test {
+public class ObjectArrayAssert_contains_at_Index_Test {
 
-  private Lists lists;
-  private ListAssert assertions;
+  private ObjectArrays arrays;
+  private ObjectArrayAssert assertions;
 
   @Before public void setUp() {
-    lists = mock(Lists.class);
-    assertions = new ListAssert(emptyList());
-    assertions.lists = lists;
+    arrays = mock(ObjectArrays.class);
+    assertions = new ObjectArrayAssert(new Object[0]);
+    assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
     assertions.contains("Yoda", atIndex(2));
-    verify(lists).assertContains(assertions.info, assertions.actual, "Yoda", atIndex(2));
+    verify(arrays).assertContains(assertions.info, assertions.actual, "Yoda", atIndex(2));
   }
 
   @Test public void should_return_this() {
-    IndexedObjectEnumerableAssert returned = assertions.contains("Luke", atIndex(6));
+    ObjectArrayAssert returned = assertions.contains("Luke", atIndex(6));
     assertSame(assertions, returned);
   }
 }

@@ -27,18 +27,27 @@ import org.fest.util.VisibleForTesting;
  */
 public class ArrayWrapperList extends AbstractList<Object> {
 
+  /**
+   * Wraps a given array with a <code>{@link ArrayWrapperList}</code>
+   * @param array the array to wrap.
+   * @return the wrapped array or {@code null} if the given array was already {@code null}.
+   * @throws IllegalArgumentException if the {@code array} is not an array.
+   */
   public static ArrayWrapperList wrap(Object array) {
     if (array == null) return null;
     if (!array.getClass().isArray()) throw new IllegalArgumentException("The object to wrap should be an array");
     return new ArrayWrapperList(array);
   }
 
-  @VisibleForTesting final Object array;
+  private final Object array;
 
   @VisibleForTesting ArrayWrapperList(Object array) {
     this.array = array;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override public Object get(int index) {
     validateInRange(index);
     return Array.get(array, index);
@@ -50,6 +59,9 @@ public class ArrayWrapperList extends AbstractList<Object> {
     throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override public int size() {
     return Array.getLength(array);
   }
