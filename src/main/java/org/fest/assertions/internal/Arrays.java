@@ -15,11 +15,14 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
 import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
+import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
@@ -98,6 +101,16 @@ class Arrays {
     throw failures.failure(info, doesNotContainAtIndex(wrap(array), value, index));
   }
 
+  void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
+    assertNotNull(info, array);
+    validateIndexValue(index, Integer.MAX_VALUE);
+    int indexValue = index.value;
+    if (indexValue >= sizeOf(array)) return;
+    Object actualElement = Array.get(array, index.value);
+    if (!areEqual(actualElement, value)) return;
+    throw failures.failure(info, containsAtIndex(wrap(array), value, index));
+  }
+
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
     isNotEmptyOrNull(values);
     assertNotNull(info, array);
@@ -142,12 +155,13 @@ class Arrays {
         i++;
         continue;
       }
-      if (!areEqual(o, Array.get(sequence, i++))) throw sequenceNotFoundFailure(info, failures, array, sequence);
+      if (areEqual(o, Array.get(sequence, i++))) continue;
+      throw arrayDoesNotContainSequence(info, failures, array, sequence);
     }
-    if (!firstAlreadyFound || i < sequenceSize) throw sequenceNotFoundFailure(info, failures, array, sequence);
+    if (!firstAlreadyFound || i < sequenceSize) throw arrayDoesNotContainSequence(info, failures, array, sequence);
   }
 
-  private AssertionError sequenceNotFoundFailure(AssertionInfo info, Failures failures, Object array, Object sequence) {
+  private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
     return failures.failure(info, doesNotContainSequence(wrap(array), wrap(sequence)));
   }
 
@@ -173,10 +187,6 @@ class Arrays {
     return sizeOf(array) == 0;
   }
 
-  private int sizeOf(Object array) {
-    return Array.getLength(array);
-  }
-
   private boolean arrayContains(Object array, Object value) {
     int size = sizeOf(array);
     for (int i = 0; i < size; i++) {
@@ -194,7 +204,47 @@ class Arrays {
     throw failures.failure(info, hasDuplicates(wrapped, duplicates));
   }
 
+  void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    isNotEmptyOrNull(sequence);
+    assertNotNull(info, array);
+    int sequenceSize = sizeOf(sequence);
+    int arraySize = sizeOf(array);
+    if (arraySize < sequenceSize) throw arrayDoesNotStartWithSequence(info, failures, array, sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      if (areEqual(Array.get(sequence, i), Array.get(array, i))) continue;
+      throw arrayDoesNotStartWithSequence(info, failures, array, sequence);
+    }
+  }
+
+  private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
+      Object sequence) {
+    return failures.failure(info, doesNotStartWith(wrap(array), wrap(sequence)));
+  }
+
+  void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
+    isNotEmptyOrNull(sequence);
+    assertNotNull(info, array);
+    int sequenceSize = sizeOf(sequence);
+    int arraySize = sizeOf(array);
+    if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      int sequenceIndex = sequenceSize - (i + 1);
+      int arrayIndex = arraySize - (i + 1);
+      if (areEqual(Array.get(sequence, sequenceIndex), Array.get(array, arrayIndex))) continue;
+      throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
+    }
+  }
+
+  private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
+      Object sequence) {
+    return failures.failure(info, doesNotEndWith(wrap(array), wrap(sequence)));
+  }
+
   private void assertNotNull(AssertionInfo info, Object array) {
     Objects.instance().assertNotNull(info, array);
+  }
+
+  private int sizeOf(Object array) {
+    return Array.getLength(array);
   }
 }

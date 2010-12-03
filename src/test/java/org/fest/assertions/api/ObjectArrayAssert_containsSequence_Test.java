@@ -1,5 +1,5 @@
 /*
- * Created on Dec 2, 2010
+ * Created on Nov 29, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,38 +14,37 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Collections;
+import org.fest.assertions.internal.ObjectArrays;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link GenericCollectionAssert#endsWith(Object...)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#containsSequence(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class GenericCollectionAssert_endsWith_Test {
+public class ObjectArrayAssert_containsSequence_Test {
 
-  private Collections collections;
-  private ConcreteGenericCollectionAssert assertions;
+  private ObjectArrays arrays;
+  private ObjectArrayAssert assertions;
 
   @Before public void setUp() {
-    collections = mock(Collections.class);
-    assertions = new ConcreteGenericCollectionAssert(emptyList());
-    assertions.collections = collections;
+    arrays = mock(ObjectArrays.class);
+    assertions = new ObjectArrayAssert(new Object[0]);
+    assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_ends_with_sequence() {
-    assertions.endsWith("Luke", "Yoda");
-    verify(collections).assertEndsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
+  @Test public void should_verify_that_actual_contains_value_at_index() {
+    assertions.containsSequence("Luke", "Yoda");
+    verify(arrays).assertContainsSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ConcreteGenericCollectionAssert returned = assertions.endsWith("Luke", "Yoda");
+    ObjectArrayAssert returned = assertions.containsSequence("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

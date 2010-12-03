@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 2, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -23,11 +23,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#containsSequence(Object...)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#endsWith(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert_contains_Sequence_Test {
+public class ObjectArrayAssert_endsWith_at_Index_Test {
 
   private ObjectArrays arrays;
   private ObjectArrayAssert assertions;
@@ -38,13 +38,13 @@ public class ObjectArrayAssert_contains_Sequence_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_contains_value_at_index() {
-    assertions.containsSequence("Luke", "Yoda");
-    verify(arrays).assertContainSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
+  @Test public void should_verify_that_actual_ends_with_sequence() {
+    assertions.endsWith("Luke", "Yoda");
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.containsSequence("Luke", "Yoda");
+    ObjectArrayAssert returned = assertions.endsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

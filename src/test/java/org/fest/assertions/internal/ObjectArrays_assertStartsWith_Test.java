@@ -19,11 +19,8 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
-
-import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
@@ -31,49 +28,49 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertStartsWith(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link ObjectArrays#assertStartsWith(AssertionInfo, Object[], Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertStartsWith_Test {
+public class ObjectArrays_assertStartsWith_Test {
 
   private static WritableAssertionInfo info;
-  private static Collection<String> actual;
+  private static Object[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Collections collections;
+  private ObjectArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
+    actual = array("Yoda", "Luke", "Leia", "Obi-Wan");
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    collections = new Collections(failures);
+    arrays = new ObjectArrays(failures);
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(arrayToLookForIsNull());
-    collections.assertStartsWith(info, actual, null);
+    arrays.assertStartsWith(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    collections.assertStartsWith(info, actual, new Object[0]);
+    arrays.assertStartsWith(info, actual, new Object[0]);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertStartsWith(info, null, array("Yoda"));
+    arrays.assertStartsWith(info, null, array("Yoda"));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
-      collections.assertStartsWith(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
@@ -82,7 +79,7 @@ public class Collections_assertStartsWith_Test {
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
     Object[] sequence = { "Han", "C-3PO" };
     try {
-      collections.assertStartsWith(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
@@ -91,21 +88,21 @@ public class Collections_assertStartsWith_Test {
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
-      collections.assertStartsWith(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
     assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
   }
 
   private void assertThatFailureWasThrownWhenActualDoesNotStartWith(Object[] sequence) {
-    verify(failures).failure(info, doesNotStartWith(actual, wrap(sequence)));
+    verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {
-    collections.assertStartsWith(info, actual, array("Yoda", "Luke", "Leia"));
+    arrays.assertStartsWith(info, actual, array("Yoda", "Luke", "Leia"));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    collections.assertStartsWith(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+    arrays.assertStartsWith(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 }

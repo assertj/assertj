@@ -40,7 +40,7 @@ public class ListAssert_doesNotContain_at_Index_Test {
     assertions.lists = lists;
   }
 
-  @Test public void should_verify_that_actual_doesNotContain_value_at_index() {
+  @Test public void should_verify_that_actual_does_not_contain_value_at_index() {
     assertions.doesNotContain("Yoda", atIndex(2));
     verify(lists).assertDoesNotContain(assertions.info, assertions.actual, "Yoda", atIndex(2));
   }

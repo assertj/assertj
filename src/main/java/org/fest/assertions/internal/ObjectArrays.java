@@ -120,6 +120,21 @@ public class ObjectArrays {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
+
+  /**
+   * Verifies that the given array does not contain the given object at the given index.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param value the object to look for.
+   * @param index the index where the object should be stored in the given array.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the given array contains the given object at the given index.
+   */
+  public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object value, Index index) {
+    arrays.assertDoesNotContain(info, failures, actual, value, index);
+  }
+
   /**
    * Asserts that the given array contains only the given values and nothing else, in any order.
    * @param info contains information about the assertion.
@@ -145,7 +160,7 @@ public class ObjectArrays {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given array does not contain the given sequence of objects.
    */
-  public void assertContainSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
     arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
@@ -174,5 +189,37 @@ public class ObjectArrays {
    */
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Object[] actual) {
     arrays.assertDoesNotHaveDuplicates(info, failures, actual);
+  }
+
+  /**
+   * Verifies that the given array starts with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
+   * that the first element in the sequence is also the first element of the given array.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param sequence the sequence of objects to look for.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not start with the given sequence of objects.
+   */
+  public void assertStartsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+    arrays.assertStartsWith(info, failures, actual, sequence);
+  }
+
+  /**
+   * Verifies that the given array ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
+   * that the last element in the sequence is also the last element of the given array.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param sequence the sequence of objects to look for.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not end with the given sequence of objects.
+   */
+  public void assertEndsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+    arrays.assertEndsWith(info, failures, actual, sequence);
   }
 }

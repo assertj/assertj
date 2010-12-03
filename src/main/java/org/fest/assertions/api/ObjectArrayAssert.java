@@ -72,7 +72,7 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   /** {@inheritDoc} */
   public ObjectArrayAssert containsSequence(Object... sequence) {
-    arrays.assertContainSequence(info, actual, sequence);
+    arrays.assertContainsSequence(info, actual, sequence);
     return this;
   }
 
@@ -84,8 +84,8 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   /** {@inheritDoc} */
   public ObjectArrayAssert doesNotContain(Object value, Index index) {
-    // TODO Auto-generated method stub
-    return null;
+    arrays.assertDoesNotContain(info, actual, value, index);
+    return this;
   }
 
   /** {@inheritDoc} */
@@ -102,13 +102,13 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
 
   /** {@inheritDoc} */
   public ObjectArrayAssert startsWith(Object... sequence) {
-    // TODO Auto-generated method stub
-    return null;
+    arrays.assertStartsWith(info, actual, sequence);
+    return this;
   }
 
   /** {@inheritDoc} */
   public ObjectArrayAssert endsWith(Object... sequence) {
-    // TODO Auto-generated method stub
-    return null;
+    arrays.assertEndsWith(info, actual, sequence);
+    return this;
   }
 }

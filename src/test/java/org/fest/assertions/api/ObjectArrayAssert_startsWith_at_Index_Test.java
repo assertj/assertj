@@ -14,38 +14,37 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Collections;
+import org.fest.assertions.internal.ObjectArrays;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link GenericCollectionAssert#endsWith(Object...)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#startsWith(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class GenericCollectionAssert_endsWith_Test {
+public class ObjectArrayAssert_startsWith_at_Index_Test {
 
-  private Collections collections;
-  private ConcreteGenericCollectionAssert assertions;
+  private ObjectArrays arrays;
+  private ObjectArrayAssert assertions;
 
   @Before public void setUp() {
-    collections = mock(Collections.class);
-    assertions = new ConcreteGenericCollectionAssert(emptyList());
-    assertions.collections = collections;
+    arrays = mock(ObjectArrays.class);
+    assertions = new ObjectArrayAssert(new Object[0]);
+    assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_ends_with_sequence() {
-    assertions.endsWith("Luke", "Yoda");
-    verify(collections).assertEndsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
+  @Test public void should_verify_that_actual_starts_with_sequence() {
+    assertions.startsWith("Luke", "Yoda");
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ConcreteGenericCollectionAssert returned = assertions.endsWith("Luke", "Yoda");
+    ObjectArrayAssert returned = assertions.startsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

@@ -39,7 +39,7 @@ public class GenericCollectionAssert_startsWith_Test {
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_contains_value_at_index() {
+  @Test public void should_verify_that_actual_starts_with_sequence() {
     assertions.startsWith("Luke", "Yoda");
     verify(collections).assertStartsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
