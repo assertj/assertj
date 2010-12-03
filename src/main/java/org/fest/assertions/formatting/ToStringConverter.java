@@ -24,8 +24,6 @@ import org.fest.util.VisibleForTesting;
  */
 public class ToStringConverter {
 
-  // TODO test!
-
   private static final ToStringConverter INSTANCE = new ToStringConverter();
 
   /**
