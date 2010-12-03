@@ -1,5 +1,5 @@
 /*
- * Created on Nov 22, 2010
+ * Created on Dec 2, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -17,24 +17,24 @@ package org.fest.assertions.error;
 import java.util.Collection;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a group of elements contains a sequence of
- * values failed. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an error message indicating that an assertion that verifies that a group of elements starts with a given
+ * sequence of values failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
-public class DoesNotContainSequence extends BasicErrorMessage {
+public class DoesNotStartWith extends BasicErrorMessage {
 
   /**
-   * Creates a new <code>{@link DoesNotContainSequence}</code>.
+   * Creates a new <code>{@link DoesNotStartWith}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param sequence the sequence of values expected to be in {@code actual}.
+   * @param sequence the sequence of values that {@code actual} is expected to start with.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainSequence(Collection<?> actual, Collection<?> sequence) {
-    return new DoesNotContainSequence(actual, sequence);
+  public static ErrorMessage doesNotStartWith(Collection<?> actual, Collection<?> sequence) {
+    return new DoesNotStartWith(actual, sequence);
   }
 
-  private DoesNotContainSequence(Object actual, Object sequence) {
-    super("%sexpecting:<%s> to contain sequence:<%s>", actual, sequence);
+  private DoesNotStartWith(Collection<?> actual, Collection<?> sequence) {
+    super("%sexpecting:<%s> to start with sequence:<%s>", actual, sequence);
   }
 }

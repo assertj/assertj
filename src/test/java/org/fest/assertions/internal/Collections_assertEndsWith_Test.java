@@ -1,5 +1,5 @@
 /*
- * Created on Nov 22, 2010
+ * Created on Dec 2, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -13,8 +13,7 @@
  * Copyright @2010 the original author or authors.
  */
 package org.fest.assertions.internal;
-
-import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
+import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -31,11 +30,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Collections#assertContainSequence(AssertionInfo, Collection, Object[])}</code>.
+ * Tests for <code>{@link Collections#assertEndsWith(AssertionInfo, Collection, Object[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class Collections_assertContainSequence_Test {
+public class Collections_assertEndsWith_Test {
 
   private static WritableAssertionInfo info;
   private static Collection<String> actual;
@@ -55,57 +54,57 @@ public class Collections_assertContainSequence_Test {
     collections = new Collections(failures);
   }
 
-  @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
-    collections.assertContainSequence(info, null, array("Yoda"));
-  }
-
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(arrayToLookForIsNull());
-    collections.assertContainSequence(info, actual, null);
+    collections.assertEndsWith(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    collections.assertContainSequence(info, actual, new Object[0]);
+    collections.assertEndsWith(info, actual, new Object[0]);
   }
 
-  @Test public void should_throw_error_if_sequence_is_bigger_than_actual() {
-    Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
+  @Test public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(unexpectedNull());
+    collections.assertEndsWith(info, null, array("Yoda"));
+  }
+
+  @Test public void should_fail_if_sequence_is_bigger_than_actual() {
+    Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
   }
 
-  @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  @Test public void should_fail_if_actual_does_not_end_with_sequence() {
     Object[] sequence = { "Han", "C-3PO" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
   }
 
-  @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
-      collections.assertContainSequence(info, actual, sequence);
+      collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(Object[] sequence) {
-    verify(failures).failure(info, doesNotContainSequence(actual, wrap(sequence)));
+  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(Object[] sequence) {
+    verify(failures).failure(info, doesNotEndWith(actual, wrap(sequence)));
   }
 
-  @Test public void should_pass_if_actual_contains_sequence() {
-    collections.assertContainSequence(info, actual, array("Luke", "Leia"));
+  @Test public void should_pass_if_actual_ends_with_sequence() {
+    collections.assertEndsWith(info, actual, array("Luke", "Leia", "Obi-Wan"));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    collections.assertContainSequence(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+    collections.assertEndsWith(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 }

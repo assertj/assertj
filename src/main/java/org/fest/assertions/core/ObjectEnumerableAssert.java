@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.core;
 
+
+
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * @param <S> the "self" type of this assertion class. Please read
@@ -76,4 +78,30 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if the actual group contains duplicates.
    */
   S doesNotHaveDuplicates();
+
+  /**
+   * Verifies that the actual group starts with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the first element in the
+   * sequence is also first element of the actual group.
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not start with the given sequence of objects.
+   */
+  S startsWith(Object... sequence);
+
+  /**
+   * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
+   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
+   * sequence is also last element of the actual group.
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not end with the given sequence of objects.
+   */
+  S endsWith(Object... sequence);
 }

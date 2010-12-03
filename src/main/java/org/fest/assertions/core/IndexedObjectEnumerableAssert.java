@@ -36,4 +36,14 @@ public interface IndexedObjectEnumerableAssert {
    */
   IndexedObjectEnumerableAssert contains(Object value, Index index);
 
+  /**
+   * Verifies that the actual group does not contain the given object at the given index.
+   * @param value the object to look for.
+   * @param index the index where the object should be stored in the actual group.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the actual group contains the given object at the given index.
+   */
+  IndexedObjectEnumerableAssert doesNotContain(Object value, Index index);
 }

@@ -19,7 +19,7 @@ import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Reusable assertions for collections.
+ * Reusable assertions for arrays of objects.
  *
  * @author Alex Ruiz
  */

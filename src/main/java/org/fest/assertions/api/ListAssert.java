@@ -42,35 +42,9 @@ public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> imp
     return this;
   }
 
-  /**
-   * Verifies that the actual list starts with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #containsSequence}</code>, but verifies also that the first given object is also the first
-   * element of the actual list.
-   * @param sequence the sequence of objects to look for.
-   * @return this assertion object.
-   * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual {@code List} is {@code null}.
-   * @throws AssertionError if the actual {@code List} does not start with the given sequence of objects.
-   */
-  public ListAssert startsWith(Object... sequence) {
-    // TODO implement
-    return null;
-  }
-
-  /**
-   * Verifies that the actual list ends with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #containsSequence}</code>, but verifies also that the last given object is also the last
-   * element of actual list.
-   * @param sequence the sequence of objects to look for.
-   * @return this assertion object.
-   * @throws NullPointerException if the given array is {@code null}.
-   * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual {@code List} is {@code null}.
-   * @throws AssertionError if the actual {@code List} does not end with the given sequence of objects.
-   */
-  public ListAssert endsWith(Object... sequence) {
-    // TODO implement
-    return null;
+  /** {@inheritDoc} */
+  public ListAssert doesNotContain(Object value, Index index) {
+    lists.assertDoesNotContain(info, actual, value, index);
+    return this;
   }
 }

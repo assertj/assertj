@@ -1,5 +1,5 @@
 /*
- * Created on Nov 22, 2010
+ * Created on Dec 2, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,11 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link GenericCollectionAssert#containsSequence(Object...)}</code>.
+ * Tests for <code>{@link GenericCollectionAssert#endsWith(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class GenericCollectionAssert_contains_Sequence_Test {
+public class GenericCollectionAssert_endsWith_Test {
 
   private Collections collections;
   private ConcreteGenericCollectionAssert assertions;
@@ -40,12 +40,12 @@ public class GenericCollectionAssert_contains_Sequence_Test {
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
-    assertions.containsSequence("Luke", "Yoda");
-    verify(collections).assertContainsSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
+    assertions.endsWith("Luke", "Yoda");
+    verify(collections).assertEndsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ConcreteGenericCollectionAssert returned = assertions.containsSequence("Luke", "Yoda");
+    ConcreteGenericCollectionAssert returned = assertions.endsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

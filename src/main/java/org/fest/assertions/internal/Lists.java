@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
 import static org.fest.assertions.internal.CommonValidations.validateIndexValue;
 import static org.fest.util.Objects.areEqual;
@@ -71,6 +72,26 @@ public class Lists {
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
     throw failures.failure(info, doesNotContainAtIndex(actual, value, index));
+  }
+
+  /**
+   * Verifies that the given {@code List} does not contain the given object at the given index.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code List}.
+   * @param value the object to look for.
+   * @param index the index where the object should be stored in the given {@code List}.
+   * @throws AssertionError if the given {@code List} is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the given {@code List} contains the given object at the given index.
+   */
+  public void assertDoesNotContain(AssertionInfo info, List<?> actual, Object value, Index index) {
+    assertNotNull(info, actual);
+    validateIndexValue(index, Integer.MAX_VALUE);
+    int indexValue = index.value;
+    if (indexValue >= actual.size()) return;
+    Object actualElement = actual.get(index.value);
+    if (!areEqual(actualElement, value)) return;
+    throw failures.failure(info, containsAtIndex(actual, value, index));
   }
 
   private void assertNotNull(AssertionInfo info, List<?> actual) {

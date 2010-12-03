@@ -83,6 +83,12 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
   }
 
   /** {@inheritDoc} */
+  public ObjectArrayAssert doesNotContain(Object value, Index index) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
   public ObjectArrayAssert doesNotContain(Object... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return this;
@@ -92,5 +98,17 @@ public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]
   public ObjectArrayAssert doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return this;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert startsWith(Object... sequence) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert endsWith(Object... sequence) {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

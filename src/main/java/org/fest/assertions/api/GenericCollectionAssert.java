@@ -76,7 +76,7 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
 
   /** {@inheritDoc} */
   public final S containsSequence(Object... sequence) {
-    collections.assertContainSequence(info, actual, sequence);
+    collections.assertContainsSequence(info, actual, sequence);
     return myself;
   }
 
@@ -89,6 +89,18 @@ public abstract class GenericCollectionAssert<S, A extends Collection<?>> extend
   /** {@inheritDoc} */
   public final S doesNotHaveDuplicates() {
     collections.assertDoesNotHaveDuplicates(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S startsWith(Object... sequence) {
+    collections.assertStartsWith(info, actual, sequence);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S endsWith(Object... sequence) {
+    collections.assertEndsWith(info, actual, sequence);
     return myself;
   }
 }

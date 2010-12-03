@@ -18,7 +18,9 @@ import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
+import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
@@ -173,7 +175,7 @@ public class Collections {
    * @throws IllegalArgumentException if the given sequence is empty.
    * @throws AssertionError if the given {@code Collection} does not contain the given sequence of objects.
    */
-  public void assertContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
     isNotEmptyOrNull(sequence);
     assertNotNull(info, actual);
     boolean firstAlreadyFound = false;
@@ -187,12 +189,13 @@ public class Collections {
         i++;
         continue;
       }
-      if (!areEqual(o, sequence[i++])) throw sequenceNotFoundFailure(info, actual, sequence);
+      if (areEqual(o, sequence[i++])) continue;
+      throw actualDoesNotContainSequence(info, actual, sequence);
     }
-    if (!firstAlreadyFound || i < sequenceSize) throw sequenceNotFoundFailure(info, actual, sequence);
+    if (!firstAlreadyFound || i < sequenceSize) throw actualDoesNotContainSequence(info, actual, sequence);
   }
 
-  private AssertionError sequenceNotFoundFailure(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+  private AssertionError actualDoesNotContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
     return failures.failure(info, doesNotContainSequence(actual, wrap(sequence)));
   }
 
@@ -215,11 +218,6 @@ public class Collections {
     throw failures.failure(info, contains(actual, wrap(values), found));
   }
 
-  private void isNotEmptyOrNull(Object[] values) {
-    if (values == null) throw arrayOfValuesToLookForIsNull();
-    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
-  }
-
   /**
    * Asserts that the given {@code Collection} does not have duplicate values.
    * @param info contains information about the assertion.
@@ -236,7 +234,73 @@ public class Collections {
     throw failures.failure(info, hasDuplicates(actual, duplicates));
   }
 
+  /**
+   * Verifies that the given {@code Collection} starts with the given sequence of objects, without any other objects
+   * between them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Collection, Object[])}</code>, but
+   * it also verifies that the first element in the sequence is also the first element of the given {@code Collection}.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param sequence the sequence of objects to look for.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} does not start with the given sequence of objects.
+   */
+  public void assertStartsWith(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    isNotEmptyOrNull(sequence);
+    assertNotNull(info, actual);
+    int sequenceSize = sequence.length;
+    if (actual.size() < sequenceSize) throw actualDoesNotStartWithSequence(info, actual, sequence);
+    int i = 0;
+    for (Object o: actual) {
+      if (i >= sequenceSize) break;
+      if (areEqual(o, sequence[i++])) continue;
+      throw actualDoesNotStartWithSequence(info, actual, sequence);
+    }
+  }
+
+  private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    return failures.failure(info, doesNotStartWith(actual, wrap(sequence)));
+  }
+
+  private void isNotEmptyOrNull(Object[] values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
+  }
+
   private void assertNotNull(AssertionInfo info, Collection<?> actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  /**
+   * Verifies that the given {@code Collection} ends with the given sequence of objects, without any other objects
+   * between them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Collection, Object[])}</code>, but
+   * it also verifies that the last element in the sequence is also the last element of the given {@code Collection}.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @param sequence the sequence of objects to look for.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} does not end with the given sequence of objects.
+   */
+  public void assertEndsWith(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    isNotEmptyOrNull(sequence);
+    assertNotNull(info, actual);
+    int sequenceSize = sequence.length;
+    int sizeOfActual = actual.size();
+    if (sizeOfActual < sequenceSize) throw actualDoesNotEndWithSequence(info, actual, sequence);
+    int start = actual.size() - sequenceSize;
+    int sequenceIndex = 0, indexOfActual = 0;
+    for (Object o: actual) {
+      if (sequenceIndex >= sequenceSize) break;
+      if (indexOfActual++ < start) continue;
+      if (areEqual(o, sequence[sequenceIndex++])) continue;
+      throw actualDoesNotEndWithSequence(info, actual, sequence);
+    }
+  }
+
+  private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
+    return failures.failure(info, doesNotEndWith(actual, wrap(sequence)));
   }
 }
