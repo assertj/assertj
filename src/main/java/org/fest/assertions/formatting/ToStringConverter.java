@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.formatting;
 
-import java.util.*;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Returns the {@code String} representation of a {@code Object}, based on registered
@@ -24,8 +24,7 @@ import java.util.*;
  */
 public class ToStringConverter {
 
-  private final Collection<ToStringRule> rules = new HashSet<ToStringRule>();
-  private final ToStringRule defaultRule = new ObjectToStringRule();
+  // TODO test!
 
   private static final ToStringConverter INSTANCE = new ToStringConverter();
 
@@ -37,14 +36,14 @@ public class ToStringConverter {
     return INSTANCE;
   }
 
+  private final AllRules rules;
+
   private ToStringConverter() {
-    rules.add(new ArrayToStringRule());
-    rules.add(new ClassToStringRule());
-    rules.add(new CollectionToStringRule());
-    rules.add(new FileToStringRule());
-    rules.add(new MapToStringRule());
-    rules.add(new StringToStringRule());
-    rules.add(new ConditionToStringRule());
+    this(new AllRules());
+  }
+
+  @VisibleForTesting ToStringConverter(AllRules rules) {
+    this.rules = rules;
   }
 
   /**
@@ -62,6 +61,6 @@ public class ToStringConverter {
   }
 
   private String defaultToString(Object o) {
-    return defaultRule.toStringOf(o);
+    return rules.defaultRule().toStringOf(o);
   }
 }

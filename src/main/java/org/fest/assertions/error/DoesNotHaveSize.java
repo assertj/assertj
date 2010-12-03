@@ -34,8 +34,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
-    // TODO test!
-    return new DoesNotHaveSize(actual, actualSize, expectedSize);
+    return new DoesNotHaveSize("%sexpected image size:<%s> but was:<%s>", expectedSize, actualSize);
   }
 
   /**
@@ -45,10 +44,10 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotHaveSize(Collection<?> actual, int expectedSize) {
-    return new DoesNotHaveSize(actual, actual.size(), expectedSize);
+    return new DoesNotHaveSize("%sexpected size:<%s> but was:<%s> in:<%s>", expectedSize, actual.size(), actual);
   }
 
-  private DoesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
-    super("%sexpected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
+  private DoesNotHaveSize(String format, Object... arguments) {
+    super(format, arguments);
   }
 }

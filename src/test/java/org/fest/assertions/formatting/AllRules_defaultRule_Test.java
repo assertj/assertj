@@ -1,5 +1,5 @@
 /*
- * Created on Sep 12, 2010
+ * Created on Dec 3, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,20 +14,27 @@
  */
 package org.fest.assertions.formatting;
 
-import java.awt.Dimension;
+import static org.junit.Assert.*;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
- * Returns the {@code String} representation of a <code>{@link Dimension}</code>.
+ * Tests for <code>{@link AllRules#defaultRule()}</code>.
  *
  * @author Alex Ruiz
  */
-public class DimensionToStringRule extends GenericToStringRule<Dimension> {
+public class AllRules_defaultRule_Test {
 
-  @Override String doGetToString(Dimension d) {
-    return String.format("(w=%d, h=%d)", d.width, d.height);
+  private static AllRules allRules;
+
+  @BeforeClass public static void setUpOnce() {
+    allRules = new AllRules();
   }
 
-  @Override Class<Dimension> supportedType() {
-    return Dimension.class;
+  @Test public void should_return_ObjectToStringRule_as_default() {
+    ToStringRule defaultRule = allRules.defaultRule();
+    assertNotNull(defaultRule);
+    assertEquals(ObjectToStringRule.class, defaultRule.getClass());
   }
 }

@@ -18,7 +18,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.awt.Dimension;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DimensionToStringRule#toStringOf(Object)}</code>.
@@ -35,6 +36,6 @@ public class DimensionToStringRule_toStringOf_Test {
 
   @Test public void should_return_formatted_Dimension() {
     String s = rule.toStringOf(new Dimension(6, 8));
-    assertEquals("(6, 8)", s);
+    assertEquals("(w=6, h=8)", s);
   }
 }
