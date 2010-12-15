@@ -37,7 +37,7 @@ public class GenericCollectionAssert_containsOnly_Test {
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_contains_given_values_exclusively() {
+  @Test public void should_verify_that_actual_contains_given_values_only() {
     Object[] values = { "Yoda", "Luke" };
     assertions.containsOnly(values);
     verify(collections).assertContainsOnly(assertions.info, assertions.actual, values);

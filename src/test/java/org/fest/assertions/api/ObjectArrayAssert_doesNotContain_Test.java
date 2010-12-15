@@ -15,11 +15,11 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#doesNotContain(Object...)}</code>.
@@ -38,9 +38,8 @@ public class ObjectArrayAssert_doesNotContain_Test {
   }
 
   @Test public void should_verify_that_actual_does_not_contain_given_values() {
-    Object[] values = { "Yoda", "Luke" };
-    assertions.doesNotContain(values);
-    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, values);
+    assertions.doesNotContain("Yoda", "Luke");
+    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, array("Yoda", "Luke"));
   }
 
   @Test public void should_return_this() {

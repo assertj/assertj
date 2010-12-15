@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.test.Arrays.arrayOfInts;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
-import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -28,72 +28,59 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ObjectArrays#assertContains(AssertionInfo, Object[], Object[])}</code>.
+ * Tests for <code>{@link IntArrays#assertDoesNotContain(AssertionInfo, int[], int[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrays_assertContains_Test {
+public class IntArrays_assertDoesNotContain_Test {
 
   private static WritableAssertionInfo info;
+  private static int[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Object[] actual;
-  private ObjectArrays arrays;
+  private IntArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
+    actual = arrayOfInts(6, 8, 10);
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = array("Luke", "Yoda", "Leia");
-    arrays = new ObjectArrays(failures);
+    arrays = new IntArrays(failures);
   }
 
-  @Test public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(info, actual, array("Luke"));
+  @Test public void should_pass_if_actual_does_not_contain_given_values() {
+    arrays.assertDoesNotContain(info, actual, arrayOfInts(12));
   }
 
-  @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(info, actual, array("Leia", "Yoda"));
-  }
-
-  @Test public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(info, actual, array("Luke", "Yoda", "Leia"));
-  }
-
-  @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arrays.assertContains(info, actual, array("Luke"));
-  }
-
-  @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(info, actual, array("Luke", "Luke"));
+  @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
+    arrays.assertDoesNotContain(info, actual, arrayOfInts(12, 12, 20));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertContains(info, actual, new Object[0]);
+    arrays.assertDoesNotContain(info, actual, new int[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(arrayToLookForIsNull());
-    arrays.assertContains(info, actual, null);
+    arrays.assertDoesNotContain(info, actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, array("Yoda"));
+    arrays.assertDoesNotContain(info, null, arrayOfInts(8));
   }
 
-  @Test public void should_fail_if_actual_does_not_contain_values() {
-    Object[] expected = { "Han", "Luke" };
+  @Test public void should_fail_if_actual_contains_given_values() {
+    int[] expected = { 6, 8, 20 };
     try {
-      arrays.assertContains(info, actual, expected);
+      arrays.assertDoesNotContain(info, actual, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContain(wrap(actual), wrap(expected), set("Han")));
+    verify(failures).failure(info, contains(wrap(actual), wrap(expected), set(6, 8)));
   }
 }

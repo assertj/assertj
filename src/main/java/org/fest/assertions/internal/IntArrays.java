@@ -1,5 +1,5 @@
 /*
- * Created on Nov 3, 2010
+ * Created on Dec 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,30 +19,30 @@ import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Reusable assertions for arrays of objects.
+ * Reusable assertions for arrays of {@code int}s.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrays {
+public class IntArrays {
 
-  private static final ObjectArrays INSTANCE = new ObjectArrays();
+  private static final IntArrays INSTANCE = new IntArrays();
 
   /**
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static ObjectArrays instance() {
+  public static IntArrays instance() {
     return INSTANCE;
   }
 
   private final Arrays arrays = Arrays.instance();
   private final Failures failures;
 
-  private ObjectArrays() {
+  private IntArrays() {
     this(Failures.instance());
   }
 
-  @VisibleForTesting ObjectArrays(Failures failures) {
+  @VisibleForTesting IntArrays(Failures failures) {
     this.failures = failures;
   }
 
@@ -52,7 +52,7 @@ public class ObjectArrays {
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
    */
-  public void assertNullOrEmpty(AssertionInfo info, Object[] actual) {
+  public void assertNullOrEmpty(AssertionInfo info, int[] actual) {
     arrays.assertNullOrEmpty(info, failures, actual);
   }
 
@@ -63,7 +63,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is not empty.
    */
-  public void assertEmpty(AssertionInfo info, Object[] actual) {
+  public void assertEmpty(AssertionInfo info, int[] actual) {
     arrays.assertEmpty(info, failures, actual);
   }
 
@@ -74,7 +74,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, Object[] actual) {
+  public void assertNotEmpty(AssertionInfo info, int[] actual) {
     arrays.assertNotEmpty(info, failures, actual);
   }
 
@@ -86,7 +86,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */
-  public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, int[] actual, int expectedSize) {
     arrays.assertHasSize(info, failures, actual, expectedSize);
   }
 
@@ -100,37 +100,37 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array does not contain the given values.
    */
-  public void assertContains(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContains(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertContains(info, failures, actual, values);
   }
 
   /**
-   * Verifies that the given array contains the given object at the given index.
+   * Verifies that the given array contains the given value at the given index.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param value the object to look for.
-   * @param index the index where the object should be stored in the given array.
+   * @param value the value to look for.
+   * @param index the index where the value should be stored in the given array.
    * @throws AssertionError if the given array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    * the given array.
-   * @throws AssertionError if the given array does not contain the given object at the given index.
+   * @throws AssertionError if the given array does not contain the given value at the given index.
    */
-  public void assertContains(AssertionInfo info, Object[] actual, Object value, Index index) {
+  public void assertContains(AssertionInfo info, int[] actual, int value, Index index) {
     arrays.assertContains(info, failures, actual, value, index);
   }
 
   /**
-   * Verifies that the given array does not contain the given object at the given index.
+   * Verifies that the given array does not contain the given value at the given index.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param value the object to look for.
-   * @param index the index where the object should be stored in the given array.
+   * @param value the value to look for.
+   * @param index the index where the value should be stored in the given array.
    * @throws AssertionError if the given array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws AssertionError if the given array contains the given object at the given index.
+   * @throws AssertionError if the given array contains the given value at the given index.
    */
-  public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object value, Index index) {
+  public void assertDoesNotContain(AssertionInfo info, int[] actual, int value, Index index) {
     arrays.assertDoesNotContain(info, failures, actual, value, index);
   }
 
@@ -145,21 +145,21 @@ public class ObjectArrays {
    * @throws AssertionError if the given array does not contain the given values or if the given
    * array contains values that are not in the given array.
    */
-  public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertContainsOnly(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
   /**
-   * Verifies that the given array contains the given sequence of objects, without any other objects between them.
+   * Verifies that the given array contains the given sequence of values, without any other values between them.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @throws AssertionError if the given array is {@code null}.
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws IllegalArgumentException if the given sequence is empty.
-   * @throws AssertionError if the given array does not contain the given sequence of objects.
+   * @throws AssertionError if the given array does not contain the given sequence of values.
    */
-  public void assertContainsSequence(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertContainsSequence(AssertionInfo info, int[] actual, int[] sequence) {
     arrays.assertContainsSequence(info, failures, actual, sequence);
   }
 
@@ -173,7 +173,7 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains any of given values.
    */
-  public void assertDoesNotContain(AssertionInfo info, Object[] actual, Object[] values) {
+  public void assertDoesNotContain(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertDoesNotContain(info, failures, actual, values);
   }
 
@@ -186,39 +186,39 @@ public class ObjectArrays {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the given array contains duplicate values.
    */
-  public void assertDoesNotHaveDuplicates(AssertionInfo info, Object[] actual) {
+  public void assertDoesNotHaveDuplicates(AssertionInfo info, int[] actual) {
     arrays.assertDoesNotHaveDuplicates(info, failures, actual);
   }
 
   /**
-   * Verifies that the given array starts with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
+   * Verifies that the given array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies
    * that the first element in the sequence is also the first element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not start with the given sequence of objects.
+   * @throws AssertionError if the given array does not start with the given sequence of values.
    */
-  public void assertStartsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertStartsWith(AssertionInfo info, int[] actual, int[] sequence) {
     arrays.assertStartsWith(info, failures, actual, sequence);
   }
 
   /**
-   * Verifies that the given array ends with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
+   * Verifies that the given array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies
    * that the last element in the sequence is also the last element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not end with the given sequence of objects.
+   * @throws AssertionError if the given array does not end with the given sequence of values.
    */
-  public void assertEndsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
+  public void assertEndsWith(AssertionInfo info, int[] actual, int[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
 }

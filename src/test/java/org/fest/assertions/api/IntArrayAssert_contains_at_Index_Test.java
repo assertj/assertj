@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,35 +15,36 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.util.Arrays.array;
+import static org.fest.assertions.data.Index.atIndex;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.ObjectArrays;
+import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.IntArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#containsOnly(Object...)}</code>.
+ * Tests for <code>{@link IntArrayAssert#contains(int, Index)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert_containsOnly_Test {
+public class IntArrayAssert_contains_at_Index_Test {
 
-  private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private IntArrays arrays;
+  private IntArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(new Object[0]);
+    arrays = mock(IntArrays.class);
+    assertions = new IntArrayAssert(new int[0]);
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_contains_given_values_only() {
-    assertions.containsOnly("Yoda", "Luke");
-    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, array("Yoda", "Luke"));
+  @Test public void should_verify_that_actual_contains_value_at_index() {
+    assertions.contains(8, atIndex(2));
+    verify(arrays).assertContains(assertions.info, assertions.actual, 8, atIndex(2));
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.containsOnly("Luke");
+    IntArrayAssert returned = assertions.contains(8, atIndex(6));
     assertSame(assertions, returned);
   }
 }

@@ -15,11 +15,11 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#contains(Object...)}</code>.
@@ -38,9 +38,8 @@ public class ObjectArrayAssert_contains_Test {
   }
 
   @Test public void should_verify_that_actual_contains_given_values() {
-    Object[] values = { "Yoda", "Luke" };
-    assertions.contains(values);
-    verify(arrays).assertContains(assertions.info, assertions.actual, values);
+    assertions.contains("Yoda", "Luke");
+    verify(arrays).assertContains(assertions.info, assertions.actual, array("Yoda", "Luke"));
   }
 
   @Test public void should_return_this() {

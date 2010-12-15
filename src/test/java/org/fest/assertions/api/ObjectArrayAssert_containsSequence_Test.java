@@ -38,7 +38,7 @@ public class ObjectArrayAssert_containsSequence_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_contains_value_at_index() {
+  @Test public void should_verify_that_actual_contains_sequence() {
     assertions.containsSequence("Luke", "Yoda");
     verify(arrays).assertContainsSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
