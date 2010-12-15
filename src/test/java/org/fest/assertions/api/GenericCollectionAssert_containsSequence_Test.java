@@ -20,15 +20,14 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link GenericCollectionAssert#containsSequence(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class GenericCollectionAssert_contains_Sequence_Test {
+public class GenericCollectionAssert_containsSequence_Test {
 
   private Collections collections;
   private ConcreteGenericCollectionAssert assertions;
@@ -39,7 +38,7 @@ public class GenericCollectionAssert_contains_Sequence_Test {
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_contains_value_at_index() {
+  @Test public void should_verify_that_actual_contains_sequence() {
     assertions.containsSequence("Luke", "Yoda");
     verify(collections).assertContainsSequence(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
