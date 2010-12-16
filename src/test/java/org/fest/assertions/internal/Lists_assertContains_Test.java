@@ -83,4 +83,8 @@ public class Lists_assertContains_Test {
     } catch (AssertionError e) {}
     verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", atIndex(1)));
   }
+
+  @Test public void should_pass_if_actual_contains_value_at_index() {
+    lists.assertContains(info, actual, "Luke", atIndex(1));
+  }
 }

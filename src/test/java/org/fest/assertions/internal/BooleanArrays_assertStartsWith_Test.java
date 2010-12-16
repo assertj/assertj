@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 15, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.test.Arrays.arrayOfInts;
+import static org.fest.assertions.test.Arrays.arrayOfBooleans;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -28,28 +28,28 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntArrays#assertStartsWith(AssertionInfo, int[], int[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertStartsWith(AssertionInfo, boolean[], boolean[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntArrays_assertStartsWith_Test {
+public class BooleanArrays_assertStartsWith_Test {
 
   private static WritableAssertionInfo info;
-  private static int[] actual;
+  private static boolean[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private IntArrays arrays;
+  private BooleanArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfInts(6, 8, 10, 12);
+    actual = arrayOfBooleans(true, false, false, true);
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new IntArrays(failures);
+    arrays = new BooleanArrays(failures);
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -59,16 +59,16 @@ public class IntArrays_assertStartsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertStartsWith(info, actual, new int[0]);
+    arrays.assertStartsWith(info, actual, new boolean[0]);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertStartsWith(info, null, arrayOfInts(8));
+    arrays.assertStartsWith(info, null, arrayOfBooleans(true));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
-    int[] sequence = { 6, 8, 10, 12, 20, 22 };
+    boolean[] sequence = { true, false, false, true, true, false };
     try {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
@@ -77,7 +77,7 @@ public class IntArrays_assertStartsWith_Test {
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
-    int[] sequence = { 8, 10 };
+    boolean[] sequence = { false, true };
     try {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
@@ -86,7 +86,7 @@ public class IntArrays_assertStartsWith_Test {
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
-    int[] sequence = { 6, 20 };
+    boolean[] sequence = { true, true };
     try {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
@@ -94,15 +94,15 @@ public class IntArrays_assertStartsWith_Test {
     assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWith(int[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotStartWith(boolean[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(info, actual, arrayOfInts(6, 8, 10));
+    arrays.assertStartsWith(info, actual, arrayOfBooleans(true, false));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(info, actual, arrayOfInts(6, 8, 10, 12));
+    arrays.assertStartsWith(info, actual, arrayOfBooleans(true, false, false, true));
   }
 }

@@ -19,6 +19,10 @@ package org.fest.assertions.test;
  */
 public final class Arrays {
 
+  public static boolean[] arrayOfBooleans(boolean...elements) {
+    return elements;
+  }
+
   public static int[] arrayOfInts(int...elements) {
     return elements;
   }

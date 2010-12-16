@@ -23,7 +23,8 @@ import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -79,5 +80,9 @@ public class IntArrays_assertContains_at_Index_Test {
       fail();
     } catch (AssertionError e) {}
     verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 6, atIndex(1)));
+  }
+
+  @Test public void should_pass_if_actual_contains_value_at_index() {
+    arrays.assertContains(info, actual, 8, atIndex(1));
   }
 }

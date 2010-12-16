@@ -81,4 +81,8 @@ public class ObjectArrays_assertContains_at_Index_Test {
     } catch (AssertionError e) {}
     verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), "Han", atIndex(1)));
   }
+
+  @Test public void should_pass_if_actual_contains_value_at_index() {
+    arrays.assertContains(info, actual, "Luke", atIndex(1));
+  }
 }

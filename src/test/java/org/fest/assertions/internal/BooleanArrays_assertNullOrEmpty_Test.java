@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 15, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,9 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -27,45 +26,42 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntArrays#assertHasSize(AssertionInfo, int[], int)}</code>.
+ * Tests for <code>{@link BooleanArrays#assertNullOrEmpty(AssertionInfo, boolean[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntArrays_assertHasSize_Test {
+public class BooleanArrays_assertNullOrEmpty_Test {
 
   private static WritableAssertionInfo info;
-  private static int[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private IntArrays arrays;
-
+  private BooleanArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = new int[] { 6, 8 };
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new IntArrays(failures);
+    arrays = new BooleanArrays(failures);
   }
 
-  @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
-    arrays.assertHasSize(info, null, 6);
-  }
-
-  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
+    boolean[] actual = new boolean[] { true, false };
     try {
-      arrays.assertHasSize(info, actual, 6);
+      arrays.assertNullOrEmpty(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(wrap(actual), 6));
+    verify(failures).failure(info, isNotNullOrEmpty(wrap(actual)));
   }
 
-  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(info, actual, 2);
+  @Test public void should_pass_if_array_is_null() {
+    arrays.assertNullOrEmpty(info, null);
+  }
+
+  @Test public void should_pass_if_array_is_empty() {
+    arrays.assertNullOrEmpty(info, new boolean[0]);
   }
 }
