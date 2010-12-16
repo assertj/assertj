@@ -57,6 +57,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link BooleanArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BooleanArrayAssert assertThat(boolean[] actual) {
+    return new BooleanArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ImageAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
