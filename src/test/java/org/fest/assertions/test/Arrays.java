@@ -23,6 +23,13 @@ public final class Arrays {
     return elements;
   }
 
+  public static byte[] arrayOfBytes(int...elements) {
+    int size = elements.length;
+    byte[] array = new byte[size];
+    for (int i = 0; i < size; i++) array[i] = (byte) elements[i];
+    return array;
+  }
+
   public static int[] arrayOfInts(int...elements) {
     return elements;
   }

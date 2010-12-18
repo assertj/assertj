@@ -93,6 +93,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ByteArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ByteArrayAssert assertThat(byte[] actual) {
+    return new ByteArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharacterAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
