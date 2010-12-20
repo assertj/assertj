@@ -19,7 +19,8 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Offset#offset(Integer)}</code>.

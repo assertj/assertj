@@ -16,7 +16,8 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Conditions;
+import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
 
 /**

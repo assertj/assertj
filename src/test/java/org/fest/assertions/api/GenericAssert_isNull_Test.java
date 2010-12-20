@@ -17,7 +17,8 @@ package org.fest.assertions.api;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link GenericAssert#isNull()}</code>.

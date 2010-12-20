@@ -16,9 +16,9 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
-import static org.fest.assertions.error.IsSame.isSame;
 import static org.fest.assertions.error.IsNotSame.isNotSame;
 import static org.fest.assertions.error.IsNull.isNull;
+import static org.fest.assertions.error.IsSame.isSame;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;

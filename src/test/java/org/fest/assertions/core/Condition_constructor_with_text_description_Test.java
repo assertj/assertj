@@ -19,7 +19,8 @@ import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#Condition(String)}</code>.

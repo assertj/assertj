@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.test.Arrays.arrayOfBooleans;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -25,6 +24,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -45,7 +45,7 @@ public class BooleanArrays_assertDoesNotContain_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBooleans(true, true);
+    actual = ArrayFactory.arrayOfBooleans(true, true);
   }
 
   @Before public void setUp() {
@@ -54,11 +54,11 @@ public class BooleanArrays_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, arrayOfBooleans(false));
+    arrays.assertDoesNotContain(info, actual, ArrayFactory.arrayOfBooleans(false));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, arrayOfBooleans(false, false));
+    arrays.assertDoesNotContain(info, actual, ArrayFactory.arrayOfBooleans(false, false));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
@@ -73,7 +73,7 @@ public class BooleanArrays_assertDoesNotContain_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, arrayOfBooleans(true));
+    arrays.assertDoesNotContain(info, null, ArrayFactory.arrayOfBooleans(true));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {

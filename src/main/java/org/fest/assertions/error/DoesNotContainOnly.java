@@ -17,7 +17,8 @@ package org.fest.assertions.error;
 import static java.lang.String.format;
 import static org.fest.util.Objects.*;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Set;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.formatting.ToStringConverter;

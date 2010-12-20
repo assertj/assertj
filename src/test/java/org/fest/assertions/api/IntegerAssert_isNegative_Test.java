@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Integers;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link IntegerAssert#isNegative()}</code>.

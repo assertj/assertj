@@ -15,11 +15,12 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.Arrays.arrayOfChars;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
-import org.junit.*;
+import org.fest.assertions.test.ArrayFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CharArrayAssert#containsSequence(char...)}</code>.
@@ -39,7 +40,7 @@ public class CharArrayAssert_containsSequence_Test {
 
   @Test public void should_verify_that_actual_contains_sequence() {
     assertions.containsSequence('a', 'b');
-    verify(arrays).assertContainsSequence(assertions.info, assertions.actual, arrayOfChars('a', 'b'));
+    verify(arrays).assertContainsSequence(assertions.info, assertions.actual, ArrayFactory.arrayOfChars('a', 'b'));
   }
 
   @Test public void should_return_this() {

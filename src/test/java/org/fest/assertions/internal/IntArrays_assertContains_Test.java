@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.test.Arrays.arrayOfInts;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -23,7 +22,9 @@ import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -48,29 +49,29 @@ public class IntArrays_assertContains_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfInts(6, 8, 10);
+    actual = ArrayFactory.arrayOfInts(6, 8, 10);
     arrays = new IntArrays(failures);
   }
 
   @Test public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(info, actual, arrayOfInts(6));
+    arrays.assertContains(info, actual, ArrayFactory.arrayOfInts(6));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(info, actual, arrayOfInts(8, 10));
+    arrays.assertContains(info, actual, ArrayFactory.arrayOfInts(8, 10));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(info, actual, arrayOfInts(6, 8, 10));
+    arrays.assertContains(info, actual, ArrayFactory.arrayOfInts(6, 8, 10));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = arrayOfInts(6, 8, 10, 10, 8);
-    arrays.assertContains(info, actual, arrayOfInts(8));
+    actual = ArrayFactory.arrayOfInts(6, 8, 10, 10, 8);
+    arrays.assertContains(info, actual, ArrayFactory.arrayOfInts(8));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(info, actual, arrayOfInts(6, 6));
+    arrays.assertContains(info, actual, ArrayFactory.arrayOfInts(6, 6));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
@@ -85,7 +86,7 @@ public class IntArrays_assertContains_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, arrayOfInts(8));
+    arrays.assertContains(info, null, ArrayFactory.arrayOfInts(8));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {

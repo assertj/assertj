@@ -15,14 +15,15 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.assertions.test.Arrays.arrayOfBytes;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -43,7 +44,7 @@ public class ByteArrays_assertContainsSequence_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBytes(6, 8, 10, 12);
+    actual = ArrayFactory.arrayOfBytes(6, 8, 10, 12);
   }
 
   @Before public void setUp() {
@@ -53,7 +54,7 @@ public class ByteArrays_assertContainsSequence_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsSequence(info, null, arrayOfBytes(8));
+    arrays.assertContainsSequence(info, null, ArrayFactory.arrayOfBytes(8));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -98,10 +99,10 @@ public class ByteArrays_assertContainsSequence_Test {
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(info, actual, arrayOfBytes(6, 8));
+    arrays.assertContainsSequence(info, actual, ArrayFactory.arrayOfBytes(6, 8));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(info, actual, arrayOfBytes(6, 8, 10, 12));
+    arrays.assertContainsSequence(info, actual, ArrayFactory.arrayOfBytes(6, 8, 10, 12));
   }
 }

@@ -18,7 +18,8 @@ import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.junit.*;
 
 /**

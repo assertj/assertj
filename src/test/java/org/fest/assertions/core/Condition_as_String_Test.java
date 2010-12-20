@@ -16,7 +16,8 @@ package org.fest.assertions.core;
 
 import static org.junit.Assert.*;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#as(String)}</code>.

@@ -24,7 +24,8 @@ import static org.mockito.Mockito.*;
 
 import java.awt.image.BufferedImage;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.junit.*;
 
 /**

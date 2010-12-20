@@ -15,11 +15,12 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.Arrays.arrayOfInts;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
-import org.junit.*;
+import org.fest.assertions.test.ArrayFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link IntArrayAssert#containsSequence(int...)}</code>.
@@ -39,7 +40,7 @@ public class IntArrayAssert_containsSequence_Test {
 
   @Test public void should_verify_that_actual_contains_sequence() {
     assertions.containsSequence(6, 8);
-    verify(arrays).assertContainsSequence(assertions.info, assertions.actual, arrayOfInts(6, 8));
+    verify(arrays).assertContainsSequence(assertions.info, assertions.actual, ArrayFactory.arrayOfInts(6, 8));
   }
 
   @Test public void should_return_this() {

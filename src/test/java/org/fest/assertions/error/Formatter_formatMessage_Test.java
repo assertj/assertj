@@ -20,7 +20,8 @@ import static org.mockito.Mockito.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.formatting.ToStringConverter;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Formatter#formatMessage(String, Description, Object...)}</code>.

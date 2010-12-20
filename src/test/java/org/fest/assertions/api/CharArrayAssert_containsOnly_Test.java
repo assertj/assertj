@@ -15,11 +15,12 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.Arrays.arrayOfChars;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
-import org.junit.*;
+import org.fest.assertions.test.ArrayFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CharArrayAssert#containsOnly(char...)}</code>.
@@ -39,7 +40,7 @@ public class CharArrayAssert_containsOnly_Test {
 
   @Test public void should_verify_that_actual_contains_given_values_only() {
     assertions.containsOnly('a', 'b');
-    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, arrayOfChars('a', 'b'));
+    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, ArrayFactory.arrayOfChars('a', 'b'));
   }
 
   @Test public void should_return_this() {

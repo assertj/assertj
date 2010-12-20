@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
 
-import org.fest.assertions.util.ArrayWrapperList;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;

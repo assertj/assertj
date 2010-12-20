@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.test.ExpectedException.none;
 
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Index#atIndex(int)}</code>.

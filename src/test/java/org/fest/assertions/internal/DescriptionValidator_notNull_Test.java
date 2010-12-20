@@ -18,9 +18,11 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.junit.Assert.*;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DescriptionValidations#notNull(org.fest.assertions.description.Description)}</code> and

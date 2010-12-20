@@ -20,7 +20,8 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ByteArrays;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ByteArrayAssert#doesNotContain(byte, Index)}</code>.

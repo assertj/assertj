@@ -17,7 +17,8 @@ package org.fest.assertions.formatting;
 import static org.fest.util.Strings.quote;
 import static org.junit.Assert.*;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ObjectToStringRule#toStringOf(Object)}</code>.

@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.RgbColor.color;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link RgbColor#equals(Object)}</code> and <code>{@link RgbColor#hashCode()}</code>.

@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.fest.assertions.test.TestData.someTextDescription;
 
-import org.fest.assertions.test.*;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**

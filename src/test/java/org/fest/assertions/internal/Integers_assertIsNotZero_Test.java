@@ -17,7 +17,8 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 

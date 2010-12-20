@@ -18,11 +18,10 @@ import static org.fest.util.Strings.quote;
 
 import java.awt.Dimension;
 import java.io.File;
-import java.util.*;
+import java.util.Collection;
+import java.util.Map;
 
 import org.fest.util.*;
-import org.fest.util.Arrays;
-import org.fest.util.Collections;
 
 /**
  * The {@code String} representation of an object.

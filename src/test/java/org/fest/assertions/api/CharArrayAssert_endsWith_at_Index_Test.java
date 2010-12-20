@@ -15,11 +15,12 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.Arrays.arrayOfChars;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
-import org.junit.*;
+import org.fest.assertions.test.ArrayFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CharArrayAssert#endsWith(char...)}</code>.
@@ -39,7 +40,7 @@ public class CharArrayAssert_endsWith_at_Index_Test {
 
   @Test public void should_verify_that_actual_ends_with_sequence() {
     assertions.endsWith('a', 'b');
-    verify(arrays).assertEndsWith(assertions.info, assertions.actual, arrayOfChars('a', 'b'));
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, ArrayFactory.arrayOfChars('a', 'b'));
   }
 
   @Test public void should_return_this() {

@@ -17,7 +17,8 @@ package org.fest.assertions.internal;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.*;
+import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.error.ErrorMessage;
 
 /**
  * Failure actions.

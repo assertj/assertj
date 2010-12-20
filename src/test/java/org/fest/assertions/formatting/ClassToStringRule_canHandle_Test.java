@@ -16,7 +16,8 @@ package org.fest.assertions.formatting;
 
 import static org.junit.Assert.*;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ClassToStringRule#canHandle(Object)}</code>.

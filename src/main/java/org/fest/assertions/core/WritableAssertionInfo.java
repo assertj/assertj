@@ -18,7 +18,8 @@ import static java.lang.String.format;
 import static org.fest.assertions.internal.DescriptionValidations.notNull;
 import static org.fest.util.Strings.quote;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.EmptyTextDescription;
 
 /**
  * Writable information about an assertion.

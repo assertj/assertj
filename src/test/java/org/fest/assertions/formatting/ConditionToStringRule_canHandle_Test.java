@@ -17,7 +17,8 @@ package org.fest.assertions.formatting;
 import static org.junit.Assert.*;
 
 import org.fest.assertions.core.TestCondition;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ConditionToStringRule#canHandle(Object)}</code>.

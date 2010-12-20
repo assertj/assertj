@@ -18,7 +18,8 @@ import static org.junit.Assert.*;
 
 import java.awt.Dimension;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DimensionToStringRule#canHandle(Object)}</code>.

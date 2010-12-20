@@ -15,11 +15,12 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.Arrays.arrayOfBooleans;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.BooleanArrays;
-import org.junit.*;
+import org.fest.assertions.test.ArrayFactory;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#endsWith(boolean...)}</code>.
@@ -39,7 +40,7 @@ public class BooleanArrayAssert_endsWith_at_Index_Test {
 
   @Test public void should_verify_that_actual_ends_with_sequence() {
     assertions.endsWith(true, false);
-    verify(arrays).assertEndsWith(assertions.info, assertions.actual, arrayOfBooleans(true, false));
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, ArrayFactory.arrayOfBooleans(true, false));
   }
 
   @Test public void should_return_this() {

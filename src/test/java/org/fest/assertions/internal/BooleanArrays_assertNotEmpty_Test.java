@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsEmpty.isEmpty;
-import static org.fest.assertions.test.Arrays.arrayOfBooleans;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
@@ -23,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -64,6 +64,6 @@ public class BooleanArrays_assertNotEmpty_Test {
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(info, arrayOfBooleans(true));
+    arrays.assertNotEmpty(info, ArrayFactory.arrayOfBooleans(true));
   }
 }

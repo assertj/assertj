@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.test.Arrays.arrayOfChars;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
@@ -23,6 +22,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -50,7 +50,7 @@ public class CharArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
-    char[] actual = arrayOfChars('a');
+    char[] actual = ArrayFactory.arrayOfChars('a');
     try {
       arrays.assertNullOrEmpty(info, actual);
       fail();

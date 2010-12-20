@@ -19,7 +19,8 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link FileToStringRule#canHandle(Object)}</code>.

@@ -17,8 +17,10 @@ package org.fest.assertions.error;
 import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
 import static org.junit.Assert.assertEquals;
 
-import org.fest.assertions.description.*;
-import org.junit.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link IsNotGreaterThan#create(Description)}</code>.

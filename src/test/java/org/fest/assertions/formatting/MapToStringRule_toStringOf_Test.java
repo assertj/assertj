@@ -16,9 +16,11 @@ package org.fest.assertions.formatting;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapToStringRule#toStringOf(Object)}</code>.

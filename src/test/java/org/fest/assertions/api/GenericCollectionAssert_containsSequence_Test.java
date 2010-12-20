@@ -20,7 +20,8 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link GenericCollectionAssert#containsSequence(Object...)}</code>.

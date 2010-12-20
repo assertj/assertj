@@ -23,6 +23,25 @@ import java.lang.reflect.Array;
  */
 public final class ArrayFactory {
 
+  public static boolean[] arrayOfBooleans(boolean...elements) {
+    return elements;
+  }
+
+  public static byte[] arrayOfBytes(int...elements) {
+    int size = elements.length;
+    byte[] array = new byte[size];
+    for (int i = 0; i < size; i++) array[i] = (byte) elements[i];
+    return array;
+  }
+
+  public static char[] arrayOfChars(char...elements) {
+    return elements;
+  }
+
+  public static int[] arrayOfInts(int...elements) {
+    return elements;
+  }
+
   public static Object emptyArrayOf(Class<?> componentType) {
     return Array.newInstance(componentType, 0);
   }

@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.core;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.EmptyTextDescription;
 
 /**
  * An object that has a description.

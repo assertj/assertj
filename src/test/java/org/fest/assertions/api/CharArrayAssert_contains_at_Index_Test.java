@@ -20,7 +20,8 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.CharArrays;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link CharArrayAssert#contains(char, Index)}</code>.

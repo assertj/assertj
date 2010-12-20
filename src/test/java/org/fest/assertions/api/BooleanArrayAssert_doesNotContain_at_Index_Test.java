@@ -20,7 +20,8 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.BooleanArrays;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#doesNotContain(boolean, Index)}</code>.
