@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,22 +16,22 @@ package org.fest.assertions.api;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.CharArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code boolean}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(boolean[])}</code>.
+ * Assertion methods for arrays of {@code char}s. To create an instance of this class, use the factory method
+ * <code>{@link Assertions#assertThat(char[])}</code>.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolean[]> implements EnumerableAssert<BooleanArrayAssert> {
+public class CharArrayAssert extends GenericAssert<CharArrayAssert, char[]> implements EnumerableAssert<CharArrayAssert> {
 
-  @VisibleForTesting BooleanArrays arrays = BooleanArrays.instance();
+  @VisibleForTesting CharArrays arrays = CharArrays.instance();
 
-  protected BooleanArrayAssert(boolean[] actual) {
-    super(actual, BooleanArrayAssert.class);
+  protected CharArrayAssert(char[] actual) {
+    super(actual, CharArrayAssert.class);
   }
 
   /** {@inheritDoc} */
@@ -45,13 +45,13 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
   }
 
   /** {@inheritDoc} */
-  public BooleanArrayAssert isNotEmpty() {
+  public CharArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public BooleanArrayAssert hasSize(int expected) {
+  public CharArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
@@ -65,7 +65,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
-  public BooleanArrayAssert contains(boolean... values) {
+  public CharArrayAssert contains(char... values) {
     arrays.assertContains(info, actual, values);
     return this;
   }
@@ -80,7 +80,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    * or none of the given values, or the actual array contains more values than the given ones.
    */
-  public BooleanArrayAssert containsOnly(boolean... values) {
+  public CharArrayAssert containsOnly(char... values) {
     arrays.assertContainsOnly(info, actual, values);
     return this;
   }
@@ -93,7 +93,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
-  public BooleanArrayAssert containsSequence(boolean... sequence) {
+  public CharArrayAssert containsSequence(char... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return this;
   }
@@ -109,7 +109,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
-  public BooleanArrayAssert contains(boolean value, Index index) {
+  public CharArrayAssert contains(char value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return this;
   }
@@ -123,7 +123,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains the given values.
    */
-  public BooleanArrayAssert doesNotContain(boolean... values) {
+  public CharArrayAssert doesNotContain(char... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return this;
   }
@@ -137,7 +137,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
-  public BooleanArrayAssert doesNotContain(boolean value, Index index) {
+  public CharArrayAssert doesNotContain(char value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return this;
   }
@@ -148,14 +148,14 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains duplicates.
    */
-  public BooleanArrayAssert doesNotHaveDuplicates() {
+  public CharArrayAssert doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return this;
   }
 
   /**
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the first element in the
+   * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
    * @param sequence the sequence of values to look for.
    * @return this assertion object.
@@ -164,14 +164,14 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
-  public BooleanArrayAssert startsWith(boolean... sequence) {
+  public CharArrayAssert startsWith(char... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return this;
   }
 
   /**
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the last element in the
+   * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
    * @param sequence the sequence of values to look for.
    * @return this assertion object.
@@ -180,7 +180,7 @@ public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolea
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
-  public BooleanArrayAssert endsWith(boolean... sequence) {
+  public CharArrayAssert endsWith(char... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }

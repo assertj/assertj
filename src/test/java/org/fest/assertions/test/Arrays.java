@@ -30,6 +30,10 @@ public final class Arrays {
     return array;
   }
 
+  public static char[] arrayOfChars(char...elements) {
+    return elements;
+  }
+
   public static int[] arrayOfInts(int...elements) {
     return elements;
   }

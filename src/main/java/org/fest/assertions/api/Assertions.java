@@ -15,7 +15,8 @@
 package org.fest.assertions.api;
 
 import java.awt.image.BufferedImage;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static
@@ -108,6 +109,15 @@ public class Assertions {
    */
   public static CharacterAssert assertThat(char actual) {
     return new CharacterAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static CharArrayAssert assertThat(char[] actual) {
+    return new CharArrayAssert(actual);
   }
 
   /**

@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,8 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.test.Arrays.arrayOfBytes;
+import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
+import static org.fest.assertions.test.Arrays.arrayOfChars;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -24,49 +25,58 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ByteArrays#assertHasSize(AssertionInfo, byte[], int)}</code>.
+ * Tests for <code>{@link CharArrays#assertDoesNotContain(AssertionInfo, char[], char, Index)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ByteArrays_assertHasSize_Test {
+public class CharArrays_assertDoesNotContain_at_Index_Test {
 
   private static WritableAssertionInfo info;
-  private static byte[] actual;
+  private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private ByteArrays arrays;
-
+  private CharArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBytes(6, 8);
+    actual = arrayOfChars('a', 'b', 'c');
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new ByteArrays(failures);
+    arrays = new CharArrays(failures);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertHasSize(info, null, 3);
+    arrays.assertDoesNotContain(info, null, 'a', atIndex(0));
   }
 
-  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  @Test public void should_pass_if_actual_is_empty() {
+    arrays.assertDoesNotContain(info, new char[0], 'a', atIndex(0));
+  }
+
+  @Test public void should_throw_error_if_Index_is_null() {
+    thrown.expectNullPointerException("Index should not be null");
+    arrays.assertDoesNotContain(info, actual, 'a', null);
+  }
+
+  @Test public void should_pass_if_Index_is_out_of_bounds() {
+    arrays.assertDoesNotContain(info, actual, 'a', atIndex(6));
+  }
+
+  @Test public void should_fail_if_actual_contains_value_at_index() {
     try {
-      arrays.assertHasSize(info, actual, 3);
+      arrays.assertDoesNotContain(info, actual, 'a', atIndex(0));
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(wrap(actual), 3));
-  }
-
-  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(info, actual, 2);
+    verify(failures).failure(info, containsAtIndex(wrap(actual), 'a', atIndex(0)));
   }
 }

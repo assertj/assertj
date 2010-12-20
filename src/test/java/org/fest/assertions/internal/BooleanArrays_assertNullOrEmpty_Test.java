@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.test.Arrays.arrayOfBooleans;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
@@ -49,7 +50,7 @@ public class BooleanArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
-    boolean[] actual = new boolean[] { true, false };
+    boolean[] actual = arrayOfBooleans(true, false);
     try {
       arrays.assertNullOrEmpty(info, actual);
       fail();

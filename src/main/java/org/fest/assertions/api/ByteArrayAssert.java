@@ -87,7 +87,7 @@ public class ByteArrayAssert extends GenericAssert<ByteArrayAssert, byte[]> impl
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @return this assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
@@ -154,10 +154,10 @@ public class ByteArrayAssert extends GenericAssert<ByteArrayAssert, byte[]> impl
   }
 
   /**
-   * Verifies that the actual array starts with the given sequence of objects, without any other objects between them.
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(byte...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
@@ -170,10 +170,10 @@ public class ByteArrayAssert extends GenericAssert<ByteArrayAssert, byte[]> impl
   }
 
   /**
-   * Verifies that the actual array ends with the given sequence of objects, without any other objects between them.
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(byte...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
-   * @param sequence the sequence of objects to look for.
+   * @param sequence the sequence of values to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
