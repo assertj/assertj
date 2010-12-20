@@ -184,6 +184,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link FloatArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static FloatArrayAssert assertThat(float[] actual) {
+    return new FloatArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IntegerAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
