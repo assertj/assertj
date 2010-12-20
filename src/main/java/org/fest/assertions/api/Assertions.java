@@ -247,6 +247,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link LongArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static LongArrayAssert assertThat(long[] actual) {
+    return new LongArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
