@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -62,6 +63,6 @@ public class IntArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_pass_if_array_is_empty() {
-    arrays.assertNullOrEmpty(info, new int[0]);
+    arrays.assertNullOrEmpty(info, emptyArray());
   }
 }

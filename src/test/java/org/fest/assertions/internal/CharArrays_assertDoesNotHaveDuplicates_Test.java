@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -51,7 +51,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfChars('a', 'b');
+    actual = array('a', 'b');
     collections = new CharArrays(failures);
   }
 
@@ -60,7 +60,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, new char[0]);
+    collections.assertDoesNotHaveDuplicates(info, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -70,7 +70,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test {
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<Character> duplicates = set('a', 'b');
-    actual = arrayOfChars('a', 'b', 'a', 'b');
+    actual = array('a', 'b', 'a', 'b');
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();

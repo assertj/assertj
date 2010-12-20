@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -26,12 +27,12 @@ import org.junit.Test;
 public class Assertions_assertThat_with_BooleanArray_Test {
 
   @Test public void should_create_Assert() {
-    BooleanArrayAssert assertions = Assertions.assertThat(new boolean[0]);
+    BooleanArrayAssert assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    boolean[] actual = new boolean[0];
+    boolean[] actual = emptyArray();
     BooleanArrayAssert assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }

@@ -15,9 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -51,7 +51,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfInts(6, 8);
+    actual = array(6, 8);
     collections = new IntArrays(failures);
   }
 
@@ -60,7 +60,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, new int[0]);
+    collections.assertDoesNotHaveDuplicates(info, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -70,7 +70,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test {
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<Integer> duplicates = set(6, 8);
-    actual = arrayOfInts(6, 8, 6, 8);
+    actual = array(6, 8, 6, 8);
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();

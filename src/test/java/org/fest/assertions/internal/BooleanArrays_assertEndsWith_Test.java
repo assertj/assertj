@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class BooleanArrays_assertEndsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBooleans(true, false, false, true);
+    actual = array(true, false, false, true);
   }
 
   @Before public void setUp() {
@@ -59,12 +59,12 @@ public class BooleanArrays_assertEndsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertEndsWith(info, actual, new boolean[0]);
+    arrays.assertEndsWith(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertEndsWith(info, null, arrayOfBooleans(true));
+    arrays.assertEndsWith(info, null, array(true));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class BooleanArrays_assertEndsWith_Test {
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(info, actual, arrayOfBooleans(false, true));
+    arrays.assertEndsWith(info, actual, array(false, true));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(info, actual, arrayOfBooleans(true, false, false, true));
+    arrays.assertEndsWith(info, actual, array(true, false, false, true));
   }
 }

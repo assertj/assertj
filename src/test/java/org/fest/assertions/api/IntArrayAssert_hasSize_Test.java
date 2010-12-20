@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
@@ -34,7 +35,7 @@ public class IntArrayAssert_hasSize_Test {
   @Before
   public void setUp() {
     collections = mock(IntArrays.class);
-    assertions = new IntArrayAssert(new int[0]);
+    assertions = new IntArrayAssert(emptyArray());
     assertions.arrays = collections;
   }
 

@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -35,7 +36,7 @@ public class BooleanArrayAssert_doesNotContain_at_Index_Test {
 
   @Before public void setUp() {
     arrays = mock(BooleanArrays.class);
-    assertions = new BooleanArrayAssert(new boolean[0]);
+    assertions = new BooleanArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

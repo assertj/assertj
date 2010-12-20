@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBytes;
+import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -51,7 +51,7 @@ public class ByteArrays_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfBytes(6, 8);
+    actual = array(6, 8);
     collections = new ByteArrays(failures);
   }
 
@@ -60,7 +60,7 @@ public class ByteArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, new byte[0]);
+    collections.assertDoesNotHaveDuplicates(info, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -70,7 +70,7 @@ public class ByteArrays_assertDoesNotHaveDuplicates_Test {
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<Byte> duplicates = set((byte)6, (byte)8);
-    actual = arrayOfBytes(6, 8, 6, 8);
+    actual = array(6, 8, 6, 8);
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();

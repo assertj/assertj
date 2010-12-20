@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -45,7 +45,7 @@ public class BooleanArrays_assertHasSize_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBooleans(true, false);
+    actual = array(true, false);
   }
 
   @Before public void setUp() {

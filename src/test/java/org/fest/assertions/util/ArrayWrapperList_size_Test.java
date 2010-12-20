@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.util;
 
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +37,7 @@ public class ArrayWrapperList_size_Test {
     return list(new Object[][] {
         { new int[] { 0, 1, 2 } },
         { new int[] { 0 } },
-        { new int[0] }
+        { emptyArray() }
     });
   }
 

@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -45,7 +45,7 @@ public class CharArrays_assertDoesNotContain_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfChars('a', 'b', 'c');
+    actual = array('a', 'b', 'c');
   }
 
   @Before public void setUp() {
@@ -54,16 +54,16 @@ public class CharArrays_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, arrayOfChars('d'));
+    arrays.assertDoesNotContain(info, actual, array('d'));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, arrayOfChars('d', 'd', 'e'));
+    arrays.assertDoesNotContain(info, actual, array('d', 'd', 'e'));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertDoesNotContain(info, actual, new char[0]);
+    arrays.assertDoesNotContain(info, actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
@@ -73,7 +73,7 @@ public class CharArrays_assertDoesNotContain_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, arrayOfChars('a'));
+    arrays.assertDoesNotContain(info, null, array('a'));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {

@@ -15,7 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
@@ -34,13 +34,13 @@ public class CharArrayAssert_containsOnly_Test {
 
   @Before public void setUp() {
     arrays = mock(CharArrays.class);
-    assertions = new CharArrayAssert(new char[0]);
+    assertions = new CharArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_contains_given_values_only() {
     assertions.containsOnly('a', 'b');
-    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, arrayOfChars('a', 'b'));
+    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, array('a', 'b'));
   }
 
   @Test public void should_return_this() {

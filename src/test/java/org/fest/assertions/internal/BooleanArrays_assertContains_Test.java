@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -49,34 +49,34 @@ public class BooleanArrays_assertContains_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfBooleans(true, false);
+    actual = array(true, false);
     arrays = new BooleanArrays(failures);
   }
 
   @Test public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(info, actual, arrayOfBooleans(true));
+    arrays.assertContains(info, actual, array(true));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(info, actual, arrayOfBooleans(false, true));
+    arrays.assertContains(info, actual, array(false, true));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(info, actual, arrayOfBooleans(true, false));
+    arrays.assertContains(info, actual, array(true, false));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = arrayOfBooleans(true, true, false, false);
-    arrays.assertContains(info, actual, arrayOfBooleans(true));
+    actual = array(true, true, false, false);
+    arrays.assertContains(info, actual, array(true));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(info, actual, arrayOfBooleans(true, true));
+    arrays.assertContains(info, actual, array(true, true));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertContains(info, actual, new boolean[0]);
+    arrays.assertContains(info, actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
@@ -86,11 +86,11 @@ public class BooleanArrays_assertContains_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, arrayOfBooleans(true));
+    arrays.assertContains(info, null, array(true));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {
-    actual = arrayOfBooleans(true);
+    actual = array(true);
     boolean[] expected = { false };
     try {
       arrays.assertContains(info, actual, expected);

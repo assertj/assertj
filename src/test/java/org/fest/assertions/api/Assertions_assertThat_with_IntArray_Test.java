@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -26,12 +27,12 @@ import org.junit.Test;
 public class Assertions_assertThat_with_IntArray_Test {
 
   @Test public void should_create_Assert() {
-    IntArrayAssert assertions = Assertions.assertThat(new int[0]);
+    IntArrayAssert assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    int[] actual = new int[0];
+    int[] actual = emptyArray();
     IntArrayAssert assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }

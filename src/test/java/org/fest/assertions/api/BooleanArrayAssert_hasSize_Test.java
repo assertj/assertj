@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.BooleanArrays;
@@ -34,7 +35,7 @@ public class BooleanArrayAssert_hasSize_Test {
   @Before
   public void setUp() {
     collections = mock(BooleanArrays.class);
-    assertions = new BooleanArrayAssert(new boolean[0]);
+    assertions = new BooleanArrayAssert(emptyArray());
     assertions.arrays = collections;
   }
 

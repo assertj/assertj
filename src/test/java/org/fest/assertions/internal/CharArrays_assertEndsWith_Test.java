@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class CharArrays_assertEndsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfChars('a', 'b', 'c', 'd');
+    actual = array('a', 'b', 'c', 'd');
   }
 
   @Before public void setUp() {
@@ -59,12 +59,12 @@ public class CharArrays_assertEndsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertEndsWith(info, actual, new char[0]);
+    arrays.assertEndsWith(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertEndsWith(info, null, arrayOfChars('a'));
+    arrays.assertEndsWith(info, null, array('a'));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class CharArrays_assertEndsWith_Test {
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(info, actual, arrayOfChars('b', 'c', 'd'));
+    arrays.assertEndsWith(info, actual, array('b', 'c', 'd'));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(info, actual, arrayOfChars('a', 'b', 'c', 'd'));
+    arrays.assertEndsWith(info, actual, array('a', 'b', 'c', 'd'));
   }
 }

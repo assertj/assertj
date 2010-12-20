@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
@@ -62,6 +63,6 @@ public class ByteArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_pass_if_array_is_empty() {
-    arrays.assertNullOrEmpty(info, new byte[0]);
+    arrays.assertNullOrEmpty(info, emptyArray());
   }
 }

@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -35,7 +36,7 @@ public class ByteArrayAssert_doesNotContain_at_Index_Test {
 
   @Before public void setUp() {
     arrays = mock(ByteArrays.class);
-    assertions = new ByteArrayAssert(new byte[0]);
+    assertions = new ByteArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

@@ -15,7 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
+import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
@@ -34,13 +34,13 @@ public class IntArrayAssert_doesNotContain_Test {
 
   @Before public void setUp() {
     arrays = mock(IntArrays.class);
-    assertions = new IntArrayAssert(new int[0]);
+    assertions = new IntArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_does_not_contain_given_values() {
     assertions.doesNotContain(6, 8);
-    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, arrayOfInts(6, 8));
+    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, array(6, 8));
   }
 
   @Test public void should_return_this() {

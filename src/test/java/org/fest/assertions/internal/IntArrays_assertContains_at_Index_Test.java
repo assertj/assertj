@@ -16,9 +16,9 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
-import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -46,7 +46,7 @@ public class IntArrays_assertContains_at_Index_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfInts(6, 8, 10);
+    actual = array(6, 8, 10);
   }
 
   @Before public void setUp() {
@@ -61,7 +61,7 @@ public class IntArrays_assertContains_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    arrays.assertContains(info, new int[0], 8, atIndex(0));
+    arrays.assertContains(info, emptyArray(), 8, atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {

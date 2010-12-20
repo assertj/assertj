@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class CharArrays_assertStartsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfChars('a', 'b', 'c', 'd');
+    actual = array('a', 'b', 'c', 'd');
   }
 
   @Before public void setUp() {
@@ -59,12 +59,12 @@ public class CharArrays_assertStartsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertStartsWith(info, actual, new char[0]);
+    arrays.assertStartsWith(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertStartsWith(info, null, arrayOfChars('a'));
+    arrays.assertStartsWith(info, null, array('a'));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class CharArrays_assertStartsWith_Test {
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(info, actual, arrayOfChars('a', 'b', 'c'));
+    arrays.assertStartsWith(info, actual, array('a', 'b', 'c'));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(info, actual, arrayOfChars('a', 'b', 'c', 'd'));
+    arrays.assertStartsWith(info, actual, array('a', 'b', 'c', 'd'));
   }
 }

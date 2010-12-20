@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -35,7 +36,7 @@ public class CharArrayAssert_contains_at_Index_Test {
 
   @Before public void setUp() {
     arrays = mock(CharArrays.class);
-    assertions = new CharArrayAssert(new char[0]);
+    assertions = new CharArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

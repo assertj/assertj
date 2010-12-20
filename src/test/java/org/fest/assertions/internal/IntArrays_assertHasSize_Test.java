@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
+import static org.fest.assertions.test.IntArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -45,7 +45,7 @@ public class IntArrays_assertHasSize_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfInts(6, 8);
+    actual = array(6, 8);
   }
 
   @Before public void setUp() {

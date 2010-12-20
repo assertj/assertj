@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class BooleanArrays_assertContainsSequence_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBooleans(true, false, false, true);
+    actual = array(true, false, false, true);
   }
 
   @Before public void setUp() {
@@ -54,7 +54,7 @@ public class BooleanArrays_assertContainsSequence_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsSequence(info, null, arrayOfBooleans(true));
+    arrays.assertContainsSequence(info, null, array(true));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -64,7 +64,7 @@ public class BooleanArrays_assertContainsSequence_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertContainsSequence(info, actual, new boolean[0]);
+    arrays.assertContainsSequence(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class BooleanArrays_assertContainsSequence_Test {
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(info, actual, arrayOfBooleans(true, false));
+    arrays.assertContainsSequence(info, actual, array(true, false));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(info, actual, arrayOfBooleans(true, false, false, true));
+    arrays.assertContainsSequence(info, actual, array(true, false, false, true));
   }
 }

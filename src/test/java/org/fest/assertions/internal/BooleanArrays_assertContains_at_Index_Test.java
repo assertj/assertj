@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -46,7 +46,7 @@ public class BooleanArrays_assertContains_at_Index_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBooleans(true, false);
+    actual = array(true, false);
   }
 
   @Before public void setUp() {
@@ -61,7 +61,7 @@ public class BooleanArrays_assertContains_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    arrays.assertContains(info, new boolean[0], true, atIndex(0));
+    arrays.assertContains(info, emptyArray(), true, atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {

@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -26,12 +27,12 @@ import org.junit.Test;
 public class Assertions_assertThat_with_CharArray_Test {
 
   @Test public void should_create_Assert() {
-    CharArrayAssert assertions = Assertions.assertThat(new char[0]);
+    CharArrayAssert assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    char[] actual = new char[0];
+    char[] actual = emptyArray();
     CharArrayAssert assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }

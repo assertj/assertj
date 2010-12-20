@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBytes;
+import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -45,7 +45,7 @@ public class ByteArrays_assertDoesNotContain_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBytes(6, 8, 10);
+    actual = array(6, 8, 10);
   }
 
   @Before public void setUp() {
@@ -54,16 +54,16 @@ public class ByteArrays_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, arrayOfBytes(12));
+    arrays.assertDoesNotContain(info, actual, array(12));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, arrayOfBytes(12, 12, 20));
+    arrays.assertDoesNotContain(info, actual, array(12, 12, 20));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertDoesNotContain(info, actual, new byte[0]);
+    arrays.assertDoesNotContain(info, actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
@@ -73,7 +73,7 @@ public class ByteArrays_assertDoesNotContain_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, arrayOfBytes(8));
+    arrays.assertDoesNotContain(info, null, array(8));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {

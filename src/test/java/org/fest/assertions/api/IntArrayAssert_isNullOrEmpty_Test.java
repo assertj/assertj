@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
@@ -32,7 +33,7 @@ public class IntArrayAssert_isNullOrEmpty_Test {
 
   @Before public void setUp() {
     arrays = mock(IntArrays.class);
-    assertions = new IntArrayAssert(new int[0]);
+    assertions = new IntArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

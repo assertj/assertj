@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -64,6 +65,6 @@ public class IntArrays_assertEmpty_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(info, new int[0]);
+    arrays.assertEmpty(info, emptyArray());
   }
 }

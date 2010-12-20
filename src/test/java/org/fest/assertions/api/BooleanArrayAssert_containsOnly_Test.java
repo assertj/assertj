@@ -15,7 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.BooleanArrays;
@@ -34,13 +34,13 @@ public class BooleanArrayAssert_containsOnly_Test {
 
   @Before public void setUp() {
     arrays = mock(BooleanArrays.class);
-    assertions = new BooleanArrayAssert(new boolean[0]);
+    assertions = new BooleanArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_contains_given_values_only() {
     assertions.containsOnly(true, false);
-    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, arrayOfBooleans(true, false));
+    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, array(true, false));
   }
 
   @Test public void should_return_this() {

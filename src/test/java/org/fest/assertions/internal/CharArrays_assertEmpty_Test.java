@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
+import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -64,6 +65,6 @@ public class CharArrays_assertEmpty_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(info, new char[0]);
+    arrays.assertEmpty(info, emptyArray());
   }
 }

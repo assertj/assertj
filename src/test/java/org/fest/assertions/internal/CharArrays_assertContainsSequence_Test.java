@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class CharArrays_assertContainsSequence_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfChars('a', 'b', 'c', 'd');
+    actual = array('a', 'b', 'c', 'd');
   }
 
   @Before public void setUp() {
@@ -54,7 +54,7 @@ public class CharArrays_assertContainsSequence_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsSequence(info, null, arrayOfChars('a'));
+    arrays.assertContainsSequence(info, null, array('a'));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -64,7 +64,7 @@ public class CharArrays_assertContainsSequence_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertContainsSequence(info, actual, new char[0]);
+    arrays.assertContainsSequence(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class CharArrays_assertContainsSequence_Test {
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(info, actual, arrayOfChars('a', 'b'));
+    arrays.assertContainsSequence(info, actual, array('a', 'b'));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(info, actual, arrayOfChars('a', 'b', 'c', 'd'));
+    arrays.assertContainsSequence(info, actual, array('a', 'b', 'c', 'd'));
   }
 }

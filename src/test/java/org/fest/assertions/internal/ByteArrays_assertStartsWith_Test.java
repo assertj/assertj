@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBytes;
+import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -44,7 +44,7 @@ public class ByteArrays_assertStartsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = arrayOfBytes(6, 8, 10, 12);
+    actual = array(6, 8, 10, 12);
   }
 
   @Before public void setUp() {
@@ -59,12 +59,12 @@ public class ByteArrays_assertStartsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
-    arrays.assertStartsWith(info, actual, new byte[0]);
+    arrays.assertStartsWith(info, actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertStartsWith(info, null, arrayOfBytes(8));
+    arrays.assertStartsWith(info, null, array(8));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class ByteArrays_assertStartsWith_Test {
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(info, actual, arrayOfBytes(6, 8, 10));
+    arrays.assertStartsWith(info, actual, array(6, 8, 10));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(info, actual, arrayOfBytes(6, 8, 10, 12));
+    arrays.assertStartsWith(info, actual, array(6, 8, 10, 12));
   }
 }

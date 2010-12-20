@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ByteArrays;
@@ -33,7 +34,7 @@ public class ByteArrayAssert_isEmpty_Test {
   @Before
   public void setUp() {
     arrays = mock(ByteArrays.class);
-    assertions = new ByteArrayAssert(new byte[0]);
+    assertions = new ByteArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

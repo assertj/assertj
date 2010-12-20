@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
@@ -26,12 +27,12 @@ import org.junit.Test;
 public class Assertions_assertThat_with_ByteArray_Test {
 
   @Test public void should_create_Assert() {
-    ByteArrayAssert assertions = Assertions.assertThat(new byte[0]);
+    ByteArrayAssert assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    byte[] actual = new byte[0];
+    byte[] actual = emptyArray();
     ByteArrayAssert assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }

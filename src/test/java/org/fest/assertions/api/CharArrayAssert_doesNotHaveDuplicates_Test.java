@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
@@ -33,7 +34,7 @@ public class CharArrayAssert_doesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     arrays = mock(CharArrays.class);
-    assertions = new CharArrayAssert(new char[0]);
+    assertions = new CharArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 

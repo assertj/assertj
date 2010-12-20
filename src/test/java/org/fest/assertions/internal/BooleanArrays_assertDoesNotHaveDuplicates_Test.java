@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -51,7 +51,7 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = arrayOfBooleans(true, false);
+    actual = array(true, false);
     collections = new BooleanArrays(failures);
   }
 
@@ -60,7 +60,7 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, new boolean[0]);
+    collections.assertDoesNotHaveDuplicates(info, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -70,7 +70,7 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test {
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     Collection<Boolean> duplicates = set(true);
-    actual = arrayOfBooleans(true, true, false);
+    actual = array(true, true, false);
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();

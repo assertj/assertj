@@ -157,6 +157,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link DoubleArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static DoubleArrayAssert assertThat(double[] actual) {
+    return new DoubleArrayAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.

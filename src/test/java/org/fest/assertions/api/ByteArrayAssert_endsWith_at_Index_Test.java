@@ -15,7 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ArrayFactory.arrayOfBytes;
+import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ByteArrays;
@@ -34,13 +34,13 @@ public class ByteArrayAssert_endsWith_at_Index_Test {
 
   @Before public void setUp() {
     arrays = mock(ByteArrays.class);
-    assertions = new ByteArrayAssert(new byte[0]);
+    assertions = new ByteArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_ends_with_sequence() {
     assertions.endsWith((byte)6, (byte)8);
-    verify(arrays).assertEndsWith(assertions.info, assertions.actual, arrayOfBytes(6, 8));
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array(6, 8));
   }
 
   @Test public void should_return_this() {
