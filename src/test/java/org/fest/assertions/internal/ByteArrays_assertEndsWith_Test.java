@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
+import static org.fest.assertions.test.ArrayFactory.arrayOfBytes;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -23,7 +24,6 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -44,7 +44,7 @@ public class ByteArrays_assertEndsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = ArrayFactory.arrayOfBytes(6, 8, 10, 12);
+    actual = arrayOfBytes(6, 8, 10, 12);
   }
 
   @Before public void setUp() {
@@ -64,7 +64,7 @@ public class ByteArrays_assertEndsWith_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertEndsWith(info, null, ArrayFactory.arrayOfBytes(8));
+    arrays.assertEndsWith(info, null, arrayOfBytes(8));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class ByteArrays_assertEndsWith_Test {
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(info, actual, ArrayFactory.arrayOfBytes(8, 10, 12));
+    arrays.assertEndsWith(info, actual, arrayOfBytes(8, 10, 12));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(info, actual, ArrayFactory.arrayOfBytes(6, 8, 10, 12));
+    arrays.assertEndsWith(info, actual, arrayOfBytes(6, 8, 10, 12));
   }
 }

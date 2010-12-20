@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
+import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -25,7 +26,6 @@ import static org.mockito.Mockito.*;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -46,7 +46,7 @@ public class IntArrays_assertContains_at_Index_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = ArrayFactory.arrayOfInts(6, 8, 10);
+    actual = arrayOfInts(6, 8, 10);
   }
 
   @Before public void setUp() {

@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -23,7 +24,6 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -44,7 +44,7 @@ public class BooleanArrays_assertStartsWith_Test {
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = ArrayFactory.arrayOfBooleans(true, false, false, true);
+    actual = arrayOfBooleans(true, false, false, true);
   }
 
   @Before public void setUp() {
@@ -64,7 +64,7 @@ public class BooleanArrays_assertStartsWith_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertStartsWith(info, null, ArrayFactory.arrayOfBooleans(true));
+    arrays.assertStartsWith(info, null, arrayOfBooleans(true));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -99,10 +99,10 @@ public class BooleanArrays_assertStartsWith_Test {
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(info, actual, ArrayFactory.arrayOfBooleans(true, false));
+    arrays.assertStartsWith(info, actual, arrayOfBooleans(true, false));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(info, actual, ArrayFactory.arrayOfBooleans(true, false, false, true));
+    arrays.assertStartsWith(info, actual, arrayOfBooleans(true, false, false, true));
   }
 }

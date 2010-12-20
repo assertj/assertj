@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.test.ArrayFactory.arrayOfChars;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -24,7 +25,6 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -49,29 +49,29 @@ public class CharArrays_assertContains_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = ArrayFactory.arrayOfChars('a', 'b', 'c');
+    actual = arrayOfChars('a', 'b', 'c');
     arrays = new CharArrays(failures);
   }
 
   @Test public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(info, actual, ArrayFactory.arrayOfChars('a'));
+    arrays.assertContains(info, actual, arrayOfChars('a'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(info, actual, ArrayFactory.arrayOfChars('c', 'b'));
+    arrays.assertContains(info, actual, arrayOfChars('c', 'b'));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(info, actual, ArrayFactory.arrayOfChars('a', 'b', 'c'));
+    arrays.assertContains(info, actual, arrayOfChars('a', 'b', 'c'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = ArrayFactory.arrayOfChars('a', 'b', 'c', 'c', 'b');
-    arrays.assertContains(info, actual, ArrayFactory.arrayOfChars('b'));
+    actual = arrayOfChars('a', 'b', 'c', 'c', 'b');
+    arrays.assertContains(info, actual, arrayOfChars('b'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(info, actual, ArrayFactory.arrayOfChars('a', 'a'));
+    arrays.assertContains(info, actual, arrayOfChars('a', 'a'));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
@@ -86,7 +86,7 @@ public class CharArrays_assertContains_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, ArrayFactory.arrayOfChars('a'));
+    arrays.assertContains(info, null, arrayOfChars('a'));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {

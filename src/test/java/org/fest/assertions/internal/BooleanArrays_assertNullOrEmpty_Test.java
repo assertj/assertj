@@ -22,7 +22,6 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ArrayFactory;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -50,7 +49,7 @@ public class BooleanArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
-    boolean[] actual = ArrayFactory.arrayOfBooleans(true, false);
+    boolean[] actual = { true, false };
     try {
       arrays.assertNullOrEmpty(info, actual);
       fail();

@@ -15,10 +15,10 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.ArrayFactory.arrayOfBooleans;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.BooleanArrays;
-import org.fest.assertions.test.ArrayFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class BooleanArrayAssert_contains_Test {
 
   @Test public void should_verify_that_actual_contains_given_values() {
     assertions.contains(true, false);
-    verify(arrays).assertContains(assertions.info, assertions.actual, ArrayFactory.arrayOfBooleans(true, false));
+    verify(arrays).assertContains(assertions.info, assertions.actual, arrayOfBooleans(true, false));
   }
 
   @Test public void should_return_this() {

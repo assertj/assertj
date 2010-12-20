@@ -15,10 +15,10 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.ArrayFactory.arrayOfInts;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
-import org.fest.assertions.test.ArrayFactory;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class IntArrayAssert_containsOnly_Test {
 
   @Test public void should_verify_that_actual_contains_given_values_only() {
     assertions.containsOnly(6, 8);
-    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, ArrayFactory.arrayOfInts(6, 8));
+    verify(arrays).assertContainsOnly(assertions.info, assertions.actual, arrayOfInts(6, 8));
   }
 
   @Test public void should_return_this() {
