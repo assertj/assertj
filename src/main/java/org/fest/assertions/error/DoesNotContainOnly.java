@@ -15,6 +15,7 @@
 package org.fest.assertions.error;
 
 import static java.lang.String.format;
+import static org.fest.util.Collections.isEmpty;
 import static org.fest.util.Objects.*;
 
 import java.util.Collection;
@@ -22,7 +23,6 @@ import java.util.Set;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.formatting.ToStringConverter;
-import org.fest.assertions.group.IsNullOrEmptyChecker;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -32,10 +32,10 @@ import org.fest.assertions.group.IsNullOrEmptyChecker;
  */
 public class DoesNotContainOnly implements ErrorMessage {
 
-  private final Object actual;
-  private final Object expected;
-  private final Object notExpected;
-  private final Object notFound;
+  private final Collection<?> actual;
+  private final Collection<?> expected;
+  private final Set<?> notExpected;
+  private final Set<?> notFound;
 
   /**
    * Creates a new </code>{@link DoesNotContainOnly}</code>.
@@ -50,7 +50,7 @@ public class DoesNotContainOnly implements ErrorMessage {
     return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
-  private DoesNotContainOnly(Object actual, Object expected, Object notExpected, Object notFound) {
+  private DoesNotContainOnly(Collection<?> actual, Collection<?> expected, Set<?> notExpected, Set<?> notFound) {
     this.actual = actual;
     this.expected = expected;
     this.notExpected = notExpected;
@@ -59,13 +59,9 @@ public class DoesNotContainOnly implements ErrorMessage {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    if (isNullOrEmpty(notExpected)) return includeOnlyNotFound(d);
-    if (isNullOrEmpty(notFound)) return includeOnlyNotExpected(d);
+    if (isEmpty(notExpected)) return includeOnlyNotFound(d);
+    if (isEmpty(notFound)) return includeOnlyNotExpected(d);
     return defaultMessage(d);
-  }
-
-  private static boolean isNullOrEmpty(Object o) {
-    return IsNullOrEmptyChecker.instance().isNullOrEmpty(o);
   }
 
   private String includeOnlyNotFound(Description d) {
