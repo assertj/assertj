@@ -37,7 +37,7 @@ public class LongArrayAssert_isNullOrEmpty_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_value_is_same_as_expected_value() {
+  @Test public void should_verify_actual_is_null_or_empty() {
     assertions.isNullOrEmpty();
     verify(arrays).assertNullOrEmpty(assertions.info, assertions.actual);
   }

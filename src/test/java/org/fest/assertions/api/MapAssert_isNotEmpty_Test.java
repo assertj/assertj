@@ -1,5 +1,5 @@
 /*
- * Created on Dec 20, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,36 +14,36 @@
  */
 package org.fest.assertions.api;
 
+import static java.util.Collections.emptyMap;
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.Maps;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongArrayAssert#hasSize(int)}</code>.
+ * Tests for <code>{@link MapAssert#isNotEmpty()}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongArrayAssert_hasSize_Test {
+public class MapAssert_isNotEmpty_Test {
 
-  private LongArrays collections;
-  private LongArrayAssert assertions;
+  private Maps maps;
+  private MapAssert assertions;
 
   @Before public void setUp() {
-    collections = mock(LongArrays.class);
-    assertions = new LongArrayAssert(emptyArray());
-    assertions.arrays = collections;
+    maps = mock(Maps.class);
+    assertions = new MapAssert(emptyMap());
+    assertions.maps = maps;
   }
 
-  @Test public void should_verify_that_actual_has_expected_size() {
-    assertions.hasSize(6);
-    verify(collections).assertHasSize(assertions.info, assertions.actual, 6);
+  @Test public void should_verify_that_actual_is_not_empty() {
+    assertions.isNotEmpty();
+    verify(maps).assertNotEmpty(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    LongArrayAssert returned = assertions.hasSize(0);
+    MapAssert returned = assertions.isNotEmpty();
     assertSame(assertions, returned);
   }
 }

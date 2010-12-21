@@ -121,7 +121,7 @@ public class ShortArrayAssert extends GenericAssert<ShortArrayAssert, short[]> i
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array contains the given values.
+   * @throws AssertionError if the actual array contains any of the given values.
    */
   public ShortArrayAssert doesNotContain(short... values) {
     arrays.assertDoesNotContain(info, actual, values);

@@ -67,7 +67,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains the given values.
+   * @throws AssertionError if the actual group contains any of the given values.
    */
   S doesNotContain(Object... values);
 

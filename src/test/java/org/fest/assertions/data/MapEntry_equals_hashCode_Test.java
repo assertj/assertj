@@ -1,5 +1,5 @@
 /*
- * Created on Oct 30, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,49 +15,49 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertFalse;
-import static org.fest.assertions.data.Offset.offset;
+import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Offset#equals(Object)}</code> and <code>{@link Offset#hashCode()}</code>.
+ * Tests for <code>{@link MapEntry#equals(Object)}</code> and <code>{@link MapEntry#hashCode()}</code>.
  *
  * @author Alex Ruiz
  */
-public class Offset_equals_hashCode_Test {
+public class MapEntry_equals_hashCode_Test {
 
-  private static Offset<Integer> offset;
+  private static MapEntry entry;
 
   @BeforeClass public static void setUpOnce() {
-    offset = offset(8);
+    entry = entry("key", "value");
   }
 
   @Test public void should_have_reflexive_equals() {
-    assertEqualsIsReflexive(offset);
+    assertEqualsIsReflexive(entry);
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(offset, offset(8));
+    assertEqualsIsSymmetric(entry, entry("key", "value"));
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(offset, offset(8), offset(8));
+    assertEqualsIsTransitive(entry, entry("key", "value"), entry("key", "value"));
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(offset, offset(8));
+    assertMaintainsEqualsAndHashCodeContract(entry, entry("key", "value"));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(offset.equals("8"));
+    assertFalse(entry.equals("{'key', 'value'}"));
   }
 
   @Test public void should_not_be_equal_to_null() {
-    assertFalse(offset.equals(null));
+    assertFalse(entry.equals(null));
   }
 
   @Test public void should_not_be_equal_to_Offset_with_different_value() {
-    assertFalse(offset.equals(offset(6)));
+    assertFalse(entry.equals(entry("key0", "value0")));
   }
 }

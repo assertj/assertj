@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,31 +12,27 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.data;
 
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertEquals;
+import static org.fest.assertions.data.MapEntry.entry;
 
-import org.fest.assertions.internal.ObjectArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#isEmpty()}</code>.
+ * Tests for <code>{@link MapEntry#toString()}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert_isEmpty_Test {
+public class MapEntry_toString_Test {
 
-  private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private static MapEntry entry;
 
-  @Before public void setUp() {
-    arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(new Object[0]);
-    assertions.arrays = arrays;
+  @BeforeClass public static void setUpOnce() {
+    entry = entry("name", "Yoda");
   }
 
-  @Test public void should_verify_that_actual_is_empty() {
-    assertions.isEmpty();
-    verify(arrays).assertEmpty(assertions.info, assertions.actual);
+  @Test public void should_implement_toString() {
+    assertEquals("MapEntry[key='name', value='Yoda']", entry.toString());
   }
 }

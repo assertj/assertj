@@ -18,6 +18,8 @@ import java.util.Map;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.MapEntry;
+import org.fest.assertions.internal.Maps;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertions for <code>{@link Map}</code>s.
@@ -31,49 +33,59 @@ import org.fest.assertions.data.MapEntry;
  */
 public class MapAssert extends GenericAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert> {
 
+  @VisibleForTesting Maps maps = Maps.instance();
+
   protected MapAssert(Map<?, ?> actual) {
     super(actual, MapAssert.class);
   }
 
   /** {@inheritDoc} */
   public void isNullOrEmpty() {
-    // TODO Auto-generated method stub
+    maps.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   public void isEmpty() {
-    // TODO Auto-generated method stub
+    maps.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   public MapAssert isNotEmpty() {
-    // TODO Auto-generated method stub
-    return null;
+    maps.assertNotEmpty(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */
   public MapAssert hasSize(int expected) {
-    // TODO Auto-generated method stub
-    return null;
+    maps.assertHasSize(info, actual, expected);
+    return this;
   }
 
   /**
-   *
-   * @param entries
-   * @return
+   * Verifies that the actual map contains the given entries, in any order.
+   * @param entries the given entries.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given entries.
    */
   public MapAssert contains(MapEntry...entries) {
-    // TODO implement
-    return null;
+    maps.assertContains(info, actual, entries);
+    return this;
   }
 
   /**
-   *
-   * @param entries
-   * @return
+   * Verifies that the actual map does not contain the given entries.
+   * @param entries the given entries.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains any of the given entries.
    */
   public MapAssert doesNotContain(MapEntry...entries) {
-    // TODO implement
-    return null;
+    maps.assertDoesNotContain(info, actual, entries);
+    return this;
   }
 }

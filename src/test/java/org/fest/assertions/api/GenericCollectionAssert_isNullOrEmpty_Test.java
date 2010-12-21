@@ -38,7 +38,7 @@ public class GenericCollectionAssert_isNullOrEmpty_Test {
     assertions.collections = collections;
   }
 
-  @Test public void should_verify_that_actual_value_is_same_as_expected_value() {
+  @Test public void should_verify_actual_is_null_or_empty() {
     assertions.isNullOrEmpty();
     verify(collections).assertNullOrEmpty(assertions.info, assertions.actual);
   }

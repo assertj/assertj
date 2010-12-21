@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,29 +14,31 @@
  */
 package org.fest.assertions.api;
 
-import static org.mockito.Mockito.*;
+import static java.util.Collections.emptyMap;
+import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.ObjectArrays;
+import org.fest.assertions.internal.Maps;
 import org.junit.*;
+import org.mockito.Mockito;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#isEmpty()}</code>.
+ * Tests for <code>{@link MapAssert#isEmpty()}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert_isEmpty_Test {
+public class MapAssert_isEmpty_Test {
 
-  private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private Maps maps;
+  private MapAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(new Object[0]);
-    assertions.arrays = arrays;
+    maps = mock(Maps.class);
+    assertions = new MapAssert(emptyMap());
+    assertions.maps = maps;
   }
 
   @Test public void should_verify_that_actual_is_empty() {
     assertions.isEmpty();
-    verify(arrays).assertEmpty(assertions.info, assertions.actual);
+    Mockito.verify(maps).assertEmpty(assertions.info, assertions.actual);
   }
 }
