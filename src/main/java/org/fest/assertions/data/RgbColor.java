@@ -70,7 +70,6 @@ public final class RgbColor {
     return abs(b - color.b) <= offsetValue;
   }
 
-  /** {@inheritDoc} */
   @Override public int hashCode() {
     int result = 1;
     result = HASH_CODE_PRIME * result + r;
@@ -79,7 +78,6 @@ public final class RgbColor {
     return result;
   }
 
-  /** {@inheritDoc} */
   @Override public boolean equals(Object obj) {
     if (this == obj) return true;
     if (obj == null) return false;

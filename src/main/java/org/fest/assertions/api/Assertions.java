@@ -15,8 +15,7 @@
 package org.fest.assertions.api;
 
 import java.awt.image.BufferedImage;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static
@@ -262,6 +261,16 @@ public class Assertions {
    */
   public static ObjectArrayAssert assertThat(Object[] actual) {
     return new ObjectArrayAssert(actual);
+  }
+
+
+  /**
+   * Creates a new instance of <code>{@link MapAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static MapAssert assertThat(Map<?, ?> actual) {
+    return new MapAssert(actual);
   }
 
   /**
