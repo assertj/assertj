@@ -282,6 +282,15 @@ public class Assertions {
     return new ShortAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ShortArrayAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ShortArrayAssert assertThat(short[] actual) {
+    return new ShortArrayAssert(actual);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }
