@@ -15,14 +15,12 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
+import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -55,7 +53,7 @@ public class FloatArrays_assertNullOrEmpty_Test {
       arrays.assertNullOrEmpty(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotNullOrEmpty(wrap(actual)));
+    verify(failures).failure(info, isNotNullOrEmpty(actual));
   }
 
   @Test public void should_pass_if_array_is_null() {

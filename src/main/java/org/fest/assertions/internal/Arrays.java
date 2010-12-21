@@ -57,13 +57,13 @@ class Arrays {
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null || isArrayEmpty(array)) return;
-    throw failures.failure(info, isNotNullOrEmpty(wrap(array)));
+    throw failures.failure(info, isNotNullOrEmpty(array));
   }
 
   void assertEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     if (isArrayEmpty(array)) return;
-    throw failures.failure(info, isNotEmpty(wrap(array)));
+    throw failures.failure(info, isNotEmpty(array));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {

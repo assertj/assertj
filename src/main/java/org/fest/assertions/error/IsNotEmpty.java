@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Collection;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is empty failed. A group of
@@ -29,7 +28,7 @@ public class IsNotEmpty extends BasicErrorMessage {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotEmpty(Collection<?> actual) {
+  public static ErrorMessage isNotEmpty(Object actual) {
     return new IsNotEmpty(actual);
   }
 

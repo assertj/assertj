@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Collection;
 
 
 /**
@@ -31,7 +30,7 @@ public class IsNotNullOrEmpty extends BasicErrorMessage {
    * @param actual the actual value in the failed assertion.
    * @return the created of {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotNullOrEmpty(Collection<?> actual) {
+  public static ErrorMessage isNotNullOrEmpty(Object actual) {
     return new IsNotNullOrEmpty(actual);
   }
 

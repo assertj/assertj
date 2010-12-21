@@ -14,13 +14,18 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.IsEmpty.isEmpty;
+import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+
 import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.MapEntry;
+import org.fest.util.VisibleForTesting;
 
 /**
- * TODO comment.
+ * Reusable assertions for <code>{@link Map}</code>s.
  *
  * @author Alex Ruiz
  */
@@ -36,32 +41,51 @@ public class Maps {
     return INSTANCE ;
   }
 
-  private Maps() {}
+  private final Failures failures;
+
+  private Maps() {
+    this(Failures.instance());
+  }
+
+  @VisibleForTesting Maps(Failures failures) {
+    this.failures = failures;
+  }
 
   /**
-   * @param info
-   * @param actual
+   * Asserts that the given {@code Map} is {@code null} or empty.
+   * @param info contains information about the assertion.
+   * @param actual the given map.
+   * @throws AssertionError if the given {@code Map} is not {@code null} *and* contains one or more entries.
    */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
-
+    if (actual == null || actual.isEmpty()) return;
+    throw failures.failure(info, isNotNullOrEmpty(actual));
   }
 
   /**
-   * @param info
-   * @param actual
+   * Asserts that the given {@code Map} is empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} is not empty.
    */
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
-    // TODO Auto-generated method stub
-
+    assertNotNull(info, actual);
+    if (actual.isEmpty()) return;
+    throw failures.failure(info, isNotEmpty(actual));
   }
 
   /**
-   * @param info
-   * @param actual
+   * Asserts that the given {@code Map} is not empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} is empty.
    */
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
-    // TODO Auto-generated method stub
-
+    assertNotNull(info, actual);
+    if (!actual.isEmpty()) return;
+    throw failures.failure(info, isEmpty());
   }
 
   /**
@@ -92,5 +116,9 @@ public class Maps {
   public void assertDoesNotContain(AssertionInfo info, Map<?, ?> actual, MapEntry[] entries) {
     // TODO Auto-generated method stub
 
+  }
+
+  private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 }
