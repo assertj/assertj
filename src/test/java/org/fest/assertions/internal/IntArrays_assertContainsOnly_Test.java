@@ -71,12 +71,12 @@ public class IntArrays_assertContainsOnly_Test {
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     arrays.assertContainsOnly(info, actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     arrays.assertContainsOnly(info, actual, null);
   }
 

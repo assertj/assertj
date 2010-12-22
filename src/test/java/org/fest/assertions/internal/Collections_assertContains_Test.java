@@ -17,7 +17,6 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
@@ -79,12 +78,12 @@ public class Collections_assertContains_Test {
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     collections.assertContains(info, actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     collections.assertContains(info, actual, null);
   }
 
@@ -99,6 +98,6 @@ public class Collections_assertContains_Test {
       collections.assertContains(info, actual, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContain(actual, wrap(expected), set("Han")));
+    verify(failures).failure(info, doesNotContain(actual, expected, set("Han")));
   }
 }

@@ -82,7 +82,7 @@ public class ObjectArrays {
    * Asserts that the number of elements in the given array is equal to the expected one.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param expectedSize the expected size of the {@code actual}.
+   * @param expectedSize the expected size of {@code actual}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of elements in the given array is different than the expected one.
    */

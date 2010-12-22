@@ -16,7 +16,6 @@ package org.fest.assertions.error;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
-import java.util.Collection;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two values that represent size are equal
@@ -25,6 +24,8 @@ import java.util.Collection;
  * @author Alex Ruiz
  */
 public class DoesNotHaveSize extends BasicErrorMessage {
+
+  private static final String DEFAULT_ERROR_MESSAGE_FORMAT = "%sexpected size:<%s> but was:<%s> in:<%s>";
 
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
@@ -40,11 +41,12 @@ public class DoesNotHaveSize extends BasicErrorMessage {
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param actualSize the size of {@code actual}.
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotHaveSize(Collection<?> actual, int expectedSize) {
-    return new DoesNotHaveSize("%sexpected size:<%s> but was:<%s> in:<%s>", expectedSize, actual.size(), actual);
+  public static ErrorMessage doesNotHaveSize(Object actual, int actualSize, int expectedSize) {
+    return new DoesNotHaveSize(DEFAULT_ERROR_MESSAGE_FORMAT, expectedSize, actualSize, actual);
   }
 
   private DoesNotHaveSize(String format, Object... arguments) {

@@ -53,12 +53,12 @@ public class IntArrays_assertEndsWith_Test {
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     arrays.assertEndsWith(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     arrays.assertEndsWith(info, actual, emptyArray());
   }
 

@@ -1,5 +1,5 @@
 /*
- * Created on Dec 20, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,16 +14,15 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
+import static org.fest.assertions.data.MapEntry.entry;
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.test.LongArrayFactory.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
-import static org.fest.util.Collections.set;
+import static org.fest.assertions.test.MapFactory.map;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
+import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
@@ -31,19 +30,18 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongArrays#assertDoesNotHaveDuplicates(AssertionInfo, long[])}</code>.
+ * Tests for <code>{@link Maps#assertHasSize(AssertionInfo, Map, int)}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongArrays_assertDoesNotHaveDuplicates_Test {
+public class Maps_assertHasSize_Test {
 
   private static WritableAssertionInfo info;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private long[] actual;
-  private LongArrays collections;
+  private Maps maps;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
@@ -51,30 +49,25 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    actual = array(6L, 8L);
-    collections = new LongArrays(failures);
+    maps = new Maps(failures);
   }
 
-  @Test public void should_pass_if_actual_does_not_have_duplicates() {
-    collections.assertDoesNotHaveDuplicates(info, actual);
-  }
-
-  @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, emptyArray());
+  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+    Map<?, ?> actual = map(entry("name", "Yoda"), entry("job", "Yedi Master"));
+    maps.assertHasSize(info, actual, 2);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesNotHaveDuplicates(info, null);
+    maps.assertHasSize(info, null, 8);
   }
 
-  @Test public void should_fail_if_actual_contains_duplicates() {
-    Collection<Long> duplicates = set(6L, 8L);
-    actual = array(6L, 8L, 6L, 8L);
+  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+    Map<?, ?> actual = map(entry("name", "Yoda"), entry("job", "Yedi Master"));
     try {
-      collections.assertDoesNotHaveDuplicates(info, actual);
+      maps.assertHasSize(info, actual, 8);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), duplicates));
+    verify(failures).failure(info, doesNotHaveSize(actual, 2, 8));
   }
 }

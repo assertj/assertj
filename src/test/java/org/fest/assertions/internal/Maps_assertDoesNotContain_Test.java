@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,73 +14,74 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
-import static org.fest.assertions.test.IntArrayFactory.*;
+import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
+import java.util.Map;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntArrays#assertDoesNotContain(AssertionInfo, int[], int[])}</code>.
+ * Tests for <code>{@link Maps#assertDoesNotContain(AssertionInfo, Map, MapEntry[])}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntArrays_assertDoesNotContain_Test {
+public class Maps_assertDoesNotContain_Test {
 
   private static WritableAssertionInfo info;
-  private static int[] actual;
+  private static Map<?, ?> actual;
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private IntArrays arrays;
+  private Maps maps;
 
   @BeforeClass public static void setUpOnce() {
     info = new WritableAssertionInfo();
-    actual = array(6, 8, 10);
+    actual = map(entry("name", "Yoda"), entry("color", "green"));
   }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
-    arrays = new IntArrays(failures);
+    maps = new Maps(failures);
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, array(12));
-  }
-
-  @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, array(12, 12, 20));
+    maps.assertDoesNotContain(info, actual, array(entry("job", "Jedi")));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertDoesNotContain(info, actual, emptyArray());
+    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
+    maps.assertDoesNotContain(info, actual, new MapEntry[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(info, actual, null);
+    thrown.expectNullPointerException(entriesToLookForIsNull());
+    maps.assertDoesNotContain(info, actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, array(8));
+    maps.assertDoesNotContain(info, null, array(entry("job", "Jedi")));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {
-    int[] expected = { 6, 8, 20 };
+    MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
     try {
-      arrays.assertDoesNotContain(info, actual, expected);
+      maps.assertDoesNotContain(info, actual, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set(6, 8)));
+    verify(failures).failure(info, contains(actual, expected, set(entry("name", "Yoda"))));
   }
 }

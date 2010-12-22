@@ -104,7 +104,7 @@ public class Collections {
    * Asserts that the number of elements in the given {@code Collection} is equal to the expected one.
    * @param info contains information about the assertion.
    * @param actual the given {@code Collection}.
-   * @param expectedSize the expected size of the {@code actual}.
+   * @param expectedSize the expected size of {@code actual}.
    * @throws AssertionError if the given {@code Collection} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Collection} is different than the expected
    * one.
@@ -113,7 +113,7 @@ public class Collections {
     assertNotNull(info, actual);
     int sizeOfActual = actual.size();
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(actual, expectedSize));
+    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -132,7 +132,7 @@ public class Collections {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(actual, wrap(values), notFound));
+    throw failures.failure(info, doesNotContain(actual, values, notFound));
   }
 
   /**
@@ -215,7 +215,7 @@ public class Collections {
     Set<Object> found = new LinkedHashSet<Object>();
     for (Object o: values) if (actual.contains(o)) found.add(o);
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(actual, wrap(values), found));
+    throw failures.failure(info, contains(actual, values, found));
   }
 
   /**
@@ -263,15 +263,6 @@ public class Collections {
     return failures.failure(info, doesNotStartWith(actual, wrap(sequence)));
   }
 
-  private void isNotEmptyOrNull(Object[] values) {
-    if (values == null) throw arrayOfValuesToLookForIsNull();
-    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
-  }
-
-  private void assertNotNull(AssertionInfo info, Collection<?> actual) {
-    Objects.instance().assertNotNull(info, actual);
-  }
-
   /**
    * Verifies that the given {@code Collection} ends with the given sequence of objects, without any other objects
    * between them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Collection, Object[])}</code>, but
@@ -298,6 +289,15 @@ public class Collections {
       if (areEqual(o, sequence[sequenceIndex++])) continue;
       throw actualDoesNotEndWithSequence(info, actual, sequence);
     }
+  }
+
+  private void isNotEmptyOrNull(Object[] values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
+  }
+
+  private void assertNotNull(AssertionInfo info, Collection<?> actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {

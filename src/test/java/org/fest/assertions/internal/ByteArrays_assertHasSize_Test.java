@@ -18,7 +18,6 @@ import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ByteArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -63,7 +62,7 @@ public class ByteArrays_assertHasSize_Test {
       arrays.assertHasSize(info, actual, 3);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(wrap(actual), 3));
+    verify(failures).failure(info, doesNotHaveSize(actual, 2, 3));
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {

@@ -67,6 +67,7 @@ public class MapAssert extends GenericAssert<MapAssert, Map<?, ?>> implements En
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */

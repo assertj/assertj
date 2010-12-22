@@ -15,9 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
-import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -53,12 +53,12 @@ public class LongArrays_assertEndsWith_Test {
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     arrays.assertEndsWith(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     arrays.assertEndsWith(info, actual, emptyArray());
   }
 

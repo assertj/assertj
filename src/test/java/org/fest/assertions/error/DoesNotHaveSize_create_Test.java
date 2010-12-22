@@ -23,7 +23,6 @@ import java.awt.Dimension;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -36,18 +35,15 @@ public class DoesNotHaveSize_create_Test {
 
   private ErrorMessage errorMessage;
 
-  @Before public void setUp() {
-  }
-
-  @Test public void should_create_error_message_when_actual_is_Collection() {
-    errorMessage = doesNotHaveSize(list("Luke", "Yoda"), 8);
-    String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expected size:<8> but was:<2> in:<['Luke', 'Yoda']>", message);
-  }
-
   @Test public void should_create_error_message_when_actual_is_BufferedImage() {
     errorMessage = doesNotHaveSize(fivePixelBlueImage(), new Dimension(5, 5), new Dimension(6, 6));
     String message = errorMessage.create(new TextDescription("Test"));
     assertEquals("[Test] expected image size:<(w=6, h=6)> but was:<(w=5, h=5)>", message);
+  }
+
+  @Test public void should_create_error_message_when_actual_is_Object() {
+    errorMessage = doesNotHaveSize(list("Luke", "Yoda"), 2, 8);
+    String message = errorMessage.create(new TextDescription("Test"));
+    assertEquals("[Test] expected size:<8> but was:<2> in:<['Luke', 'Yoda']>", message);
   }
 }

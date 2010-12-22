@@ -18,7 +18,8 @@ import static java.util.Collections.emptyMap;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Maps;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapAssert#isNullOrEmpty()}</code>.

@@ -55,12 +55,12 @@ public class Collections_assertEndsWith_Test {
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     collections.assertEndsWith(info, actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     collections.assertEndsWith(info, actual, new Object[0]);
   }
 

@@ -18,7 +18,8 @@ import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapEntry#equals(Object)}</code> and <code>{@link MapEntry#hashCode()}</code>.

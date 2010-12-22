@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Collection;
-import java.util.Set;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a given set
@@ -32,7 +30,7 @@ public class Contains extends BasicErrorMessage {
    * @param found the values in {@code expected} found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage contains(Collection<?> actual, Collection<?> expected, Set<?> found) {
+  public static ErrorMessage contains(Object actual, Object expected, Object found) {
     return new Contains(actual, expected, found);
   }
 

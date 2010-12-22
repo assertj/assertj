@@ -14,11 +14,15 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.util.Objects.areEqual;
 
-import java.util.Map;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.MapEntry;
@@ -89,33 +93,69 @@ public class Maps {
   }
 
   /**
-   * @param info
-   * @param actual
-   * @param expectedSize
+   * Asserts that the number of entries in the given {@code Map} is equal to the expected one.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param expectedSize the expected size of {@code actual}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the number of entries in the given {@code Map} is different than the expected one.
    */
   public void assertHasSize(AssertionInfo info, Map<?, ?> actual, int expectedSize) {
-    // TODO Auto-generated method stub
-
+    assertNotNull(info, actual);
+    int sizeOfActual = actual.size();
+    if (sizeOfActual == expectedSize) return;
+    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
-   * @param info
-   * @param actual
-   * @param entries
+   * Asserts that the given {@code Map} contains the given entries, in any order.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entries the entries that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the array of entries is {@code null}.
+   * @throws IllegalArgumentException if the array of entries is empty.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} does not contain the given entries.
    */
   public void assertContains(AssertionInfo info, Map<?, ?> actual, MapEntry[] entries) {
-    // TODO Auto-generated method stub
-
+    isNotEmptyOrNull(entries);
+    assertNotNull(info, actual);
+    Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
+    for (MapEntry entry : entries) if (!containsEntry(actual, entry)) notFound.add(entry);
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, doesNotContain(actual, entries, notFound));
   }
 
   /**
-   * @param info
-   * @param actual
-   * @param entries
+   * Asserts that the given {@code Map} does not contain the given entries.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entries the entries that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the array of entries is {@code null}.
+   * @throws IllegalArgumentException if the array of entries is empty.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} contains any of the given entries.
    */
   public void assertDoesNotContain(AssertionInfo info, Map<?, ?> actual, MapEntry[] entries) {
-    // TODO Auto-generated method stub
+    isNotEmptyOrNull(entries);
+    assertNotNull(info, actual);
+    Set<MapEntry> found = new LinkedHashSet<MapEntry>();
+    for (MapEntry entry : entries) if (containsEntry(actual, entry)) found.add(entry);
+    if (found.isEmpty()) return;
+    throw failures.failure(info, contains(actual, entries, found));
+  }
 
+  private void isNotEmptyOrNull(MapEntry[] entries) {
+    if (entries == null) throw new NullPointerException("The array of entries to look for should not be null");
+    if (entries.length == 0) throw new IllegalArgumentException("The array of entries to look for should not be empty");
+  }
+
+  private boolean containsEntry(Map<?, ?> actual, MapEntry entry) {
+    if (entry == null) throw new NullPointerException("Entries to look for should not be null");
+    if (!actual.containsKey(entry.key)) return false;
+    return areEqual(actual.get(entry.key), entry.value);
   }
 
   private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {

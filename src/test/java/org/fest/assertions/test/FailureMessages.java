@@ -23,20 +23,28 @@ import org.fest.assertions.formatting.ToStringConverter;
  */
 public final class FailureMessages {
 
-  public static String arrayToLookForIsEmpty() {
-    return "The array of values to look for should not be empty";
-  }
-
-  public static String arrayToLookForIsNull() {
-    return "The array of values to look for should not be null";
-  }
-
   public static String descriptionIsNull() {
     return "The description to set should not be null";
   }
 
+  public static String entriesToLookForIsEmpty() {
+    return "The array of entries to look for should not be empty";
+  }
+
+  public static String entriesToLookForIsNull() {
+    return "The array of entries to look for should not be null";
+  }
+
+  public static String entryToLookForIsNull() {
+    return "Entries to look for should not be null";
+  }
+
   public static String isNotArray(Object o) {
-    return String.format("The object <%s> should be an array", ToStringConverter.instance().toStringOf(o));
+    return String.format("The object <%s> should be an array", toStringOf(o));
+  }
+
+  private static String toStringOf(Object o) {
+    return ToStringConverter.instance().toStringOf(o);
   }
 
   public static String offsetIsNull() {
@@ -57,6 +65,14 @@ public final class FailureMessages {
 
   public static String unexpectedNull() {
     return "expecting non-null object but it was null";
+  }
+
+  public static String valuesToLookForIsEmpty() {
+    return "The array of values to look for should not be empty";
+  }
+
+  public static String valuesToLookForIsNull() {
+    return "The array of values to look for should not be null";
   }
 
   private FailureMessages() {}

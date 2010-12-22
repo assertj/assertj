@@ -66,6 +66,6 @@ public class Collections_assertHasSize_Test {
       collections.assertHasSize(info, actual, 8);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, 8));
+    verify(failures).failure(info, doesNotHaveSize(actual, 1, 8));
   }
 }

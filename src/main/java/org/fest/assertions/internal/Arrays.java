@@ -76,7 +76,7 @@ class Arrays {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(wrap(array), expectedSize));
+    throw failures.failure(info, doesNotHaveSize(array, sizeOfActual, expectedSize));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -89,7 +89,7 @@ class Arrays {
       if (!arrayContains(array, value)) notFound.add(value);
     }
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(wrap(array), wrap(values), notFound));
+    throw failures.failure(info, doesNotContain(array, values, notFound));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
@@ -175,7 +175,7 @@ class Arrays {
       if (arrayContains(array, value)) found.add(value);
     }
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(wrap(array), wrap(values), found));
+    throw failures.failure(info, contains(array, values, found));
   }
 
   private void isNotEmptyOrNull(Object values) {

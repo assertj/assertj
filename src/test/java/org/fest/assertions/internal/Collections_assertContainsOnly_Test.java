@@ -75,12 +75,12 @@ public class Collections_assertContainsOnly_Test {
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     collections.assertContainsOnly(info, actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     collections.assertContainsOnly(info, emptyList(), null);
   }
 

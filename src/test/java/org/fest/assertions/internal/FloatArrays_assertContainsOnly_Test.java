@@ -15,9 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
-import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -71,12 +71,12 @@ public class FloatArrays_assertContainsOnly_Test {
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(arrayToLookForIsEmpty());
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
     arrays.assertContainsOnly(info, actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    thrown.expectNullPointerException(arrayToLookForIsNull());
+    thrown.expectNullPointerException(valuesToLookForIsNull());
     arrays.assertContainsOnly(info, actual, null);
   }
 

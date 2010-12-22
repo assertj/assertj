@@ -15,10 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
+import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -61,7 +60,7 @@ public class FloatArrays_assertEmpty_Test {
       arrays.assertEmpty(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEmpty(wrap(actual)));
+    verify(failures).failure(info, isNotEmpty(actual));
   }
 
   @Test public void should_pass_if_actual_is_empty() {

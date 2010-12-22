@@ -17,7 +17,8 @@ package org.fest.assertions.data;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.data.MapEntry.entry;
 
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapEntry#toString()}</code>.
