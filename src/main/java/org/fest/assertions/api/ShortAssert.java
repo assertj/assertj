@@ -19,15 +19,18 @@ import org.fest.assertions.internal.Shorts;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for shorts. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Short)}</code> or <code>{@link Assertions#assertThat(short)}</code>.
+ * Assertion methods for shorts.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Short)}</code> or
+ * <code>{@link Assertions#assertThat(short)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ShortAssert extends GenericComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
+public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
   @VisibleForTesting Shorts shorts = Shorts.instance();
 

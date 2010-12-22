@@ -20,13 +20,15 @@ import org.fest.assertions.internal.LongArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code long}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(long[])}</code>.
+ * Assertion methods for arrays of {@code long}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(long[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class LongArrayAssert extends GenericAssert<LongArrayAssert, long[]> implements EnumerableAssert<LongArrayAssert> {
+public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> implements EnumerableAssert<LongArrayAssert> {
 
   @VisibleForTesting LongArrays arrays = LongArrays.instance();
 

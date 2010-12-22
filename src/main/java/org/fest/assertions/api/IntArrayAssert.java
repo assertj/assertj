@@ -20,13 +20,15 @@ import org.fest.assertions.internal.IntArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code int}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(int[])}</code>.
+ * Assertion methods for arrays of {@code int}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(int[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class IntArrayAssert extends GenericAssert<IntArrayAssert, int[]> implements EnumerableAssert<IntArrayAssert> {
+public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implements EnumerableAssert<IntArrayAssert> {
 
   @VisibleForTesting IntArrays arrays = IntArrays.instance();
 

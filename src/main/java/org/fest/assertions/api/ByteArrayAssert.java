@@ -20,13 +20,15 @@ import org.fest.assertions.internal.ByteArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code byte}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(byte[])}</code>.
+ * Assertion methods for arrays of {@code byte}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(byte[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ByteArrayAssert extends GenericAssert<ByteArrayAssert, byte[]> implements EnumerableAssert<ByteArrayAssert> {
+public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements EnumerableAssert<ByteArrayAssert> {
 
   @VisibleForTesting ByteArrays arrays = ByteArrays.instance();
 

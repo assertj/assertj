@@ -18,15 +18,18 @@ import org.fest.assertions.internal.Characters;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for characters. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Character)}</code> or <code>{@link Assertions#assertThat(char)}</code>.
+ * Assertion methods for characters.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Character)}</code> or
+ * <code>{@link Assertions#assertThat(char)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class CharacterAssert extends GenericComparableAssert<CharacterAssert, Character> {
+public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
 
   @VisibleForTesting Characters characters = Characters.instance();
 

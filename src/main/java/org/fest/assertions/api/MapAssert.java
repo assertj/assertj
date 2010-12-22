@@ -24,14 +24,14 @@ import org.fest.util.VisibleForTesting;
 /**
  * Assertions for <code>{@link Map}</code>s.
  * <p>
- * To create a new instance of this class invoke <code>{@link Assertions#assertThat(Map)}</code>.
+ * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Map)}</code>.
  * </p>
  *
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class MapAssert extends GenericAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert> {
+public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert> {
 
   @VisibleForTesting Maps maps = Maps.instance();
 

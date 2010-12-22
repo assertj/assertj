@@ -20,13 +20,15 @@ import org.fest.assertions.internal.ShortArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code short}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(short[])}</code>.
+ * Assertion methods for arrays of {@code short}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(short[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ShortArrayAssert extends GenericAssert<ShortArrayAssert, short[]> implements EnumerableAssert<ShortArrayAssert> {
+public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements EnumerableAssert<ShortArrayAssert> {
 
   @VisibleForTesting ShortArrays arrays = ShortArrays.instance();
 

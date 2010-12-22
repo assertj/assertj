@@ -19,15 +19,18 @@ import org.fest.assertions.internal.Bytes;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for bytes. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Byte)}</code> or <code>{@link Assertions#assertThat(byte)}</code>.
+ * Assertion methods for bytes.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Byte)}</code> or
+ * <code>{@link Assertions#assertThat(byte)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class ByteAssert extends GenericComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
+public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
   @VisibleForTesting Bytes bytes = Bytes.instance();
 

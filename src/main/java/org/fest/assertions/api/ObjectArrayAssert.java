@@ -21,13 +21,15 @@ import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of objects. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(Object[])}</code>.
+ * Assertion methods for arrays of objects.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert extends GenericAssert<ObjectArrayAssert, Object[]> implements
+public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
     ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert {
 
   @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();

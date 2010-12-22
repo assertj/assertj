@@ -20,13 +20,15 @@ import org.fest.assertions.internal.CharArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code char}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(char[])}</code>.
+ * Assertion methods for arrays of {@code char}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(char[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CharArrayAssert extends GenericAssert<CharArrayAssert, char[]> implements EnumerableAssert<CharArrayAssert> {
+public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> implements EnumerableAssert<CharArrayAssert> {
 
   @VisibleForTesting CharArrays arrays = CharArrays.instance();
 

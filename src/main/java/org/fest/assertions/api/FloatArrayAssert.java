@@ -20,13 +20,15 @@ import org.fest.assertions.internal.FloatArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code float}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(float[])}</code>.
+ * Assertion methods for arrays of {@code float}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(float[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class FloatArrayAssert extends GenericAssert<FloatArrayAssert, float[]> implements EnumerableAssert<FloatArrayAssert> {
+public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> implements EnumerableAssert<FloatArrayAssert> {
 
   @VisibleForTesting FloatArrays arrays = FloatArrays.instance();
 

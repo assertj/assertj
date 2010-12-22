@@ -19,15 +19,18 @@ import org.fest.assertions.internal.Longs;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for longs. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Long)}</code> or <code>{@link Assertions#assertThat(long)}</code>.
+ * Assertion methods for longs.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Long)}</code> or
+ * <code>{@link Assertions#assertThat(long)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class LongAssert extends GenericComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
+public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
   @VisibleForTesting Longs longs = Longs.instance();
 

@@ -22,13 +22,15 @@ import org.fest.assertions.internal.Lists;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for <code>{@link List}</code>s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(List)}</code>.
+ * Assertion methods for <code>{@link List}</code>s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class ListAssert extends GenericCollectionAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
+public class ListAssert extends AbstractCollectionAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
 
   @VisibleForTesting Lists lists = Lists.instance();
 

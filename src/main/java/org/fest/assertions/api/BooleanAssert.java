@@ -18,15 +18,18 @@ import org.fest.assertions.internal.Booleans;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for bytes. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Boolean)}</code> or <code>{@link Assertions#assertThat(boolean)}</code>.
+ * Assertion methods for bytes.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Boolean)}</code> or
+ * <code>{@link Assertions#assertThat(boolean)}</code>.
+ * </p>
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  */
-public class BooleanAssert extends GenericAssert<BooleanAssert, Boolean> {
+public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
 
   @VisibleForTesting Booleans booleans = Booleans.instance();
 

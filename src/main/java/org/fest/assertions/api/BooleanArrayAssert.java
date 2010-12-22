@@ -20,13 +20,15 @@ import org.fest.assertions.internal.BooleanArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code boolean}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(boolean[])}</code>.
+ * Assertion methods for arrays of {@code boolean}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(boolean[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert extends GenericAssert<BooleanArrayAssert, boolean[]> implements EnumerableAssert<BooleanArrayAssert> {
+public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boolean[]> implements EnumerableAssert<BooleanArrayAssert> {
 
   @VisibleForTesting BooleanArrays arrays = BooleanArrays.instance();
 

@@ -20,14 +20,17 @@ import org.fest.assertions.internal.Floats;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for floats. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Float)}</code> or <code>{@link Assertions#assertThat(float)}</code>.
+ * Assertion methods for floats.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Float)}</code> or
+ * <code>{@link Assertions#assertThat(float)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class FloatAssert extends GenericComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
+public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
   @VisibleForTesting Floats floats = Floats.instance();
 

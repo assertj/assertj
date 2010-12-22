@@ -20,14 +20,16 @@ import org.fest.assertions.internal.Images;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for images. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(BufferedImage)}</code>.
+ * Assertion methods for images.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(BufferedImage)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class ImageAssert extends GenericAssert<ImageAssert, BufferedImage> {
+public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
 
   @VisibleForTesting Images images = Images.instance();
 

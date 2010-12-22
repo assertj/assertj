@@ -19,15 +19,18 @@ import org.fest.assertions.internal.Integers;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for integers. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Integer)}</code> or <code>{@link Assertions#assertThat(int)}</code>.
+ * Assertion methods for integers.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Integer)}</code> or
+ * <code>{@link Assertions#assertThat(int)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
  */
-public class IntegerAssert extends GenericComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
+public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
   @VisibleForTesting Integers integers = Integers.instance();
 

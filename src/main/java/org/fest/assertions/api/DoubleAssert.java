@@ -20,15 +20,18 @@ import org.fest.assertions.internal.Doubles;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for doubles. To create an instance of this class, use the factory methods
- * <code>{@link Assertions#assertThat(Double)}</code> or <code>{@link Assertions#assertThat(double)}</code>.
+ * Assertion methods for doubles.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Double)}</code> or
+ * <code>{@link Assertions#assertThat(double)}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Ansgar Konermann
  */
-public class DoubleAssert extends GenericComparableAssert<DoubleAssert, Double> implements FloatingPointNumberAssert<Double> {
+public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements FloatingPointNumberAssert<Double> {
 
   @VisibleForTesting Doubles doubles = Doubles.instance();
 

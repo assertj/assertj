@@ -20,13 +20,15 @@ import org.fest.assertions.internal.DoubleArrays;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Assertion methods for arrays of {@code double}s. To create an instance of this class, use the factory method
- * <code>{@link Assertions#assertThat(double[])}</code>.
+ * Assertion methods for arrays of {@code double}s.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(double[])}</code>.
+ * </p>
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert extends GenericAssert<DoubleArrayAssert, double[]> implements EnumerableAssert<DoubleArrayAssert> {
+public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[]> implements EnumerableAssert<DoubleArrayAssert> {
 
   @VisibleForTesting DoubleArrays arrays = DoubleArrays.instance();
 

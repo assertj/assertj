@@ -1,5 +1,5 @@
 /*
- * Created on Jul 26, 2010
+ * Created on Oct 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,20 +14,30 @@
  */
 package org.fest.assertions.api;
 
-import java.util.Collection;
+import static org.mockito.Mockito.*;
+
+import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Assertion methods for collections.
- * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Collection)}</code>.
- * </p>
+ * Tests for <code>{@link AbstractAssert#isNull()}</code>.
  *
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class CollectionAssert extends AbstractCollectionAssert<CollectionAssert, Collection<?>>  {
+public class AbstractAssert_isNull_Test {
 
-  protected CollectionAssert(Collection<?> actual) {
-    super(actual, CollectionAssert.class);
+  private Objects objects;
+  private ConcreteAssert assertions;
+
+  @Before public void setUp() {
+    objects = mock(Objects.class);
+    assertions = new ConcreteAssert(null);
+    assertions.objects = objects;
+  }
+
+  @Test public void should_verify_that_actual_value_is_null() {
+    assertions.isNull();
+    verify(objects).assertNull(assertions.info, assertions.actual);
   }
 }
