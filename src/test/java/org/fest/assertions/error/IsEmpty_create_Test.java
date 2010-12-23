@@ -38,6 +38,6 @@ public class IsEmpty_create_Test {
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TestDescription("Test"));
-    assertEquals("[Test] unexpected empty", message);
+    assertEquals("[Test] expecting actual not to be empty", message);
   }
 }

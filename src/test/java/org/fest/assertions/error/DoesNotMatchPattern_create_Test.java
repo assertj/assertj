@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Dec 22, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,29 +15,28 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.IsNull.isNull;
+import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.TestDescription;
+import org.fest.assertions.description.TextDescription;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link IsNull#create(Description)}</code>.
+ * Tests for <code>{@link DoesNotMatchPattern#create(Description)}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class IsNull_create_Test {
+public class DoesNotMatchPattern_create_Test {
 
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = isNull();
+    errorMessage = doesNotMatch("Yoda", "Luke");
   }
 
   @Test public void should_create_error_message() {
-    String error = errorMessage.create(new TestDescription("Test"));
-    assertEquals("[Test] expecting actual not to be null", error);
+    String message = errorMessage.create(new TextDescription("Test"));
+    assertEquals("[Test] 'Yoda' does not match the pattern 'Luke'", message);
   }
 }

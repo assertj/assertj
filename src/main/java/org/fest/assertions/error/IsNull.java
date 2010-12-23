@@ -37,6 +37,6 @@ public class IsNull implements ErrorMessage {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    return Formatter.instance().formatMessage("%sexpecting non-null object but it was null", d);
+    return Formatter.instance().formatMessage("%sexpecting actual not to be null", d);
   }
 }

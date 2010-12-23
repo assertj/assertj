@@ -15,8 +15,11 @@
 package org.fest.assertions.api;
 
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.EnumerableAssert;
+import org.fest.assertions.internal.Strings;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@code String}s.
@@ -29,6 +32,8 @@ import org.fest.assertions.core.EnumerableAssert;
  * @author Alex Ruiz
  */
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert> {
+
+  @VisibleForTesting Strings strings = Strings.instance();
 
   protected StringAssert(String actual) {
     super(actual, StringAssert.class);
@@ -88,9 +93,17 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return null;
   }
 
+  /**
+   * Verifies that the actual {@code String} matches the given regular expression.
+   * @param regex the regular expression to which the actual {@code String} is to be matched.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the actual {@code String} does not match the given pattern.
+   */
   public StringAssert matches(String regex) {
-    // TODO implement
-    return null;
+    strings.assertMatches(info, actual, regex);
+    return this;
   }
 
   public StringAssert doesNotMatch(String regex) {
@@ -98,9 +111,16 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return null;
   }
 
+  /**
+   * Verifies that the actual {@code String} matches the given pattern.
+   * @param pattern the given pattern.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not match the given pattern.
+   */
   public StringAssert matches(Pattern pattern) {
-    // TODO implement
-    return null;
+    strings.assertMatches(info, actual, pattern);
+    return this;
   }
 
   public StringAssert doesNotMatch(Pattern pattern) {

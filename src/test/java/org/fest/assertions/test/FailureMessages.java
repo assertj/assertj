@@ -59,12 +59,16 @@ public final class FailureMessages {
     return "The value of the offset to create should not be null";
   }
 
+  public static String patternIsNull() {
+    return "The pattern to match should not be null";
+  }
+
   public static String unexpectedEmpty() {
-    return "unexpected empty";
+    return "expecting actual not to be empty";
   }
 
   public static String unexpectedNull() {
-    return "expecting non-null object but it was null";
+    return "expecting actual not to be null";
   }
 
   public static String valuesToLookForIsEmpty() {
