@@ -57,7 +57,8 @@ public class Strings {
    * @param regex the regular expression to which the actual {@code String} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
    * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code String} does not match the given pattern.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, String regex) {
     isNotNull(regex);
@@ -71,12 +72,13 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code String} matches the given pattern.
+   * Verifies that the given {@code String} matches the given regular expression.
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
-   * @param pattern the given pattern.
+   * @param pattern the regular expression to which the actual {@code String} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the given {@code String} does not match the given pattern.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the given {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, Pattern pattern) {
     isNotNull(pattern);
