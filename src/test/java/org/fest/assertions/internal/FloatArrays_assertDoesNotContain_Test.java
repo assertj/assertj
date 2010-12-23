@@ -15,8 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;

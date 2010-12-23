@@ -15,8 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;

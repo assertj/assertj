@@ -16,8 +16,9 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.CharArrayFactory.*;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;

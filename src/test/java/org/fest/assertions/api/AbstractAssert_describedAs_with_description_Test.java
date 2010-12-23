@@ -15,8 +15,8 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.*;
+import static org.fest.assertions.test.ErrorMessages.descriptionIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.fest.assertions.test.TestData.someDescription;
 
 import org.fest.assertions.description.Description;

@@ -16,8 +16,8 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
+import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.offsetIsNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 

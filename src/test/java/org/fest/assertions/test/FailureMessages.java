@@ -14,54 +14,10 @@
  */
 package org.fest.assertions.test;
 
-import org.fest.assertions.formatting.ToStringConverter;
-
 /**
- * Common failure messages.
- *
  * @author Alex Ruiz
  */
 public final class FailureMessages {
-
-  public static String descriptionIsNull() {
-    return "The description to set should not be null";
-  }
-
-  public static String entriesToLookForIsEmpty() {
-    return "The array of entries to look for should not be empty";
-  }
-
-  public static String entriesToLookForIsNull() {
-    return "The array of entries to look for should not be null";
-  }
-
-  public static String entryToLookForIsNull() {
-    return "Entries to look for should not be null";
-  }
-
-  public static String isNotArray(Object o) {
-    return String.format("The object <%s> should be an array", toStringOf(o));
-  }
-
-  private static String toStringOf(Object o) {
-    return ToStringConverter.instance().toStringOf(o);
-  }
-
-  public static String offsetIsNull() {
-    return "The given offset should not be null";
-  }
-
-  public static String offsetValueIsNotPositive() {
-    return "The value of the offset should be greater than zero";
-  }
-
-  public static String offsetValueIsNull() {
-    return "The value of the offset to create should not be null";
-  }
-
-  public static String patternIsNull() {
-    return "The pattern to match should not be null";
-  }
 
   public static String unexpectedEmpty() {
     return "expecting actual not to be empty";
@@ -69,14 +25,6 @@ public final class FailureMessages {
 
   public static String unexpectedNull() {
     return "expecting actual not to be null";
-  }
-
-  public static String valuesToLookForIsEmpty() {
-    return "The array of values to look for should not be empty";
-  }
-
-  public static String valuesToLookForIsNull() {
-    return "The array of values to look for should not be null";
   }
 
   private FailureMessages() {}

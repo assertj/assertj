@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.test.ErrorMessages.descriptionIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.descriptionIsNull;
 import static org.junit.Assert.*;
 
 import org.fest.assertions.description.Description;

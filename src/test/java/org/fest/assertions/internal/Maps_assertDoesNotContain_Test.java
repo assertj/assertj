@@ -16,8 +16,9 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;

@@ -17,8 +17,8 @@ package org.fest.assertions.data;
 import static junit.framework.Assert.*;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.data.RgbColor.color;
+import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.offsetIsNull;
 
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;

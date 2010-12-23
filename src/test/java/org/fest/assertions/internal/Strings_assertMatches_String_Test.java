@@ -15,8 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
+import static org.fest.assertions.test.ErrorMessages.patternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
