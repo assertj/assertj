@@ -18,11 +18,11 @@ import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.CharArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -33,7 +33,6 @@ import org.junit.*;
  */
 public class CharArrays_assertHasSize_Test {
 
-  private static WritableAssertionInfo info;
   private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -41,9 +40,7 @@ public class CharArrays_assertHasSize_Test {
   private Failures failures;
   private CharArrays arrays;
 
-
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array('a', 'b');
   }
 
@@ -54,18 +51,19 @@ public class CharArrays_assertHasSize_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertHasSize(info, null, 6);
+    arrays.assertHasSize(someInfo(), null, 6);
   }
 
   @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+    AssertionInfo info = someInfo();
     try {
       arrays.assertHasSize(info, actual, 6);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, 2, 6));
+    verify(failures).failure(info, doesNotHaveSize(actual, actual.length, 6));
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(info, actual, 2);
+    arrays.assertHasSize(someInfo(), actual, 2);
   }
 }

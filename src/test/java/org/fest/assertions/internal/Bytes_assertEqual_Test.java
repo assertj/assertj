@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class Bytes_assertEqual_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Bytes bytes;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -51,14 +45,15 @@ public class Bytes_assertEqual_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    bytes.assertEqual(info, null, (byte)8);
+    bytes.assertEqual(someInfo(), null, (byte)8);
   }
 
   @Test public void should_pass_if_bytes_are_equal() {
-    bytes.assertEqual(info, (byte)8, (byte)8);
+    bytes.assertEqual(someInfo(), (byte)8, (byte)8);
   }
 
   @Test public void should_fail_if_bytes_are_not_equal() {
+    AssertionInfo info = someInfo();
     try {
       bytes.assertEqual(info, (byte)6, (byte)8);
       fail();

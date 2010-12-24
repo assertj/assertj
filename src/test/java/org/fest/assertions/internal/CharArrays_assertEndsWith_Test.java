@@ -19,12 +19,12 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,7 +35,6 @@ import org.junit.*;
  */
 public class CharArrays_assertEndsWith_Test {
 
-  private static WritableAssertionInfo info;
   private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -44,7 +43,6 @@ public class CharArrays_assertEndsWith_Test {
   private CharArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array('a', 'b', 'c', 'd');
   }
 
@@ -55,55 +53,58 @@ public class CharArrays_assertEndsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(info, actual, null);
+    arrays.assertEndsWith(someInfo(), actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertEndsWith(info, actual, emptyArray());
+    arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertEndsWith(info, null, array('a'));
+    arrays.assertEndsWith(someInfo(), null, array('a'));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 'a', 'b', 'c', 'd', 'e', 'f' };
     try {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 'x', 'y', 'z' };
     try {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 'b', 'y', 'z' };
     try {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(char[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(AssertionInfo info, char[] sequence) {
     verify(failures).failure(info, doesNotEndWith(wrap(actual), wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(info, actual, array('b', 'c', 'd'));
+    arrays.assertEndsWith(someInfo(), actual, array('b', 'c', 'd'));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(info, actual, array('a', 'b', 'c', 'd'));
+    arrays.assertEndsWith(someInfo(), actual, array('a', 'b', 'c', 'd'));
   }
 }

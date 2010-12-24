@@ -14,13 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Bytes#assertIsNotZero(AssertionInfo, Byte)}</code>.
@@ -29,16 +28,8 @@ import org.junit.*;
  */
 public class Bytes_assertIsNotZero_Test {
 
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
-
   private Comparables comparables;
   private Bytes bytes;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
@@ -47,6 +38,7 @@ public class Bytes_assertIsNotZero_Test {
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
+    AssertionInfo info = someInfo();
     bytes.assertIsNotZero(info, (byte)6);
     verify(comparables).assertNotEqual(info, (byte)6, (byte)0);
   }

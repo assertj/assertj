@@ -14,13 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Floats#assertIsNotZero(AssertionInfo, Float)}</code>.
@@ -29,16 +28,8 @@ import org.junit.*;
  */
 public class Floats_assertIsNotZero_Test {
 
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
-
   private Comparables comparables;
   private Floats floats;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
@@ -47,7 +38,8 @@ public class Floats_assertIsNotZero_Test {
   }
 
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
-    floats.assertIsNotZero(info, 6f);
-    verify(comparables).assertNotEqual(info, 6f, 0f);
+    AssertionInfo someInfo = someInfo();
+    floats.assertIsNotZero(someInfo, 6f);
+    verify(comparables).assertNotEqual(someInfo, 6f, 0f);
   }
 }

@@ -19,12 +19,12 @@ import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -36,7 +36,6 @@ import org.junit.*;
  */
 public class BooleanArrays_assertDoesNotContain_at_Index_Test {
 
-  private static WritableAssertionInfo info;
   private static boolean[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -45,7 +44,6 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test {
   private BooleanArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array(true, false);
   }
 
@@ -56,27 +54,30 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, true, atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), null, true, atIndex(0));
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotContain(info, emptyArray(), true, atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), emptyArray(), true, atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
     thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(info, actual, true, null);
+    arrays.assertDoesNotContain(someInfo(), actual, true, null);
   }
 
   @Test public void should_pass_if_Index_is_out_of_bounds() {
-    arrays.assertDoesNotContain(info, actual, true, atIndex(6));
+    arrays.assertDoesNotContain(someInfo(), actual, true, atIndex(6));
   }
 
   @Test public void should_fail_if_actual_contains_value_at_index() {
+    AssertionInfo info = someInfo();
+    boolean value = true;
+    Index index = atIndex(0);
     try {
-      arrays.assertDoesNotContain(info, actual, true, atIndex(0));
+      arrays.assertDoesNotContain(info, actual, value, index);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(wrap(actual), true, atIndex(0)));
+    verify(failures).failure(info, containsAtIndex(wrap(actual), value, index));
   }
 }

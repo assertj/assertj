@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -30,13 +31,11 @@ import org.junit.*;
  */
 public class Conditions_assertSatisfies_Test {
 
-  private static WritableAssertionInfo info;
   private static Object actual;
 
   @Rule public ExpectedException thrown = none();
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = "Yoda";
   }
 
@@ -52,16 +51,17 @@ public class Conditions_assertSatisfies_Test {
 
   @Test public void should_throw_error_if_Condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    conditions.assertSatisfies(info, actual, null);
+    conditions.assertSatisfies(someInfo(), actual, null);
   }
 
   @Test public void should_pass_if_Condition_is_met() {
     condition.shouldMatch(true);
-    conditions.assertSatisfies(info, actual, condition);
+    conditions.assertSatisfies(someInfo(), actual, condition);
   }
 
   @Test public void should_fail_if_Condition_is_not_met() {
     condition.shouldMatch(false);
+    AssertionInfo info = someInfo();
     try {
       conditions.assertSatisfies(info, actual, condition);
       fail();

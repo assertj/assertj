@@ -32,28 +32,28 @@ import org.junit.Test;
  */
 public class Failures_failure_with_AssertionErrorFactory_Test {
 
-  private WritableAssertionInfo assertionInfo;
+  private WritableAssertionInfo info;
   private AssertionErrorFactory errorFactory;
   private Failures failures;
 
   @Before public void setUp() {
-    assertionInfo = new WritableAssertionInfo();
+    info = new WritableAssertionInfo();
     errorFactory = mock(AssertionErrorFactory.class);
     failures = Failures.instance();
   }
 
   @Test public void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
-    assertionInfo.overridingErrorMessage("my message");
-    AssertionError failure = failures.failure(assertionInfo, errorFactory);
+    info.overridingErrorMessage("my message");
+    AssertionError failure = failures.failure(info, errorFactory);
     assertEquals("my message", failure.getMessage());
   }
 
   @Test public void should_use_AssertionErrorFactory_when_overriding_error_message_is_not_specified() {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
     Description description = new TestDescription("description");
-    assertionInfo.description(description);
+    info.description(description);
     when(errorFactory.newAssertionError(description)).thenReturn(expectedError);
-    AssertionError failure = failures.failure(assertionInfo, errorFactory);
+    AssertionError failure = failures.failure(info, errorFactory);
     assertSame(expectedError, failure);
   }
 

@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class Bytes_assertGreaterThan_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Bytes bytes;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -51,22 +45,23 @@ public class Bytes_assertGreaterThan_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    bytes.assertGreaterThan(info, null, (byte)8);
+    bytes.assertGreaterThan(someInfo(), null, (byte)8);
   }
 
   @Test public void should_pass_if_actual_is_greater_than_other() {
-    bytes.assertGreaterThan(info, (byte)8, (byte)6);
+    bytes.assertGreaterThan(someInfo(), (byte)8, (byte)6);
   }
 
   @Test public void should_fail_if_actual_is_equal_to_other() {
     try {
-      bytes.assertGreaterThan(info, (byte)6, (byte)6);
+      bytes.assertGreaterThan(someInfo(), (byte)6, (byte)6);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThan((byte)6, (byte)6));
+    verify(failures).failure(someInfo(), isNotGreaterThan((byte)6, (byte)6));
   }
 
   @Test public void should_fail_if_actual_is_less_than_other() {
+    AssertionInfo info = someInfo();
     try {
       bytes.assertGreaterThan(info, (byte)6, (byte)8);
       fail();

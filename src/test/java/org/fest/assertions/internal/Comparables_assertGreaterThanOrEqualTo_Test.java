@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class Comparables_assertGreaterThanOrEqualTo_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Comparables comparables;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -50,18 +44,19 @@ public class Comparables_assertGreaterThanOrEqualTo_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    comparables.assertGreaterThanOrEqualTo(info, null, 8);
+    comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8);
   }
 
   @Test public void should_pass_if_actual_is_greater_than_other() {
-    comparables.assertGreaterThanOrEqualTo(info, 8, 6);
+    comparables.assertGreaterThanOrEqualTo(someInfo(), 8, 6);
   }
 
   @Test public void should_pass_if_actual_is_equal_to_other() {
-    comparables.assertGreaterThanOrEqualTo(info, "Yoda", "Yoda");
+    comparables.assertGreaterThanOrEqualTo(someInfo(), "Yoda", "Yoda");
   }
 
   @Test public void should_fail_if_actual_is_less_than_other() {
+    AssertionInfo info = someInfo();
     try {
       comparables.assertGreaterThanOrEqualTo(info, 6, 8);
       fail();

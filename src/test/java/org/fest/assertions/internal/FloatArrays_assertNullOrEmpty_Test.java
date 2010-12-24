@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class FloatArrays_assertNullOrEmpty_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private FloatArrays arrays;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -49,6 +43,7 @@ public class FloatArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
+    AssertionInfo info = someInfo();
     float[] actual = { 6f, 8f };
     try {
       arrays.assertNullOrEmpty(info, actual);
@@ -58,10 +53,10 @@ public class FloatArrays_assertNullOrEmpty_Test {
   }
 
   @Test public void should_pass_if_array_is_null() {
-    arrays.assertNullOrEmpty(info, null);
+    arrays.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test public void should_pass_if_array_is_empty() {
-    arrays.assertNullOrEmpty(info, emptyArray());
+    arrays.assertNullOrEmpty(someInfo(), emptyArray());
   }
 }

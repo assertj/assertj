@@ -19,13 +19,13 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,17 +36,11 @@ import org.junit.*;
  */
 public class CharArrays_assertContainsOnly_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private char[] actual;
   private CharArrays arrays;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -55,38 +49,39 @@ public class CharArrays_assertContainsOnly_Test {
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(info, actual, array('a', 'b', 'c'));
+    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(info, actual, array('c', 'b', 'a'));
+    arrays.assertContainsOnly(someInfo(), actual, array('c', 'b', 'a'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_more_than_once() {
     actual = array('a', 'b', 'c', 'c', 'c');
-    arrays.assertContainsOnly(info, actual, array('a', 'b', 'c'));
+    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c'));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(info, actual, array('a', 'b', 'c', 'a', 'b', 'c'));
+    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c', 'a', 'b', 'c'));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertContainsOnly(info, actual, emptyArray());
+    arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnly(info, actual, null);
+    arrays.assertContainsOnly(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsOnly(info, null, array('a'));
+    arrays.assertContainsOnly(someInfo(), null, array('a'));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_given_values_only() {
+    AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
     try {
       arrays.assertContainsOnly(info, actual, expected);

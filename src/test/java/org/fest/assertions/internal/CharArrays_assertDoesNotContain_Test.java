@@ -19,12 +19,12 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,7 +35,6 @@ import org.junit.*;
  */
 public class CharArrays_assertDoesNotContain_Test {
 
-  private static WritableAssertionInfo info;
   private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -44,7 +43,6 @@ public class CharArrays_assertDoesNotContain_Test {
   private CharArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array('a', 'b', 'c');
   }
 
@@ -54,29 +52,30 @@ public class CharArrays_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, array('d'));
+    arrays.assertDoesNotContain(someInfo(), actual, array('d'));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, array('d', 'd', 'e'));
+    arrays.assertDoesNotContain(someInfo(), actual, array('d', 'd', 'e'));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertDoesNotContain(info, actual, emptyArray());
+    arrays.assertDoesNotContain(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(info, actual, null);
+    arrays.assertDoesNotContain(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, array('a'));
+    arrays.assertDoesNotContain(someInfo(), null, array('a'));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {
+    AssertionInfo info = someInfo();
     char[] expected = { 'a', 'b', 'd' };
     try {
       arrays.assertDoesNotContain(info, actual, expected);

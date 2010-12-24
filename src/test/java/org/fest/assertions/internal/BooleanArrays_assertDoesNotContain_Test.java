@@ -19,12 +19,12 @@ import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,7 +35,6 @@ import org.junit.*;
  */
 public class BooleanArrays_assertDoesNotContain_Test {
 
-  private static WritableAssertionInfo info;
   private static boolean[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -44,7 +43,6 @@ public class BooleanArrays_assertDoesNotContain_Test {
   private BooleanArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array(true, true);
   }
 
@@ -54,29 +52,30 @@ public class BooleanArrays_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(info, actual, array(false));
+    arrays.assertDoesNotContain(someInfo(), actual, array(false));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(info, actual, array(false, false));
+    arrays.assertDoesNotContain(someInfo(), actual, array(false, false));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertDoesNotContain(info, actual, emptyArray());
+    arrays.assertDoesNotContain(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertDoesNotContain(info, actual, null);
+    arrays.assertDoesNotContain(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, array(true));
+    arrays.assertDoesNotContain(someInfo(), null, array(true));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {
+    AssertionInfo info = someInfo();
     boolean[] expected = array(true);
     try {
       arrays.assertDoesNotContain(info, actual, expected);

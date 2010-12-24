@@ -17,6 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -24,7 +25,6 @@ import static org.mockito.Mockito.*;
 import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,16 +35,10 @@ import org.junit.*;
  */
 public class Collections_assertHasSize_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Collections collections;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -52,20 +46,21 @@ public class Collections_assertHasSize_Test {
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    collections.assertHasSize(info, list("Luke", "Yoda"), 2);
+    collections.assertHasSize(someInfo(), list("Luke", "Yoda"), 2);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertHasSize(info, null, 8);
+    collections.assertHasSize(someInfo(), null, 8);
   }
 
   @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+    AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");
     try {
       collections.assertHasSize(info, actual, 8);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, 1, 8));
+    verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
   }
 }

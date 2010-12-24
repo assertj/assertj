@@ -19,12 +19,12 @@ import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -36,7 +36,6 @@ import org.junit.*;
  */
 public class CharArrays_assertDoesNotContain_at_Index_Test {
 
-  private static WritableAssertionInfo info;
   private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -45,7 +44,6 @@ public class CharArrays_assertDoesNotContain_at_Index_Test {
   private CharArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array('a', 'b', 'c');
   }
 
@@ -56,27 +54,29 @@ public class CharArrays_assertDoesNotContain_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(info, null, 'a', atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), null, 'a', atIndex(0));
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotContain(info, emptyArray(), 'a', atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), emptyArray(), 'a', atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
     thrown.expectNullPointerException("Index should not be null");
-    arrays.assertDoesNotContain(info, actual, 'a', null);
+    arrays.assertDoesNotContain(someInfo(), actual, 'a', null);
   }
 
   @Test public void should_pass_if_Index_is_out_of_bounds() {
-    arrays.assertDoesNotContain(info, actual, 'a', atIndex(6));
+    arrays.assertDoesNotContain(someInfo(), actual, 'a', atIndex(6));
   }
 
   @Test public void should_fail_if_actual_contains_value_at_index() {
+    AssertionInfo info = someInfo();
+    Index index = atIndex(0);
     try {
-      arrays.assertDoesNotContain(info, actual, 'a', atIndex(0));
+      arrays.assertDoesNotContain(info, actual, 'a', index);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(wrap(actual), 'a', atIndex(0)));
+    verify(failures).failure(info, containsAtIndex(wrap(actual), 'a', index));
   }
 }

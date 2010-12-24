@@ -18,6 +18,7 @@ import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 import static org.fest.assertions.test.ErrorMessages.patternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.matchAnything;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -66,7 +67,7 @@ public class Strings_assertMatches_String_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    strings.assertMatches(info, null, ".*");
+    strings.assertMatches(info, null, matchAnything().pattern());
   }
 
   @Test public void should_fail_if_actual_does_not_match_regular_expression() {

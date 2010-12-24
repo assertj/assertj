@@ -23,8 +23,6 @@ import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -69,12 +67,11 @@ public class ShortArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
-    Collection<Short> duplicates = set((short)6, (short)8);
     actual = array(6, 8, 6, 8);
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), duplicates));
+    verify(failures).failure(info, hasDuplicates(wrap(actual), set((short)6, (short)8)));
   }
 }

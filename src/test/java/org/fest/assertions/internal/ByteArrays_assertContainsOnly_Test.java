@@ -19,13 +19,13 @@ import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,17 +36,11 @@ import org.junit.*;
  */
 public class ByteArrays_assertContainsOnly_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private byte[] actual;
   private ByteArrays arrays;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -55,38 +49,39 @@ public class ByteArrays_assertContainsOnly_Test {
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(info, actual, array(6, 8, 10));
+    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(info, actual, array(10, 8, 6));
+    arrays.assertContainsOnly(someInfo(), actual, array(10, 8, 6));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_more_than_once() {
     actual = array(6, 8, 10, 8, 8, 8);
-    arrays.assertContainsOnly(info, actual, array(6, 8, 10));
+    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(info, actual, array(6, 8, 10, 6, 8, 10));
+    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10, 6, 8, 10));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertContainsOnly(info, actual, emptyArray());
+    arrays.assertContainsOnly(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsOnly(info, actual, null);
+    arrays.assertContainsOnly(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsOnly(info, null, array(8));
+    arrays.assertContainsOnly(someInfo(), null, array(8));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_given_values_only() {
+    AssertionInfo info = someInfo();
     byte[] expected = { 6, 8, 20 };
     try {
       arrays.assertContainsOnly(info, actual, expected);

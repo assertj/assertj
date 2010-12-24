@@ -17,13 +17,13 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -34,16 +34,10 @@ import org.junit.*;
  */
 public class Comparables_assertEqual_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Comparables comparables;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -52,7 +46,7 @@ public class Comparables_assertEqual_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    comparables.assertEqual(info, null, 8);
+    comparables.assertEqual(someInfo(), null, 8);
   }
 
   @Test public void should_pass_if_objects_are_equal() {
@@ -61,10 +55,11 @@ public class Comparables_assertEqual_Test {
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
     // 'compareTo' is not consistent with 'equals'
     assertFalse(a.equals(e));
-    comparables.assertEqual(info, a, e);
+    comparables.assertEqual(someInfo(), a, e);
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
+    AssertionInfo info = someInfo();
     try {
       comparables.assertEqual(info, "Luke", "Yoda");
       fail();

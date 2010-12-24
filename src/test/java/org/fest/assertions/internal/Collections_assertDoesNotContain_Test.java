@@ -19,6 +19,7 @@ import static org.fest.assertions.error.Contains.contains;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
@@ -28,7 +29,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -39,7 +39,6 @@ import org.junit.*;
  */
 public class Collections_assertDoesNotContain_Test {
 
-  private static WritableAssertionInfo info;
   private static List<String> actual;
 
   @Rule public ExpectedException thrown = none();
@@ -48,7 +47,6 @@ public class Collections_assertDoesNotContain_Test {
   private Collections collections;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = list("Luke", "Yoda", "Leia");
   }
 
@@ -58,29 +56,30 @@ public class Collections_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    collections.assertDoesNotContain(info, actual, array("Han"));
+    collections.assertDoesNotContain(someInfo(), actual, array("Han"));
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    collections.assertDoesNotContain(info, actual, array("Han", "Han", "Anakin"));
+    collections.assertDoesNotContain(someInfo(), actual, array("Han", "Han", "Anakin"));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertDoesNotContain(info, actual, new Object[0]);
+    collections.assertDoesNotContain(someInfo(), actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    collections.assertDoesNotContain(info, emptyList(), null);
+    collections.assertDoesNotContain(someInfo(), emptyList(), null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesNotContain(info, null, array("Yoda"));
+    collections.assertDoesNotContain(someInfo(), null, array("Yoda"));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {
+    AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
       collections.assertDoesNotContain(info, actual, expected);

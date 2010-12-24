@@ -18,6 +18,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -37,17 +37,11 @@ import org.junit.*;
  */
 public class Collections_assertDoesNotHaveDuplicates_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private List<String> actual;
   private Failures failures;
   private Collections collections;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     actual = list("Luke", "Yoda", "Leia");
@@ -56,19 +50,20 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_have_duplicates() {
-    collections.assertDoesNotHaveDuplicates(info, actual);
+    collections.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, emptyList());
+    collections.assertDoesNotHaveDuplicates(someInfo(), emptyList());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesNotHaveDuplicates(info, null);
+    collections.assertDoesNotHaveDuplicates(someInfo(), null);
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
+    AssertionInfo info = someInfo();
     Collection<String> duplicates = set("Luke", "Yoda");
     actual.addAll(duplicates);
     try {

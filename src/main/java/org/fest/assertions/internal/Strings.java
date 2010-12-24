@@ -94,4 +94,14 @@ public class Strings {
   private void assertNotNull(AssertionInfo info, String actual) {
     Objects.instance().assertNotNull(info, actual);
   }
+
+  /**
+   * @param info
+   * @param actual
+   * @param pattern
+   */
+  public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
+    // TODO Auto-generated method stub
+
+  }
 }

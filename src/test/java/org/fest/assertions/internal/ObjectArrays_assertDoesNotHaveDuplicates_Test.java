@@ -69,12 +69,11 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
-    Collection<String> duplicates = set("Luke", "Yoda");
     actual = array("Luke", "Yoda", "Luke", "Yoda");
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), duplicates));
+    verify(failures).failure(info, hasDuplicates(wrap(actual), set("Luke", "Yoda")));
   }
 }

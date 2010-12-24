@@ -20,7 +20,10 @@ import static org.fest.assertions.data.RgbColor.color;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.regex.Pattern;
 
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.RgbColor;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
@@ -31,10 +34,14 @@ import org.fest.assertions.description.TextDescription;
  */
 public final class TestData {
 
-  private static final TextDescription DESCRIPTION = new TextDescription(
-      "who's the more foolish: the fool, or the fool who follows him?");
+  private static final AssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
 
   private static final RgbColor BLUE = color(0x0000FF);
+
+  private static final TextDescription DESCRIPTION = new TextDescription(
+      "who's the more foolish: the fool, or the fool who follows him?");
+  private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
+
   private static final RgbColor YELLOW = color(0xFFFF00);
 
   public static RgbColor blue() {
@@ -57,8 +64,16 @@ public final class TestData {
     return image;
   }
 
+  public static Pattern matchAnything() {
+    return MATCH_ANYTHING;
+  }
+
   public static Description someDescription() {
     return DESCRIPTION;
+  }
+
+  public static AssertionInfo someInfo() {
+    return ASSERTION_INFO;
   }
 
   public static String someTextDescription() {

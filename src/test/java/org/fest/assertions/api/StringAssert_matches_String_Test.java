@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.TestData.matchAnything;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Strings;
@@ -33,7 +34,7 @@ public class StringAssert_matches_String_Test {
   private StringAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    regex = ".*";
+    regex = matchAnything().pattern();
   }
 
   @Before public void setUp() {

@@ -19,6 +19,7 @@ import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -26,7 +27,6 @@ import static org.mockito.Mockito.*;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -38,7 +38,6 @@ import org.junit.*;
  */
 public class Lists_assertContains_Test {
 
-  private static WritableAssertionInfo info;
   private static List<String> actual;
 
   @Rule public ExpectedException thrown = none();
@@ -47,7 +46,6 @@ public class Lists_assertContains_Test {
   private Lists lists;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = list("Yoda", "Luke", "Leia");
   }
 
@@ -58,25 +56,26 @@ public class Lists_assertContains_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    lists.assertContains(info, null, "Yoda", atIndex(0));
+    lists.assertContains(someInfo(), null, "Yoda", atIndex(0));
   }
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    lists.assertContains(info, emptyList(), "Yoda", atIndex(0));
+    lists.assertContains(someInfo(), emptyList(), "Yoda", atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
     thrown.expectNullPointerException("Index should not be null");
-    lists.assertContains(info, actual, "Yoda", null);
+    lists.assertContains(someInfo(), actual, "Yoda", null);
   }
 
   @Test public void should_throw_error_if_Index_is_out_of_bounds() {
     thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was <6>");
-    lists.assertContains(info, actual, "Yoda", atIndex(6));
+    lists.assertContains(someInfo(), actual, "Yoda", atIndex(6));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_value_at_index() {
+    AssertionInfo info = someInfo();
     try {
       lists.assertContains(info, actual, "Han", atIndex(1));
       fail();
@@ -85,6 +84,6 @@ public class Lists_assertContains_Test {
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {
-    lists.assertContains(info, actual, "Luke", atIndex(1));
+    lists.assertContains(someInfo(), actual, "Luke", atIndex(1));
   }
 }

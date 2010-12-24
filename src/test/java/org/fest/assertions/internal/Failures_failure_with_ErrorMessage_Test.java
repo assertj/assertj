@@ -31,27 +31,27 @@ import org.junit.Test;
  */
 public class Failures_failure_with_ErrorMessage_Test {
 
-  private WritableAssertionInfo assertionInfo;
+  private WritableAssertionInfo info;
   private ErrorMessage errorMessage;
   private Failures failures;
 
   @Before public void setUp() {
-    assertionInfo = new WritableAssertionInfo();
+    info = new WritableAssertionInfo();
     errorMessage = mock(ErrorMessage.class);
     failures = Failures.instance();
   }
 
   @Test public void should_create_use_overriding_error_message_if_it_is_specified() {
-    assertionInfo.overridingErrorMessage("my message");
-    AssertionError failure = failures.failure(assertionInfo, errorMessage);
+    info.overridingErrorMessage("my message");
+    AssertionError failure = failures.failure(info, errorMessage);
     assertEquals("my message", failure.getMessage());
   }
 
   @Test public void should_use_ErrorMessage_when_overriding_error_message_is_not_specified() {
     Description description = new TestDescription("description");
-    assertionInfo.description(description);
+    info.description(description);
     when(errorMessage.create(description)).thenReturn("[description] my message");
-    AssertionError failure = failures.failure(assertionInfo, errorMessage);
+    AssertionError failure = failures.failure(info, errorMessage);
     assertEquals("[description] my message", failure.getMessage());
   }
 }

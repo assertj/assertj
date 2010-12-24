@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class Characters_assertNotEqual_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Characters characters;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -51,14 +45,15 @@ public class Characters_assertNotEqual_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    characters.assertNotEqual(info, null, 'a');
+    characters.assertNotEqual(someInfo(), null, 'a');
   }
 
   @Test public void should_pass_if_characters_are_not_equal() {
-    characters.assertNotEqual(info, 'a', 'b');
+    characters.assertNotEqual(someInfo(), 'a', 'b');
   }
 
   @Test public void should_fail_if_characters_are_equal() {
+    AssertionInfo info = someInfo();
     try {
       characters.assertNotEqual(info, 'b', 'b');
       fail();

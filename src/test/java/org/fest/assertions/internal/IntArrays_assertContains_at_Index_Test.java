@@ -19,12 +19,12 @@ import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIn
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.IntArrayFactory.*;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -36,7 +36,6 @@ import org.junit.*;
  */
 public class IntArrays_assertContains_at_Index_Test {
 
-  private static WritableAssertionInfo info;
   private static int[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -45,7 +44,6 @@ public class IntArrays_assertContains_at_Index_Test {
   private IntArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array(6, 8, 10);
   }
 
@@ -56,33 +54,35 @@ public class IntArrays_assertContains_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, 8, atIndex(0));
+    arrays.assertContains(someInfo(), null, 8, atIndex(0));
   }
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    arrays.assertContains(info, emptyArray(), 8, atIndex(0));
+    arrays.assertContains(someInfo(), emptyArray(), 8, atIndex(0));
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
     thrown.expectNullPointerException("Index should not be null");
-    arrays.assertContains(info, actual, 8, null);
+    arrays.assertContains(someInfo(), actual, 8, null);
   }
 
   @Test public void should_throw_error_if_Index_is_out_of_bounds() {
     thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was <6>");
-    arrays.assertContains(info, actual, 8, atIndex(6));
+    arrays.assertContains(someInfo(), actual, 8, atIndex(6));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_value_at_index() {
+    AssertionInfo info = someInfo();
+    Index index = atIndex(1);
     try {
-      arrays.assertContains(info, actual, 6, atIndex(1));
+      arrays.assertContains(info, actual, 6, index);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 6, atIndex(1)));
+    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 6, index));
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {
-    arrays.assertContains(info, actual, 8, atIndex(1));
+    arrays.assertContains(someInfo(), actual, 8, atIndex(1));
   }
 }

@@ -17,6 +17,7 @@ import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
@@ -26,7 +27,6 @@ import static org.mockito.Mockito.*;
 import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -37,7 +37,6 @@ import org.junit.*;
  */
 public class Collections_assertEndsWith_Test {
 
-  private static WritableAssertionInfo info;
   private static Collection<String> actual;
 
   @Rule public ExpectedException thrown = none();
@@ -46,7 +45,6 @@ public class Collections_assertEndsWith_Test {
   private Collections collections;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
   }
 
@@ -57,55 +55,58 @@ public class Collections_assertEndsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    collections.assertEndsWith(info, actual, null);
+    collections.assertEndsWith(someInfo(), actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertEndsWith(info, actual, new Object[0]);
+    collections.assertEndsWith(someInfo(), actual, new Object[0]);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertEndsWith(info, null, array("Yoda"));
+    collections.assertEndsWith(someInfo(), null, array("Yoda"));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
+    AssertionInfo info = someInfo();
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
+    AssertionInfo info = someInfo();
     Object[] sequence = { "Han", "C-3PO" };
     try {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+    AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(Object[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotEndWith(actual, wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {
-    collections.assertEndsWith(info, actual, array("Luke", "Leia", "Obi-Wan"));
+    collections.assertEndsWith(someInfo(), actual, array("Luke", "Leia", "Obi-Wan"));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    collections.assertEndsWith(info, actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+    collections.assertEndsWith(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 }

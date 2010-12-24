@@ -18,6 +18,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -25,7 +26,6 @@ import static org.mockito.Mockito.*;
 import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,16 +36,10 @@ import org.junit.*;
  */
 public class Collections_assertEmpty_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Collections collections;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -53,15 +47,16 @@ public class Collections_assertEmpty_Test {
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertEmpty(info, emptyList());
+    collections.assertEmpty(someInfo(), emptyList());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertEmpty(info, null);
+    collections.assertEmpty(someInfo(), null);
   }
 
   @Test public void should_fail_if_actual_has_elements() {
+    AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");
     try {
       collections.assertEmpty(info, actual);

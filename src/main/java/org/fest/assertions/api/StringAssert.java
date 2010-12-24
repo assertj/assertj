@@ -125,8 +125,15 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return this;
   }
 
+  /**
+   * Verifies that the actual {@code String} does not match the given regular expression.
+   * @param pattern the regular expression to which the actual {@code String} is to be matched.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not match the given regular expression.
+   */
   public StringAssert doesNotMatch(Pattern pattern) {
-    // TODO implement
-    return null;
+    strings.assertDoesNotMatch(info, actual, pattern);
+    return this;
   }
 }

@@ -19,12 +19,12 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,7 +35,6 @@ import org.junit.*;
  */
 public class CharArrays_assertContainsSequence_Test {
 
-  private static WritableAssertionInfo info;
   private static char[] actual;
 
   @Rule public ExpectedException thrown = none();
@@ -44,7 +43,6 @@ public class CharArrays_assertContainsSequence_Test {
   private CharArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = array('a', 'b', 'c', 'd');
   }
 
@@ -55,55 +53,58 @@ public class CharArrays_assertContainsSequence_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContainsSequence(info, null, array('a'));
+    arrays.assertContainsSequence(someInfo(), null, array('a'));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(info, actual, null);
+    arrays.assertContainsSequence(someInfo(), actual, null);
   }
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertContainsSequence(info, actual, emptyArray());
+    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 'a', 'b', 'c', 12, 20, 22 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 6, 20 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
+    AssertionInfo info = someInfo();
     char[] sequence = { 6, 20, 22 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(sequence);
+    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(char[] sequence) {
+  private void assertThatFailureWasThrownWhenSequenceWasNotFound(AssertionInfo info, char[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(info, actual, array('a', 'b'));
+    arrays.assertContainsSequence(someInfo(), actual, array('a', 'b'));
   }
 
   @Test public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(info, actual, array('a', 'b', 'c', 'd'));
+    arrays.assertContainsSequence(someInfo(), actual, array('a', 'b', 'c', 'd'));
   }
 }

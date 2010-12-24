@@ -18,6 +18,7 @@ import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
@@ -27,7 +28,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -38,18 +38,11 @@ import org.junit.*;
  */
 public class Collections_assertContains_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private List<String> actual;
   private Failures failures;
   private Collections collections;
-
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     actual = list("Luke", "Yoda", "Leia");
@@ -58,42 +51,43 @@ public class Collections_assertContains_Test {
   }
 
   @Test public void should_pass_if_actual_contains_given_values() {
-    collections.assertContains(info, actual, array("Luke"));
+    collections.assertContains(someInfo(), actual, array("Luke"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    collections.assertContains(info, actual, array("Leia", "Yoda"));
+    collections.assertContains(someInfo(), actual, array("Leia", "Yoda"));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_values() {
-    collections.assertContains(info, actual, array("Luke", "Yoda"));
+    collections.assertContains(someInfo(), actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
     actual.addAll(list("Luke", "Luke"));
-    collections.assertContains(info, actual, array("Luke"));
+    collections.assertContains(someInfo(), actual, array("Luke"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    collections.assertContains(info, actual, array("Luke", "Luke"));
+    collections.assertContains(someInfo(), actual, array("Luke", "Luke"));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertContains(info, actual, new Object[0]);
+    collections.assertContains(someInfo(), actual, new Object[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    collections.assertContains(info, actual, null);
+    collections.assertContains(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertContains(info, null, array("Yoda"));
+    collections.assertContains(someInfo(), null, array("Yoda"));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {
+    AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
     try {
       collections.assertContains(info, actual, expected);

@@ -18,11 +18,11 @@ import static java.lang.Boolean.TRUE;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -33,16 +33,10 @@ import org.junit.*;
  */
 public class Booleans_assertEqual_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Booleans booleans;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -52,18 +46,20 @@ public class Booleans_assertEqual_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    booleans.assertEqual(info, null, true);
+    booleans.assertEqual(someInfo(), null, true);
   }
 
   @Test public void should_pass_if_booleans_are_equal() {
-    booleans.assertEqual(info, TRUE, true);
+    booleans.assertEqual(someInfo(), TRUE, true);
   }
 
   @Test public void should_fail_if_booleans_are_not_equal() {
+    AssertionInfo info = someInfo();
+    boolean expected = false;
     try {
-      booleans.assertEqual(info, TRUE, false);
+      booleans.assertEqual(info, TRUE, expected);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(TRUE, false));
+    verify(failures).failure(info, isNotEqual(TRUE, expected));
   }
 }
