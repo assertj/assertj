@@ -18,6 +18,7 @@ import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSeq
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
@@ -61,7 +62,7 @@ public class Collections_assertContainsSequence_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertContainsSequence(someInfo(), actual, new Object[0]);
+    collections.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {

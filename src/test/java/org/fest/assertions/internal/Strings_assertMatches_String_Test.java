@@ -18,14 +18,13 @@ import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 import static org.fest.assertions.test.ErrorMessages.patternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.test.TestData.matchAnything;
+import static org.fest.assertions.test.TestData.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,17 +35,11 @@ import org.junit.*;
  */
 public class Strings_assertMatches_String_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private String actual;
   private Strings strings;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -57,20 +50,21 @@ public class Strings_assertMatches_String_Test {
   @Test public void should_throw_error_if_regular_expression_is_null() {
     thrown.expectNullPointerException(patternIsNull());
     String regex = null;
-    strings.assertMatches(info, actual, regex);
+    strings.assertMatches(someInfo(), actual, regex);
   }
 
   @Test public void should_throw_error_if_syntax_of_regular_expression_is_invalid() {
     thrown.expect(PatternSyntaxException.class);
-    strings.assertMatches(info, actual, "*...");
+    strings.assertMatches(someInfo(), actual, "*...");
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    strings.assertMatches(info, null, matchAnything().pattern());
+    strings.assertMatches(someInfo(), null, matchAnything().pattern());
   }
 
   @Test public void should_fail_if_actual_does_not_match_regular_expression() {
+    AssertionInfo info = someInfo();
     try {
       strings.assertMatches(info, actual, "Luke");
       fail();
@@ -79,6 +73,6 @@ public class Strings_assertMatches_String_Test {
   }
 
   @Test public void should_pass_if_actual_matches_Pattern() {
-    strings.assertMatches(info, actual, "Yod.*");
+    strings.assertMatches(someInfo(), actual, "Yod.*");
   }
 }

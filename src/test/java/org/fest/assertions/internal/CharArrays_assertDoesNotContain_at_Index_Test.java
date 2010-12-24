@@ -19,7 +19,7 @@ import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -54,11 +54,11 @@ public class CharArrays_assertDoesNotContain_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertDoesNotContain(someInfo(), null, 'a', atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), null, 'a', someIndex());
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotContain(someInfo(), emptyArray(), 'a', atIndex(0));
+    arrays.assertDoesNotContain(someInfo(), emptyArray(), 'a', someIndex());
   }
 
   @Test public void should_throw_error_if_Index_is_null() {

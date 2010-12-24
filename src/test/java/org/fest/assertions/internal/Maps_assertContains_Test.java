@@ -20,6 +20,7 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -28,7 +29,6 @@ import static org.mockito.Mockito.*;
 import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -40,7 +40,6 @@ import org.junit.*;
  */
 public class Maps_assertContains_Test {
 
-  private static WritableAssertionInfo info;
   private static Map<?, ?> actual;
 
   @Rule public ExpectedException thrown = none();
@@ -48,9 +47,7 @@ public class Maps_assertContains_Test {
   private Failures failures;
   private Maps maps;
 
-
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = map(entry("name", "Yoda"), entry("color", "green"));
   }
 
@@ -60,39 +57,40 @@ public class Maps_assertContains_Test {
   }
 
   @Test public void should_pass_if_actual_contains_given_entries() {
-    maps.assertContains(info, actual, array(entry("name", "Yoda")));
+    maps.assertContains(someInfo(), actual, array(entry("name", "Yoda")));
   }
 
   @Test public void should_pass_if_actual_contains_given_entries_in_different_order() {
-    maps.assertContains(info, actual, array(entry("color", "green"), entry("name", "Yoda")));
+    maps.assertContains(someInfo(), actual, array(entry("color", "green"), entry("name", "Yoda")));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_entries() {
-    maps.assertContains(info, actual, array(entry("name", "Yoda"), entry("color", "green")));
+    maps.assertContains(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
   }
 
   @Test public void should_throw_error_if_array_of_entries_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertContains(info, actual, new MapEntry[0]);
+    maps.assertContains(someInfo(), actual, new MapEntry[0]);
   }
 
   @Test public void should_throw_error_if_array_of_entries_to_look_for_is_null() {
     thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertContains(info, actual, null);
+    maps.assertContains(someInfo(), actual, null);
   }
 
   @Test public void should_throw_error_if_entry_is_null() {
     MapEntry[] entries = { null };
     thrown.expectNullPointerException(entryToLookForIsNull());
-    maps.assertContains(info, actual, entries);
+    maps.assertContains(someInfo(), actual, entries);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    maps.assertContains(info, null, array(entry("name", "Yoda")));
+    maps.assertContains(someInfo(), null, array(entry("name", "Yoda")));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_entries() {
+    AssertionInfo info = someInfo();
     MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
     try {
       maps.assertContains(info, actual, expected);

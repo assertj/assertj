@@ -14,13 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Shorts#assertIsZero(AssertionInfo, Short)}</code>.
@@ -29,16 +28,8 @@ import org.junit.*;
  */
 public class Shorts_assertIsZero_Test {
 
-  private static WritableAssertionInfo info;
-
-  @Rule public ExpectedException thrown = none();
-
   private Comparables comparables;
   private Shorts shorts;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
@@ -47,6 +38,7 @@ public class Shorts_assertIsZero_Test {
   }
 
   @Test public void should_verify_that_actual_is_equal_to_zero() {
+    AssertionInfo info = someInfo();
     shorts.assertIsZero(info, (short)6);
     verify(comparables).assertEqual(info, (short)6, (short)0);
   }

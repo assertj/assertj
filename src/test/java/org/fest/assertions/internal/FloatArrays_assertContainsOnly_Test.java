@@ -77,8 +77,8 @@ public class FloatArrays_assertContainsOnly_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    // TODO replace with empty array...
-    arrays.assertContainsOnly(someInfo(), null, emptyArray());
+    // TODO replace with non-empty array...
+    arrays.assertContainsOnly(someInfo(), null, array(6f));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_given_values_only() {

@@ -63,7 +63,7 @@ public class FloatArrays_assertStartsWith_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertStartsWith(someInfo(), null, emptyArray());
+    arrays.assertStartsWith(someInfo(), null, array(6f));
   }
 
   @Test public void should_fail_if_sequence_is_bigger_than_actual() {
@@ -73,7 +73,7 @@ public class FloatArrays_assertStartsWith_Test {
       arrays.assertStartsWith(inof, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -83,7 +83,7 @@ public class FloatArrays_assertStartsWith_Test {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -93,10 +93,10 @@ public class FloatArrays_assertStartsWith_Test {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWith(float[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(float[] sequence) {
     verify(failures).failure(someInfo(), doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

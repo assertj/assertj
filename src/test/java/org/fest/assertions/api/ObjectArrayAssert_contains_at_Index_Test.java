@@ -15,7 +15,8 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -35,17 +36,18 @@ public class ObjectArrayAssert_contains_at_Index_Test {
 
   @Before public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(new Object[0]);
+    assertions = new ObjectArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
-    assertions.contains("Yoda", atIndex(2));
-    verify(arrays).assertContains(assertions.info, assertions.actual, "Yoda", atIndex(2));
+    Index index = someIndex();
+    assertions.contains("Yoda", index);
+    verify(arrays).assertContains(assertions.info, assertions.actual, "Yoda", index);
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.contains("Luke", atIndex(6));
+    ObjectArrayAssert returned = assertions.contains("Luke", someIndex());
     assertSame(assertions, returned);
   }
 }

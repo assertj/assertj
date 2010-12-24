@@ -15,8 +15,8 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -41,12 +41,13 @@ public class ByteArrayAssert_contains_at_Index_Test {
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
-    assertions.contains((byte)8, atIndex(2));
-    verify(arrays).assertContains(assertions.info, assertions.actual, (byte)8, atIndex(2));
+    Index index = someIndex();
+    assertions.contains((byte)8, index);
+    verify(arrays).assertContains(assertions.info, assertions.actual, (byte)8, index);
   }
 
   @Test public void should_return_this() {
-    ByteArrayAssert returned = assertions.contains((byte)8, atIndex(6));
+    ByteArrayAssert returned = assertions.contains((byte)8, someIndex());
     assertSame(assertions, returned);
   }
 }

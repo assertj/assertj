@@ -40,7 +40,6 @@ public class ByteArrays_assertHasSize_Test {
   private Failures failures;
   private ByteArrays arrays;
 
-
   @BeforeClass public static void setUpOnce() {
     actual = array(6, 8);
   }

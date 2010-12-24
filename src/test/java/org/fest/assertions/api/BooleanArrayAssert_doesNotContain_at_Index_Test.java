@@ -15,8 +15,8 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -41,12 +41,13 @@ public class BooleanArrayAssert_doesNotContain_at_Index_Test {
   }
 
   @Test public void should_verify_that_actual_does_not_contain_value_at_index() {
-    assertions.doesNotContain(true, atIndex(2));
-    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, true, atIndex(2));
+    Index index = someIndex();
+    assertions.doesNotContain(true, index);
+    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, true, index);
   }
 
   @Test public void should_return_this() {
-    BooleanArrayAssert returned = assertions.doesNotContain(true, atIndex(6));
+    BooleanArrayAssert returned = assertions.doesNotContain(true, someIndex());
     assertSame(assertions, returned);
   }
 }

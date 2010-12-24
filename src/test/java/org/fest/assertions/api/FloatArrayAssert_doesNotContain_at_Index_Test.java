@@ -15,8 +15,8 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -41,12 +41,13 @@ public class FloatArrayAssert_doesNotContain_at_Index_Test {
   }
 
   @Test public void should_verify_that_actual_does_not_contain_value_at_index() {
-    assertions.doesNotContain(8f, atIndex(2));
-    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, 8f, atIndex(2));
+    Index index = someIndex();
+    assertions.doesNotContain(8f, index);
+    verify(arrays).assertDoesNotContain(assertions.info, assertions.actual, 8f, index);
   }
 
   @Test public void should_return_this() {
-    FloatArrayAssert returned = assertions.doesNotContain(8f, atIndex(6));
+    FloatArrayAssert returned = assertions.doesNotContain(8f, someIndex());
     assertSame(assertions, returned);
   }
 }

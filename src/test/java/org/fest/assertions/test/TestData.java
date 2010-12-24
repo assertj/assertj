@@ -15,6 +15,7 @@
 package org.fest.assertions.test;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.data.RgbColor.color;
 
 import java.awt.Color;
@@ -24,6 +25,7 @@ import java.util.regex.Pattern;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.data.Index;
 import org.fest.assertions.data.RgbColor;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
@@ -40,6 +42,9 @@ public final class TestData {
 
   private static final TextDescription DESCRIPTION = new TextDescription(
       "who's the more foolish: the fool, or the fool who follows him?");
+
+  private static final Index INDEX = atIndex(0);
+
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
 
   private static final RgbColor YELLOW = color(0xFFFF00);
@@ -70,6 +75,10 @@ public final class TestData {
 
   public static Description someDescription() {
     return DESCRIPTION;
+  }
+
+  public static Index someIndex() {
+    return INDEX;
   }
 
   public static AssertionInfo someInfo() {

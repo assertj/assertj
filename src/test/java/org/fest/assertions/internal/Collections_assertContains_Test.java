@@ -18,6 +18,7 @@ import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
@@ -73,7 +74,7 @@ public class Collections_assertContains_Test {
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertContains(someInfo(), actual, new Object[0]);
+    collections.assertContains(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {

@@ -20,13 +20,13 @@ import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -37,16 +37,10 @@ import org.junit.*;
  */
 public class Maps_assertNotEmpty_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Maps maps;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -55,15 +49,16 @@ public class Maps_assertNotEmpty_Test {
 
   @Test public void should_pass_if_actual_is_not_empty() {
     Map<?, ?> actual = map(entry("name", "Yoda"));
-    maps.assertNotEmpty(info, actual);
+    maps.assertNotEmpty(someInfo(), actual);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    maps.assertNotEmpty(info, null);
+    maps.assertNotEmpty(someInfo(), null);
   }
 
   @Test public void should_fail_if_actual_is_empty() {
+    AssertionInfo info = someInfo();
     try {
       maps.assertNotEmpty(info, emptyMap());
       fail();

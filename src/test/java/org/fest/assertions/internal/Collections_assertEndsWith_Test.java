@@ -17,6 +17,7 @@ import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
@@ -60,7 +61,7 @@ public class Collections_assertEndsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertEndsWith(someInfo(), actual, new Object[0]);
+    collections.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -75,7 +76,7 @@ public class Collections_assertEndsWith_Test {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -85,7 +86,7 @@ public class Collections_assertEndsWith_Test {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
@@ -95,10 +96,10 @@ public class Collections_assertEndsWith_Test {
       collections.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(AssertionInfo info, Object[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotEndWith(actual, wrap(sequence)));
   }
 

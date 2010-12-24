@@ -17,11 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -32,16 +32,10 @@ import org.junit.*;
  */
 public class Shorts_assertLessThan_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Shorts shorts;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -51,14 +45,15 @@ public class Shorts_assertLessThan_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    shorts.assertLessThan(info, null, (short)8);
+    shorts.assertLessThan(someInfo(), null, (short)8);
   }
 
   @Test public void should_pass_if_actual_is_less_than_other() {
-    shorts.assertLessThan(info, (short)6, (short)8);
+    shorts.assertLessThan(someInfo(), (short)6, (short)8);
   }
 
   @Test public void should_fail_if_actual_is_equal_to_other() {
+    AssertionInfo info = someInfo();
     try {
       shorts.assertLessThan(info, (short)6, (short)6);
       fail();
@@ -67,6 +62,7 @@ public class Shorts_assertLessThan_Test {
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
+    AssertionInfo info = someInfo();
     try {
       shorts.assertLessThan(info, (short)8, (short)6);
       fail();

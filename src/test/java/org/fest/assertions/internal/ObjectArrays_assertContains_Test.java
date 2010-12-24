@@ -18,13 +18,14 @@ import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -35,17 +36,11 @@ import org.junit.*;
  */
 public class ObjectArrays_assertContains_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Object[] actual;
   private ObjectArrays arrays;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -54,42 +49,43 @@ public class ObjectArrays_assertContains_Test {
   }
 
   @Test public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(info, actual, array("Luke"));
+    arrays.assertContains(someInfo(), actual, array("Luke"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(info, actual, array("Leia", "Yoda"));
+    arrays.assertContains(someInfo(), actual, array("Leia", "Yoda"));
   }
 
   @Test public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(info, actual, array("Luke", "Yoda", "Leia"));
+    arrays.assertContains(someInfo(), actual, array("Luke", "Yoda", "Leia"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arrays.assertContains(info, actual, array("Luke"));
+    arrays.assertContains(someInfo(), actual, array("Luke"));
   }
 
   @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(info, actual, array("Luke", "Luke"));
+    arrays.assertContains(someInfo(), actual, array("Luke", "Luke"));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertContains(info, actual, new Object[0]);
+    arrays.assertContains(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContains(info, actual, null);
+    arrays.assertContains(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(info, null, array("Yoda"));
+    arrays.assertContains(someInfo(), null, array("Yoda"));
   }
 
   @Test public void should_fail_if_actual_does_not_contain_values() {
+    AssertionInfo info = someInfo();
     Object[] expected = { "Han", "Luke" };
     try {
       arrays.assertContains(info, actual, expected);

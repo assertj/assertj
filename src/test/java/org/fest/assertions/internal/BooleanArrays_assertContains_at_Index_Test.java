@@ -19,7 +19,7 @@ import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIn
 import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
-import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -54,12 +54,12 @@ public class BooleanArrays_assertContains_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(someInfo(), null, true, atIndex(0));
+    arrays.assertContains(someInfo(), null, true, someIndex());
   }
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), true, atIndex(0));
+    arrays.assertContains(someInfo(), emptyArray(), true, someIndex());
   }
 
   @Test public void should_throw_error_if_Index_is_null() {

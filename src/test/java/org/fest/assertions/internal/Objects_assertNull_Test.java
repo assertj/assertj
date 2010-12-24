@@ -15,12 +15,13 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Objects#assertNull(AssertionInfo, Object)}</code>.
@@ -29,14 +30,8 @@ import org.junit.*;
  */
 public class Objects_assertNull_Test {
 
-  private static WritableAssertionInfo info;
-
   private Failures failures;
   private Objects objects;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -44,15 +39,16 @@ public class Objects_assertNull_Test {
   }
 
   @Test public void should_pass_if_object_is_null() {
-    objects.assertNull(info, null);
+    objects.assertNull(someInfo(), null);
   }
 
   @Test public void should_fail_if_object_is_not_null() {
-    Object o = new Object();
+    AssertionInfo info = someInfo();
+    Object actual = new Object();
     try {
-      objects.assertNull(info, o);
+      objects.assertNull(info, actual);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(o, null));
+    verify(failures).failure(info, isNotEqual(actual, null));
   }
 }

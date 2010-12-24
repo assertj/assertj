@@ -19,7 +19,7 @@ import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIn
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.LongArrayFactory.*;
-import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -54,12 +54,12 @@ public class LongArrays_assertContains_at_Index_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertContains(someInfo(), null, 8L, atIndex(0));
+    arrays.assertContains(someInfo(), null, 8L, someIndex());
   }
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    arrays.assertContains(someInfo(), emptyArray(), 8L, atIndex(0));
+    arrays.assertContains(someInfo(), emptyArray(), 8L, someIndex());
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
@@ -75,11 +75,12 @@ public class LongArrays_assertContains_at_Index_Test {
   @Test public void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
     long value = 6;
+    Index index = atIndex(1);
     try {
-      arrays.assertContains(info, actual, value, atIndex(1));
+      arrays.assertContains(info, actual, value, index);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), value, atIndex(1)));
+    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), value, index));
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

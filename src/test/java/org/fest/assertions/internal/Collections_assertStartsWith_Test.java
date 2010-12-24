@@ -18,6 +18,7 @@ import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
@@ -61,7 +62,7 @@ public class Collections_assertStartsWith_Test {
 
   @Test public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    collections.assertStartsWith(someInfo(), actual, new Object[0]);
+    collections.assertStartsWith(someInfo(), actual, emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -76,7 +77,7 @@ public class Collections_assertStartsWith_Test {
       collections.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -86,7 +87,7 @@ public class Collections_assertStartsWith_Test {
       collections.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -96,10 +97,10 @@ public class Collections_assertStartsWith_Test {
       collections.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWith(AssertionInfo info, Object[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotStartWith(actual, wrap(sequence)));
   }
 

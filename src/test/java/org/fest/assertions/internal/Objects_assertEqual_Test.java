@@ -15,12 +15,13 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
@@ -29,14 +30,9 @@ import org.junit.*;
  */
 public class Objects_assertEqual_Test {
 
-  private static WritableAssertionInfo info;
 
   private Failures failures;
   private Objects objects;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -44,10 +40,11 @@ public class Objects_assertEqual_Test {
   }
 
   @Test public void should_pass_if_objects_are_equal() {
-    objects.assertEqual(info, "Yoda", "Yoda");
+    objects.assertEqual(someInfo(), "Yoda", "Yoda");
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
+    AssertionInfo info = someInfo();
     try {
       objects.assertEqual(info, "Luke", "Yoda");
       fail();

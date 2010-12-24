@@ -73,7 +73,7 @@ public class ByteArrays_assertEndsWith_Test {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -83,7 +83,7 @@ public class ByteArrays_assertEndsWith_Test {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
@@ -93,10 +93,10 @@ public class ByteArrays_assertEndsWith_Test {
       arrays.assertEndsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWith(AssertionInfo info, byte[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(AssertionInfo info, byte[] sequence) {
     verify(failures).failure(info, doesNotEndWith(wrap(actual), wrap(sequence)));
   }
 

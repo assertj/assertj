@@ -19,7 +19,7 @@ import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
-import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestData.*;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -56,12 +56,12 @@ public class Lists_assertContains_Test {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    lists.assertContains(someInfo(), null, "Yoda", atIndex(0));
+    lists.assertContains(someInfo(), null, "Yoda", someIndex());
   }
 
   @Test public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(unexpectedEmpty());
-    lists.assertContains(someInfo(), emptyList(), "Yoda", atIndex(0));
+    lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex());
   }
 
   @Test public void should_throw_error_if_Index_is_null() {
@@ -76,11 +76,12 @@ public class Lists_assertContains_Test {
 
   @Test public void should_fail_if_actual_does_not_contain_value_at_index() {
     AssertionInfo info = someInfo();
+    Index index = atIndex(1);
     try {
-      lists.assertContains(info, actual, "Han", atIndex(1));
+      lists.assertContains(info, actual, "Han", index);
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", atIndex(1)));
+    verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index));
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

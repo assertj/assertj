@@ -20,6 +20,7 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -28,7 +29,6 @@ import static org.mockito.Mockito.*;
 import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
@@ -40,7 +40,6 @@ import org.junit.*;
  */
 public class Maps_assertDoesNotContain_Test {
 
-  private static WritableAssertionInfo info;
   private static Map<?, ?> actual;
 
   @Rule public ExpectedException thrown = none();
@@ -49,7 +48,6 @@ public class Maps_assertDoesNotContain_Test {
   private Maps maps;
 
   @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
     actual = map(entry("name", "Yoda"), entry("color", "green"));
   }
 
@@ -59,25 +57,26 @@ public class Maps_assertDoesNotContain_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
-    maps.assertDoesNotContain(info, actual, array(entry("job", "Jedi")));
+    maps.assertDoesNotContain(someInfo(), actual, array(entry("job", "Jedi")));
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
-    maps.assertDoesNotContain(info, actual, new MapEntry[0]);
+    maps.assertDoesNotContain(someInfo(), actual, new MapEntry[0]);
   }
 
   @Test public void should_throw_error_if_array_of_values_to_look_for_is_null() {
     thrown.expectNullPointerException(entriesToLookForIsNull());
-    maps.assertDoesNotContain(info, actual, null);
+    maps.assertDoesNotContain(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    maps.assertDoesNotContain(info, null, array(entry("job", "Jedi")));
+    maps.assertDoesNotContain(someInfo(), null, array(entry("job", "Jedi")));
   }
 
   @Test public void should_fail_if_actual_contains_given_values() {
+    AssertionInfo info = someInfo();
     MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
     try {
       maps.assertDoesNotContain(info, actual, expected);

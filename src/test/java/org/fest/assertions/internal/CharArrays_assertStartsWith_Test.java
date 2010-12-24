@@ -73,7 +73,7 @@ public class CharArrays_assertStartsWith_Test {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -83,7 +83,7 @@ public class CharArrays_assertStartsWith_Test {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -93,10 +93,10 @@ public class CharArrays_assertStartsWith_Test {
       arrays.assertStartsWith(info, actual, sequence);
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWith(info, sequence);
+    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWith(AssertionInfo info, char[] sequence) {
+  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, char[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

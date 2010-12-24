@@ -15,13 +15,14 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotSame.isNotSame;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.Person;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Objects#assertSame(AssertionInfo, Object, Object)}</code>.
@@ -30,14 +31,8 @@ import org.junit.*;
  */
 public class Objects_assertSame_Test {
 
-  private static WritableAssertionInfo info;
-
   private Failures failures;
   private Objects objects;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -45,11 +40,12 @@ public class Objects_assertSame_Test {
   }
 
   @Test public void should_pass_if_objects_are_same() {
-    Object o = new Object();
-    objects.assertSame(info, o, o);
+    Object actual = new Object();
+    objects.assertSame(someInfo(), actual, actual);
   }
 
   @Test public void should_fail_if_objects_are_not_same() {
+    AssertionInfo info = someInfo();
     Object a = new Person("Yoda");
     Object e = new Person("Yoda");
     try {

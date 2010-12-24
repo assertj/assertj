@@ -17,16 +17,15 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -37,17 +36,11 @@ import org.junit.*;
  */
 public class ObjectArrays_assertDoesNotHaveDuplicates_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Object[] actual;
   private ObjectArrays collections;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -56,19 +49,20 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test {
   }
 
   @Test public void should_pass_if_actual_does_not_have_duplicates() {
-    collections.assertDoesNotHaveDuplicates(info, actual);
+    collections.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(info, new Object[0]);
+    collections.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesNotHaveDuplicates(info, null);
+    collections.assertDoesNotHaveDuplicates(someInfo(), null);
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
+    AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", "Luke", "Yoda");
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);

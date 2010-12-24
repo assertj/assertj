@@ -19,13 +19,13 @@ import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Map;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,16 +36,10 @@ import org.junit.*;
  */
 public class Maps_assertNullOrEmpty_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private Maps maps;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -53,6 +47,7 @@ public class Maps_assertNullOrEmpty_Test {
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
+    AssertionInfo info = someInfo();
     Map<?, ?> actual = map(entry("name", "Yoda"));
     try {
       maps.assertNullOrEmpty(info, actual);
@@ -62,10 +57,10 @@ public class Maps_assertNullOrEmpty_Test {
   }
 
   @Test public void should_pass_if_array_is_null() {
-    maps.assertNullOrEmpty(info, null);
+    maps.assertNullOrEmpty(someInfo(), null);
   }
 
   @Test public void should_pass_if_array_is_empty() {
-    maps.assertNullOrEmpty(info, emptyMap());
+    maps.assertNullOrEmpty(someInfo(), emptyMap());
   }
 }

@@ -16,7 +16,7 @@ package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.data.Index.atIndex;
+import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
@@ -41,12 +41,13 @@ public class ListAssert_contains_at_Index_Test {
   }
 
   @Test public void should_verify_that_actual_contains_value_at_index() {
-    assertions.contains("Yoda", atIndex(2));
-    verify(lists).assertContains(assertions.info, assertions.actual, "Yoda", atIndex(2));
+    Index index = someIndex();
+    assertions.contains("Yoda", index);
+    verify(lists).assertContains(assertions.info, assertions.actual, "Yoda", index);
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.contains("Luke", atIndex(6));
+    ListAssert returned = assertions.contains("Luke", someIndex());
     assertSame(assertions, returned);
   }
 }

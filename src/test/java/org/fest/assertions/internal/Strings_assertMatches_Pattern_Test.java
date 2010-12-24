@@ -18,14 +18,13 @@ import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 import static org.fest.assertions.test.ErrorMessages.patternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
-import static org.fest.assertions.test.TestData.matchAnything;
+import static org.fest.assertions.test.TestData.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.regex.Pattern;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
@@ -36,17 +35,11 @@ import org.junit.*;
  */
 public class Strings_assertMatches_Pattern_Test {
 
-  private static WritableAssertionInfo info;
-
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
   private String actual;
   private Strings strings;
-
-  @BeforeClass public static void setUpOnce() {
-    info = new WritableAssertionInfo();
-  }
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
@@ -57,15 +50,16 @@ public class Strings_assertMatches_Pattern_Test {
   @Test public void should_throw_error_if_Pattern_is_null() {
     thrown.expectNullPointerException(patternIsNull());
     Pattern pattern = null;
-    strings.assertMatches(info, actual, pattern);
+    strings.assertMatches(someInfo(), actual, pattern);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    strings.assertMatches(info, null, matchAnything());
+    strings.assertMatches(someInfo(), null, matchAnything());
   }
 
   @Test public void should_fail_if_actual_does_not_match_Pattern() {
+    AssertionInfo info = someInfo();
     try {
       strings.assertMatches(info, actual, Pattern.compile("Luke"));
       fail();
@@ -74,6 +68,6 @@ public class Strings_assertMatches_Pattern_Test {
   }
 
   @Test public void should_pass_if_actual_matches_Pattern() {
-    strings.assertMatches(info, actual, Pattern.compile("Yod.*"));
+    strings.assertMatches(someInfo(), actual, Pattern.compile("Yod.*"));
   }
 }
