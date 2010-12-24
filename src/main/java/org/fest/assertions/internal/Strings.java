@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
+import static org.fest.assertions.error.MatchesPattern.matches;
 import static org.fest.assertions.internal.CommonErrors.patternToMatchIsNull;
 
 import java.util.regex.Pattern;
@@ -67,6 +68,21 @@ public class Strings {
     throw failures.failure(info, doesNotMatch(actual, regex));
   }
 
+  /**
+   * Verifies that the given {@code String} does not match the given regular expression.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @param regex the regular expression to which the actual {@code String} is to be matched.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the actual {@code String} matches the given regular expression.
+   */
+  public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
+    isNotNull(regex);
+    if (actual == null || !Pattern.matches(regex, actual)) return;
+    throw failures.failure(info, matches(actual, regex));
+  }
+
   private void isNotNull(String regex) {
     if (regex == null) throw patternToMatchIsNull();
   }
@@ -87,21 +103,25 @@ public class Strings {
     throw failures.failure(info, doesNotMatch(actual, pattern.pattern()));
   }
 
+  /**
+   * Verifies that the given {@code String} does not match the given regular expression.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @param pattern the regular expression to which the actual {@code String} is to be matched.
+   * @throws NullPointerException if the given pattern is {@code null}.
+   * @throws AssertionError if the given {@code String} matches the given regular expression.
+   */
+  public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
+    isNotNull(pattern);
+    if (actual == null || !pattern.matcher(actual).matches()) return;
+    throw failures.failure(info, matches(actual, pattern.pattern()));
+  }
+
   private void isNotNull(Pattern pattern) {
     if (pattern == null) throw patternToMatchIsNull();
   }
 
   private void assertNotNull(AssertionInfo info, String actual) {
     Objects.instance().assertNotNull(info, actual);
-  }
-
-  /**
-   * @param info
-   * @param actual
-   * @param pattern
-   */
-  public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
-    // TODO Auto-generated method stub
-
   }
 }

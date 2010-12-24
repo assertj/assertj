@@ -1,5 +1,5 @@
 /*
- * Created on Dec 23, 2010
+ * Created on Dec 24, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,19 +24,19 @@ import org.fest.assertions.internal.Strings;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link StringAssert#doesNotMatch(Pattern)}</code>.
+ * Tests for <code>{@link StringAssert#doesNotMatch(String)}</code>.
  *
  * @author Alex Ruiz
  */
-public class StringAssert_doesNotMatch_Pattern_Test {
+public class StringAssert_doesNotMatch_String_Test {
 
-  private static String regex;
+  private static Pattern pattern;
 
   private Strings strings;
   private StringAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    regex = matchAnything().pattern();
+    pattern = matchAnything();
   }
 
   @Before public void setUp() {
@@ -46,12 +46,12 @@ public class StringAssert_doesNotMatch_Pattern_Test {
   }
 
   @Test public void should_verify_that_actual_matches_Pattern() {
-    assertions.doesNotMatch(regex);
-    verify(strings).assertDoesNotMatch(assertions.info, assertions.actual, regex);
+    assertions.doesNotMatch(pattern);
+    verify(strings).assertDoesNotMatch(assertions.info, assertions.actual, pattern);
   }
 
   @Test public void should_return_this() {
-    StringAssert returned = assertions.doesNotMatch(regex);
+    StringAssert returned = assertions.doesNotMatch(pattern);
     assertSame(assertions, returned);
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Dec 22, 2010
+ * Created on Dec 24, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,11 +15,12 @@
 package org.fest.assertions.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code String} matches a pattern failed.
+ * Creates an error message indicating that an assertion that verifies that a {@code String} does not match a pattern
+ * failed.
  *
  * @author Alex Ruiz
  */
-public class DoesNotMatchPattern extends BasicErrorMessage {
+public class MatchesPattern extends BasicErrorMessage {
 
   /**
    * Creates a new <code>{@link DoesNotStartWith}</code>.
@@ -27,11 +28,11 @@ public class DoesNotMatchPattern extends BasicErrorMessage {
    * @param pattern a regular expression pattern.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotMatch(String actual, String pattern) {
-    return new DoesNotMatchPattern(actual, pattern);
+  public static ErrorMessage matches(String actual, String pattern) {
+    return new MatchesPattern(actual, pattern);
   }
 
-  private DoesNotMatchPattern(String actual, String pattern) {
-    super("%s%s does not match the pattern %s", actual, pattern);
+  private MatchesPattern(String actual, String pattern) {
+    super("%s%s matches the pattern %s", actual, pattern);
   }
 }
