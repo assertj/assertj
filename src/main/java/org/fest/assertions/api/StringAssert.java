@@ -63,32 +63,45 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return null;
   }
 
+  /**
+   * Verifies that the actual {@code String} is equal to the given one, ignoring case considerations.
+   * @param expected the given {@code String} to compare the actual {@code String} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code String} is not equal to the given one.
+   */
   public StringAssert isEqualToIgnoringCase(String expected) {
+    strings.assertEqualsIgnoringCase(info, actual, expected);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@code String} contains the given sequence.
+   * @param sequence the sequence to search for.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contain the given one.
+   */
+  public StringAssert contains(String sequence) {
+    strings.assertContains(info, actual, sequence);
+    return this;
+  }
+
+  public StringAssert containsIgnoringCase(String sequence) {
     // TODO implement
     return null;
   }
 
-  public StringAssert contains(String expected) {
+  public StringAssert doesNotContain(String sequence) {
     // TODO implement
     return null;
   }
 
-  public StringAssert containsIgnoringCase(String expected) {
+  public StringAssert startsWith(String prefix) {
     // TODO implement
     return null;
   }
 
-  public StringAssert doesNotContain(String expected) {
-    // TODO implement
-    return null;
-  }
-
-  public StringAssert startsWith(String expected) {
-    // TODO implement
-    return null;
-  }
-
-  public StringAssert endsWith(String expected) {
+  public StringAssert endsWith(String suffix) {
     // TODO implement
     return null;
   }

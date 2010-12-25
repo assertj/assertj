@@ -15,29 +15,21 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.TestData.matchAnything;
 import static org.mockito.Mockito.*;
 
-import java.util.regex.Pattern;
-
 import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link StringAssert#doesNotMatch(String)}</code>.
+ * Tests for <code>{@link StringAssert#contains(String)}</code>.
  *
  * @author Alex Ruiz
  */
-public class StringAssert_doesNotMatch_String_Test {
-
-  private static Pattern pattern;
+public class StringAssert_contains_String_Test {
 
   private Strings strings;
   private StringAssert assertions;
-
-  @BeforeClass public static void setUpOnce() {
-    pattern = matchAnything();
-  }
 
   @Before public void setUp() {
     strings = mock(Strings.class);
@@ -45,13 +37,13 @@ public class StringAssert_doesNotMatch_String_Test {
     assertions.strings = strings;
   }
 
-  @Test public void should_verify_that_actual_does_not_match_regular_expression() {
-    assertions.doesNotMatch(pattern);
-    verify(strings).assertDoesNotMatch(assertions.info, assertions.actual, pattern);
+  @Test public void should_verify_that_actual_contains_sequence() {
+    assertions.contains("od");
+    verify(strings).assertContains(assertions.info, assertions.actual, "od");
   }
 
   @Test public void should_return_this() {
-    StringAssert returned = assertions.doesNotMatch(pattern);
+    StringAssert returned = assertions.contains("yo");
     assertSame(assertions, returned);
   }
 }

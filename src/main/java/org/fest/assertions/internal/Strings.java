@@ -14,9 +14,11 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
+import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
 import static org.fest.assertions.error.MatchesPattern.matches;
-import static org.fest.assertions.internal.CommonErrors.patternToMatchIsNull;
+import static org.fest.assertions.internal.CommonErrors.*;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -52,6 +54,43 @@ public class Strings {
   }
 
   /**
+   * Verifies that the given {@code String} contains the given sequence.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param sequence the sequence to search for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contain the given sequence.
+   */
+  public void assertContains(AssertionInfo info, String actual, String sequence) {
+    validateSequenceNotNull(sequence);
+    assertNotNull(info, actual);
+    if (actual.contains(sequence)) return;
+    throw failures.failure(info, doesNotContain(actual, sequence));
+  }
+
+  private void validateSequenceNotNull(String sequence) {
+    if (sequence == null) throw sequenceToLookForIsNull();
+  }
+
+  /**
+   * Verifies that two {@code String}s are equal, ignoring case considerations.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param expected the expected {@code String}.
+   * @throws AssertionError if the given {@code String}s are not equal.
+   */
+  public void assertEqualsIgnoringCase(AssertionInfo info, String actual, String expected) {
+    if (areEqualIgnoringCase(actual, expected)) return;
+    throw failures.failure(info, isNotEqual(actual, expected));
+  }
+
+  private boolean areEqualIgnoringCase(String actual, String expected) {
+    if (actual == null) return expected == null;
+    return actual.equalsIgnoreCase(expected);
+  }
+
+  /**
    * Verifies that the given {@code String} matches the given regular expression.
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
@@ -62,7 +101,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, String regex) {
-    isNotNull(regex);
+    validateRegexNotNull(regex);
     assertNotNull(info, actual);
     if (Pattern.matches(regex, actual)) return;
     throw failures.failure(info, doesNotMatch(actual, regex));
@@ -78,12 +117,12 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} matches the given regular expression.
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
-    isNotNull(regex);
+    validateRegexNotNull(regex);
     if (actual == null || !Pattern.matches(regex, actual)) return;
     throw failures.failure(info, matches(actual, regex));
   }
 
-  private void isNotNull(String regex) {
+  private void validateRegexNotNull(String regex) {
     if (regex == null) throw patternToMatchIsNull();
   }
 
@@ -97,7 +136,7 @@ public class Strings {
    * @throws AssertionError if the given {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, Pattern pattern) {
-    isNotNull(pattern);
+    validateNotNull(pattern);
     assertNotNull(info, actual);
     if (pattern.matcher(actual).matches()) return;
     throw failures.failure(info, doesNotMatch(actual, pattern.pattern()));
@@ -112,12 +151,12 @@ public class Strings {
    * @throws AssertionError if the given {@code String} matches the given regular expression.
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
-    isNotNull(pattern);
+    validateNotNull(pattern);
     if (actual == null || !pattern.matcher(actual).matches()) return;
     throw failures.failure(info, matches(actual, pattern.pattern()));
   }
 
-  private void isNotNull(Pattern pattern) {
+  private void validateNotNull(Pattern pattern) {
     if (pattern == null) throw patternToMatchIsNull();
   }
 

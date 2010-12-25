@@ -32,9 +32,15 @@ public class DoesNotContain_create_Test {
 
   private ErrorMessage errorMessage;
 
-  @Test public void should_create_error_message() {
+  @Test public void should_create_error_message_with_notFound() {
     errorMessage = doesNotContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"));
     String message = errorMessage.create(new TextDescription("Test"));
     assertEquals("[Test] expected:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
+  }
+
+  @Test public void should_create_error_message_without_notFound() {
+    errorMessage = doesNotContain(list("Yoda"), list("Luke", "Yoda"));
+    String message = errorMessage.create(new TextDescription("Test"));
+    assertEquals("[Test] expected:<['Yoda']> to contain:<['Luke', 'Yoda']>", message);
   }
 }

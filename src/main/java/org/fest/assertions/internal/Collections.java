@@ -127,7 +127,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Collection<?> actual, Object[] values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
@@ -147,7 +147,7 @@ public class Collections {
    * {@code Collection} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Collection<?> actual, Object[] values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
@@ -176,7 +176,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, actual);
     boolean firstAlreadyFound = false;
     int i = 0;
@@ -210,7 +210,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} contains any of given values.
    */
   public void assertDoesNotContain(AssertionInfo info, Collection<?> actual, Object[] values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     Set<Object> found = new LinkedHashSet<Object>();
     for (Object o: values) if (actual.contains(o)) found.add(o);
@@ -247,7 +247,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, actual);
     int sequenceSize = sequence.length;
     if (actual.size() < sequenceSize) throw actualDoesNotStartWithSequence(info, actual, sequence);
@@ -276,7 +276,7 @@ public class Collections {
    * @throws AssertionError if the given {@code Collection} does not end with the given sequence of objects.
    */
   public void assertEndsWith(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, actual);
     int sequenceSize = sequence.length;
     int sizeOfActual = actual.size();
@@ -291,7 +291,7 @@ public class Collections {
     }
   }
 
-  private void isNotEmptyOrNull(Object[] values) {
+  private void validateNotNullAndNotEmpty(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
     if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }

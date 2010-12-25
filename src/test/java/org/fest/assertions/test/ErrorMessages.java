@@ -61,6 +61,10 @@ public final class ErrorMessages {
     return "The pattern to match should not be null";
   }
 
+  public static String sequenceToLookForIsNull() {
+    return "The sequence to look for should not be null";
+  }
+
   public static String valuesToLookForIsEmpty() {
     return "The array of values to look for should not be empty";
   }

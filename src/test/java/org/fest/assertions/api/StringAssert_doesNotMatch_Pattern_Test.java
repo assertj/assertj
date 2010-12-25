@@ -45,7 +45,7 @@ public class StringAssert_doesNotMatch_Pattern_Test {
     assertions.strings = strings;
   }
 
-  @Test public void should_verify_that_actual_matches_Pattern() {
+  @Test public void should_verify_that_actual_does_not_match_Pattern() {
     assertions.doesNotMatch(regex);
     verify(strings).assertDoesNotMatch(assertions.info, assertions.actual, regex);
   }

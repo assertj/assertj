@@ -66,12 +66,6 @@ class Arrays {
     throw failures.failure(info, isNotEmpty(array));
   }
 
-  void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
-    assertNotNull(info, array);
-    if (!isArrayEmpty(array)) return;
-    throw failures.failure(info, isEmpty());
-  }
-
   void assertHasSize(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
@@ -80,7 +74,7 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notFound = new LinkedHashSet<Object>();
     int valueCount = sizeOf(values);
@@ -101,6 +95,12 @@ class Arrays {
     throw failures.failure(info, doesNotContainAtIndex(wrap(array), value, index));
   }
 
+  void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
+    assertNotNull(info, array);
+    if (!isArrayEmpty(array)) return;
+    throw failures.failure(info, isEmpty());
+  }
+
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
     assertNotNull(info, array);
     validateIndexValue(index, Integer.MAX_VALUE);
@@ -112,7 +112,7 @@ class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> notExpected = asSet(array);
     Set<Object> notFound = containsOnly(notExpected, values);
@@ -140,7 +140,7 @@ class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     boolean firstAlreadyFound = false;
     int i = 0;
@@ -166,7 +166,7 @@ class Arrays {
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
-    isNotEmptyOrNull(values);
+    validateNotNullAndNotEmpty(values);
     assertNotNull(info, array);
     Set<Object> found = new LinkedHashSet<Object>();
     int valueCount = sizeOf(values);
@@ -176,15 +176,6 @@ class Arrays {
     }
     if (found.isEmpty()) return;
     throw failures.failure(info, contains(array, values, found));
-  }
-
-  private void isNotEmptyOrNull(Object values) {
-    if (values == null) throw arrayOfValuesToLookForIsNull();
-    if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
-  }
-
-  private boolean isArrayEmpty(Object array) {
-    return sizeOf(array) == 0;
   }
 
   private boolean arrayContains(Object array, Object value) {
@@ -205,7 +196,7 @@ class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(array);
@@ -222,7 +213,7 @@ class Arrays {
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    isNotEmptyOrNull(sequence);
+    validateNotNullAndNotEmpty(sequence);
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(array);
@@ -233,6 +224,15 @@ class Arrays {
       if (areEqual(Array.get(sequence, sequenceIndex), Array.get(array, arrayIndex))) continue;
       throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
     }
+  }
+
+  private void validateNotNullAndNotEmpty(Object values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
+  }
+
+  private boolean isArrayEmpty(Object array) {
+    return sizeOf(array) == 0;
   }
 
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,

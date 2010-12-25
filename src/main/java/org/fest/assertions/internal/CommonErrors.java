@@ -31,5 +31,9 @@ final class CommonErrors {
     return new NullPointerException("The pattern to match should not be null");
   }
 
+  static NullPointerException sequenceToLookForIsNull() {
+    return new NullPointerException("The sequence to look for should not be null");
+  }
+
   private CommonErrors() {}
 }
