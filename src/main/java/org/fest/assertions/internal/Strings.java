@@ -18,7 +18,6 @@ import static org.fest.assertions.error.DoesNotContain.doesNotContain;
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
 import static org.fest.assertions.error.MatchesPattern.matches;
-import static org.fest.assertions.internal.CommonErrors.*;
 
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -70,7 +69,7 @@ public class Strings {
   }
 
   private void validateSequenceNotNull(String sequence) {
-    if (sequence == null) throw sequenceToLookForIsNull();
+    if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
   }
 
   /**
@@ -158,6 +157,10 @@ public class Strings {
 
   private void validateNotNull(Pattern pattern) {
     if (pattern == null) throw patternToMatchIsNull();
+  }
+
+  private NullPointerException patternToMatchIsNull() {
+    return new NullPointerException("The regular expression pattern to match should not be null");
   }
 
   private void assertNotNull(AssertionInfo info, String actual) {

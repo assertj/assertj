@@ -57,8 +57,8 @@ public final class ErrorMessages {
     return "The value of the offset to create should not be null";
   }
 
-  public static String patternIsNull() {
-    return "The pattern to match should not be null";
+  public static String regexPatternIsNull() {
+    return "The regular expression pattern to match should not be null";
   }
 
   public static String sequenceToLookForIsNull() {

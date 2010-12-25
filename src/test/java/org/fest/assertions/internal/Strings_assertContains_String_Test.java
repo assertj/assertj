@@ -49,7 +49,20 @@ public class Strings_assertContains_String_Test {
       strings.assertContains(info, "Yoda", "Luke");
       fail();
     } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContain("Yoda", "Luke"));
+    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "Luke");
+  }
+
+  @Test public void should_fail_if_actual_contains_sequence_but_in_different_case() {
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertContains(info, "Yoda", "yo");
+      fail();
+    } catch (AssertionError e) {}
+    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "yo");
+  }
+
+  private void assertThatFailureWasThrownWhenSequenceNotFound(AssertionInfo info, String actual, String sequence) {
+    verify(failures).failure(info, doesNotContain(actual, sequence));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {

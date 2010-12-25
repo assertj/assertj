@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.MatchesPattern.matches;
-import static org.fest.assertions.test.ErrorMessages.patternIsNull;
+import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.*;
 import static org.junit.Assert.fail;
@@ -47,7 +47,7 @@ public class Strings_assertDoesNotMatch_String_Test {
   }
 
   @Test public void should_throw_error_if_regular_expression_is_null() {
-    thrown.expectNullPointerException(patternIsNull());
+    thrown.expectNullPointerException(regexPatternIsNull());
     String pattern = null;
     strings.assertDoesNotMatch(someInfo(), actual, pattern);
   }

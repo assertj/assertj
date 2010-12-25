@@ -27,13 +27,5 @@ final class CommonErrors {
     return new IllegalArgumentException("The array of values to look for should not be empty");
   }
 
-  static NullPointerException patternToMatchIsNull() {
-    return new NullPointerException("The pattern to match should not be null");
-  }
-
-  static NullPointerException sequenceToLookForIsNull() {
-    return new NullPointerException("The sequence to look for should not be null");
-  }
-
   private CommonErrors() {}
 }
