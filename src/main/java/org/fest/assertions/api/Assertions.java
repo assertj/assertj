@@ -300,6 +300,15 @@ public class Assertions {
     return new ShortArrayAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link StringAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static StringAssert assertThat(String actual) {
+    return new StringAssert(actual);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

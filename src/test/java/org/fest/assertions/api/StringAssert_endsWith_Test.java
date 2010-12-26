@@ -1,5 +1,5 @@
 /*
- * Created on Dec 24, 2010
+ * Created on Dec 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -18,15 +18,14 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Strings;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link StringAssert#isEqualToIgnoringCase(String)}</code>.
+ * Tests for <code>{@link StringAssert#endsWith(String)}</code>.
  *
  * @author Alex Ruiz
  */
-public class StringAssert_isEqualToIgnoringCase_String_Test {
+public class StringAssert_endsWith_Test {
 
   private Strings strings;
   private StringAssert assertions;
@@ -37,13 +36,13 @@ public class StringAssert_isEqualToIgnoringCase_String_Test {
     assertions.strings = strings;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_given_String_ignoring_case() {
-    assertions.isEqualToIgnoringCase("yoda");
-    verify(strings).assertEqualsIgnoringCase(assertions.info, assertions.actual, "yoda");
+  @Test public void should_verify_that_actual_ends_with_prefix() {
+    assertions.endsWith("Yod");
+    verify(strings).assertEndsWith(assertions.info, assertions.actual, "Yod");
   }
 
   @Test public void should_return_this() {
-    StringAssert returned = assertions.isEqualToIgnoringCase("yoda");
+    StringAssert returned = assertions.endsWith("yo");
     assertSame(assertions, returned);
   }
 }

@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.regex.*;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.internal.Strings;
@@ -96,23 +95,47 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
    * @throws AssertionError if the actual {@code String} does not contain the given one.
    */
   public StringAssert containsIgnoringCase(String sequence) {
-    // TODO implement
-    return null;
+    strings.assertContainsIgnoringCase(info, actual, sequence);
+    return this;
   }
 
+  /**
+   * Verifies that the actual {@code String} does not contain the given sequence.
+   * @param sequence the sequence to search for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} contains the given one.
+   */
   public StringAssert doesNotContain(String sequence) {
-    // TODO implement
-    return null;
+    strings.assertDoesNotContain(info, actual, sequence);
+    return this;
   }
 
+  /**
+   * Verifies that the actual {@code String} starts with the given prefix.
+   * @param prefix the given prefix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given prefix is {@code null}.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not start with the given prefix.
+   */
   public StringAssert startsWith(String prefix) {
-    // TODO implement
-    return null;
+    strings.assertStartsWith(info, actual, prefix);
+    return this;
   }
 
+  /**
+   * Verifies that the actual {@code String} ends with the given suffix.
+   * @param suffix the given suffix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given suffix is {@code null}.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not end with the given suffix.
+   */
   public StringAssert endsWith(String suffix) {
-    // TODO implement
-    return null;
+    strings.assertEndsWith(info, actual, suffix);
+    return this;
   }
 
   /**

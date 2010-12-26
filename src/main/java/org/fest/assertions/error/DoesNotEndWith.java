@@ -14,11 +14,10 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Collection;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements starts with a given
- * sequence of values failed. A group of elements can be a collection, an array or a {@code String}.
+ * value or sequence of values failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
  */
@@ -27,14 +26,14 @@ public class DoesNotEndWith extends BasicErrorMessage {
   /**
    * Creates a new <code>{@link DoesNotEndWith}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param sequence the sequence of values that {@code actual} is expected to start with.
+   * @param expected the value or sequence of values that {@code actual} is expected to start with.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotEndWith(Collection<?> actual, Collection<?> sequence) {
-    return new DoesNotEndWith(actual, sequence);
+  public static ErrorMessage doesNotEndWith(Object actual, Object expected) {
+    return new DoesNotEndWith(actual, expected);
   }
 
-  private DoesNotEndWith(Collection<?> actual, Collection<?> sequence) {
-    super("%sexpecting:<%s> to end with sequence:<%s>", actual, sequence);
+  private DoesNotEndWith(Object actual, Object expected) {
+    super("%sexpecting:<%s> to end with:<%s>", actual, expected);
   }
 }

@@ -14,9 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Set;
-
-
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of
  * values failed. A group of elements can be a collection, an array or a {@code String}.
@@ -32,25 +29,11 @@ public class DoesNotContain extends BasicErrorMessage {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContain(Object actual, Object expected, Set<?> notFound) {
+  public static ErrorMessage doesNotContain(Object actual, Object expected, Object notFound) {
     return new DoesNotContain(actual, expected, notFound);
   }
 
   private DoesNotContain(Object actual, Object expected, Object notFound) {
-    super("%sexpected:<%s> to contain:<%s> but could not find:<%s>", actual, expected, notFound);
-  }
-
-  /**
-   * Creates a new </code>{@link DoesNotContain}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be in {@code actual}.
-   * @return the created {@code ErrorMessage}.
-   */
-  public static ErrorMessage doesNotContain(Object actual, Object expected) {
-    return new DoesNotContain(actual, expected);
-  }
-
-  private DoesNotContain(Object actual, Object expected) {
-    super("%sexpected:<%s> to contain:<%s>", actual, expected);
+    super("%sexpecting:<%s> to contain:<%s> but could not find:<%s>", actual, expected, notFound);
   }
 }

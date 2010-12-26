@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Dec 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,28 +15,30 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.util.Collections.*;
+import static org.fest.assertions.error.DoesNotContainString.*;
 
 import org.fest.assertions.description.*;
-import org.junit.*;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link DoesNotContain#create(Description)}</code>.
+ * Tests for <code>{@link DoesNotContainString#create(Description)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class DoesNotContain_create_Test {
+public class DoesNotContainString_create_Test {
 
   private ErrorMessage errorMessage;
 
-  @Before public void setUp() {
-    errorMessage = doesNotContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"));
+  @Test public void should_create_error_message() {
+    errorMessage = doesNotContain("Yoda", "Luke");
+    String message = errorMessage.create(new TextDescription("Test"));
+    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'>", message);
   }
 
-  @Test public void should_create_error_message() {
+  @Test public void should_create_error_message_when_ignoring_case() {
+    errorMessage = doesNotContainIgnoringCase("Yoda", "Luke");
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
+    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'> (ignoring case)", message);
   }
 }

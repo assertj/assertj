@@ -1,5 +1,5 @@
 /*
- * Created on Dec 24, 2010
+ * Created on Dec 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.DoesNotContainString.doesNotContainIgnoringCase;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -27,11 +27,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertContainsIgnoringCase(AssertionInfo, String, String)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Strings_assertContains_String_Test {
+public class Strings_assertContainsIgnoringCase_Test {
 
   @Rule public ExpectedException thrown = none();
 
@@ -46,36 +46,27 @@ public class Strings_assertContains_String_Test {
   @Test public void should_fail_if_actual_does_not_contain_sequence() {
     AssertionInfo info = someInfo();
     try {
-      strings.assertContains(info, "Yoda", "Luke");
+      strings.assertContainsIgnoringCase(info, "Yoda", "Luke");
       fail();
     } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "Luke");
-  }
-
-  @Test public void should_fail_if_actual_contains_sequence_but_in_different_case() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertContains(info, "Yoda", "yo");
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "yo");
-  }
-
-  private void assertThatFailureWasThrownWhenSequenceNotFound(AssertionInfo info, String actual, String sequence) {
-    verify(failures).failure(info, doesNotContain(actual, sequence));
+    verify(failures).failure(info, doesNotContainIgnoringCase("Yoda", "Luke"));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(sequenceToLookForIsNull());
-    strings.assertContains(someInfo(), "Yoda", null);
+    strings.assertContainsIgnoringCase(someInfo(), "Yoda", null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    strings.assertContains(someInfo(), null, "Yoda");
+    strings.assertContainsIgnoringCase(someInfo(), null, "Yoda");
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {
-    strings.assertContains(someInfo(), "Yoda", "Yo");
+    strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Yo");
+  }
+
+  @Test public void should_pass_if_actual_contains_sequence_in_different_case() {
+    strings.assertContainsIgnoringCase(someInfo(), "Yoda", "yo");
   }
 }

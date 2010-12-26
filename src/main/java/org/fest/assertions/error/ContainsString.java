@@ -1,5 +1,5 @@
 /*
- * Created on Dec 2, 2010
+ * Created on Dec 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,24 +15,24 @@
 package org.fest.assertions.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a group of elements starts with a given
- * value or sequence of values failed. A group of elements can be a collection, an array or a {@code String}.
+ * Creates an error message indicating that an assertion that verifies that a {@code String} does not contain another
+ * {@code String} failed.
  *
  * @author Alex Ruiz
  */
-public class DoesNotStartWith extends BasicErrorMessage {
+public class ContainsString extends BasicErrorMessage {
 
   /**
-   * Creates a new <code>{@link DoesNotStartWith}</code>.
+   * Creates a new <code>{@link ContainsString}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param expected the value or sequence of values that {@code actual} is expected to start with.
+   * @param sequence the sequence of values expected not to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotStartWith(Object actual, Object expected) {
-    return new DoesNotStartWith(actual, expected);
+  public static ErrorMessage contains(Object actual, Object sequence) {
+    return new ContainsString(actual, sequence);
   }
 
-  private DoesNotStartWith(Object actual, Object expected) {
-    super("%sexpecting:<%s> to start with:<%s>", actual, expected);
+  private ContainsString(Object actual, Object sequence) {
+    super("%sexpecting:<%s> not to contain:<%s>", actual, sequence);
   }
 }

@@ -14,13 +14,14 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.ContainsString.contains;
+import static org.fest.assertions.error.DoesNotContainString.*;
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
+import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
 import static org.fest.assertions.error.MatchesPattern.matches;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.regex.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -68,6 +69,38 @@ public class Strings {
     throw failures.failure(info, doesNotContain(actual, sequence));
   }
 
+  /**
+   * Verifies that the given {@code String} contains the given sequence, ignoring case considerations.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param sequence the sequence to search for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contain the given sequence.
+   */
+  public void assertContainsIgnoringCase(AssertionInfo info, String actual, String sequence) {
+    validateSequenceNotNull(sequence);
+    assertNotNull(info, actual);
+    if (actual.toLowerCase().contains(sequence.toLowerCase())) return;
+    throw failures.failure(info, doesNotContainIgnoringCase(actual, sequence));
+  }
+
+  /**
+   * Verifies that the given {@code String} does not contain the given sequence.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param sequence the sequence to search for.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} contains the given sequence.
+   */
+  public void assertDoesNotContain(AssertionInfo info, String actual, String sequence) {
+    validateSequenceNotNull(sequence);
+    assertNotNull(info, actual);
+    if (!actual.contains(sequence)) return;
+    throw failures.failure(info, contains(actual, sequence));
+  }
+
   private void validateSequenceNotNull(String sequence) {
     if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
   }
@@ -87,6 +120,38 @@ public class Strings {
   private boolean areEqualIgnoringCase(String actual, String expected) {
     if (actual == null) return expected == null;
     return actual.equalsIgnoreCase(expected);
+  }
+
+  /**
+   * Verifies that the given {@code String} starts with the given prefix.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param prefix the given prefix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not start with the given prefix.
+   */
+  public void assertStartsWith(AssertionInfo info, String actual, String prefix) {
+    if (prefix == null) throw new NullPointerException("The given prefix should not be null");
+    assertNotNull(info, actual);
+    if (actual.startsWith(prefix)) return;
+    throw failures.failure(info, doesNotStartWith(actual, prefix));
+  }
+
+  /**
+   * Verifies that the given {@code String} ends with the given suffix.
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param suffix the given suffix.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not end with the given suffix.
+   */
+  public void assertEndsWith(AssertionInfo info, String actual, String suffix) {
+    if (suffix == null) throw new NullPointerException("The given suffix should not be null");
+    assertNotNull(info, actual);
+    if (actual.endsWith(suffix)) return;
+    throw failures.failure(info, doesNotStartWith(actual, suffix));
   }
 
   /**
@@ -166,4 +231,5 @@ public class Strings {
   private void assertNotNull(AssertionInfo info, String actual) {
     Objects.instance().assertNotNull(info, actual);
   }
+
 }

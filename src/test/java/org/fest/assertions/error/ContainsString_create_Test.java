@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Dec 26, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,28 +15,27 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.util.Collections.*;
+import static org.fest.assertions.error.ContainsString.contains;
 
 import org.fest.assertions.description.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link DoesNotContain#create(Description)}</code>.
+ * Tests for <code>{@link ContainsString#create(Description)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class DoesNotContain_create_Test {
+public class ContainsString_create_Test {
 
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = doesNotContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"));
+    errorMessage = contains("Yoda", "od");
   }
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
+    assertEquals("[Test] expecting:<'Yoda'> not to contain:<'od'>", message);
   }
 }

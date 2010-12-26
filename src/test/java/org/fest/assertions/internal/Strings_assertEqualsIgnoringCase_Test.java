@@ -30,7 +30,7 @@ import org.junit.*;
  *
  * @author Alex Ruiz
  */
-public class Strings_assertEqualsIgnoringCase_String_Test {
+public class Strings_assertEqualsIgnoringCase_Test {
 
   @Rule public ExpectedException thrown = none();
 

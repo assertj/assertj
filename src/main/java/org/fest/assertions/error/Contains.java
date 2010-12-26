@@ -35,6 +35,6 @@ public class Contains extends BasicErrorMessage {
   }
 
   private Contains(Object actual, Object expected, Object found) {
-    super("%sexpected:<%s> to not contain:<%s> but found:<%s>", actual, expected, found);
+    super("%sexpecting:<%s> not to contain:<%s> but found:<%s>", actual, expected, found);
   }
 }

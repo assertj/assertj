@@ -17,10 +17,8 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.util.Collections.*;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Contains#create(Description)}</code>.
@@ -38,6 +36,6 @@ public class Contains_create_Test {
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<['Yoda']> to not contain:<['Luke', 'Yoda']> but found:<['Yoda']>", message);
+    assertEquals("[Test] expecting:<['Yoda']> not to contain:<['Luke', 'Yoda']> but found:<['Yoda']>", message);
   }
 }
