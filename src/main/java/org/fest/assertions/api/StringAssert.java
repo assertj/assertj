@@ -78,6 +78,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
    * Verifies that the actual {@code String} contains the given sequence.
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given sequence is {@code null}.
    * @throws AssertionError if the actual {@code String} is {@code null}.
    * @throws AssertionError if the actual {@code String} does not contain the given one.
    */
@@ -86,6 +87,14 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return this;
   }
 
+  /**
+   * Verifies that the actual {@code String} contains the given sequence, ignoring case considerations.
+   * @param sequence the sequence to search for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contain the given one.
+   */
   public StringAssert containsIgnoringCase(String sequence) {
     // TODO implement
     return null;
