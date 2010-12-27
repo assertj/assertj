@@ -29,20 +29,20 @@ import org.junit.Test;
  */
 public class IntArrayAssert_hasSize_Test {
 
-  private IntArrays collections;
+  private IntArrays arrays;
   private IntArrayAssert assertions;
 
   @Before
   public void setUp() {
-    collections = mock(IntArrays.class);
+    arrays = mock(IntArrays.class);
     assertions = new IntArrayAssert(emptyArray());
-    assertions.arrays = collections;
+    assertions.arrays = arrays;
   }
 
   @Test
   public void should_verify_that_actual_has_expected_size() {
     assertions.hasSize(6);
-    verify(collections).assertHasSize(assertions.info, assertions.actual, 6);
+    verify(arrays).assertHasSize(assertions.info, assertions.actual, 6);
   }
 
   @Test public void should_return_this() {

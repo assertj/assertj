@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.api;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.internal.Strings;
@@ -40,26 +41,24 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /** {@inheritDoc} */
   public void isNullOrEmpty() {
-    // TODO Auto-generated method stub
-
+    strings.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   public void isEmpty() {
-    // TODO Auto-generated method stub
-
+    strings.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
   public StringAssert isNotEmpty() {
-    // TODO Auto-generated method stub
-    return null;
+    strings.assertNotEmpty(info, actual);
+    return this;
   }
 
   /** {@inheritDoc} */
   public StringAssert hasSize(int expected) {
-    // TODO Auto-generated method stub
-    return null;
+    strings.assertHasSize(info, actual, expected);
+    return this;
   }
 
   /**

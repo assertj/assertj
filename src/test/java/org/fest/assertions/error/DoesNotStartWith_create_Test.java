@@ -38,6 +38,6 @@ public class DoesNotStartWith_create_Test {
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to start with sequence:<['Han', 'Leia']>", message);
+    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to start with:<['Han', 'Leia']>", message);
   }
 }

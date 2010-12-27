@@ -38,6 +38,6 @@ public class DoesNotEndWith_create_Test {
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to end with sequence:<['Han', 'Leia']>", message);
+    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to end with:<['Han', 'Leia']>", message);
   }
 }

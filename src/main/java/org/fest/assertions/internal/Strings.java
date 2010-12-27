@@ -16,12 +16,17 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ContainsString.contains;
 import static org.fest.assertions.error.DoesNotContainString.*;
+import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.error.IsEmpty.isEmpty;
+import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
+import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.error.MatchesPattern.matches;
 
-import java.util.regex.*;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -51,6 +56,62 @@ public class Strings {
 
   @VisibleForTesting Strings(Failures failures) {
     this.failures = failures;
+  }
+
+  /**
+   * Asserts that the given {@code String} is {@code null} or empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @throws AssertionError if the given {@code String} is not {@code null} *and* it is not empty.
+   */
+  public void assertNullOrEmpty(AssertionInfo info, String actual) {
+    if (actual == null || !hasContents(actual)) return;
+    throw failures.failure(info, isNotNullOrEmpty(actual));
+  }
+
+  /**
+   * Asserts that the given {@code String} is empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the given {@code String} is not empty.
+   */
+  public void assertEmpty(AssertionInfo info, String actual) {
+    assertNotNull(info, actual);
+    if (!hasContents(actual)) return;
+    throw failures.failure(info, isNotEmpty(actual));
+  }
+
+  /**
+   * Asserts that the given {@code String} is not empty.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the given {@code String} is empty.
+   */
+  public void assertNotEmpty(AssertionInfo info, String actual) {
+    assertNotNull(info, actual);
+    if (hasContents(actual)) return;
+    throw failures.failure(info, isEmpty());
+  }
+
+  private static boolean hasContents(String s) {
+    return s.length() > 0;
+  }
+
+  /**
+   * Asserts that the size of the given {@code String} is equal to the expected one.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @param expectedSize the expected size of {@code actual}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the size of the given {@code String} is different than the expected one.
+   */
+  public void assertHasSize(AssertionInfo info, String actual, int expectedSize) {
+    assertNotNull(info, actual);
+    int sizeOfActual = actual.length();
+    if (sizeOfActual == expectedSize) return;
+    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -231,5 +292,4 @@ public class Strings {
   private void assertNotNull(AssertionInfo info, String actual) {
     Objects.instance().assertNotNull(info, actual);
   }
-
 }

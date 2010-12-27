@@ -1,5 +1,5 @@
 /*
- * Created on Dec 20, 2010
+ * Created on Dec 21, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,39 +14,32 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.CharArrays;
+import org.fest.assertions.internal.Strings;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link CharArrayAssert#hasSize(int)}</code>.
+ * Tests for <code>{@link StringAssert#isEmpty()}</code>.
  *
  * @author Alex Ruiz
  */
-public class CharArrayAssert_hasSize_Test {
+public class StringAssert_isEmpty_Test {
 
-  private CharArrays arrays;
-  private CharArrayAssert assertions;
+  private Strings strings;
+  private StringAssert assertions;
 
   @Before
   public void setUp() {
-    arrays = mock(CharArrays.class);
-    assertions = new CharArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+    strings = mock(Strings.class);
+    assertions = new StringAssert("Yoda");
+    assertions.strings = strings;
   }
 
   @Test
-  public void should_verify_that_actual_has_expected_size() {
-    assertions.hasSize(6);
-    verify(arrays).assertHasSize(assertions.info, assertions.actual, 6);
-  }
-
-  @Test public void should_return_this() {
-    CharArrayAssert returned = assertions.hasSize(0);
-    assertSame(assertions, returned);
+  public void should_verify_that_actual_is_empty() {
+    assertions.isEmpty();
+    verify(strings).assertEmpty(assertions.info, assertions.actual);
   }
 }

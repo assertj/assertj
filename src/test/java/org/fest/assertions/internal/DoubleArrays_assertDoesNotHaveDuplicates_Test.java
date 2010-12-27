@@ -39,32 +39,32 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test {
 
   private Failures failures;
   private double[] actual;
-  private DoubleArrays collections;
+  private DoubleArrays arrays;
 
   @Before public void setUp() {
     failures = spy(Failures.instance());
     actual = array(6d, 8d);
-    collections = new DoubleArrays(failures);
+    arrays = new DoubleArrays(failures);
   }
 
   @Test public void should_pass_if_actual_does_not_have_duplicates() {
-    collections.assertDoesNotHaveDuplicates(someInfo(), actual);
+    arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
   }
 
   @Test public void should_pass_if_actual_is_empty() {
-    collections.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
+    arrays.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    collections.assertDoesNotHaveDuplicates(someInfo(), null);
+    arrays.assertDoesNotHaveDuplicates(someInfo(), null);
   }
 
   @Test public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
     actual = array(6d, 8d, 6d, 8d);
     try {
-      collections.assertDoesNotHaveDuplicates(info, actual);
+      arrays.assertDoesNotHaveDuplicates(info, actual);
       fail();
     } catch (AssertionError e) {}
     verify(failures).failure(info, hasDuplicates(wrap(actual), set(6d, 8d)));
