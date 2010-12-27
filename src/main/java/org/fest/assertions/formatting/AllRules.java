@@ -28,7 +28,7 @@ class AllRules implements Iterable<ToStringRule> {
 
   AllRules() {
     rules.add(new ArrayToStringRule());
-    rules.add(new ClassToStringRule());
+    rules.add(ClassToStringRule.instance());
     rules.add(new CollectionToStringRule());
     rules.add(new ConditionToStringRule());
     rules.add(new DimensionToStringRule());

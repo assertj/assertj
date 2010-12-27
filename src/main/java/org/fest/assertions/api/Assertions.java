@@ -255,6 +255,15 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ObjectAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static ObjectAssert assertThat(Object actual) {
+    return new ObjectAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
@@ -262,7 +271,6 @@ public class Assertions {
   public static ObjectArrayAssert assertThat(Object[] actual) {
     return new ObjectArrayAssert(actual);
   }
-
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.

@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Oct 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -12,27 +12,28 @@
  *
  * Copyright @2010 the original author or authors.
  */
-package org.fest.assertions.formatting;
+package org.fest.assertions.api;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 /**
- * Returns the {@code String} representation of a {@code Class}.
+ * Tests for <code>{@link Assertions#assertThat(Object)}</code>.
  *
  * @author Alex Ruiz
  */
-class ClassToStringRule extends GenericToStringRule<Class<?>> {
+public class Assertions_assertThat_with_Object_Test {
 
-  private static ClassToStringRule INSTANCE = new ClassToStringRule();
-
-  static ClassToStringRule instance() {
-    return INSTANCE;
+  @Test public void should_create_Assert() {
+    Object actual = new Object();
+    ObjectAssert assertions = Assertions.assertThat(actual);
+    assertNotNull(assertions);
   }
 
-  @Override String doGetToString(Class<?> c) {
-    return c.getName();
-  }
-
-  @SuppressWarnings("unchecked") @Override Class<Class<?>> supportedType() {
-    Class<?> type = Class.class;
-    return (Class<Class<?>>) type;
+  @Test public void should_pass_actual() {
+    Object actual = new Object();
+    ObjectAssert assertions = Assertions.assertThat(actual);
+    assertSame(actual, assertions.actual);
   }
 }

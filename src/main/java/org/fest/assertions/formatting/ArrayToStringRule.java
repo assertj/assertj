@@ -29,6 +29,21 @@ class ArrayToStringRule implements ToStringRule {
   }
 
   public String toStringOf(Object o) {
+    if (o.getClass().getComponentType().equals(Class.class)) {
+      ClassToStringRule classToStringRule = ClassToStringRule.instance();
+      StringBuilder buffer = new StringBuilder();
+      buffer.append("[");
+      Class<?>[] array = (Class<?>[]) o;
+      int size = array.length;
+      for (int i = 0; i < size; i++) {
+        if (i != 0) buffer.append(", ");
+        Class<?> type = array[i];
+        String s = (type == null)? "null" : classToStringRule.toStringOf(type);
+        buffer.append(s);
+      }
+      buffer.append("]");
+      return buffer.toString();
+    }
     return format(o);
   }
 }

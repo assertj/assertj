@@ -1,5 +1,5 @@
 /*
- * Created on Sep 18, 2010
+ * Created on Dec 27, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,8 +15,10 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.util.Collections.list;
+import static org.fest.assertions.error.IsNotInstanceOfAny.isNotInstanceOfAny;
+
+import java.io.File;
+import java.util.regex.Pattern;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -24,21 +26,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link IsNotEmpty#create(Description)}</code>.
+ * Tests for <code>{@link IsNotInstanceOfAny#create(Description)}</code>.
  *
  * @author Alex Ruiz
- * @author Yvonne Wang
  */
-public class IsNotEmpty_create_Test {
+public class IsNotInstanceOfAny_create_Test {
 
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = isNotEmpty(list("Luke", "Yoda"));
+    Class<?>[] types = { File.class, Pattern.class };
+    errorMessage = isNotInstanceOfAny("Yoda", types);
   }
 
   @Test public void should_create_error_message() {
     String message = errorMessage.create(new TestDescription("Test"));
-    assertEquals("[Test] expecting empty but was:<['Luke', 'Yoda']>", message);
+    assertEquals("[Test] expected <'Yoda'> to be an instance of any of:<[java.io.File, java.util.regex.Pattern]> but was instance of:<java.lang.String>", message);
   }
 }
