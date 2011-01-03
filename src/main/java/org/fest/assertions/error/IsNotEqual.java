@@ -14,9 +14,9 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.assertions.util.ToString.toStringOf;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Objects.*;
+import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;

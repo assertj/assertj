@@ -17,12 +17,12 @@ package org.fest.assertions.error;
 import static java.lang.String.format;
 import static org.fest.util.Collections.isEmpty;
 import static org.fest.util.Objects.*;
+import static org.fest.util.ToString.toStringOf;
 
 import java.util.Collection;
 import java.util.Set;
 
 import org.fest.assertions.description.Description;
-import org.fest.assertions.formatting.ToStringConverter;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -108,9 +108,5 @@ public class DoesNotContainOnly implements ErrorMessage {
     String format = "%s[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
     return format(format, getClass().getSimpleName(), toStringOf(actual), toStringOf(expected),
         toStringOf(notExpected), toStringOf(notFound));
-  }
-
-  private static String toStringOf(Object o) {
-    return ToStringConverter.instance().toStringOf(o);
   }
 }

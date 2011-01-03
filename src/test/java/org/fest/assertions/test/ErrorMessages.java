@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.test;
 
-import org.fest.assertions.formatting.ToStringConverter;
+import static org.fest.util.ToString.toStringOf;
 
 /**
  * @author Alex Ruiz
@@ -39,10 +39,6 @@ public final class ErrorMessages {
 
   public static String isNotArray(Object o) {
     return String.format("The object <%s> should be an array", toStringOf(o));
-  }
-
-  private static String toStringOf(Object o) {
-    return ToStringConverter.instance().toStringOf(o);
   }
 
   public static String offsetIsNull() {

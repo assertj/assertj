@@ -22,9 +22,9 @@ import static org.fest.assertions.error.IsNotSame.isNotSame;
 import static org.fest.assertions.error.IsNull.isNull;
 import static org.fest.assertions.error.IsSame.isSame;
 import static org.fest.util.Objects.areEqual;
+import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.formatting.ToStringConverter;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -89,7 +89,7 @@ public class Objects {
     for (Class<?> type : types) {
       if (type == null) {
         String format = "The given array of types:<%s> should not have null elements";
-        throw new NullPointerException(String.format(format, ToStringConverter.instance().toStringOf(types)));
+        throw new NullPointerException(String.format(format, toStringOf(types)));
       }
       if (type.isInstance(actual)) {
         found = true;

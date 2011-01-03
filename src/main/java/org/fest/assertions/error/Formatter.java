@@ -15,11 +15,11 @@
 package org.fest.assertions.error;
 
 import static org.fest.util.Strings.isEmpty;
+import static org.fest.util.ToString.toStringOf;
 
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.formatting.ToStringConverter;
-import org.fest.assertions.util.ToString;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.ToString;
 
 /**
  * General-purpose formatter.
@@ -27,8 +27,6 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  */
 public class Formatter {
-
-  private final ToStringConverter converter;
 
   private static final Formatter INSTANCE = new Formatter();
 
@@ -40,13 +38,7 @@ public class Formatter {
     return INSTANCE;
   }
 
-  private Formatter() {
-    this(ToStringConverter.instance());
-  }
-
-  @VisibleForTesting Formatter(ToStringConverter converter) {
-    this.converter = converter;
-  }
+  private Formatter() {}
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to
@@ -64,6 +56,7 @@ public class Formatter {
    * @return A formatted {@code String}.
    */
   public String formatMessage(String format, Description d, Object... args) {
+    // TODO test
     return String.format(format, format(d, args));
   }
 
@@ -72,8 +65,14 @@ public class Formatter {
     String[] formatted = new String[argCount + 1];
     formatted[0] = format(d);
     for (int i = 0; i < argCount; i++)
-      formatted[i + 1] = converter.toStringOf(args[i]);
+      formatted[i + 1] = describe(args[i]);
     return formatted;
+  }
+
+  private String describe(Object o) {
+    if (o instanceof Condition) return describe(((Condition<?>)o).description());
+    if (o instanceof Description) return ((Description)o).value();
+    return toStringOf(o);
   }
 
   /**
