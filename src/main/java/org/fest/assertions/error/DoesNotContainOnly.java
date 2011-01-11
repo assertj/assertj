@@ -65,22 +65,22 @@ public class DoesNotContainOnly implements ErrorMessage {
   }
 
   private String includeOnlyNotFound(Description d) {
-    String format = "%sexpected:<%s> to contain only:<%s>, but could not find:<%s>";
+    String format = "expected:<%s> to contain only:<%s>, but could not find:<%s>";
     return formatMessage(format, d, actual, expected, notFound);
   }
 
   private String includeOnlyNotExpected(Description d) {
-    String format = "%sexpected:<%s> to contain only:<%s>, but got unexpected:<%s>";
+    String format = "expected:<%s> to contain only:<%s>, but got unexpected:<%s>";
     return formatMessage(format, d, actual, expected, notExpected);
   }
 
   private String defaultMessage(Description d) {
-    String format = "%sexpected:<%s> to contain only:<%s>; could not find:<%s> and got unexpected:<%s>";
+    String format = "expected:<%s> to contain only:<%s>; could not find:<%s> and got unexpected:<%s>";
     return formatMessage(format, d, actual, expected, notFound, notExpected);
   }
 
   private static String formatMessage(String format, Description d, Object... args) {
-    return Formatter.instance().formatMessage(format, d, args);
+    return MessageFormatter.instance().format(format, d, args);
   }
 
   @Override public boolean equals(Object obj) {
@@ -105,7 +105,7 @@ public class DoesNotContainOnly implements ErrorMessage {
 
   /** {@inheritDoc} */
   @Override public String toString() {
-    String format = "%s[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
+    String format = "[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
     return format(format, getClass().getSimpleName(), toStringOf(actual), toStringOf(expected),
         toStringOf(notExpected), toStringOf(notFound));
   }

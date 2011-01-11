@@ -32,6 +32,6 @@ public class IsEqual extends BasicErrorMessage {
   }
 
   private IsEqual(Object actual, Object other) {
-    super("%s<%s> should not be equal to:<%s>", actual, other);
+    super("<%s> should not be equal to:<%s>", actual, other);
   }
 }

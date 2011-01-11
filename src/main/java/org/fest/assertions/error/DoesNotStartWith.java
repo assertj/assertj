@@ -33,6 +33,6 @@ public class DoesNotStartWith extends BasicErrorMessage {
   }
 
   private DoesNotStartWith(Object actual, Object expected) {
-    super("%sexpecting:<%s> to start with:<%s>", actual, expected);
+    super("expecting:<%s> to start with:<%s>", actual, expected);
   }
 }

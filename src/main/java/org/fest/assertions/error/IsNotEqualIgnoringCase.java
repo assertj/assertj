@@ -33,6 +33,6 @@ public class IsNotEqualIgnoringCase extends BasicErrorMessage {
   }
 
   private IsNotEqualIgnoringCase(String actual, String expected) {
-    super("%sexpecting <%s> to be equal to <%s>, ignoring case considerations", actual, expected);
+    super("expecting <%s> to be equal to <%s>, ignoring case considerations", actual, expected);
   }
 }

@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a given set
  * of values failed. A group of elements can be a collection, an array or a {@code String}.
@@ -35,6 +34,6 @@ public class Contains extends BasicErrorMessage {
   }
 
   private Contains(Object actual, Object expected, Object found) {
-    super("%sexpecting:<%s> not to contain:<%s> but found:<%s>", actual, expected, found);
+    super("expecting:<%s> not to contain:<%s> but found:<%s>", actual, expected, found);
   }
 }

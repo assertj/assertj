@@ -35,6 +35,6 @@ public class DoesNotContainSequence extends BasicErrorMessage {
   }
 
   private DoesNotContainSequence(Object actual, Object sequence) {
-    super("%sexpecting:<%s> to contain sequence:<%s>", actual, sequence);
+    super("expecting:<%s> to contain sequence:<%s>", actual, sequence);
   }
 }

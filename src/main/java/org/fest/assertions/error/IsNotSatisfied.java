@@ -36,6 +36,6 @@ public class IsNotSatisfied extends BasicErrorMessage {
   }
 
   private IsNotSatisfied(Object actual, Condition<?> condition) {
-    super("%sactual value:<%s> should satisfy condition:<%s>", actual, condition);
+    super("actual value:<%s> should satisfy condition:<%s>", actual, condition);
   }
 }

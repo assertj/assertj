@@ -34,6 +34,6 @@ public class DoesNotEndWith extends BasicErrorMessage {
   }
 
   private DoesNotEndWith(Object actual, Object expected) {
-    super("%sexpecting:<%s> to end with:<%s>", actual, expected);
+    super("expecting:<%s> to end with:<%s>", actual, expected);
   }
 }

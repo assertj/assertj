@@ -33,6 +33,6 @@ public class IsNotInstanceOfAny extends BasicErrorMessage {
   }
 
   private IsNotInstanceOfAny(Object actual, Class<?>[] types) {
-    super("%sexpected <%s> to be an instance of any of:<%s> but was instance of:<%s>", actual, types, actual.getClass());
+    super("expected <%s> to be an instance of any of:<%s> but was instance of:<%s>", actual, types, actual.getClass());
   }
 }

@@ -38,6 +38,6 @@ public class DoesNotContainAtIndex extends BasicErrorMessage {
   }
 
   private DoesNotContainAtIndex(Object actual, Object expected, Index index, Object found) {
-    super("%sexpecting <%s> at index <%s> but found <%s> in <%s>", expected, index.value, found, actual);
+    super("expecting <%s> at index <%s> but found <%s> in <%s>", expected, index.value, found, actual);
   }
 }

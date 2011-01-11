@@ -38,6 +38,6 @@ public class ContainsAtIndex extends BasicErrorMessage {
   }
 
   private ContainsAtIndex(Object actual, Object expected, Index index) {
-    super("%sexpecting <%s> not to contain <%s> at index <%s>", actual, expected, index.value);
+    super("expecting <%s> not to contain <%s> at index <%s>", actual, expected, index.value);
   }
 }

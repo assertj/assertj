@@ -16,43 +16,52 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
+
+import java.util.List;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Tests for <code>{@link IsNotEqual#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
  */
+@RunWith(Parameterized.class)
 public class IsNotEqual_newAssertionError_Test {
+
+  private final String formattedDescription;
+
+  @Parameters public static List<Object[]> parameters() {
+    return list(new Object[][] {
+        { "[Jedi]" }, { "[Jedi]  " }
+    });
+  }
+
+  public IsNotEqual_newAssertionError_Test(String formattedDescription) {
+    this.formattedDescription = formattedDescription;
+  }
 
   private Description description;
   private IsNotEqual factory;
-  private Formatter formatter;
+  private DescriptionFormatter formatter;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
     factory = (IsNotEqual) isNotEqual("Luke", "Yoda");
-    factory.formatter = mock(Formatter.class);
-    formatter = factory.formatter;
+    factory.descriptionFormatter = mock(DescriptionFormatter.class);
+    formatter = factory.descriptionFormatter;
   }
 
-  @Test public void should_create_ComparisonFailure_if_JUnit4_is_in_classpath() {
-    when(formatter.format(description)).thenReturn("[Jedi]");
+  @Test public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description() {
+    when(formatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = factory.newAssertionError(description);
-    verify(error);
-  }
-
-  @Test public void should_trim_formatted_description() {
-    when(formatter.format(description)).thenReturn("[Jedi] ");
-    AssertionError error = factory.newAssertionError(description);
-    verify(error);
-  }
-
-  private void verify(AssertionError error) {
     assertEquals(ComparisonFailure.class, error.getClass());
     assertEquals("[Jedi] expected:<'[Yoda]'> but was:<'[Luke]'>", error.getMessage());
   }

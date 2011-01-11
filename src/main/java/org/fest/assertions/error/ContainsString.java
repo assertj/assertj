@@ -33,6 +33,6 @@ public class ContainsString extends BasicErrorMessage {
   }
 
   private ContainsString(Object actual, Object sequence) {
-    super("%sexpecting:<%s> not to contain:<%s>", actual, sequence);
+    super("expecting:<%s> not to contain:<%s>", actual, sequence);
   }
 }

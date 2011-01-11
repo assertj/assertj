@@ -25,8 +25,6 @@ import java.awt.image.BufferedImage;
  */
 public class DoesNotHaveSize extends BasicErrorMessage {
 
-  private static final String DEFAULT_ERROR_MESSAGE_FORMAT = "%sexpected size:<%s> but was:<%s> in:<%s>";
-
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
    * @param actual the actual value in the failed assertion.
@@ -35,7 +33,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
-    return new DoesNotHaveSize("%sexpected image size:<%s> but was:<%s>", expectedSize, actualSize);
+    return new DoesNotHaveSize("expected image size:<%s> but was:<%s>", expectedSize, actualSize);
   }
 
   /**
@@ -46,7 +44,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotHaveSize(Object actual, int actualSize, int expectedSize) {
-    return new DoesNotHaveSize(DEFAULT_ERROR_MESSAGE_FORMAT, expectedSize, actualSize, actual);
+    return new DoesNotHaveSize("expected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
   }
 
   private DoesNotHaveSize(String format, Object... arguments) {

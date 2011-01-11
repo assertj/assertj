@@ -33,6 +33,6 @@ public class MatchesPattern extends BasicErrorMessage {
   }
 
   private MatchesPattern(String actual, String pattern) {
-    super("%s%s matches the pattern %s", actual, pattern);
+    super("%s matches the pattern %s", actual, pattern);
   }
 }

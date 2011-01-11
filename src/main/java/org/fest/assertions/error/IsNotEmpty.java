@@ -33,6 +33,6 @@ public class IsNotEmpty extends BasicErrorMessage {
   }
 
   private IsNotEmpty(Object actual) {
-    super("%sexpecting empty but was:<%s>", actual);
+    super("expecting empty but was:<%s>", actual);
   }
 }

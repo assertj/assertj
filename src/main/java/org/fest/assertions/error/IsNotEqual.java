@@ -33,11 +33,11 @@ public class IsNotEqual implements AssertionErrorFactory {
   @VisibleForTesting static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
 
   @VisibleForTesting ConstructorInvoker constructorInvoker = new ConstructorInvoker();
-  @VisibleForTesting Formatter formatter = Formatter.instance();
+  @VisibleForTesting MessageFormatter messageFormatter = MessageFormatter.instance();
+  @VisibleForTesting DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   private final Object actual;
   private final Object expected;
-
 
   /**
    * Creates a new <code>{@link IsNotEqual}</code>.
@@ -71,12 +71,12 @@ public class IsNotEqual implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    return formatter.formatMessage("%sexpected:<%s> but was:<%s>", d, expected, actual);
+    return messageFormatter.format("expected:<%s> but was:<%s>", d, expected, actual);
   }
 
   private AssertionError comparisonFailure(Description d) {
     try {
-      return newComparisonFailure(formatter.format(d).trim());
+      return newComparisonFailure(descriptionFormatter.format(d).trim());
     } catch (Exception e) {
       return null;
     }

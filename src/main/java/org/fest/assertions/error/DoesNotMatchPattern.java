@@ -32,6 +32,6 @@ public class DoesNotMatchPattern extends BasicErrorMessage {
   }
 
   private DoesNotMatchPattern(String actual, String pattern) {
-    super("%s%s does not match the pattern %s", actual, pattern);
+    super("%s does not match the pattern %s", actual, pattern);
   }
 }

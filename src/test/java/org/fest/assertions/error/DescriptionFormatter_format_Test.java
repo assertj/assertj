@@ -22,28 +22,16 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Formatter#format(Description)}</code>.
+ * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Formatter_format_Test {
+public class DescriptionFormatter_format_Test {
 
-  private static Formatter formatter;
+  private static DescriptionFormatter formatter;
 
   @BeforeClass public static void setUpOnce() {
-    formatter = Formatter.instance();
-  }
-
-  @Test public void should_return_empty_String_if_description_is_null() {
-    assertEquals("", formatter.format(null));
-  }
-
-  @Test public void should_return_empty_String_if_description_value_is_null() {
-    assertEquals("", formatter.format(new TestDescription(null)));
-  }
-
-  @Test public void should_return_empty_String_if_description_value_is_empty() {
-    assertEquals("", formatter.format(new TestDescription("")));
+    formatter = DescriptionFormatter.instance();
   }
 
   @Test public void should_format_description_if_value_is_not_empty_or_null() {

@@ -34,6 +34,6 @@ public class IsNotLessThanOrEqualTo extends BasicErrorMessage {
   }
 
   private IsNotLessThanOrEqualTo(Comparable<?> actual, Comparable<?> other) {
-    super("%sexpected:<%s> to be less than or equal to:<%s>", actual, other);
+    super("expected:<%s> to be less than or equal to:<%s>", actual, other);
   }
 }

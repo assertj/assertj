@@ -86,7 +86,7 @@ public class Images {
   }
 
   @VisibleForTesting static ErrorMessage doesNotHaveEqualColor(RgbColor actual, RgbColor expected, int x, int y) {
-    return new BasicErrorMessage("%sexpected:<%s> but was:<%s> at pixel [%s,%s]", expected, actual, x, y);
+    return new BasicErrorMessage("expected:<%s> but was:<%s> at pixel [%s,%s]", expected, actual, x, y);
   }
 
   @VisibleForTesting static Dimension sizeOf(BufferedImage image) {

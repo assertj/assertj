@@ -33,6 +33,6 @@ public class IsNotGreaterThan extends BasicErrorMessage {
   }
 
   private IsNotGreaterThan(Comparable<?> actual, Comparable<?> other) {
-    super("%sexpected:<%s> to be greater than:<%s>", actual, other);
+    super("expected:<%s> to be greater than:<%s>", actual, other);
   }
 }

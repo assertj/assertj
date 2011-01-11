@@ -35,6 +35,6 @@ public class HasDuplicates extends BasicErrorMessage {
   }
 
   private HasDuplicates(Object actual, Object duplicates) {
-    super("%sfound duplicate(s):<%s> in:<%s>", duplicates, actual);
+    super("found duplicate(s):<%s> in:<%s>", duplicates, actual);
   }
 }

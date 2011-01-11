@@ -34,6 +34,6 @@ public class DoesNotContain extends BasicErrorMessage {
   }
 
   private DoesNotContain(Object actual, Object expected, Object notFound) {
-    super("%sexpecting:<%s> to contain:<%s> but could not find:<%s>", actual, expected, notFound);
+    super("expecting:<%s> to contain:<%s> but could not find:<%s>", actual, expected, notFound);
   }
 }

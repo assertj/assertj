@@ -33,6 +33,6 @@ public class IsNotLessThan extends BasicErrorMessage {
   }
 
   private IsNotLessThan(Comparable<?> actual, Comparable<?> other) {
-    super("%sexpected:<%s> to be less than:<%s>", actual, other);
+    super("expected:<%s> to be less than:<%s>", actual, other);
   }
 }

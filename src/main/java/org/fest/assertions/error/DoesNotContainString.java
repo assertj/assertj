@@ -29,7 +29,7 @@ public class DoesNotContainString extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotContain(Object actual, Object sequence) {
-    return new DoesNotContainString("%sexpecting:<%s> to contain:<%s>", actual, sequence);
+    return new DoesNotContainString("expecting:<%s> to contain:<%s>", actual, sequence);
   }
 
   /**
@@ -39,7 +39,7 @@ public class DoesNotContainString extends BasicErrorMessage {
    * @return the created {@code ErrorMessage}.
    */
   public static ErrorMessage doesNotContainIgnoringCase(String actual, String sequence) {
-    return new DoesNotContainString("%sexpecting:<%s> to contain:<%s> (ignoring case)", actual, sequence);
+    return new DoesNotContainString("expecting:<%s> to contain:<%s> (ignoring case)", actual, sequence);
   }
 
   private DoesNotContainString(String format, Object actual, Object sequence) {

@@ -31,6 +31,6 @@ public class IsNotSame extends BasicErrorMessage {
   }
 
   private IsNotSame(Object actual, Object expected) {
-    super("%sexpected:<%s> and actual:<%s> should refer to the same object", expected, actual);
+    super("expected:<%s> and actual:<%s> should refer to the same object", expected, actual);
   }
 }

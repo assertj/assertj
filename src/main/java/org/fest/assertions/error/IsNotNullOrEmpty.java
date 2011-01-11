@@ -35,6 +35,6 @@ public class IsNotNullOrEmpty extends BasicErrorMessage {
   }
 
   private IsNotNullOrEmpty(Object actual) {
-    super("%sexpecting null or empty but was:<%s>", actual);
+    super("expecting null or empty but was:<%s>", actual);
   }
 }

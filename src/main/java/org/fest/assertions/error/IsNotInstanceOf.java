@@ -33,6 +33,6 @@ public class IsNotInstanceOf extends BasicErrorMessage {
   }
 
   private IsNotInstanceOf(Object actual, Class<?> type) {
-    super("%sexpected <%s> to be an instance of:<%s> but was instance of:<%s>", actual, type, actual.getClass());
+    super("expected <%s> to be an instance of:<%s> but was instance of:<%s>", actual, type, actual.getClass());
   }
 }

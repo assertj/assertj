@@ -34,6 +34,6 @@ public class IsSame extends BasicErrorMessage {
   }
 
   private IsSame(Object actual) {
-    super("%sexpected not same:<%s>", actual);
+    super("expected not same:<%s>", actual);
   }
 }

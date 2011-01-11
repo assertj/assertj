@@ -14,31 +14,33 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.util.Strings.isEmpty;
 import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.description.Description;
 import org.fest.util.ToString;
+import org.fest.util.VisibleForTesting;
 
 /**
- * General-purpose formatter.
+ * Formats the messages to be included in assertion errors.
  *
  * @author Alex Ruiz
  */
-public class Formatter {
+public class MessageFormatter {
 
-  private static final Formatter INSTANCE = new Formatter();
+  private static final MessageFormatter INSTANCE = new MessageFormatter();
 
   /**
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static Formatter instance() {
+  public static MessageFormatter instance() {
     return INSTANCE;
   }
 
-  private Formatter() {}
+  @VisibleForTesting DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
+
+  @VisibleForTesting MessageFormatter() {}
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to
@@ -50,22 +52,22 @@ public class Formatter {
    * <code>{@link ToString#toStringOf(Object)}</code>.
    * </ol>
    * @param format the format string.
-   * @param d the description of the failed assertion.
+   * @param d the description of the failed assertion, may be {@code null}.
    * @param args arguments referenced by the format specifiers in the format string.
-   * @throws NullPointerException If the format string is {@code null}.
+   * @throws NullPointerException if the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public String formatMessage(String format, Description d, Object... args) {
-    // TODO test
-    return String.format(format, format(d, args));
+  public String format(String format, Description d, Object... args) {
+    if (format == null) throw new NullPointerException("The format string should not be null");
+    if (args == null) throw new NullPointerException("The array of arguments should not be null");
+    return descriptionFormatter.format(d) + String.format(format, format(args));
   }
 
-  private Object[] format(Description d, Object[] args) {
+  private Object[] format(Object[] args) {
     int argCount = args.length;
-    String[] formatted = new String[argCount + 1];
-    formatted[0] = format(d);
+    String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++)
-      formatted[i + 1] = describe(args[i]);
+      formatted[i] = describe(args[i]);
     return formatted;
   }
 
@@ -73,17 +75,5 @@ public class Formatter {
     if (o instanceof Condition) return describe(((Condition<?>)o).description());
     if (o instanceof Description) return ((Description)o).value();
     return toStringOf(o);
-  }
-
-  /**
-   * Formats the given <code>{@link Description}</code> by surrounding its text value with square brackets and adding a
-   * space at the end.
-   * @param d the description to format. It can be {@code null}.
-   * @return the formatted description, or an empty {@code String} if the the {@code Description} is {@code null}.
-   */
-  public String format(Description d) {
-    String s = (d != null) ? d.value() : null;
-    if (isEmpty(s)) return "";
-    return String.format("[%s] ", s);
   }
 }

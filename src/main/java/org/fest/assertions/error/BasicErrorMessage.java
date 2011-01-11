@@ -22,6 +22,7 @@ import static org.fest.util.Strings.quote;
 import java.util.Arrays;
 
 import org.fest.assertions.description.Description;
+import org.fest.util.VisibleForTesting;
 
 /**
  * A factory of error messages typically shown when an assertion fails.
@@ -32,6 +33,8 @@ public class BasicErrorMessage implements ErrorMessage {
 
   private final String format;
   private final Object[] arguments;
+
+  @VisibleForTesting MessageFormatter formatter = MessageFormatter.instance();
 
   /**
    * Creates a new </code>{@link BasicErrorMessage}</code>.
@@ -45,7 +48,7 @@ public class BasicErrorMessage implements ErrorMessage {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    return Formatter.instance().formatMessage(format, d, arguments);
+    return formatter.format(format, d, arguments);
   }
 
   @Override public boolean equals(Object obj) {
@@ -65,6 +68,6 @@ public class BasicErrorMessage implements ErrorMessage {
   }
 
   @Override public String toString() {
-    return format("%s[format=%s, arguments=%s]", getClass().getName(), quote(format), format(arguments));
+    return format("[format=%s, arguments=%s]", getClass().getName(), quote(format), format(arguments));
   }
 }
