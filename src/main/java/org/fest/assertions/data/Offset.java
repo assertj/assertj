@@ -36,7 +36,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
-    validateIsNotNull(value);
+    checkIsNotNull(value);
     if (value.doubleValue() < 0d) throw valueNotPositive();
     return new Offset<Double>(value);
   }
@@ -49,7 +49,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
-    validateIsNotNull(value);
+    checkIsNotNull(value);
     if (value.floatValue() < 0f) throw valueNotPositive();
     return new Offset<Float>(value);
   }
@@ -62,12 +62,12 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> offset(Integer value) {
-    validateIsNotNull(value);
+    checkIsNotNull(value);
     if (value.intValue() < 0) throw valueNotPositive();
     return new Offset<Integer>(value);
   }
 
-  private static <T extends Number> void validateIsNotNull(T value) {
+  private static <T extends Number> void checkIsNotNull(T value) {
     if (value == null) throw new NullPointerException("The value of the offset to create should not be null");
   }
 

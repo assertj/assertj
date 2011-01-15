@@ -24,7 +24,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class TextDescription implements Description {
+public class TextDescription extends Description {
 
   @VisibleForTesting final String value;
 
@@ -39,7 +39,7 @@ public class TextDescription implements Description {
   }
 
   /** {@inheritDoc} */
-  public final String value() {
+  @Override public final String value() {
     return value;
   }
 

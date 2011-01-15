@@ -19,8 +19,7 @@ import static org.fest.util.Collections.isEmpty;
 import static org.fest.util.Objects.*;
 import static org.fest.util.ToString.toStringOf;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.*;
 
 import org.fest.assertions.description.Description;
 
@@ -105,7 +104,7 @@ public class DoesNotContainOnly implements ErrorMessage {
 
   /** {@inheritDoc} */
   @Override public String toString() {
-    String format = "[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
+    String format = "%s[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
     return format(format, getClass().getSimpleName(), toStringOf(actual), toStringOf(expected),
         toStringOf(notExpected), toStringOf(notFound));
   }

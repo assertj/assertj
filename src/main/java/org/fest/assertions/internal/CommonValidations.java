@@ -21,7 +21,7 @@ import org.fest.assertions.data.Index;
  */
 final class CommonValidations {
 
-  static void validateIndexValue(Index index, int maximum) {
+  static void checkIndexValueIsValid(Index index, int maximum) {
     if (index == null) throw new NullPointerException("Index should not be null");
     if (index.value <= maximum) return;
     String format = "Index should be between <%d> and <%d> (inclusive,) but was <%d>";

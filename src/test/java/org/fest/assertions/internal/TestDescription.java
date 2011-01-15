@@ -21,7 +21,7 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public class TestDescription implements Description {
+public class TestDescription extends Description {
 
   private final String value;
 
@@ -29,7 +29,7 @@ public class TestDescription implements Description {
     this.value = value;
   }
 
-  public String value() {
+  @Override public String value() {
     return value;
   }
 

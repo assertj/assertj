@@ -12,21 +12,20 @@
  *
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.core;
 
 import static org.fest.assertions.test.ErrorMessages.descriptionIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.core.DescriptionValidations;
+import org.fest.assertions.description.*;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
 /**
- * Tests for <code>{@link DescriptionValidations#notNull(org.fest.assertions.description.Description)}</code> and
- * <code>{@link DescriptionValidations#notNull(String)}</code>.
+ * Tests for <code>{@link DescriptionValidations#checkIsNotNull(org.fest.assertions.description.Description)}</code> and
+ * <code>{@link DescriptionValidations#checkIsNotNull(String)}</code>.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -38,23 +37,23 @@ public class DescriptionValidator_notNull_Test {
   @Test public void should_throw_error_if_description_is_null() {
     thrown.expectNullPointerException(descriptionIsNull());
     Description d = null;
-    DescriptionValidations.notNull(d);
+    DescriptionValidations.checkIsNotNull(d);
   }
 
   @Test public void should_throw_error_if_text_description_is_null() {
     thrown.expectNullPointerException(descriptionIsNull());
     String d = null;
-    DescriptionValidations.notNull(d);
+    DescriptionValidations.checkIsNotNull(d);
   }
 
   @Test public void should_return_description_with_given_text() {
-    Description d = DescriptionValidations.notNull("Yoda");
+    Description d = DescriptionValidations.checkIsNotNull("Yoda");
     assertEquals("Yoda", d.value());
   }
 
   @Test public void should_return_same_description() {
     Description e = new TextDescription("Yoda");
-    Description d = DescriptionValidations.notNull(e);
+    Description d = DescriptionValidations.checkIsNotNull(e);
     assertSame(e, d);
   }
 }

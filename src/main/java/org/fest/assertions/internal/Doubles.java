@@ -143,7 +143,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, Double actual, Double expected, Offset<Double> offset) {
-    validateIsNotNull(offset);
+    checkIsNotNull(offset);
     if (areEqual(actual, expected)) return;
     if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, isNotEqual(actual, expected, offset));
@@ -160,13 +160,13 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, Double actual, double expected, Offset<Double> offset) {
-    validateIsNotNull(offset);
+    checkIsNotNull(offset);
     assertNotNull(info, actual);
     if (isEqualTo(actual, expected) || isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, isNotEqual(actual, expected, offset));
   }
 
-  private void validateIsNotNull(Offset<Double> offset) {
+  private void checkIsNotNull(Offset<Double> offset) {
     if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
 

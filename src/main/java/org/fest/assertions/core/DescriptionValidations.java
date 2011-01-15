@@ -12,37 +12,22 @@
  *
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.core;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.description.*;
 
 /**
- * Validates <code>{@link Description}</code>s.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public final class DescriptionValidations {
+final class DescriptionValidations {
 
-  /**
-   * Validates that given description (as text) is not {@code null}.
-   * @param d the description to verify.
-   * @return a new {@code Description} that uses the given text as its value.
-   * @throws NullPointerException if the given description is {@code null}.
-   */
-  public static Description notNull(String d) {
+  static Description checkIsNotNull(String d) {
     if (d == null) throw bomb();
     return new TextDescription(d);
   }
 
-  /**
-   * Validates that the given description is not {@code null}.
-   * @param d the description to verify.
-   * @return the given description, if it is not {@code null}.
-   * @throws NullPointerException if the given description is {@code null}.
-   */
-  public static Description notNull(Description d) {
+  static Description checkIsNotNull(Description d) {
     if (d == null) throw bomb();
     return d;
   }

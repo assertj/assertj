@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.core;
 
-import static org.fest.assertions.internal.DescriptionValidations.notNull;
+import static org.fest.assertions.core.DescriptionValidations.checkIsNotNull;
 
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
@@ -63,7 +63,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   public final Condition<T> as(String newDescription) {
-    description = notNull(newDescription);
+    description = checkIsNotNull(newDescription);
     return this;
   }
 
@@ -74,7 +74,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   public final Condition<T> as(Description newDescription) {
-    description = notNull(newDescription);
+    description = checkIsNotNull(newDescription);
     return this;
   }
 
@@ -92,4 +92,8 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
    * @return {@code true} if the given value satisfies this condition; {@code false} otherwise.
    */
   public abstract boolean matches(T value);
+
+  @Override public String toString() {
+    return description.value();
+  }
 }

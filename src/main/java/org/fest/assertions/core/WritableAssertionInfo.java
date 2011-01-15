@@ -15,7 +15,7 @@
 package org.fest.assertions.core;
 
 import static java.lang.String.format;
-import static org.fest.assertions.internal.DescriptionValidations.notNull;
+import static org.fest.assertions.core.DescriptionValidations.checkIsNotNull;
 import static org.fest.util.Strings.quote;
 
 import org.fest.assertions.description.Description;
@@ -65,7 +65,7 @@ public final class WritableAssertionInfo implements AssertionInfo {
    * @see #description(Description)
    */
   public void description(String newDescription) {
-    description = notNull(newDescription);
+    description = checkIsNotNull(newDescription);
   }
 
   /**
@@ -75,7 +75,7 @@ public final class WritableAssertionInfo implements AssertionInfo {
    * @throws NullPointerException if the given description is {@code null}.
    */
   public void description(Description newDescription) {
-    description = notNull(newDescription);
+    description = checkIsNotNull(newDescription);
   }
 
   /** {@inheritDoc} */

@@ -124,7 +124,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not contain the given sequence.
    */
   public void assertContains(AssertionInfo info, String actual, String sequence) {
-    validateSequenceNotNull(sequence);
+    checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (actual.contains(sequence)) return;
     throw failures.failure(info, doesNotContain(actual, sequence));
@@ -140,7 +140,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not contain the given sequence.
    */
   public void assertContainsIgnoringCase(AssertionInfo info, String actual, String sequence) {
-    validateSequenceNotNull(sequence);
+    checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (actual.toLowerCase().contains(sequence.toLowerCase())) return;
     throw failures.failure(info, doesNotContainIgnoringCase(actual, sequence));
@@ -156,13 +156,13 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} contains the given sequence.
    */
   public void assertDoesNotContain(AssertionInfo info, String actual, String sequence) {
-    validateSequenceNotNull(sequence);
+    checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (!actual.contains(sequence)) return;
     throw failures.failure(info, contains(actual, sequence));
   }
 
-  private void validateSequenceNotNull(String sequence) {
+  private void checkSequenceIsNotNull(String sequence) {
     if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
   }
 
@@ -226,7 +226,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, String regex) {
-    validateRegexNotNull(regex);
+    checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
     if (Pattern.matches(regex, actual)) return;
     throw failures.failure(info, doesNotMatch(actual, regex));
@@ -242,12 +242,12 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} matches the given regular expression.
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
-    validateRegexNotNull(regex);
+    checkRegexIsNotNull(regex);
     if (actual == null || !Pattern.matches(regex, actual)) return;
     throw failures.failure(info, matches(actual, regex));
   }
 
-  private void validateRegexNotNull(String regex) {
+  private void checkRegexIsNotNull(String regex) {
     if (regex == null) throw patternToMatchIsNull();
   }
 
@@ -261,7 +261,7 @@ public class Strings {
    * @throws AssertionError if the given {@code String} does not match the given regular expression.
    */
   public void assertMatches(AssertionInfo info, String actual, Pattern pattern) {
-    validateNotNull(pattern);
+    checkIsNotNull(pattern);
     assertNotNull(info, actual);
     if (pattern.matcher(actual).matches()) return;
     throw failures.failure(info, doesNotMatch(actual, pattern.pattern()));
@@ -276,12 +276,12 @@ public class Strings {
    * @throws AssertionError if the given {@code String} matches the given regular expression.
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
-    validateNotNull(pattern);
+    checkIsNotNull(pattern);
     if (actual == null || !pattern.matcher(actual).matches()) return;
     throw failures.failure(info, matches(actual, pattern.pattern()));
   }
 
-  private void validateNotNull(Pattern pattern) {
+  private void checkIsNotNull(Pattern pattern) {
     if (pattern == null) throw patternToMatchIsNull();
   }
 

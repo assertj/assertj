@@ -83,7 +83,7 @@ public class Objects {
    * @throws AssertionError if the given object is not an instance of any of the given types.
    */
   public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-    validateIsNotNullAndIsNotEmpty(types);
+    checkIsNotNullAndIsNotEmpty(types);
     assertNotNull(info, actual);
     boolean found = false;
     for (Class<?> type : types) {
@@ -100,7 +100,7 @@ public class Objects {
     throw failures.failure(info, isNotInstanceOfAny(actual, types));
   }
 
-  private void validateIsNotNullAndIsNotEmpty(Class<?>[] types) {
+  private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     if (types == null) throw new NullPointerException("The given array of types should not be null");
     if (types.length == 0) throw new IllegalArgumentException("The given array of types should not be empty");
   }

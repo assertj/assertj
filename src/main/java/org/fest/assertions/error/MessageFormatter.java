@@ -16,10 +16,8 @@ package org.fest.assertions.error;
 
 import static org.fest.util.ToString.toStringOf;
 
-import org.fest.assertions.core.Condition;
 import org.fest.assertions.description.Description;
-import org.fest.util.ToString;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -67,13 +65,7 @@ public class MessageFormatter {
     int argCount = args.length;
     String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++)
-      formatted[i] = describe(args[i]);
+      formatted[i] = toStringOf(args[i]);
     return formatted;
-  }
-
-  private String describe(Object o) {
-    if (o instanceof Condition) return describe(((Condition<?>)o).description());
-    if (o instanceof Description) return ((Description)o).value();
-    return toStringOf(o);
   }
 }

@@ -49,11 +49,11 @@ public class ArrayWrapperList extends AbstractList<Object> {
    * {@inheritDoc}
    */
   @Override public Object get(int index) {
-    validateInRange(index);
+    checkIsInRange(index);
     return Array.get(array, index);
   }
 
-  private void validateInRange(int index) {
+  private void checkIsInRange(int index) {
     int size = size();
     if (index < size()) return;
     throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));

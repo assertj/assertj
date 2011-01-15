@@ -20,11 +20,15 @@ package org.fest.assertions.description;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public interface Description {
+public abstract class Description {
 
   /**
    * Returns the value of this description.
    * @return the value of this description.
    */
-  String value();
+  public abstract String value();
+
+  @Override public String toString() {
+    return value();
+  }
 }

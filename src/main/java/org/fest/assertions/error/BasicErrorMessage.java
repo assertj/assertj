@@ -68,6 +68,6 @@ public class BasicErrorMessage implements ErrorMessage {
   }
 
   @Override public String toString() {
-    return format("[format=%s, arguments=%s]", getClass().getName(), quote(format), format(arguments));
+    return format("%s[format=%s, arguments=%s]", getClass().getName(), quote(format), format(arguments));
   }
 }

@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
-import static org.fest.assertions.internal.CommonValidations.validateIndexValue;
+import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.util.Objects.areEqual;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class Lists {
   public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
     assertNotNull(info, actual);
     Collections.instance().assertNotEmpty(info, actual);
-    validateIndexValue(index, actual.size() - 1);
+    checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
     throw failures.failure(info, doesNotContainAtIndex(actual, value, index));
@@ -86,7 +86,7 @@ public class Lists {
    */
   public void assertDoesNotContain(AssertionInfo info, List<?> actual, Object value, Index index) {
     assertNotNull(info, actual);
-    validateIndexValue(index, Integer.MAX_VALUE);
+    checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
     if (indexValue >= actual.size()) return;
     Object actualElement = actual.get(index.value);
