@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+
+  <properties>
+    <title>Welcome</title>
+    <!--meta HTTP-EQUIV="REFRESH" content="0; url=http://fest.easytesting.org/assert/index.php" /-->
+  </properties>
+
+  <body>
+    <p>
+    You are being redirected to the <a href="index.php">wiki page</a>.
+    </p>
+	</body>
+</document>

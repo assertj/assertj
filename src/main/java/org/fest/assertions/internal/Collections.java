@@ -230,7 +230,7 @@ public class Collections {
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     Collection<?> duplicates = duplicatesFrom(actual);
-    if (isEmpty(duplicates)) return;
+    if (duplicates.isEmpty()) return;
     throw failures.failure(info, hasDuplicates(actual, duplicates));
   }
 

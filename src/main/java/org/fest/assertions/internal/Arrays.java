@@ -30,7 +30,7 @@ import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.validateIndexValue;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.duplicatesFrom;
 import static org.fest.util.Objects.areEqual;
 
 import java.lang.reflect.Array;
@@ -191,7 +191,7 @@ class Arrays {
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
     Collection<?> duplicates = duplicatesFrom(wrapped);
-    if (isEmpty(duplicates)) return;
+    if (duplicates.isEmpty()) return;
     throw failures.failure(info, hasDuplicates(wrapped, duplicates));
   }
 
