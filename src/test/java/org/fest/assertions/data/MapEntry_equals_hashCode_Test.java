@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link MapEntry#equals(Object)}</code> and <code>{@link MapEntry#hashCode()}</code>.
@@ -58,7 +57,7 @@ public class MapEntry_equals_hashCode_Test {
     assertFalse(entry.equals(null));
   }
 
-  @Test public void should_not_be_equal_to_Offset_with_different_value() {
+  @Test public void should_not_be_equal_to_MapEntry_with_different_value() {
     assertFalse(entry.equals(entry("key0", "value0")));
   }
 }

@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.RgbColor.color;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link RgbColor#equals(Object)}</code> and <code>{@link RgbColor#hashCode()}</code>.
@@ -35,7 +34,7 @@ public class RgbColor_equals_hashCode_Test {
   }
 
   @Test public void should_have_reflexive_equals() {
-    assertEqualsIsReflexive(color(0xFFFFFF));
+    assertEqualsIsReflexive(color);
   }
 
   @Test public void should_have_symmetric_equals() {
