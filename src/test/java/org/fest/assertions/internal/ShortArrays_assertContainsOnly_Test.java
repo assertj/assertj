@@ -43,7 +43,7 @@ public class ShortArrays_assertContainsOnly_Test {
   private ShortArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6, 8, 10);
     arrays = new ShortArrays(failures);
   }
@@ -85,8 +85,10 @@ public class ShortArrays_assertContainsOnly_Test {
     short[] expected = { 6, 8, 20 };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set((short)10), set((short)20)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set((short)10), set((short)20)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

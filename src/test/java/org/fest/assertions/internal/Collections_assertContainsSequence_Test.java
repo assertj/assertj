@@ -51,7 +51,7 @@ public class Collections_assertContainsSequence_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -75,9 +75,11 @@ public class Collections_assertContainsSequence_Test {
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
       collections.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotContain(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotContain(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -85,9 +87,11 @@ public class Collections_assertContainsSequence_Test {
     Object[] sequence = { "Han", "C-3PO" };
     try {
       collections.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotContain(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotContain(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -95,12 +99,14 @@ public class Collections_assertContainsSequence_Test {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
       collections.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotContain(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotContain(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotContain(AssertionInfo info, Object[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotContain(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(actual, wrap(sequence)));
   }
 

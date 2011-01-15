@@ -52,7 +52,7 @@ public class Maps_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     maps = new Maps(failures);
   }
 
@@ -80,8 +80,10 @@ public class Maps_assertDoesNotContain_Test {
     MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
     try {
       maps.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set(entry("name", "Yoda"))));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set(entry("name", "Yoda"))));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

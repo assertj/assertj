@@ -47,7 +47,7 @@ public class DoubleArrays_assertEndsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new DoubleArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class DoubleArrays_assertEndsWith_Test {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
     try {
       arrays.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -81,9 +83,11 @@ public class DoubleArrays_assertEndsWith_Test {
     double[] sequence = { 20d, 22d };
     try {
       arrays.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
@@ -91,12 +95,14 @@ public class DoubleArrays_assertEndsWith_Test {
     double[] sequence = { 6d, 20d, 22d };
     try {
       arrays.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(AssertionInfo info, double[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotEndWithSequence(AssertionInfo info, double[] sequence) {
     verify(failures).failure(info, doesNotEndWith(wrap(actual), wrap(sequence)));
   }
 

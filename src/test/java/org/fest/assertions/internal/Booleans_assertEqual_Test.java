@@ -39,7 +39,7 @@ public class Booleans_assertEqual_Test {
   private Booleans booleans;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     booleans = new Booleans();
     booleans.failures = failures;
   }
@@ -58,8 +58,10 @@ public class Booleans_assertEqual_Test {
     boolean expected = false;
     try {
       booleans.assertEqual(info, TRUE, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(TRUE, expected));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(TRUE, expected));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

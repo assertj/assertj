@@ -38,7 +38,7 @@ public class Doubles_assertGreaterThanOrEqualTo_Test {
   private Doubles doubles;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     doubles = new Doubles();
     doubles.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Doubles_assertGreaterThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       doubles.assertGreaterThanOrEqualTo(info, 6d, 8d);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThanOrEqualTo(6d, 8d));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThanOrEqualTo(6d, 8d));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

@@ -38,7 +38,7 @@ public class Comparables_assertLessThanOrEqualTo_Test {
   private Comparables comparables;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     comparables = new Comparables(failures);
   }
 
@@ -59,8 +59,10 @@ public class Comparables_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       comparables.assertLessThanOrEqualTo(info, 8, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo(8, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo(8, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

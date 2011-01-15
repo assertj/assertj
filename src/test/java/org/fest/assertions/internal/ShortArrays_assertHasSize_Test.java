@@ -45,7 +45,7 @@ public class ShortArrays_assertHasSize_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ShortArrays(failures);
   }
 
@@ -58,9 +58,11 @@ public class ShortArrays_assertHasSize_Test {
     AssertionInfo info = someInfo();
     try {
       arrays.assertHasSize(info, actual, 3);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, actual.length, 3));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotHaveSize(actual, actual.length, 3));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {

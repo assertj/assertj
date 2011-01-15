@@ -48,7 +48,7 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new BooleanArrays(failures);
   }
 
@@ -76,8 +76,10 @@ public class BooleanArrays_assertDoesNotContain_at_Index_Test {
     Index index = atIndex(0);
     try {
       arrays.assertDoesNotContain(info, actual, value, index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(wrap(actual), value, index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, containsAtIndex(wrap(actual), value, index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

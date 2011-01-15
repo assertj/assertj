@@ -38,7 +38,7 @@ public class Characters_assertLessThan_Test {
   private Characters characters;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
   }
@@ -49,24 +49,28 @@ public class Characters_assertLessThan_Test {
   }
 
   @Test public void should_pass_if_actual_is_less_than_other() {
-    characters.assertLessThan(someInfo(), 'b', 'a');
+    characters.assertLessThan(someInfo(), 'a', 'b');
   }
 
   @Test public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
       characters.assertLessThan(info, 'b', 'b');
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan('b', 'b'));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan('b', 'b'));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
       characters.assertLessThan(info, 'b', 'a');
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan('b', 'a'));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan('b', 'a'));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

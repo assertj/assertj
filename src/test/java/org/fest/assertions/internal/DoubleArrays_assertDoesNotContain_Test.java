@@ -47,7 +47,7 @@ public class DoubleArrays_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new DoubleArrays(failures);
   }
 
@@ -79,8 +79,10 @@ public class DoubleArrays_assertDoesNotContain_Test {
     double[] expected = { 6d, 8d, 20d };
     try {
       arrays.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set(6d, 8d)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set(6d, 8d)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

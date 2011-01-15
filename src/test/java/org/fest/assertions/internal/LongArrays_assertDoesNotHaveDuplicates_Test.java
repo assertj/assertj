@@ -42,7 +42,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test {
   private LongArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6L, 8L);
     arrays = new LongArrays(failures);
   }
@@ -65,8 +65,10 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test {
     actual = array(6L, 8L, 6L, 8L);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), set(6L, 8L)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, hasDuplicates(wrap(actual), set(6L, 8L)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

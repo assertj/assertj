@@ -23,8 +23,7 @@ import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -45,7 +44,7 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
 
   @Before public void setUp() {
     actual = list("Luke", "Yoda", "Leia");
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -68,8 +67,10 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
     actual.addAll(duplicates);
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(actual, duplicates));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, hasDuplicates(actual, duplicates));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

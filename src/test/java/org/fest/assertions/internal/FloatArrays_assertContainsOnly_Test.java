@@ -43,7 +43,7 @@ public class FloatArrays_assertContainsOnly_Test {
   private FloatArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6f, 8f, 10f);
     arrays = new FloatArrays(failures);
   }
@@ -86,8 +86,10 @@ public class FloatArrays_assertContainsOnly_Test {
     float[] expected = { 6f, 8f, 20f };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10f), set(20f)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10f), set(20f)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

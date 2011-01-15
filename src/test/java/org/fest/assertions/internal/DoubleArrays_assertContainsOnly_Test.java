@@ -43,7 +43,7 @@ public class DoubleArrays_assertContainsOnly_Test {
   private DoubleArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6d, 8d, 10d);
     arrays = new DoubleArrays(failures);
   }
@@ -85,8 +85,10 @@ public class DoubleArrays_assertContainsOnly_Test {
     double[] expected = { 6d, 8d, 20d };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10d), set(20d)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10d), set(20d)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

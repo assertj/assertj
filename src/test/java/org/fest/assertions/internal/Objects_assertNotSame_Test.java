@@ -21,8 +21,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.Person;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Objects#assertNotSame(AssertionInfo, Object, Object)}</code>.
@@ -35,7 +34,7 @@ public class Objects_assertNotSame_Test {
   private Objects objects;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     objects = new Objects(failures);
   }
 
@@ -48,8 +47,10 @@ public class Objects_assertNotSame_Test {
     Object actual = new Person("Yoda");
     try {
       objects.assertNotSame(info, actual, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isSame(actual));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isSame(actual));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

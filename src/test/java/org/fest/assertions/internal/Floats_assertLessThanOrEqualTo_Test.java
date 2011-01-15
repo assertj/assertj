@@ -38,7 +38,7 @@ public class Floats_assertLessThanOrEqualTo_Test {
   private Floats floats;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     floats = new Floats();
     floats.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Floats_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       floats.assertLessThanOrEqualTo(info, 8f, 6f);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo(8f, 6f));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo(8f, 6f));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

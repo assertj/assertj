@@ -39,7 +39,7 @@ public class LongArrays_assertEmpty_Test {
   private LongArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new LongArrays(failures);
   }
 
@@ -53,9 +53,11 @@ public class LongArrays_assertEmpty_Test {
     long[] actual = { 6L, 8L };
     try {
       arrays.assertEmpty(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEmpty(actual));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEmpty(actual));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_empty() {

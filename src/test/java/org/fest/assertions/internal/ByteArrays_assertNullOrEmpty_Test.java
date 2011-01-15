@@ -38,7 +38,7 @@ public class ByteArrays_assertNullOrEmpty_Test {
   private ByteArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ByteArrays(failures);
   }
 
@@ -47,9 +47,11 @@ public class ByteArrays_assertNullOrEmpty_Test {
     byte[] actual = { 6, 8 };
     try {
       arrays.assertNullOrEmpty(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotNullOrEmpty(actual));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotNullOrEmpty(actual));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_array_is_null() {

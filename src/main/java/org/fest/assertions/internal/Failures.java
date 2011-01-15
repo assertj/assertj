@@ -17,8 +17,8 @@ package org.fest.assertions.internal;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.AssertionErrorFactory;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.error.*;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Failure actions.
@@ -38,7 +38,7 @@ public class Failures {
     return INSTANCE;
   }
 
-  private Failures() {}
+  @VisibleForTesting Failures() {}
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:

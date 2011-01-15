@@ -38,7 +38,7 @@ public class Shorts_assertNotEqual_Test {
   private Shorts shorts;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     shorts = new Shorts();
     shorts.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Shorts_assertNotEqual_Test {
     AssertionInfo info = someInfo();
     try {
       shorts.assertNotEqual(info, (short)6, (short)6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual((short)6, (short)6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEqual((short)6, (short)6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

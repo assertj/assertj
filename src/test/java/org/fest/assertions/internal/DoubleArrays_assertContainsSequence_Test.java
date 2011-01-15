@@ -47,7 +47,7 @@ public class DoubleArrays_assertContainsSequence_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new DoubleArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class DoubleArrays_assertContainsSequence_Test {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -81,9 +83,11 @@ public class DoubleArrays_assertContainsSequence_Test {
     double[] sequence = { 6d, 20d };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -91,12 +95,14 @@ public class DoubleArrays_assertContainsSequence_Test {
     double[] sequence = { 6d, 20d, 22d };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(AssertionInfo info, double[] sequence) {
+  private void shouldHaveFailedIfSequenceWasNotFound(AssertionInfo info, double[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 

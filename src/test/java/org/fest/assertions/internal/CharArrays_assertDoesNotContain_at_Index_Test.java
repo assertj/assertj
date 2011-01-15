@@ -48,7 +48,7 @@ public class CharArrays_assertDoesNotContain_at_Index_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new CharArrays(failures);
   }
 
@@ -75,8 +75,10 @@ public class CharArrays_assertDoesNotContain_at_Index_Test {
     Index index = atIndex(0);
     try {
       arrays.assertDoesNotContain(info, actual, 'a', index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(wrap(actual), 'a', index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, containsAtIndex(wrap(actual), 'a', index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

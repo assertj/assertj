@@ -39,7 +39,7 @@ public class Strings_assertDoesNotContain_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -47,9 +47,11 @@ public class Strings_assertDoesNotContain_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertDoesNotContain(info, "Yoda", "oda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains("Yoda", "oda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains("Yoda", "oda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {

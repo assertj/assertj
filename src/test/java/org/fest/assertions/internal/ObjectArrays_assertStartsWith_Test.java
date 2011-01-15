@@ -48,7 +48,7 @@ public class ObjectArrays_assertStartsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ObjectArrays(failures);
   }
 
@@ -72,9 +72,11 @@ public class ObjectArrays_assertStartsWith_Test {
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -82,9 +84,11 @@ public class ObjectArrays_assertStartsWith_Test {
     Object[] sequence = { "Han", "C-3PO" };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -92,12 +96,14 @@ public class ObjectArrays_assertStartsWith_Test {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

@@ -47,7 +47,7 @@ public class CharArrays_assertStartsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new CharArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class CharArrays_assertStartsWith_Test {
     char[] sequence = { 'a', 'b', 'c', 'd', 'e', 'f' };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -81,9 +83,11 @@ public class CharArrays_assertStartsWith_Test {
     char[] sequence = { 'b', 'c' };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -91,12 +95,14 @@ public class CharArrays_assertStartsWith_Test {
     char[] sequence = { 'a', 'x' };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, char[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotStartWithSequence(AssertionInfo info, char[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

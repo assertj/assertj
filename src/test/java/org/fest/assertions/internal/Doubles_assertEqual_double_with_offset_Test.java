@@ -40,7 +40,7 @@ public class Doubles_assertEqual_double_with_offset_Test {
   private Doubles doubles;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     doubles = new Doubles();
     doubles.failures = failures;
   }
@@ -63,8 +63,10 @@ public class Doubles_assertEqual_double_with_offset_Test {
     Offset<Double> offset = offset(1d);
     try {
       doubles.assertEqual(info, new Double(6d), 8d, offset);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(6d, 8d, offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(6d, 8d, offset));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

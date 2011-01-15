@@ -39,7 +39,7 @@ public class CharArrays_assertEmpty_Test {
   private CharArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new CharArrays(failures);
   }
 
@@ -53,9 +53,11 @@ public class CharArrays_assertEmpty_Test {
     char[] actual = { 'a', 'b' };
     try {
       arrays.assertEmpty(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEmpty(actual));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEmpty(actual));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_empty() {

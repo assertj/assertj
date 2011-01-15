@@ -43,7 +43,7 @@ public class Maps_assertNotEmpty_Test {
   private Maps maps;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     maps = new Maps(failures);
   }
 
@@ -61,9 +61,11 @@ public class Maps_assertNotEmpty_Test {
     AssertionInfo info = someInfo();
     try {
       maps.assertNotEmpty(info, emptyMap());
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEmpty());
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEmpty());
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
 }

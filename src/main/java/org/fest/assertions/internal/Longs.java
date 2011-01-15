@@ -105,7 +105,7 @@ public class Longs {
   public void assertEqual(AssertionInfo info, Long actual, long expected) {
     assertNotNull(info, actual);
     if (actual.longValue() == expected) return;
-    failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, isNotEqual(actual, expected));
   }
 
   /**
@@ -119,7 +119,7 @@ public class Longs {
   public void assertNotEqual(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (actual.longValue() != other) return;
-    failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, isEqual(actual, other));
   }
 
   /**
@@ -134,7 +134,7 @@ public class Longs {
   public void assertLessThan(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    failures.failure(info, isNotLessThan(actual, other));
+    throw failures.failure(info, isNotLessThan(actual, other));
   }
 
   /**
@@ -148,7 +148,7 @@ public class Longs {
   public void assertLessThanOrEqualTo(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
   }
 
   /**
@@ -163,7 +163,7 @@ public class Longs {
   public void assertGreaterThan(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThan(actual, other));
+    throw failures.failure(info, isNotGreaterThan(actual, other));
   }
 
   private static boolean isGreaterThan(Long actual, long other) {
@@ -181,7 +181,7 @@ public class Longs {
   public void assertGreaterThanOrEqualTo(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
   }
 
   private static boolean isLessThan(Long actual, long other) {

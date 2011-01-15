@@ -47,7 +47,7 @@ public class ByteArrays_assertStartsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ByteArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class ByteArrays_assertStartsWith_Test {
     byte[] sequence = { 6, 8, 10, 12, 20, 22 };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -81,9 +83,11 @@ public class ByteArrays_assertStartsWith_Test {
     byte[] sequence = { 8, 10 };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -91,12 +95,14 @@ public class ByteArrays_assertStartsWith_Test {
     byte[] sequence = { 6, 20 };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, byte[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotStartWithSequence(AssertionInfo info, byte[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

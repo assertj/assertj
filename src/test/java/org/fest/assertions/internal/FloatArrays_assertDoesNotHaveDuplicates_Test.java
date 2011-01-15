@@ -42,7 +42,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test {
   private FloatArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6f, 8f);
     arrays = new FloatArrays(failures);
   }
@@ -65,8 +65,10 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test {
     actual = array(6f, 8f, 6f, 8f);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), set(6f, 8f)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, hasDuplicates(wrap(actual), set(6f, 8f)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

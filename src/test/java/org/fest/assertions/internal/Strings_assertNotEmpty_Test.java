@@ -38,7 +38,7 @@ public class Strings_assertNotEmpty_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -51,9 +51,11 @@ public class Strings_assertNotEmpty_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertNotEmpty(info, "");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEmpty());
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEmpty());
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {

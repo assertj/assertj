@@ -50,7 +50,7 @@ public class Lists_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     lists = new Lists(failures);
   }
 
@@ -77,8 +77,10 @@ public class Lists_assertDoesNotContain_Test {
     Index index = atIndex(0);
     try {
       lists.assertDoesNotContain(info, actual, "Yoda", index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(actual, "Yoda", index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, containsAtIndex(actual, "Yoda", index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

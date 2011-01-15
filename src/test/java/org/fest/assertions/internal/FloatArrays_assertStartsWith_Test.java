@@ -47,7 +47,7 @@ public class FloatArrays_assertStartsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new FloatArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class FloatArrays_assertStartsWith_Test {
     try {
       AssertionInfo inof = someInfo();
       arrays.assertStartsWith(inof, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -81,9 +83,11 @@ public class FloatArrays_assertStartsWith_Test {
     float[] sequence = { 8f, 10f };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -91,12 +95,14 @@ public class FloatArrays_assertStartsWith_Test {
     float[] sequence = { 6f, 20f };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(float[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotStartWithSequence(float[] sequence) {
     verify(failures).failure(someInfo(), doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

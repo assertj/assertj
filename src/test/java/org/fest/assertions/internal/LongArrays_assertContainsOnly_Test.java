@@ -43,7 +43,7 @@ public class LongArrays_assertContainsOnly_Test {
   private LongArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6L, 8L, 10L);
     arrays = new LongArrays(failures);
   }
@@ -85,8 +85,10 @@ public class LongArrays_assertContainsOnly_Test {
     long[] expected = { 6L, 8L, 20L };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10L), set(20L)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10L), set(20L)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

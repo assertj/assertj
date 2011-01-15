@@ -40,7 +40,7 @@ public class Comparables_assertEqual_Test {
   private Comparables comparables;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     comparables = new Comparables(failures);
   }
 
@@ -62,8 +62,10 @@ public class Comparables_assertEqual_Test {
     AssertionInfo info = someInfo();
     try {
       comparables.assertEqual(info, "Luke", "Yoda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

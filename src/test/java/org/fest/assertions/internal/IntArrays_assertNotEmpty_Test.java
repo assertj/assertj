@@ -39,7 +39,7 @@ public class IntArrays_assertNotEmpty_Test {
   private IntArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new IntArrays(failures);
   }
 
@@ -52,9 +52,11 @@ public class IntArrays_assertNotEmpty_Test {
     AssertionInfo info = someInfo();
     try {
       arrays.assertNotEmpty(info, emptyArray());
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEmpty());
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEmpty());
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {

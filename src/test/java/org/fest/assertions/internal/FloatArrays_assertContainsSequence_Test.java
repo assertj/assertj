@@ -47,7 +47,7 @@ public class FloatArrays_assertContainsSequence_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new FloatArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class FloatArrays_assertContainsSequence_Test {
     float[] sequence = { 6f, 8f, 10f, 12f, 20f, 22f };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -81,9 +83,11 @@ public class FloatArrays_assertContainsSequence_Test {
     float[] sequence = { 6f, 20f };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -91,12 +95,14 @@ public class FloatArrays_assertContainsSequence_Test {
     float[] sequence = { 6f, 20f, 22f };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(AssertionInfo info, float[] sequence) {
+  private void shouldHaveFailedIfSequenceWasNotFound(AssertionInfo info, float[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 

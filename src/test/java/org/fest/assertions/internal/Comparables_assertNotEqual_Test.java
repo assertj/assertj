@@ -22,8 +22,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.test.Person;
+import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**
@@ -39,7 +38,7 @@ public class Comparables_assertNotEqual_Test {
   private Comparables comparables;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     comparables = new Comparables(failures);
   }
 
@@ -59,8 +58,10 @@ public class Comparables_assertNotEqual_Test {
     AssertionInfo info = someInfo();
     try {
       comparables.assertNotEqual(info, "Yoda", "Yoda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual("Yoda", "Yoda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEqual("Yoda", "Yoda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

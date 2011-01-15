@@ -39,7 +39,7 @@ public class Strings_assertContains_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -47,21 +47,25 @@ public class Strings_assertContains_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertContains(info, "Yoda", "Luke");
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "Luke");
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceNotFound(info, "Yoda", "Luke");
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_sequence_but_in_different_case() {
     AssertionInfo info = someInfo();
     try {
       strings.assertContains(info, "Yoda", "yo");
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceNotFound(info, "Yoda", "yo");
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceNotFound(info, "Yoda", "yo");
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenSequenceNotFound(AssertionInfo info, String actual, String sequence) {
+  private void shouldHaveFailedIfSequenceNotFound(AssertionInfo info, String actual, String sequence) {
     verify(failures).failure(info, doesNotContain(actual, sequence));
   }
 

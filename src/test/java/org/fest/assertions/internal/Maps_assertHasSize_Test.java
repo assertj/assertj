@@ -42,7 +42,7 @@ public class Maps_assertHasSize_Test {
   private Maps maps;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     maps = new Maps(failures);
   }
 
@@ -61,8 +61,10 @@ public class Maps_assertHasSize_Test {
     Map<?, ?> actual = map(entry("name", "Yoda"), entry("job", "Yedi Master"));
     try {
       maps.assertHasSize(info, actual, 8);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

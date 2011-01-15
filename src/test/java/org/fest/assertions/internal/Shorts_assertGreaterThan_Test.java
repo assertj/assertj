@@ -38,7 +38,7 @@ public class Shorts_assertGreaterThan_Test {
   private Shorts shorts;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     shorts = new Shorts();
     shorts.failures = failures;
   }
@@ -56,17 +56,21 @@ public class Shorts_assertGreaterThan_Test {
     AssertionInfo info = someInfo();
     try {
       shorts.assertGreaterThan(info, (short)6, (short)6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThan((short)6, (short)6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThan((short)6, (short)6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
       shorts.assertGreaterThan(info, (short)6, (short)8);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThan((short)6, (short)8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThan((short)6, (short)8));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

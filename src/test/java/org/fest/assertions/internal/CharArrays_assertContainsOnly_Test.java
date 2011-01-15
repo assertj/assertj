@@ -43,7 +43,7 @@ public class CharArrays_assertContainsOnly_Test {
   private CharArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array('a', 'b', 'c');
     arrays = new CharArrays(failures);
   }
@@ -85,8 +85,10 @@ public class CharArrays_assertContainsOnly_Test {
     char[] expected = { 'a', 'b', 'd' };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set('c'), set('d')));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set('c'), set('d')));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

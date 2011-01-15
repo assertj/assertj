@@ -38,7 +38,7 @@ public class Longs_assertNotEqual_Test {
   private Longs longs;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     longs = new Longs();
     longs.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Longs_assertNotEqual_Test {
     AssertionInfo info = someInfo();
     try {
       longs.assertNotEqual(info, 6L, 6L);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual(6L, 6L));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEqual(6L, 6L));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

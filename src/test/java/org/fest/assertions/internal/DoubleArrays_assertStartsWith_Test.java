@@ -47,7 +47,7 @@ public class DoubleArrays_assertStartsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new DoubleArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class DoubleArrays_assertStartsWith_Test {
     double[] sequence = { 6d, 8d, 10d, 12d, 20d, 22d };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -81,9 +83,11 @@ public class DoubleArrays_assertStartsWith_Test {
     double[] sequence = { 8d, 10d };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -91,12 +95,14 @@ public class DoubleArrays_assertStartsWith_Test {
     double[] sequence = { 6d, 20d };
     try {
       arrays.assertStartsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotStartWithSequence(AssertionInfo info, double[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotStartWithSequence(AssertionInfo info, double[] sequence) {
     verify(failures).failure(info, doesNotStartWith(wrap(actual), wrap(sequence)));
   }
 

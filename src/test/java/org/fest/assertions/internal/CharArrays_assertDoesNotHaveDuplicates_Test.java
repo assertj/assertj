@@ -42,7 +42,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test {
   private CharArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array('a', 'b');
     arrays = new CharArrays(failures);
   }
@@ -65,8 +65,10 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test {
     actual = array('a', 'b', 'a', 'b');
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), set('a', 'b')));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, hasDuplicates(wrap(actual), set('a', 'b')));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

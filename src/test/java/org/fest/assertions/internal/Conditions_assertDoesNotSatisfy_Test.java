@@ -44,7 +44,7 @@ public class Conditions_assertDoesNotSatisfy_Test {
   private Conditions conditions;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     condition = new TestCondition<Object>();
     conditions = new Conditions(failures);
   }
@@ -64,8 +64,10 @@ public class Conditions_assertDoesNotSatisfy_Test {
     AssertionInfo info = someInfo();
     try {
       conditions.assertDoesNotSatisfy(info, actual, condition);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, satisfied(actual, condition));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, satisfied(actual, condition));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

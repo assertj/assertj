@@ -38,7 +38,7 @@ public class Integers_assertLessThan_Test {
   private Integers integers;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     integers = new Integers();
     integers.failures = failures;
   }
@@ -56,17 +56,21 @@ public class Integers_assertLessThan_Test {
     AssertionInfo info = someInfo();
     try {
       integers.assertLessThan(info, 6, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(6, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(6, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
       integers.assertLessThan(info, 8, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(8, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(8, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

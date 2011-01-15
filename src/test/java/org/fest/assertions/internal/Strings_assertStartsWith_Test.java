@@ -38,7 +38,7 @@ public class Strings_assertStartsWith_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -46,9 +46,11 @@ public class Strings_assertStartsWith_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertStartsWith(info, "Yoda", "Luke");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotStartWith("Yoda", "Luke"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotStartWith("Yoda", "Luke"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_throw_error_if_prefix_is_null() {

@@ -43,7 +43,7 @@ public class Images_assertEqual_Test {
   private Images images;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     images = new Images();
     images.failures = failures;
   }
@@ -53,9 +53,11 @@ public class Images_assertEqual_Test {
     BufferedImage expected = newImage(6, 6, BLUE);
     try {
       images.assertEqual(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, sizeOf(actual), sizeOf(expected)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotHaveSize(actual, sizeOf(actual), sizeOf(expected)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_images_have_same_size_but_different_color() {
@@ -63,8 +65,10 @@ public class Images_assertEqual_Test {
     BufferedImage expected = fivePixelYellowImage();
     try {
       images.assertEqual(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveEqualColor(blue(), yellow(), 0, 0));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotHaveEqualColor(blue(), yellow(), 0, 0));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

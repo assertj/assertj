@@ -48,7 +48,7 @@ public class ObjectArrays_assertContainsSequence_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ObjectArrays(failures);
   }
 
@@ -72,9 +72,11 @@ public class ObjectArrays_assertContainsSequence_Test {
     Object[] sequence = { "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -82,9 +84,11 @@ public class ObjectArrays_assertContainsSequence_Test {
     Object[] sequence = { "Han", "C-3PO" };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -92,12 +96,14 @@ public class ObjectArrays_assertContainsSequence_Test {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(AssertionInfo info, Object[] sequence) {
+  private void shouldHaveFailedIfSequenceWasNotFound(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 

@@ -42,7 +42,7 @@ public class Collections_assertNotEmpty_Test {
   private Collections collections;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -59,8 +59,10 @@ public class Collections_assertNotEmpty_Test {
     AssertionInfo info = someInfo();
     try {
       collections.assertNotEmpty(info, emptyList());
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEmpty());
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEmpty());
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

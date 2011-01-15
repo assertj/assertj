@@ -41,7 +41,7 @@ public class Collections_assertHasSize_Test {
   private Collections collections;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -59,8 +59,10 @@ public class Collections_assertHasSize_Test {
     Collection<String> actual = list("Yoda");
     try {
       collections.assertHasSize(info, actual, 8);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

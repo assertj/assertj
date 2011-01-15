@@ -38,7 +38,7 @@ public class Characters_assertEqual_Test {
   private Characters characters;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Characters_assertEqual_Test {
     AssertionInfo info = someInfo();
     try {
       characters.assertEqual(info, 'b', 'a');
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual('b', 'a'));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual('b', 'a'));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

@@ -130,7 +130,7 @@ public class Doubles {
   public void assertEqual(AssertionInfo info, Double actual, double expected) {
     assertNotNull(info, actual);
     if (isEqualTo(actual, expected)) return;
-    failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, isNotEqual(actual, expected));
   }
 
   /**
@@ -146,7 +146,7 @@ public class Doubles {
     validateIsNotNull(offset);
     if (areEqual(actual, expected)) return;
     if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
-    failures.failure(info, isNotEqual(actual, expected, offset));
+    throw failures.failure(info, isNotEqual(actual, expected, offset));
   }
 
   /**
@@ -163,7 +163,7 @@ public class Doubles {
     validateIsNotNull(offset);
     assertNotNull(info, actual);
     if (isEqualTo(actual, expected) || isEqualTo(actual, expected, offset)) return;
-    failures.failure(info, isNotEqual(actual, expected, offset));
+    throw failures.failure(info, isNotEqual(actual, expected, offset));
   }
 
   private void validateIsNotNull(Offset<Double> offset) {
@@ -189,7 +189,7 @@ public class Doubles {
   public void assertNotEqual(AssertionInfo info, Double actual, double other) {
     assertNotNull(info, actual);
     if (actual.doubleValue() != other) return;
-    failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, isEqual(actual, other));
   }
 
   /**
@@ -204,7 +204,7 @@ public class Doubles {
   public void assertLessThan(AssertionInfo info, Double actual, double other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    failures.failure(info, isNotLessThan(actual, other));
+    throw failures.failure(info, isNotLessThan(actual, other));
   }
 
   /**
@@ -218,7 +218,7 @@ public class Doubles {
   public void assertLessThanOrEqualTo(AssertionInfo info, Double actual, double other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
   }
 
   /**
@@ -233,7 +233,7 @@ public class Doubles {
   public void assertGreaterThan(AssertionInfo info, Double actual, double other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThan(actual, other));
+    throw failures.failure(info, isNotGreaterThan(actual, other));
   }
 
   private static boolean isGreaterThan(Double actual, double other) {
@@ -251,7 +251,7 @@ public class Doubles {
   public void assertGreaterThanOrEqualTo(AssertionInfo info, Double actual, double other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
   }
 
   private static boolean isLessThan(Double actual, double other) {

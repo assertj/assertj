@@ -47,7 +47,7 @@ public class IntArrays_assertContainsSequence_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new IntArrays(failures);
   }
 
@@ -71,9 +71,11 @@ public class IntArrays_assertContainsSequence_Test {
     int[] sequence = { 6, 8, 10, 12, 20, 22 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -81,9 +83,11 @@ public class IntArrays_assertContainsSequence_Test {
     int[] sequence = { 6, 20 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -91,12 +95,14 @@ public class IntArrays_assertContainsSequence_Test {
     int[] sequence = { 6, 20, 22 };
     try {
       arrays.assertContainsSequence(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenSequenceWasNotFound(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenSequenceWasNotFound(AssertionInfo info, int[] sequence) {
+  private void shouldHaveFailedIfSequenceWasNotFound(AssertionInfo info, int[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(wrap(actual), wrap(sequence)));
   }
 

@@ -38,7 +38,7 @@ public class Integers_assertGreaterThanOrEqualTo_Test {
   private Integers integers;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     integers = new Integers();
     integers.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Integers_assertGreaterThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       integers.assertGreaterThanOrEqualTo(info, 6, 8);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThanOrEqualTo(6, 8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThanOrEqualTo(6, 8));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

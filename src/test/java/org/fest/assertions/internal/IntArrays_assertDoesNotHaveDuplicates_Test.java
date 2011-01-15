@@ -42,7 +42,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test {
   private IntArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6, 8);
     arrays = new IntArrays(failures);
   }
@@ -65,8 +65,10 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test {
     actual = array(6, 8, 6, 8);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, hasDuplicates(wrap(actual), set(6, 8)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, hasDuplicates(wrap(actual), set(6, 8)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

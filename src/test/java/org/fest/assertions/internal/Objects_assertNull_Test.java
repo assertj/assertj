@@ -20,8 +20,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Objects#assertNull(AssertionInfo, Object)}</code>.
@@ -34,7 +33,7 @@ public class Objects_assertNull_Test {
   private Objects objects;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     objects = new Objects(failures);
   }
 
@@ -47,8 +46,10 @@ public class Objects_assertNull_Test {
     Object actual = new Object();
     try {
       objects.assertNull(info, actual);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(actual, null));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(actual, null));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

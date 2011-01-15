@@ -41,7 +41,7 @@ public class Strings_assertDoesNotMatch_String_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = "Yoda";
     strings = new Strings(failures);
   }
@@ -62,9 +62,11 @@ public class Strings_assertDoesNotMatch_String_Test {
     String regex = matchAnything().pattern();
     try {
       strings.assertDoesNotMatch(info, actual, regex);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, matches(actual, regex));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, matches(actual, regex));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_null() {

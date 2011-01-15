@@ -48,7 +48,7 @@ public class LongArrays_assertContains_at_Index_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new LongArrays(failures);
   }
 
@@ -78,9 +78,11 @@ public class LongArrays_assertContains_at_Index_Test {
     Index index = atIndex(1);
     try {
       arrays.assertContains(info, actual, value, index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), value, index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), value, index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

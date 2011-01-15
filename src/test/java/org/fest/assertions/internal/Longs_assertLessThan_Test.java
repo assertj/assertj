@@ -38,7 +38,7 @@ public class Longs_assertLessThan_Test {
   private Longs longs;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     longs = new Longs();
     longs.failures = failures;
   }
@@ -56,17 +56,21 @@ public class Longs_assertLessThan_Test {
     AssertionInfo info = someInfo();
     try {
       longs.assertLessThan(info, 6L, 6L);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(6L, 6L));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(6L, 6L));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
       longs.assertLessThan(info, 8L, 6L);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(8L, 6L));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(8L, 6L));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

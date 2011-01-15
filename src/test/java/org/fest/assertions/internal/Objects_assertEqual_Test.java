@@ -20,8 +20,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
@@ -35,7 +34,7 @@ public class Objects_assertEqual_Test {
   private Objects objects;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     objects = new Objects(failures);
   }
 
@@ -47,8 +46,10 @@ public class Objects_assertEqual_Test {
     AssertionInfo info = someInfo();
     try {
       objects.assertEqual(info, "Luke", "Yoda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

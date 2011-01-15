@@ -38,7 +38,7 @@ public class Bytes_assertLessThanOrEqualTo_Test {
   private Bytes bytes;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     bytes = new Bytes();
     bytes.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Bytes_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       bytes.assertLessThanOrEqualTo(info, (byte)8, (byte)6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo((byte)8, (byte)6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo((byte)8, (byte)6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

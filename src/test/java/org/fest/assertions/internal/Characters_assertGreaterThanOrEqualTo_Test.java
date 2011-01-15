@@ -38,7 +38,7 @@ public class Characters_assertGreaterThanOrEqualTo_Test {
   private Characters characters;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
   }
@@ -49,7 +49,7 @@ public class Characters_assertGreaterThanOrEqualTo_Test {
   }
 
   @Test public void should_pass_if_actual_is_greater_than_other() {
-    characters.assertGreaterThanOrEqualTo(someInfo(), 'a', 'b');
+    characters.assertGreaterThanOrEqualTo(someInfo(), 'b', 'a');
   }
 
   @Test public void should_pass_if_actual_is_equal_to_other() {
@@ -60,8 +60,10 @@ public class Characters_assertGreaterThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       characters.assertGreaterThanOrEqualTo(info, 'a', 'b');
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThanOrEqualTo('a', 'b'));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThanOrEqualTo('a', 'b'));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

@@ -58,7 +58,7 @@ public class Characters {
   public void assertEqual(AssertionInfo info, Character actual, char expected) {
     assertNotNull(info, actual);
     if (actual.charValue() == expected) return;
-    failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, isNotEqual(actual, expected));
   }
 
   /**
@@ -72,7 +72,7 @@ public class Characters {
   public void assertNotEqual(AssertionInfo info, Character actual, char other) {
     assertNotNull(info, actual);
     if (actual.charValue() != other) return;
-    failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, isEqual(actual, other));
   }
 
   /**
@@ -87,7 +87,7 @@ public class Characters {
   public void assertLessThan(AssertionInfo info, Character actual, char other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    failures.failure(info, isNotLessThan(actual, other));
+    throw failures.failure(info, isNotLessThan(actual, other));
   }
 
   /**
@@ -101,7 +101,7 @@ public class Characters {
   public void assertLessThanOrEqualTo(AssertionInfo info, Character actual, char other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
   }
 
   /**
@@ -116,7 +116,7 @@ public class Characters {
   public void assertGreaterThan(AssertionInfo info, Character actual, char other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThan(actual, other));
+    throw failures.failure(info, isNotGreaterThan(actual, other));
   }
 
   private static boolean isGreaterThan(Character actual, char other) {
@@ -134,14 +134,14 @@ public class Characters {
   public void assertGreaterThanOrEqualTo(AssertionInfo info, Character actual, char other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
-  }
-
-  private static boolean isLessThan(Character actual, char other) {
-    return actual.charValue() < other;
+    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
   }
 
   private static void assertNotNull(AssertionInfo info, Character actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  private static boolean isLessThan(Character actual, char other) {
+    return actual.charValue() < other;
   }
 }

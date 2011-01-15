@@ -38,7 +38,7 @@ public class Floats_assertLessThan_Test {
   private Floats floats;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     floats = new Floats();
     floats.failures = failures;
   }
@@ -56,17 +56,21 @@ public class Floats_assertLessThan_Test {
     AssertionInfo info = someInfo();
     try {
       floats.assertLessThan(info, 6f, 6f);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(6f, 6f));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(6f, 6f));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
       floats.assertLessThan(info, 8f, 6f);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(8f, 6f));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(8f, 6f));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

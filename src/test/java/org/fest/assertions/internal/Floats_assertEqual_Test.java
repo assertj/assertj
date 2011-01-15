@@ -38,7 +38,7 @@ public class Floats_assertEqual_Test {
   private Floats floats;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     floats = new Floats();
     floats.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Floats_assertEqual_Test {
     AssertionInfo info = someInfo();
     try {
       floats.assertEqual(info, 6f, 8f);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(6f, 8f));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(6f, 8f));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

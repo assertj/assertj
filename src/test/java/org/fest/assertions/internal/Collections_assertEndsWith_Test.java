@@ -50,7 +50,7 @@ public class Collections_assertEndsWith_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -74,9 +74,11 @@ public class Collections_assertEndsWith_Test {
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     try {
       collections.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -84,9 +86,11 @@ public class Collections_assertEndsWith_Test {
     Object[] sequence = { "Han", "C-3PO" };
     try {
       collections.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
@@ -94,12 +98,14 @@ public class Collections_assertEndsWith_Test {
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     try {
       collections.assertEndsWith(info, actual, sequence);
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(info, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenActualDoesNotEndWithSequence(AssertionInfo info, Object[] sequence) {
+  private void shouldHaveFailedIfActualDoesNotEndWithSequence(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, doesNotEndWith(actual, wrap(sequence)));
   }
 

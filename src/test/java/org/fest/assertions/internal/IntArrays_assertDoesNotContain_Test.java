@@ -47,7 +47,7 @@ public class IntArrays_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new IntArrays(failures);
   }
 
@@ -79,8 +79,10 @@ public class IntArrays_assertDoesNotContain_Test {
     int[] expected = { 6, 8, 20 };
     try {
       arrays.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set(6, 8)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set(6, 8)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

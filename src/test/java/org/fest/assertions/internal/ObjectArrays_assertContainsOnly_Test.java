@@ -44,7 +44,7 @@ public class ObjectArrays_assertContainsOnly_Test {
   private ObjectArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array("Luke", "Yoda", "Leia");
     arrays = new ObjectArrays(failures);
   }
@@ -86,8 +86,10 @@ public class ObjectArrays_assertContainsOnly_Test {
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
       arrays.assertContainsOnly(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set("Leia"), set("Han")));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set("Leia"), set("Han")));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

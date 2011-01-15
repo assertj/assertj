@@ -47,7 +47,7 @@ public class FloatArrays_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new FloatArrays(failures);
   }
 
@@ -79,8 +79,10 @@ public class FloatArrays_assertDoesNotContain_Test {
     float[] expected = { 6f, 8f, 20f };
     try {
       arrays.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set(6f, 8f)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set(6f, 8f)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

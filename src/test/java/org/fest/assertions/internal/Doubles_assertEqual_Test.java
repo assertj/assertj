@@ -38,7 +38,7 @@ public class Doubles_assertEqual_Test {
   private Doubles doubles;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     doubles = new Doubles();
     doubles.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Doubles_assertEqual_Test {
     AssertionInfo info = someInfo();
     try {
       doubles.assertEqual(info, 6d, 8d);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(6d, 8d));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(6d, 8d));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

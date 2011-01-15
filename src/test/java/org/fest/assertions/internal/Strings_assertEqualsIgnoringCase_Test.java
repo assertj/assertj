@@ -38,7 +38,7 @@ public class Strings_assertEqualsIgnoringCase_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -46,21 +46,25 @@ public class Strings_assertEqualsIgnoringCase_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertEqualsIgnoringCase(info, null, "Luke");
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenStringsAreNotEqual(info, null, "Luke");
+    } catch (AssertionError e) {
+      shouldHaveFailedIfStringsAreNotEqual(info, null, "Luke");
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
     AssertionInfo info = someInfo();
     try {
       strings.assertEqualsIgnoringCase(info, "Yoda", "Luke");
-      fail();
-    } catch (AssertionError e) {}
-    assertThatFailureWasThrownWhenStringsAreNotEqual(info, "Yoda", "Luke");
+    } catch (AssertionError e) {
+      shouldHaveFailedIfStringsAreNotEqual(info, "Yoda", "Luke");
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
-  private void assertThatFailureWasThrownWhenStringsAreNotEqual(AssertionInfo info, String actual, String expected) {
+  private void shouldHaveFailedIfStringsAreNotEqual(AssertionInfo info, String actual, String expected) {
     verify(failures).failure(info, isNotEqual(actual, expected));
   }
 

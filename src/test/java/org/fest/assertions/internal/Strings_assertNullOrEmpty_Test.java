@@ -37,7 +37,7 @@ public class Strings_assertNullOrEmpty_Test {
   private Strings strings;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     strings = new Strings(failures);
   }
 
@@ -45,9 +45,11 @@ public class Strings_assertNullOrEmpty_Test {
     AssertionInfo info = someInfo();
     try {
       strings.assertNullOrEmpty(info, "Yoda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotNullOrEmpty("Yoda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotNullOrEmpty("Yoda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_is_null() {

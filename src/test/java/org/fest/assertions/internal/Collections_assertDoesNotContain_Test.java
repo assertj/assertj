@@ -26,8 +26,7 @@ import static org.fest.util.Collections.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -52,7 +51,7 @@ public class Collections_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     collections = new Collections(failures);
   }
 
@@ -84,8 +83,10 @@ public class Collections_assertDoesNotContain_Test {
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
       collections.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set("Luke", "Yoda")));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set("Luke", "Yoda")));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

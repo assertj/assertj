@@ -47,7 +47,7 @@ public class CharArrays_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new CharArrays(failures);
   }
 
@@ -79,8 +79,10 @@ public class CharArrays_assertDoesNotContain_Test {
     char[] expected = { 'a', 'b', 'd' };
     try {
       arrays.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set('a', 'b')));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set('a', 'b')));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

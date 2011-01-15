@@ -38,7 +38,7 @@ public class Comparables_assertLessThan_Test {
   private Comparables comparables;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     comparables = new Comparables(failures);
   }
 
@@ -55,17 +55,21 @@ public class Comparables_assertLessThan_Test {
     AssertionInfo info = someInfo();
     try {
       comparables.assertLessThan(info, "Yoda", "Yoda");
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan("Yoda", "Yoda"));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan("Yoda", "Yoda"));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
       comparables.assertLessThan(info, 8, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThan(8, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThan(8, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

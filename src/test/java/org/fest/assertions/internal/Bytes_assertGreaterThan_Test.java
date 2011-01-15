@@ -38,7 +38,7 @@ public class Bytes_assertGreaterThan_Test {
   private Bytes bytes;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     bytes = new Bytes();
     bytes.failures = failures;
   }
@@ -55,17 +55,21 @@ public class Bytes_assertGreaterThan_Test {
   @Test public void should_fail_if_actual_is_equal_to_other() {
     try {
       bytes.assertGreaterThan(someInfo(), (byte)6, (byte)6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(someInfo(), isNotGreaterThan((byte)6, (byte)6));
+    } catch (AssertionError e) {
+      verify(failures).failure(someInfo(), isNotGreaterThan((byte)6, (byte)6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
       bytes.assertGreaterThan(info, (byte)6, (byte)8);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThan((byte)6, (byte)8));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThan((byte)6, (byte)8));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

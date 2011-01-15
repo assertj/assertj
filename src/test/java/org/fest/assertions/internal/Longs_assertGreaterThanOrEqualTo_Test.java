@@ -38,7 +38,7 @@ public class Longs_assertGreaterThanOrEqualTo_Test {
   private Longs longs;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     longs = new Longs();
     longs.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Longs_assertGreaterThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       longs.assertGreaterThanOrEqualTo(info, 6L, 8L);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotGreaterThanOrEqualTo(6L, 8L));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotGreaterThanOrEqualTo(6L, 8L));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

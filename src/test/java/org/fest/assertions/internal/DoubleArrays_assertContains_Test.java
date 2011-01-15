@@ -42,7 +42,7 @@ public class DoubleArrays_assertContains_Test {
   private DoubleArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(6d, 8d, 10d);
     arrays = new DoubleArrays(failures);
   }
@@ -88,8 +88,10 @@ public class DoubleArrays_assertContains_Test {
     double[] expected = { 6d, 8d, 9d };
     try {
       arrays.assertContains(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContain(actual, expected, set(9d)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContain(actual, expected, set(9d)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

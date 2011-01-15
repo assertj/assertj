@@ -40,7 +40,7 @@ public class Floats_assertEqual_with_offset_Test {
   private Floats floats;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     floats = new Floats();
     floats.failures = failures;
   }
@@ -63,8 +63,10 @@ public class Floats_assertEqual_with_offset_Test {
     Offset<Float> offset = offset(1f);
     try {
       floats.assertEqual(info, new Float(6f), new Float(8f), offset);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotEqual(6f, 8f, offset));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotEqual(6f, 8f, offset));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

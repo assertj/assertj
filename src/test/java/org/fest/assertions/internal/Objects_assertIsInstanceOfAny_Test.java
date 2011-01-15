@@ -47,7 +47,7 @@ public class Objects_assertIsInstanceOfAny_Test {
   private Objects objects;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     objects = new Objects(failures);
   }
 

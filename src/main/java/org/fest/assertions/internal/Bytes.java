@@ -105,7 +105,7 @@ public class Bytes {
   public void assertEqual(AssertionInfo info, Byte actual, byte expected) {
     assertNotNull(info, actual);
     if (actual.byteValue() == expected) return;
-    failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, isNotEqual(actual, expected));
   }
 
   /**
@@ -119,7 +119,7 @@ public class Bytes {
   public void assertNotEqual(AssertionInfo info, Byte actual, byte other) {
     assertNotNull(info, actual);
     if (actual.byteValue() != other) return;
-    failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, isEqual(actual, other));
   }
 
   /**
@@ -134,7 +134,7 @@ public class Bytes {
   public void assertLessThan(AssertionInfo info, Byte actual, byte other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    failures.failure(info, isNotLessThan(actual, other));
+    throw failures.failure(info, isNotLessThan(actual, other));
   }
 
   /**
@@ -148,7 +148,7 @@ public class Bytes {
   public void assertLessThanOrEqualTo(AssertionInfo info, Byte actual, byte other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
   }
 
   /**
@@ -163,7 +163,7 @@ public class Bytes {
   public void assertGreaterThan(AssertionInfo info, Byte actual, byte other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThan(actual, other));
+    throw failures.failure(info, isNotGreaterThan(actual, other));
   }
 
   private static boolean isGreaterThan(Byte actual, byte other) {
@@ -181,14 +181,14 @@ public class Bytes {
   public void assertGreaterThanOrEqualTo(AssertionInfo info, Byte actual, byte other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
-  }
-
-  private static boolean isLessThan(Byte actual, byte other) {
-    return actual.byteValue() < other;
+    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
   }
 
   private static void assertNotNull(AssertionInfo info, Byte actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  private static boolean isLessThan(Byte actual, byte other) {
+    return actual.byteValue() < other;
   }
 }

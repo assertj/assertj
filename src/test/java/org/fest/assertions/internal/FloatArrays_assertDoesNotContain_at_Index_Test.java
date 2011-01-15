@@ -48,7 +48,7 @@ public class FloatArrays_assertDoesNotContain_at_Index_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new FloatArrays(failures);
   }
 
@@ -75,8 +75,10 @@ public class FloatArrays_assertDoesNotContain_at_Index_Test {
     Index index = atIndex(0);
     try {
       arrays.assertDoesNotContain(info, actual, 6f, index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, containsAtIndex(wrap(actual), 6f, index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, containsAtIndex(wrap(actual), 6f, index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

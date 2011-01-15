@@ -42,7 +42,7 @@ public class BooleanArrays_assertContains_Test {
   private BooleanArrays arrays;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     actual = array(true, false);
     arrays = new BooleanArrays(failures);
   }
@@ -89,8 +89,10 @@ public class BooleanArrays_assertContains_Test {
     boolean[] expected = { false };
     try {
       arrays.assertContains(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContain(actual, expected, set(false)));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContain(actual, expected, set(false)));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

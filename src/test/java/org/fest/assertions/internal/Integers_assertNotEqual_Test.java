@@ -38,7 +38,7 @@ public class Integers_assertNotEqual_Test {
   private Integers integers;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     integers = new Integers();
     integers.failures = failures;
   }
@@ -56,8 +56,10 @@ public class Integers_assertNotEqual_Test {
     AssertionInfo info = someInfo();
     try {
       integers.assertNotEqual(info, 6, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isEqual(6, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEqual(6, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

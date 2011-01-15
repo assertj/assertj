@@ -38,7 +38,7 @@ public class Characters_assertLessThanOrEqualTo_Test {
   private Characters characters;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
   }
@@ -49,7 +49,7 @@ public class Characters_assertLessThanOrEqualTo_Test {
   }
 
   @Test public void should_pass_if_actual_is_less_than_other() {
-    characters.assertLessThanOrEqualTo(someInfo(), 'b', 'a');
+    characters.assertLessThanOrEqualTo(someInfo(), 'a', 'b');
   }
 
   @Test public void should_pass_if_actual_is_equal_to_other() {
@@ -60,8 +60,10 @@ public class Characters_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       characters.assertLessThanOrEqualTo(info, 'b', 'a');
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo('b', 'a'));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo('b', 'a'));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

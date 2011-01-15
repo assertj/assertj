@@ -38,7 +38,7 @@ public class Integers_assertLessThanOrEqualTo_Test {
   private Integers integers;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     integers = new Integers();
     integers.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Integers_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       integers.assertLessThanOrEqualTo(info, 8, 6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo(8, 6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo(8, 6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

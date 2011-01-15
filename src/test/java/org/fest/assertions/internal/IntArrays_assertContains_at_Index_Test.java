@@ -48,7 +48,7 @@ public class IntArrays_assertContains_at_Index_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new IntArrays(failures);
   }
 
@@ -77,9 +77,11 @@ public class IntArrays_assertContains_at_Index_Test {
     Index index = atIndex(1);
     try {
       arrays.assertContains(info, actual, 6, index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 6, index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 6, index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

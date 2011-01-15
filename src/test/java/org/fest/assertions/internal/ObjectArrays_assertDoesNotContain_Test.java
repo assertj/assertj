@@ -48,7 +48,7 @@ public class ObjectArrays_assertDoesNotContain_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     arrays = new ObjectArrays(failures);
   }
 
@@ -80,8 +80,10 @@ public class ObjectArrays_assertDoesNotContain_Test {
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
       arrays.assertDoesNotContain(info, actual, expected);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, contains(actual, expected, set("Luke", "Yoda")));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, contains(actual, expected, set("Luke", "Yoda")));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

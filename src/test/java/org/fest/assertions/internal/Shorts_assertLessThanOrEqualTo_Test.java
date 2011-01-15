@@ -38,7 +38,7 @@ public class Shorts_assertLessThanOrEqualTo_Test {
   private Shorts shorts;
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     shorts = new Shorts();
     shorts.failures = failures;
   }
@@ -60,8 +60,10 @@ public class Shorts_assertLessThanOrEqualTo_Test {
     AssertionInfo info = someInfo();
     try {
       shorts.assertLessThanOrEqualTo(info, (short)8, (short)6);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, isNotLessThanOrEqualTo((short)8, (short)6));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isNotLessThanOrEqualTo((short)8, (short)6));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 }

@@ -50,7 +50,7 @@ public class Lists_assertContains_Test {
   }
 
   @Before public void setUp() {
-    failures = spy(Failures.instance());
+    failures = spy(new Failures());
     lists = new Lists(failures);
   }
 
@@ -79,9 +79,11 @@ public class Lists_assertContains_Test {
     Index index = atIndex(1);
     try {
       lists.assertContains(info, actual, "Han", index);
-      fail();
-    } catch (AssertionError e) {}
-    verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index));
+    } catch (AssertionError e) {
+      verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index));
+      return;
+    }
+    fail("expected AssertionError not thrown");
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {
