@@ -38,6 +38,42 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
     super(actual, FloatAssert.class);
   }
 
+  /** {@inheritDoc} */
+  public FloatAssert isNaN() {
+    floats.assertIsNaN(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isNotNaN() {
+    floats.assertIsNotNaN(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isZero() {
+    floats.assertIsZero(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isNotZero() {
+    floats.assertIsNotZero(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isPositive() {
+    floats.assertIsPositive(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isNegative() {
+    floats.assertIsNegative(info, actual);
+    return this;
+  }
+
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
@@ -79,30 +115,6 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
    */
   public FloatAssert isNotEqualTo(float other) {
     floats.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isZero() {
-    floats.assertIsZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isNotZero() {
-    floats.assertIsNotZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isPositive() {
-    floats.assertIsPositive(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public FloatAssert isNegative() {
-    floats.assertIsNegative(info, actual);
     return this;
   }
 

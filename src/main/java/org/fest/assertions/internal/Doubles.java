@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static java.lang.Double.NaN;
 import static java.lang.Math.abs;
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
@@ -51,6 +52,26 @@ public class Doubles {
   @VisibleForTesting Failures failures = Failures.instance();
 
   @VisibleForTesting Doubles() {}
+
+  /**
+   * Verifies that the actual value is equal to {@code NaN}.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is not equal to {@code NaN}.
+   */
+  public void assertIsNaN(AssertionInfo info, Double actual) {
+    comparables.assertEqual(info, actual, NaN);
+  }
+
+  /**
+   * Verifies that the actual value is not equal to {@code NaN}.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is equal to {@code NaN}.
+   */
+  public void assertIsNotNaN(AssertionInfo info, Double actual) {
+    comparables.assertNotEqual(info, actual, NaN);
+  }
 
   /**
    * Asserts that the actual value is equal to zero.

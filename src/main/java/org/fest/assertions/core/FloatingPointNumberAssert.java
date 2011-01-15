@@ -21,6 +21,7 @@ import org.fest.assertions.data.Offset;
  * @param <T> the type of the "actual" value.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public interface FloatingPointNumberAssert<T extends Number> extends NumberAssert<T> {
 
@@ -33,4 +34,18 @@ public interface FloatingPointNumberAssert<T extends Number> extends NumberAsser
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   FloatingPointNumberAssert<T> isEqualTo(T expected, Offset<T> offset);
+
+  /**
+   * Verifies that the actual value is equal to {@code NaN}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is not equal to {@code NaN}.
+   */
+  FloatingPointNumberAssert<T> isNaN();
+
+  /**
+   * Verifies that the actual value is not equal to {@code NaN}.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is equal to {@code NaN}.
+   */
+  FloatingPointNumberAssert<T> isNotNaN();
 }

@@ -39,6 +39,42 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
     super(actual, DoubleAssert.class);
   }
 
+  /** {@inheritDoc} */
+  public DoubleAssert isNaN() {
+    doubles.assertIsNaN(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isNotNaN() {
+    doubles.assertIsNotNaN(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isZero() {
+    doubles.assertIsZero(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isNotZero() {
+    doubles.assertIsNotZero(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isPositive() {
+    doubles.assertIsPositive(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isNegative() {
+    doubles.assertIsNegative(info, actual);
+    return this;
+  }
+
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
@@ -80,30 +116,6 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
    */
   public DoubleAssert isNotEqualTo(double other) {
     doubles.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isZero() {
-    doubles.assertIsZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isNotZero() {
-    doubles.assertIsNotZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isPositive() {
-    doubles.assertIsPositive(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  public DoubleAssert isNegative() {
-    doubles.assertIsNegative(info, actual);
     return this;
   }
 
