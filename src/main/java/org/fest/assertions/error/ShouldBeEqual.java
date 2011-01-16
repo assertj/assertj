@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import static java.lang.Integer.toHexString;
+
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Objects.*;
 import static org.fest.util.ToString.toStringOf;
@@ -29,6 +31,8 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  */
 public class ShouldBeEqual implements AssertionErrorFactory {
+
+  private static final String EXPECTED_BUT_WAS_MESSAGE = "expected:<%s> but was:<%s>";
 
   private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
 
@@ -61,22 +65,37 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * If JUnit 4 is in the classpath, this method will instead create a {@code org.junit.ComparisonFailure}
    * that highlights the difference(s) between the expected and actual objects.
    * </p>
-   * @param d the description of the failed assertion.
+   * @param description the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
-  public AssertionError newAssertionError(Description d) {
-    AssertionError error = comparisonFailure(d);
+  public AssertionError newAssertionError(Description description) {
+    if (actualAndExpectedHaveSameStringRepresentation()) {
+      // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and 
+      // JUnit 4 manage this case ... weirdly, it will something like java.lang.String expected: java.lang.String<42.0> but was: java.lang.String<42.0>
+      // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a float or a double
+      // This is why it is better to built our own description, with the drawback of not using a ComparisonFailure (which looks nice in eclipse)
+      return new AssertionError(defaultDetailedErrorMessage(description));
+    }
+    AssertionError error = comparisonFailure(description);
     if (error != null) return error;
-    return new AssertionError(defaultErrorMessage(d));
+    return new AssertionError(defaultErrorMessage(description));
   }
 
-  private String defaultErrorMessage(Description d) {
-    return messageFormatter.format(d, "expected:<%s> but was:<%s>", expected, actual);
+  private boolean actualAndExpectedHaveSameStringRepresentation() {
+    return areEqual(toStringOf(actual),toStringOf(expected));
   }
 
-  private AssertionError comparisonFailure(Description d) {
+  private String defaultErrorMessage(Description description) {
+    return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, expected, actual);
+  }
+
+  private String defaultDetailedErrorMessage(Description description) {
+    return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, expectedDetailedToString(), actualDetailedToString());
+  }
+  
+  private AssertionError comparisonFailure(Description description) {
     try {
-      return newComparisonFailure(descriptionFormatter.format(d).trim());
+      return newComparisonFailure(descriptionFormatter.format(description).trim());
     } catch (Throwable e) {
       return null;
     }
@@ -93,6 +112,18 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     return array(description, toStringOf(expected), toStringOf(actual));
   }
 
+  private static String detailedToStringOf(Object obj) { 
+    return toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode()) + ")";
+  }
+  
+  private String actualDetailedToString() {
+    return detailedToStringOf(actual);
+  }
+  
+  private String expectedDetailedToString() {
+    return detailedToStringOf(expected);
+  }
+  
   @Override public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null) return false;
