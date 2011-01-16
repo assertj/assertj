@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.*;
 import static org.fest.assertions.error.IsNotEqual.*;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
@@ -28,38 +28,48 @@ import org.junit.*;
  * Tests for <code>{@link IsNotEqual#newAssertionError(Description)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public class IsNotEqual_newAssertionError_without_JUnit_Test {
 
+  private static String comparisonFailureTypeName;
+  private static String[] parameterValues;
+
+  @BeforeClass public static void setUpOnce() {
+    comparisonFailureTypeName = ComparisonFailure.class.getName();
+    parameterValues = array("[Jedi]", "'Yoda'", "'Luke'");
+  }
+
   private Description description;
   private IsNotEqual errorFactory;
-  private ConstructorInvoker invoker;
+  private ConstructorInvoker constructorInvoker;
 
   @Before public void setUp() {
     description = new TestDescription("Jedi");
     errorFactory = (IsNotEqual) isNotEqual("Luke", "Yoda");
-    errorFactory.constructorInvoker = mock(ConstructorInvoker.class);
-    invoker = errorFactory.constructorInvoker;
+    constructorInvoker = mock(ConstructorInvoker.class);
+    errorFactory.constructorInvoker = constructorInvoker;
   }
 
   @Test public void should_create_AssertionError_if_created_ComparisonFailure_is_null() throws Exception {
     when(createComparisonFailure()).thenReturn(null);
     AssertionError error = errorFactory.newAssertionError(description);
-    verify(error);
+    check(error);
   }
 
   @Test public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(createComparisonFailure()).thenThrow(assertionFailingOnPurpose());
     AssertionError error = errorFactory.newAssertionError(description);
-    verify(error);
+    check(error);
   }
 
   private Object createComparisonFailure() throws Exception {
-    return invoker.newInstance("org.junit.ComparisonFailure", MSG_ARG_TYPES, array("'Yoda'", "'Luke'"));
+    return constructorInvoker.newInstance(comparisonFailureTypeName, MSG_ARG_TYPES, parameterValues);
   }
 
-  private void verify(AssertionError error) {
-    assertEquals(AssertionError.class, error.getClass());
+  private void check(AssertionError error) throws Exception {
+    verify(constructorInvoker).newInstance(comparisonFailureTypeName, MSG_ARG_TYPES, parameterValues);
+    assertFalse(error instanceof ComparisonFailure);
     assertEquals("[Jedi] expected:<'Yoda'> but was:<'Luke'>", error.getMessage());
   }
 }

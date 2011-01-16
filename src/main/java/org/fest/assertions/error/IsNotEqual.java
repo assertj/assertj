@@ -49,7 +49,7 @@ public class IsNotEqual implements AssertionErrorFactory {
     return new IsNotEqual(actual, expected);
   }
 
-  private IsNotEqual(Object actual, Object expected) {
+  @VisibleForTesting IsNotEqual(Object actual, Object expected) {
     this.actual = actual;
     this.expected = expected;
   }
@@ -77,7 +77,7 @@ public class IsNotEqual implements AssertionErrorFactory {
   private AssertionError comparisonFailure(Description d) {
     try {
       return newComparisonFailure(descriptionFormatter.format(d).trim());
-    } catch (Exception e) {
+    } catch (Throwable e) {
       return null;
     }
   }

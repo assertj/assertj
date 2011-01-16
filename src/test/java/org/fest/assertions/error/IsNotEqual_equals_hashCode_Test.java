@@ -20,16 +20,16 @@ import static org.fest.test.EqualsHashCodeContractAssert.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BasicErrorMessage#equals(Object)}</code> and <code>{@link BasicErrorMessage#hashCode()}</code>.
+ * Tests for <code>{@link IsNotEqual#equals(Object)}</code> and <code>{@link IsNotEqual#hashCode()}</code>.
  *
  * @author Yvonne Wang
  */
-public class BasicErrorMessage_equals_hashCode_Test {
+public class IsNotEqual_equals_hashCode_Test {
 
-  private static BasicErrorMessage message;
+  private static IsNotEqual message;
 
   @BeforeClass public static void setUpOnce() {
-    message = new BasicErrorMessage("Hello %s", "Yoda");
+    message = new IsNotEqual("Yoda", "Luke");
   }
 
   @Test public void should_have_reflexive_equals() {
@@ -37,15 +37,15 @@ public class BasicErrorMessage_equals_hashCode_Test {
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(message, new BasicErrorMessage("Hello %s", "Yoda"));
+    assertEqualsIsSymmetric(message, new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(message, new BasicErrorMessage("Hello %s", "Yoda"), new BasicErrorMessage("Hello %s", "Yoda"));
+    assertEqualsIsTransitive(message, new IsNotEqual("Yoda", "Luke"), new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(message, new BasicErrorMessage("Hello %s", "Yoda"));
+    assertMaintainsEqualsAndHashCodeContract(message, new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
@@ -56,11 +56,11 @@ public class BasicErrorMessage_equals_hashCode_Test {
     assertFalse(message.equals(null));
   }
 
-  @Test public void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
-    assertFalse(message.equals(new BasicErrorMessage("How are you, %s?", "Yoda")));
+  @Test public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
+    assertFalse(message.equals(new IsNotEqual("Leia", "Luke")));
   }
 
-  @Test public void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
-    assertFalse(message.equals(new BasicErrorMessage("Hello %s", "Luke")));
+  @Test public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
+    assertFalse(message.equals(new IsNotEqual("Yoda", "Leia")));
   }
 }
