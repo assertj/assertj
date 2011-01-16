@@ -55,7 +55,7 @@ public class ArrayWrapperList extends AbstractList<Object> {
 
   private void checkIsInRange(int index) {
     int size = size();
-    if (index < size()) return;
+    if (index >= 0 && index < size()) return;
     throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
   }
 

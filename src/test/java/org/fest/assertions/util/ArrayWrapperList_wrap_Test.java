@@ -21,7 +21,7 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ArrayWrapperList}</code>.
+ * Tests for <code>{@link ArrayWrapperList#wrap(Object)}</code>.
  *
  * @author Alex Ruiz
  */
