@@ -18,8 +18,7 @@ import static java.lang.String.format;
 import static org.fest.assertions.core.DescriptionValidations.checkIsNotNull;
 import static org.fest.util.Strings.quote;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.EmptyTextDescription;
+import org.fest.assertions.description.*;
 
 /**
  * Writable information about an assertion.
@@ -81,6 +80,6 @@ public final class WritableAssertionInfo implements AssertionInfo {
   /** {@inheritDoc} */
   @Override public String toString() {
     String format = "%s[overridingErrorMessage=%s, description=%s]";
-    return format(format, getClass().getName(), quote(overridingErrorMessage()), quote(descriptionText()));
+    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()));
   }
 }

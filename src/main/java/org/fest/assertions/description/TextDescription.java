@@ -54,8 +54,4 @@ public class TextDescription extends Description {
     TextDescription other = (TextDescription) obj;
     return areEqual(value, other.value);
   }
-
-  @Override public String toString() {
-    return value;
-  }
 }

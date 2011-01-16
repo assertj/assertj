@@ -32,8 +32,4 @@ public class TestDescription extends Description {
   @Override public String value() {
     return value;
   }
-
-  @Override public String toString() {
-    return value;
-  }
 }
