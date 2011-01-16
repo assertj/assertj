@@ -30,7 +30,7 @@ import org.fest.util.VisibleForTesting;
  */
 public class IsNotEqual implements AssertionErrorFactory {
 
-  @VisibleForTesting static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
+  private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
 
   @VisibleForTesting ConstructorInvoker constructorInvoker = new ConstructorInvoker();
   @VisibleForTesting MessageFormatter messageFormatter = MessageFormatter.instance();

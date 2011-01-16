@@ -26,41 +26,41 @@ import org.junit.*;
  */
 public class IsNotEqual_equals_hashCode_Test {
 
-  private static IsNotEqual message;
+  private static IsNotEqual isNotEqual;
 
   @BeforeClass public static void setUpOnce() {
-    message = new IsNotEqual("Yoda", "Luke");
+    isNotEqual = new IsNotEqual("Yoda", "Luke");
   }
 
   @Test public void should_have_reflexive_equals() {
-    assertEqualsIsReflexive(message);
+    assertEqualsIsReflexive(isNotEqual);
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(message, new IsNotEqual("Yoda", "Luke"));
+    assertEqualsIsSymmetric(isNotEqual, new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(message, new IsNotEqual("Yoda", "Luke"), new IsNotEqual("Yoda", "Luke"));
+    assertEqualsIsTransitive(isNotEqual, new IsNotEqual("Yoda", "Luke"), new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(message, new IsNotEqual("Yoda", "Luke"));
+    assertMaintainsEqualsAndHashCodeContract(isNotEqual, new IsNotEqual("Yoda", "Luke"));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(message.equals("Yoda"));
+    assertFalse(isNotEqual.equals("Yoda"));
   }
 
   @Test public void should_not_be_equal_to_null() {
-    assertFalse(message.equals(null));
+    assertFalse(isNotEqual.equals(null));
   }
 
   @Test public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
-    assertFalse(message.equals(new IsNotEqual("Leia", "Luke")));
+    assertFalse(isNotEqual.equals(new IsNotEqual("Leia", "Luke")));
   }
 
   @Test public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
-    assertFalse(message.equals(new IsNotEqual("Yoda", "Leia")));
+    assertFalse(isNotEqual.equals(new IsNotEqual("Yoda", "Leia")));
   }
 }

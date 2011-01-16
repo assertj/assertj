@@ -41,7 +41,9 @@ public class BasicErrorMessage_equals_hashCode_Test {
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(message, new BasicErrorMessage("Hello %s", "Yoda"), new BasicErrorMessage("Hello %s", "Yoda"));
+    BasicErrorMessage obj2 = new BasicErrorMessage("Hello %s", "Yoda");
+    BasicErrorMessage obj3 = new BasicErrorMessage("Hello %s", "Yoda");
+    assertEqualsIsTransitive(message, obj2, obj3);
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {

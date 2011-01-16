@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.*;
-import static org.fest.assertions.error.IsNotEqual.*;
+import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
@@ -34,10 +34,12 @@ public class IsNotEqual_newAssertionError_without_JUnit_Test {
 
   private static String comparisonFailureTypeName;
   private static String[] parameterValues;
+  private static Class<?>[] parameterTypes;
 
   @BeforeClass public static void setUpOnce() {
     comparisonFailureTypeName = ComparisonFailure.class.getName();
     parameterValues = array("[Jedi]", "'Yoda'", "'Luke'");
+    parameterTypes = new Class<?>[] { String.class, String.class, String.class };
   }
 
   private Description description;
@@ -64,11 +66,11 @@ public class IsNotEqual_newAssertionError_without_JUnit_Test {
   }
 
   private Object createComparisonFailure() throws Exception {
-    return constructorInvoker.newInstance(comparisonFailureTypeName, MSG_ARG_TYPES, parameterValues);
+    return constructorInvoker.newInstance(comparisonFailureTypeName, parameterTypes, parameterValues);
   }
 
   private void check(AssertionError error) throws Exception {
-    verify(constructorInvoker).newInstance(comparisonFailureTypeName, MSG_ARG_TYPES, parameterValues);
+    verify(constructorInvoker).newInstance(comparisonFailureTypeName, parameterTypes, parameterValues);
     assertFalse(error instanceof ComparisonFailure);
     assertEquals("[Jedi] expected:<'Yoda'> but was:<'Luke'>", error.getMessage());
   }

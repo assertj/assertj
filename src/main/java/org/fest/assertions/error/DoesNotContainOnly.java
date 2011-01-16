@@ -22,6 +22,7 @@ import static org.fest.util.ToString.toStringOf;
 import java.util.Set;
 
 import org.fest.assertions.description.Description;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -48,7 +49,7 @@ public class DoesNotContainOnly implements ErrorMessage {
     return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
-  private DoesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
+  @VisibleForTesting DoesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
     this.actual = actual;
     this.expected = expected;
     this.notExpected = notExpected;
