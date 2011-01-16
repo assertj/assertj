@@ -23,10 +23,8 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.data.Offset;
-import org.fest.assertions.data.RgbColor;
-import org.fest.assertions.error.BasicErrorMessage;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.data.*;
+import org.fest.assertions.error.*;
 import org.fest.util.VisibleForTesting;
 
 /**

@@ -17,12 +17,10 @@ package org.fest.assertions.internal;
 import static junit.framework.Assert.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.error.AssertionErrorFactory;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Failures#failure(AssertionInfo, AssertionErrorFactory)}</code>.

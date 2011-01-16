@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.IndexedObjectEnumerableAssert;
-import org.fest.assertions.core.ObjectEnumerableAssert;
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.VisibleForTesting;

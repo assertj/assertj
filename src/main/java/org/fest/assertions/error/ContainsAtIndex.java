@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.List;
-
 import org.fest.assertions.data.Index;
 
 /**
@@ -33,7 +31,7 @@ public class ContainsAtIndex extends BasicErrorMessage {
    * @param index the index of the expected value.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage containsAtIndex(List<?> actual, Object expected, Index index) {
+  public static ErrorMessage containsAtIndex(Object actual, Object expected, Index index) {
     return new ContainsAtIndex(actual, expected, index);
   }
 

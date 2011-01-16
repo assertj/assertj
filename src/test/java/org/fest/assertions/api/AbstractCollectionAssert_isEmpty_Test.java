@@ -18,8 +18,7 @@ import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Collections;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link AbstractCollectionAssert#isEmpty()}</code>.

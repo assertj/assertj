@@ -23,8 +23,7 @@ import java.util.List;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotContainOnly#create(Description)}</code>.

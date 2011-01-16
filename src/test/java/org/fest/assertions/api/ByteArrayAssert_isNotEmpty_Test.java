@@ -19,8 +19,7 @@ import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ByteArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ByteArrayAssert#isNotEmpty()}</code>.

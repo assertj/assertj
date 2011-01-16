@@ -19,7 +19,6 @@ import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -66,7 +65,7 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test {
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, hasDuplicates(wrap(actual), set(6d, 8d)));
+      verify(failures).failure(info, hasDuplicates(actual, set(6d, 8d)));
       return;
     }
     fail("expected AssertionError not thrown");

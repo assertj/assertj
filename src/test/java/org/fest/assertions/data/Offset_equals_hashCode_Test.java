@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Offset#equals(Object)}</code> and <code>{@link Offset#hashCode()}</code>.

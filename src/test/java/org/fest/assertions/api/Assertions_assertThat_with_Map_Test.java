@@ -17,8 +17,7 @@ package org.fest.assertions.api;
 import static java.util.Collections.emptyMap;
 import static org.junit.Assert.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Test;
 

@@ -22,8 +22,7 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.test.Person;
+import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**

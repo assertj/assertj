@@ -18,8 +18,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.description.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 

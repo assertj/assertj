@@ -92,7 +92,7 @@ class Arrays {
     checkIndexValueIsValid(index, sizeOf(array) - 1);
     Object actualElement = Array.get(array, index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info, doesNotContainAtIndex(wrap(array), value, index));
+    throw failures.failure(info, doesNotContainAtIndex(array, value, index, Array.get(array, index.value)));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
@@ -108,7 +108,7 @@ class Arrays {
     if (indexValue >= sizeOf(array)) return;
     Object actualElement = Array.get(array, index.value);
     if (!areEqual(actualElement, value)) return;
-    throw failures.failure(info, containsAtIndex(wrap(array), value, index));
+    throw failures.failure(info, containsAtIndex(array, value, index));
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -117,7 +117,7 @@ class Arrays {
     Set<Object> notExpected = asSet(array);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(wrap(array), wrap(values), notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(array, values, notExpected, notFound));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
@@ -162,7 +162,7 @@ class Arrays {
   }
 
   private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    return failures.failure(info, doesNotContainSequence(wrap(array), wrap(sequence)));
+    return failures.failure(info, doesNotContainSequence(array, sequence));
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -192,7 +192,7 @@ class Arrays {
     ArrayWrapperList wrapped = wrap(array);
     Collection<?> duplicates = duplicatesFrom(wrapped);
     if (duplicates.isEmpty()) return;
-    throw failures.failure(info, hasDuplicates(wrapped, duplicates));
+    throw failures.failure(info, hasDuplicates(array, duplicates));
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
@@ -209,7 +209,7 @@ class Arrays {
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, doesNotStartWith(wrap(array), wrap(sequence)));
+    return failures.failure(info, doesNotStartWith(array, sequence));
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
@@ -237,7 +237,7 @@ class Arrays {
 
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, doesNotEndWith(wrap(array), wrap(sequence)));
+    return failures.failure(info, doesNotEndWith(array, sequence));
   }
 
   private void assertNotNull(AssertionInfo info, Object array) {

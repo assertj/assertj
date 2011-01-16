@@ -19,7 +19,7 @@ import static org.fest.util.Collections.isEmpty;
 import static org.fest.util.Objects.*;
 import static org.fest.util.ToString.toStringOf;
 
-import java.util.*;
+import java.util.Set;
 
 import org.fest.assertions.description.Description;
 
@@ -31,8 +31,8 @@ import org.fest.assertions.description.Description;
  */
 public class DoesNotContainOnly implements ErrorMessage {
 
-  private final Collection<?> actual;
-  private final Collection<?> expected;
+  private final Object actual;
+  private final Object expected;
   private final Set<?> notExpected;
   private final Set<?> notFound;
 
@@ -44,12 +44,11 @@ public class DoesNotContainOnly implements ErrorMessage {
    * @param notFound the values in {@code expected} not found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainOnly(Collection<?> actual, Collection<?> expected, Set<?> notExpected,
-      Set<?> notFound) {
+  public static ErrorMessage doesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
     return new DoesNotContainOnly(actual, expected, notExpected, notFound);
   }
 
-  private DoesNotContainOnly(Collection<?> actual, Collection<?> expected, Set<?> notExpected, Set<?> notFound) {
+  private DoesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
     this.actual = actual;
     this.expected = expected;
     this.notExpected = notExpected;

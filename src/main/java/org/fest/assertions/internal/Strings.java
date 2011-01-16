@@ -25,8 +25,7 @@ import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.error.MatchesPattern.matches;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.regex.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;

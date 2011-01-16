@@ -18,11 +18,9 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.ErrorMessages.descriptionIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.description.*;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Condition#Condition(Description)}</code>

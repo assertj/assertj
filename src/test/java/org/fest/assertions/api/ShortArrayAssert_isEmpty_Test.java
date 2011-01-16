@@ -18,8 +18,7 @@ import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ShortArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#isEmpty()}</code>.

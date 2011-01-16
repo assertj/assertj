@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -76,7 +75,7 @@ public class FloatArrays_assertDoesNotContain_at_Index_Test {
     try {
       arrays.assertDoesNotContain(info, actual, 6f, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, containsAtIndex(wrap(actual), 6f, index));
+      verify(failures).failure(info, containsAtIndex(actual, 6f, index));
       return;
     }
     fail("expected AssertionError not thrown");

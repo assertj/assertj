@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
@@ -107,7 +106,7 @@ public class Collections_assertContainsSequence_Test {
   }
 
   private void shouldHaveFailedIfActualDoesNotContain(AssertionInfo info, Object[] sequence) {
-    verify(failures).failure(info, doesNotContainSequence(actual, wrap(sequence)));
+    verify(failures).failure(info, doesNotContainSequence(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {

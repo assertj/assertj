@@ -18,8 +18,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Integers#assertIsNotZero(AssertionInfo, Integer)}</code>.

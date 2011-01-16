@@ -19,8 +19,7 @@ import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.IntArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IntArrayAssert#containsSequence(int...)}</code>.

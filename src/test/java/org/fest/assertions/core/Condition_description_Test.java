@@ -17,8 +17,7 @@ package org.fest.assertions.core;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Condition#description()}</code>.

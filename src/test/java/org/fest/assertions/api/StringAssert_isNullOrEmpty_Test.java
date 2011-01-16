@@ -17,8 +17,7 @@ package org.fest.assertions.api;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Strings;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link StringAssert#isNullOrEmpty()}</code>.

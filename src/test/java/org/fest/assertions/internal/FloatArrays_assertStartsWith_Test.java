@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -103,7 +102,7 @@ public class FloatArrays_assertStartsWith_Test {
   }
 
   private void shouldHaveFailedIfActualDoesNotStartWithSequence(float[] sequence) {
-    verify(failures).failure(someInfo(), doesNotStartWith(wrap(actual), wrap(sequence)));
+    verify(failures).failure(someInfo(), doesNotStartWith(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {

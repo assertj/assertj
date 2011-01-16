@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.Doubles;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoubleAssert#isNegative()}</code>.

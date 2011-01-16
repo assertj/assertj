@@ -18,10 +18,8 @@ import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IsNotSatisfied#create(Description)}</code>.

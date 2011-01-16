@@ -71,7 +71,7 @@ public class Lists {
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info, doesNotContainAtIndex(actual, value, index));
+    throw failures.failure(info, doesNotContainAtIndex(actual, value, index, actual.get(index.value)));
   }
 
   /**

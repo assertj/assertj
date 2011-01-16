@@ -17,8 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
 import static org.fest.assertions.error.IsSatisfied.satisfied;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.*;
 import org.fest.util.VisibleForTesting;
 
 /**

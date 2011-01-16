@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -77,7 +76,7 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test {
     try {
       arrays.assertDoesNotContain(info, actual, "Yoda", index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, containsAtIndex(wrap(actual), "Yoda", index));
+      verify(failures).failure(info, containsAtIndex(actual, "Yoda", index));
       return;
     }
     fail("expected AssertionError not thrown");

@@ -19,8 +19,7 @@ import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.BooleanArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#doesNotHaveDuplicates()}</code>.

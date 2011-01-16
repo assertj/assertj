@@ -21,8 +21,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.Person;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Objects#assertSame(AssertionInfo, Object, Object)}</code>.

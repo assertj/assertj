@@ -21,8 +21,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ShortArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#contains(short, Index)}</code>.

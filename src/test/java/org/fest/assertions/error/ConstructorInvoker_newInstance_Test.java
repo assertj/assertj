@@ -16,8 +16,7 @@ package org.fest.assertions.error;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ConstructorInvoker#newInstance(String, Class[], Object[])}</code>.

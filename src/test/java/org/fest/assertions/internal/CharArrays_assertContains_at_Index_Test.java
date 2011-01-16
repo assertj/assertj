@@ -20,7 +20,6 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -78,7 +77,7 @@ public class CharArrays_assertContains_at_Index_Test {
     try {
       arrays.assertContains(info, actual, 'a', index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), 'a', index));
+      verify(failures).failure(info, doesNotContainAtIndex(actual, 'a', index, 'b'));
       return;
     }
     fail("expected AssertionError not thrown");

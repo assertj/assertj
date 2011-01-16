@@ -80,7 +80,7 @@ public class Lists_assertContains_Test {
     try {
       lists.assertContains(info, actual, "Han", index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index));
+      verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index, "Luke"));
       return;
     }
     fail("expected AssertionError not thrown");

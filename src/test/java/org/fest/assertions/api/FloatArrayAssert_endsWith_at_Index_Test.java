@@ -19,8 +19,7 @@ import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.FloatArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link FloatArrayAssert#endsWith(float...)}</code>.

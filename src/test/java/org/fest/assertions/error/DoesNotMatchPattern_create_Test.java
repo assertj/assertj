@@ -17,10 +17,8 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotMatchPattern#create(Description)}</code>.

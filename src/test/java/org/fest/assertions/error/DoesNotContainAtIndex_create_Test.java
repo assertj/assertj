@@ -19,10 +19,8 @@ import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
 import static org.fest.util.Collections.list;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotContainAtIndex#create(Description)}</code>.
@@ -34,7 +32,7 @@ public class DoesNotContainAtIndex_create_Test {
   private ErrorMessage errorMessage;
 
   @Before public void setUp() {
-    errorMessage = doesNotContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1));
+    errorMessage = doesNotContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
   }
 
   @Test public void should_create_error_message() {

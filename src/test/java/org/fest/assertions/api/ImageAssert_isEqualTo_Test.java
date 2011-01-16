@@ -21,8 +21,7 @@ import static org.mockito.Mockito.*;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.internal.Images;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ImageAssert#isEqualTo(BufferedImage)}</code>.

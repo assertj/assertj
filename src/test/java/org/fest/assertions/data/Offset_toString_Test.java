@@ -17,8 +17,7 @@ package org.fest.assertions.data;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.data.Offset.offset;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Offset#toString()}</code>.

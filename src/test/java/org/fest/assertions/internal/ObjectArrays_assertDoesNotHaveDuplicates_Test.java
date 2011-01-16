@@ -19,7 +19,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -67,7 +66,7 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test {
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, hasDuplicates(wrap(actual), set("Luke", "Yoda")));
+      verify(failures).failure(info, hasDuplicates(actual, set("Luke", "Yoda")));
       return;
     }
     fail("expected AssertionError not thrown");

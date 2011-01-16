@@ -18,8 +18,7 @@ import static junit.framework.Assert.assertEquals;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DescriptionFormatter#format(Description)}</code>.

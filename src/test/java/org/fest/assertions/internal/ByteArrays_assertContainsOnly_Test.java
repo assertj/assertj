@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -86,7 +85,7 @@ public class ByteArrays_assertContainsOnly_Test {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set((byte)10), set((byte)20)));
+      verify(failures).failure(info, doesNotContainOnly(actual, expected, set((byte)10), set((byte)20)));
       return;
     }
     fail("expected AssertionError not thrown");

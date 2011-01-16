@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.ShortArrayFactory.*;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -79,7 +78,8 @@ public class ShortArrays_assertContains_at_Index_Test {
     try {
       arrays.assertContains(info, actual, value, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainAtIndex(wrap(actual), value, index));
+      short found = 8;
+      verify(failures).failure(info, doesNotContainAtIndex(actual, value, index, found));
       return;
     }
     fail("expected AssertionError not thrown");

@@ -22,8 +22,7 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.internal.Maps;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link MapAssert#doesNotContain(MapEntry...)}</code>.

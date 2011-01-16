@@ -18,7 +18,6 @@ import static org.fest.assertions.test.ErrorMessages.descriptionIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
-import org.fest.assertions.core.DescriptionValidations;
 import org.fest.assertions.description.*;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;

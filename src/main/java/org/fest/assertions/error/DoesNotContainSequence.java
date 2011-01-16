@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.Collection;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements contains a sequence of
@@ -30,7 +29,7 @@ public class DoesNotContainSequence extends BasicErrorMessage {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainSequence(Collection<?> actual, Collection<?> sequence) {
+  public static ErrorMessage doesNotContainSequence(Object actual, Object sequence) {
     return new DoesNotContainSequence(actual, sequence);
   }
 

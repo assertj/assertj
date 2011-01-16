@@ -21,10 +21,9 @@ import java.util.List;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.runners.*;
 import org.junit.runners.Parameterized.Parameters;
 
 /**

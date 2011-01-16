@@ -19,10 +19,8 @@ import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
 import static org.fest.util.Collections.list;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ContainsAtIndex#create(Description)}</code>.

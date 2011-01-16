@@ -17,8 +17,7 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.Condition;
-import org.fest.assertions.core.TestCondition;
+import org.fest.assertions.core.*;
 import org.fest.assertions.internal.Conditions;
 import org.junit.*;
 

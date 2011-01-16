@@ -19,8 +19,7 @@ import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.CharArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link CharArrayAssert#startsWith(char...)}</code>.

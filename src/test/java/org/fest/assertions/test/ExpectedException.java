@@ -15,8 +15,7 @@
 package org.fest.assertions.test;
 
 import org.junit.rules.MethodRule;
-import org.junit.runners.model.FrameworkMethod;
-import org.junit.runners.model.Statement;
+import org.junit.runners.model.*;
 
 /**
  * Allows in-test specification of expected exception types and messages.

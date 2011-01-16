@@ -18,10 +18,8 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.util.Collections.list;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.description.*;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoesNotStartWith#create(Description)}</code>.

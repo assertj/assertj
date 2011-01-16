@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -77,7 +76,7 @@ public class ByteArrays_assertDoesNotContain_at_Index_Test {
     try {
       arrays.assertDoesNotContain(info, actual, value, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, containsAtIndex(wrap(actual), value, index));
+      verify(failures).failure(info, containsAtIndex(actual, value, index));
       return;
     }
     fail("expected AssertionError not thrown");

@@ -19,8 +19,7 @@ import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.LongArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link LongArrayAssert#startsWith(long...)}</code>.

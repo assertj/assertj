@@ -19,8 +19,7 @@ import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.DoubleArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#startsWith(double...)}</code>.

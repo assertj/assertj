@@ -19,8 +19,7 @@ import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#hasSize(int)}</code>.

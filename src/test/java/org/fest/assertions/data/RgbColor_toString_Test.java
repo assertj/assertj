@@ -17,8 +17,7 @@ package org.fest.assertions.data;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.data.RgbColor.color;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link RgbColor#toString()}</code>.

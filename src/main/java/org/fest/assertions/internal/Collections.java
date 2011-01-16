@@ -26,7 +26,6 @@ import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
 import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.internal.CommonErrors.*;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
 
@@ -152,7 +151,7 @@ public class Collections {
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(actual, wrap(values), notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
   }
 
   private static Set<Object> containsOnly(Set<Object> actual, Object[] values) {
@@ -196,7 +195,7 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotContainSequence(actual, wrap(sequence)));
+    return failures.failure(info, doesNotContainSequence(actual, sequence));
   }
 
   /**
@@ -260,7 +259,7 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotStartWith(actual, wrap(sequence)));
+    return failures.failure(info, doesNotStartWith(actual, sequence));
   }
 
   /**
@@ -301,6 +300,6 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotEndWith(actual, wrap(sequence)));
+    return failures.failure(info, doesNotEndWith(actual, sequence));
   }
 }

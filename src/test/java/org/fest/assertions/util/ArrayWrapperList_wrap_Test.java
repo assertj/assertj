@@ -18,8 +18,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
 import org.fest.assertions.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link ArrayWrapperList}</code>.

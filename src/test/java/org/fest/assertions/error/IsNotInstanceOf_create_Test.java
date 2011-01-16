@@ -21,8 +21,7 @@ import java.io.File;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link IsNotInstanceOf#create(Description)}</code>.

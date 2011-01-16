@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -86,7 +85,7 @@ public class LongArrays_assertContainsOnly_Test {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set(10L), set(20L)));
+      verify(failures).failure(info, doesNotContainOnly(actual, expected, set(10L), set(20L)));
       return;
     }
     fail("expected AssertionError not thrown");

@@ -21,8 +21,7 @@ import static org.fest.util.Collections.list;
 
 import java.awt.Dimension;
 
-import org.fest.assertions.description.Description;
-import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.description.*;
 import org.junit.Test;
 
 /**

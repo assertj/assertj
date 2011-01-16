@@ -20,7 +20,6 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
 import static org.junit.Assert.fail;
@@ -87,7 +86,7 @@ public class ObjectArrays_assertContainsOnly_Test {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(wrap(actual), wrap(expected), set("Leia"), set("Han")));
+      verify(failures).failure(info, doesNotContainOnly(actual, expected, set("Leia"), set("Han")));
       return;
     }
     fail("expected AssertionError not thrown");

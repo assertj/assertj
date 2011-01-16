@@ -17,8 +17,7 @@ package org.fest.assertions.test;
 
 import static java.util.Collections.unmodifiableList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Data provider for parameterized tests.

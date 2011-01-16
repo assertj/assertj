@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.util.List;
-
 import org.fest.assertions.data.Index;
 
 /**
@@ -31,10 +29,11 @@ public class DoesNotContainAtIndex extends BasicErrorMessage {
    * @param actual the actual value in the failed assertion.
    * @param expected value expected to be in {@code actual}.
    * @param index the index of the expected value.
+   * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainAtIndex(List<?> actual, Object expected, Index index) {
-    return new DoesNotContainAtIndex(actual, expected, index, actual.get(index.value));
+  public static ErrorMessage doesNotContainAtIndex(Object actual, Object expected, Index index, Object found) {
+    return new DoesNotContainAtIndex(actual, expected, index, found);
   }
 
   private DoesNotContainAtIndex(Object actual, Object expected, Index index, Object found) {

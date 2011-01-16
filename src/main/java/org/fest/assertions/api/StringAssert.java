@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import java.util.regex.*;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.internal.Strings;
