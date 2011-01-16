@@ -38,6 +38,6 @@ public class IsEmpty implements ErrorMessage {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    return MessageFormatter.instance().format("expecting actual not to be empty", d);
+    return MessageFormatter.instance().format(d, "expecting actual not to be empty");
   }
 }

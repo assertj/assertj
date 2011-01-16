@@ -78,7 +78,7 @@ public class DoesNotContainOnly implements ErrorMessage {
   }
 
   private static String formatMessage(String format, Description d, Object... args) {
-    return MessageFormatter.instance().format(format, d, args);
+    return MessageFormatter.instance().format(d, format, args);
   }
 
   @Override public boolean equals(Object obj) {

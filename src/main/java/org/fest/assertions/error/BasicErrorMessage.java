@@ -48,7 +48,7 @@ public class BasicErrorMessage implements ErrorMessage {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    return formatter.format(format, d, arguments);
+    return formatter.format(d, format, arguments);
   }
 
   @Override public boolean equals(Object obj) {
@@ -68,6 +68,6 @@ public class BasicErrorMessage implements ErrorMessage {
   }
 
   @Override public String toString() {
-    return format("%s[format=%s, arguments=%s]", getClass().getName(), quote(format), format(arguments));
+    return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format), format(arguments));
   }
 }

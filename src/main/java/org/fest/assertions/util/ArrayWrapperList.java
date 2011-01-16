@@ -24,6 +24,7 @@ import org.fest.util.VisibleForTesting;
  * of objects and arrays of primitives.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public class ArrayWrapperList extends AbstractList<Object> {
 
@@ -56,7 +57,8 @@ public class ArrayWrapperList extends AbstractList<Object> {
   private void checkIsInRange(int index) {
     int size = size();
     if (index >= 0 && index < size()) return;
-    throw new IndexOutOfBoundsException(String.format("Index: %d, Size: %d", index, size));
+    String message = String.format("Index should be between 0 and %d (inclusive,) but was %d", size - 1, index);
+    throw new IndexOutOfBoundsException(message);
   }
 
   /**

@@ -23,7 +23,7 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link MessageFormatter#format(String, Description, Object...)}</code>.
+ * Tests for <code>{@link MessageFormatter#format(Description, String, Object...)}</code>.
  *
  * @author Alex Ruiz
  */
@@ -48,12 +48,12 @@ public class MessageFormatter_format_Test {
   @Test public void should_throw_error_if_args_array_is_null() {
     thrown.expectNullPointerException("The array of arguments should not be null");
     Object[] args = null;
-    messageFormatter.format("", null, args);
+    messageFormatter.format(null, "", args);
   }
 
   @Test public void should_format_message() {
     Description description = new TextDescription("Test");
-    String s = messageFormatter.format("Hello %s", description, "World");
+    String s = messageFormatter.format(description, "Hello %s", "World");
     assertEquals("[Test] Hello 'World'", s);
     verify(descriptionFormatter).format(description);
   }

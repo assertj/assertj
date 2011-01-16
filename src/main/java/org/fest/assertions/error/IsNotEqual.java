@@ -71,7 +71,7 @@ public class IsNotEqual implements AssertionErrorFactory {
   }
 
   private String defaultErrorMessage(Description d) {
-    return messageFormatter.format("expected:<%s> but was:<%s>", d, expected, actual);
+    return messageFormatter.format(d, "expected:<%s> but was:<%s>", expected, actual);
   }
 
   private AssertionError comparisonFailure(Description d) {

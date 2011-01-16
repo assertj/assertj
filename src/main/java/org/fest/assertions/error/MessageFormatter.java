@@ -49,13 +49,13 @@ public class MessageFormatter {
    * <li>each of the arguments in the given array is converted to a {@code String} by invoking
    * <code>{@link ToString#toStringOf(Object)}</code>.
    * </ol>
-   * @param format the format string.
    * @param d the description of the failed assertion, may be {@code null}.
+   * @param format the format string.
    * @param args arguments referenced by the format specifiers in the format string.
    * @throws NullPointerException if the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public String format(String format, Description d, Object... args) {
+  public String format(Description d, String format, Object... args) {
     if (format == null) throw new NullPointerException("The format string should not be null");
     if (args == null) throw new NullPointerException("The array of arguments should not be null");
     return descriptionFormatter.format(d) + String.format(format, format(args));
