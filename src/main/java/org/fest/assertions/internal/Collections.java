@@ -283,7 +283,6 @@ public class Collections {
     int start = actual.size() - sequenceSize;
     int sequenceIndex = 0, indexOfActual = 0;
     for (Object o: actual) {
-      if (sequenceIndex >= sequenceSize) break;
       if (indexOfActual++ < start) continue;
       if (areEqual(o, sequence[sequenceIndex++])) continue;
       throw actualDoesNotEndWithSequence(info, actual, sequence);

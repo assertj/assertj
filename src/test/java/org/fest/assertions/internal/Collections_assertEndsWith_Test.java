@@ -92,9 +92,21 @@ public class Collections_assertEndsWith_Test {
     fail("expected AssertionError not thrown");
   }
 
-  @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+  @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence() {
     AssertionInfo info = someInfo();
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
+    try {
+      collections.assertEndsWith(info, actual, sequence);
+    } catch (AssertionError e) {
+      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      return;
+    }
+    fail("expected AssertionError not thrown");
+  }
+
+  @Test public void should_fail_if_sequence_is_smaller_than_end_of_actual() {
+    AssertionInfo info = someInfo();
+    Object[] sequence = { "Luke", "Leia" };
     try {
       collections.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {

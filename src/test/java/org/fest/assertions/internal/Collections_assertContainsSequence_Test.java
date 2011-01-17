@@ -93,9 +93,9 @@ public class Collections_assertContainsSequence_Test {
     fail("expected AssertionError not thrown");
   }
 
-  @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  @Test public void should_fail_if_actual_contains_first_elements_of_sequence_but_not_whole_sequence() {
     AssertionInfo info = someInfo();
-    Object[] sequence = { "Leia", "Obi-Wan", "Han" };
+    Object[] sequence = { "Luke", "Leia", "Han" };
     try {
       collections.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {

@@ -75,10 +75,10 @@ public class Images {
     int h = actual.getHeight();
     for (int x = 0; x < w; x++)
       for (int y = 0; y < h; y++)
-        assertEqual(info, color(actual.getRGB(x, y)), color(expected.getRGB(x, y)), y, x, offset);
+        assertEqual(info, color(actual.getRGB(x, y)), color(expected.getRGB(x, y)), x, y, offset);
   }
 
-  private void assertEqual(AssertionInfo info, RgbColor actual, RgbColor expected, int y, int x, Offset<Integer> offset) {
+  private void assertEqual(AssertionInfo info, RgbColor actual, RgbColor expected, int x, int y, Offset<Integer> offset) {
     if (actual.isEqualTo(expected, offset)) return;
     throw failures.failure(info, doesNotHaveEqualColor(actual, expected, x, y));
   }

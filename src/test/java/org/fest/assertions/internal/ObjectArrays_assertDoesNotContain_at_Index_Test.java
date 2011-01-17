@@ -57,6 +57,10 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test {
     arrays.assertDoesNotContain(someInfo(), null, "Yoda", someIndex());
   }
 
+  @Test public void should_pass_if_actual_does_not_contain_value_at_Index() {
+    arrays.assertDoesNotContain(someInfo(), actual, "Yoda", atIndex(1));
+  }
+
   @Test public void should_pass_if_actual_is_empty() {
     arrays.assertDoesNotContain(someInfo(), emptyArray(), "Yoda", someIndex());
   }
