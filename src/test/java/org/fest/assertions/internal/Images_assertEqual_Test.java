@@ -15,9 +15,10 @@
 package org.fest.assertions.internal;
 
 import static java.awt.Color.BLUE;
+import static org.fest.assertions.data.Offset.offset;
+import static org.fest.assertions.data.Point.point;
+import static org.fest.assertions.error.ColorsNotEqual.colorsNotEqual;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.internal.ColorComparisonResult.notEqual;
-import static org.fest.assertions.internal.Images.doesNotHaveEqualColor;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -80,8 +81,7 @@ public class Images_assertEqual_Test {
     try {
       images.assertEqual(info, actual, expected);
     } catch (AssertionError e) {
-      System.out.println(e.getMessage());
-      verify(failures).failure(info, doesNotHaveEqualColor(notEqual(blue(), yellow(), 0, 0)));
+      verify(failures).failure(info, colorsNotEqual(yellow(), blue(), point(0, 0), offset(0)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

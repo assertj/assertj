@@ -26,13 +26,13 @@ import org.junit.*;
  */
 public class Index_toString_Test {
 
-  private static Index offset;
+  private static Index index;
 
   @BeforeClass public static void setUpOnce() {
-    offset = atIndex(8);
+    index = atIndex(8);
   }
 
   @Test public void should_implement_toString() {
-    assertEquals("Index[value=8]", offset.toString());
+    assertEquals("Index[value=8]", index.toString());
   }
 }

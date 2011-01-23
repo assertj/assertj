@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is empty failed. A group of
  * elements can be a collection, an array or a {@code String}.

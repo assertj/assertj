@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.data.RgbColor.color;
+import static org.fest.assertions.error.ColorsNotEqual.colorsNotEqual;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.internal.ColorComparisonResult.*;
@@ -26,7 +27,7 @@ import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.*;
-import org.fest.assertions.error.*;
+import org.fest.assertions.error.ErrorMessage;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -68,15 +69,15 @@ public class Images {
       throw failures.failure(info, doesNotHaveSize(actual, sizeOf(actual), sizeOf(expected)));
     ColorComparisonResult haveEqualColor = haveEqualColor(actual, expected, ZERO);
     if (ARE_EQUAL != haveEqualColor)
-      throw failures.failure(info, doesNotHaveEqualColor(haveEqualColor));
+      throw failures.failure(info, doesNotHaveEqualColor(haveEqualColor, ZERO));
   }
 
   private static Dimension sizeOf(BufferedImage image) {
     return new Dimension(image.getWidth(), image.getHeight());
   }
 
-  @VisibleForTesting static ErrorMessage doesNotHaveEqualColor(ColorComparisonResult r) {
-    return new BasicErrorMessage("expected:<%s> but was:<%s> at pixel [%s,%s]", r.c2, r.c1, r.x, r.y);
+  private static ErrorMessage doesNotHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
+    return colorsNotEqual(r.color2, r.color1, r.point, offset);
   }
 
   /**

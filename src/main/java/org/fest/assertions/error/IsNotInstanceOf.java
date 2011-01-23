@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies that an object is an instance of some type failed.
  *

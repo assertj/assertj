@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.test;
 
-
 /**
  * @author Yvonne Wang
  */

@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-
 /**
  * Creates an error message indicating an assertion that verifies that two objects do not refer to the same object
  * failed.

@@ -57,10 +57,9 @@ public class MapEntry {
   }
 
   @Override public int hashCode() {
-    final int prime = HASH_CODE_PRIME;
     int result = 1;
-    result = prime * result + hashCodeFor(key);
-    result = prime * result + hashCodeFor(value);
+    result = HASH_CODE_PRIME * result + hashCodeFor(key);
+    result = HASH_CODE_PRIME * result + hashCodeFor(value);
     return result;
   }
 

@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.data.RgbColor;
+import static org.fest.assertions.data.Point.point;
+
+import org.fest.assertions.data.*;
 
 /**
  * @author Yvonne Wang
@@ -24,22 +26,20 @@ class ColorComparisonResult {
   static final ColorComparisonResult ARE_EQUAL = new ColorComparisonResult();
 
   static ColorComparisonResult notEqual(RgbColor c1, RgbColor c2, int x, int y) {
-    return new ColorComparisonResult(c1, c2, x, y);
+    return new ColorComparisonResult(c1, c2, point(x, y));
   }
 
-  final RgbColor c1;
-  final RgbColor c2;
-  final int x;
-  final int y;
+  final RgbColor color1;
+  final RgbColor color2;
+  final Point point;
 
   private ColorComparisonResult() {
-    this(null, null, 0, 0);
+    this(null, null, null);
   }
 
-  private ColorComparisonResult(RgbColor c1, RgbColor c2, int x, int y) {
-    this.c1 = c1;
-    this.c2 = c2;
-    this.x = x;
-    this.y = y;
+  private ColorComparisonResult(RgbColor c1, RgbColor c2, Point p) {
+    color1 = c1;
+    color2 = c2;
+    point = p;
   }
 }

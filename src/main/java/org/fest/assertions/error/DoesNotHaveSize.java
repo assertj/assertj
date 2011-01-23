@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.error;
 
-
 /**
  * Creates an error message indicating that an assertion that verifies that two values that represent size are equal
  * failed.
