@@ -45,7 +45,7 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
 
   /** {@inheritDoc} */
   @Override public ImageAssert isNotEqualTo(BufferedImage other) {
-    // TODO Auto-generated method stub
-    return null;
+    images.assertNotEqual(info, actual, other);
+    return this;
   }
 }

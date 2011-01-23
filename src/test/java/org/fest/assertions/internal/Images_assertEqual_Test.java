@@ -16,11 +16,13 @@ package org.fest.assertions.internal;
 
 import static java.awt.Color.BLUE;
 import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.internal.Images.*;
+import static org.fest.assertions.internal.ColorComparisonResult.notEqual;
+import static org.fest.assertions.internal.Images.doesNotHaveEqualColor;
 import static org.fest.assertions.test.TestData.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -48,6 +50,10 @@ public class Images_assertEqual_Test {
     images.failures = failures;
   }
 
+  @Test public void should_pass_if_images_are_equal() {
+    images.assertEqual(someInfo(), actual, newImage(5, 5, BLUE));
+  }
+
   @Test public void should_fail_if_images_have_different_size() {
     AssertionInfo info = someInfo();
     BufferedImage expected = newImage(6, 6, BLUE);
@@ -60,13 +66,17 @@ public class Images_assertEqual_Test {
     fail("expected AssertionError not thrown");
   }
 
+  private static Dimension sizeOf(BufferedImage image) {
+    return new Dimension(image.getWidth(), image.getHeight());
+  }
+
   @Test public void should_fail_if_images_have_same_size_but_different_color() {
     AssertionInfo info = someInfo();
     BufferedImage expected = fivePixelYellowImage();
     try {
       images.assertEqual(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotHaveEqualColor(blue(), yellow(), 0, 0));
+      verify(failures).failure(info, doesNotHaveEqualColor(notEqual(blue(), yellow(), 0, 0)));
       return;
     }
     fail("expected AssertionError not thrown");
