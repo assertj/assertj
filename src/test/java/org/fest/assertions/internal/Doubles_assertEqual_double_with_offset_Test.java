@@ -19,7 +19,7 @@ import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
 import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -67,6 +67,6 @@ public class Doubles_assertEqual_double_with_offset_Test {
       verify(failures).failure(info, isNotEqual(6d, 8d, offset));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

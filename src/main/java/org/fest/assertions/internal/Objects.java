@@ -45,15 +45,9 @@ public class Objects {
     return INSTANCE;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Objects() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Objects(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Objects() {}
 
   /**
    * Verifies that the given object is an instance of the given type.

@@ -25,10 +25,8 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.data.Offset;
-import org.fest.assertions.data.RgbColor;
-import org.fest.assertions.error.BasicErrorMessage;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.data.*;
+import org.fest.assertions.error.*;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -89,10 +87,15 @@ public class Images {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, BufferedImage actual, BufferedImage other) {
+    if (areEqual(actual, other)) throw imagesAreEqual(info, actual, other);
     if (!haveEqualSize(actual, other)) return;
     ColorComparisonResult haveEqualColor = haveEqualColor(actual, other, ZERO);
     if (haveEqualColor != ARE_EQUAL) return;
-    throw failures.failure(info, isEqual(actual, other));
+    throw imagesAreEqual(info, actual, other);
+  }
+
+  private AssertionError imagesAreEqual(AssertionInfo info, BufferedImage actual, BufferedImage other) {
+    return failures.failure(info, isEqual(actual, other));
   }
 
   private boolean haveEqualSize(BufferedImage i1, BufferedImage i2) {

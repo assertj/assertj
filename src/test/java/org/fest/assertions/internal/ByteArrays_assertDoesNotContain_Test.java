@@ -20,8 +20,8 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.set;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -48,7 +48,8 @@ public class ByteArrays_assertDoesNotContain_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new ByteArrays(failures);
+    arrays = new ByteArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
@@ -83,6 +84,6 @@ public class ByteArrays_assertDoesNotContain_Test {
       verify(failures).failure(info, contains(actual, expected, set((byte)6, (byte)8)));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

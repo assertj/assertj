@@ -19,8 +19,8 @@ import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.*;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
@@ -45,7 +45,8 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
   @Before public void setUp() {
     actual = list("Luke", "Yoda", "Leia");
     failures = spy(new Failures());
-    collections = new Collections(failures);
+    collections = new Collections();
+    collections.failures = failures;
   }
 
   @Test public void should_pass_if_actual_does_not_have_duplicates() {
@@ -71,6 +72,6 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
       verify(failures).failure(info, hasDuplicates(actual, duplicates));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

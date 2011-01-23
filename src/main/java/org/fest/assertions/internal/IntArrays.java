@@ -36,15 +36,10 @@ public class IntArrays {
   }
 
   private final Arrays arrays = Arrays.instance();
-  private final Failures failures;
 
-  private IntArrays() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting IntArrays(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting IntArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.

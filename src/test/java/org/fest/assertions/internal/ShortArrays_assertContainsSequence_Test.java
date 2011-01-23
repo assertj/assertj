@@ -20,7 +20,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ShortArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -47,7 +47,8 @@ public class ShortArrays_assertContainsSequence_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new ShortArrays(failures);
+    arrays = new ShortArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -71,10 +72,10 @@ public class ShortArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -83,10 +84,10 @@ public class ShortArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -95,13 +96,13 @@ public class ShortArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfSequenceWasNotFound(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
-  private void shouldHaveFailedIfSequenceWasNotFound(AssertionInfo info, short[] sequence) {
+  private void verifySequenceNotFound(AssertionInfo info, short[] sequence) {
     verify(failures).failure(info, doesNotContainSequence(actual, sequence));
   }
 

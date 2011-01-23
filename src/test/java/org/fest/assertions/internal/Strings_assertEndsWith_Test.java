@@ -18,7 +18,7 @@ import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -39,7 +39,8 @@ public class Strings_assertEndsWith_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    strings = new Strings(failures);
+    strings = new Strings();
+    strings.failures = failures;
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_suffix() {
@@ -50,7 +51,7 @@ public class Strings_assertEndsWith_Test {
       verify(failures).failure(info, doesNotStartWith("Yoda", "Luke"));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_throw_error_if_suffix_is_null() {

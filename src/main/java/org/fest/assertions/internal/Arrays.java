@@ -117,7 +117,7 @@ class Arrays {
     Set<Object> notExpected = asSet(array);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(array, values, notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(array, values, notFound, notExpected));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {

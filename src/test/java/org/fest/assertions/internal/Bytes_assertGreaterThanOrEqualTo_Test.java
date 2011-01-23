@@ -18,7 +18,7 @@ import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterTh
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -64,6 +64,6 @@ public class Bytes_assertGreaterThanOrEqualTo_Test {
       verify(failures).failure(info, isNotGreaterThanOrEqualTo((byte)6, (byte)8));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

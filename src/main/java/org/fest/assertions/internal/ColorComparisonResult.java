@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.util.Objects.*;
-
 import org.fest.assertions.data.RgbColor;
 
 /**
@@ -43,26 +41,5 @@ class ColorComparisonResult {
     this.c2 = c2;
     this.x = x;
     this.y = y;
-  }
-
-  @Override public int hashCode() {
-    final int prime = HASH_CODE_PRIME;
-    int result = 1;
-    result = prime * result + hashCodeFor(c1);
-    result = prime * result + hashCodeFor(c2);
-    result = prime * result + x;
-    result = prime * result + y;
-    return result;
-  }
-
-  @Override public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    ColorComparisonResult other = (ColorComparisonResult) obj;
-    if (!areEqual(c1, other.c1)) return false;
-    if (!areEqual(c2, other.c2)) return false;
-    if (x != other.x) return false;
-    return y == other.y;
   }
 }

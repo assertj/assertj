@@ -52,15 +52,9 @@ public class Collections {
     return INSTANCE;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Collections() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Collections(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Collections() {}
 
   /**
    * Asserts that the given <code>{@link Collection}</code> is {@code null} or empty.
@@ -151,7 +145,7 @@ public class Collections {
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(actual, values, notExpected, notFound));
+    throw failures.failure(info, doesNotContainOnly(actual, values, notFound, notExpected));
   }
 
   private static Set<Object> containsOnly(Set<Object> actual, Object[] values) {

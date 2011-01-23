@@ -36,15 +36,10 @@ public class FloatArrays {
   }
 
   private final Arrays arrays = Arrays.instance();
-  private final Failures failures;
 
-  private FloatArrays() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting FloatArrays(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting FloatArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.

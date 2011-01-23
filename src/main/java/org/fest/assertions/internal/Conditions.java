@@ -37,15 +37,9 @@ public class Conditions {
     return INSTANCE;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Conditions() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Conditions(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Conditions() {}
 
   /**
    * Asserts that the actual value satisfies the given <code>{@link Condition}</code>.

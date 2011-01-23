@@ -47,15 +47,9 @@ public class Strings {
     return INSTANCE;
   }
 
-  private Strings() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures;
 
-  private final Failures failures;
-
-  @VisibleForTesting Strings(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Strings() {}
 
   /**
    * Asserts that the given {@code String} is {@code null} or empty.

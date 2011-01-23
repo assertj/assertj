@@ -14,98 +14,28 @@
  */
 package org.fest.assertions.error;
 
-import static java.lang.String.format;
-import static org.fest.util.Collections.isEmpty;
-import static org.fest.util.Objects.*;
-import static org.fest.util.ToString.toStringOf;
-
-import java.util.Set;
-
-import org.fest.assertions.description.Description;
-import org.fest.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
  * values and nothing else failed. A group of elements can be a collection, an array or a {@code String}.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class DoesNotContainOnly implements ErrorMessage {
-
-  private final Object actual;
-  private final Object expected;
-  private final Set<?> notExpected;
-  private final Set<?> notFound;
+public class DoesNotContainOnly extends BasicErrorMessage {
 
   /**
    * Creates a new </code>{@link DoesNotContainOnly}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
-   * @param notExpected the values in {@code actual} that were not in {@code expected}.
-   * @param notFound the values in {@code expected} not found in {@code actual}.
+   * @param notFound values in {@code expected} not found in {@code actual}.
+   * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
-    return new DoesNotContainOnly(actual, expected, notExpected, notFound);
+  public static ErrorMessage doesNotContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
+    return new DoesNotContainOnly(actual, expected, notFound, notExpected);
   }
 
-  @VisibleForTesting DoesNotContainOnly(Object actual, Object expected, Set<?> notExpected, Set<?> notFound) {
-    this.actual = actual;
-    this.expected = expected;
-    this.notExpected = notExpected;
-    this.notFound = notFound;
-  }
-
-  /** {@inheritDoc} */
-  public String create(Description d) {
-    if (isEmpty(notExpected)) return includeOnlyNotFound(d);
-    if (isEmpty(notFound)) return includeOnlyNotExpected(d);
-    return defaultMessage(d);
-  }
-
-  private String includeOnlyNotFound(Description d) {
-    String format = "expected:<%s> to contain only:<%s>, but could not find:<%s>";
-    return formatMessage(format, d, actual, expected, notFound);
-  }
-
-  private String includeOnlyNotExpected(Description d) {
-    String format = "expected:<%s> to contain only:<%s>, but got unexpected:<%s>";
-    return formatMessage(format, d, actual, expected, notExpected);
-  }
-
-  private String defaultMessage(Description d) {
-    String format = "expected:<%s> to contain only:<%s>; could not find:<%s> and got unexpected:<%s>";
-    return formatMessage(format, d, actual, expected, notFound, notExpected);
-  }
-
-  private static String formatMessage(String format, Description d, Object... args) {
-    return MessageFormatter.instance().format(d, format, args);
-  }
-
-  @Override public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
-    DoesNotContainOnly other = (DoesNotContainOnly) obj;
-    if (!areEqual(actual, other.actual)) return false;
-    if (!areEqual(expected, other.expected)) return false;
-    if (!areEqual(notExpected, other.notExpected)) return false;
-    return areEqual(notFound, other.notFound);
-  }
-
-  @Override public int hashCode() {
-    int result = 1;
-    result = HASH_CODE_PRIME * result + hashCodeFor(actual);
-    result = HASH_CODE_PRIME * result + hashCodeFor(expected);
-    result = HASH_CODE_PRIME * result + hashCodeFor(notExpected);
-    result = HASH_CODE_PRIME * result + hashCodeFor(notFound);
-    return result;
-  }
-
-  /** {@inheritDoc} */
-  @Override public String toString() {
-    String format = "%s[actual=%s, expected=%s, notExpected=%s, notFound=%s]";
-    return format(format, getClass().getSimpleName(), toStringOf(actual), toStringOf(expected),
-        toStringOf(notExpected), toStringOf(notFound));
+  private DoesNotContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
+    super("expected:<%s> to contain only:<%s>; not found:<%s> and not expected:<%s>", actual, expected, notFound, notExpected);
   }
 }

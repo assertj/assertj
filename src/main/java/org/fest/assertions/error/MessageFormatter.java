@@ -16,6 +16,8 @@ package org.fest.assertions.error;
 
 import static org.fest.util.ToString.toStringOf;
 
+import java.awt.image.BufferedImage;
+
 import org.fest.assertions.description.Description;
 import org.fest.util.*;
 
@@ -65,7 +67,12 @@ public class MessageFormatter {
     int argCount = args.length;
     String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++)
-      formatted[i] = toStringOf(args[i]);
+      formatted[i] = asText(args[i]);
     return formatted;
+  }
+
+  private String asText(Object o) {
+    if (o instanceof BufferedImage) return "image";
+    return toStringOf(o);
   }
 }

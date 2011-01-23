@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -40,7 +40,8 @@ public class Strings_assertContains_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    strings = new Strings(failures);
+    strings = new Strings();
+    strings.failures = failures;
   }
 
   @Test public void should_fail_if_actual_does_not_contain_sequence() {
@@ -48,10 +49,10 @@ public class Strings_assertContains_Test {
     try {
       strings.assertContains(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      shouldHaveFailedIfSequenceNotFound(info, "Yoda", "Luke");
+      verifySequenceNotFound(info, "Yoda", "Luke");
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_contains_sequence_but_in_different_case() {
@@ -59,13 +60,13 @@ public class Strings_assertContains_Test {
     try {
       strings.assertContains(info, "Yoda", "yo");
     } catch (AssertionError e) {
-      shouldHaveFailedIfSequenceNotFound(info, "Yoda", "yo");
+      verifySequenceNotFound(info, "Yoda", "yo");
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
-  private void shouldHaveFailedIfSequenceNotFound(AssertionInfo info, String actual, String sequence) {
+  private void verifySequenceNotFound(AssertionInfo info, String actual, String sequence) {
     verify(failures).failure(info, doesNotContain(actual, sequence));
   }
 

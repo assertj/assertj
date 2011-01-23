@@ -18,7 +18,7 @@ import static org.fest.assertions.error.MatchesPattern.matches;
 import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.*;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.util.regex.PatternSyntaxException;
@@ -43,7 +43,8 @@ public class Strings_assertDoesNotMatch_String_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     actual = "Yoda";
-    strings = new Strings(failures);
+    strings = new Strings();
+    strings.failures = failures;
   }
 
   @Test public void should_throw_error_if_regular_expression_is_null() {
@@ -66,7 +67,7 @@ public class Strings_assertDoesNotMatch_String_Test {
       verify(failures).failure(info, matches(actual, regex));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_actual_is_null() {

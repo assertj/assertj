@@ -45,7 +45,8 @@ public class Objects_assertIsInstanceOf_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    objects = new Objects(failures);
+    objects = new Objects();
+    objects.failures = failures;
   }
 
   @Test public void should_pass_if_actual_is_instance_of_type() {

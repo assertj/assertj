@@ -18,7 +18,7 @@ import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -39,7 +39,8 @@ public class FloatArrays_assertNullOrEmpty_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new FloatArrays(failures);
+    arrays = new FloatArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_array_is_not_null_and_is_not_empty() {
@@ -51,7 +52,7 @@ public class FloatArrays_assertNullOrEmpty_Test {
       verify(failures).failure(info, isNotNullOrEmpty(actual));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_array_is_null() {

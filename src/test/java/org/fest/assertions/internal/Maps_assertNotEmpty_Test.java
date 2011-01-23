@@ -21,7 +21,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.util.Map;
@@ -44,7 +44,8 @@ public class Maps_assertNotEmpty_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    maps = new Maps(failures);
+    maps = new Maps();
+    maps.failures = failures;
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {
@@ -65,7 +66,7 @@ public class Maps_assertNotEmpty_Test {
       verify(failures).failure(info, isEmpty());
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
 }

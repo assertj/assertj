@@ -36,15 +36,10 @@ public class CharArrays {
   }
 
   private final Arrays arrays = Arrays.instance();
-  private final Failures failures;
 
-  private CharArrays() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting CharArrays(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting CharArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.

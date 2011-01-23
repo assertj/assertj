@@ -20,7 +20,7 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -47,7 +47,8 @@ public class BooleanArrays_assertEndsWith_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new BooleanArrays(failures);
+    arrays = new BooleanArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -71,10 +72,10 @@ public class BooleanArrays_assertEndsWith_Test {
     try {
       arrays.assertEndsWith(someInfo(), actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -83,10 +84,10 @@ public class BooleanArrays_assertEndsWith_Test {
     try {
       arrays.assertEndsWith(someInfo(), actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
@@ -95,13 +96,13 @@ public class BooleanArrays_assertEndsWith_Test {
     try {
       arrays.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotEndWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
-  private void shouldHaveFailedIfActualDoesNotEndWithSequence(AssertionInfo info, boolean[] sequence) {
+  private void verifySequenceNotFound(AssertionInfo info, boolean[] sequence) {
     verify(failures).failure(info, doesNotEndWith(actual, sequence));
   }
 

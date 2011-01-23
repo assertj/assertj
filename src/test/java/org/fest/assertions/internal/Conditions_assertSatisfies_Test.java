@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.IsNotSatisfied.isNotSatisfied;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
@@ -46,7 +46,8 @@ public class Conditions_assertSatisfies_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     condition = new TestCondition<Object>();
-    conditions = new Conditions(failures);
+    conditions = new Conditions();
+    conditions.failures = failures;
   }
 
   @Test public void should_throw_error_if_Condition_is_null() {
@@ -68,6 +69,6 @@ public class Conditions_assertSatisfies_Test {
       verify(failures).failure(info, isNotSatisfied(actual, condition));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

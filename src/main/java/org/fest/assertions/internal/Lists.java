@@ -43,15 +43,9 @@ public class Lists {
     return INSTANCE;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Lists() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Lists(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Lists() {}
 
   /**
    * Verifies that the given {@code List} contains the given object at the given index.

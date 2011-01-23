@@ -20,8 +20,8 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -49,7 +49,8 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new ObjectArrays(failures);
+    arrays = new ObjectArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -83,6 +84,6 @@ public class ObjectArrays_assertDoesNotContain_at_Index_Test {
       verify(failures).failure(info, containsAtIndex(actual, "Yoda", index));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

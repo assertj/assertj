@@ -41,15 +41,9 @@ public class Comparables {
     return INSTANCE;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Comparables() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Comparables(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Comparables() {}
 
   /**
    * Asserts that two <code>{@link Comparable}</code>s are equal by invoking

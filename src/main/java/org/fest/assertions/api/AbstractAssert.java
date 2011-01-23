@@ -101,24 +101,12 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     return myself;
   }
 
-  /**
-   * Alias for <code>{@link #satisfies(Condition)}</code>.
-   * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value does not satisfy the given condition.
-   */
+  /** {@inheritDoc} */
   public final S is(Condition<A> condition) {
     return satisfies(condition);
   }
 
-  /**
-   * Alias for <code>{@link #doesNotSatisfy(Condition)}</code>.
-   * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the actual value satisfies the given condition.
-   */
+  /** {@inheritDoc} */
   public final S isNot(Condition<A> condition) {
     return doesNotSatisfy(condition);
   }

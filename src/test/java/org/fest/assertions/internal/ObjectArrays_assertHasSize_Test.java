@@ -18,7 +18,7 @@ import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -39,7 +39,8 @@ public class ObjectArrays_assertHasSize_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new ObjectArrays(failures);
+    arrays = new ObjectArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -56,7 +57,7 @@ public class ObjectArrays_assertHasSize_Test {
       verify(failures).failure(info, doesNotHaveSize(actual, actual.length, 6));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {

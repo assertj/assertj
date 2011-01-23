@@ -21,9 +21,9 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.*;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
@@ -49,7 +49,8 @@ public class Collections_assertContainsOnly_Test {
   @Before public void setUp() {
     actual = list("Luke", "Yoda", "Leia");
     failures = spy(new Failures());
-    collections = new Collections(failures);
+    collections = new Collections();
+    collections.failures = failures;
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only() {
@@ -90,9 +91,9 @@ public class Collections_assertContainsOnly_Test {
     try {
       collections.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(actual, expected, set("Leia"), set("Han")));
+      verify(failures).failure(info, doesNotContainOnly(actual, expected, set("Han"), set("Leia")));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

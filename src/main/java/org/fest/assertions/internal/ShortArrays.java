@@ -36,15 +36,10 @@ public class ShortArrays {
   }
 
   private final Arrays arrays = Arrays.instance();
-  private final Failures failures;
 
-  private ShortArrays() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting ShortArrays(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting ShortArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.

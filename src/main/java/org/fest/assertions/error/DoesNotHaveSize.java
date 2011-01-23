@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.error;
 
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two values that represent size are equal
@@ -32,18 +30,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotHaveSize(BufferedImage actual, Dimension actualSize, Dimension expectedSize) {
-    return new DoesNotHaveSize("expected image size:<%s> but was:<%s>", expectedSize, actualSize);
-  }
-
-  /**
-   * Creates a new </code>{@link DoesNotHaveSize}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param actualSize the size of {@code actual}.
-   * @param expectedSize the expected size.
-   * @return the created {@code ErrorMessage}.
-   */
-  public static ErrorMessage doesNotHaveSize(Object actual, int actualSize, int expectedSize) {
+  public static ErrorMessage doesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
     return new DoesNotHaveSize("expected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
   }
 

@@ -20,7 +20,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -47,7 +47,8 @@ public class LongArrays_assertStartsWith_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new LongArrays(failures);
+    arrays = new LongArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {
@@ -71,10 +72,10 @@ public class LongArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_does_not_start_with_sequence() {
@@ -83,10 +84,10 @@ public class LongArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
@@ -95,13 +96,13 @@ public class LongArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      shouldHaveFailedIfActualDoesNotStartWithSequence(info, sequence);
+      verifySequenceNotFound(info, sequence);
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
-  private void shouldHaveFailedIfActualDoesNotStartWithSequence(AssertionInfo info, long[] sequence) {
+  private void verifySequenceNotFound(AssertionInfo info, long[] sequence) {
     verify(failures).failure(info, doesNotStartWith(actual, sequence));
   }
 

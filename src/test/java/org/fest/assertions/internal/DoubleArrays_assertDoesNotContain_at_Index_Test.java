@@ -20,7 +20,7 @@ import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -48,7 +48,8 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new DoubleArrays(failures);
+    arrays = new DoubleArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -82,6 +83,6 @@ public class DoubleArrays_assertDoesNotContain_at_Index_Test {
       verify(failures).failure(info, containsAtIndex(actual, 6d, index));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

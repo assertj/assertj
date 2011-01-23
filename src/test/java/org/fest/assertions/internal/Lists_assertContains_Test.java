@@ -20,8 +20,8 @@ import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIn
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.list;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -51,7 +51,8 @@ public class Lists_assertContains_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    lists = new Lists(failures);
+    lists = new Lists();
+    lists.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -83,7 +84,7 @@ public class Lists_assertContains_Test {
       verify(failures).failure(info, doesNotContainAtIndex(actual, "Han", index, "Luke"));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

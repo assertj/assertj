@@ -18,7 +18,7 @@ import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -60,7 +60,7 @@ public class Floats_assertLessThan_Test {
       verify(failures).failure(info, isNotLessThan(6f, 6f));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_fail_if_actual_is_greater_than_other() {
@@ -71,6 +71,6 @@ public class Floats_assertLessThan_Test {
       verify(failures).failure(info, isNotLessThan(8f, 6f));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

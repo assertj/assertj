@@ -19,8 +19,8 @@ import static org.fest.assertions.error.IsEmpty.isEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.list;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Collection;
@@ -43,7 +43,8 @@ public class Collections_assertNotEmpty_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    collections = new Collections(failures);
+    collections = new Collections();
+    collections.failures = failures;
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {
@@ -63,6 +64,6 @@ public class Collections_assertNotEmpty_Test {
       verify(failures).failure(info, isEmpty());
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

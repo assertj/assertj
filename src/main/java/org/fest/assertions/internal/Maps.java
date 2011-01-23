@@ -45,15 +45,9 @@ public class Maps {
     return INSTANCE ;
   }
 
-  private final Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  private Maps() {
-    this(Failures.instance());
-  }
-
-  @VisibleForTesting Maps(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting Maps() {}
 
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.

@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.IsNotEqual.isNotEqual;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -35,7 +35,8 @@ public class Objects_assertEqual_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    objects = new Objects(failures);
+    objects = new Objects();
+    objects.failures = failures;
   }
 
   @Test public void should_pass_if_objects_are_equal() {
@@ -50,6 +51,6 @@ public class Objects_assertEqual_Test {
       verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -40,7 +40,8 @@ public class Strings_assertDoesNotContain_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    strings = new Strings(failures);
+    strings = new Strings();
+    strings.failures = failures;
   }
 
   @Test public void should_fail_if_actual_contains_sequence() {
@@ -51,7 +52,7 @@ public class Strings_assertDoesNotContain_Test {
       verify(failures).failure(info, contains("Yoda", "oda"));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {

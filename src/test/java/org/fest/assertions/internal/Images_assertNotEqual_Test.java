@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.awt.Color.BLUE;
 import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.test.TestData.*;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.awt.image.BufferedImage;
@@ -64,6 +64,17 @@ public class Images_assertNotEqual_Test {
       verify(failures).failure(info, isEqual(actual, other));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
+  }
+
+  @Test public void should_fail_if_images_are_same() {
+    AssertionInfo info = someInfo();
+    try {
+      images.assertNotEqual(info, actual, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, isEqual(actual, actual));
+      return;
+    }
+    throw expectedAssertionErrorNotThrown();
   }
 }

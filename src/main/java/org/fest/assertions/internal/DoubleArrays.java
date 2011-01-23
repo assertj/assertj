@@ -36,15 +36,10 @@ public class DoubleArrays {
   }
 
   private final Arrays arrays = Arrays.instance();
-  private final Failures failures;
 
-  private DoubleArrays() {
-    this(Failures.instance());
-  }
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting DoubleArrays(Failures failures) {
-    this.failures = failures;
-  }
+  @VisibleForTesting DoubleArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.

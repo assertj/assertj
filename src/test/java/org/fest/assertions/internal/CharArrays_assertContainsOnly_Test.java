@@ -20,8 +20,8 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.set;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -44,7 +44,8 @@ public class CharArrays_assertContainsOnly_Test {
   @Before public void setUp() {
     failures = spy(new Failures());
     actual = array('a', 'b', 'c');
-    arrays = new CharArrays(failures);
+    arrays = new CharArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_pass_if_actual_contains_given_values_only() {
@@ -85,9 +86,9 @@ public class CharArrays_assertContainsOnly_Test {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(actual, expected, set('c'), set('d')));
+      verify(failures).failure(info, doesNotContainOnly(actual, expected, set('d'), set('c')));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

@@ -35,7 +35,8 @@ public class Objects_assertSame_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    objects = new Objects(failures);
+    objects = new Objects();
+    objects.failures = failures;
   }
 
   @Test public void should_pass_if_objects_are_same() {

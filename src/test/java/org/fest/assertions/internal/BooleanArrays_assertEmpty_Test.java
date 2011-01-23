@@ -19,7 +19,7 @@ import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -40,7 +40,8 @@ public class BooleanArrays_assertEmpty_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new BooleanArrays(failures);
+    arrays = new BooleanArrays();
+    arrays.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -57,7 +58,7 @@ public class BooleanArrays_assertEmpty_Test {
       verify(failures).failure(info, isNotEmpty(actual));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_actual_is_empty() {

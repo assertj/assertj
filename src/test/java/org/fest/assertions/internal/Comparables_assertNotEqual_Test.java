@@ -18,7 +18,7 @@ import static org.fest.assertions.error.IsEqual.isEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -39,7 +39,8 @@ public class Comparables_assertNotEqual_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    comparables = new Comparables(failures);
+    comparables = new Comparables();
+    comparables.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -62,6 +63,6 @@ public class Comparables_assertNotEqual_Test {
       verify(failures).failure(info, isEqual("Yoda", "Yoda"));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

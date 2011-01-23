@@ -21,9 +21,9 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 import java.util.Map;
@@ -53,7 +53,8 @@ public class Maps_assertDoesNotContain_Test {
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    maps = new Maps(failures);
+    maps = new Maps();
+    maps.failures = failures;
   }
 
   @Test public void should_pass_if_actual_does_not_contain_given_values() {
@@ -84,6 +85,6 @@ public class Maps_assertDoesNotContain_Test {
       verify(failures).failure(info, contains(actual, expected, set(entry("name", "Yoda"))));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 }

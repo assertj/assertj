@@ -18,7 +18,7 @@ import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.junit.Assert.fail;
+import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -35,31 +35,32 @@ public class Strings_assertHasSize_Test {
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private Strings arrays;
+  private Strings strings;
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new Strings(failures);
+    strings = new Strings();
+    strings.failures = failures;
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(unexpectedNull());
-    arrays.assertHasSize(someInfo(), null, 3);
+    strings.assertHasSize(someInfo(), null, 3);
   }
 
   @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     String actual = "Han";
     try {
-      arrays.assertHasSize(info, actual, 6);
+      strings.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
       verify(failures).failure(info, doesNotHaveSize(actual, actual.length(), 6));
       return;
     }
-    fail("expected AssertionError not thrown");
+    throw expectedAssertionErrorNotThrown();
   }
 
   @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(someInfo(), "Han", 3);
+    strings.assertHasSize(someInfo(), "Han", 3);
   }
 }
