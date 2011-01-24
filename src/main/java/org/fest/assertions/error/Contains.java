@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class Contains extends BasicErrorMessage {
+public class Contains extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link Contains}</code>.
@@ -29,7 +29,7 @@ public class Contains extends BasicErrorMessage {
    * @param found the values in {@code expected} found in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage contains(Object actual, Object expected, Object found) {
+  public static ErrorMessageFactory contains(Object actual, Object expected, Object found) {
     return new Contains(actual, expected, found);
   }
 

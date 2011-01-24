@@ -27,7 +27,7 @@ import org.junit.*;
  */
 public class IsNotGreaterThan_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isNotGreaterThan(6, 8);

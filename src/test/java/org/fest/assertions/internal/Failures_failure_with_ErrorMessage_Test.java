@@ -19,23 +19,23 @@ import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.error.ErrorMessageFactory;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Failures#failure(AssertionInfo, ErrorMessage)}</code>.
+ * Tests for <code>{@link Failures#failure(AssertionInfo, ErrorMessageFactory)}</code>.
  *
  * @author Alex Ruiz
  */
 public class Failures_failure_with_ErrorMessage_Test {
 
   private WritableAssertionInfo info;
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
   private Failures failures;
 
   @Before public void setUp() {
     info = new WritableAssertionInfo();
-    errorMessage = mock(ErrorMessage.class);
+    errorMessage = mock(ErrorMessageFactory.class);
     failures = Failures.instance();
   }
 

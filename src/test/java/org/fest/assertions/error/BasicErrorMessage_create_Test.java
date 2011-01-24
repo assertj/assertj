@@ -22,18 +22,18 @@ import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BasicErrorMessage#create(Description)}</code>.
+ * Tests for <code>{@link BasicErrorMessageFactory#create(Description)}</code>.
  *
  * @author Yvonne Wang
  */
 public class BasicErrorMessage_create_Test {
 
   private MessageFormatter formatter;
-  private BasicErrorMessage message;
+  private BasicErrorMessageFactory message;
 
   @Before public void setUp() {
     formatter = mock(MessageFormatter.class);
-    message = new BasicErrorMessage("Hello %s", "Yoda");
+    message = new BasicErrorMessageFactory("Hello %s", "Yoda");
     message.formatter = formatter;
   }
 

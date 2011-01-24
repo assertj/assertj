@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class IsSame_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isSame("Yoda");

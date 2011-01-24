@@ -19,16 +19,16 @@ import static junit.framework.Assert.assertEquals;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BasicErrorMessage#toString()}</code>.
+ * Tests for <code>{@link BasicErrorMessageFactory#toString()}</code>.
  *
  * @author Yvonne Wang
  */
 public class BasicErrorMessage_toString_Test {
 
-  private BasicErrorMessage message;
+  private BasicErrorMessageFactory message;
 
   @Before public void setUp() {
-    message = new BasicErrorMessage("Hello %s", "Yoda");
+    message = new BasicErrorMessageFactory("Hello %s", "Yoda");
   }
 
   @Test public void should_implement_toString() {

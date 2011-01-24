@@ -18,7 +18,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotSame extends BasicErrorMessage {
+public class IsNotSame extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link IsNotSame}</code>.
@@ -26,7 +26,7 @@ public class IsNotSame extends BasicErrorMessage {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotSame(Object actual, Object expected) {
+  public static ErrorMessageFactory isNotSame(Object actual, Object expected) {
     return new IsNotSame(actual, expected);
   }
 

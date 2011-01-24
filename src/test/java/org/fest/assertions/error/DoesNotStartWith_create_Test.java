@@ -28,7 +28,7 @@ import org.junit.*;
  */
 public class DoesNotStartWith_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = doesNotStartWith(list("Yoda", "Luke"), list("Han", "Leia"));

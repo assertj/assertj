@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public class DoesNotContainString_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Test public void should_create_error_message() {
     errorMessage = doesNotContain("Yoda", "Luke");

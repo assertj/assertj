@@ -30,7 +30,7 @@ import org.junit.*;
  */
 public class IsNotInstanceOf_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isNotInstanceOf("Yoda", File.class);

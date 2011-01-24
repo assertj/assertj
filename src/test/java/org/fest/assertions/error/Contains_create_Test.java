@@ -28,7 +28,7 @@ import org.junit.*;
  */
 public class Contains_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = Contains.contains(list("Yoda"), list("Luke", "Yoda"), set("Yoda"));

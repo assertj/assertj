@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class IsNotEqualWithOffset_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isNotEqual(6f, 8f, offset(1f));

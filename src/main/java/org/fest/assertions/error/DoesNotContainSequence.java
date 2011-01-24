@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class DoesNotContainSequence extends BasicErrorMessage {
+public class DoesNotContainSequence extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link DoesNotContainSequence}</code>.
@@ -28,7 +28,7 @@ public class DoesNotContainSequence extends BasicErrorMessage {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainSequence(Object actual, Object sequence) {
+  public static ErrorMessageFactory doesNotContainSequence(Object actual, Object sequence) {
     return new DoesNotContainSequence(actual, sequence);
   }
 

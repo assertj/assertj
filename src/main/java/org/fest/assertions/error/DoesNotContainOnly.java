@@ -21,7 +21,7 @@ package org.fest.assertions.error;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class DoesNotContainOnly extends BasicErrorMessage {
+public class DoesNotContainOnly extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link DoesNotContainOnly}</code>.
@@ -31,7 +31,7 @@ public class DoesNotContainOnly extends BasicErrorMessage {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
+  public static ErrorMessageFactory doesNotContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
     return new DoesNotContainOnly(actual, expected, notFound, notExpected);
   }
 

@@ -22,7 +22,7 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public class IsEmpty implements ErrorMessage {
+public class IsEmpty implements ErrorMessageFactory {
 
   private static final IsEmpty INSTANCE = new IsEmpty();
 
@@ -30,7 +30,7 @@ public class IsEmpty implements ErrorMessage {
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static ErrorMessage isEmpty() {
+  public static ErrorMessageFactory isEmpty() {
     return INSTANCE;
   }
 

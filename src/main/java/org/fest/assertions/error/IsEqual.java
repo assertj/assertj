@@ -19,7 +19,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsEqual extends BasicErrorMessage {
+public class IsEqual extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link IsEqual}</code>.
@@ -27,7 +27,7 @@ public class IsEqual extends BasicErrorMessage {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMesage}.
    */
-  public static ErrorMessage isEqual(Object actual, Object other) {
+  public static ErrorMessageFactory isEqual(Object actual, Object other) {
     return new IsEqual(actual, other);
   }
 

@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotInstanceOfAny extends BasicErrorMessage {
+public class IsNotInstanceOfAny extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link IsNotInstanceOfAny}</code>.
@@ -28,7 +28,7 @@ public class IsNotInstanceOfAny extends BasicErrorMessage {
    * @param types contains the type or types {@code actual} is expected to belong to.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotInstanceOfAny(Object actual, Class<?>[] types) {
+  public static ErrorMessageFactory isNotInstanceOfAny(Object actual, Class<?>[] types) {
     return new IsNotInstanceOfAny(actual, types);
   }
 

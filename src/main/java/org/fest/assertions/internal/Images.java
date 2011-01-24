@@ -27,7 +27,7 @@ import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.*;
-import org.fest.assertions.error.ErrorMessage;
+import org.fest.assertions.error.ErrorMessageFactory;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -76,7 +76,7 @@ public class Images {
     return new Dimension(image.getWidth(), image.getHeight());
   }
 
-  private static ErrorMessage doesNotHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
+  private static ErrorMessageFactory doesNotHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
     return colorsNotEqual(r.color2, r.color1, r.point, offset);
   }
 

@@ -31,7 +31,7 @@ import org.junit.*;
  */
 public class IsNotInstanceOfAny_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     Class<?>[] types = { File.class, Pattern.class };

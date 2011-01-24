@@ -23,14 +23,14 @@ package org.fest.assertions.error;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class IsNotNullOrEmpty extends BasicErrorMessage {
+public class IsNotNullOrEmpty extends BasicErrorMessageFactory {
 
   /**
    * Creates a new instance of <code>{@link IsNotNullOrEmpty}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created of {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotNullOrEmpty(Object actual) {
+  public static ErrorMessageFactory isNotNullOrEmpty(Object actual) {
     return new IsNotNullOrEmpty(actual);
   }
 

@@ -22,7 +22,7 @@ import org.fest.assertions.data.Index;
  *
  * @author Alex Ruiz
  */
-public class ContainsAtIndex extends BasicErrorMessage {
+public class ContainsAtIndex extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link ContainsAtIndex}</code>.
@@ -31,7 +31,7 @@ public class ContainsAtIndex extends BasicErrorMessage {
    * @param index the index of the expected value.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage containsAtIndex(Object actual, Object expected, Index index) {
+  public static ErrorMessageFactory containsAtIndex(Object actual, Object expected, Index index) {
     return new ContainsAtIndex(actual, expected, index);
   }
 

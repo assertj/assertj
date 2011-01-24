@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class HasDuplicates extends BasicErrorMessage {
+public class HasDuplicates extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link HasDuplicates}</code>.
@@ -28,7 +28,7 @@ public class HasDuplicates extends BasicErrorMessage {
    * @param duplicates the duplicate values found in {@code actual}.
    * @return an instance of {@code ErrorMessage}.
    */
-  public static ErrorMessage hasDuplicates(Object actual, Object duplicates) {
+  public static ErrorMessageFactory hasDuplicates(Object actual, Object duplicates) {
     return new HasDuplicates(actual, duplicates);
   }
 

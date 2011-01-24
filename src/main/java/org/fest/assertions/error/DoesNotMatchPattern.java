@@ -19,7 +19,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class DoesNotMatchPattern extends BasicErrorMessage {
+public class DoesNotMatchPattern extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link DoesNotStartWith}</code>.
@@ -27,7 +27,7 @@ public class DoesNotMatchPattern extends BasicErrorMessage {
    * @param pattern a regular expression pattern.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotMatch(String actual, String pattern) {
+  public static ErrorMessageFactory doesNotMatch(String actual, String pattern) {
     return new DoesNotMatchPattern(actual, pattern);
   }
 

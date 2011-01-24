@@ -30,7 +30,7 @@ import org.junit.*;
  */
 public class ColorsNotEqual_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = colorsNotEqual(color(0), color(8), point(6, 10), offset(12));

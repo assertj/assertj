@@ -29,7 +29,7 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Alex Ruiz
  */
-public class BasicErrorMessage implements ErrorMessage {
+public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   private final String format;
   private final Object[] arguments;
@@ -37,11 +37,11 @@ public class BasicErrorMessage implements ErrorMessage {
   @VisibleForTesting MessageFormatter formatter = MessageFormatter.instance();
 
   /**
-   * Creates a new </code>{@link BasicErrorMessage}</code>.
+   * Creates a new </code>{@link BasicErrorMessageFactory}</code>.
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
-  public BasicErrorMessage(String format, Object... arguments) {
+  public BasicErrorMessageFactory(String format, Object... arguments) {
     this.format = format;
     this.arguments = arguments;
   }
@@ -55,7 +55,7 @@ public class BasicErrorMessage implements ErrorMessage {
     if (this == obj) return true;
     if (obj == null) return false;
     if (getClass() != obj.getClass()) return false;
-    BasicErrorMessage other = (BasicErrorMessage) obj;
+    BasicErrorMessageFactory other = (BasicErrorMessageFactory) obj;
     if (!areEqual(format, other.format)) return false;
     return Arrays.equals(arguments, other.arguments);
   }

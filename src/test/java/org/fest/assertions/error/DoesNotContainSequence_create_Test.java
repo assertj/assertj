@@ -28,7 +28,7 @@ import org.junit.*;
  */
 public class DoesNotContainSequence_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = doesNotContainSequence(list("Yoda", "Luke"), list("Han", "Leia"));

@@ -21,7 +21,7 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public class IsNull implements ErrorMessage {
+public class IsNull implements ErrorMessageFactory {
 
   private static final IsNull INSTANCE = new IsNull();
 
@@ -29,7 +29,7 @@ public class IsNull implements ErrorMessage {
    * Returns the singleton instance of this class.
    * @return the singleton instance of this class.
    */
-  public static ErrorMessage isNull() {
+  public static ErrorMessageFactory isNull() {
     return INSTANCE;
   }
 

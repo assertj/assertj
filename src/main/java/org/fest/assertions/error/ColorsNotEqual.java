@@ -22,7 +22,7 @@ import org.fest.assertions.data.*;
  *
  * @author Yvonne Wang
  */
-public class ColorsNotEqual extends BasicErrorMessage {
+public class ColorsNotEqual extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ColorsNotEqual}</code>.
@@ -34,7 +34,7 @@ public class ColorsNotEqual extends BasicErrorMessage {
    * similar to a blue value of 61.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage colorsNotEqual(RgbColor expected, RgbColor actual, Point point, Offset<?> offset) {
+  public static ErrorMessageFactory colorsNotEqual(RgbColor expected, RgbColor actual, Point point, Offset<?> offset) {
     return new ColorsNotEqual(expected, actual, point, offset);
   }
 

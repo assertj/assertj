@@ -28,7 +28,7 @@ import org.junit.*;
  */
 public class IsSatisfied_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = satisfied("Yoda", new TestCondition<String>("is green"));

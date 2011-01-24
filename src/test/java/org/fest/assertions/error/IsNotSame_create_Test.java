@@ -26,7 +26,7 @@ import org.junit.*;
  */
 public class IsNotSame_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = IsNotSame.isNotSame("Yoda", "Luke");

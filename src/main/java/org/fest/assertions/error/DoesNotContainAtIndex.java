@@ -22,7 +22,7 @@ import org.fest.assertions.data.Index;
  *
  * @author Alex Ruiz
  */
-public class DoesNotContainAtIndex extends BasicErrorMessage {
+public class DoesNotContainAtIndex extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link DoesNotContainAtIndex}</code>.
@@ -32,7 +32,7 @@ public class DoesNotContainAtIndex extends BasicErrorMessage {
    * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainAtIndex(Object actual, Object expected, Index index, Object found) {
+  public static ErrorMessageFactory doesNotContainAtIndex(Object actual, Object expected, Index index, Object found) {
     return new DoesNotContainAtIndex(actual, expected, index, found);
   }
 

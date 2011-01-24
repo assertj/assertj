@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class ContainsAtIndex_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = containsAtIndex(list("Yoda", "Luke"), "Luke", atIndex(1));

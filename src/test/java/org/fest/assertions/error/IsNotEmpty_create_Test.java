@@ -30,7 +30,7 @@ import org.junit.*;
  */
 public class IsNotEmpty_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isNotEmpty(list("Luke", "Yoda"));

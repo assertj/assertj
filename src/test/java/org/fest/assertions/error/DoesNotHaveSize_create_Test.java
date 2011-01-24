@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class DoesNotHaveSize_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = doesNotHaveSize(list("Luke", "Yoda"), 2, 8);

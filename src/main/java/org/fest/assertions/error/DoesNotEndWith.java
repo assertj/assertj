@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class DoesNotEndWith extends BasicErrorMessage {
+public class DoesNotEndWith extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link DoesNotEndWith}</code>.
@@ -28,7 +28,7 @@ public class DoesNotEndWith extends BasicErrorMessage {
    * @param expected the value or sequence of values that {@code actual} is expected to start with.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotEndWith(Object actual, Object expected) {
+  public static ErrorMessageFactory doesNotEndWith(Object actual, Object expected) {
     return new DoesNotEndWith(actual, expected);
   }
 

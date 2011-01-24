@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class DoesNotContainAtIndex_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = doesNotContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");

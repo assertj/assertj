@@ -19,7 +19,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotInstanceOf extends BasicErrorMessage {
+public class IsNotInstanceOf extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link IsNotInstanceOf}</code>.
@@ -27,7 +27,7 @@ public class IsNotInstanceOf extends BasicErrorMessage {
    * @param type the type {@code actual} is expected to belong to.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotInstanceOf(Object actual, Class<?> type) {
+  public static ErrorMessageFactory isNotInstanceOf(Object actual, Class<?> type) {
     return new IsNotInstanceOf(actual, type);
   }
 

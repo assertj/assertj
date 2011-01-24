@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class DoesNotHaveSize extends BasicErrorMessage {
+public class DoesNotHaveSize extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link DoesNotHaveSize}</code>.
@@ -29,7 +29,7 @@ public class DoesNotHaveSize extends BasicErrorMessage {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
+  public static ErrorMessageFactory doesNotHaveSize(Object actual, Object actualSize, Object expectedSize) {
     return new DoesNotHaveSize("expected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
   }
 

@@ -19,7 +19,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotLessThan extends BasicErrorMessage {
+public class IsNotLessThan extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link IsNotLessThan}</code>.
@@ -28,7 +28,7 @@ public class IsNotLessThan extends BasicErrorMessage {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessage}.
    */
-  public static <T extends Comparable<T>> ErrorMessage isNotLessThan(T actual, T other) {
+  public static <T extends Comparable<T>> ErrorMessageFactory isNotLessThan(T actual, T other) {
     return new IsNotLessThan(actual, other);
   }
 

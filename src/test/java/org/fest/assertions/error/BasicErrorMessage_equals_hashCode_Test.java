@@ -20,16 +20,16 @@ import static org.fest.test.EqualsHashCodeContractAssert.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BasicErrorMessage#equals(Object)}</code> and <code>{@link BasicErrorMessage#hashCode()}</code>.
+ * Tests for <code>{@link BasicErrorMessageFactory#equals(Object)}</code> and <code>{@link BasicErrorMessageFactory#hashCode()}</code>.
  *
  * @author Yvonne Wang
  */
 public class BasicErrorMessage_equals_hashCode_Test {
 
-  private static BasicErrorMessage message;
+  private static BasicErrorMessageFactory message;
 
   @BeforeClass public static void setUpOnce() {
-    message = new BasicErrorMessage("Hello %s", "Yoda");
+    message = new BasicErrorMessageFactory("Hello %s", "Yoda");
   }
 
   @Test public void should_have_reflexive_equals() {
@@ -37,17 +37,17 @@ public class BasicErrorMessage_equals_hashCode_Test {
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(message, new BasicErrorMessage("Hello %s", "Yoda"));
+    assertEqualsIsSymmetric(message, new BasicErrorMessageFactory("Hello %s", "Yoda"));
   }
 
   @Test public void should_have_transitive_equals() {
-    BasicErrorMessage obj2 = new BasicErrorMessage("Hello %s", "Yoda");
-    BasicErrorMessage obj3 = new BasicErrorMessage("Hello %s", "Yoda");
+    BasicErrorMessageFactory obj2 = new BasicErrorMessageFactory("Hello %s", "Yoda");
+    BasicErrorMessageFactory obj3 = new BasicErrorMessageFactory("Hello %s", "Yoda");
     assertEqualsIsTransitive(message, obj2, obj3);
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(message, new BasicErrorMessage("Hello %s", "Yoda"));
+    assertMaintainsEqualsAndHashCodeContract(message, new BasicErrorMessageFactory("Hello %s", "Yoda"));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
@@ -59,10 +59,10 @@ public class BasicErrorMessage_equals_hashCode_Test {
   }
 
   @Test public void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
-    assertFalse(message.equals(new BasicErrorMessage("How are you, %s?", "Yoda")));
+    assertFalse(message.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda")));
   }
 
   @Test public void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
-    assertFalse(message.equals(new BasicErrorMessage("Hello %s", "Luke")));
+    assertFalse(message.equals(new BasicErrorMessageFactory("Hello %s", "Luke")));
   }
 }

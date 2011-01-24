@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class DoesNotContainOnly_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = doesNotContainOnly(list("Yoda", "Han"), list("Luke", "Yoda"), set("Luke"), set("Han"));

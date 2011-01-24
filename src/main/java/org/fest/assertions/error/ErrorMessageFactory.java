@@ -21,7 +21,7 @@ import org.fest.assertions.description.Description;
  *
  * @author Alex Ruiz
  */
-public interface ErrorMessage {
+public interface ErrorMessageFactory {
 
   /**
    * Creates a new error message as a result of a failed assertion.

@@ -22,7 +22,7 @@ import org.fest.assertions.data.Offset;
  *
  * @author Alex Ruiz
  */
-public class IsNotEqualWithOffset extends BasicErrorMessage {
+public class IsNotEqualWithOffset extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link IsNotEqualWithOffset}</code>.
@@ -32,7 +32,7 @@ public class IsNotEqualWithOffset extends BasicErrorMessage {
    * @param offset the given positive offset.
    * @return the created {@code ErrorMessage}.
    */
-  public static <T extends Number> ErrorMessage isNotEqual(T actual, T expected, Offset<T> offset) {
+  public static <T extends Number> ErrorMessageFactory isNotEqual(T actual, T expected, Offset<T> offset) {
     return new IsNotEqualWithOffset(actual, expected, offset);
   }
 

@@ -22,7 +22,7 @@ import org.fest.assertions.core.Condition;
  *
  * @author Alex Ruiz
  */
-public class IsNotSatisfied extends BasicErrorMessage {
+public class IsNotSatisfied extends BasicErrorMessageFactory {
 
   /**
    * Creates a new </code>{@link IsNotSatisfied}</code>.
@@ -31,7 +31,7 @@ public class IsNotSatisfied extends BasicErrorMessage {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessage}.
    */
-  public static <T> ErrorMessage isNotSatisfied(T actual, Condition<T> condition) {
+  public static <T> ErrorMessageFactory isNotSatisfied(T actual, Condition<T> condition) {
     return new IsNotSatisfied(actual, condition);
   }
 

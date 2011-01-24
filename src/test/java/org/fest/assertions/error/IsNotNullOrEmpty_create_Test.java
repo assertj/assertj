@@ -29,7 +29,7 @@ import org.junit.*;
  */
 public class IsNotNullOrEmpty_create_Test {
 
-  private ErrorMessage errorMessage;
+  private ErrorMessageFactory errorMessage;
 
   @Before public void setUp() {
     errorMessage = isNotNullOrEmpty(list("Luke", "Yoda"));

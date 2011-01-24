@@ -20,14 +20,14 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotEmpty extends BasicErrorMessage {
+public class IsNotEmpty extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link IsNotEmpty}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotEmpty(Object actual) {
+  public static ErrorMessageFactory isNotEmpty(Object actual) {
     return new IsNotEmpty(actual);
   }
 

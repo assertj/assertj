@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class DoesNotContainString extends BasicErrorMessage {
+public class DoesNotContainString extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link DoesNotContainString}</code>.
@@ -28,7 +28,7 @@ public class DoesNotContainString extends BasicErrorMessage {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContain(Object actual, Object sequence) {
+  public static ErrorMessageFactory doesNotContain(Object actual, Object sequence) {
     return new DoesNotContainString("expecting:<%s> to contain:<%s>", actual, sequence);
   }
 
@@ -38,7 +38,7 @@ public class DoesNotContainString extends BasicErrorMessage {
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage doesNotContainIgnoringCase(String actual, String sequence) {
+  public static ErrorMessageFactory doesNotContainIgnoringCase(String actual, String sequence) {
     return new DoesNotContainString("expecting:<%s> to contain:<%s> (ignoring case)", actual, sequence);
   }
 

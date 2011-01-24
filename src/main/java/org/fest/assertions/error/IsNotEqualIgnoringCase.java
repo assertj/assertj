@@ -20,7 +20,7 @@ package org.fest.assertions.error;
  *
  * @author Alex Ruiz
  */
-public class IsNotEqualIgnoringCase extends BasicErrorMessage {
+public class IsNotEqualIgnoringCase extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link IsNotEqualIgnoringCase}</code>.
@@ -28,7 +28,7 @@ public class IsNotEqualIgnoringCase extends BasicErrorMessage {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessage isNotEqual(String actual, String expected) {
+  public static ErrorMessageFactory isNotEqual(String actual, String expected) {
     return new IsNotEqualIgnoringCase(actual, expected);
   }
 
