@@ -37,6 +37,6 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<?> offset) {
-    super("expected:<%s> but was:<%s> with offset:<%s>", expected, actual, offset.value);
+    super("expected:<%s> but was:<%s> within offset:<%s>", expected, actual, offset.value);
   }
 }

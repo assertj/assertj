@@ -38,6 +38,6 @@ public class ShouldBeEqualColors_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<color[r=0, g=0, b=0]> but was:<color[r=0, g=0, b=8]> at:<[6, 10]> with offset:<12>", message);
+    assertEquals("[Test] expected:<color[r=0, g=0, b=0]> but was:<color[r=0, g=0, b=8]> at:<[6, 10]> within offset:<12>", message);
   }
 }

@@ -37,6 +37,6 @@ public class ShouldBeEqualWithinOffset_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected:<8.0> but was:<6.0> with offset:<1.0>", message);
+    assertEquals("[Test] expected:<8.0> but was:<6.0> within offset:<1.0>", message);
   }
 }

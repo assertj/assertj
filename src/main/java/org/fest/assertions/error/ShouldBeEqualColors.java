@@ -39,6 +39,6 @@ public class ShouldBeEqualColors extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualColors(RgbColor expected, RgbColor actual, Point point, Offset<?> offset) {
-    super("expected:<%s> but was:<%s> at:<%s> with offset:<%s>", expected, actual, point, offset.value);
+    super("expected:<%s> but was:<%s> at:<%s> within offset:<%s>", expected, actual, point, offset.value);
   }
 }
