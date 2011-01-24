@@ -32,16 +32,6 @@ import org.junit.*;
  */
 public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
 
-  private static String comparisonFailureTypeName;
-  private static String[] parameterValues;
-  private static Class<?>[] parameterTypes;
-
-  @BeforeClass public static void setUpOnce() {
-    comparisonFailureTypeName = ComparisonFailure.class.getName();
-    parameterValues = array("[Jedi]", "'Yoda'", "'Luke'");
-    parameterTypes = new Class<?>[] { String.class, String.class, String.class };
-  }
-
   private Description description;
   private ShouldBeEqual factory;
   private ConstructorInvoker constructorInvoker;
@@ -66,12 +56,18 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   }
 
   private Object createComparisonFailure() throws Exception {
-    return constructorInvoker.newInstance(comparisonFailureTypeName, parameterTypes, parameterValues);
+    return createComparisonFailure(constructorInvoker);
   }
 
   private void check(AssertionError error) throws Exception {
-    verify(constructorInvoker).newInstance(comparisonFailureTypeName, parameterTypes, parameterValues);
+    createComparisonFailure(verify(constructorInvoker));
     assertFalse(error instanceof ComparisonFailure);
     assertEquals("[Jedi] expected:<'Yoda'> but was:<'Luke'>", error.getMessage());
+  }
+
+  private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
+    return invoker.newInstance(ComparisonFailure.class.getName(),
+                               new Class<?>[] { String.class, String.class, String.class },
+                               array("[Jedi]", "'Yoda'", "'Luke'"));
   }
 }
