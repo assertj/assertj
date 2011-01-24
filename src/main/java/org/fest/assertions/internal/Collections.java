@@ -14,17 +14,17 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
-import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.error.IsEmpty.isEmpty;
-import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
+import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
@@ -64,7 +64,7 @@ public class Collections {
    */
   public void assertNullOrEmpty(AssertionInfo info, Collection<?> actual) {
     if (actual == null || actual.isEmpty()) return;
-    throw failures.failure(info, isNotNullOrEmpty(actual));
+    throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -77,7 +77,7 @@ public class Collections {
   public void assertEmpty(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     if (actual.isEmpty()) return;
-    throw failures.failure(info, isNotEmpty(actual));
+    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -90,7 +90,7 @@ public class Collections {
   public void assertNotEmpty(AssertionInfo info, Collection<?> actual) {
     assertNotNull(info, actual);
     if (!actual.isEmpty()) return;
-    throw failures.failure(info, isEmpty());
+    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   /**
@@ -106,7 +106,7 @@ public class Collections {
     assertNotNull(info, actual);
     int sizeOfActual = actual.size();
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
+    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -125,7 +125,7 @@ public class Collections {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) if (!actual.contains(value)) notFound.add(value);
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(actual, values, notFound));
+    throw failures.failure(info, shouldContain(actual, values, notFound));
   }
 
   /**
@@ -145,7 +145,7 @@ public class Collections {
     Set<Object> notExpected = new LinkedHashSet<Object>(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(actual, values, notFound, notExpected));
+    throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected));
   }
 
   private static Set<Object> containsOnly(Set<Object> actual, Object[] values) {
@@ -189,7 +189,7 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotContainSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotContainSequence(actual, sequence));
+    return failures.failure(info, shouldContainSequence(actual, sequence));
   }
 
   /**
@@ -208,7 +208,7 @@ public class Collections {
     Set<Object> found = new LinkedHashSet<Object>();
     for (Object o: values) if (actual.contains(o)) found.add(o);
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(actual, values, found));
+    throw failures.failure(info, shouldNotContain(actual, values, found));
   }
 
   /**
@@ -224,7 +224,7 @@ public class Collections {
     assertNotNull(info, actual);
     Collection<?> duplicates = duplicatesFrom(actual);
     if (duplicates.isEmpty()) return;
-    throw failures.failure(info, hasDuplicates(actual, duplicates));
+    throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates));
   }
 
   /**
@@ -253,7 +253,7 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotStartWith(actual, sequence));
+    return failures.failure(info, shouldStartWith(actual, sequence));
   }
 
   /**
@@ -293,6 +293,6 @@ public class Collections {
   }
 
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Collection<?> actual, Object[] sequence) {
-    return failures.failure(info, doesNotEndWith(actual, sequence));
+    return failures.failure(info, shouldEndWith(actual, sequence));
   }
 }

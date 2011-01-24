@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotSame.isNotSame;
+import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -52,6 +52,6 @@ public class Objects_assertSame_Test {
       objects.assertSame(info, a, e);
       fail();
     } catch (AssertionError err) {}
-    verify(failures).failure(info, isNotSame(a, e));
+    verify(failures).failure(info, shouldBeSame(a, e));
   }
 }

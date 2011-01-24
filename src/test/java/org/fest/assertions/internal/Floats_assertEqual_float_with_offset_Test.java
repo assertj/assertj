@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Offset.offset;
-import static org.fest.assertions.error.IsNotEqualWithOffset.isNotEqual;
+import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -64,7 +64,7 @@ public class Floats_assertEqual_float_with_offset_Test {
     try {
       floats.assertEqual(info, new Float(6f), 8f, offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotEqual(6f, 8f, offset));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset));
       return;
     }
     throw expectedAssertionErrorNotThrown();

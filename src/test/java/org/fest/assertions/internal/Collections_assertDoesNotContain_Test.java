@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -85,7 +85,7 @@ public class Collections_assertDoesNotContain_Test {
     try {
       collections.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains(actual, expected, set("Luke", "Yoda")));
+      verify(failures).failure(info, shouldNotContain(actual, expected, set("Luke", "Yoda")));
       return;
     }
     throw expectedAssertionErrorNotThrown();

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
+import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -91,7 +91,7 @@ public class ObjectArrays_assertContains_Test {
     try {
       arrays.assertContains(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContain(actual, expected, set("Han")));
+      verify(failures).failure(info, shouldContain(actual, expected, set("Han")));
       return;
     }
     throw expectedAssertionErrorNotThrown();

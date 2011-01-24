@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ShortArrayFactory.array;
@@ -60,7 +60,7 @@ public class ShortArrays_assertHasSize_Test {
     try {
       arrays.assertHasSize(info, actual, 3);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotHaveSize(actual, actual.length, 3));
+      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 3));
       return;
     }
     throw expectedAssertionErrorNotThrown();

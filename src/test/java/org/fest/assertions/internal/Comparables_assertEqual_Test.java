@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -65,7 +65,7 @@ public class Comparables_assertEqual_Test {
     try {
       comparables.assertEqual(info, "Luke", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotEqual("Luke", "Yoda"));
+      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

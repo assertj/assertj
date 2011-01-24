@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
+import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -57,7 +57,7 @@ public class Comparables_assertLessThan_Test {
     try {
       comparables.assertLessThan(info, "Yoda", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotLessThan("Yoda", "Yoda"));
+      verify(failures).failure(info, shouldBeLess("Yoda", "Yoda"));
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -68,7 +68,7 @@ public class Comparables_assertLessThan_Test {
     try {
       comparables.assertLessThan(info, 8, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotLessThan(8, 6));
+      verify(failures).failure(info, shouldBeLess(8, 6));
       return;
     }
     throw expectedAssertionErrorNotThrown();

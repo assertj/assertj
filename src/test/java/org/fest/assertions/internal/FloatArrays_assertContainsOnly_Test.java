@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
+import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -87,7 +87,7 @@ public class FloatArrays_assertContainsOnly_Test {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainOnly(actual, expected, set(20f), set(10f)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, set(20f), set(10f)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

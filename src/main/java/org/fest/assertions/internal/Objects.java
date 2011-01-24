@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
-import static org.fest.assertions.error.IsNotInstanceOf.isNotInstanceOf;
-import static org.fest.assertions.error.IsNotInstanceOfAny.isNotInstanceOfAny;
-import static org.fest.assertions.error.IsNotSame.isNotSame;
-import static org.fest.assertions.error.IsNull.isNull;
-import static org.fest.assertions.error.IsSame.isSame;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
+import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
+import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
+import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Objects.areEqual;
 import static org.fest.util.ToString.toStringOf;
 
@@ -62,7 +62,7 @@ public class Objects {
     if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
     if (type.isInstance(actual)) return;
-    throw failures.failure(info, isNotInstanceOf(actual, type));
+    throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
   /**
@@ -91,7 +91,7 @@ public class Objects {
       }
     }
     if (found) return;
-    throw failures.failure(info, isNotInstanceOfAny(actual, types));
+    throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
@@ -109,7 +109,7 @@ public class Objects {
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(expected, actual)) return;
-    throw failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   /**
@@ -121,7 +121,7 @@ public class Objects {
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
     if (!areEqual(other, actual)) return;
-    throw failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
   /**
@@ -132,7 +132,7 @@ public class Objects {
    */
   public void assertNull(AssertionInfo info, Object actual) {
     if (actual == null) return;
-    throw failures.failure(info, isNotEqual(actual, null));
+    throw failures.failure(info, shouldBeEqual(actual, null));
   }
 
   /**
@@ -143,7 +143,7 @@ public class Objects {
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
     if (actual != null) return;
-    throw failures.failure(info, isNull());
+    throw failures.failure(info, shouldNotBeNull());
   }
 
   /**
@@ -155,7 +155,7 @@ public class Objects {
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
     if (actual == expected) return;
-    throw failures.failure(info, isNotSame(actual, expected));
+    throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
   /**
@@ -167,6 +167,6 @@ public class Objects {
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
     if (actual != other) return;
-    throw failures.failure(info, isSame(actual));
+    throw failures.failure(info, shouldNotBeSame(actual));
   }
 }

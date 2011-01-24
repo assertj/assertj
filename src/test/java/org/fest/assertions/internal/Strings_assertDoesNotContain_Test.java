@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ContainsString.contains;
+import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -49,7 +49,7 @@ public class Strings_assertDoesNotContain_Test {
     try {
       strings.assertDoesNotContain(info, "Yoda", "oda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains("Yoda", "oda"));
+      verify(failures).failure(info, shouldNotContain("Yoda", "oda"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

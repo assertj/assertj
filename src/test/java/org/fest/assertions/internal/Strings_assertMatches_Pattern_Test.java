@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
+import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
 import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -64,7 +64,7 @@ public class Strings_assertMatches_Pattern_Test {
     try {
       strings.assertMatches(info, actual, Pattern.compile("Luke"));
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotMatch(actual, "Luke"));
+      verify(failures).failure(info, shouldMatch(actual, "Luke"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
+import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
@@ -78,7 +78,7 @@ public class CharArrays_assertContains_at_Index_Test {
     try {
       arrays.assertContains(info, actual, 'a', index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainAtIndex(actual, 'a', index, 'b'));
+      verify(failures).failure(info, shouldContainAtIndex(actual, 'a', index, 'b'));
       return;
     }
     throw expectedAssertionErrorNotThrown();

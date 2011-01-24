@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -103,7 +103,7 @@ public class BooleanArrays_assertStartsWith_Test {
   }
 
   private void verifySequenceNotFound(AssertionInfo info, boolean[] sequence) {
-    verify(failures).failure(info, doesNotStartWith(actual, sequence));
+    verify(failures).failure(info, shouldStartWith(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {

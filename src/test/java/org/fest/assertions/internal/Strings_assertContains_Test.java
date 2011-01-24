@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContainString.doesNotContain;
+import static org.fest.assertions.error.ShouldContainString.shouldContain;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -67,7 +67,7 @@ public class Strings_assertContains_Test {
   }
 
   private void verifySequenceNotFound(AssertionInfo info, String actual, String sequence) {
-    verify(failures).failure(info, doesNotContain(actual, sequence));
+    verify(failures).failure(info, shouldContain(actual, sequence));
   }
 
   @Test public void should_throw_error_if_sequence_is_null() {

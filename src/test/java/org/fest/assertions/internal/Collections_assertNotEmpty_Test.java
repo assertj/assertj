@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.IsEmpty.isEmpty;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -61,7 +61,7 @@ public class Collections_assertNotEmpty_Test {
     try {
       collections.assertNotEmpty(info, emptyList());
     } catch (AssertionError e) {
-      verify(failures).failure(info, isEmpty());
+      verify(failures).failure(info, shouldNotBeEmpty());
       return;
     }
     throw expectedAssertionErrorNotThrown();

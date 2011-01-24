@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -47,7 +47,7 @@ public class Strings_assertNullOrEmpty_Test {
     try {
       strings.assertNullOrEmpty(info, "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotNullOrEmpty("Yoda"));
+      verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -57,7 +57,7 @@ public class Longs_assertEqual_Test {
     try {
       longs.assertEqual(info, 6L, 8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotEqual(6L, 8L));
+      verify(failures).failure(info, shouldBeEqual(6L, 8L));
       return;
     }
     throw expectedAssertionErrorNotThrown();

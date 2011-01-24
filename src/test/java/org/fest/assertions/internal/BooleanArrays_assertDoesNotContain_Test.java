@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -81,7 +81,7 @@ public class BooleanArrays_assertDoesNotContain_Test {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains(actual, expected, set(true)));
+      verify(failures).failure(info, shouldNotContain(actual, expected, set(true)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

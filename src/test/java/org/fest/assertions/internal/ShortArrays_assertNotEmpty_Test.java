@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEmpty.isEmpty;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.ShortArrayFactory.*;
@@ -54,7 +54,7 @@ public class ShortArrays_assertNotEmpty_Test {
     try {
       arrays.assertNotEmpty(info, emptyArray());
     } catch (AssertionError e) {
-      verify(failures).failure(info, isEmpty());
+      verify(failures).failure(info, shouldNotBeEmpty());
       return;
     }
     throw expectedAssertionErrorNotThrown();

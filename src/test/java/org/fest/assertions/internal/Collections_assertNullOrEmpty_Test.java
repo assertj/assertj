@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.list;
@@ -57,7 +57,7 @@ public class Collections_assertNullOrEmpty_Test {
     try {
       collections.assertNullOrEmpty(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotNullOrEmpty(actual));
+      verify(failures).failure(info, shouldBeNullOrEmpty(actual));
       return;
     }
     throw expectedAssertionErrorNotThrown();

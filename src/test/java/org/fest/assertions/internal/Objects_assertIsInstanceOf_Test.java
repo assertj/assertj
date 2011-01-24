@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotInstanceOf.isNotInstanceOf;
+import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -69,6 +69,6 @@ public class Objects_assertIsInstanceOf_Test {
       objects.assertIsInstanceOf(info, actual, String.class);
       fail();
     } catch (AssertionError err) {}
-    verify(failures).failure(info, isNotInstanceOf(actual, String.class));
+    verify(failures).failure(info, shouldBeInstance(actual, String.class));
   }
 }

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -81,7 +81,7 @@ public class ByteArrays_assertDoesNotContain_Test {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains(actual, expected, set((byte)6, (byte)8)));
+      verify(failures).failure(info, shouldNotContain(actual, expected, set((byte)6, (byte)8)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

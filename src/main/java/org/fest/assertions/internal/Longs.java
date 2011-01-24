@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
-import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
-import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
-import static org.fest.assertions.error.IsNotLessThan.isNotLessThan;
-import static org.fest.assertions.error.IsNotLessThanOrEqualTo.isNotLessThanOrEqualTo;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
+import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
+import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
+import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -105,7 +105,7 @@ public class Longs {
   public void assertEqual(AssertionInfo info, Long actual, long expected) {
     assertNotNull(info, actual);
     if (actual.longValue() == expected) return;
-    throw failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   /**
@@ -119,7 +119,7 @@ public class Longs {
   public void assertNotEqual(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (actual.longValue() != other) return;
-    throw failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
   /**
@@ -134,7 +134,7 @@ public class Longs {
   public void assertLessThan(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
-    throw failures.failure(info, isNotLessThan(actual, other));
+    throw failures.failure(info, shouldBeLess(actual, other));
   }
 
   /**
@@ -148,7 +148,7 @@ public class Longs {
   public void assertLessThanOrEqualTo(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
-    throw failures.failure(info, isNotLessThanOrEqualTo(actual, other));
+    throw failures.failure(info, shouldBeLessOrEqual(actual, other));
   }
 
   /**
@@ -163,7 +163,7 @@ public class Longs {
   public void assertGreaterThan(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
-    throw failures.failure(info, isNotGreaterThan(actual, other));
+    throw failures.failure(info, shouldBeGreater(actual, other));
   }
 
   private static boolean isGreaterThan(Long actual, long other) {
@@ -181,7 +181,7 @@ public class Longs {
   public void assertGreaterThanOrEqualTo(AssertionInfo info, Long actual, long other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
-    throw failures.failure(info, isNotGreaterThanOrEqualTo(actual, other));
+    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
   }
 
   private static boolean isLessThan(Long actual, long other) {

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -61,7 +61,7 @@ public class Collections_assertHasSize_Test {
     try {
       collections.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotHaveSize(actual, actual.size(), 8));
+      verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
       return;
     }
     throw expectedAssertionErrorNotThrown();

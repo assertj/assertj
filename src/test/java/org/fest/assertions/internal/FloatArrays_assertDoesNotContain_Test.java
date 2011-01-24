@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -81,7 +81,7 @@ public class FloatArrays_assertDoesNotContain_Test {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains(actual, expected, set(6f, 8f)));
+      verify(failures).failure(info, shouldNotContain(actual, expected, set(6f, 8f)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

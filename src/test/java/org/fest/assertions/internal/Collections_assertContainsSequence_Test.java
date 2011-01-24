@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
+import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -107,7 +107,7 @@ public class Collections_assertContainsSequence_Test {
   }
 
   private void verifySequenceNotFound(AssertionInfo info, Object[] sequence) {
-    verify(failures).failure(info, doesNotContainSequence(actual, sequence));
+    verify(failures).failure(info, shouldContainSequence(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_contains_sequence() {

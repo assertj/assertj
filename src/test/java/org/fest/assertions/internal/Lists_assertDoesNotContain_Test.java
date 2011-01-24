@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.*;
@@ -83,7 +83,7 @@ public class Lists_assertDoesNotContain_Test {
     try {
       lists.assertDoesNotContain(info, actual, "Yoda", index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, containsAtIndex(actual, "Yoda", index));
+      verify(failures).failure(info, shouldNotContainAtIndex(actual, "Yoda", index));
       return;
     }
     throw expectedAssertionErrorNotThrown();

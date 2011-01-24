@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -48,7 +48,7 @@ public class Objects_assertNull_Test {
     try {
       objects.assertNull(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotEqual(actual, null));
+      verify(failures).failure(info, shouldBeEqual(actual, null));
       return;
     }
     throw expectedAssertionErrorNotThrown();

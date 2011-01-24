@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotInstanceOfAny.isNotInstanceOfAny;
+import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -85,6 +85,6 @@ public class Objects_assertIsInstanceOfAny_Test {
       objects.assertIsInstanceOfAny(info, actual, types);
       fail();
     } catch (AssertionError err) {}
-    verify(failures).failure(info, isNotInstanceOfAny(actual, types));
+    verify(failures).failure(info, shouldBeInstanceOfAny(actual, types));
   }
 }

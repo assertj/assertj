@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.MapEntry.entry;
-import static org.fest.assertions.error.Contains.contains;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -82,7 +82,7 @@ public class Maps_assertDoesNotContain_Test {
     try {
       maps.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, contains(actual, expected, set(entry("name", "Yoda"))));
+      verify(failures).failure(info, shouldNotContain(actual, expected, set(entry("name", "Yoda"))));
       return;
     }
     throw expectedAssertionErrorNotThrown();

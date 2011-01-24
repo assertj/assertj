@@ -14,19 +14,19 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
-import static org.fest.assertions.error.DoesNotContainOnly.doesNotContainOnly;
-import static org.fest.assertions.error.DoesNotContainSequence.doesNotContainSequence;
-import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
-import static org.fest.assertions.error.IsEmpty.isEmpty;
-import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
+import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -57,20 +57,20 @@ class Arrays {
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null || isArrayEmpty(array)) return;
-    throw failures.failure(info, isNotNullOrEmpty(array));
+    throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
 
   void assertEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     if (isArrayEmpty(array)) return;
-    throw failures.failure(info, isNotEmpty(array));
+    throw failures.failure(info, shouldBeEmpty(array));
   }
 
   void assertHasSize(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(array, sizeOfActual, expectedSize));
+    throw failures.failure(info, shouldHaveSize(array, sizeOfActual, expectedSize));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -83,7 +83,7 @@ class Arrays {
       if (!arrayContains(array, value)) notFound.add(value);
     }
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(array, values, notFound));
+    throw failures.failure(info, shouldContain(array, values, notFound));
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
@@ -92,13 +92,13 @@ class Arrays {
     checkIndexValueIsValid(index, sizeOf(array) - 1);
     Object actualElement = Array.get(array, index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info, doesNotContainAtIndex(array, value, index, Array.get(array, index.value)));
+    throw failures.failure(info, shouldContainAtIndex(array, value, index, Array.get(array, index.value)));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     if (!isArrayEmpty(array)) return;
-    throw failures.failure(info, isEmpty());
+    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
@@ -108,7 +108,7 @@ class Arrays {
     if (indexValue >= sizeOf(array)) return;
     Object actualElement = Array.get(array, index.value);
     if (!areEqual(actualElement, value)) return;
-    throw failures.failure(info, containsAtIndex(array, value, index));
+    throw failures.failure(info, shouldNotContainAtIndex(array, value, index));
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -117,7 +117,7 @@ class Arrays {
     Set<Object> notExpected = asSet(array);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContainOnly(array, values, notFound, notExpected));
+    throw failures.failure(info, shouldContainOnly(array, values, notFound, notExpected));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
@@ -162,7 +162,7 @@ class Arrays {
   }
 
   private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
-    return failures.failure(info, doesNotContainSequence(array, sequence));
+    return failures.failure(info, shouldContainSequence(array, sequence));
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
@@ -175,7 +175,7 @@ class Arrays {
       if (arrayContains(array, value)) found.add(value);
     }
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(array, values, found));
+    throw failures.failure(info, shouldNotContain(array, values, found));
   }
 
   private boolean arrayContains(Object array, Object value) {
@@ -192,7 +192,7 @@ class Arrays {
     ArrayWrapperList wrapped = wrap(array);
     Collection<?> duplicates = duplicatesFrom(wrapped);
     if (duplicates.isEmpty()) return;
-    throw failures.failure(info, hasDuplicates(array, duplicates));
+    throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates));
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
@@ -209,7 +209,7 @@ class Arrays {
 
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, doesNotStartWith(array, sequence));
+    return failures.failure(info, shouldStartWith(array, sequence));
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object array, Object sequence) {
@@ -237,7 +237,7 @@ class Arrays {
 
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
-    return failures.failure(info, doesNotEndWith(array, sequence));
+    return failures.failure(info, shouldEndWith(array, sequence));
   }
 
   private void assertNotNull(AssertionInfo info, Object array) {

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.FloatArrayFactory.*;
@@ -66,7 +66,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test {
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, hasDuplicates(actual, set(6f, 8f)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6f, 8f)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

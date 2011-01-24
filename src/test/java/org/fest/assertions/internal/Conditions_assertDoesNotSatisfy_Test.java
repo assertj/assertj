@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsSatisfied.satisfied;
+import static org.fest.assertions.error.ShouldNotSatisfy.shouldNotSatisfy;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -66,7 +66,7 @@ public class Conditions_assertDoesNotSatisfy_Test {
     try {
       conditions.assertDoesNotSatisfy(info, actual, condition);
     } catch (AssertionError e) {
-      verify(failures).failure(info, satisfied(actual, condition));
+      verify(failures).failure(info, shouldNotSatisfy(actual, condition));
       return;
     }
     throw expectedAssertionErrorNotThrown();

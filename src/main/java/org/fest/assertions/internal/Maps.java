@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.Contains.contains;
-import static org.fest.assertions.error.DoesNotContain.doesNotContain;
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.error.IsEmpty.isEmpty;
-import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.util.Objects.areEqual;
 
 import java.util.*;
@@ -57,7 +57,7 @@ public class Maps {
    */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
     if (actual == null || actual.isEmpty()) return;
-    throw failures.failure(info, isNotNullOrEmpty(actual));
+    throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -70,7 +70,7 @@ public class Maps {
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
     if (actual.isEmpty()) return;
-    throw failures.failure(info, isNotEmpty(actual));
+    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -83,7 +83,7 @@ public class Maps {
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
     if (!actual.isEmpty()) return;
-    throw failures.failure(info, isEmpty());
+    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   /**
@@ -98,7 +98,7 @@ public class Maps {
     assertNotNull(info, actual);
     int sizeOfActual = actual.size();
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
+    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -118,7 +118,7 @@ public class Maps {
     Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
     for (MapEntry entry : entries) if (!containsEntry(actual, entry)) notFound.add(entry);
     if (notFound.isEmpty()) return;
-    throw failures.failure(info, doesNotContain(actual, entries, notFound));
+    throw failures.failure(info, shouldContain(actual, entries, notFound));
   }
 
   /**
@@ -138,7 +138,7 @@ public class Maps {
     Set<MapEntry> found = new LinkedHashSet<MapEntry>();
     for (MapEntry entry : entries) if (containsEntry(actual, entry)) found.add(entry);
     if (found.isEmpty()) return;
-    throw failures.failure(info, contains(actual, entries, found));
+    throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
   private void isNotEmptyOrNull(MapEntry[] entries) {

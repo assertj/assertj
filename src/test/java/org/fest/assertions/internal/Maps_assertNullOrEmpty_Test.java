@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyMap;
 import static org.fest.assertions.data.MapEntry.entry;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -53,7 +53,7 @@ public class Maps_assertNullOrEmpty_Test {
     try {
       maps.assertNullOrEmpty(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotNullOrEmpty(actual));
+      verify(failures).failure(info, shouldBeNullOrEmpty(actual));
       return;
     }
     throw expectedAssertionErrorNotThrown();

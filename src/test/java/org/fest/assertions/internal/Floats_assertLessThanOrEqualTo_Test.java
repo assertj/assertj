@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotLessThanOrEqualTo.isNotLessThanOrEqualTo;
+import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -61,7 +61,7 @@ public class Floats_assertLessThanOrEqualTo_Test {
     try {
       floats.assertLessThanOrEqualTo(info, 8f, 6f);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotLessThanOrEqualTo(8f, 6f));
+      verify(failures).failure(info, shouldBeLessOrEqual(8f, 6f));
       return;
     }
     throw expectedAssertionErrorNotThrown();

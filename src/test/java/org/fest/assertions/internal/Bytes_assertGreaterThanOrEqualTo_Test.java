@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotGreaterThanOrEqualTo.isNotGreaterThanOrEqualTo;
+import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -61,7 +61,7 @@ public class Bytes_assertGreaterThanOrEqualTo_Test {
     try {
       bytes.assertGreaterThanOrEqualTo(info, (byte)6, (byte)8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotGreaterThanOrEqualTo((byte)6, (byte)8));
+      verify(failures).failure(info, shouldBeGreaterOrEqual((byte)6, (byte)8));
       return;
     }
     throw expectedAssertionErrorNotThrown();

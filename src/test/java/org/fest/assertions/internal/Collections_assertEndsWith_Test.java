@@ -13,7 +13,7 @@
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
-import static org.fest.assertions.error.DoesNotEndWith.doesNotEndWith;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -118,7 +118,7 @@ public class Collections_assertEndsWith_Test {
   }
 
   private void verifySequenceNotFound(AssertionInfo info, Object[] sequence) {
-    verify(failures).failure(info, doesNotEndWith(actual, sequence));
+    verify(failures).failure(info, shouldEndWith(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_ends_with_sequence() {

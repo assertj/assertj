@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNull.isNull;
+import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -47,7 +47,7 @@ public class Objects_assertNotNull_Test {
     try {
       objects.assertNotNull(info, null);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNull());
+      verify(failures).failure(info, shouldNotBeNull());
       return;
     }
     throw expectedAssertionErrorNotThrown();

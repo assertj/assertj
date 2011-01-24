@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -54,7 +54,7 @@ public class Booleans {
   public void assertEqual(AssertionInfo info, Boolean actual, boolean expected) {
     assertNotNull(info, actual);
     if (actual.booleanValue() == expected) return;
-    throw failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   /**
@@ -68,7 +68,7 @@ public class Booleans {
   public void assertNotEqual(AssertionInfo info, Boolean actual, boolean other) {
     assertNotNull(info, actual);
     if (actual.booleanValue() != other) return;
-    throw failures.failure(info, isEqual(actual, other));
+    throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
   private static void assertNotNull(AssertionInfo info, Boolean actual) {

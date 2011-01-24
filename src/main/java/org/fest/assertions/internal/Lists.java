@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
-import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.util.Objects.areEqual;
 
@@ -65,7 +65,7 @@ public class Lists {
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info, doesNotContainAtIndex(actual, value, index, actual.get(index.value)));
+    throw failures.failure(info, shouldContainAtIndex(actual, value, index, actual.get(index.value)));
   }
 
   /**
@@ -85,7 +85,7 @@ public class Lists {
     if (indexValue >= actual.size()) return;
     Object actualElement = actual.get(index.value);
     if (!areEqual(actualElement, value)) return;
-    throw failures.failure(info, containsAtIndex(actual, value, index));
+    throw failures.failure(info, shouldNotContainAtIndex(actual, value, index));
   }
 
   private void assertNotNull(AssertionInfo info, List<?> actual) {

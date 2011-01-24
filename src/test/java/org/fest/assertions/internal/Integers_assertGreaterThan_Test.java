@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
+import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -57,7 +57,7 @@ public class Integers_assertGreaterThan_Test {
     try {
       integers.assertGreaterThan(info, 6, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotGreaterThan(6, 6));
+      verify(failures).failure(info, shouldBeGreater(6, 6));
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -68,7 +68,7 @@ public class Integers_assertGreaterThan_Test {
     try {
       integers.assertGreaterThan(info, 6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotGreaterThan(6, 8));
+      verify(failures).failure(info, shouldBeGreater(6, 8));
       return;
     }
     throw expectedAssertionErrorNotThrown();

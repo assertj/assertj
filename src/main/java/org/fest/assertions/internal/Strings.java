@@ -14,16 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ContainsString.contains;
-import static org.fest.assertions.error.DoesNotContainString.*;
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.error.DoesNotMatchPattern.doesNotMatch;
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
-import static org.fest.assertions.error.IsEmpty.isEmpty;
-import static org.fest.assertions.error.IsNotEmpty.isNotEmpty;
-import static org.fest.assertions.error.IsNotEqualIgnoringCase.isNotEqual;
-import static org.fest.assertions.error.IsNotNullOrEmpty.isNotNullOrEmpty;
-import static org.fest.assertions.error.MatchesPattern.matches;
+import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
+import static org.fest.assertions.error.ShouldContainString.*;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 
 import java.util.regex.*;
 
@@ -59,7 +59,7 @@ public class Strings {
    */
   public void assertNullOrEmpty(AssertionInfo info, String actual) {
     if (actual == null || !hasContents(actual)) return;
-    throw failures.failure(info, isNotNullOrEmpty(actual));
+    throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -72,7 +72,7 @@ public class Strings {
   public void assertEmpty(AssertionInfo info, String actual) {
     assertNotNull(info, actual);
     if (!hasContents(actual)) return;
-    throw failures.failure(info, isNotEmpty(actual));
+    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -85,7 +85,7 @@ public class Strings {
   public void assertNotEmpty(AssertionInfo info, String actual) {
     assertNotNull(info, actual);
     if (hasContents(actual)) return;
-    throw failures.failure(info, isEmpty());
+    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   private static boolean hasContents(String s) {
@@ -104,7 +104,7 @@ public class Strings {
     assertNotNull(info, actual);
     int sizeOfActual = actual.length();
     if (sizeOfActual == expectedSize) return;
-    throw failures.failure(info, doesNotHaveSize(actual, sizeOfActual, expectedSize));
+    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
   /**
@@ -120,7 +120,7 @@ public class Strings {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (actual.contains(sequence)) return;
-    throw failures.failure(info, doesNotContain(actual, sequence));
+    throw failures.failure(info, shouldContain(actual, sequence));
   }
 
   /**
@@ -136,7 +136,7 @@ public class Strings {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (actual.toLowerCase().contains(sequence.toLowerCase())) return;
-    throw failures.failure(info, doesNotContainIgnoringCase(actual, sequence));
+    throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   /**
@@ -152,7 +152,7 @@ public class Strings {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (!actual.contains(sequence)) return;
-    throw failures.failure(info, contains(actual, sequence));
+    throw failures.failure(info, shouldNotContain(actual, sequence));
   }
 
   private void checkSequenceIsNotNull(String sequence) {
@@ -168,7 +168,7 @@ public class Strings {
    */
   public void assertEqualsIgnoringCase(AssertionInfo info, String actual, String expected) {
     if (areEqualIgnoringCase(actual, expected)) return;
-    throw failures.failure(info, isNotEqual(actual, expected));
+    throw failures.failure(info, shouldNotBeEqual(actual, expected));
   }
 
   private boolean areEqualIgnoringCase(String actual, String expected) {
@@ -189,7 +189,7 @@ public class Strings {
     if (prefix == null) throw new NullPointerException("The given prefix should not be null");
     assertNotNull(info, actual);
     if (actual.startsWith(prefix)) return;
-    throw failures.failure(info, doesNotStartWith(actual, prefix));
+    throw failures.failure(info, shouldStartWith(actual, prefix));
   }
 
   /**
@@ -205,7 +205,7 @@ public class Strings {
     if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
     if (actual.endsWith(suffix)) return;
-    throw failures.failure(info, doesNotStartWith(actual, suffix));
+    throw failures.failure(info, shouldStartWith(actual, suffix));
   }
 
   /**
@@ -222,7 +222,7 @@ public class Strings {
     checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
     if (Pattern.matches(regex, actual)) return;
-    throw failures.failure(info, doesNotMatch(actual, regex));
+    throw failures.failure(info, shouldMatch(actual, regex));
   }
 
   /**
@@ -237,7 +237,7 @@ public class Strings {
   public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
     checkRegexIsNotNull(regex);
     if (actual == null || !Pattern.matches(regex, actual)) return;
-    throw failures.failure(info, matches(actual, regex));
+    throw failures.failure(info, shouldNotMatch(actual, regex));
   }
 
   private void checkRegexIsNotNull(String regex) {
@@ -257,7 +257,7 @@ public class Strings {
     checkIsNotNull(pattern);
     assertNotNull(info, actual);
     if (pattern.matcher(actual).matches()) return;
-    throw failures.failure(info, doesNotMatch(actual, pattern.pattern()));
+    throw failures.failure(info, shouldMatch(actual, pattern.pattern()));
   }
 
   /**
@@ -271,7 +271,7 @@ public class Strings {
   public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
     checkIsNotNull(pattern);
     if (actual == null || !pattern.matcher(actual).matches()) return;
-    throw failures.failure(info, matches(actual, pattern.pattern()));
+    throw failures.failure(info, shouldNotMatch(actual, pattern.pattern()));
   }
 
   private void checkIsNotNull(Pattern pattern) {

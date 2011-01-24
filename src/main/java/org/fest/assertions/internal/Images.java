@@ -16,9 +16,9 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.data.RgbColor.color;
-import static org.fest.assertions.error.ColorsNotEqual.colorsNotEqual;
-import static org.fest.assertions.error.DoesNotHaveSize.doesNotHaveSize;
-import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqual;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.internal.ColorComparisonResult.*;
 import static org.fest.util.Objects.areEqual;
 
@@ -66,18 +66,18 @@ public class Images {
     // BufferedImage does not have an implementation of 'equals,' which means that "equality" is verified by identity.
     // We need to verify that two images are equal ourselves.
     if (!haveEqualSize(actual, expected))
-      throw failures.failure(info, doesNotHaveSize(actual, sizeOf(actual), sizeOf(expected)));
+      throw failures.failure(info, shouldHaveSize(actual, sizeOf(actual), sizeOf(expected)));
     ColorComparisonResult haveEqualColor = haveEqualColor(actual, expected, ZERO);
     if (ARE_EQUAL != haveEqualColor)
-      throw failures.failure(info, doesNotHaveEqualColor(haveEqualColor, ZERO));
+      throw failures.failure(info, shouldHaveEqualColor(haveEqualColor, ZERO));
   }
 
   private static Dimension sizeOf(BufferedImage image) {
     return new Dimension(image.getWidth(), image.getHeight());
   }
 
-  private static ErrorMessageFactory doesNotHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
-    return colorsNotEqual(r.color2, r.color1, r.point, offset);
+  private static ErrorMessageFactory shouldHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
+    return shouldBeEqual(r.color2, r.color1, r.point, offset);
   }
 
   /**
@@ -96,7 +96,7 @@ public class Images {
   }
 
   private AssertionError imagesAreEqual(AssertionInfo info, BufferedImage actual, BufferedImage other) {
-    return failures.failure(info, isEqual(actual, other));
+    return failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
   private boolean haveEqualSize(BufferedImage i1, BufferedImage i2) {

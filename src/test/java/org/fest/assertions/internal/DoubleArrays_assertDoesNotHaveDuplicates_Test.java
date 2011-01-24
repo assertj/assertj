@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -66,7 +66,7 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test {
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, hasDuplicates(actual, set(6d, 8d)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6d, 8d)));
       return;
     }
     throw expectedAssertionErrorNotThrown();

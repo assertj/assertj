@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsEqual.isEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -57,7 +57,7 @@ public class Integers_assertNotEqual_Test {
     try {
       integers.assertNotEqual(info, 6, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isEqual(6, 6));
+      verify(failures).failure(info, shouldNotBeEqual(6, 6));
       return;
     }
     throw expectedAssertionErrorNotThrown();

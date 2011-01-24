@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.HasDuplicates.hasDuplicates;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -69,7 +69,7 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
     try {
       collections.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, hasDuplicates(actual, duplicates));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
       return;
     }
     throw expectedAssertionErrorNotThrown();

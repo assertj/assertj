@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -103,7 +103,7 @@ public class FloatArrays_assertStartsWith_Test {
   }
 
   private void verifySequenceNotFound(float[] sequence) {
-    verify(failures).failure(someInfo(), doesNotStartWith(actual, sequence));
+    verify(failures).failure(someInfo(), shouldStartWith(actual, sequence));
   }
 
   @Test public void should_pass_if_actual_starts_with_sequence() {

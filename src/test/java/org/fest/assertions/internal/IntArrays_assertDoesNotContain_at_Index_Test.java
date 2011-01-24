@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.error.ContainsAtIndex.containsAtIndex;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.IntArrayFactory.*;
@@ -80,7 +80,7 @@ public class IntArrays_assertDoesNotContain_at_Index_Test {
     try {
       arrays.assertDoesNotContain(info, actual, 6, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, containsAtIndex(actual, 6, index));
+      verify(failures).failure(info, shouldNotContainAtIndex(actual, 6, index));
       return;
     }
     throw expectedAssertionErrorNotThrown();

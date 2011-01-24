@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.IsNotGreaterThan.isNotGreaterThan;
+import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -57,7 +57,7 @@ public class Longs_assertGreaterThan_Test {
     try {
       longs.assertGreaterThan(info, 6L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotGreaterThan(6L, 6L));
+      verify(failures).failure(info, shouldBeGreater(6L, 6L));
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -68,7 +68,7 @@ public class Longs_assertGreaterThan_Test {
     try {
       longs.assertGreaterThan(info, 6L, 8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotGreaterThan(6L, 8L));
+      verify(failures).failure(info, shouldBeGreater(6L, 8L));
       return;
     }
     throw expectedAssertionErrorNotThrown();

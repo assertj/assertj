@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.error.DoesNotContainAtIndex.doesNotContainAtIndex;
+import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.LongArrayFactory.*;
@@ -79,7 +79,7 @@ public class LongArrays_assertContains_at_Index_Test {
     try {
       arrays.assertContains(info, actual, value, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainAtIndex(actual, value, index, 8L));
+      verify(failures).failure(info, shouldContainAtIndex(actual, value, index, 8L));
       return;
     }
     throw expectedAssertionErrorNotThrown();

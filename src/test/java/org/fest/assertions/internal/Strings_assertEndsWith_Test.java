@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotStartWith.doesNotStartWith;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -48,7 +48,7 @@ public class Strings_assertEndsWith_Test {
     try {
       strings.assertEndsWith(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotStartWith("Yoda", "Luke"));
+      verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

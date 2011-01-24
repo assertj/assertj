@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.lang.Boolean.TRUE;
-import static org.fest.assertions.error.IsNotEqual.isNotEqual;
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -59,7 +59,7 @@ public class Booleans_assertEqual_Test {
     try {
       booleans.assertEqual(info, TRUE, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, isNotEqual(TRUE, expected));
+      verify(failures).failure(info, shouldBeEqual(TRUE, expected));
       return;
     }
     throw expectedAssertionErrorNotThrown();

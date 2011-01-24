@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.DoesNotContainString.doesNotContainIgnoringCase;
+import static org.fest.assertions.error.ShouldContainString.shouldContainIgnoringCase;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
@@ -49,7 +49,7 @@ public class Strings_assertContainsIgnoringCase_Test {
     try {
       strings.assertContainsIgnoringCase(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verify(failures).failure(info, doesNotContainIgnoringCase("Yoda", "Luke"));
+      verify(failures).failure(info, shouldContainIgnoringCase("Yoda", "Luke"));
       return;
     }
     throw expectedAssertionErrorNotThrown();
