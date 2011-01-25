@@ -15,7 +15,7 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertFalse;
-import static org.fest.assertions.data.Point.point;
+import static org.fest.assertions.data.Point.atPoint;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
 import org.junit.*;
@@ -30,7 +30,7 @@ public class Point_equals_hashCode_Test {
   private static Point point;
 
   @BeforeClass public static void setUpOnce() {
-    point = point(6, 8);
+    point = atPoint(6, 8);
   }
 
   @Test public void should_have_reflexive_equals() {
@@ -38,15 +38,15 @@ public class Point_equals_hashCode_Test {
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(point, point(6, 8));
+    assertEqualsIsSymmetric(point, atPoint(6, 8));
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(point, point(6, 8), point(6, 8));
+    assertEqualsIsTransitive(point, atPoint(6, 8), atPoint(6, 8));
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(point, point(6, 8));
+    assertMaintainsEqualsAndHashCodeContract(point, atPoint(6, 8));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
@@ -58,10 +58,10 @@ public class Point_equals_hashCode_Test {
   }
 
   @Test public void should_not_be_equal_to_Index_with_different_x() {
-    assertFalse(point.equals(point(8, 8)));
+    assertFalse(point.equals(atPoint(8, 8)));
   }
 
   @Test public void should_not_be_equal_to_Index_with_different_y() {
-    assertFalse(point.equals(point(6, 6)));
+    assertFalse(point.equals(atPoint(6, 6)));
   }
 }

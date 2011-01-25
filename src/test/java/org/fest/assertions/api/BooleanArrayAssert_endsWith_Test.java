@@ -26,7 +26,7 @@ import org.junit.*;
  *
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_endsWith_at_Index_Test {
+public class BooleanArrayAssert_endsWith_Test {
 
   private BooleanArrays arrays;
   private BooleanArrayAssert assertions;

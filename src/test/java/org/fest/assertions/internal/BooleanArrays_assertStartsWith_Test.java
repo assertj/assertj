@@ -72,7 +72,7 @@ public class BooleanArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -84,7 +84,7 @@ public class BooleanArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -96,13 +96,13 @@ public class BooleanArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifySequenceNotFound(AssertionInfo info, boolean[] sequence) {
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, boolean[] sequence) {
     verify(failures).failure(info, shouldStartWith(actual, sequence));
   }
 

@@ -22,11 +22,11 @@ import org.fest.assertions.internal.ShortArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShortArrayAssert#startsWith(short...)}</code>.
+ * Tests for <code>{@link ShortArrayAssert#endsWith(short...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_startsWith_at_Index_Test {
+public class ShortArrayAssert_endsWith_Test {
 
   private ShortArrays arrays;
   private ShortArrayAssert assertions;
@@ -37,13 +37,13 @@ public class ShortArrayAssert_startsWith_at_Index_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith((short)6, (short)8);
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6, 8));
+  @Test public void should_verify_that_actual_ends_with_sequence() {
+    assertions.endsWith((short)6, (short)8);
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array(6, 8));
   }
 
   @Test public void should_return_this() {
-    ShortArrayAssert returned = assertions.startsWith((short)8);
+    ShortArrayAssert returned = assertions.endsWith((short)8);
     assertSame(assertions, returned);
   }
 }

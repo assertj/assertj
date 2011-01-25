@@ -49,7 +49,7 @@ public class Strings_assertContains_Test {
     try {
       strings.assertContains(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, "Yoda", "Luke");
+      verifyFailureThrownWhenSequenceNotFound(info, "Yoda", "Luke");
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -60,13 +60,13 @@ public class Strings_assertContains_Test {
     try {
       strings.assertContains(info, "Yoda", "yo");
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, "Yoda", "yo");
+      verifyFailureThrownWhenSequenceNotFound(info, "Yoda", "yo");
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifySequenceNotFound(AssertionInfo info, String actual, String sequence) {
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, String actual, String sequence) {
     verify(failures).failure(info, shouldContain(actual, sequence));
   }
 

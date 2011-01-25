@@ -1,5 +1,5 @@
 /*
- * Created on Dec 21, 2010
+ * Created on Dec 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ShortArrayFactory.*;
+import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.ShortArrays;
+import org.fest.assertions.internal.DoubleArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShortArrayAssert#endsWith(short...)}</code>.
+ * Tests for <code>{@link DoubleArrayAssert#startsWith(double...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_endsWith_at_Index_Test {
+public class DoubleArrayAssert_startsWith_Test {
 
-  private ShortArrays arrays;
-  private ShortArrayAssert assertions;
+  private DoubleArrays arrays;
+  private DoubleArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(ShortArrays.class);
-    assertions = new ShortArrayAssert(emptyArray());
+    arrays = mock(DoubleArrays.class);
+    assertions = new DoubleArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_ends_with_sequence() {
-    assertions.endsWith((short)6, (short)8);
-    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array(6, 8));
+  @Test public void should_verify_that_actual_starts_with_sequence() {
+    assertions.startsWith(6d, 8d);
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6d, 8d));
   }
 
   @Test public void should_return_this() {
-    ShortArrayAssert returned = assertions.endsWith((short)8);
+    DoubleArrayAssert returned = assertions.startsWith(8d);
     assertSame(assertions, returned);
   }
 }

@@ -15,7 +15,7 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.data.Point.point;
+import static org.fest.assertions.data.Point.atPoint;
 
 import org.junit.*;
 
@@ -29,7 +29,7 @@ public class Point_toString_Test {
   private static Point point;
 
   @BeforeClass public static void setUpOnce() {
-    point = point(6, 8);
+    point = atPoint(6, 8);
   }
 
   @Test public void should_implement_toString() {

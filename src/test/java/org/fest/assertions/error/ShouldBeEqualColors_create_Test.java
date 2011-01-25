@@ -16,9 +16,9 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.data.Offset.offset;
-import static org.fest.assertions.data.Point.point;
+import static org.fest.assertions.data.Point.atPoint;
 import static org.fest.assertions.data.RgbColor.color;
-import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqualColors;
 
 import org.fest.assertions.description.*;
 import org.junit.*;
@@ -33,7 +33,7 @@ public class ShouldBeEqualColors_create_Test {
   private ErrorMessageFactory factory;
 
   @Before public void setUp() {
-    factory = shouldBeEqual(color(0), color(8), point(6, 10), offset(12));
+    factory = shouldBeEqualColors(color(0), color(8), atPoint(6, 10), offset(12));
   }
 
   @Test public void should_create_error_message() {

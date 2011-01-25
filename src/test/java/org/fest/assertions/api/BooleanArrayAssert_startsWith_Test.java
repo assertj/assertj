@@ -1,5 +1,5 @@
 /*
- * Created on Dec 20, 2010
+ * Created on Dec 16, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.LongArrayFactory.*;
+import static org.fest.assertions.test.BooleanArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.BooleanArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link LongArrayAssert#endsWith(long...)}</code>.
+ * Tests for <code>{@link BooleanArrayAssert#startsWith(boolean...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class LongArrayAssert_endsWith_at_Index_Test {
+public class BooleanArrayAssert_startsWith_Test {
 
-  private LongArrays arrays;
-  private LongArrayAssert assertions;
+  private BooleanArrays arrays;
+  private BooleanArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(LongArrays.class);
-    assertions = new LongArrayAssert(emptyArray());
+    arrays = mock(BooleanArrays.class);
+    assertions = new BooleanArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_ends_with_sequence() {
-    assertions.endsWith(6L, 8L);
-    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array(6L, 8L));
+  @Test public void should_verify_that_actual_starts_with_sequence() {
+    assertions.startsWith(true, false);
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(true, false));
   }
 
   @Test public void should_return_this() {
-    LongArrayAssert returned = assertions.endsWith(8L);
+    BooleanArrayAssert returned = assertions.startsWith(true);
     assertSame(assertions, returned);
   }
 }

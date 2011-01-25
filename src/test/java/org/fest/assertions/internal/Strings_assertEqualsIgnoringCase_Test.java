@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.test.CharArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -48,7 +48,7 @@ public class Strings_assertEqualsIgnoringCase_Test {
     try {
       strings.assertEqualsIgnoringCase(info, null, "Luke");
     } catch (AssertionError e) {
-      verifyNotEqual(info, null, "Luke");
+      verifyFailureThrownWhenStringsAreNotEqual(info, null, "Luke");
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -59,14 +59,14 @@ public class Strings_assertEqualsIgnoringCase_Test {
     try {
       strings.assertEqualsIgnoringCase(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verifyNotEqual(info, "Yoda", "Luke");
+      verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "Luke");
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifyNotEqual(AssertionInfo info, String actual, String expected) {
-    verify(failures).failure(info, shouldNotBeEqual(actual, expected));
+  private void verifyFailureThrownWhenStringsAreNotEqual(AssertionInfo info, String actual, String expected) {
+    verify(failures).failure(info, shouldBeEqual(actual, expected));
   }
 
   @Test public void should_pass_if_both_Strings_are_null() {

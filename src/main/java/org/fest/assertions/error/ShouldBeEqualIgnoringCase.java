@@ -28,7 +28,7 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessage}.
    */
-  public static ErrorMessageFactory shouldNotBeEqual(String actual, String expected) {
+  public static ErrorMessageFactory shouldBeEqual(String actual, String expected) {
     return new ShouldBeEqualIgnoringCase(actual, expected);
   }
 

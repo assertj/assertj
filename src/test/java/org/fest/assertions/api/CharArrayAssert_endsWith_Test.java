@@ -22,11 +22,11 @@ import org.fest.assertions.internal.CharArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link CharArrayAssert#startsWith(char...)}</code>.
+ * Tests for <code>{@link CharArrayAssert#endsWith(char...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class CharArrayAssert_startsWith_at_Index_Test {
+public class CharArrayAssert_endsWith_Test {
 
   private CharArrays arrays;
   private CharArrayAssert assertions;
@@ -37,13 +37,13 @@ public class CharArrayAssert_startsWith_at_Index_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith('a', 'b');
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array('a', 'b'));
+  @Test public void should_verify_that_actual_ends_with_sequence() {
+    assertions.endsWith('a', 'b');
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array('a', 'b'));
   }
 
   @Test public void should_return_this() {
-    CharArrayAssert returned = assertions.startsWith('a');
+    CharArrayAssert returned = assertions.endsWith('a');
     assertSame(assertions, returned);
   }
 }

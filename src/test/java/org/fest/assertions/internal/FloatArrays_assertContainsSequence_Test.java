@@ -72,7 +72,7 @@ public class FloatArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -84,7 +84,7 @@ public class FloatArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -96,13 +96,13 @@ public class FloatArrays_assertContainsSequence_Test {
     try {
       arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifySequenceNotFound(AssertionInfo info, float[] sequence) {
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, float[] sequence) {
     verify(failures).failure(info, shouldContainSequence(actual, sequence));
   }
 

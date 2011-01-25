@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.FloatArrayFactory.*;
+import static org.fest.assertions.test.LongArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.LongArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link FloatArrayAssert#startsWith(float...)}</code>.
+ * Tests for <code>{@link LongArrayAssert#startsWith(long...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_startsWith_at_Index_Test {
+public class LongArrayAssert_startsWith_Test {
 
-  private FloatArrays arrays;
-  private FloatArrayAssert assertions;
+  private LongArrays arrays;
+  private LongArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(FloatArrays.class);
-    assertions = new FloatArrayAssert(emptyArray());
+    arrays = mock(LongArrays.class);
+    assertions = new LongArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith(6f, 8f);
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6f, 8f));
+    assertions.startsWith(6L, 8L);
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6L, 8L));
   }
 
   @Test public void should_return_this() {
-    FloatArrayAssert returned = assertions.startsWith(8f);
+    LongArrayAssert returned = assertions.startsWith(8L);
     assertSame(assertions, returned);
   }
 }

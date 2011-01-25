@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.DoubleArrayFactory.*;
+import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.DoubleArrays;
+import org.fest.assertions.internal.FloatArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link DoubleArrayAssert#startsWith(double...)}</code>.
+ * Tests for <code>{@link FloatArrayAssert#endsWith(float...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_startsWith_at_Index_Test {
+public class FloatArrayAssert_endsWith_Test {
 
-  private DoubleArrays arrays;
-  private DoubleArrayAssert assertions;
+  private FloatArrays arrays;
+  private FloatArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(DoubleArrays.class);
-    assertions = new DoubleArrayAssert(emptyArray());
+    arrays = mock(FloatArrays.class);
+    assertions = new FloatArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith(6d, 8d);
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6d, 8d));
+  @Test public void should_verify_that_actual_ends_with_sequence() {
+    assertions.endsWith(6f, 8f);
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array(6f, 8f));
   }
 
   @Test public void should_return_this() {
-    DoubleArrayAssert returned = assertions.startsWith(8d);
+    FloatArrayAssert returned = assertions.endsWith(8f);
     assertSame(assertions, returned);
   }
 }

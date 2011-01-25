@@ -21,7 +21,7 @@ import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 
@@ -168,7 +168,7 @@ public class Strings {
    */
   public void assertEqualsIgnoringCase(AssertionInfo info, String actual, String expected) {
     if (areEqualIgnoringCase(actual, expected)) return;
-    throw failures.failure(info, shouldNotBeEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   private boolean areEqualIgnoringCase(String actual, String expected) {

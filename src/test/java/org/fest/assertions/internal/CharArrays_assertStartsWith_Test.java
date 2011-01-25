@@ -72,7 +72,7 @@ public class CharArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -84,7 +84,7 @@ public class CharArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -96,13 +96,13 @@ public class CharArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(info, sequence);
+      verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifySequenceNotFound(AssertionInfo info, char[] sequence) {
+  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, char[] sequence) {
     verify(failures).failure(info, shouldStartWith(actual, sequence));
   }
 

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.data.Point.point;
+import static org.fest.assertions.data.Point.atPoint;
 
 import org.fest.assertions.data.*;
 
@@ -26,7 +26,7 @@ class ColorComparisonResult {
   static final ColorComparisonResult ARE_EQUAL = new ColorComparisonResult();
 
   static ColorComparisonResult notEqual(RgbColor c1, RgbColor c2, int x, int y) {
-    return new ColorComparisonResult(c1, c2, point(x, y));
+    return new ColorComparisonResult(c1, c2, atPoint(x, y));
   }
 
   final RgbColor color1;

@@ -1,5 +1,5 @@
 /*
- * Created on Dec 16, 2010
+ * Created on Dec 14, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.BooleanArrayFactory.*;
+import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.IntArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BooleanArrayAssert#startsWith(boolean...)}</code>.
+ * Tests for <code>{@link IntArrayAssert#startsWith(int...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_startsWith_at_Index_Test {
+public class IntArrayAssert_startsWith_Test {
 
-  private BooleanArrays arrays;
-  private BooleanArrayAssert assertions;
+  private IntArrays arrays;
+  private IntArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(BooleanArrays.class);
-    assertions = new BooleanArrayAssert(emptyArray());
+    arrays = mock(IntArrays.class);
+    assertions = new IntArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith(true, false);
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(true, false));
+    assertions.startsWith(6, 8);
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6, 8));
   }
 
   @Test public void should_return_this() {
-    BooleanArrayAssert returned = assertions.startsWith(true);
+    IntArrayAssert returned = assertions.startsWith(8);
     assertSame(assertions, returned);
   }
 }

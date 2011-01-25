@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Dec 20, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,35 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.IntArrayFactory.*;
+import static org.fest.assertions.test.CharArrayFactory.*;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.CharArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link IntArrayAssert#startsWith(int...)}</code>.
+ * Tests for <code>{@link CharArrayAssert#startsWith(char...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class IntArrayAssert_startsWith_at_Index_Test {
+public class CharArrayAssert_startsWith_Test {
 
-  private IntArrays arrays;
-  private IntArrayAssert assertions;
+  private CharArrays arrays;
+  private CharArrayAssert assertions;
 
   @Before public void setUp() {
-    arrays = mock(IntArrays.class);
-    assertions = new IntArrayAssert(emptyArray());
+    arrays = mock(CharArrays.class);
+    assertions = new CharArrayAssert(emptyArray());
     assertions.arrays = arrays;
   }
 
   @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith(6, 8);
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array(6, 8));
+    assertions.startsWith('a', 'b');
+    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array('a', 'b'));
   }
 
   @Test public void should_return_this() {
-    IntArrayAssert returned = assertions.startsWith(8);
+    CharArrayAssert returned = assertions.startsWith('a');
     assertSame(assertions, returned);
   }
 }

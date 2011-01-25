@@ -23,11 +23,11 @@ import org.fest.assertions.internal.ObjectArrays;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#startsWith(Object...)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#endsWith(Object...)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ObjectArrayAssert_startsWith_at_Index_Test {
+public class ObjectArrayAssert_endsWith_Test {
 
   private ObjectArrays arrays;
   private ObjectArrayAssert assertions;
@@ -38,13 +38,13 @@ public class ObjectArrayAssert_startsWith_at_Index_Test {
     assertions.arrays = arrays;
   }
 
-  @Test public void should_verify_that_actual_starts_with_sequence() {
-    assertions.startsWith("Luke", "Yoda");
-    verify(arrays).assertStartsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
+  @Test public void should_verify_that_actual_ends_with_sequence() {
+    assertions.endsWith("Luke", "Yoda");
+    verify(arrays).assertEndsWith(assertions.info, assertions.actual, array("Luke", "Yoda"));
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.startsWith("Luke", "Yoda");
+    ObjectArrayAssert returned = assertions.endsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

@@ -72,7 +72,7 @@ public class FloatArrays_assertStartsWith_Test {
       AssertionInfo inof = someInfo();
       arrays.assertStartsWith(inof, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(sequence);
+      verifyFailureThrownWhenSequenceNotFound(sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -84,7 +84,7 @@ public class FloatArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(sequence);
+      verifyFailureThrownWhenSequenceNotFound(sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
@@ -96,13 +96,13 @@ public class FloatArrays_assertStartsWith_Test {
     try {
       arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifySequenceNotFound(sequence);
+      verifyFailureThrownWhenSequenceNotFound(sequence);
       return;
     }
     throw expectedAssertionErrorNotThrown();
   }
 
-  private void verifySequenceNotFound(float[] sequence) {
+  private void verifyFailureThrownWhenSequenceNotFound(float[] sequence) {
     verify(failures).failure(someInfo(), shouldStartWith(actual, sequence));
   }
 

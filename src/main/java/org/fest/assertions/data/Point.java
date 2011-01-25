@@ -29,7 +29,7 @@ public class Point {
    * @param y the y coordinate.
    * @return the created {@code Point}.
    */
-  public static Point point(int x, int y) {
+  public static Point atPoint(int x, int y) {
     return new Point(x, y);
   }
 
