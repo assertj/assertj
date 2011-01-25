@@ -17,6 +17,8 @@ package org.fest.assertions.api;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
+import org.fest.assertions.util.ImageReader;
+
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static
  * factory for the type-specific assertion objects. The purpose of this class is to make test code more readable.
@@ -66,7 +68,8 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ImageAssert}</code>.
+   * Creates a new instance of <code>{@link ImageAssert}</code>. To read an image from the file system use
+   * <code>{@link ImageReader#readImageFrom(String)}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
    */
