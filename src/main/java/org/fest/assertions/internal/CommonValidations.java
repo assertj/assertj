@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.data.Index;
+import org.fest.assertions.data.*;
 
 /**
  * @author Alex Ruiz
@@ -26,6 +26,10 @@ final class CommonValidations {
     if (index.value <= maximum) return;
     String format = "Index should be between <%d> and <%d> (inclusive,) but was <%d>";
     throw new IndexOutOfBoundsException(String.format(format, 0, maximum, index.value));
+  }
+
+  static void checkOffsetIsNotNull(Offset<?> offset) {
+    if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
 
   private CommonValidations() {}

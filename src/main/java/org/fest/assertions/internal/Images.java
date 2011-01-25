@@ -21,6 +21,7 @@ import static org.fest.assertions.error.ShouldBeEqualImages.shouldBeEqualImages;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.error.ShouldNotBeEqualImages.shouldNotBeEqualImages;
 import static org.fest.assertions.internal.ColorComparisonResult.*;
+import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNull;
 import static org.fest.util.Objects.areEqual;
 
 import java.awt.Dimension;
@@ -85,33 +86,29 @@ public class Images {
    * @throws AssertionError if the actual image is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, BufferedImage actual, BufferedImage expected, Offset<Integer> offset) {
+    checkOffsetIsNotNull(offset);
     if (areEqual(actual, expected)) return;
     if (actual == null || expected == null) throw imagesShouldBeEqual(info, offset);
     // BufferedImage does not have an implementation of 'equals,' which means that "equality" is verified by identity.
     // We need to verify that two images are equal ourselves.
-    if (!haveEqualSize(actual, expected))
-      throw failures.failure(info, shouldHaveSize(actual, sizeOf(actual), sizeOf(expected)));
+    if (!haveEqualSize(actual, expected)) throw imageShouldHaveSize(info, actual, sizeOf(actual), sizeOf(expected));
     ColorComparisonResult haveEqualColor = haveEqualColor(actual, expected, offset);
-    if (ARE_EQUAL != haveEqualColor)
-      throw failures.failure(info, shouldHaveEqualColor(haveEqualColor, offset));
+    if (haveEqualColor == ARE_EQUAL) return;
+    throw failures.failure(info, imagesShouldHaveEqualColor(haveEqualColor, offset));
   }
 
   private AssertionError imagesShouldBeEqual(AssertionInfo info, Offset<Integer> offset) {
     return failures.failure(info, shouldBeEqualImages(offset));
   }
 
-  @VisibleForTesting static Dimension sizeOf(BufferedImage image) {
-    return new Dimension(image.getWidth(), image.getHeight());
-  }
-
-  private static ErrorMessageFactory shouldHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
+  private ErrorMessageFactory imagesShouldHaveEqualColor(ColorComparisonResult r, Offset<Integer> offset) {
     return shouldBeEqualColors(r.color2, r.color1, r.point, offset);
   }
 
   /**
    * Asserts that two images are not equal.
    * @param info contains information about the assertion.
-   * @param actual the given object.
+   * @param actual the given image.
    * @param other the object to compare {@code actual} to.
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
@@ -144,5 +141,29 @@ public class Images {
       }
     }
     return ARE_EQUAL;
+  }
+
+  /**
+   * Asserts that the size of the given image is equal to the given size.
+   * @param info contains information about the assertion.
+   * @param actual the given image.
+   * @param size the expected size of {@code actual}.
+   * @throws NullPointerException if the given size is {@code null}.
+   * @throws AssertionError if the size of the given image is not equal to the given size.
+   */
+  public void assertHasSize(AssertionInfo info, BufferedImage actual, Dimension size) {
+    if (size == null) throw new NullPointerException("The given size should not be null");
+    Objects.instance().assertNotNull(info, actual);
+    Dimension sizeOfActual = sizeOf(actual);
+    if (areEqual(sizeOfActual, size)) return;
+    throw imageShouldHaveSize(info, actual, sizeOfActual, size);
+  }
+
+  private AssertionError imageShouldHaveSize(AssertionInfo info, BufferedImage image, Dimension actual, Dimension expected) {
+    return failures.failure(info, shouldHaveSize(image, actual, expected));
+  }
+
+  @VisibleForTesting static Dimension sizeOf(BufferedImage image) {
+    return new Dimension(image.getWidth(), image.getHeight());
   }
 }

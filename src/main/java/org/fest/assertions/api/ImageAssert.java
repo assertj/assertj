@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.data.Offset;
@@ -76,6 +77,18 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
   /** {@inheritDoc} */
   @Override public ImageAssert isNotEqualTo(BufferedImage other) {
     images.assertNotEqual(info, actual, other);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual image has the given size.
+   * @param expected the expected size of the actual image.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given size is {@code null}.
+   * @throws AssertionError if the size of the actual image is not equal to the given size.
+   */
+  public ImageAssert hasSize(Dimension expected) {
+    images.assertHasSize(info, actual, expected);
     return this;
   }
 }

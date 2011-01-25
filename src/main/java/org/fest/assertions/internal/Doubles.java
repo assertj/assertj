@@ -16,13 +16,14 @@ package org.fest.assertions.internal;
 
 import static java.lang.Double.NaN;
 import static java.lang.Math.abs;
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNull;
 import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -143,7 +144,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, Double actual, Double expected, Offset<Double> offset) {
-    checkIsNotNull(offset);
+    checkOffsetIsNotNull(offset);
     if (areEqual(actual, expected)) return;
     if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset));
@@ -160,14 +161,10 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public void assertEqual(AssertionInfo info, Double actual, double expected, Offset<Double> offset) {
-    checkIsNotNull(offset);
+    checkOffsetIsNotNull(offset);
     assertNotNull(info, actual);
     if (isEqualTo(actual, expected) || isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset));
-  }
-
-  private void checkIsNotNull(Offset<Double> offset) {
-    if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
 
   private static boolean isEqualTo(Double actual, double expected) {

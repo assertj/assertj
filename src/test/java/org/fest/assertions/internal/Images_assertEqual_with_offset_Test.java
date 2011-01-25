@@ -21,6 +21,8 @@ import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqualColors;
 import static org.fest.assertions.error.ShouldBeEqualImages.shouldBeEqualImages;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.internal.Images.sizeOf;
+import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -30,6 +32,7 @@ import java.awt.image.BufferedImage;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
@@ -37,7 +40,7 @@ import org.junit.*;
  *
  * @author Yvonne Wang
  */
-public class Images_assertEqual_withOffset_Test {
+public class Images_assertEqual_with_offset_Test {
 
   private static BufferedImage actual;
   private static Offset<Integer> offset;
@@ -47,6 +50,8 @@ public class Images_assertEqual_withOffset_Test {
     offset = offset(5);
   }
 
+  @Rule public ExpectedException thrown = none();
+
   private Failures failures;
   private Images images;
 
@@ -54,6 +59,11 @@ public class Images_assertEqual_withOffset_Test {
     failures = spy(new Failures());
     images = new Images();
     images.failures = failures;
+  }
+
+  @Test public void should_throw_error_if_Offset_is_null() {
+    thrown.expectNullPointerException(offsetIsNull());
+    images.assertEqual(someInfo(), actual, actual, null);
   }
 
   @Test public void should_pass_if_images_are_equal() {
