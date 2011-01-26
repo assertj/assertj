@@ -29,7 +29,7 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param expected value expected to be in {@code actual}.
    * @param index the index of the expected value.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContainAtIndex(Object actual, Object expected, Index index) {
     return new ShouldNotContainAtIndex(actual, expected, index);

@@ -26,7 +26,7 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldContainSequence}</code>.
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainSequence(Object actual, Object sequence) {
     return new ShouldContainSequence(actual, sequence);

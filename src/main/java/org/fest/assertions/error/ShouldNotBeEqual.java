@@ -25,7 +25,7 @@ public class ShouldNotBeEqual extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldNotBeEqual}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
-   * @return the created {@code ErrorMesage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeEqual(Object actual, Object other) {
     return new ShouldNotBeEqual(actual, other);

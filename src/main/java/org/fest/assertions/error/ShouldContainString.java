@@ -26,7 +26,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldContainString}</code>.
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(String actual, String sequence) {
     return new ShouldContainString("expecting:<%s> to contain:<%s>", actual, sequence);
@@ -36,7 +36,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldContainString}</code>.
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainIgnoringCase(String actual, String sequence) {
     return new ShouldContainString("expecting:<%s> to contain:<%s> (ignoring case)", actual, sequence);

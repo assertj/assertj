@@ -26,7 +26,7 @@ public class ShouldBeNullOrEmpty extends BasicErrorMessageFactory {
   /**
    * Creates a new instance of <code>{@link ShouldBeNullOrEmpty}</code>.
    * @param actual the actual value in the failed assertion.
-   * @return the created of {@code ErrorMessage}.
+   * @return the created of {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeNullOrEmpty(Object actual) {
     return new ShouldBeNullOrEmpty(actual);

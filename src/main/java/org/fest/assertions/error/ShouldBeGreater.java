@@ -26,7 +26,7 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
    * @param <T> guarantees that the values used in this factory have the same type.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<T>> ErrorMessageFactory shouldBeGreater(T actual, T other) {
     return new ShouldBeGreater(actual, other);

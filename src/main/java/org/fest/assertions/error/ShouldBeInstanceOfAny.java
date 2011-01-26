@@ -26,7 +26,7 @@ public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeInstanceOfAny}</code>.
    * @param actual the actual value in the failed assertion.
    * @param types contains the type or types {@code actual} is expected to belong to.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstanceOfAny(Object actual, Class<?>[] types) {
     return new ShouldBeInstanceOfAny(actual, types);

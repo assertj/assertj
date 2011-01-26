@@ -30,7 +30,7 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @param offset the given positive offset.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset) {
     return new ShouldBeEqualWithinOffset(actual, expected, offset);

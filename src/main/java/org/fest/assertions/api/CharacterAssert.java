@@ -108,4 +108,26 @@ public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, C
     characters.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
+
+  /**
+   * Verifies that the actual value is a lowercase character.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a lowercase character.
+   */
+  public CharacterAssert isLowerCase() {
+    characters.assertLowerCase(info, actual);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual value is a uppercase character.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a uppercase character.
+   */
+  public CharacterAssert isUpperCase() {
+    characters.assertUpperCase(info, actual);
+    return this;
+  }
 }

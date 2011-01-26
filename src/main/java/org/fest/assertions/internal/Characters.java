@@ -14,12 +14,15 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static java.lang.Character.*;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
+import static org.fest.assertions.error.ShouldBeLowerCase.shouldBeLowerCase;
+import static org.fest.assertions.error.ShouldBeUpperCase.shouldBeUpperCase;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -137,11 +140,37 @@ public class Characters {
     throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
   }
 
-  private static void assertNotNull(AssertionInfo info, Character actual) {
-    Objects.instance().assertNotNull(info, actual);
-  }
-
   private static boolean isLessThan(Character actual, char other) {
     return actual.charValue() < other;
+  }
+
+  /**
+   * Asserts that the actual value is a lowercase character.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a lowercase character.
+   */
+  public void assertLowerCase(AssertionInfo info, Character actual) {
+    assertNotNull(info, actual);
+    if (isLowerCase(actual)) return;
+    throw failures.failure(info, shouldBeLowerCase(actual));
+  }
+
+  /**
+   * Asserts that the actual value is a uppercase character.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a uppercase character.
+   */
+  public void assertUpperCase(AssertionInfo info, Character actual) {
+    assertNotNull(info, actual);
+    if (isUpperCase(actual)) return;
+    throw failures.failure(info, shouldBeUpperCase(actual));
+  }
+
+  private static void assertNotNull(AssertionInfo info, Character actual) {
+    Objects.instance().assertNotNull(info, actual);
   }
 }

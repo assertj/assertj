@@ -32,7 +32,7 @@ public class ShouldBeEqualColors extends BasicErrorMessageFactory {
    * @param offset helps decide if two colors are similar: two colors that are identical to the human eye may still have
    * slightly different color values. For example, by using an offset of 1 we can indicate that a blue value of 60 is
    * similar to a blue value of 61.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualColors(RgbColor expected, RgbColor actual, Point point, Offset<?> offset) {
     return new ShouldBeEqualColors(expected, actual, point, offset);

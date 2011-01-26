@@ -26,7 +26,7 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldNotHaveDuplicates}</code>.
    * @param actual the actual value in the failed assertion.
    * @param duplicates the duplicate values found in {@code actual}.
-   * @return an instance of {@code ErrorMessage}.
+   * @return an instance of {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotHaveDuplicates(Object actual, Object duplicates) {
     return new ShouldNotHaveDuplicates(actual, duplicates);

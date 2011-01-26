@@ -30,7 +30,7 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
    * @param expected value expected to be in {@code actual}.
    * @param index the index of the expected value.
    * @param found the value in {@code actual} stored under {@code index}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainAtIndex(Object actual, Object expected, Index index, Object found) {
     return new ShouldContainAtIndex(actual, expected, index, found);

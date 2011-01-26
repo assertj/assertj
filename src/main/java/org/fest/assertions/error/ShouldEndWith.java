@@ -26,7 +26,7 @@ public class ShouldEndWith extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldEndWith}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the value or sequence of values that {@code actual} is expected to start with.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldEndWith(Object actual, Object expected) {
     return new ShouldEndWith(actual, expected);

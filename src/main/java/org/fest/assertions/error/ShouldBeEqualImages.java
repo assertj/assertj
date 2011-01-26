@@ -28,7 +28,7 @@ public class ShouldBeEqualImages extends BasicErrorMessageFactory {
    * @param offset helps decide if the color of two pixels are similar: two pixels that are identical to the human eye
    * may still have slightly different color values. For example, by using an offset of 1 we can indicate that a blue
    * value of 60 is similar to a blue value of 61.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualImages(Offset<Integer> offset) {
     return new ShouldBeEqualImages(offset);

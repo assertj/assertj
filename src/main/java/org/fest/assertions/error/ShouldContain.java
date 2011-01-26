@@ -27,7 +27,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be in {@code actual}.
    * @param notFound the values in {@code expected} not found in {@code actual}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound) {
     return new ShouldContain(actual, expected, notFound);

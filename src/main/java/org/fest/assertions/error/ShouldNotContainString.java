@@ -26,7 +26,7 @@ public class ShouldNotContainString extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldNotContainString}</code>.
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected not to be in {@code actual}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotContain(String actual, String sequence) {
     return new ShouldNotContainString(actual, sequence);

@@ -25,7 +25,7 @@ public class ShouldBeEmpty extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldBeEmpty}</code>.
    * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEmpty(Object actual) {
     return new ShouldBeEmpty(actual);

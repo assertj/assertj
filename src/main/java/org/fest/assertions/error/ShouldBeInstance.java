@@ -25,7 +25,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeInstance}</code>.
    * @param actual the actual value in the failed assertion.
    * @param type the type {@code actual} is expected to belong to.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstance(Object actual, Class<?> type) {
     return new ShouldBeInstance(actual, type);

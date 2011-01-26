@@ -25,7 +25,7 @@ public class ShouldMatchPattern extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldMatchPattern}</code>.
    * @param actual the actual value in the failed assertion.
    * @param pattern a regular expression pattern.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldMatch(String actual, String pattern) {
     return new ShouldMatchPattern(actual, pattern);

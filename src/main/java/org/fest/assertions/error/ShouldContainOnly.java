@@ -29,7 +29,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param expected values expected to be contained in {@code actual}.
    * @param notFound values in {@code expected} not found in {@code actual}.
    * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
     return new ShouldContainOnly(actual, expected, notFound, notExpected);

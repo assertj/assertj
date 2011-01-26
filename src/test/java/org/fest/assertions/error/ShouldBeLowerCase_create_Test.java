@@ -1,5 +1,5 @@
 /*
- * Created on Sep 17, 2010
+ * Created on Jan 25, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,31 +10,31 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright @2010-2011 the original author or authors.
+ * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
+import static org.fest.assertions.error.ShouldBeLowerCase.shouldBeLowerCase;
 
 import org.fest.assertions.description.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBeSame#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeLowerCase#create(Description)}</code>.
  *
  * @author Alex Ruiz
  */
-public class ShouldBeSame_create_Test {
+public class ShouldBeLowerCase_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before public void setUp() {
-    factory = shouldBeSame("Yoda", "Luke");
+    factory = shouldBeLowerCase('A');
   }
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<'Luke'> and actual:<'Yoda'> should refer to the same object", message);
+    assertEquals("[Test] expected:<A> to be a lowercase character", message);
   }
 }

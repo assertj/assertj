@@ -29,7 +29,7 @@ public class ShouldNotSatisfy extends BasicErrorMessageFactory {
    * @param <T> guarantees that the type of the actual value and the generic type of the {@code Condition} are the same.
    * @param actual the actual value in the failed assertion.
    * @param condition the {@code Condition}.
-   * @return the created {@code ErrorMessage}.
+   * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldNotSatisfy(T actual, Condition<T> condition) {
     return new ShouldNotSatisfy(actual, condition);
