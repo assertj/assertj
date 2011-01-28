@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Objects.areEqual;
@@ -102,8 +102,8 @@ public class Objects {
   /**
    * Asserts that two objects are equal.
    * @param info contains information about the assertion.
-   * @param actual the given object.
-   * @param expected the expected object.
+   * @param actual the "actual" object.
+   * @param expected the "expected" object.
    * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
    * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
    */

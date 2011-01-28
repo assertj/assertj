@@ -20,19 +20,19 @@ import java.io.*;
 import javax.imageio.ImageIO;
 
 /**
- * Reads an image from the file system.
+ * Reads an image from a file.
  *
  * @author Yvonne Wang
  */
 public final class ImageReader {
 
   /**
-   * Reads the image in the specified path.
+   * Decodes the image in the file at the specified path.
    * @param path the path of the image to read.
    * @return the read image.
    * @throws NullPointerException if the given path is {@code null}.
    * @throws IllegalArgumentException if the given path does not belong to a file.
-   * @throws IOException if any I/O error occurred while reading the image.
+   * @throws IOException if an error occurs during reading.
    */
   public static BufferedImage readImageFrom(String path) throws IOException {
     if (path == null) throw new NullPointerException("The path of the image to read should not be null");
