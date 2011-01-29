@@ -50,23 +50,25 @@ class Diff {
     return new LineNumberReader(new BufferedReader(new InputStreamReader(new FileInputStream(file))));
   }
 
-  private List<String> diff(LineNumberReader readsActual, LineNumberReader readsExpected) throws IOException {
+  // reader1 -> actual
+  // reader2 -> expected
+  private List<String> diff(LineNumberReader reader1, LineNumberReader reader2) throws IOException {
     List<String> diffs = new ArrayList<String>();
-    while (readsExpected.ready() && readsActual.ready()) {
-      int lineNumber = readsExpected.getLineNumber();
-      String actualLine = readsActual.readLine();
-      String expectedLine = readsExpected.readLine();
-      if (areEqual(actualLine, expectedLine)) continue;
-      diffs.add(output(lineNumber, actualLine, expectedLine));
-      if (!readsActual.ready() && readsExpected.ready())
-        diffs.add(output(lineNumber, EOF, expectedLine));
-      if (readsActual.ready() && !readsExpected.ready())
-        diffs.add(output(lineNumber, actualLine, EOF));
+    while (reader2.ready() && reader1.ready()) {
+      int lineNumber = reader2.getLineNumber();
+      String line1 = reader1.readLine();
+      String line2 = reader2.readLine();
+      if (areEqual(line1, line2)) continue;
+      diffs.add(output(lineNumber, line1, line2));
     }
+    if (!reader1.ready() && reader2.ready())
+      diffs.add(output(reader2.getLineNumber(), EOF, reader2.readLine()));
+    if (reader1.ready() && !reader2.ready())
+      diffs.add(output(reader1.getLineNumber(), reader1.readLine(), EOF));
     return diffs;
   }
 
   private String output(int lineNumber, String actual, String expected) {
-    return format("line:<%d>, expected:<%s> but was<%s>", lineNumber, expected, actual);
+    return format("line:<%d>, expected:<%s> but was:<%s>", lineNumber, expected, actual);
   }
 }

@@ -16,15 +16,17 @@ package org.fest.assertions.internal;
 
 import static junit.framework.Assert.*;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
+import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.unexpectedNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.util.Collections.list;
 import static org.fest.util.Files.*;
 import static org.mockito.Mockito.*;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -53,16 +55,16 @@ public class Files_assertEqualContent_Test {
 
   @Rule public ExpectedException thrown = none();
 
-  private Failures failures;
   private Diff diff;
+  private Failures failures;
   private Files files;
 
   @Before public void setUp() {
-    failures = spy(new Failures());
     diff = mock(Diff.class);
+    failures = spy(new Failures());
     files = new Files();
-    files.failures = failures;
     files.diff = diff;
+    files.failures = failures;
   }
 
   @Test public void should_throw_error_if_expected_is_null() {
@@ -72,7 +74,8 @@ public class Files_assertEqualContent_Test {
 
   @Test public void should_throw_error_if_expected_is_not_file() {
     thrown.expectIllegalArgumentException("Expected file:<'xyz'> should be an existing file");
-    files.assertEqualContent(someInfo(), actual, new File("xyz"));
+    File notAFile = new File("xyz");
+    files.assertEqualContent(someInfo(), actual, notAFile);
   }
 
   @Test public void should_fail_if_actual_is_null() {
@@ -106,5 +109,18 @@ public class Files_assertEqualContent_Test {
     } catch (FilesException e) {
       assertSame(cause, e.getCause());
     }
+  }
+
+  @Test public void should_fail_if_files_do_not_have_equal_content() throws IOException {
+    List<String> diffs = list("line:1, expected:<line1> but was:<EOF>");
+    when(diff.diff(actual, expected)).thenReturn(diffs);
+    AssertionInfo info = someInfo();
+    try {
+      files.assertEqualContent(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveEqualContent(actual, expected, diffs));
+      return;
+    }
+    expectedAssertionErrorNotThrown();
   }
 }

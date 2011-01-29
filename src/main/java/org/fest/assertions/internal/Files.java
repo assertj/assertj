@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
+import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 
 import java.io.*;
 import java.util.List;
@@ -41,8 +42,8 @@ public class Files {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures = Failures.instance();
   @VisibleForTesting Diff diff = new Diff();
+  @VisibleForTesting Failures failures = Failures.instance();
 
   @VisibleForTesting Files() {}
 
@@ -66,7 +67,7 @@ public class Files {
     try {
       List<String> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
-      // TODO fail
+      throw failures.failure(info, shouldHaveEqualContent(actual, expected, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
       throw new FilesException(msg, e);
