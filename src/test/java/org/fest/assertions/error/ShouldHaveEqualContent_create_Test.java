@@ -18,7 +18,6 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.util.Collections.list;
 import static org.fest.util.Systems.LINE_SEPARATOR;
 
-import java.io.File;
 import java.util.List;
 
 import org.fest.assertions.description.*;
@@ -49,21 +48,5 @@ public class ShouldHaveEqualContent_create_Test {
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
     assertEquals(b.toString(), factory.create(new TextDescription("Test")));
-  }
-
-  private static class FakeFile extends File {
-    private static final long serialVersionUID = 1L;
-
-    private final String pathname;
-
-    FakeFile(String pathname) {
-      super(pathname);
-      this.pathname = pathname;
-    }
-
-    // ToStringOf uses absolute path instead of toString
-    @Override public String getAbsolutePath() {
-      return pathname;
-    }
   }
 }

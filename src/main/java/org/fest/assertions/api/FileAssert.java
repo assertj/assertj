@@ -38,6 +38,28 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
   }
 
   /**
+   * Verifies that the actual {@code File} exists, regardless it's a file or directory.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not exist.
+   */
+  public FileAssert exists() {
+    files.assertExists(info, actual);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@code File} is an existing file.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   */
+  public FileAssert isFile() {
+    files.assertIsFile(info, actual);
+    return this;
+  }
+
+  /**
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
    * @param expected the given {@code File} to compare the actual {@code File} to.
    * @return {@code this} assertion object.

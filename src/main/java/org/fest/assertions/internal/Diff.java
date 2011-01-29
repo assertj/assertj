@@ -50,8 +50,7 @@ class Diff {
     return new LineNumberReader(new BufferedReader(new InputStreamReader(new FileInputStream(file))));
   }
 
-  // reader1 -> actual
-  // reader2 -> expected
+  // reader1 -> actual, reader2 -> expected
   private List<String> diff(LineNumberReader reader1, LineNumberReader reader2) throws IOException {
     List<String> diffs = new ArrayList<String>();
     while (reader2.ready() && reader1.ready()) {

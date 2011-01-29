@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
+import static org.fest.assertions.error.ShouldExist.shouldExist;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 
 import java.io.*;
@@ -84,13 +85,26 @@ public class Files {
    * Asserts that the given file is an existing file.
    * @param info contains information about the assertion.
    * @param actual the given file.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file is not an existing file.
    */
   public void assertIsFile(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.isFile()) return;
     throw failures.failure(info, shouldBeFile(actual));
+  }
+
+  /**
+   * Asserts that the given file exists, regardless it's a file or directory.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file does not exist.
+   */
+  public void assertExists(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.exists()) return;
+    throw failures.failure(info, shouldExist(actual));
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {
