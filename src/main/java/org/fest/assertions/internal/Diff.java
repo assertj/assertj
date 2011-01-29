@@ -34,15 +34,15 @@ class Diff {
   private static final String EOF = "EOF";
 
   List<String> diff(File actual, File expected) throws IOException {
-    LineNumberReader readsActual = null;
-    LineNumberReader readsExpected = null;
+    LineNumberReader reader1 = null;
+    LineNumberReader reader2 = null;
     try {
-      readsActual = readerFor(actual);
-      readsExpected = readerFor(expected);
-      return unmodifiableList(diff(readsActual, readsExpected));
+      reader1 = readerFor(actual);
+      reader2 = readerFor(expected);
+      return unmodifiableList(diff(reader1, reader2));
     } finally {
-      close(readsActual);
-      close(readsExpected);
+      close(reader1);
+      close(reader2);
     }
   }
 
