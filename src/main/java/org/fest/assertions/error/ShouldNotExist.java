@@ -17,22 +17,23 @@ package org.fest.assertions.error;
 import java.io.File;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> exists failed.
+ * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> does not exist
+ * failed.
  *
  * @author Yvonne Wang
  */
-public class ShouldExist extends BasicErrorMessageFactory {
+public class ShouldNotExist extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldExist}</code>.
+   * Creates a new <code>{@link ShouldNotExist}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldExist(File actual) {
-    return new ShouldExist(actual);
+  public static ErrorMessageFactory shouldNotExist(File actual) {
+    return new ShouldNotExist(actual);
   }
 
-  private ShouldExist(File actual) {
-    super("expecting file:<%s> to exist", actual);
+  private ShouldNotExist(File actual) {
+    super("expecting file:<%s> not to exist", actual);
   }
 }

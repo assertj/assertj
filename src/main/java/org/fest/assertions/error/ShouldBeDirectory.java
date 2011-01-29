@@ -17,22 +17,23 @@ package org.fest.assertions.error;
 import java.io.File;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> exists failed.
+ * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is an existing
+ * directory failed.
  *
  * @author Yvonne Wang
  */
-public class ShouldExist extends BasicErrorMessageFactory {
+public class ShouldBeDirectory extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldExist}</code>.
+   * Creates a new <code>{@link ShouldBeDirectory}</code>.
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldExist(File actual) {
-    return new ShouldExist(actual);
+  public static ErrorMessageFactory shouldBeDirectory(File actual) {
+    return new ShouldBeDirectory(actual);
   }
 
-  private ShouldExist(File actual) {
-    super("expecting file:<%s> to exist", actual);
+  private ShouldBeDirectory(File actual) {
+    super("File:<%s> should be an existing directory", actual);
   }
 }

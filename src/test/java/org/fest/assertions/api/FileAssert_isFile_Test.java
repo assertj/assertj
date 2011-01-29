@@ -38,7 +38,7 @@ public class FileAssert_isFile_Test {
     assertions.files = files;
   }
 
-  @Test public void should_verify_that_content_in_actual_is_equal_to_expected() {
+  @Test public void should_verify_that_actual_is_file() {
     assertions.isFile();
     verify(files).assertIsFile(assertions.info, assertions.actual);
   }

@@ -49,6 +49,17 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
   }
 
   /**
+   * Verifies that the actual {@code File} does not exist.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} exists.
+   */
+  public FileAssert doesNotExist() {
+    files.assertDoesNotExist(info, actual);
+    return this;
+  }
+
+  /**
    * Verifies that the actual {@code File} is an existing file.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
@@ -56,6 +67,39 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
    */
   public FileAssert isFile() {
     files.assertIsFile(info, actual);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@code File} is an existing directory.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   */
+  public FileAssert isDirectory() {
+    files.assertIsDirectory(info, actual);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@code File} is an absolute path.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an absolute path.
+   */
+  public FileAssert isAbsolute() {
+    files.assertIsAbsolute(info, actual);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual {@code File} is a relative path.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not a relative path.
+   */
+  public FileAssert isRelative() {
+    files.assertIsRelative(info, actual);
     return this;
   }
 

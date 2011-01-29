@@ -23,11 +23,11 @@ import org.fest.assertions.internal.Files;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link FileAssert#exists()}</code>.
+ * Tests for <code>{@link FileAssert#doesNotExist()}</code>.
  *
  * @author Yvonne Wang
  */
-public class FileAssert_exists_Test {
+public class FileAssert_doesNotExist_Test {
 
   private Files files;
   private FileAssert assertions;
@@ -38,13 +38,13 @@ public class FileAssert_exists_Test {
     assertions.files = files;
   }
 
-  @Test public void should_verify_that_actual_exists() {
-    assertions.exists();
-    verify(files).assertExists(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_does_not_exist() {
+    assertions.doesNotExist();
+    verify(files).assertDoesNotExist(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    FileAssert returned = assertions.exists();
+    FileAssert returned = assertions.doesNotExist();
     assertSame(assertions, returned);
   }
 }

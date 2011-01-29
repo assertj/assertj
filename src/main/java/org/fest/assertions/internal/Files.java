@@ -14,9 +14,13 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
+import static org.fest.assertions.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.fest.assertions.error.ShouldExist.shouldExist;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
+import static org.fest.assertions.error.ShouldNotExist.shouldNotExist;
 
 import java.io.*;
 import java.util.List;
@@ -95,6 +99,48 @@ public class Files {
   }
 
   /**
+   * Asserts that the given file is an existing directory.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file is not an existing directory.
+   */
+  public void assertIsDirectory(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.isDirectory()) return;
+    throw failures.failure(info, shouldBeDirectory(actual));
+  }
+
+  /**
+   * Asserts that the given file is an absolute path.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file is not an absolute path.
+   */
+  public void assertIsAbsolute(AssertionInfo info, File actual) {
+    if (isAbsolutePath(info, actual)) return;
+    throw failures.failure(info, shouldBeAbsolutePath(actual));
+  }
+
+  /**
+   * Asserts that the given file is a relative path.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file is not a relative path.
+   */
+  public void assertIsRelative(AssertionInfo info, File actual) {
+    if (!isAbsolutePath(info, actual)) return;
+    throw failures.failure(info, shouldBeRelativePath(actual));
+  }
+
+  private boolean isAbsolutePath(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    return actual.isAbsolute();
+  }
+
+  /**
    * Asserts that the given file exists, regardless it's a file or directory.
    * @param info contains information about the assertion.
    * @param actual the given file.
@@ -105,6 +151,19 @@ public class Files {
     assertNotNull(info, actual);
     if (actual.exists()) return;
     throw failures.failure(info, shouldExist(actual));
+  }
+
+  /**
+   * Asserts that the given file does not exist.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file exists.
+   */
+  public void assertDoesNotExist(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (!actual.exists()) return;
+    throw failures.failure(info, shouldNotExist(actual));
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {

@@ -12,39 +12,30 @@
  *
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.error;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertEquals;
+import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
 
-import java.io.File;
-
-import org.fest.assertions.internal.Files;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.TestDescription;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link FileAssert#exists()}</code>.
+ * Tests for <code>{@link ShouldBeDirectory#create(Description)}</code>.
  *
  * @author Yvonne Wang
  */
-public class FileAssert_exists_Test {
+public class ShouldBeDirectory_create_Test {
 
-  private Files files;
-  private FileAssert assertions;
+  private ErrorMessageFactory factory;
 
   @Before public void setUp() {
-    files = mock(Files.class);
-    assertions = new FileAssert(new File("abc"));
-    assertions.files = files;
+    factory = shouldBeDirectory(new FakeFile("xyz"));
   }
 
-  @Test public void should_verify_that_actual_exists() {
-    assertions.exists();
-    verify(files).assertExists(assertions.info, assertions.actual);
-  }
-
-  @Test public void should_return_this() {
-    FileAssert returned = assertions.exists();
-    assertSame(assertions, returned);
+  @Test public void should_create_error_message() {
+    String message = factory.create(new TestDescription("Test"));
+    assertEquals("[Test] File:<xyz> should be an existing directory", message);
   }
 }
