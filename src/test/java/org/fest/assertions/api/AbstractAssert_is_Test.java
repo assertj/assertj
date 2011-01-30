@@ -45,7 +45,7 @@ public class AbstractAssert_is_Test {
 
   @Test public void should_verify_that_actual_satisfies_Condition() {
     assertions.is(condition);
-    verify(conditions).assertSatisfies(assertions.info, assertions.actual, condition);
+    verify(conditions).assertIs(assertions.info, assertions.actual, condition);
   }
 
   @Test public void should_return_this() {

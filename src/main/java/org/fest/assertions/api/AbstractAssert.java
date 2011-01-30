@@ -103,23 +103,13 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public final S is(Condition<A> condition) {
-    return satisfies(condition);
-  }
-
-  /** {@inheritDoc} */
-  public final S isNot(Condition<A> condition) {
-    return doesNotSatisfy(condition);
-  }
-
-  /** {@inheritDoc} */
-  public final S satisfies(Condition<A> condition) {
-    conditions.assertSatisfies(info, actual, condition);
+    conditions.assertIs(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotSatisfy(Condition<A> condition) {
-    conditions.assertDoesNotSatisfy(info, actual, condition);
+  public final S isNot(Condition<A> condition) {
+    conditions.assertIsNot(info, actual, condition);
     return myself;
   }
 

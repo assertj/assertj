@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldSatisfy.shouldSatisfy;
-import static org.fest.assertions.error.ShouldNotSatisfy.shouldNotSatisfy;
+import static org.fest.assertions.error.ShouldBe.shouldBe;
+import static org.fest.assertions.error.ShouldNotBe.shouldNotBe;
 
 import org.fest.assertions.core.*;
 import org.fest.util.VisibleForTesting;
@@ -50,10 +50,10 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
-  public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertIs(AssertionInfo info, T actual, Condition<T> condition) {
     verifyIsNotNull(condition);
     if (condition.matches(actual)) return;
-    throw failures.failure(info, shouldSatisfy(actual, condition));
+    throw failures.failure(info, shouldBe(actual, condition));
   }
 
   /**
@@ -65,10 +65,10 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
-  public <T> void assertDoesNotSatisfy(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertIsNot(AssertionInfo info, T actual, Condition<T> condition) {
     verifyIsNotNull(condition);
     if (!condition.matches(actual)) return;
-    throw failures.failure(info, shouldNotSatisfy(actual, condition));
+    throw failures.failure(info, shouldNotBe(actual, condition));
   }
 
   private void verifyIsNotNull(Condition<?> condition) {

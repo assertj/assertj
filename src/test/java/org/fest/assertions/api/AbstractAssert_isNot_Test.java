@@ -45,7 +45,7 @@ public class AbstractAssert_isNot_Test {
 
   @Test public void should_verify_that_actual_does_not_satisfy_Condition() {
     assertions.isNot(condition);
-    verify(conditions).assertDoesNotSatisfy(assertions.info, assertions.actual, condition);
+    verify(conditions).assertIsNot(assertions.info, assertions.actual, condition);
   }
 
   @Test public void should_return_this() {

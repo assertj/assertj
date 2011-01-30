@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldSatisfy.shouldSatisfy;
+import static org.fest.assertions.error.ShouldBe.shouldBe;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -25,11 +25,12 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Conditions#assertSatisfies(AssertionInfo, Object, Condition)}</code>.
+ * Tests for <code>{@link Conditions#assertIs(AssertionInfo, Object, Condition)}</code>.
  *
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class Conditions_assertSatisfies_Test {
+public class Conditions_assertIs_Test {
 
   private static Object actual;
 
@@ -52,21 +53,21 @@ public class Conditions_assertSatisfies_Test {
 
   @Test public void should_throw_error_if_Condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    conditions.assertSatisfies(someInfo(), actual, null);
+    conditions.assertIs(someInfo(), actual, null);
   }
 
   @Test public void should_pass_if_Condition_is_met() {
     condition.shouldMatch(true);
-    conditions.assertSatisfies(someInfo(), actual, condition);
+    conditions.assertIs(someInfo(), actual, condition);
   }
 
   @Test public void should_fail_if_Condition_is_not_met() {
     condition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      conditions.assertSatisfies(info, actual, condition);
+      conditions.assertIs(info, actual, condition);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldSatisfy(actual, condition));
+      verify(failures).failure(info, shouldBe(actual, condition));
       return;
     }
     throw expectedAssertionErrorNotThrown();
