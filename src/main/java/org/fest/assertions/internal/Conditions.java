@@ -15,7 +15,9 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBe.shouldBe;
+import static org.fest.assertions.error.ShouldHave.shouldHave;
 import static org.fest.assertions.error.ShouldNotBe.shouldNotBe;
+import static org.fest.assertions.error.ShouldNotHave.shouldNotHave;
 
 import org.fest.assertions.core.*;
 import org.fest.util.VisibleForTesting;
@@ -69,6 +71,36 @@ public class Conditions {
     verifyIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, shouldNotBe(actual, condition));
+  }
+
+  /**
+   * Asserts that the actual value satisfies the given <code>{@link Condition}</code>.
+   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
+   */
+  public <T> void assertHas(AssertionInfo info, T actual, Condition<T> condition) {
+    verifyIsNotNull(condition);
+    if (condition.matches(actual)) return;
+    throw failures.failure(info, shouldHave(actual, condition));
+  }
+
+  /**
+   * Asserts that the actual value does not satisfy the given <code>{@link Condition}</code>.
+   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   * @throws AssertionError if the actual value satisfies the given {@code Condition}.
+   */
+  public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<T> condition) {
+    verifyIsNotNull(condition);
+    if (!condition.matches(actual)) return;
+    throw failures.failure(info, shouldNotHave(actual, condition));
   }
 
   private void verifyIsNotNull(Condition<?> condition) {

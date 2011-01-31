@@ -113,6 +113,18 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     return myself;
   }
 
+  /** {@inheritDoc} */
+  public final S has(Condition<A> condition) {
+    conditions.assertHas(info, actual, condition);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S doesNotHave(Condition<A> condition) {
+    conditions.assertDoesNotHave(info, actual, condition);
+    return myself;
+  }
+
   @VisibleForTesting final String descriptionText() {
     return info.descriptionText();
   }

@@ -26,7 +26,8 @@ package org.fest.assertions.core;
 public interface ExtensionPoints<S, A> {
 
   /**
-   * Verifies that the actual value satisfies the given condition.
+   * Verifies that the actual value satisfies the given condition. This method is an alias for
+   * <code>{@link #has(Condition)}</code>.
    * @param condition the given condition.
    * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -36,7 +37,8 @@ public interface ExtensionPoints<S, A> {
   S is(Condition<A> condition);
 
   /**
-   * Verifies that the actual value does not satisfy the given condition.
+   * Verifies that the actual value does not satisfy the given condition. This method is an alias for
+   * <code>{@link #doesNotHave(Condition)}</code>.
    * @param condition the given condition.
    * @return {@code this ExtensionPoints} object.
    * @throws NullPointerException if the given condition is {@code null}.
@@ -44,4 +46,26 @@ public interface ExtensionPoints<S, A> {
    * @see #isNot(Condition)
    */
   S isNot(Condition<A> condition);
+
+  /**
+   * Verifies that the actual value satisfies the given condition. This method is an alias for
+   * <code>{@link #is(Condition)}</code>.
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value does not satisfy the given condition.
+   * @see #is(Condition)
+   */
+  S has(Condition<A> condition);
+
+  /**
+   * Verifies that the actual value does not satisfy the given condition. This method is an alias for
+   * <code>{@link #isNot(Condition)}</code>.
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value satisfies the given condition.
+   * @see #isNot(Condition)
+   */
+  S doesNotHave(Condition<A> condition);
 }
