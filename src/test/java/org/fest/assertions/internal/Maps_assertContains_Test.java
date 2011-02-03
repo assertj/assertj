@@ -18,7 +18,7 @@ import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -86,7 +86,7 @@ public class Maps_assertContains_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     maps.assertContains(someInfo(), null, array(entry("name", "Yoda")));
   }
 

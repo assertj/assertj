@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Jan 2, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,12 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -27,41 +28,58 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShortArrays#assertEmpty(AssertionInfo, short[])}</code>.
+ * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Object[])}</code>.
  *
+ * @author Joel Costigliola
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
-public class ShortArrays_assertEmpty_Test {
+public class Objects_assertIsIn_with_array_Test {
+
+  private static String[] values;
+
+  @BeforeClass public static void setUpOnce() {
+    values = array("Yoda", "Leia");
+  }
 
   @Rule public ExpectedException thrown = none();
 
   private Failures failures;
-  private ShortArrays arrays;
+  private Objects objects;
 
   @Before public void setUp() {
     failures = spy(new Failures());
-    arrays = new ShortArrays();
-    arrays.failures = failures;
+    objects = new Objects();
+    objects.failures = failures;
+  }
+
+  @Test public void should_throw_error_if_array_is_null() {
+    thrown.expectNullPointerException("The given array should not be null");
+    objects.assertIsIn(someInfo(), "Yoda", null);
+  }
+
+  @Test public void should_throw_error_if_array_is_empty() {
+    thrown.expectIllegalArgumentException("The given array should not be empty");
+    objects.assertIsIn(someInfo(), "Yoda", emptyArray());
+  }
+
+  @Test public void should_pass_if_actual_is_in_array() {
+    objects.assertIsIn(someInfo(), "Yoda", values);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertEmpty(someInfo(), null);
+    objects.assertIsIn(someInfo(), null, values);
   }
 
-  @Test public void should_fail_if_actual_is_not_empty() {
+  @Test public void should_fail_if_actual_is_not_in_array() {
     AssertionInfo info = someInfo();
-    short[] actual = { 6, 8 };
     try {
-      arrays.assertEmpty(info, actual);
+      objects.assertIsIn(info, "Luke", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
+      verify(failures).failure(info, shouldBeIn("Luke", values));
       return;
     }
     throw expectedAssertionErrorNotThrown();
-  }
-
-  @Test public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), emptyArray());
   }
 }

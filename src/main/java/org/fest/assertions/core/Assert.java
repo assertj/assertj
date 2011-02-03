@@ -70,4 +70,14 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value is the same as the given one.
    */
   S isNotSameAs(A other);
+
+  /**
+   * Verifies that the actual value is in the given array of values.
+   * @param values the given values to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws IllegalArgumentException if the given array is empty.
+   * @throws AssertionError if the actual value is not in the given values.
+   */
+  S isIn(Object...values);
 }

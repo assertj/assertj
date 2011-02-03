@@ -1,5 +1,5 @@
 /*
- * Created on Jan 30, 2011
+ * Created on Feb 3, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,28 +14,28 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.assertions.error.ShouldBe.shouldBe;
+import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
+import static org.fest.util.Arrays.array;
 import static org.junit.Assert.assertEquals;
 
-import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBe#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeIn#create(Description)}</code>.
  *
  * @author Yvonne Wang
  */
-public class ShouldBe_create_Test {
+public class ShouldBeIn_create_Test {
 
   private ErrorMessageFactory factory;
 
   @Before public void setUp() {
-    factory = shouldBe("Yoda", new TestCondition<String>("green"));
+    factory = shouldBeIn("Yoda", array("Luke", "Leia"));
   }
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> to be:<green>", message);
+    assertEquals("[Test] expecting:<'Yoda'> to be in:<['Luke', 'Leia']>", message);
   }
 }

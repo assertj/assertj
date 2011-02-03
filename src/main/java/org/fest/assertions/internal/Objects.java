@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
@@ -168,5 +169,32 @@ public class Objects {
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
     if (actual != other) return;
     throw failures.failure(info, shouldNotBeSame(actual));
+  }
+
+  /**
+   * Asserts that the given object is present in the given array.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param values the given array.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws IllegalArgumentException if the given array is empty.
+   * @throws AssertionError if the given object is not in the given array.
+   */
+  public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (isActualIn(actual, values)) return;
+    throw failures.failure(info, shouldBeIn(actual, values));
+  }
+
+  private void checkIsNotNullAndNotEmpty(Object[] values) {
+    if (values == null) throw new NullPointerException("The given array should not be null");
+    if (values.length == 0) throw new IllegalArgumentException("The given array should not be empty");
+  }
+
+  private boolean isActualIn(Object actual, Object[] values) {
+    for (Object value : values)
+      if (areEqual(actual, value)) return true;
+    return false;
   }
 }

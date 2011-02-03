@@ -29,7 +29,6 @@ import org.junit.*;
  */
 public class Objects_assertEqual_Test {
 
-
   private Failures failures;
   private Objects objects;
 
