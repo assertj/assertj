@@ -1,5 +1,5 @@
 /*
- * Created on Jan 2, 2010
+ * Created on Jan 3, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,32 +14,34 @@
  */
 package org.fest.assertions.internal;
 
+import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
-import static org.fest.util.Arrays.array;
+import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
+
+import java.util.Collection;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Object[])}</code>.
+ * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Collection)}</code>.
  *
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Objects_assertIsIn_with_array_Test {
+public class Objects_assertIsIn_with_Collection_Test {
 
-  private static String[] values;
+  private static Collection<?> values;
 
   @BeforeClass public static void setUpOnce() {
-    values = array("Yoda", "Leia");
+    values = list("Yoda", "Leia");
   }
 
   @Rule public ExpectedException thrown = none();
@@ -53,18 +55,18 @@ public class Objects_assertIsIn_with_array_Test {
     objects.failures = failures;
   }
 
-  @Test public void should_throw_error_if_array_is_null() {
-    thrown.expectNullPointerException("The given array should not be null");
-    Object[] array = null;
-    objects.assertIsIn(someInfo(), "Yoda", array);
+  @Test public void should_throw_error_if_Collection_is_null() {
+    thrown.expectNullPointerException("The given collection should not be null");
+    Collection<?> c = null;
+    objects.assertIsIn(someInfo(), "Yoda", c);
   }
 
-  @Test public void should_throw_error_if_array_is_empty() {
-    thrown.expectIllegalArgumentException("The given array should not be empty");
-    objects.assertIsIn(someInfo(), "Yoda", emptyArray());
+  @Test public void should_throw_error_if_Collection_is_empty() {
+    thrown.expectIllegalArgumentException("The given collection should not be empty");
+    objects.assertIsIn(someInfo(), "Yoda", emptyList());
   }
 
-  @Test public void should_pass_if_actual_is_in_array() {
+  @Test public void should_pass_if_actual_is_in_Collection() {
     objects.assertIsIn(someInfo(), "Yoda", values);
   }
 
@@ -73,7 +75,7 @@ public class Objects_assertIsIn_with_array_Test {
     objects.assertIsIn(someInfo(), null, values);
   }
 
-  @Test public void should_fail_if_actual_is_not_in_array() {
+  @Test public void should_fail_if_actual_is_not_in_Collection() {
     AssertionInfo info = someInfo();
     try {
       objects.assertIsIn(info, "Luke", values);

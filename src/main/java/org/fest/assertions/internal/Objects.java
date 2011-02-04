@@ -25,6 +25,8 @@ import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Objects.areEqual;
 import static org.fest.util.ToString.toStringOf;
 
+import java.util.Collection;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
 
@@ -193,6 +195,33 @@ public class Objects {
   }
 
   private boolean isActualIn(Object actual, Object[] values) {
+    for (Object value : values)
+      if (areEqual(actual, value)) return true;
+    return false;
+  }
+
+  /**
+   * Asserts that the given object is present in the given collection.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param values the given collection.
+   * @throws NullPointerException if the given collection is {@code null}.
+   * @throws IllegalArgumentException if the given collection is empty.
+   * @throws AssertionError if the given object is not in the given collection.
+   */
+  public void assertIsIn(AssertionInfo info, Object actual, Collection<?> values) {
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (isActualIn(actual, values)) return;
+    throw failures.failure(info, shouldBeIn(actual, values));
+  }
+
+  private void checkIsNotNullAndNotEmpty(Collection<?> values) {
+    if (values == null) throw new NullPointerException("The given collection should not be null");
+    if (values.isEmpty()) throw new IllegalArgumentException("The given collection should not be empty");
+  }
+
+  private boolean isActualIn(Object actual, Collection<?> values) {
     for (Object value : values)
       if (areEqual(actual, value)) return true;
     return false;

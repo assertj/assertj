@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Collection;
+
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.*;
@@ -103,6 +105,12 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
   /** {@inheritDoc} */
   public final S isIn(Object... values) {
+    objects.assertIsIn(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S isIn(Collection<?> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }

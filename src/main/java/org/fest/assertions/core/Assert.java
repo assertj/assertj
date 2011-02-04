@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.core;
 
+import java.util.Collection;
+
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  * @param <S> the "self" type of this assertion class. Please read
@@ -73,11 +75,21 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
    * Verifies that the actual value is in the given array of values.
-   * @param values the given values to search the actual value in.
+   * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the actual value is not in the given values.
+   * @throws AssertionError if the actual value is not in the given array.
    */
   S isIn(Object...values);
+
+  /**
+   * Verifies that the actual value is in the given collection of values.
+   * @param values the given collection to search the actual value in.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given collection is {@code null}.
+   * @throws IllegalArgumentException if the given collection is empty.
+   * @throws AssertionError if the actual value is not in the given collection.
+   */
+  S isIn(Collection<?> values);
 }
