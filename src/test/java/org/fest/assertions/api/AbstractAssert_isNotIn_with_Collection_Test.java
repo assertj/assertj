@@ -1,5 +1,5 @@
 /*
- * Created on Feb 2, 2011
+ * Created on Feb 5, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,26 +15,28 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.util.Arrays.array;
+import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
+
+import java.util.Collection;
 
 import org.fest.assertions.internal.Objects;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link AbstractAssert#isIn(Object...)}</code>.
+ * Tests for <code>{@link AbstractAssert#isNotIn(Collection)}</code>.
  *
  * @author Yvonne Wang
  */
-public class AbstractAssert_isIn_with_array_Test {
+public class AbstractAssert_isNotIn_with_Collection_Test {
 
-  private static Object[] values;
+  private static Collection<?> values;
 
   private Objects objects;
   private ConcreteAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    values = array("Yoda", "Luke");
+    values = list("Yoda", "Luke");
   }
 
   @Before public void setUp() {
@@ -43,13 +45,13 @@ public class AbstractAssert_isIn_with_array_Test {
     assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_in_array() {
-    assertions.isIn(values);
-    verify(objects).assertIsIn(assertions.info, assertions.actual, values);
+  @Test public void should_verify_that_actual_is_not_in_Collection() {
+    assertions.isNotIn(values);
+    verify(objects).assertIsNotIn(assertions.info, assertions.actual, values);
   }
 
   @Test public void should_return_this() {
-    ConcreteAssert returned = assertions.isIn(values);
+    ConcreteAssert returned = assertions.isNotIn(values);
     assertSame(assertions, returned);
   }
 }

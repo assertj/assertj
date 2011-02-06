@@ -18,8 +18,25 @@ import static org.fest.util.ToString.toStringOf;
 
 /**
  * @author Alex Ruiz
+ * @author Yvonne Wang
  */
 public final class ErrorMessages {
+
+  public static String arrayIsNull() {
+    return "The given array should not be null";
+  }
+
+  public static String arrayIsEmpty() {
+    return "The given array should not be empty";
+  }
+
+  public static String collectionIsNull() {
+    return "The given collection should not be null";
+  }
+
+  public static String collectionIsEmpty() {
+    return "The given collection should not be empty";
+  }
 
   public static String descriptionIsNull() {
     return "The description to set should not be null";

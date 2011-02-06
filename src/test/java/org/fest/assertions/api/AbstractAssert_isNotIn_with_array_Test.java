@@ -1,5 +1,5 @@
 /*
- * Created on Feb 2, 2011
+ * Created on Feb 4, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -22,11 +22,11 @@ import org.fest.assertions.internal.Objects;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link AbstractAssert#isIn(Object...)}</code>.
+ * Tests for <code>{@link AbstractAssert#isNotIn(Object...)}</code>.
  *
  * @author Yvonne Wang
  */
-public class AbstractAssert_isIn_with_array_Test {
+public class AbstractAssert_isNotIn_with_array_Test {
 
   private static Object[] values;
 
@@ -43,13 +43,13 @@ public class AbstractAssert_isIn_with_array_Test {
     assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_in_array() {
-    assertions.isIn(values);
-    verify(objects).assertIsIn(assertions.info, assertions.actual, values);
+  @Test public void should_verify_that_actual_is_not_in_array() {
+    assertions.isNotIn(values);
+    verify(objects).assertIsNotIn(assertions.info, assertions.actual, values);
   }
 
   @Test public void should_return_this() {
-    ConcreteAssert returned = assertions.isIn(values);
+    ConcreteAssert returned = assertions.isNotIn(values);
     assertSame(assertions, returned);
   }
 }

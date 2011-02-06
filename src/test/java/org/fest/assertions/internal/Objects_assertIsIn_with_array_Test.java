@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
@@ -54,13 +55,13 @@ public class Objects_assertIsIn_with_array_Test {
   }
 
   @Test public void should_throw_error_if_array_is_null() {
-    thrown.expectNullPointerException("The given array should not be null");
+    thrown.expectNullPointerException(arrayIsNull());
     Object[] array = null;
     objects.assertIsIn(someInfo(), "Yoda", array);
   }
 
   @Test public void should_throw_error_if_array_is_empty() {
-    thrown.expectIllegalArgumentException("The given array should not be empty");
+    thrown.expectIllegalArgumentException(arrayIsEmpty());
     objects.assertIsIn(someInfo(), "Yoda", emptyArray());
   }
 

@@ -20,6 +20,7 @@ import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Objects.areEqual;
@@ -180,13 +181,29 @@ public class Objects {
    * @param values the given array.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws IllegalArgumentException if the given array is empty.
-   * @throws AssertionError if the given object is not in the given array.
+   * @throws AssertionError if the given object is not present in the given array.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
     throw failures.failure(info, shouldBeIn(actual, values));
+  }
+
+  /**
+   * Asserts that the given object is not present in the given array.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param values the given array.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws IllegalArgumentException if the given array is empty.
+   * @throws AssertionError if the given object is present in the given array.
+   */
+  public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (!isActualIn(actual, values)) return;
+    throw failures.failure(info, shouldNotBeIn(actual, values));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
@@ -207,13 +224,29 @@ public class Objects {
    * @param values the given collection.
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws IllegalArgumentException if the given collection is empty.
-   * @throws AssertionError if the given object is not in the given collection.
+   * @throws AssertionError if the given object is not present in the given collection.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Collection<?> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
     throw failures.failure(info, shouldBeIn(actual, values));
+  }
+
+  /**
+   * Asserts that the given object is not present in the given collection.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param values the given collection.
+   * @throws NullPointerException if the given collection is {@code null}.
+   * @throws IllegalArgumentException if the given collection is empty.
+   * @throws AssertionError if the given object is present in the given collection.
+   */
+  public void assertIsNotIn(AssertionInfo info, Object actual, Collection<?> values) {
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (!isActualIn(actual, values)) return;
+    throw failures.failure(info, shouldNotBeIn(actual, values));
   }
 
   private void checkIsNotNullAndNotEmpty(Collection<?> values) {

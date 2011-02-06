@@ -45,7 +45,7 @@ public class AbstractAssert_isIn_with_Collection_Test {
     assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_satisfies_Condition() {
+  @Test public void should_verify_that_actual_is_in_Collection() {
     assertions.isIn(values);
     verify(objects).assertIsIn(assertions.info, assertions.actual, values);
   }

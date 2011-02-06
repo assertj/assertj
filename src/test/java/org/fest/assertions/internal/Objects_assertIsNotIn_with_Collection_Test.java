@@ -1,5 +1,5 @@
 /*
- * Created on Jan 3, 2010
+ * Created on Jan 5, 2010
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
+import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -31,13 +31,13 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Collection)}</code>.
+ * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Collection)}</code>.
  *
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Objects_assertIsIn_with_Collection_Test {
+public class Objects_assertIsNotIn_with_Collection_Test {
 
   private static Collection<?> values;
 
@@ -59,29 +59,29 @@ public class Objects_assertIsIn_with_Collection_Test {
   @Test public void should_throw_error_if_Collection_is_null() {
     thrown.expectNullPointerException(collectionIsNull());
     Collection<?> c = null;
-    objects.assertIsIn(someInfo(), "Yoda", c);
+    objects.assertIsNotIn(someInfo(), "Luke", c);
   }
 
   @Test public void should_throw_error_if_Collection_is_empty() {
     thrown.expectIllegalArgumentException(collectionIsEmpty());
-    objects.assertIsIn(someInfo(), "Yoda", emptyList());
+    objects.assertIsNotIn(someInfo(), "Luke", emptyList());
   }
 
-  @Test public void should_pass_if_actual_is_in_Collection() {
-    objects.assertIsIn(someInfo(), "Yoda", values);
+  @Test public void should_pass_if_actual_is_not_in_Collection() {
+    objects.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    objects.assertIsIn(someInfo(), null, values);
+    objects.assertIsNotIn(someInfo(), null, values);
   }
 
-  @Test public void should_fail_if_actual_is_not_in_Collection() {
+  @Test public void should_fail_if_actual_is_in_Collection() {
     AssertionInfo info = someInfo();
     try {
-      objects.assertIsIn(info, "Luke", values);
+      objects.assertIsNotIn(info, "Yoda", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeIn("Luke", values));
+      verify(failures).failure(info, shouldNotBeIn("Yoda", values));
       return;
     }
     throw expectedAssertionErrorNotThrown();

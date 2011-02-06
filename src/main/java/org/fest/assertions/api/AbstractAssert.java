@@ -110,8 +110,20 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
+  public final S isNotIn(Object... values) {
+    objects.assertIsNotIn(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
   public final S isIn(Collection<?> values) {
     objects.assertIsIn(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S isNotIn(Collection<?> values) {
+    objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
