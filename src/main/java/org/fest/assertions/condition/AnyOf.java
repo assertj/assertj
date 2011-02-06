@@ -84,4 +84,8 @@ public class AnyOf<T> extends Condition<T> {
       if (condition.matches(value)) return true;
     return false;
   }
+
+  @Override public String toString() {
+    return String.format("any of:<%s>", conditions);
+  }
 }
