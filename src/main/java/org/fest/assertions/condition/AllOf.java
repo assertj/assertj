@@ -1,5 +1,5 @@
 /*
- * Created on Feb 5, 2011
+ * Created on Feb 7, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -19,53 +19,53 @@ import java.util.Collection;
 import org.fest.assertions.core.Condition;
 
 /**
- * Returns {@code true} if any of the joined conditions is satisfied.
+ * Returns {@code true} if all of the joined conditions is satisfied.
  * @param <T> the type of object this condition accepts.
  *
  * @author Yvonne Wang
  */
-public class AnyOf<T> extends Join<T> {
+public class AllOf<T> extends Join<T> {
 
   /**
-   * Creates a new <code>{@link AnyOf}</code>
+   * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Condition<T>...conditions) {
-    return new AnyOf<T>(conditions);
+  public static <T> Condition<T> allOf(Condition<T>...conditions) {
+    return new AllOf<T>(conditions);
   }
 
   /**
-   * Creates a new <code>{@link AnyOf}</code>
+   * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws NullPointerException if any of the elements in the given collection is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Collection<Condition<T>> conditions) {
-    return new AnyOf<T>(conditions);
+  public static <T> Condition<T> allOf(Collection<Condition<T>> conditions) {
+    return new AllOf<T>(conditions);
   }
 
-  private AnyOf(Condition<T>...conditions) {
+  private AllOf(Condition<T>...conditions) {
     super(conditions);
   }
 
-  private AnyOf(Collection<Condition<T>> conditions) {
+  private AllOf(Collection<Condition<T>> conditions) {
     super(conditions);
   }
 
   /** {@inheritDoc} */
   @Override public boolean matches(T value) {
     for (Condition<T> condition : conditions)
-      if (condition.matches(value)) return true;
-    return false;
+      if (!condition.matches(value)) return false;
+    return true;
   }
 
   @Override public String toString() {
-    return String.format("any of:<%s>", conditions);
+    return String.format("all of:<%s>", conditions);
   }
 }

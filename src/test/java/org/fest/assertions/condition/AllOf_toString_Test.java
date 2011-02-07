@@ -1,5 +1,5 @@
 /*
- * Created on Feb 5, 2011
+ * Created on Feb 7, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,29 +15,30 @@
 package org.fest.assertions.condition;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.assertions.condition.AllOf.allOf;
 
 import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link AnyOf#anyOf(Condition...)}</code>.
+ * Tests for <code>{@link AllOf#toString()}</code>.
  *
  * @author Yvonne Wang
  */
-public class AnyOf_anyOf_with_array_Test {
-
-  @Rule public ExpectedException thrown = none();
+public class AllOf_toString_Test {
+  private TestCondition<Object> condition1;
+  private TestCondition<Object> condition2;
+  private Condition<Object> allOf;
 
   @SuppressWarnings("unchecked")
-  @Test public void should_create_new_AnyOf_with_passed_Conditions() {
-    Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());
-    Condition<Object> created = AnyOf.anyOf(conditions);
-    assertEquals(AnyOf.class, created.getClass());
-    AnyOf<Object> anyOf = (AnyOf<Object>) created;
-    assertEquals(list(conditions), anyOf.conditions);
+  @Before public void setUp() {
+    condition1 = new TestCondition<Object>("Condition 1");
+    condition2 = new TestCondition<Object>("Condition 2");
+    allOf = allOf(condition1, condition2);
+  }
+
+  @Test public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
+    String expected = "all of:<[Condition 1, Condition 2]>";
+    assertEquals(expected, allOf.toString());
   }
 }

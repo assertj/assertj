@@ -1,5 +1,5 @@
 /*
- * Created on Feb 5, 2011
+ * Created on Feb 7, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -24,20 +24,20 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link AnyOf#anyOf(Condition...)}</code>.
+ * Tests for <code>{@link AllOf#allOf(Condition...)}</code>.
  *
  * @author Yvonne Wang
  */
-public class AnyOf_anyOf_with_array_Test {
+public class AllOf_allOf_with_array_Test {
 
   @Rule public ExpectedException thrown = none();
 
   @SuppressWarnings("unchecked")
-  @Test public void should_create_new_AnyOf_with_passed_Conditions() {
+  @Test public void should_create_new_AllOf_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());
-    Condition<Object> created = AnyOf.anyOf(conditions);
-    assertEquals(AnyOf.class, created.getClass());
-    AnyOf<Object> anyOf = (AnyOf<Object>) created;
-    assertEquals(list(conditions), anyOf.conditions);
+    Condition<Object> created = AllOf.allOf(conditions);
+    assertEquals(AllOf.class, created.getClass());
+    AllOf<Object> allOf = (AllOf<Object>) created;
+    assertEquals(list(conditions), allOf.conditions);
   }
 }
