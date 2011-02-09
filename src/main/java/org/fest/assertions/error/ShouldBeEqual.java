@@ -43,7 +43,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * Creates a new <code>{@link ShouldBeEqual}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
-   * @return the created {@code ErrorWhenObjectsAreNotEqual}.
+   * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected) {
     return new ShouldBeEqual(actual, expected);

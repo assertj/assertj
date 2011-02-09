@@ -39,6 +39,6 @@ public class Bytes_assertIsZero_Test {
   @Test public void should_verify_that_actual_is_equal_to_zero() {
     AssertionInfo info = someInfo();
     bytes.assertIsZero(info , (byte)6);
-    verify(comparables).assertEqual(info, (byte)6, (byte)0);
+    verify(comparables).assertEqualByComparison(info, (byte)6, (byte)0);
   }
 }

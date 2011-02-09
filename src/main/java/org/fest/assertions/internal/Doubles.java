@@ -61,7 +61,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
   public void assertIsNaN(AssertionInfo info, Double actual) {
-    comparables.assertEqual(info, actual, NaN);
+    comparables.assertEqualByComparison(info, actual, NaN);
   }
 
   /**
@@ -71,7 +71,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
   public void assertIsNotNaN(AssertionInfo info, Double actual) {
-    comparables.assertNotEqual(info, actual, NaN);
+    comparables.assertNotEqualByComparison(info, actual, NaN);
   }
 
   /**
@@ -82,7 +82,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is not equal to zero.
    */
   public void assertIsZero(AssertionInfo info, Double actual) {
-    comparables.assertEqual(info, actual, ZERO);
+    comparables.assertEqualByComparison(info, actual, ZERO);
   }
 
   /**
@@ -93,7 +93,7 @@ public class Doubles {
    * @throws AssertionError if the actual value is equal to zero.
    */
   public void assertIsNotZero(AssertionInfo info, Double actual) {
-    comparables.assertNotEqual(info, actual, ZERO);
+    comparables.assertNotEqualByComparison(info, actual, ZERO);
   }
 
   /**

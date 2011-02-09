@@ -26,7 +26,7 @@ import java.math.BigDecimal;
  *
  * @author Alex Ruiz
  */
-public interface InconsistentComparableAssert<S, T extends Comparable<T>> extends ComparableAssert<S, T> {
+public interface UnevenComparableAssert<S, T extends Comparable<T>> extends ComparableAssert<S, T> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking

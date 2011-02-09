@@ -39,6 +39,6 @@ public class Longs_assertIsZero_Test {
   @Test public void should_verify_that_actual_is_equal_to_zero() {
     AssertionInfo info = someInfo();
     longs.assertIsZero(info, 6L);
-    verify(comparables).assertEqual(info, 6L, 0L);
+    verify(comparables).assertEqualByComparison(info, 6L, 0L);
   }
 }

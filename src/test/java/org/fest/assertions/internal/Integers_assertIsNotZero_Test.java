@@ -39,6 +39,6 @@ public class Integers_assertIsNotZero_Test {
   @Test public void should_verify_that_actual_is_not_equal_to_zero() {
     AssertionInfo info = someInfo();
     integers.assertIsNotZero(info, 6);
-    verify(comparables).assertNotEqual(info, 6, 0);
+    verify(comparables).assertNotEqualByComparison(info, 6, 0);
   }
 }

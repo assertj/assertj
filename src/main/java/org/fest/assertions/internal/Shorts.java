@@ -56,7 +56,7 @@ public class Shorts {
    * @throws AssertionError if the actual value is not equal to zero.
    */
   public void assertIsZero(AssertionInfo info, Short actual) {
-    comparables.assertEqual(info, actual, ZERO);
+    comparables.assertEqualByComparison(info, actual, ZERO);
   }
 
   /**
@@ -67,7 +67,7 @@ public class Shorts {
    * @throws AssertionError if the actual value is equal to zero.
    */
   public void assertIsNotZero(AssertionInfo info, Short actual) {
-    comparables.assertNotEqual(info, actual, ZERO);
+    comparables.assertNotEqualByComparison(info, actual, ZERO);
   }
 
   /**

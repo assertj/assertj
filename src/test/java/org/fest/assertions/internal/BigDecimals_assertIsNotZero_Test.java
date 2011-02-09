@@ -1,5 +1,5 @@
 /*
- * Created on Jan 14, 2011
+ * Created on Feb 8, 2011
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,32 +14,34 @@
  */
 package org.fest.assertions.internal;
 
-import static java.lang.Float.NaN;
+import static java.math.BigDecimal.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.mockito.Mockito.*;
+
+import java.math.BigDecimal;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Floats#assertIsNotNaN(AssertionInfo, Float)}</code>.
+ * Tests for <code>{@link BigDecimals#assertIsNotZero(AssertionInfo, BigDecimal)}</code>.
  *
  * @author Yvonne Wang
  */
-public class Floats_assertIsNotNaN_Test {
+public class BigDecimals_assertIsNotZero_Test {
 
   private Comparables comparables;
-  private Floats doubles;
+  private BigDecimals bigDecimals;
 
   @Before public void setUp() {
     comparables = mock(Comparables.class);
-    doubles = new Floats();
-    doubles.comparables = comparables;
+    bigDecimals = new BigDecimals();
+    bigDecimals.comparables = comparables;
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_NaN() {
+  @Test public void should_verify_that_actual_is_not_equal_to_zero() {
     AssertionInfo info = someInfo();
-    doubles.assertIsNotNaN(info, 6f);
-    verify(comparables).assertNotEqualByComparison(info, 6f, NaN);
+    bigDecimals.assertIsNotZero(info, ONE);
+    verify(comparables).assertNotEqualByComparison(info, ONE, ZERO);
   }
 }
