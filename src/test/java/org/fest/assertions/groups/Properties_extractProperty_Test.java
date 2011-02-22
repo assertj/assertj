@@ -12,11 +12,13 @@
  *
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.collections;
+package org.fest.assertions.groups;
 
 import static junit.framework.Assert.assertEquals;
+import static org.fest.assertions.test.ExpectedException.none;
 
-import org.junit.Test;
+import org.fest.assertions.test.ExpectedException;
+import org.junit.*;
 
 /**
  * Tests for <code>{@link Properties#extractProperty(String)}</code>.
@@ -25,8 +27,20 @@ import org.junit.Test;
  */
 public class Properties_extractProperty_Test {
 
+  @Rule public ExpectedException thrown = none();
+
   @Test public void should_create_a_new_Properties() {
     Properties properties = Properties.extractProperty("id");
     assertEquals("id", properties.propertyName);
+  }
+
+  @Test public void should_throw_error_if_property_name_is_null() {
+    thrown.expectNullPointerException("The name of the property to read should not be null");
+    Properties.extractProperty(null);
+  }
+
+  @Test public void should_throw_error_if_property_name_is_empty() {
+    thrown.expectIllegalArgumentException("The name of the property to read should not be empty");
+    Properties.extractProperty("");
   }
 }

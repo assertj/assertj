@@ -46,16 +46,6 @@ public class PropertySupport_propertyValues_Test {
 
   @Rule public ExpectedException thrown = none();
 
-  @Test public void should_throw_error_if_property_name_is_null() {
-    thrown.expectNullPointerException("The name of the property to read should not be null");
-    propertySupport.propertyValues(null, employees);
-  }
-
-  @Test public void should_throw_error_if_property_name_is_empty() {
-    thrown.expectIllegalArgumentException("The name of the property to read should not be empty");
-    propertySupport.propertyValues("", employees);
-  }
-
   @Test public void should_return_empty_List_if_given_Collection_is_null() {
     List<Object> ids = propertySupport.propertyValues("ids", null);
     assertEquals(emptyList(), ids);

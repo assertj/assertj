@@ -12,7 +12,9 @@
  *
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.collections;
+package org.fest.assertions.groups;
+
+import static org.fest.assertions.util.ArrayWrapperList.wrap;
 
 import java.util.*;
 
@@ -20,7 +22,7 @@ import org.fest.assertions.internal.PropertySupport;
 import org.fest.util.*;
 
 /**
- * Extracts the values of an specified property from the elements of a given <code>{@link Collection}</code>.
+ * Extracts the values of an specified property from the elements of a given <code>{@link Collection}</code> or array.
  *
  * @author Yvonne Wang
  */
@@ -34,10 +36,19 @@ public class Properties {
    * Creates a new <code>{@link Properties}</code>.
    * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a
    * nested property (e.g. "address.street.number").
+   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
    */
   public static Properties extractProperty(String propertyName) {
+    checkIsNotNullOrEmpty(propertyName);
     return new Properties(propertyName);
+  }
+
+  private static void checkIsNotNullOrEmpty(String propertyName) {
+    if (propertyName == null) throw new NullPointerException("The name of the property to read should not be null");
+    if (propertyName.length() == 0)
+      throw new IllegalArgumentException("The name of the property to read should not be empty");
   }
 
   @VisibleForTesting Properties(String propertyName) {
@@ -49,12 +60,21 @@ public class Properties {
    * the elements of the given <code>{@link Collection}</code>.
    * @param c the given {@code Collection}.
    * @return the values of the previously specified property extracted from the given {@code Collection}.
-   * @throws NullPointerException if the property name is {@code null}.
-   * @throws NullPointerException if the property name is empty.
    * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
    * name.
    */
   public List<?> from(Collection<?> c) {
     return propertySupport.propertyValues(propertyName, c);
+  }
+
+  /**
+   * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from
+   * the elements of the given array.
+   * @param array the given array.
+   * @return the values of the previously specified property extracted from the given array.
+   * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
+   */
+  public List<?> from(Object[] array) {
+    return propertySupport.propertyValues(propertyName, wrap(array));
   }
 }

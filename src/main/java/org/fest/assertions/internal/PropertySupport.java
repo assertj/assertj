@@ -51,17 +51,15 @@ public class PropertySupport {
    * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
    * given <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will
    * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   * for {@code null} or empty.
    * @param target the given {@code Collection}.
    * @return a {@code List} containing the values of the given property name, from the elements of the given
    * {@code Collection}.
-   * @throws NullPointerException if the given property name is {@code null}.
-   * @throws NullPointerException if the given property name is empty.
    * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
    * name.
    */
   public List<Object> propertyValues(String propertyName, Collection<?> target) {
-    verifyIsNotNullOrEmpty(propertyName);
     // ignore null elements as we can't extract a property from a null object
     Collection<?> cleanedUp = nonNullElements(target);
     if (isEmpty(cleanedUp)) return emptyList();
@@ -72,12 +70,6 @@ public class PropertySupport {
       return propertyValues(nextPropertyNameFrom(propertyName), propertyValues);
     }
     return simplePropertyValues(propertyName, cleanedUp);
-  }
-
-  private void verifyIsNotNullOrEmpty(String propertyName) {
-    if (propertyName == null) throw new NullPointerException("The name of the property to read should not be null");
-    if (propertyName.length() == 0)
-      throw new IllegalArgumentException("The name of the property to read should not be empty");
   }
 
   private List<Object> simplePropertyValues(String propertyName, Collection<?> target) {

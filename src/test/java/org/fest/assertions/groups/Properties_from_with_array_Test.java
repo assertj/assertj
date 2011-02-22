@@ -12,10 +12,11 @@
  *
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.collections;
+package org.fest.assertions.groups;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.util.Collections.list;
+import static org.fest.assertions.util.ArrayWrapperList.wrap;
+import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
@@ -25,18 +26,18 @@ import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Properties#from(Collection)}</code>.
+ * Tests for <code>{@link Properties#from(Object[])}</code>.
  *
  * @author Yvonne Wang
  */
-public class Properties_from_Test {
+public class Properties_from_with_array_Test {
 
   private static Employee yoda;
-  private static List<Employee> employees;
+  private static Object[] employees;
 
   @BeforeClass public static void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
-    employees = list(yoda);
+    employees = array(yoda);
   }
 
   private PropertySupport propertySupport;
@@ -53,7 +54,7 @@ public class Properties_from_Test {
   @Test public void should_return_values_of_property() {
     List<Object> ids = new ArrayList<Object>();
     ids.add(yoda.getId());
-    when(propertySupport.propertyValues(propertyName, employees)).thenReturn(ids);
+    when(propertySupport.propertyValues(propertyName, wrap(employees))).thenReturn(ids);
     assertSame(ids, properties.from(employees));
   }
 }
