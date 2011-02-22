@@ -18,7 +18,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.list;
@@ -56,7 +56,7 @@ public class Lists_assertDoesNotContain_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     lists.assertDoesNotContain(someInfo(), null, "Yoda", someIndex());
   }
 

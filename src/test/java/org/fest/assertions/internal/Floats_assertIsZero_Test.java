@@ -39,6 +39,6 @@ public class Floats_assertIsZero_Test {
   @Test public void should_verify_that_actual_is_equal_to_zero() {
     AssertionInfo info = someInfo();
     floats.assertIsZero(info, 6f);
-    verify(comparables).assertEqual(info, 6f, 0f);
+    verify(comparables).assertEqualByComparison(info, 6f, 0f);
   }
 }

@@ -40,6 +40,6 @@ public class Floats_assertIsNotNaN_Test {
   @Test public void should_verify_that_actual_is_equal_to_NaN() {
     AssertionInfo info = someInfo();
     doubles.assertIsNotNaN(info, 6f);
-    verify(comparables).assertNotEqual(info, 6f, NaN);
+    verify(comparables).assertNotEqualByComparison(info, 6f, NaN);
   }
 }

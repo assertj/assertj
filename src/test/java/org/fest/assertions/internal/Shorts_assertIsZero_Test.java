@@ -39,6 +39,6 @@ public class Shorts_assertIsZero_Test {
   @Test public void should_verify_that_actual_is_equal_to_zero() {
     AssertionInfo info = someInfo();
     shorts.assertIsZero(info, (short)6);
-    verify(comparables).assertEqual(info, (short)6, (short)0);
+    verify(comparables).assertEqualByComparison(info, (short)6, (short)0);
   }
 }

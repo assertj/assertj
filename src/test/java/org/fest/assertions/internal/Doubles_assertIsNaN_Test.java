@@ -40,6 +40,6 @@ public class Doubles_assertIsNaN_Test {
   @Test public void should_verify_that_actual_is_equal_to_NaN() {
     AssertionInfo info = someInfo();
     doubles.assertIsNaN(info, 6d);
-    verify(comparables).assertEqual(info, 6d, NaN);
+    verify(comparables).assertEqualByComparison(info, 6d, NaN);
   }
 }

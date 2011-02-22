@@ -53,12 +53,12 @@ public class DoubleArrays_assertContains_at_Index_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     arrays.assertContains(someInfo(), null, 8d, someIndex());
   }
 
   @Test public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(unexpectedEmpty());
+    thrown.expectAssertionError(actualIsEmpty());
     arrays.assertContains(someInfo(), emptyArray(), 8d, someIndex());
   }
 

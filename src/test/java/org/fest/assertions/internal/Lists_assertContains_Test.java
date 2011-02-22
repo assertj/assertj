@@ -56,12 +56,12 @@ public class Lists_assertContains_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     lists.assertContains(someInfo(), null, "Yoda", someIndex());
   }
 
   @Test public void should_fail_if_actual_is_empty() {
-    thrown.expectAssertionError(unexpectedEmpty());
+    thrown.expectAssertionError(actualIsEmpty());
     lists.assertContains(someInfo(), emptyList(), "Yoda", someIndex());
   }
 

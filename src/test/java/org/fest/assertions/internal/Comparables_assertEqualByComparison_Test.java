@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.junit.Assert.assertFalse;
@@ -29,11 +29,11 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Comparables#assertEqual(AssertionInfo, Comparable, Comparable)}</code>.
+ * Tests for <code>{@link Comparables#assertEqualByComparison(AssertionInfo, Comparable, Comparable)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Comparables_assertEqual_Test {
+public class Comparables_assertEqualByComparison_Test {
 
   @Rule public ExpectedException thrown = none();
 
@@ -47,8 +47,8 @@ public class Comparables_assertEqual_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
-    comparables.assertEqual(someInfo(), null, 8);
+    thrown.expectAssertionError(actualIsNull());
+    comparables.assertEqualByComparison(someInfo(), null, 8);
   }
 
   @Test public void should_pass_if_objects_are_equal() {
@@ -57,13 +57,13 @@ public class Comparables_assertEqual_Test {
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
     // 'compareTo' is not consistent with 'equals'
     assertFalse(a.equals(e));
-    comparables.assertEqual(someInfo(), a, e);
+    comparables.assertEqualByComparison(someInfo(), a, e);
   }
 
   @Test public void should_fail_if_objects_are_not_equal() {
     AssertionInfo info = someInfo();
     try {
-      comparables.assertEqual(info, "Luke", "Yoda");
+      comparables.assertEqualByComparison(info, "Luke", "Yoda");
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
       return;

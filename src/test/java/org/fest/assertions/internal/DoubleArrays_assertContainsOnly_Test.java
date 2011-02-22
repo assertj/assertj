@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.set;
@@ -76,7 +76,7 @@ public class DoubleArrays_assertContainsOnly_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     arrays.assertContainsOnly(someInfo(), null, array(8d));
   }
 

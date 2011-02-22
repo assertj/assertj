@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.fest.assertions.util.ImageReader;
@@ -40,6 +41,15 @@ import org.fest.assertions.util.ImageReader;
  * @author Ted Young
  */
 public class Assertions {
+
+  /**
+   * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static BigDecimalAssert assertThat(BigDecimal actual) {
+    return new BigDecimalAssert(actual);
+  }
 
   /**
    * Creates a new instance of <code>{@link BooleanAssert}</code>.

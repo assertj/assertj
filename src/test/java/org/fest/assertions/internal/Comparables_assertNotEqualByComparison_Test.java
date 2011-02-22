@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -26,11 +26,11 @@ import org.fest.assertions.test.*;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Comparables#assertNotEqual(AssertionInfo, Comparable, Comparable)}</code>.
+ * Tests for <code>{@link Comparables#assertNotEqualByComparison(AssertionInfo, Comparable, Comparable)}</code>.
  *
  * @author Alex Ruiz
  */
-public class Comparables_assertNotEqual_Test {
+public class Comparables_assertNotEqualByComparison_Test {
 
   @Rule public ExpectedException thrown = none();
 
@@ -44,21 +44,21 @@ public class Comparables_assertNotEqual_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
-    comparables.assertNotEqual(someInfo(), null, 8);
+    thrown.expectAssertionError(actualIsNull());
+    comparables.assertNotEqualByComparison(someInfo(), null, 8);
   }
 
   @Test public void should_pass_if_objects_are_not_equal() {
     Person a = spy(new Person("Han"));
     Person o = new Person("Yoda");
-    comparables.assertNotEqual(someInfo(), a, o);
+    comparables.assertNotEqualByComparison(someInfo(), a, o);
     verify(a).compareTo(o);
   }
 
   @Test public void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      comparables.assertNotEqual(info, "Yoda", "Yoda");
+      comparables.assertNotEqualByComparison(info, "Yoda", "Yoda");
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
       return;

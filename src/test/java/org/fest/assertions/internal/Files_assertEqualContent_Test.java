@@ -18,7 +18,7 @@ import static junit.framework.Assert.*;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.fest.util.Collections.list;
@@ -79,7 +79,7 @@ public class Files_assertEqualContent_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     files.assertEqualContent(someInfo(), null, expected);
   }
 

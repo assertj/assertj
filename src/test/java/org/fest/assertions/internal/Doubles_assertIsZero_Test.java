@@ -39,6 +39,6 @@ public class Doubles_assertIsZero_Test {
   @Test public void should_verify_that_actual_is_equal_to_zero() {
     AssertionInfo info = someInfo();
     doubles.assertIsZero(info, 6d);
-    verify(comparables).assertEqual(info, 6d, 0d);
+    verify(comparables).assertEqualByComparison(info, 6d, 0d);
   }
 }

@@ -18,7 +18,7 @@ import static java.awt.Color.BLUE;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.internal.Images.sizeOf;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -55,7 +55,7 @@ public class Images_assertHasSize_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     images.assertHasSize(someInfo(), null, new Dimension());
   }
 

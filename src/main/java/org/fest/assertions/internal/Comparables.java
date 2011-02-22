@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.util.VisibleForTesting;
@@ -57,7 +57,7 @@ public class Comparables {
    * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
    * values are not equal.
    */
-  public <T extends Comparable<T>> void assertEqual(AssertionInfo info, T actual, T expected) {
+  public <T extends Comparable<T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
     if (actual.compareTo(expected) == 0) return;
     throw failures.failure(info, shouldBeEqual(actual, expected));
@@ -73,7 +73,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
-  public <T extends Comparable<T>> void assertNotEqual(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<T>> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (actual.compareTo(other) != 0) return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));
@@ -152,5 +152,4 @@ public class Comparables {
   private static <T> void assertNotNull(AssertionInfo info, T actual) {
     Objects.instance().assertNotNull(info, actual);
   }
-
 }

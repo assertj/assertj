@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -61,7 +61,7 @@ public class Strings_assertDoesNotContain_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     strings.assertDoesNotContain(someInfo(), null, "Yoda");
   }
 

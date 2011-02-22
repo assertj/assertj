@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
 import static org.mockito.Mockito.*;
@@ -44,7 +44,7 @@ public class Comparables_assertGreaterThan_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     comparables.assertGreaterThan(someInfo(), null, 8);
   }
 

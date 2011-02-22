@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ShortArrayFactory.array;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -51,7 +51,7 @@ public class ShortArrays_assertHasSize_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     arrays.assertHasSize(someInfo(), null, 3);
   }
 

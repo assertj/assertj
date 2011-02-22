@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
-import static org.fest.assertions.test.FailureMessages.unexpectedNull;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
@@ -65,7 +65,7 @@ public class Collections_assertEndsWith_Test {
   }
 
   @Test public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(unexpectedNull());
+    thrown.expectAssertionError(actualIsNull());
     collections.assertEndsWith(someInfo(), null, array("Yoda"));
   }
 
