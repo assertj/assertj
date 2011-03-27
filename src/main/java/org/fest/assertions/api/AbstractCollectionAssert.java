@@ -103,4 +103,16 @@ public abstract class AbstractCollectionAssert<S, A extends Collection<?>> exten
     collections.assertEndsWith(info, actual, sequence);
     return myself;
   }
+
+  /** {@inheritDoc} */
+  public S containsNull() {
+    collections.assertContainsNull(info, actual);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S doesNotContainNull() {
+    collections.assertDoesNotContainNull(info, actual);
+    return myself;
+  }
 }

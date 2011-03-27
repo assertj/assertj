@@ -14,19 +14,21 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
@@ -161,7 +163,8 @@ class Arrays {
     if (!firstAlreadyFound || i < sequenceSize) throw arrayDoesNotContainSequence(info, failures, array, sequence);
   }
 
-  private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
+  private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array,
+      Object sequence) {
     return failures.failure(info, shouldContainSequence(array, sequence));
   }
 
@@ -224,6 +227,16 @@ class Arrays {
       if (areEqual(Array.get(sequence, sequenceIndex), Array.get(array, arrayIndex))) continue;
       throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
     }
+  }
+
+  void assertContainsNull(AssertionInfo info, Failures failures, Object array) {
+    assertNotNull(info, array);
+    if (!arrayContains(array, null)) throw failures.failure(info, shouldContainNull(array));
+  }
+
+  void assertDoesNotContainNull(AssertionInfo info, Failures failures, Object array) {
+    assertNotNull(info, array);
+    if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
   }
 
   private void checkIsNotNullAndNotEmpty(Object values) {

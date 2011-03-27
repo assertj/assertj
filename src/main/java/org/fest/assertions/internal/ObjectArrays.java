@@ -216,4 +216,27 @@ public class ObjectArrays {
   public void assertEndsWith(AssertionInfo info, Object[] actual, Object[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
+
+  /**
+   * Asserts that the given array contains at least a null element.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not contain a null element.
+   */
+  public void assertContainsNull(AssertionInfo info, Object[] actual) {
+    arrays.assertContainsNull(info, failures, actual);
+  }
+
+  /**
+   * Asserts that the given array does not contain null elements.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array contains a null element.
+   */
+  public void assertDoesNotContainNull(AssertionInfo info, Object[] actual) {
+    arrays.assertDoesNotContainNull(info, failures, actual);
+  }
+
 }

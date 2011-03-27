@@ -14,17 +14,19 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
+import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.util.Collections.*;
 import static org.fest.util.Objects.areEqual;
@@ -281,6 +283,30 @@ public class Collections {
       if (areEqual(o, sequence[sequenceIndex++])) continue;
       throw actualDoesNotEndWithSequence(info, actual, sequence);
     }
+  }
+
+  /**
+   * Asserts that the given {@code Collection} contains at least a null element.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} does not contain at least a null element.
+   */
+  public void assertContainsNull(AssertionInfo info, Collection<?> actual) {
+    assertNotNull(info, actual);
+    if (!actual.contains(null)) throw failures.failure(info, shouldContainNull(actual));
+  }
+
+  /**
+   * Asserts that the given {@code Collection} does not contain null elements.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Collection}.
+   * @throws AssertionError if the given {@code Collection} is {@code null}.
+   * @throws AssertionError if the given {@code Collection} contains a null element.
+   */
+  public void assertDoesNotContainNull(AssertionInfo info, Collection<?> actual) {
+    assertNotNull(info, actual);
+    if (actual.contains(null)) throw failures.failure(info, shouldNotContainNull(actual));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {

@@ -112,4 +112,16 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert containsNull() {
+    arrays.assertContainsNull(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert doesNotContainNull() {
+    arrays.assertDoesNotContainNull(info, actual);
+    return this;
+  }
 }

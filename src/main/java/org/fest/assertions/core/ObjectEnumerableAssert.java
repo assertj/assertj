@@ -102,4 +102,21 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
   S endsWith(Object... sequence);
+
+  /**
+   * Verifies that the actual group contains at least a null element.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain a null element.
+   */
+  S containsNull();
+
+  /**
+   * Verifies that the actual group does not contain null elements.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains a null element.
+   */
+  S doesNotContainNull();
+
 }
