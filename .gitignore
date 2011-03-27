@@ -2,3 +2,5 @@
 /target
 /target
 /clover.license
+/actual.txt
+/expected.txt
