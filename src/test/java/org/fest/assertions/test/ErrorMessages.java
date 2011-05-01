@@ -86,5 +86,17 @@ public final class ErrorMessages {
     return "The array of values to look for should not be null";
   }
 
+  public static String dateToCompareActualWithIsNull() {
+    return "The date to compare actual with should not be null";
+  }
+
+  public static String startDateToCompareActualWithIsNull() {
+    return "The start date of period to compare actual with should not be null";
+  }
+
+  public static String endDateToCompareActualWithIsNull() {
+    return "The end date of period to compare actual with should not be null";
+  }
+
   private ErrorMessages() {}
 }
