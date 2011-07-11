@@ -222,6 +222,20 @@ public class Dates {
   }
 
   /**
+   * Verifies that the actual {@code Date} is strictly after the given year.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param year the year to compare actual year to
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} year is before or equals to the given year.
+   */
+  public void assertIsAfterYear(AssertionInfo info, Date actual, int year) {
+    assertNotNull(info, actual);
+    if (yearOf(actual) > year) return;
+    throw failures.failure(info, shouldBeAfter(actual, year));
+  }
+  
+  /**
    * Verifies that the actual {@code Date} year is equal to the given year.
    * @param year the year to compare actual year to
    * @param info contains information about the assertion.

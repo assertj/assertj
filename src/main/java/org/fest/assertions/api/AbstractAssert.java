@@ -36,7 +36,7 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   @VisibleForTesting Conditions conditions = Conditions.instance();
 
   @VisibleForTesting final WritableAssertionInfo info;
-  @VisibleForTesting final A actual;
+  @VisibleForTesting protected final A actual;
 
   protected final S myself;
 
@@ -104,13 +104,13 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public final S isIn(Object... values) {
+  public final S isIn(A... values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotIn(Object... values) {
+  public final S isNotIn(A... values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }

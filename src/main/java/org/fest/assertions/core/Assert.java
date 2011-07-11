@@ -81,7 +81,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is not present in the given array.
    */
-  S isIn(Object...values);
+  S isIn(A...values);
 
   /**
    * Verifies that the actual value is not present in the given array of values.
@@ -91,7 +91,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is present in the given array.
    */
-  S isNotIn(Object...values);
+  S isNotIn(A...values);
 
   /**
    * Verifies that the actual value is present in the given collection of values.

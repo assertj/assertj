@@ -10,7 +10,7 @@ import org.fest.util.VisibleForTesting;
 
 // TODO test case with string date not following expected format (null or bad format)
 /**
- *
+ * 
  * Assertions for {@code Date}s.
  * <p>
  * To create a new instance of this class invoke <code>{@link Assertions#assertThat(Date)}</code>.
@@ -21,8 +21,8 @@ import org.fest.util.VisibleForTesting;
  * calling {@link #withDateFormat(DateFormat)}.<br>
  * The user custom format will then be used for all next Date assertions (i.e not limited to the current assertion) in
  * the test suite.<br>
- * To turn back to default format, simply call {@link #withDefaultDateFormat()}.
- *
+ * To turn back to default format, simply call {@link #withIsoDateFormat()}.
+ * 
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)
  * @author Joel Costigliola
  */
@@ -47,6 +47,98 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     super(actual, DateAssert.class);
   }
 
+  /**
+   * Same assertion as {@link #isEqualTo(Date)} but given Date is represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * @param dateAsString the given Date represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as String are not equal.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
+   */
+  public DateAssert isEqualTo(String dateAsString) {
+    return isEqualTo(parse(dateAsString));
+  }
+
+  /**
+   * Same assertion as {@link #isNotEqualTo(Date)} but given Date is represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * @param dateAsString the given Date represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual and given Date represented as String are equal.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
+   */
+  public DateAssert isNotEqualTo(String dateAsString) {
+    return isNotEqualTo(parse(dateAsString));
+  }
+  
+  /**
+   * Same assertion as {@link #isIn(Object...))} but given Dates are represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * @param datesAsString the given Dates represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual is not in given Dates represented as String.
+   * @throws AssertionError if one of the given date as String could not be converted to a Date.
+   */
+  public DateAssert isIn(String... datesAsString) {
+    Date[] dates = new Date[datesAsString.length];
+    for (int i = 0; i < datesAsString.length; i++) {
+      dates[i] = parse(datesAsString[i]);
+    }
+    return isIn(dates);
+  }
+
+  /**
+   * Same assertion as {@link #isIn(Collection))} but given Dates are represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
+   * Method signature could not be <code>isIn(Collection<String>)</code> because it would be same signature as
+   * <code>isIn(Collection<Date>)</code> since java collection type are erased at runtime.
+   * @param datesAsString the given Dates represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual is not in given Dates represented as String.
+   * @throws AssertionError if one of the given date as String could not be converted to a Date.
+   */
+  public DateAssert isInWithStringDateCollection(Collection<String> datesAsString) {
+    Collection<Date> dates = new ArrayList<Date>(datesAsString.size());
+    for (String dateAsString : datesAsString) {
+      dates.add(parse(dateAsString));
+    }
+    return isIn(dates);
+  }
+
+  /**
+   * Same assertion as {@link #isNotIn(Object...))} but given Dates are represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * @param datesAsString the given Dates represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual is in given Dates represented as String.
+   * @throws AssertionError if one of the given date as String could not be converted to a Date.
+   */
+  public DateAssert isNotIn(String... datesAsString) {
+    Date[] dates = new Date[datesAsString.length];
+    for (int i = 0; i < datesAsString.length; i++) {
+      dates[i] = parse(datesAsString[i]);
+    }
+    return isNotIn(dates);
+  }
+  
+  /**
+   * Same assertion as {@link #isNotIn(Collection))} but given Dates are represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
+   * Method signature could not be <code>isNotIn(Collection<String>)</code> because it would be same signature as
+   * <code>isNotIn(Collection<Date>)</code> since java collection type are erased at runtime.
+   * @param datesAsString the given Dates represented as String in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if actual is in given Dates represented as String.
+   * @throws AssertionError if one of the given date as String could not be converted to a Date.
+   */
+  public DateAssert isNotInWithStringDateCollection(Collection<String> datesAsString) {
+    Collection<Date> dates = new ArrayList<Date>(datesAsString.size());
+    for (String dateAsString : datesAsString) {
+      dates.add(parse(dateAsString));
+    }
+    return isNotIn(dates);
+  }
+  
   /**
    * Verifies that the actual {@code Date} is <b>strictly</b> before the given one.
    * @param other the given Date.
@@ -339,6 +431,18 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
+   * Verifies that the actual {@code Date} is <b>strictly</b> after the given year.
+   * @param year the year to compare actual year to
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} year is before or equals to the given year.
+   */
+  public DateAssert isAfterYear(int year) {
+    dates.assertIsAfterYear(info, actual, year);
+    return this;
+  }
+  
+  /**
    * Verifies that the actual {@code Date} year is equal to the given year.
    * @param year the year to compare actual year to
    * @return this assertion object.
@@ -470,7 +574,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare month only (without year), use :
    * <code>assertThat(myDate).isWithinMonth(monthOf(otherDate))</code><br>
    * See {@link org.fest.util.Dates#monthOf(Date)} to get the month of a given Date.
-   *
+   * 
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -502,7 +606,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * If you want to compare day of month only (without month and year), you could write :
    * <code>assertThat(myDate).isWithinDayOfMonth(dayOfMonthOf(otherDate))</code><br>
    * see {@link org.fest.util.Dates#dayOfMonthOf(Date)} to get the day of month of a given Date.
-   *
+   * 
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
    * @throws NullPointerException if {@code Date} parameter is {@code null}.
@@ -546,8 +650,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isInSameHourAs(Date)} but given Date is represented as String either with ISO date
-   * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * Same assertion as {@link #isInSameHourAs(Date)} but given Date is represented as String either with ISO date format
+   * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
    * @throws NullPointerException if dateAsString parameter is {@code null}.
@@ -621,7 +725,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Verifies that the actual {@code Date} is close to the other date by less than delta, if difference is equals to delta it is ok.<br>
+   * Verifies that the actual {@code Date} is close to the other date by less than delta, if difference is equals to
+   * delta it is ok.<br>
    * Note that delta expressed in milliseconds.<br>
    * Use handy TimeUnit to convert a duration in milliseconds, for example you can express a delta of 5 seconds with
    * <code>TimeUnit.SECONDS.toMillis(5)</code>.
@@ -656,25 +761,52 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * Date format, that is ISO 8601 format : "yyyy-MM-dd".
    * <p>
    * With this method, user can specify its own date format, replacing the current date format for all future Date
-   * assertions in the test suite (i.e. not only the current assertions).
+   * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
+   * field.
    * <p>
-   * To revert to default format simply call {@link #withDefaultDateFormat()}.
-   *
+   * To revert to default format simply call {@link #withIsoDateFormat()}.
+   * 
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
+   * @return this assertion object.
    */
-  public static void withDateFormat(DateFormat userCustomDateFormat) {
-    if (userCustomDateFormat == null) throw new NullPointerException("The given date format should not be null");
-    dateFormat = userCustomDateFormat;
+  public DateAssert withDateFormat(DateFormat userCustomDateFormat) {
+    useDateFormat(userCustomDateFormat);
+    return this;
   }
 
   /**
-   * Revert Date format used for String based Date assertions to the default one, that is ISO 8601 format :
-   * "yyyy-MM-dd".
+   * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow the default
+   * Date format, that is ISO 8601 format : "yyyy-MM-dd".
+   * <p>
+   * With this method, user can specify its own date format, replacing the current date format for all future Date
+   * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
+   * field.
+   * <p>
+   * To revert to default format simply call {@link #useIsoDateFormat()} (static method) or {@link #withIsoDateFormat()}.
+   * 
+   * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
-  public static void withDefaultDateFormat() {
-    dateFormat = ISO_DATE_FORMAT;
+  public static void useDateFormat(DateFormat userCustomDateFormat) {
+    if (userCustomDateFormat == null) throw new NullPointerException("The given date format should not be null");
+    dateFormat = userCustomDateFormat;
+  }
+  
+  /**
+   * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
+   * @return this assertion object.
+   */
+  public DateAssert withIsoDateFormat() {
+    useIsoDateFormat();
+    return this;
   }
 
+  /**
+   * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
+   */
+  public static void useIsoDateFormat() {
+    dateFormat = ISO_DATE_FORMAT;
+  }
+  
   /**
    * Utillity method to parse a Date with {@link #dateFormat}, note that it is thread safe.<br>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.

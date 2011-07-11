@@ -15,28 +15,31 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
 
-import java.util.Collection;
+import java.util.*;
+
+import org.junit.*;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link AbstractAssert#isIn(Collection)}</code>.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class AbstractAssert_isIn_with_Collection_Test {
 
-  private static Collection<?> values;
+  private static Collection<Object> values;
 
   private Objects objects;
   private ConcreteAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    values = list("Yoda", "Luke");
+    values = new ArrayList<Object>();
+    values.add("Yoda");
+    values.add("Luke");
   }
 
   @Before public void setUp() {
@@ -50,6 +53,11 @@ public class AbstractAssert_isIn_with_Collection_Test {
     verify(objects).assertIsIn(assertions.info, assertions.actual, values);
   }
 
+  @Test public void should_verify_that_actual_is_in_vararg() {
+    assertions.isIn("Yoda", "Luke");
+    verify(objects).assertIsIn(assertions.info, assertions.actual, new Object[] {"Yoda", "Luke"});
+  }
+  
   @Test public void should_return_this() {
     ConcreteAssert returned = assertions.isIn(values);
     assertSame(assertions, returned);

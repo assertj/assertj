@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.error;
 
+import static org.fest.util.Dates.parse;
+
 import java.util.Date;
 
 /**
@@ -31,6 +33,17 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBeAfter(Date actual, Date other) {
     return new ShouldBeAfter(actual, other);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeAfter}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param year the year to compare the actual date's year to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeAfter(Date actual, int year) {
+    Date januaryTheFirstOfGivenYear = parse(year + "-01-01");
+    return new ShouldBeAfter(actual, januaryTheFirstOfGivenYear);
   }
 
   private ShouldBeAfter(Date actual, Date other) {

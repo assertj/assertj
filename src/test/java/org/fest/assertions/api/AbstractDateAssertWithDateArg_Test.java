@@ -25,7 +25,7 @@ import org.fest.assertions.test.ExpectedException;
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>
  *
- * Subclasses are expected to define what is the invoked assertion method.
+ * Subclasses are expected to define the invoked assertion method.
  *
  * @author Joel Costigliola
  *
@@ -65,10 +65,10 @@ public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDat
 
   @Test
   public void should_verify_assertion_with_date_arg_string_following_custom_format() throws ParseException {
-    DateAssert.withDateFormat(customDateFormat);
+    assertions.withDateFormat(customDateFormat);
     assertionInvocationWithStringArg(dateAsStringWithCustomFormat);
     verifyAssertionInvocation(dateFormat.parse(dateAsStringWithCustomFormat));
-    DateAssert.withDefaultDateFormat();
+    assertions.withIsoDateFormat();
   }
 
   @Test
