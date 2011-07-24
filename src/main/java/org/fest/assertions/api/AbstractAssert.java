@@ -36,6 +36,7 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   @VisibleForTesting Conditions conditions = Conditions.instance();
 
   @VisibleForTesting final WritableAssertionInfo info;
+  // visibility is protected to allow use write custom assertions that need to access actual
   @VisibleForTesting protected final A actual;
 
   protected final S myself;
