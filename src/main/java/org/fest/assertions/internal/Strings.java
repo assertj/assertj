@@ -14,16 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
-import static org.fest.assertions.error.ShouldContainString.*;
-import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
-import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldContainString.*;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 
 import java.util.regex.*;
 
@@ -47,7 +47,7 @@ public class Strings {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures;
+  @VisibleForTesting Failures failures = Failures.instance();
 
   @VisibleForTesting Strings() {}
 
