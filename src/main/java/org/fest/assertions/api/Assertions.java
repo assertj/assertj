@@ -349,6 +349,15 @@ public class Assertions {
     return new DateAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion Throwable.
+   */
+  public static ThrowableAssert assertThat(Throwable actual) {
+    return new ThrowableAssert(actual);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

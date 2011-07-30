@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.*;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.assertions.test.Exceptions.assertionFailingOnPurpose;
+import static org.fest.assertions.test.ExceptionsForTest.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.*;
 

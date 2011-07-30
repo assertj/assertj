@@ -19,11 +19,11 @@ package org.fest.assertions.test;
  *
  * @author Alex Ruiz
  */
-public final class Exceptions {
+public final class ExceptionsForTest {
 
   public static AssertionError assertionFailingOnPurpose() {
     return new AssertionError("Thrown on purpose");
   }
 
-  private Exceptions() {}
+  private ExceptionsForTest() {}
 }
