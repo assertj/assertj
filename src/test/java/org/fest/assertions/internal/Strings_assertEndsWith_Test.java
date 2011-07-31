@@ -14,16 +14,18 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Strings#assertEndsWith(AssertionInfo, String, String)}</code>.
@@ -48,7 +50,7 @@ public class Strings_assertEndsWith_Test {
     try {
       strings.assertEndsWith(info, "Yoda", "Luke");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
+      verify(failures).failure(info, shouldEndWith("Yoda", "Luke"));
       return;
     }
     throw expectedAssertionErrorNotThrown();

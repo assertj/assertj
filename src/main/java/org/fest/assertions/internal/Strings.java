@@ -18,6 +18,7 @@ import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldContainString.*;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -205,7 +206,7 @@ public class Strings {
     if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
     if (actual.endsWith(suffix)) return;
-    throw failures.failure(info, shouldStartWith(actual, suffix));
+    throw failures.failure(info, shouldEndWith(actual, suffix)); 
   }
 
   /**
