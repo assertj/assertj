@@ -15,14 +15,16 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.*;
+
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.assertions.test.ExceptionsForTest.assertionFailingOnPurpose;
 import static org.fest.util.Arrays.array;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.*;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.
@@ -50,7 +52,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   }
 
   @Test public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
-    when(createComparisonFailure()).thenThrow(assertionFailingOnPurpose());
+    when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
     AssertionError error = factory.newAssertionError(description);
     check(error);
   }
