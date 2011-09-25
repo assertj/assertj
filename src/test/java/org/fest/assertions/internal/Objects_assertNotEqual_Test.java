@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -50,6 +50,6 @@ public class Objects_assertNotEqual_Test {
       verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

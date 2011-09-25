@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 
 import static org.mockito.Mockito.*;
@@ -76,6 +76,6 @@ public class ObjectArrays_assertContainsNull_Test {
       verify(failures).failure(info, shouldContainNull(actual));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

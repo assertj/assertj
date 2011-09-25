@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtInde
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.*;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
 
@@ -84,7 +84,7 @@ public class Lists_assertContains_Test {
       verify(failures).failure(info, shouldContainAtIndex(actual, "Han", index, "Luke"));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_actual_contains_value_at_index() {

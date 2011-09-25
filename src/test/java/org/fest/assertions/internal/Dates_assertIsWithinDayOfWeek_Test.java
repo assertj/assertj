@@ -19,7 +19,7 @@ import static java.util.Calendar.*;
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -53,7 +53,7 @@ public class Dates_assertIsWithinDayOfWeek_Test extends AbstractDatesTest {
       verify(failures).failure(info, shouldBeWithin(actual, "day of week", day_of_week));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualCo
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.fest.util.Files.*;
 import static org.mockito.Mockito.*;
@@ -92,7 +92,7 @@ public class Files_assertEqualContent_Test {
       verify(failures).failure(info, shouldBeFile(notAFile));
       return;
     }
-    expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_files_have_equal_content() throws IOException {
@@ -121,6 +121,6 @@ public class Files_assertEqualContent_Test {
       verify(failures).failure(info, shouldHaveEqualContent(actual, expected, diffs));
       return;
     }
-    expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

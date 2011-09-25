@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -55,7 +55,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -72,7 +72,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -89,7 +89,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

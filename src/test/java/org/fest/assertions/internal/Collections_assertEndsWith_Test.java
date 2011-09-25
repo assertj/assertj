@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
@@ -78,7 +78,7 @@ public class Collections_assertEndsWith_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_actual_does_not_end_with_sequence() {
@@ -90,7 +90,7 @@ public class Collections_assertEndsWith_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_but_not_whole_sequence() {
@@ -102,7 +102,7 @@ public class Collections_assertEndsWith_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_sequence_is_smaller_than_end_of_actual() {
@@ -114,7 +114,7 @@ public class Collections_assertEndsWith_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {

@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldBeAfter.shouldBeAfter;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -51,7 +51,7 @@ public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotStrictlyAfterGivenYear(info, actual, year);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -65,7 +65,7 @@ public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotStrictlyAfterGivenYear(info, actual, year);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.test.CharArrayFactory.array;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -51,7 +51,7 @@ public class Strings_assertEqualsIgnoringCase_Test {
       verifyFailureThrownWhenStringsAreNotEqual(info, null, "Luke");
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_both_Strings_are_not_equal_regardless_of_case() {
@@ -62,7 +62,7 @@ public class Strings_assertEqualsIgnoringCase_Test {
       verifyFailureThrownWhenStringsAreNotEqual(info, "Yoda", "Luke");
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenStringsAreNotEqual(AssertionInfo info, String actual, String expected) {

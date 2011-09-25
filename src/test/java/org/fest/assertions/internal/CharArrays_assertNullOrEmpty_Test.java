@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -52,7 +52,7 @@ public class CharArrays_assertNullOrEmpty_Test {
       verify(failures).failure(info, shouldBeNullOrEmpty(actual));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_array_is_null() {

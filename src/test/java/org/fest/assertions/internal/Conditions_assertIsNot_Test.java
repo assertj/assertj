@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldNotBe.shouldNotBe;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.*;
@@ -70,6 +70,6 @@ public class Conditions_assertIsNot_Test {
       verify(failures).failure(info, shouldNotBe(actual, condition));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

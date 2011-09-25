@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeInSameMonth.shouldBeInSameMonth;
 import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -52,7 +52,7 @@ public class Dates_assertIsInSameMonthAs_Test extends AbstractDatesTest {
       verify(failures).failure(info, shouldBeInSameMonth(actual, other));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

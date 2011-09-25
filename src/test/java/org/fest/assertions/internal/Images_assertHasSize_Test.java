@@ -20,7 +20,7 @@ import static org.fest.assertions.internal.Images.sizeOf;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.awt.Dimension;
@@ -77,7 +77,7 @@ public class Images_assertHasSize_Test {
       verifyFailureThrownWhenSizesAreNotEqual(info, size);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_actual_has_different_height() {
@@ -89,7 +89,7 @@ public class Images_assertHasSize_Test {
       verifyFailureThrownWhenSizesAreNotEqual(info, size);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenSizesAreNotEqual(AssertionInfo info, Dimension size) {

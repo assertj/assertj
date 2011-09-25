@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOr
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -64,6 +64,6 @@ public class Shorts_assertGreaterThanOrEqualTo_Test {
       verify(failures).failure(info, shouldBeGreaterOrEqual((short)6, (short)8));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

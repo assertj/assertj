@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.awt.Color.BLUE;
 import static org.fest.assertions.error.ShouldNotBeEqualImages.shouldNotBeEqualImages;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.awt.image.BufferedImage;
@@ -72,7 +72,7 @@ public class Images_assertNotEqual_Test {
       verifyFailureThrownWhenImagesAreEqual(info);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_images_are_same() {
@@ -83,7 +83,7 @@ public class Images_assertNotEqual_Test {
       verifyFailureThrownWhenImagesAreEqual(info);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenImagesAreEqual(AssertionInfo info) {

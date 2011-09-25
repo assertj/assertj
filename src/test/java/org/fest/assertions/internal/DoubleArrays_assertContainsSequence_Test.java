@@ -20,7 +20,7 @@ import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -75,7 +75,7 @@ public class DoubleArrays_assertContainsSequence_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_actual_does_not_contain_whole_sequence() {
@@ -87,7 +87,7 @@ public class DoubleArrays_assertContainsSequence_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_actual_contains_first_elements_of_sequence() {
@@ -99,7 +99,7 @@ public class DoubleArrays_assertContainsSequence_Test {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, double[] sequence) {

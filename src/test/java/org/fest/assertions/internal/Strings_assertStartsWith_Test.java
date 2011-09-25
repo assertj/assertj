@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -51,7 +51,7 @@ public class Strings_assertStartsWith_Test {
       verify(failures).failure(info, shouldStartWith("Yoda", "Luke"));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_throw_error_if_prefix_is_null() {

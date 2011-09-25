@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContain
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
 
@@ -86,6 +86,6 @@ public class Lists_assertDoesNotContain_Test {
       verify(failures).failure(info, shouldNotContainAtIndex(actual, "Yoda", index));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

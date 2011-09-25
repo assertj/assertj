@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.*;
 
@@ -60,6 +60,6 @@ public class Collections_assertNullOrEmpty_Test {
       verify(failures).failure(info, shouldBeNullOrEmpty(actual));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

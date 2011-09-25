@@ -19,7 +19,7 @@ import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDup
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.*;
 import static org.mockito.Mockito.*;
 
@@ -72,6 +72,6 @@ public class Collections_assertDoesNotHaveDuplicates_Test {
       verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.util.regex.Pattern;
@@ -62,7 +62,7 @@ public class Strings_assertDoesNotMatch_Pattern_Test {
       verify(failures).failure(info, shouldNotMatch(actual, pattern.pattern()));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_actual_is_null() {

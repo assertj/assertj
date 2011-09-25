@@ -22,7 +22,7 @@ import static org.fest.assertions.error.ShouldBeEqualImages.shouldBeEqualImages;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.internal.Images.sizeOf;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.awt.image.BufferedImage;
@@ -75,7 +75,7 @@ public class Images_assertEqual_Test {
       verifyFailureThrownWhenImagesAreNotEqual(info);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_expected_is_null_and_actual_is_not() {
@@ -86,7 +86,7 @@ public class Images_assertEqual_Test {
       verifyFailureThrownWhenImagesAreNotEqual(info);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   private void verifyFailureThrownWhenImagesAreNotEqual(AssertionInfo info) {
@@ -102,7 +102,7 @@ public class Images_assertEqual_Test {
       verify(failures).failure(info, shouldHaveSize(actual, sizeOf(actual), sizeOf(expected)));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_fail_if_images_have_same_size_but_different_color() {
@@ -114,6 +114,6 @@ public class Images_assertEqual_Test {
       verify(failures).failure(info, shouldBeEqualColors(yellow(), blue(), atPoint(0, 0), offset));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

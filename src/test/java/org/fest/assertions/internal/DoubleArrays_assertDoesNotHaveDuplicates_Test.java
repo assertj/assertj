@@ -19,7 +19,7 @@ import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
 import static org.mockito.Mockito.*;
 
@@ -69,6 +69,6 @@ public class DoubleArrays_assertDoesNotHaveDuplicates_Test {
       verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6d, 8d)));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

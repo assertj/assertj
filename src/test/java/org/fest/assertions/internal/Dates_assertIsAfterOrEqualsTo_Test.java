@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrE
 import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -52,7 +52,7 @@ public class Dates_assertIsAfterOrEqualsTo_Test extends AbstractDatesTest {
       verifyFailureThrownWhenActualIsNotAfterOrEqualsToOtherDate(info, actual, other);
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
@@ -68,6 +68,6 @@ public class Comparables_assertEqualByComparison_Test {
       verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

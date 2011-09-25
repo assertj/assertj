@@ -14,13 +14,15 @@
  */
 package org.fest.assertions.test;
 
+import org.junit.Assert;
+
 /**
  * @author Yvonne Wang
  */
 public final class TestFailures {
 
-  public static Error expectedAssertionErrorNotThrown() {
-    throw new AssertionError("expected AssertionError not thrown");
+  public static void failBecauseExpectedAssertionErrorWasNotThrown() {
+    Assert.fail("Assertion error expected");;
   }
 
   private TestFailures() {}

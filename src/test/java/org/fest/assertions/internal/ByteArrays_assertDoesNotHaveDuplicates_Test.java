@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ByteArrayFactory.*;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
 import static org.mockito.Mockito.*;
 
@@ -69,6 +69,6 @@ public class ByteArrays_assertDoesNotHaveDuplicates_Test {
       verify(failures).failure(info, shouldNotHaveDuplicates(actual, set((byte)6, (byte)8)));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

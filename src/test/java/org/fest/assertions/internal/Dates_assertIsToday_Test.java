@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldBeToday.shouldBeToday;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -50,7 +50,7 @@ public class Dates_assertIsToday_Test extends AbstractDatesTest {
       verify(failures).failure(info, shouldBeToday(actual));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test

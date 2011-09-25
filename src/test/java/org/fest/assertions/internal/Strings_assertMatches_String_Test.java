@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.util.regex.PatternSyntaxException;
@@ -72,7 +72,7 @@ public class Strings_assertMatches_String_Test {
       verify(failures).failure(info, shouldMatch(actual, "Luke"));
       return;
     }
-    throw expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_actual_matches_Pattern() {

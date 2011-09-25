@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeAbsolutePath.shouldBeAbsolutePat
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
@@ -61,7 +61,7 @@ public class Files_assertIsAbsolute_Test {
       verify(failures).failure(info, shouldBeAbsolutePath(actual));
       return;
     }
-    expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_actual_is_absolute_path() {

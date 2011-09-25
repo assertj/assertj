@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.expectedAssertionErrorNotThrown;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.*;
 
 import java.io.File;
@@ -61,7 +61,7 @@ public class Files_assertIsDirectory_Test {
       verify(failures).failure(info, shouldBeDirectory(actual));
       return;
     }
-    expectedAssertionErrorNotThrown();
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test public void should_pass_if_actual_is_directory() {
