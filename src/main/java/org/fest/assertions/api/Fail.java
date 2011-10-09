@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import org.fest.assertions.internal.Failures;
+
 /**
  * Common failures.
  * 
@@ -21,8 +23,16 @@ package org.fest.assertions.api;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public final class Fail {
+public final class Fail { 
 
+  /**
+   * Sets wether we remove elements related to Fest from assertion error stack trace.
+   * @param removeFestRelatedElementsFromStackTrace flag.
+   */
+  public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
+    Failures.instance().setRemoveFestRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
+  }
+  
   /**
    * Fails with the given message.
    * @param failureMessage error message.
@@ -30,7 +40,7 @@ public final class Fail {
    * @throws AssertionError with the given message.
    */
   public static void fail(String failureMessage) {
-    throw new AssertionError(failureMessage);
+    throw Failures.instance().failure(failureMessage);
   }
 
   /**
@@ -39,7 +49,7 @@ public final class Fail {
    * @param realCause cause of the error.
    */
   public static void fail(String failureMessage, Throwable realCause) {
-    AssertionError error = new AssertionError(failureMessage);
+    AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     throw error;
   }
@@ -50,7 +60,7 @@ public final class Fail {
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
     String message = String.format("Expected %s to be thrown", exceptionClass.getSimpleName());
-    throw new AssertionError(message);
+    throw Failures.instance().failure(message);
   }
 
   /**

@@ -21,6 +21,7 @@ import static org.fest.util.Objects.*;
 import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.Failures;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class ShouldBeEqual implements AssertionErrorFactory {
 
@@ -74,11 +76,12 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       // JUnit 4 manage this case ... weirdly, it will something like java.lang.String expected: java.lang.String<42.0> but was: java.lang.String<42.0>
       // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a float or a double
       // This is why it is better to built our own description, with the drawback of not using a ComparisonFailure (which looks nice in eclipse)
-      return new AssertionError(defaultDetailedErrorMessage(description));
+      return Failures.instance().failure(defaultDetailedErrorMessage(description));
     }
     AssertionError error = comparisonFailure(description);
+    Failures.instance().removeFestRelatedElementsFromStackTraceIfNeeded(error);
     if (error != null) return error;
-    return new AssertionError(defaultErrorMessage(description));
+    return Failures.instance().failure(defaultErrorMessage(description));
   }
 
   private boolean actualAndExpectedHaveSameStringRepresentation() {
