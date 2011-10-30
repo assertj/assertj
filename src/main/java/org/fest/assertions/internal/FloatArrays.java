@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.core.AssertionInfo;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
@@ -216,4 +218,27 @@ public class FloatArrays {
   public void assertEndsWith(AssertionInfo info, float[] actual, float[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   */
+  public void assertIsSorted(AssertionInfo info, float[] actual) {
+    arrays.assertIsSorted(info, failures, actual);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param comparator the {@link Comparator} used to compare array elements
+   */
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, float[] actual,
+      Comparator<? extends Float> comparator) {
+    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
 }

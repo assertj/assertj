@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ShortArrays;
@@ -186,4 +188,17 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
+
+  /** {@inheritDoc} */
+  public ShortArrayAssert isSorted() {
+    arrays.assertIsSorted(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ShortArrayAssert isSortedAccordingTo(Comparator<? extends Short> comparator) {
+    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
+    return this;
+  }
+
 }

@@ -1,27 +1,30 @@
 /*
  * Created on Dec 15, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.core.AssertionInfo;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of {@code boolean}s.
- *
+ * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class BooleanArrays {
 
@@ -37,9 +40,11 @@ public class BooleanArrays {
 
   private final Arrays arrays = Arrays.instance();
 
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting BooleanArrays() {}
+  @VisibleForTesting
+  BooleanArrays() {}
 
   /**
    * Asserts that the given array is {@code null} or empty.
@@ -108,7 +113,7 @@ public class BooleanArrays {
    * @throws AssertionError if the given array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the given array.
+   *           the given array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, boolean[] actual, boolean value, Index index) {
@@ -137,8 +142,8 @@ public class BooleanArrays {
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not contain the given values or if the given
-   * array contains values that are not in the given array.
+   * @throws AssertionError if the given array does not contain the given values or if the given array contains values
+   *           that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, boolean[] actual, boolean[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
@@ -216,4 +221,27 @@ public class BooleanArrays {
   public void assertEndsWith(AssertionInfo info, boolean[] actual, boolean[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
   }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   */
+  public void assertIsSorted(AssertionInfo info, boolean[] actual) {
+    arrays.assertIsSorted(info, failures, actual);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param comparator the {@link Comparator} used to compare array elements
+   */
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, boolean[] actual,
+      Comparator<? extends Boolean> comparator) {
+    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
+  }
+
 }

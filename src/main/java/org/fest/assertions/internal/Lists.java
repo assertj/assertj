@@ -1,25 +1,26 @@
 /*
  * Created on Nov 19, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
+import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.util.Objects.areEqual;
 
-import java.util.List;
+import java.util.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
@@ -27,7 +28,7 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
- *
+ * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
@@ -43,9 +44,11 @@ public class Lists {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting Lists() {}
+  @VisibleForTesting
+  Lists() {}
 
   /**
    * Verifies that the given {@code List} contains the given object at the given index.
@@ -56,7 +59,7 @@ public class Lists {
    * @throws AssertionError if the given {@code List} is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the given {@code List}.
+   *           the given {@code List}.
    * @throws AssertionError if the given {@code List} does not contain the given object at the given index.
    */
   public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
@@ -86,6 +89,59 @@ public class Lists {
     Object actualElement = actual.get(index.value);
     if (!areEqual(actualElement, value)) return;
     throw failures.failure(info, shouldNotContainAtIndex(actual, value, index));
+  }
+
+  public void assertIsSorted(AssertionInfo info, List<?> actual) {
+    assertNotNull(info, actual);
+    try {
+      // sorted assertion is only relevant if elements are Comparable, we assume they are
+      List<Comparable<Object>> comparableList = listOfComparableElements(actual);
+      // array with 0 or 1 element are considered sorted.
+      if (comparableList.size() <= 1) return;
+      for (int i = 0; i < comparableList.size() - 1; i++) {
+        // array is sorted in ascending order iif element i is less or equal than element i+1
+        if (comparableList.get(i).compareTo(comparableList.get(i + 1)) > 0)
+          throw failures.failure(info, shouldBeSorted(i, actual));
+      }
+    } catch (ClassCastException e) {
+      // elements are either not Comparable or not mutually Comparable (e.g. List<Object> containing String and Integer)
+      throw failures.failure(info, shouldHaveMutuallyComparableElements(actual));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static List<Comparable<Object>> listOfComparableElements(List<?> collection) {
+    List<Comparable<Object>> listOfComparableElements = new ArrayList<Comparable<Object>>();
+    for (Object object : collection) {
+      listOfComparableElements.add((Comparable<Object>) object);
+    }
+    return listOfComparableElements;
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual,
+      Comparator<? extends Object> comparator) {
+    assertNotNull(info, actual);
+    if (comparator == null) throw new NullPointerException("The given comparator should not be null");
+    try {
+      // Empty collections are considered sorted even if comparator can't be applied to their element type
+      // We can't verify that point because of erasure type at runtime.
+      if (actual.size() == 0) return;
+      Comparator rawComparator = comparator;
+      if (actual.size() == 1) {
+        // Compare unique element with itself to verify thta it is compatible with comparator (a ClassCastException is
+        // thrown if not). We have to use a raw comparator to compare the unique element of actual ... :(
+        rawComparator.compare(actual.get(0), actual.get(0));
+        return;
+      }
+      for (int i = 0; i < actual.size() - 1; i++) {
+        // List is sorted in comparator defined order iif current element is less or equal than next element
+        if (rawComparator.compare(actual.get(i), actual.get(i + 1)) > 0)
+          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, actual));
+      }
+    } catch (ClassCastException e) {
+      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+    }
   }
 
   private void assertNotNull(AssertionInfo info, List<?> actual) {

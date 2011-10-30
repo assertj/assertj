@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.EnumerableAssert;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ByteArrays;
 import org.fest.util.VisibleForTesting;
@@ -27,8 +29,10 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements EnumerableAssert<ByteArrayAssert> {
+public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements EnumerableAssert<ByteArrayAssert> ,
+ArraySortedAssert<ByteArrayAssert, Byte> {
 
   @VisibleForTesting ByteArrays arrays = ByteArrays.instance();
 
@@ -184,6 +188,18 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
    */
   public ByteArrayAssert endsWith(byte... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ByteArrayAssert isSorted() {
+    arrays.assertIsSorted(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ByteArrayAssert isSortedAccordingTo(Comparator<? extends Byte> comparator) {
+    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 }

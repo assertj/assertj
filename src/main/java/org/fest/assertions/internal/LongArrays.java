@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.core.AssertionInfo;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
@@ -22,6 +24,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for arrays of {@code long}s.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class LongArrays {
 
@@ -215,5 +218,27 @@ public class LongArrays {
    */
   public void assertEndsWith(AssertionInfo info, long[] actual, long[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   */
+  public void assertIsSorted(AssertionInfo info, long[] actual) {
+    arrays.assertIsSorted(info, failures, actual);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param comparator the {@link Comparator} used to compare array elements
+   */
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, long[] actual,
+      Comparator<? extends Long> comparator) {
+    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

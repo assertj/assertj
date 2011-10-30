@@ -1,20 +1,22 @@
 /*
  * Created on Dec 20, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.EnumerableAssert;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.FloatArrays;
 import org.fest.util.VisibleForTesting;
@@ -24,13 +26,16 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(float[])}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> implements EnumerableAssert<FloatArrayAssert> {
+public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> implements
+    EnumerableAssert<FloatArrayAssert>, ArraySortedAssert<FloatArrayAssert, Float> {
 
-  @VisibleForTesting FloatArrays arrays = FloatArrays.instance();
+  @VisibleForTesting
+  FloatArrays arrays = FloatArrays.instance();
 
   protected FloatArrayAssert(float[] actual) {
     super(actual, FloatArrayAssert.class);
@@ -80,7 +85,7 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   * or none of the given values, or the actual array contains more values than the given ones.
+   *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public FloatArrayAssert containsOnly(float... values) {
     arrays.assertContainsOnly(info, actual, values);
@@ -108,7 +113,7 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the actual array.
+   *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public FloatArrayAssert contains(float value, Index index) {
@@ -186,4 +191,17 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
+
+  /** {@inheritDoc} */
+  public FloatArrayAssert isSorted() {
+    arrays.assertIsSorted(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatArrayAssert isSortedAccordingTo(Comparator<? extends Float> comparator) {
+    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
+    return this;
+  }
+
 }

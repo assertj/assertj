@@ -68,5 +68,13 @@ public class ArrayWrapperList extends AbstractList<Object> {
     return Array.getLength(array);
   }
 
+  /**
+   * Returns the component type of the wrapped array.
+   * @return the component type of the wrapped array.
+   */
+  public Class<?> getComponentType() {
+    return array.getClass().getComponentType();
+  }
+  
   @VisibleForTesting Object array() { return array; }
 }

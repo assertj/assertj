@@ -1,21 +1,22 @@
 /*
  * Created on Nov 28, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
@@ -32,6 +33,7 @@ import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
+import static org.fest.util.Arrays.isArray;
 import static org.fest.util.Collections.duplicatesFrom;
 import static org.fest.util.Objects.areEqual;
 
@@ -44,8 +46,9 @@ import org.fest.assertions.util.ArrayWrapperList;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
- *
+ * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 class Arrays {
 
@@ -239,6 +242,81 @@ class Arrays {
     if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
   }
 
+  void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
+    assertNotNull(info, array);
+    assertThatArrayComponentTypeIsSortable(info, failures, array);
+    try {
+      // sorted assertion is only relevant if array elements are Comparable
+      // => we should be able to build a Comparable array
+      Comparable<Object>[] comparableArray = arrayOfComparableItems(array);
+      // array with 0 or 1 element are considered sorted.
+      if (comparableArray.length <= 1) return;
+      for (int i = 0; i < comparableArray.length - 1; i++) {
+        // array is sorted in ascending order iif element i is less or equal than element i+1
+        if (comparableArray[i].compareTo(comparableArray[i + 1]) > 0)
+          throw failures.failure(info, shouldBeSorted(i, array));
+      }
+    } catch (ClassCastException e) {
+      // elements are either not Comparable or not mutually Comparable (e.g. array with String and Integer)
+      throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
+    }
+  }
+
+  // is static to avoid "generify" Arrays
+  static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
+      Comparator<T> comparator) {
+    assertNotNull(info, array);
+    if (comparator == null) throw new NullPointerException("The given comparator should not be null");
+    try {
+      List<T> arrayAsList = asList(array);
+      // empty arrays are considered sorted even if comparator can't be applied to <T>.
+      if (arrayAsList.size() == 0) return;
+      if (arrayAsList.size() == 1) {
+        // call compare to see if unique element is compatible with comparator.
+        comparator.compare(arrayAsList.get(0), arrayAsList.get(0));
+        return;
+      }
+      for (int i = 0; i < arrayAsList.size() - 1; i++) {
+        // array is sorted in comparator defined order iif element i is less or equal than element i+1
+        if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0)
+          throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array));
+      }
+    } catch (ClassCastException e) {
+      throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> List<T> asList(Object array) {
+    if (array == null) return null;
+    if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
+    int length = Array.getLength(array);
+    List<T> list = new ArrayList<T>(length);
+    for (int i = 0; i < length; i++) {
+      list.add((T) Array.get(array, i));
+    }
+    return list;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static Comparable<Object>[] arrayOfComparableItems(Object array) {
+    ArrayWrapperList arrayWrapperList = wrap(array);
+    Comparable<Object>[] arrayOfComparableItems = new Comparable[arrayWrapperList.size()];
+    for (int i = 0; i < arrayWrapperList.size(); i++) {
+      arrayOfComparableItems[i] = (Comparable<Object>) arrayWrapperList.get(i);
+    }
+    return arrayOfComparableItems;
+  }
+
+  private static void assertThatArrayComponentTypeIsSortable(AssertionInfo info, Failures failures, Object array) {
+    ArrayWrapperList arrayAsList = wrap(array);
+    Class<?> arrayComponentType = arrayAsList.getComponentType();
+    if (arrayComponentType.isPrimitive()) return;
+    if (!Comparable.class.isAssignableFrom(arrayComponentType))
+      throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
+  }
+
+  
   private void checkIsNotNullAndNotEmpty(Object values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
     if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
@@ -253,7 +331,7 @@ class Arrays {
     return failures.failure(info, shouldEndWith(array, sequence));
   }
 
-  private void assertNotNull(AssertionInfo info, Object array) {
+  private static void assertNotNull(AssertionInfo info, Object array) {
     Objects.instance().assertNotNull(info, array);
   }
 

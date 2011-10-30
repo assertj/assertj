@@ -1,18 +1,20 @@
 /*
  * Created on Jul 26, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
+
+import java.util.Comparator;
 
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
@@ -24,14 +26,15 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
 public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
-    ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert {
+    ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert, ArraySortedAssert<ObjectArrayAssert, Object> {
 
-  @VisibleForTesting ObjectArrays arrays = ObjectArrays.instance();
+  @VisibleForTesting
+  ObjectArrays arrays = ObjectArrays.instance();
 
   protected ObjectArrayAssert(Object[] actual) {
     super(actual, ObjectArrayAssert.class);
@@ -122,6 +125,18 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   /** {@inheritDoc} */
   public ObjectArrayAssert doesNotContainNull() {
     arrays.assertDoesNotContainNull(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert isSorted() {
+    arrays.assertIsSorted(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ObjectArrayAssert isSortedAccordingTo(Comparator<? extends Object> comparator) {
+    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 }

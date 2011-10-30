@@ -1,20 +1,22 @@
 /*
  * Created on Dec 20, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.core.EnumerableAssert;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.LongArrays;
 import org.fest.util.VisibleForTesting;
@@ -24,13 +26,15 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(long[])}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> implements EnumerableAssert<LongArrayAssert> {
+public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> implements
+    EnumerableAssert<LongArrayAssert>, ArraySortedAssert<LongArrayAssert, Long> {
 
-  @VisibleForTesting LongArrays arrays = LongArrays.instance();
+  @VisibleForTesting
+  LongArrays arrays = LongArrays.instance();
 
   protected LongArrayAssert(long[] actual) {
     super(actual, LongArrayAssert.class);
@@ -80,7 +84,7 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   * or none of the given values, or the actual array contains more values than the given ones.
+   *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public LongArrayAssert containsOnly(long... values) {
     arrays.assertContainsOnly(info, actual, values);
@@ -108,7 +112,7 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the actual array.
+   *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public LongArrayAssert contains(long value, Index index) {
@@ -184,6 +188,18 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
    */
   public LongArrayAssert endsWith(long... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public LongArrayAssert isSorted() {
+    arrays.assertIsSorted(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public LongArrayAssert isSortedAccordingTo(Comparator<? extends Long> comparator) {
+    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 }

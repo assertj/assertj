@@ -14,7 +14,9 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.core.AssertionInfo;
+import java.util.Comparator;
+
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
@@ -215,5 +217,27 @@ public class DoubleArrays {
    */
   public void assertEndsWith(AssertionInfo info, double[] actual, double[] sequence) {
     arrays.assertEndsWith(info, failures, actual, sequence);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   */
+  public void assertIsSorted(AssertionInfo info, double[] actual) {
+    arrays.assertIsSorted(info, failures, actual);
+  }
+
+  /**
+   * Concrete implementation of {@link ArraySortedAssert#isSortedAccordingTo(Comparator)}.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param comparator the {@link Comparator} used to compare array elements
+   */
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual,
+      Comparator<? extends Double> comparator) {
+    Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }
