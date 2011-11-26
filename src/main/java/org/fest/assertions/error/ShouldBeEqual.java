@@ -79,8 +79,10 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       return Failures.instance().failure(defaultDetailedErrorMessage(description));
     }
     AssertionError error = comparisonFailure(description);
-    Failures.instance().removeFestRelatedElementsFromStackTraceIfNeeded(error);
-    if (error != null) return error;
+    if (error != null) {
+      Failures.instance().removeFestRelatedElementsFromStackTraceIfNeeded(error);
+      return error;
+    }
     return Failures.instance().failure(defaultErrorMessage(description));
   }
 
