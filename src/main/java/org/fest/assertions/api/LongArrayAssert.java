@@ -16,9 +16,11 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.LongArrays;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,6 +31,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> implements
     EnumerableAssert<LongArrayAssert>, ArraySortedAssert<LongArrayAssert, Long> {
@@ -201,5 +204,19 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
   public LongArrayAssert isSortedAccordingTo(Comparator<? extends Long> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  @Override
+  public LongArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new LongArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public LongArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = LongArrays.instance();
+    return myself;
   }
 }

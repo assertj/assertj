@@ -15,40 +15,28 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertContainsNull(AssertionInfo, Collection)}</code>.
  *
  * @author Joel Costigliola
  */
-public class Collections_assertContainsNull_Test {
+public class Collections_assertContainsNull_Test extends AbstractTest_for_Collections {
 
-  @Rule public ExpectedException thrown = none();
-
-  private List<String> actual;
-  private Failures failures;
-  private Collections collections;
-
-  @Before public void setUp() {
-    actual = list("Luke", "Yoda", null);
-    failures = spy(new Failures());
-    collections = new Collections();
-    collections.failures = failures;
-  }
+  private List<String> actual = list("Luke", "Yoda", null);
 
   @Test public void should_pass_if_actual_contains_null() {
     collections.assertContainsNull(someInfo(), actual);
@@ -74,6 +62,37 @@ public class Collections_assertContainsNull_Test {
     actual = list("Luke", "Yoda");
     try {
       collections.assertContainsNull(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldContainNull(actual));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test public void should_pass_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
+    collectionsWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_pass_if_actual_contains_only_null_values_whatever_custom_comparison_strategy_is() {
+    actual = list(null, null);
+    collectionsWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_pass_if_actual_contains_null_more_than_once_whatever_custom_comparison_strategy_is() {
+    actual.add(null);
+    collectionsWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    collectionsWithCaseInsensitiveComparisonStrategy.assertContainsNull(someInfo(), null);
+  }
+  
+  @Test public void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    actual = list("Luke", "Yoda");
+    try {
+      collectionsWithCaseInsensitiveComparisonStrategy.assertContainsNull(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainNull(actual));
       return;

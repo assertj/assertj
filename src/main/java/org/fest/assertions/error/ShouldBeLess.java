@@ -14,10 +14,13 @@
  */
 package org.fest.assertions.error;
 
+import org.fest.util.*;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value is less than another one failed.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShouldBeLess extends BasicErrorMessageFactory {
 
@@ -29,10 +32,22 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Comparable<T>> ErrorMessageFactory shouldBeLess(T actual, T other) {
-    return new ShouldBeLess(actual, other);
+    return new ShouldBeLess(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeLess(Comparable<?> actual, Comparable<?> other) {
-    super("expected:<%s> to be less than:<%s>", actual, other);
+  /**
+   * Creates a new </code>{@link ShouldBeLess}</code>.
+   * @param <T> guarantees that the values used in this factory have the same type.
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeLess(T actual, T other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeLess(actual, other, comparisonStrategy);
+  }
+  
+  private ShouldBeLess(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> to be less than:<%s>%s", actual, other, comparisonStrategy);
   }
 }

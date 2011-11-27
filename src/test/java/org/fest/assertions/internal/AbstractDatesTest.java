@@ -4,11 +4,15 @@ import static org.fest.assertions.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
+import java.util.Comparator;
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
 
 import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.util.YearAndMonthComparator;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 
 public abstract class AbstractDatesTest {
 
@@ -16,13 +20,25 @@ public abstract class AbstractDatesTest {
   public ExpectedException thrown = none();
   protected Failures failures;
   protected Dates dates;
+  protected ComparatorBasedComparisonStrategy yearAndMonthComparisonStrategy;
+  protected Dates datesWithCustomComparisonStrategy;
   protected Date actual;
 
+  private YearAndMonthComparator yearAndMonthComparator = new YearAndMonthComparator();
+  
   @Before
   public void setUp() {
     failures = spy(new Failures());
     dates = new Dates();
     dates.failures = failures;
+    yearAndMonthComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
+    datesWithCustomComparisonStrategy = new Dates(yearAndMonthComparisonStrategy);
+    datesWithCustomComparisonStrategy.failures = failures;
+    initActualDate();
+  }
+
+  protected void initActualDate() {
+    actual = parseDate("2011-01-01");
   }
 
   /**
@@ -43,4 +59,8 @@ public abstract class AbstractDatesTest {
     return org.fest.util.Dates.parseDatetime(dateAsString);
   }
 
+  protected Comparator<?> comparatorForCustomComparisonStrategy() {
+    return yearAndMonthComparator;
+  }
+  
 }

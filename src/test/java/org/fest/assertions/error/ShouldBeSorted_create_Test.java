@@ -19,7 +19,12 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
 import static org.fest.util.Arrays.array;
 
-import org.junit.*;
+import static org.junit.rules.ExpectedException.none;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -31,6 +36,9 @@ import org.fest.assertions.internal.TestDescription;
  */
 public class ShouldBeSorted_create_Test {
 
+  @Rule
+  public ExpectedException thrown = none();
+  
   private ErrorMessageFactory factory;
 
   @Before
@@ -44,5 +52,11 @@ public class ShouldBeSorted_create_Test {
     assertEquals(
         "[Test] group is not sorted because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>",
         message);
+  }
+
+  @Test
+  public void should_fail_if_object_parameter_is_not_an_array() {
+    thrown.expect(IllegalArgumentException.class);
+    shouldBeSorted(1, "not an array");
   }
 }

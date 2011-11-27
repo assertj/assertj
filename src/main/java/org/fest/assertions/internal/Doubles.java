@@ -14,248 +14,81 @@
  */
 package org.fest.assertions.internal;
 
-import static java.lang.Double.NaN;
 import static java.lang.Math.abs;
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
-import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
-import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNull;
-import static org.fest.util.Objects.areEqual;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.Objects;
+import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Doubles {
-
-  private static final Double ZERO = 0d;
+public class Doubles extends RealNumbers<Double> {
 
   private static final Doubles INSTANCE = new Doubles();
 
   /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Doubles instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Doubles() {
+    super();
+  }
 
-  @VisibleForTesting Doubles() {}
+  public Doubles(ComparisonStrategy comparisonStrategy) {
+    super(comparisonStrategy);
+  }
 
-  /**
-   * Verifies that the actual value is equal to {@code NaN}.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is not equal to {@code NaN}.
-   */
-  public void assertIsNaN(AssertionInfo info, Double actual) {
-    comparables.assertEqualByComparison(info, actual, NaN);
+  @Override
+  protected Double zero() {
+    return 0.0d;
+  }
+
+  @Override
+  protected Double NaN() {
+    return Double.NaN;
   }
 
   /**
-   * Verifies that the actual value is not equal to {@code NaN}.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is equal to {@code NaN}.
-   */
-  public void assertIsNotNaN(AssertionInfo info, Double actual) {
-    comparables.assertNotEqualByComparison(info, actual, NaN);
-  }
-
-  /**
-   * Asserts that the actual value is equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to zero.
-   */
-  public void assertIsZero(AssertionInfo info, Double actual) {
-    comparables.assertEqualByComparison(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that the actual value is not equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to zero.
-   */
-  public void assertIsNotZero(AssertionInfo info, Double actual) {
-    comparables.assertNotEqualByComparison(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that the actual value is negative.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not negative: it is either equal to or greater than zero.
-   */
-  public void assertIsNegative(AssertionInfo info, Double actual) {
-    comparables.assertLessThan(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that the actual value is positive.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
-   */
-  public void assertIsPositive(AssertionInfo info, Double actual) {
-    comparables.assertGreaterThan(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that two doubles are equal.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
-   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
-   * equal.
-   */
-  public void assertEqual(AssertionInfo info, Double actual, double expected) {
-    assertNotNull(info, actual);
-    if (isEqualTo(actual, expected)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
-  }
-
-  /**
-   * Verifies that two doubles are equal within a positive offset.
+   * Verifies that two floats are equal within a positive offset.<br>
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison strategy.
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
    * @param offset the given positive offset.
    * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one.
    */
+  // can't be defined in RealNumbers because Offset parameter must inherits from Number
+  // while RealNumber parameter must inherits from Comparable (sadly Number is not Comparable)
   public void assertEqual(AssertionInfo info, Double actual, Double expected, Offset<Double> offset) {
     checkOffsetIsNotNull(offset);
-    if (areEqual(actual, expected)) return;
-    if (actual != null && expected != null && isEqualTo(actual, expected, offset)) return;
+    assertNotNull(info, actual);
+    // doesn't use areEqual method relying on comparisonStrategy attribute
+    if (Objects.areEqual(actual, expected)) return;
+    if (expected != null &&  isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset));
   }
 
-  /**
-   * Verifies that two doubles are equal within a positive offset.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @param offset the given positive offset.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one.
-   */
-  public void assertEqual(AssertionInfo info, Double actual, double expected, Offset<Double> offset) {
-    checkOffsetIsNotNull(offset);
-    assertNotNull(info, actual);
-    if (isEqualTo(actual, expected) || isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset));
+  @Override
+  protected boolean isEqualTo(Double actual, Double expected, Offset<?> offset) {
+    return abs(expected.doubleValue() - actual.doubleValue()) <= offset.value.doubleValue();
   }
 
-  private static boolean isEqualTo(Double actual, double expected) {
-    return actual.doubleValue() == expected;
-  }
-
-  private static boolean isEqualTo(Double actual, double expected, Offset<Double> offset) {
-    return abs(expected - actual.doubleValue()) <= offset.value.doubleValue();
-  }
-
-  /**
-   * Asserts that two doubles are not equal.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the other one.
-   */
-  public void assertNotEqual(AssertionInfo info, Double actual, double other) {
-    assertNotNull(info, actual);
-    if (actual.doubleValue() != other) return;
-    throw failures.failure(info, shouldNotBeEqual(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is less than the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not less than the other one: this assertion will
-   * fail if the actual value is equal to or greater than the other value.
-   */
-  public void assertLessThan(AssertionInfo info, Double actual, double other) {
-    assertNotNull(info, actual);
-    if (isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLess(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is less than or equal to the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is greater than the other one.
-   */
-  public void assertLessThanOrEqualTo(AssertionInfo info, Double actual, double other) {
-    assertNotNull(info, actual);
-    if (!isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLessOrEqual(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is greater than the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not greater than the other one: this assertion will
-   * fail if the actual value is equal to or less than the other value.
-   */
-  public void assertGreaterThan(AssertionInfo info, Double actual, double other) {
-    assertNotNull(info, actual);
-    if (isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreater(actual, other));
-  }
-
-  private static boolean isGreaterThan(Double actual, double other) {
-    return actual.doubleValue() > other;
-  }
-
-  /**
-   * Asserts that the actual value is greater than or equal to the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is less than the other one.
-   */
-  public void assertGreaterThanOrEqualTo(AssertionInfo info, Double actual, double other) {
-    assertNotNull(info, actual);
-    if (!isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
-  }
-
-  private static boolean isLessThan(Double actual, double other) {
-    return actual.doubleValue() < other;
-  }
-
-  private static void assertNotNull(AssertionInfo info, Double actual) {
-    Objects.instance().assertNotNull(info, actual);
-  }
 }

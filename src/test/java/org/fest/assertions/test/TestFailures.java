@@ -22,7 +22,7 @@ import org.junit.Assert;
 public final class TestFailures {
 
   public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");;
+    Assert.fail("Assertion error expected");
   }
 
   private TestFailures() {}

@@ -19,7 +19,7 @@ import java.util.Comparator;
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.FloatArrays;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for arrays of {@code float}s.
@@ -204,4 +204,17 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
     return this;
   }
 
+  @Override
+  public FloatArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new FloatArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public FloatArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = FloatArrays.instance();
+    return myself;
+  }
 }

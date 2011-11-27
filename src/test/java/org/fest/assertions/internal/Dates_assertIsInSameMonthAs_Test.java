@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -34,13 +34,6 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Joel Costigliola
  */
 public class Dates_assertIsInSameMonthAs_Test extends AbstractDatesTest {
-
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    actual = parseDate("2011-01-01");
-  }
 
   @Test
   public void should_fail_if_actual_is_not_in_same_month_as_given_date() {
@@ -73,4 +66,35 @@ public class Dates_assertIsInSameMonthAs_Test extends AbstractDatesTest {
     dates.assertIsInSameMonthAs(someInfo(), actual, parseDate("2011-01-11"));
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_in_same_month_as_given_date_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    Date other = parseDate("2011-02-01");
+    try {
+      datesWithCustomComparisonStrategy.assertIsInSameMonthAs(info, actual, other);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeInSameMonth(actual, other));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsInSameMonthAs(someInfo(), null, new Date());
+  }
+  
+  @Test
+  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
+    datesWithCustomComparisonStrategy.assertIsInSameMonthAs(someInfo(), actual, null);
+  }
+  
+  
+  @Test
+  public void should_pass_if_actual_is_in_same_month_as_given_date_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsInSameMonthAs(someInfo(), actual, parseDate("2011-01-11"));
+  }
+  
 }

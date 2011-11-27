@@ -94,7 +94,8 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -107,7 +108,8 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -120,7 +122,8 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -133,10 +136,11 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
+
 }

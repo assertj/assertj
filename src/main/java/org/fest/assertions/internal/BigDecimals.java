@@ -14,76 +14,39 @@
  */
 package org.fest.assertions.internal;
 
-import static java.math.BigDecimal.ZERO;
-
 import java.math.BigDecimal;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class BigDecimals {
+public class BigDecimals extends Numbers<BigDecimal> {
 
   private static final BigDecimals INSTANCE = new BigDecimals();
 
   /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static BigDecimals instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
-  @VisibleForTesting Failures failures = Failures.instance();
-
-  @VisibleForTesting BigDecimals() {}
-
-  /**
-   * Asserts that the actual value is equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to zero.
-   */
-  public void assertIsZero(AssertionInfo info, BigDecimal actual) {
-    comparables.assertEqualByComparison(info, actual, ZERO);
+  @VisibleForTesting
+  BigDecimals() {
+    super();
   }
 
-  /**
-   * Asserts that the actual value is not equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to zero.
-   */
-  public void assertIsNotZero(AssertionInfo info, BigDecimal actual) {
-    comparables.assertNotEqualByComparison(info, actual, ZERO);
+  public BigDecimals(ComparisonStrategy comparisonStrategy) {
+    super(comparisonStrategy);
   }
 
-  /**
-   * Asserts that the actual value is negative.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not negative: it is either equal to or greater than zero.
-   */
-  public void assertIsNegative(AssertionInfo info, BigDecimal actual) {
-    comparables.assertLessThan(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that the actual value is positive.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
-   */
-  public void assertIsPositive(AssertionInfo info, BigDecimal actual) {
-    comparables.assertGreaterThan(info, actual, ZERO);
+  @Override
+  protected BigDecimal zero() {
+    return BigDecimal.ZERO;
   }
 }

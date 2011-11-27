@@ -16,7 +16,8 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.BooleanArrays;
 import org.fest.util.VisibleForTesting;
@@ -29,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boolean[]> implements
     EnumerableAssert<BooleanArrayAssert>, ArraySortedAssert<BooleanArrayAssert, Boolean> {
@@ -190,6 +192,7 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
+
   /** {@inheritDoc} */
   public BooleanArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
@@ -200,5 +203,10 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   public BooleanArrayAssert isSortedAccordingTo(Comparator<? extends Boolean> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  @Override
+  public BooleanArrayAssert usingComparator(Comparator<?> customComparator) {
+    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean array comparison");
   }
 }

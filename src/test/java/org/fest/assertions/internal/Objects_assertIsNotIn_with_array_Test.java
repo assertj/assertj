@@ -16,17 +16,18 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Object[])}</code>.
@@ -35,23 +36,12 @@ import org.junit.*;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public class Objects_assertIsNotIn_with_array_Test {
+public class Objects_assertIsNotIn_with_array_Test extends AbstractTest_for_Objects {
 
   private static String[] values;
 
   @BeforeClass public static void setUpOnce() {
     values = array("Yoda", "Leia");
-  }
-
-  @Rule public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
   }
 
   @Test public void should_throw_error_if_array_is_null() {
@@ -80,6 +70,21 @@ public class Objects_assertIsNotIn_with_array_Test {
       objects.assertIsNotIn(info, "Yoda", values);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldNotBeIn("Yoda", values));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test public void should_pass_if_actual_is_in_not_array_according_to_custom_comparison_strategy() {
+    objectsWithCustomComparisonStrategy.assertIsNotIn(someInfo(), "Luke", values);
+  }
+  
+  @Test public void should_fail_if_actual_is_not_in_array_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

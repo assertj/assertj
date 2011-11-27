@@ -22,10 +22,15 @@ import static org.fest.util.Strings.concat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
-import org.junit.*;
+import java.util.Comparator;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.ComparisonStrategy;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.
@@ -64,13 +69,25 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] expected:<'Person[name=Jake] (Person@" + toHexString(expected.hashCode()) + ")'> but was:<'Person[name=Jake] (Person@"
-        + toHexString(actual.hashCode()) + ")'>", error.getMessage());
+    assertEquals("[my test] expected:<'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")'> but was:<'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>", error.getMessage());
+  }
+
+  @Test
+  public void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() {
+    Person actual = new Person("Jake", 43);
+    Person expected = new Person("Jake", 47);
+    ComparisonStrategy ageComparisonStrategy = new ComparatorBasedComparisonStrategy(new PersonComparator());
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, ageComparisonStrategy);
+    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
+    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    AssertionError error = shouldBeEqual.newAssertionError(description);
+    assertEquals("[my test] Expecting actual:<'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+        + ")'> to be equal to <'Person[name=Jake] (Person@" + toHexString(expected.hashCode()) + ")'> according to 'PersonComparator' comparator but was not.", error.getMessage());
   }
   
   private static class Person {
     private final String name;
-    @SuppressWarnings("unused")
     private final int age;
 
     public Person(String name, int age) {
@@ -83,4 +100,11 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
       return concat("Person[name=", name, "]");
     }
   }
+
+  private static class PersonComparator implements Comparator<Person> {
+    public int compare(Person p1, Person p2) {
+      return p1.age - p2.age;
+    }
+  }
+
 }

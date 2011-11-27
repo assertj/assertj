@@ -16,17 +16,22 @@ package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
+
 import static org.fest.assertions.test.TestData.someIndex;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link ListAssert#contains(Object, Index)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ListAssert_contains_at_Index_Test {
 

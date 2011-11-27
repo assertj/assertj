@@ -15,37 +15,27 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertContainsNull(AssertionInfo, Object[])}</code>.
  *
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertContainsNull_Test {
+public class ObjectArrays_assertContainsNull_Test extends AbstractTest_for_ObjectArrays {
 
-  @Rule public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Object[] actual;
-  private ObjectArrays arrays;
-
-  @Before public void setUp() {
-    failures = spy(new Failures());
+  @Override
+  protected void initActualArray() {
     actual = array("Luke", "Yoda", null);
-    arrays = new ObjectArrays();
-    arrays.failures = failures;
   }
 
   @Test public void should_pass_if_actual_contains_null() {
@@ -72,6 +62,37 @@ public class ObjectArrays_assertContainsNull_Test {
     actual = array("Luke", "Yoda");
     try {
       arrays.assertContainsNull(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldContainNull(actual));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test public void should_pass_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
+    arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_pass_if_actual_contains_only_null_values_according_to_custom_comparison_strategy() {
+    actual = array((String)null, (String)null);
+    arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_pass_if_actual_contains_null_more_than_once_according_to_custom_comparison_strategy() {
+    actual = array("Luke", null, null);
+    arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), actual);
+  }
+  
+  @Test public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    arraysWithCustomComparisonStrategy.assertContainsNull(someInfo(), null);
+  }
+  
+  @Test public void should_fail_if_actual_does_not_contain_null_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    actual = array("Luke", "Yoda");
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsNull(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainNull(actual));
       return;

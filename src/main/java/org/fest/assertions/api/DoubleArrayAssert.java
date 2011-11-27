@@ -19,7 +19,7 @@ import java.util.Comparator;
 import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.DoubleArrays;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for arrays of {@code double}s.
@@ -202,5 +202,19 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
   public DoubleArrayAssert isSortedAccordingTo(Comparator<? extends Double> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+  
+  @Override
+  public DoubleArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new DoubleArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public DoubleArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = DoubleArrays.instance();
+    return myself;
   }
 }

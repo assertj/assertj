@@ -14,24 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
-import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
-import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
+import org.fest.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Short}</code>s.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Shorts {
-
-  private static final Short ZERO = 0;
+public class Shorts extends Numbers<Short> {
 
   private static final Shorts INSTANCE = new Shorts();
 
@@ -43,152 +35,21 @@ public class Shorts {
     return INSTANCE;
   }
 
-  @VisibleForTesting Comparables comparables = Comparables.instance();
-  @VisibleForTesting Failures failures = Failures.instance();
-
-  @VisibleForTesting Shorts() {}
-
-  /**
-   * Asserts that the actual value is equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to zero.
-   */
-  public void assertIsZero(AssertionInfo info, Short actual) {
-    comparables.assertEqualByComparison(info, actual, ZERO);
+  
+  @VisibleForTesting
+  Shorts() {
+    super();
   }
 
-  /**
-   * Asserts that the actual value is not equal to zero.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to zero.
-   */
-  public void assertIsNotZero(AssertionInfo info, Short actual) {
-    comparables.assertNotEqualByComparison(info, actual, ZERO);
+
+  public Shorts(ComparisonStrategy comparisonStrategy) {
+    super(comparisonStrategy);
   }
 
-  /**
-   * Asserts that the actual value is negative.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not negative: it is either equal to or greater than zero.
-   */
-  public void assertIsNegative(AssertionInfo info, Short actual) {
-    comparables.assertLessThan(info, actual, ZERO);
+
+  @Override
+  protected Short zero() {
+    return 0;
   }
 
-  /**
-   * Asserts that the actual value is positive.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not positive: it is either equal to or less than zero.
-   */
-  public void assertIsPositive(AssertionInfo info, Short actual) {
-    comparables.assertGreaterThan(info, actual, ZERO);
-  }
-
-  /**
-   * Asserts that two shorts are equal.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param expected the expected value.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
-   * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
-   * equal.
-   */
-  public void assertEqual(AssertionInfo info, Short actual, short expected) {
-    assertNotNull(info, actual);
-    if (actual.shortValue() == expected) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
-  }
-
-  /**
-   * Asserts that two shorts are not equal.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the other one.
-   */
-  public void assertNotEqual(AssertionInfo info, Short actual, short other) {
-    assertNotNull(info, actual);
-    if (actual.shortValue() != other) return;
-    throw failures.failure(info, shouldNotBeEqual(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is less than the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not less than the other one: this assertion will
-   * fail if the actual value is equal to or greater than the other value.
-   */
-  public void assertLessThan(AssertionInfo info, Short actual, short other) {
-    assertNotNull(info, actual);
-    if (isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLess(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is less than or equal to the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is greater than the other one.
-   */
-  public void assertLessThanOrEqualTo(AssertionInfo info, Short actual, short other) {
-    assertNotNull(info, actual);
-    if (!isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeLessOrEqual(actual, other));
-  }
-
-  /**
-   * Asserts that the actual value is greater than the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not greater than the other one: this assertion will
-   * fail if the actual value is equal to or less than the other value.
-   */
-  public void assertGreaterThan(AssertionInfo info, Short actual, short other) {
-    assertNotNull(info, actual);
-    if (isGreaterThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreater(actual, other));
-  }
-
-  private static boolean isGreaterThan(Short actual, short other) {
-    return actual.shortValue() > other;
-  }
-
-  /**
-   * Asserts that the actual value is greater than or equal to the other one.
-   * @param info contains information about the assertion.
-   * @param actual the actual value.
-   * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is less than the other one.
-   */
-  public void assertGreaterThanOrEqualTo(AssertionInfo info, Short actual, short other) {
-    assertNotNull(info, actual);
-    if (!isLessThan(actual, other)) return;
-    throw failures.failure(info, shouldBeGreaterOrEqual(actual, other));
-  }
-
-  private static boolean isLessThan(Short actual, short other) {
-    return actual.shortValue() < other;
-  }
-
-  private static void assertNotNull(AssertionInfo info, Short actual) {
-    Objects.instance().assertNotNull(info, actual);
-  }
 }

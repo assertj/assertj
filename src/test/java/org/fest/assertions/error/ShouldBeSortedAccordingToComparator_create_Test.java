@@ -19,10 +19,13 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.util.Arrays.array;
 
-import org.junit.*;
+import java.util.Comparator;
+
+import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
+import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link ShouldBeSorted#create(Description)}</code>.
@@ -31,18 +34,27 @@ import org.fest.assertions.internal.TestDescription;
  */
 public class ShouldBeSortedAccordingToComparator_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @Before
-  public void setUp() {
-    factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"));
+  @Test
+  public void should_create_error_message_with_comparator() {
+    ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
+        new CaseInsensitiveStringComparator());
+    String message = factory.create(new TestDescription("Test"));
+    assertEquals("[Test] group is not sorted according to 'CaseInsensitiveStringComparator' comparator "
+        + "because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>", message);
   }
 
   @Test
-  public void should_create_error_message() {
+  public void should_create_error_message_with_private_static_comparator() {
+    ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
+        new StaticStringComparator());
     String message = factory.create(new TestDescription("Test"));
-    assertEquals(
-        "[Test] group is not sorted according to given comparator because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>",
-        message);
+    assertEquals("[Test] group is not sorted according to 'StaticStringComparator' comparator "
+        + "because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>", message);
+  }
+
+  private static class StaticStringComparator implements Comparator<String> {
+    public int compare(String s1, String s2) {
+      return s1.compareTo(s2);
+    }
   }
 }

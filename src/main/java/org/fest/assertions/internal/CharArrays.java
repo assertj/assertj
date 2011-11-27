@@ -16,14 +16,18 @@ package org.fest.assertions.internal;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of {@code char}s.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class CharArrays {
 
@@ -37,13 +41,24 @@ public class CharArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays = Arrays.instance();
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  CharArrays() {}
+  CharArrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    return arrays.getComparator();
+  }
+  
+  public CharArrays(ComparisonStrategy comparisonStrategy) {
+    this.arrays = new Arrays(comparisonStrategy);
+  }
 
   /**
    * Asserts that the given array is {@code null} or empty.

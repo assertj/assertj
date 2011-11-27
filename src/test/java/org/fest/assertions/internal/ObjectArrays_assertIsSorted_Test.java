@@ -15,39 +15,27 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ObjectArrays_assertIsSorted_Test {
+public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArrays {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Object[] actual;
-  private ObjectArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
+  @Override
+  protected void initActualArray() {
     actual = array("Leia", "Luke", "Luke", "Vador", "Yoda");
-    arrays = new ObjectArrays();
-    arrays.failures = failures;
   }
 
   @Test
@@ -61,16 +49,8 @@ public class ObjectArrays_assertIsSorted_Test {
   }
 
   @Test
-  public void should_fail_if_actual_is_empty_with_non_comparable_component_type() {
-    AssertionInfo info = someInfo();
-    actual = array();
-    try {
-      arrays.assertIsSorted(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_pass_if_actual_is_empty_with_non_comparable_component_type() {
+    arrays.assertIsSorted(someInfo(), array());
   }
 
   @Test
@@ -132,6 +112,90 @@ public class ObjectArrays_assertIsSorted_Test {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldHaveMutuallyComparableElements(actual));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+    actual = array("leia", "Luke", "luke", "Vador", "Yoda");
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_empty_with_comparable_component_type_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), new String[0]);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array());
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_only_one_comparable_element_according_to_custom_comparison_strategy() {
+    actual = array("Obiwan");
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), null);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = array("LUKE", "Yoda", "Leia");
+    try {
+      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = array(new Object());
+    try {
+      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_has_some_elements_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = array("bar", new Object(), "foo");
+    try {
+      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = new Object[] { "bar", new Integer(5), "foo" };
+    try {
+      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, comparatorForCustomComparisonStrategy()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

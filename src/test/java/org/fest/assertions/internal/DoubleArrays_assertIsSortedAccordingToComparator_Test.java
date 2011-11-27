@@ -59,7 +59,7 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test {
     };
     doubleSquareComparator = new Comparator<Double>() {
       public int compare(Double double1, Double double2) {
-        return new Double(double1*double1).compareTo(new Double(double2*double2));
+        return new Double(double1 * double1).compareTo(new Double(double2 * double2));
       }
     };
   }
@@ -94,7 +94,8 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, doubleDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(2, actual, doubleDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

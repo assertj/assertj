@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -33,13 +33,6 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Joel Costigliola
  */
 public class Dates_assertIsWithinMonth_Test extends AbstractDatesTest {
-
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    actual = parseDate("2011-01-01");
-  }
 
   @Test
   public void should_fail_if_actual_is_not_within_given_month() {
@@ -65,4 +58,28 @@ public class Dates_assertIsWithinMonth_Test extends AbstractDatesTest {
     dates.assertIsWithinMonth(someInfo(), actual, 1);
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_within_given_month_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    int month = 5;
+    try {
+      datesWithCustomComparisonStrategy.assertIsWithinMonth(info, actual, month);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeWithin(actual, "month", month));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), null, 1);
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_within_given_month_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), actual, 1);
+  }
+  
 }

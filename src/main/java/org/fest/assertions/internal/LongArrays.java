@@ -16,8 +16,11 @@ package org.fest.assertions.internal;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -38,11 +41,22 @@ public class LongArrays {
     return INSTANCE;
   }
 
-  private final Arrays arrays = Arrays.instance();
+  private Arrays arrays = Arrays.instance();
 
   @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting LongArrays() {}
+  @VisibleForTesting LongArrays() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  public LongArrays(ComparisonStrategy comparisonStrategy) {
+    this.arrays = new Arrays(comparisonStrategy);
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    return arrays.getComparator();
+  }
 
   /**
    * Asserts that the given array is {@code null} or empty.

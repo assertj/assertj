@@ -14,8 +14,11 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Longs;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
@@ -132,5 +136,19 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
   public LongAssert isGreaterThanOrEqualTo(long other) {
     longs.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public LongAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public LongAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.longs = Longs.instance();
+    return myself;
   }
 }

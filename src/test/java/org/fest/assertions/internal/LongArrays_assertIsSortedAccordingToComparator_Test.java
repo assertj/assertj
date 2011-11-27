@@ -59,7 +59,7 @@ public class LongArrays_assertIsSortedAccordingToComparator_Test {
     };
     longSquareComparator = new Comparator<Long>() {
       public int compare(Long long1, Long long2) {
-        return new Long(long1*long1).compareTo(new Long(long2*long2));
+        return new Long(long1 * long1).compareTo(new Long(long2 * long2));
       }
     };
   }
@@ -94,7 +94,8 @@ public class LongArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, longDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures)
+          .failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, longDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

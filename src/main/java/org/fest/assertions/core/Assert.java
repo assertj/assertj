@@ -1,28 +1,28 @@
 /*
  * Created on Jul 15, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.core;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
- * @param <S> the "self" type of this assertion class. Please read
- * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
- * API implementation</a>&quot; for more details.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
  * @param <A> the type of the "actual" value.
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
@@ -81,7 +81,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is not present in the given array.
    */
-  S isIn(A...values);
+  S isIn(A... values);
 
   /**
    * Verifies that the actual value is not present in the given array of values.
@@ -91,7 +91,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is present in the given array.
    */
-  S isNotIn(A...values);
+  S isNotIn(A... values);
 
   /**
    * Verifies that the actual value is present in the given collection of values.
@@ -112,4 +112,49 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value is present in the given collection.
    */
   S isNotIn(Collection<?> values);
+
+  /**
+   * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.<br>
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy. </p> Example :
+   * 
+   * <pre>
+   * // compares invoices by payee 
+   * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList).
+   * 
+   * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
+   * assertThat(invoiceList).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
+   * 
+   * // as assertThat(invoiceList) creates a new assertion, it uses standard comparison strategy (Invoice's equal method) to compare invoiceList elements to lowestInvoice.                                                      
+   * assertThat(invoiceList).contains(lowestInvoice).
+   * </pre>
+   * 
+   * Custom comparator is not parameterized with actual type A (ie. Comparator&lt;A&gt;) because if it was, we could not
+   * write the following code :
+   * 
+   * <pre>
+   * // frodo and sam are instances of Character (a Character having a Race)
+   * // raceComparator implements Comparator&lt;Character&gt; 
+   * // assertThat(frodo) returns an ObjectAssert and not a custom CharacterAssert implementing Assert&lt;CharacterAssert, Character&gt;  
+   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam); // won't compile !
+   * 
+   * The code does not compile because assertThat(frodo) returns an ObjectAssert, thus usingComparator expects a Comparator&lt;Object&gt; 
+   * and Comparator&lt;Character&gt; is not a Comparator&lt;Object&gt; as generics are not reified.
+   * 
+   * Note that, it would have worked if assertThat(frodo) returned a CharacterAssert implementing Assert&lt;CharacterAssert, Character&gt;. 
+   * </pre>
+   * 
+   * @param customComparator the comparator to use for incoming assertion checks.
+   * @throws NullPointerException if the given comparator is {@code null}.
+   * @return {@code this} assertion object.
+   */
+  S usingComparator(Comparator<?> customComparator);
+
+  /**
+   * Revert to standard comparison for incoming assertion checks.<br>
+   * This method should be used to disable a custom comparison strategy set by calling
+   * {@link #usingComparator(Comparator)}.
+   * @return {@code this} assertion object.
+   */
+  S usingDefaultComparator();
 }

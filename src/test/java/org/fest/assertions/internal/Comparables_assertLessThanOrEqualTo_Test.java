@@ -15,33 +15,23 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Comparables#assertLessThanOrEqualTo(AssertionInfo, Comparable, Comparable)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Comparables_assertLessThanOrEqualTo_Test {
-
-  @Rule public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Comparables comparables;
-
-  @Before public void setUp() {
-    failures = spy(new Failures());
-    comparables = new Comparables();
-    comparables.failures = failures;
-  }
+public class Comparables_assertLessThanOrEqualTo_Test extends AbstractTest_for_Comparables {
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
@@ -66,4 +56,28 @@ public class Comparables_assertLessThanOrEqualTo_Test {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
+
+  @Test public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 8);
+  }
+  
+  @Test public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 6);
+  }
+  
+  @Test public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeLessOrEqual(-8, 6, customComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
 }

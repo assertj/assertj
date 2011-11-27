@@ -17,8 +17,9 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Longs;
 import org.junit.*;
+
+import org.fest.assertions.internal.Longs;
 
 /**
  * Tests for <code>{@link LongAssert#isGreaterThan(long)}</code>.
@@ -38,7 +39,7 @@ public class LongAssert_isGreaterThan_long_Test {
 
   @Test public void should_verify_that_actual_is_greater_than_expected() {
     assertions.isGreaterThan(6);
-    verify(longs).assertGreaterThan(assertions.info, assertions.actual, 6);
+    verify(longs).assertGreaterThan(assertions.info, assertions.actual, 6L);
   }
 
   @Test public void should_return_this() {

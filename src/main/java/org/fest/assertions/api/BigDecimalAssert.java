@@ -15,10 +15,11 @@
 package org.fest.assertions.api;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.BigDecimals;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertion methods for <code>{@link BigDecimal}</code>s.
@@ -30,6 +31,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ted M. Young
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalAssert, BigDecimal> implements
     NumberAssert<BigDecimal> {
@@ -61,6 +63,20 @@ public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalA
   /** {@inheritDoc} */
   public BigDecimalAssert isNegative() {
     bigDecimals.assertIsNegative(info, actual);
+    return myself;
+  }
+
+  @Override
+  public BigDecimalAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public BigDecimalAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.bigDecimals = BigDecimals.instance();
     return myself;
   }
 }

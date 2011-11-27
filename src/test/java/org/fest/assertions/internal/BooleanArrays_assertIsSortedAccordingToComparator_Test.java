@@ -31,7 +31,8 @@ import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertIsSortedAccordingToComparator(AssertionInfo, boolean[], Comparator)}</code>
+ * Tests for
+ * <code>{@link BooleanArrays#assertIsSortedAccordingToComparator(AssertionInfo, boolean[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
@@ -94,7 +95,8 @@ public class BooleanArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, booleanDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(2, actual, booleanDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -18,6 +18,9 @@ import static org.fest.util.Dates.parse;
 
 import java.util.Date;
 
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is before another one failed.
  *
@@ -29,12 +32,23 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeBefore}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeBefore(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeBefore(actual, other, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeBefore}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeBefore(Date actual, Date other) {
-    return new ShouldBeBefore(actual, other);
+    return new ShouldBeBefore(actual, other, StandardComparisonStrategy.instance());
   }
-
+  
   /**
    * Creates a new </code>{@link ShouldBeBefore}</code>.
    * @param actual the actual value in the failed assertion.
@@ -43,11 +57,11 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBeBefore(Date actual, int year) {
     Date januaryTheFirstOfGivenYear = parse(year + "-01-01");
-    return new ShouldBeBefore(actual, januaryTheFirstOfGivenYear);
+    return new ShouldBeBefore(actual, januaryTheFirstOfGivenYear, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeBefore(Date actual, Date other) {
-    super("expected:<%s> to be strictly before :<%s>", actual, other);
+  private ShouldBeBefore(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> to be strictly before :<%s>%s", actual, other, comparisonStrategy);
   }
 }
 

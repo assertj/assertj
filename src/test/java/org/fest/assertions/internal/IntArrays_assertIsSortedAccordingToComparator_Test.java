@@ -59,7 +59,7 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test {
     };
     intSquareComparator = new Comparator<Integer>() {
       public int compare(Integer int1, Integer int2) {
-        return new Integer(int1*int1).compareTo(new Integer(int2*int2));
+        return new Integer(int1 * int1).compareTo(new Integer(int2 * int2));
       }
     };
   }
@@ -94,7 +94,7 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, intDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, intDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

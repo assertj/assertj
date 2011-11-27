@@ -15,33 +15,23 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Integers#assertLessThanOrEqualTo(AssertionInfo, Integer, int)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Integers_assertLessThanOrEqualTo_Test {
-
-  @Rule public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Integers integers;
-
-  @Before public void setUp() {
-    failures = spy(new Failures());
-    integers = new Integers();
-    integers.failures = failures;
-  }
+public class Integers_assertLessThanOrEqualTo_Test extends AbstractTest_for_Integers{
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
@@ -62,6 +52,30 @@ public class Integers_assertLessThanOrEqualTo_Test {
       integers.assertLessThanOrEqualTo(info, 8, 6);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeLessOrEqual(8, 6));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    integersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8);
+  }
+  
+  @Test public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    integersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6, -8);
+  }
+  
+  @Test public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    integersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6, -6);
+  }
+  
+  @Test public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      integersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeLessOrEqual(-8, 6, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

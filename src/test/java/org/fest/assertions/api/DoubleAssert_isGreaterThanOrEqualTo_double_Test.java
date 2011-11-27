@@ -17,8 +17,9 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Doubles;
 import org.junit.*;
+
+import org.fest.assertions.internal.Doubles;
 
 /**
  * Tests for <code>{@link DoubleAssert#isGreaterThanOrEqualTo(double)}</code>.
@@ -38,7 +39,7 @@ public class DoubleAssert_isGreaterThanOrEqualTo_double_Test {
 
   @Test public void should_verify_that_actual_is_greater_than_expected() {
     assertions.isGreaterThanOrEqualTo(6);
-    verify(doubles).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, 6);
+    verify(doubles).assertGreaterThanOrEqualTo(assertions.info, assertions.actual, 6d);
   }
 
   @Test public void should_return_this() {

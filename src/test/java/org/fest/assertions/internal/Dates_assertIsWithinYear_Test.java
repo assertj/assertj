@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -33,13 +33,6 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Joel Costigliola
  */
 public class Dates_assertIsWithinYear_Test extends AbstractDatesTest {
-
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    actual = parseDate("2011-01-01");
-  }
 
   @Test
   public void should_fail_if_actual_is_not_within_given_year() {
@@ -65,4 +58,28 @@ public class Dates_assertIsWithinYear_Test extends AbstractDatesTest {
     dates.assertIsWithinYear(someInfo(), actual, 2011);
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_within_given_year_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    int year = 2010;
+    try {
+      datesWithCustomComparisonStrategy.assertIsWithinYear(info, actual, year);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeWithin(actual, "year", year));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsWithinYear(someInfo(), null, 2010);
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_within_given_year_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsWithinYear(someInfo(), actual, 2011);
+  }
+  
 }

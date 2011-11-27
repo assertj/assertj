@@ -14,13 +14,27 @@
  */
 package org.fest.assertions.error;
 
+import org.fest.util.*;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value is not in a
  * group of values (e.g. an array or collection) failed.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class ShouldNotBeIn extends BasicErrorMessageFactory {
+
+  /**
+   * Creates a new <code>{@link ShouldNotBeIn}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param values the group of values where {@code actual} is expected to be in.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
+    return new ShouldNotBeIn(actual, values, comparisonStrategy);
+  }
 
   /**
    * Creates a new <code>{@link ShouldNotBeIn}</code>.
@@ -29,10 +43,11 @@ public class ShouldNotBeIn extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeIn(Object actual, Object values) {
-    return new ShouldNotBeIn(actual, values);
+    return new ShouldNotBeIn(actual, values, StandardComparisonStrategy.instance());
   }
-
-  private ShouldNotBeIn(Object actual, Object values) {
-    super("expecting:<%s> not to be in:<%s>", actual, values);
+  
+  private ShouldNotBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
+    super("expecting:<%s> not to be in:<%s>%s", actual, values, comparisonStrategy);
   }
+  
 }

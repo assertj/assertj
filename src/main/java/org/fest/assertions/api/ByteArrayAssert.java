@@ -1,24 +1,26 @@
 /*
  * Created on Dec 17, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ByteArrays;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -26,15 +28,16 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(byte[])}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements EnumerableAssert<ByteArrayAssert> ,
-ArraySortedAssert<ByteArrayAssert, Byte> {
-
-  @VisibleForTesting ByteArrays arrays = ByteArrays.instance();
+public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements
+    EnumerableAssert<ByteArrayAssert>, ArraySortedAssert<ByteArrayAssert, Byte> {
+  
+  @VisibleForTesting
+  ByteArrays arrays = ByteArrays.instance();
 
   protected ByteArrayAssert(byte[] actual) {
     super(actual, ByteArrayAssert.class);
@@ -84,7 +87,7 @@ ArraySortedAssert<ByteArrayAssert, Byte> {
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   * or none of the given values, or the actual array contains more values than the given ones.
+   *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public ByteArrayAssert containsOnly(byte... values) {
     arrays.assertContainsOnly(info, actual, values);
@@ -112,7 +115,7 @@ ArraySortedAssert<ByteArrayAssert, Byte> {
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the actual array.
+   *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public ByteArrayAssert contains(byte value, Index index) {
@@ -201,5 +204,19 @@ ArraySortedAssert<ByteArrayAssert, Byte> {
   public ByteArrayAssert isSortedAccordingTo(Comparator<? extends Byte> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
+  }
+
+  @Override
+  public ByteArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new ByteArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+
+  @Override
+  public ByteArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = ByteArrays.instance();
+    return myself;
   }
 }

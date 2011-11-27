@@ -19,6 +19,7 @@ import java.util.Comparator;
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ShortArrays;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements EnumerableAssert<ShortArrayAssert> {
 
@@ -201,4 +203,17 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
     return this;
   }
 
+  @Override
+  public ShortArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new ShortArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public ShortArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = ShortArrays.instance();
+    return myself;
+  }
 }

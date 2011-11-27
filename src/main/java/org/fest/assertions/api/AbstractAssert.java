@@ -1,44 +1,56 @@
 /*
  * Created on Nov 18, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
 import java.util.Collection;
+import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.Assert;
+import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Conditions;
+import org.fest.assertions.internal.Objects;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
+
 
 /**
  * Base class for all assertions.
- * @param <S> the "self" type of this assertion class. Please read
- * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
- * API implementation</a>&quot; for more details.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
  * @param <A> the type of the "actual" value.
- *
+ * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
-  @VisibleForTesting Objects objects = Objects.instance();
-  @VisibleForTesting Conditions conditions = Conditions.instance();
+  @VisibleForTesting
+  Objects objects = Objects.instance();
+  
+  @VisibleForTesting
+  Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting final WritableAssertionInfo info;
+  @VisibleForTesting
+  final WritableAssertionInfo info;
+  
   // visibility is protected to allow us write custom assertions that need access to actual
-  @VisibleForTesting protected final A actual;
-
+  @VisibleForTesting
+  protected final A actual;
   protected final S myself;
 
   protected AbstractAssert(A actual, Class<S> selfType) {
@@ -152,7 +164,22 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     return myself;
   }
 
-  @VisibleForTesting final String descriptionText() {
+  @VisibleForTesting
+  final String descriptionText() {
     return info.descriptionText();
+  }
+
+  /** {@inheritDoc} */
+  public S usingComparator(Comparator<?> customComparator) {  
+    // using a specific strategy to compare actual with other objects.
+    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S usingDefaultComparator() {  
+    // fall back to default strategy to compare actual with other objects.
+    this.objects = Objects.instance();
+    return myself;
   }
 }

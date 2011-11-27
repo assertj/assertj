@@ -14,8 +14,11 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Bytes;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -132,5 +135,19 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
   public ByteAssert isGreaterThanOrEqualTo(byte other) {
     bytes.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public ByteAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public ByteAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.bytes = Bytes.instance();
+    return myself;
   }
 }

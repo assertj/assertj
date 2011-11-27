@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -36,9 +36,7 @@ import org.fest.assertions.core.AssertionInfo;
 public class Dates_assertIsInSameHourAs_Test extends AbstractDatesTest {
 
   @Override
-  @Before
-  public void setUp() {
-    super.setUp();
+  protected void initActualDate() {
     actual = parseDatetime("2011-01-01T03:01:02");
   }
 
@@ -67,10 +65,40 @@ public class Dates_assertIsInSameHourAs_Test extends AbstractDatesTest {
     dates.assertIsInSameHourAs(someInfo(), actual, null);
   }
 
-
   @Test
   public void should_pass_if_actual_is_in_same_hour_as_given_date() {
     dates.assertIsInSameHourAs(someInfo(), actual, parseDatetime("2011-01-01T03:59:02"));
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_in_same_hour_as_given_date_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    Date other = parseDatetime("2011-01-01T04:01:02");
+    try {
+      datesWithCustomComparisonStrategy.assertIsInSameHourAs(info, actual, other);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeInSameHour(actual, other));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), null, new Date());
+  }
+  
+  @Test
+  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
+    datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), actual, null);
+  }
+  
+  
+  @Test
+  public void should_pass_if_actual_is_in_same_hour_as_given_date_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsInSameHourAs(someInfo(), actual, parseDatetime("2011-01-01T03:59:02"));
+  }
+  
 }

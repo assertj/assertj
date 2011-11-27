@@ -16,9 +16,11 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.IntArrays;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -204,4 +206,17 @@ public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implem
     return this;
   }
 
+  @Override
+  public IntArrayAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.arrays = new IntArrays(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public IntArrayAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.arrays = IntArrays.instance();
+    return myself;
+  }
 }

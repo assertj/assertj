@@ -18,12 +18,14 @@ import static org.fest.assertions.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.Dates.monthOf;
 
 import static org.mockito.Mockito.verify;
 
+import java.util.Calendar;
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -34,17 +36,24 @@ import org.fest.assertions.core.AssertionInfo;
  */
 public class Dates_assertIsInThePast_Test extends AbstractDatesTest {
 
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-  }
-
   @Test
   public void should_fail_if_actual_is_not_in_the_past() {
     AssertionInfo info = someInfo();
     try {
       actual = parseDate("2111-01-01");
+      dates.assertIsInThePast(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeInThePast(actual));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_today() {
+    AssertionInfo info = someInfo();
+    try {
+      actual = new Date();
       dates.assertIsInThePast(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeInThePast(actual));
@@ -65,4 +74,50 @@ public class Dates_assertIsInThePast_Test extends AbstractDatesTest {
     dates.assertIsInThePast(someInfo(), actual);
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_in_the_past_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      actual = parseDate("2111-01-01");
+      datesWithCustomComparisonStrategy.assertIsInThePast(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      // we want actual to be different from today but still in the same month so that it is = today according to our
+      // comparison strategy (that compares only month and year) 
+      // => if we are at the end of the month we subtract one day instead of adding one
+      Calendar cal = Calendar.getInstance();
+      cal.add(Calendar.DAY_OF_MONTH, 1);
+      Date tomorrow = cal.getTime();
+      cal.add(Calendar.DAY_OF_MONTH, -2);
+      Date yesterday = cal.getTime();
+      actual = monthOf(tomorrow) == monthOf(new Date()) ? tomorrow : yesterday;
+      datesWithCustomComparisonStrategy.assertIsInThePast(info, actual);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeInThePast(actual, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), null);
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_in_the_past_according_to_custom_comparison_strategy() {
+    actual = parseDate("2000-01-01");
+    datesWithCustomComparisonStrategy.assertIsInThePast(someInfo(), actual);
+  }
+  
 }

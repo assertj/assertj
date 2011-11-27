@@ -26,23 +26,29 @@ import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 
-import java.util.regex.*;
+import java.util.Comparator;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link String}</code>s.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class Strings {
 
   private static final Strings INSTANCE = new Strings();
 
   /**
-   * Returns the singleton instance of this class.
-   * @return the singleton instance of this class.
+   * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Strings instance() {
     return INSTANCE;
@@ -50,7 +56,23 @@ public class Strings {
 
   @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting Strings() {}
+  @VisibleForTesting Strings() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  private ComparisonStrategy comparisonStrategy;
+
+  public Strings(ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+  }  
+  
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
+  }
 
   /**
    * Asserts that the given {@code String} is {@code null} or empty.
@@ -120,8 +142,15 @@ public class Strings {
   public void assertContains(AssertionInfo info, String actual, String sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (actual.contains(sequence)) return;
-    throw failures.failure(info, shouldContain(actual, sequence));
+    if (stringContains(actual, sequence)) return;
+    throw failures.failure(info, shouldContain(actual, sequence, comparisonStrategy));
+  }
+
+  /**
+   * Delegates to {@link ComparisonStrategy#stringContains(String, String)}
+   */
+  private boolean stringContains(String actual, String sequence) {
+    return comparisonStrategy.stringContains(actual, sequence);
   }
 
   /**
@@ -152,8 +181,8 @@ public class Strings {
   public void assertDoesNotContain(AssertionInfo info, String actual, String sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!actual.contains(sequence)) return;
-    throw failures.failure(info, shouldNotContain(actual, sequence));
+    if (!stringContains(actual, sequence)) return;
+    throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
   }
 
   private void checkSequenceIsNotNull(String sequence) {
@@ -189,10 +218,10 @@ public class Strings {
   public void assertStartsWith(AssertionInfo info, String actual, String prefix) {
     if (prefix == null) throw new NullPointerException("The given prefix should not be null");
     assertNotNull(info, actual);
-    if (actual.startsWith(prefix)) return;
-    throw failures.failure(info, shouldStartWith(actual, prefix));
+    if (comparisonStrategy.stringStartsWith(actual, prefix)) return;
+    throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
-
+  
   /**
    * Verifies that the given {@code String} ends with the given suffix.
    * @param info contains information about the assertion.
@@ -205,8 +234,8 @@ public class Strings {
   public void assertEndsWith(AssertionInfo info, String actual, String suffix) {
     if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
-    if (actual.endsWith(suffix)) return;
-    throw failures.failure(info, shouldEndWith(actual, suffix)); 
+    if (comparisonStrategy.stringEndsWith(actual, suffix)) return;
+    throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy)); 
   }
 
   /**

@@ -18,6 +18,9 @@ import static org.fest.util.Dates.parse;
 
 import java.util.Date;
 
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is after another one failed.
  *
@@ -29,12 +32,23 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeAfter}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeAfter(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeAfter(actual, other, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeAfter}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAfter(Date actual, Date other) {
-    return new ShouldBeAfter(actual, other);
+    return new ShouldBeAfter(actual, other, StandardComparisonStrategy.instance());
   }
-
+  
   /**
    * Creates a new </code>{@link ShouldBeAfter}</code>.
    * @param actual the actual value in the failed assertion.
@@ -43,11 +57,11 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBeAfter(Date actual, int year) {
     Date januaryTheFirstOfGivenYear = parse(year + "-01-01");
-    return new ShouldBeAfter(actual, januaryTheFirstOfGivenYear);
+    return new ShouldBeAfter(actual, januaryTheFirstOfGivenYear, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeAfter(Date actual, Date other) {
-    super("expected:<%s> to be strictly after :<%s>", actual, other);
+  private ShouldBeAfter(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> to be strictly after :<%s>%s", actual, other, comparisonStrategy);
   }
 }
 

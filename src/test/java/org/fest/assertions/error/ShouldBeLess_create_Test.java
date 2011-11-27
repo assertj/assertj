@@ -15,15 +15,22 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
+
 import static org.junit.Assert.assertEquals;
 
-import org.fest.assertions.description.*;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.util.AbsValueComparator;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Tests for <code>{@link ShouldBeLess#create(Description)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShouldBeLess_create_Test {
 
@@ -36,5 +43,12 @@ public class ShouldBeLess_create_Test {
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expected:<8> to be less than:<6>", message);
+  }
+
+  @Test
+  public void should_create_error_message_with_custom_comparison_strategy() {
+    factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expected:<8> to be less than:<6> according to 'AbsValueComparator' comparator", message);
   }
 }

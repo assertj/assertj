@@ -20,11 +20,15 @@ import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.*;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link IntArrays#assertNotEmpty(AssertionInfo, int[])}</code>.
@@ -61,7 +65,6 @@ public class IntArrays_assertNotEmpty_Test {
   }
 
   @Test public void should_pass_if_actual_is_not_empty() {
-    // TODO replace with singleton array
     arrays.assertNotEmpty(someInfo(), array(8));
   }
 }

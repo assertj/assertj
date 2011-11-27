@@ -1,22 +1,25 @@
 /*
  * Created on Oct 25, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
 import org.fest.assertions.internal.Doubles;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -25,15 +28,18 @@ import org.fest.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Double)}</code> or
  * <code>{@link Assertions#assertThat(double)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Ansgar Konermann
+ * @author Joel Costigliola
  */
-public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements FloatingPointNumberAssert<Double> {
+public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements
+    FloatingPointNumberAssert<Double> {
 
-  @VisibleForTesting Doubles doubles = Doubles.instance();
+  @VisibleForTesting
+  Doubles doubles = Doubles.instance();
 
   protected DoubleAssert(Double actual) {
     super(actual, DoubleAssert.class);
@@ -165,5 +171,19 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
   public DoubleAssert isGreaterThanOrEqualTo(double other) {
     doubles.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public DoubleAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+
+  @Override
+  public DoubleAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.doubles = Doubles.instance();
+    return myself;
   }
 }

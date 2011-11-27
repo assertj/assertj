@@ -19,14 +19,19 @@ import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
 import static org.fest.assertions.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.fest.util.Dates.*;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Date}</code>s.
- *
+ * 
  * @author Joel Costigliola
  */
 public class Dates {
@@ -45,7 +50,23 @@ public class Dates {
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  Dates() {}
+  Dates() {
+    this(StandardComparisonStrategy.instance());
+  }
+
+  private ComparisonStrategy comparisonStrategy;
+
+  public Dates(ComparisonStrategy comparisonStrategy) {
+    this.comparisonStrategy = comparisonStrategy;
+  }
+
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+    }
+    return null;
+  }
 
   /**
    * Verifies that the actual {@code Date} is strictly before the given one.
@@ -59,24 +80,24 @@ public class Dates {
   public void assertIsBefore(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (actual.before(other)) return;
-    throw failures.failure(info, shouldBeBefore(actual, other));
+    if (isBefore(actual, other)) return;
+    throw failures.failure(info, shouldBeBefore(actual, other, comparisonStrategy));
   }
 
   /**
-   * Verifies that the actual {@code Date} is before or equals to the given one.
+   * Verifies that the actual {@code Date} is before or equal to the given one.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the other date to compare actual with.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if other {@code Date} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
+   * @throws AssertionError if the actual {@code Date} is not before or equal to the given one.
    */
   public void assertIsBeforeOrEqualsTo(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (isBeforeOrEquals(actual, other)) return;
-    throw failures.failure(info, shouldBeBeforeOrEqualsTo(actual, other));
+    if (isBeforeOrEqualTo(actual, other)) return;
+    throw failures.failure(info, shouldBeBeforeOrEqualsTo(actual, other, comparisonStrategy));
   }
 
   /**
@@ -91,24 +112,24 @@ public class Dates {
   public void assertIsAfter(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (actual.after(other)) return;
-    throw failures.failure(info, shouldBeAfter(actual, other));
+    if (isAfter(actual, other)) return;
+    throw failures.failure(info, shouldBeAfter(actual, other, comparisonStrategy));
   }
 
   /**
-   * Verifies that the actual {@code Date} is after or equals to the given one.
+   * Verifies that the actual {@code Date} is after or equal to the given one.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given Date.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if other {@code Date} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
+   * @throws AssertionError if the actual {@code Date} is not after or equal to the given one.
    */
   public void assertIsAfterOrEqualsTo(AssertionInfo info, Date actual, Date other) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(other);
-    if (isAfterOrEquals(actual, other)) return;
-    throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other));
+    if (isAfterOrEqualTo(actual, other)) return;
+    throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
   }
 
   /**
@@ -131,10 +152,10 @@ public class Dates {
     assertNotNull(info, actual);
     startDateParameterIsNotNull(start);
     endDateParameterIsNotNull(end);
-    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEquals(actual, start) : actual.after(start);
-    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEquals(actual, end) : actual.before(end);
+    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
+    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
     if (checkLowerBoundaryPeriod && checkUpperBoundaryPeriod) return;
-    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
+    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
   /**
@@ -158,11 +179,11 @@ public class Dates {
     startDateParameterIsNotNull(start);
     endDateParameterIsNotNull(end);
     // check is in given period and use the negation of this result
-    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEquals(actual, start) : actual.after(start);
-    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEquals(actual, end) : actual.before(end);
+    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
+    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
     boolean isBetweenGivenPeriod = checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
     if (!isBetweenGivenPeriod) return;
-    throw failures.failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
+    throw failures.failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
   /**
@@ -174,8 +195,8 @@ public class Dates {
    */
   public void assertIsInThePast(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (actual.before(new Date())) return;
-    throw failures.failure(info, shouldBeInThePast(actual));
+    if (isBefore(actual, today())) return;
+    throw failures.failure(info, shouldBeInThePast(actual, comparisonStrategy));
   }
 
   /**
@@ -188,10 +209,10 @@ public class Dates {
    */
   public void assertIsToday(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    Date todayWithoutTime = truncateTime(new Date());
+    Date todayWithoutTime = truncateTime(today());
     Date actualWithoutTime = truncateTime(actual);
-    if (actualWithoutTime.equals(todayWithoutTime)) return;
-    throw failures.failure(info, shouldBeToday(actual));
+    if (areEqual(actualWithoutTime, todayWithoutTime)) return;
+    throw failures.failure(info, shouldBeToday(actual, comparisonStrategy));
   }
 
   /**
@@ -203,8 +224,8 @@ public class Dates {
    */
   public void assertIsInTheFuture(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (actual.after(new Date())) return;
-    throw failures.failure(info, shouldBeInTheFuture(actual));
+    if (isAfter(actual, today())) return;
+    throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
   }
 
   /**
@@ -213,7 +234,7 @@ public class Dates {
    * @param actual the "actual" {@code Date}.
    * @param year the year to compare actual year to
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} year is after or equals to the given year.
+   * @throws AssertionError if the actual {@code Date} year is after or equal to the given year.
    */
   public void assertIsBeforeYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
@@ -227,14 +248,14 @@ public class Dates {
    * @param actual the "actual" {@code Date}.
    * @param year the year to compare actual year to
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} year is before or equals to the given year.
+   * @throws AssertionError if the actual {@code Date} year is before or equal to the given year.
    */
   public void assertIsAfterYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) > year) return;
     throw failures.failure(info, shouldBeAfter(actual, year));
   }
-  
+
   /**
    * Verifies that the actual {@code Date} year is equal to the given year.
    * @param year the year to compare actual year to
@@ -568,29 +589,61 @@ public class Dates {
   }
 
   /**
-   * Returns <code>true</code> if the actual {@code Date} is before or equals to the given one, <code>false</code>
-   * otherwise.
+   * Returns <code>true</code> if the actual {@code Date} is before or equal to the given one according to underlying
+   * {@link #comparisonStrategy}, false otherwise.
    * @param actual the actual date - must not be null.
    * @param other the given Date.
-   * @return <code>true</code> if the actual {@code Date} is before or equals to the given one, <code>false</code>
-   *         otherwise.
+   * @return <code>true</code> if the actual {@code Date} is before or equal to the given one according to underlying
+   *         {@link #comparisonStrategy}, false otherwise.
    * @throws NullPointerException if {@code actual} is {@code null}.
    */
-  private static boolean isBeforeOrEquals(Date actual, Date other) {
-    return actual.before(other) || actual.equals(other);
+  private boolean isBeforeOrEqualTo(Date actual, Date other) {
+    return comparisonStrategy.isLessThanOrEqualTo(actual, other);
   }
 
   /**
-   * Returns <code>true</code> if the actual {@code Date} is after or equals to the given one, <code>false</code>
-   * otherwise.
+   * Returns true if the actual {@code Date} is equal to the given one according to underlying
+   * {@link #comparisonStrategy}, false otherwise.
    * @param actual the actual date - must not be null.
    * @param other the given Date.
-   * @return <code>true</code> if the actual {@code Date} is after or equals to the given one, <code>false</code>
-   *         otherwise.
+   * @return <code>true</code> if the actual {@code Date} is equal to the given one according to underlying
+   *         {@link #comparisonStrategy}, false otherwise.
+   */
+  private boolean areEqual(Date actual, Date other) {
+    return comparisonStrategy.areEqual(other, actual);
+  }
+
+  /**
+   * Returns <code>true</code> if the actual {@code Date} is after or equal to the given one according to underlying
+   * {@link #comparisonStrategy}, false otherwise.
+   * @param actual the actual date - must not be null.
+   * @param other the given Date.
+   * @return <code>true</code> if the actual {@code Date} is after or equal to the given one according to underlying
+   *         {@link #comparisonStrategy}, false otherwise.
    * @throws NullPointerException if {@code actual} is {@code null}.
    */
-  private static boolean isAfterOrEquals(Date actual, Date other) {
-    return actual.after(other) || actual.equals(other);
+  private boolean isAfterOrEqualTo(Date actual, Date other) {
+    return comparisonStrategy.isGreaterThanOrEqualTo(actual, other);
+  }
+
+  /**
+   * Returns true if actual is before other according to underlying {@link #comparisonStrategy}, false otherwise.
+   * @param actual the {@link Date} to compare to other
+   * @param other the {@link Date} to compare to actual
+   * @return true if actual is before other according to underlying {@link #comparisonStrategy}, false otherwise.
+   */
+  private boolean isBefore(Date actual, Date other) {
+    return comparisonStrategy.isLessThan(actual, other);
+  }
+
+  /**
+   * Returns true if actual is after other according to underlying {@link #comparisonStrategy}, false otherwise.
+   * @param actual the {@link Date} to compare to other
+   * @param other the {@link Date} to compare to actual
+   * @return true if actual is after other according to underlying {@link #comparisonStrategy}, false otherwise.
+   */
+  private boolean isAfter(Date actual, Date other) {
+    return comparisonStrategy.isGreaterThan(actual, other);
   }
 
 }

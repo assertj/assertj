@@ -1,15 +1,15 @@
 /*
  * Created on Dec 24, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -24,21 +24,19 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
 /**
  * Tests for <code>{@link Dates#assertIsNotBetween(AssertionInfo, Date, Date, Date, boolean, boolean)}</code>.
- *
+ * 
  * @author Joel Costigliola
  */
 public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
 
   @Override
-  @Before
-  public void setUp() {
-    super.setUp();
+  protected void initActualDate() {
     actual = parseDate("2011-09-27");
   }
 
@@ -52,7 +50,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
     try {
       dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
+      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -69,7 +67,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
     try {
       dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
+      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -86,7 +84,7 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
     try {
       dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd);
+      verify(failures).failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -140,9 +138,105 @@ public class Dates_assertIsNotBetween_Test extends AbstractDatesTest {
     dates.assertIsNotBetween(someInfo(), actual, start, end, true, false);
   }
 
-  private void verifyFailureThrownWhenActualIsNotBetweenGivenPeriod(AssertionInfo info, Date actualDate, Date start,
-      Date end, boolean inclusiveStart, boolean inclusiveEnd) {
-    verify(failures).failure(info, shouldNotBeBetween(actualDate, start, end, inclusiveStart, inclusiveEnd));
+  @Test
+  public void should_fail_if_actual_is_between_given_period_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    Date start = parseDate("2011-08-31");
+    Date end = parseDate("2011-09-30");
+    boolean inclusiveStart = true;
+    boolean inclusiveEnd = true;
+    try {
+      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = parseDate("2011-09-15");
+    Date start = parseDate("2011-09-01"); // = 2011-09-15 according to comparison strategy
+    Date end = parseDate("2011-10-01");
+    boolean inclusiveStart = true;
+    boolean inclusiveEnd = false;
+    try {
+      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    actual = parseDate("2011-09-15");
+    Date start = parseDate("2011-08-31");
+    Date end = parseDate("2011-09-30"); // = 2011-09-15 according to comparison strategy
+    boolean inclusiveStart = false;
+    boolean inclusiveEnd = true;
+    try {
+      datesWithCustomComparisonStrategy.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_throw_error_if_start_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(startDateToCompareActualWithIsNull());
+    Date end = parseDate("2011-09-30");
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, null, end, true, true);
+  }
+
+  @Test
+  public void should_throw_error_if_end_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(endDateToCompareActualWithIsNull());
+    Date start = parseDate("2011-09-01");
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, null, true, true);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    Date start = parseDate("2011-09-01");
+    Date end = parseDate("2011-09-30");
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), null, start, end, true, true);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_not_between_given_period_according_to_custom_comparison_strategy() {
+    actual = parseDate("2011-12-31");
+    Date start = parseDate("2011-09-01");
+    Date end = parseDate("2011-11-30");
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, end, true, true);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
+    actual = parseDate("2011-09-01");
+    Date start = parseDate("2011-09-15"); // = 2011-09-01 according to comparison strategy
+    Date end = parseDate("2011-09-30");
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, end, false, false);
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, end, false, true);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
+    actual = parseDate("2011-09-30");
+    Date start = parseDate("2011-09-01");
+    Date end = parseDate("2011-09-15"); // = 2011-09-30 according to comparison strategy
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, end, false, false);
+    datesWithCustomComparisonStrategy.assertIsNotBetween(someInfo(), actual, start, end, true, false);
   }
 
 }

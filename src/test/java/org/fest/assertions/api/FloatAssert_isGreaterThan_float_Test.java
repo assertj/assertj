@@ -17,8 +17,9 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
-import org.fest.assertions.internal.Floats;
 import org.junit.*;
+
+import org.fest.assertions.internal.Floats;
 
 /**
  * Tests for <code>{@link FloatAssert#isGreaterThan(float)}</code>.
@@ -38,7 +39,7 @@ public class FloatAssert_isGreaterThan_float_Test {
 
   @Test public void should_verify_that_actual_is_greater_than_expected() {
     assertions.isGreaterThan(6);
-    verify(floats).assertGreaterThan(assertions.info, assertions.actual, 6);
+    verify(floats).assertGreaterThan(assertions.info, assertions.actual, 6f);
   }
 
   @Test public void should_return_this() {

@@ -14,9 +14,12 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
 import org.fest.assertions.internal.Floats;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -164,5 +167,19 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   public FloatAssert isGreaterThanOrEqualTo(float other) {
     floats.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public FloatAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public FloatAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.floats = Floats.instance();
+    return myself;
   }
 }

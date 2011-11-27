@@ -15,6 +15,7 @@
 package org.fest.assertions.error;
 
 import org.fest.assertions.data.Offset;
+import org.fest.util.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two numbers are equal within a positive
@@ -33,10 +34,23 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset) {
-    return new ShouldBeEqualWithinOffset(actual, expected, offset);
+    return new ShouldBeEqualWithinOffset(actual, expected, offset, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<?> offset) {
-    super("expected:<%s> but was:<%s> within offset:<%s>", expected, actual, offset.value);
+  /**
+   * Creates a new <code>{@link ShouldBeEqualWithinOffset}</code>.
+   * @param <T> guarantees that the values used in this factory have the same type.
+   * @param actual the actual value in the failed assertion.
+   * @param expected the expected value in the failed assertion.
+   * @param offset the given positive offset.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <T extends Number> ErrorMessageFactory shouldBeEqual(T actual, T expected, Offset<T> offset, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeEqualWithinOffset(actual, expected, offset, comparisonStrategy);
+  }
+  
+  private ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<?> offset, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> but was:<%s> within offset:<%s>%s", expected, actual, offset.value, comparisonStrategy);
   }
 }

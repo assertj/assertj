@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -34,13 +34,6 @@ import org.fest.assertions.core.AssertionInfo;
  */
 public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
 
-  @Override
-  @After
-  public void setUp() {
-    super.setUp();
-    actual = parseDate("2011-01-01");
-  }
-
   @Test
   public void should_fail_if_actual_is_not_strictly_after_given_year() {
     AssertionInfo info = someInfo();
@@ -48,7 +41,7 @@ public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
     try {
       dates.assertIsAfterYear(info, actual, year);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotStrictlyAfterGivenYear(info, actual, year);
+      verify(failures).failure(info, shouldBeAfter(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -62,7 +55,7 @@ public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
     try {
       dates.assertIsAfterYear(info, actual, year);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotStrictlyAfterGivenYear(info, actual, year);
+      verify(failures).failure(info, shouldBeAfter(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -79,9 +72,42 @@ public class Dates_assertIsAfterYear_Test extends AbstractDatesTest {
     dates.assertIsAfterYear(someInfo(), actual, 2000);
   }
 
-  private void verifyFailureThrownWhenActualIsNotStrictlyAfterGivenYear(AssertionInfo info, Date actualDate,
-      int year) {
-    verify(failures).failure(info, shouldBeAfter(actualDate, year));
+  @Test
+  public void should_fail_if_actual_is_not_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    int year = 2020;
+    try {
+      datesWithCustomComparisonStrategy.assertIsAfterYear(info, actual, year);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeAfter(actual, year));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
+  
+  @Test
+  public void should_fail_if_actual_year_is_equals_to_given_year_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    parseDate("2011-01-01");
+    int year = 2011;
+    try {
+      datesWithCustomComparisonStrategy.assertIsAfterYear(info, actual, year);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeAfter(actual, year));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), null, 2010);
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_strictly_after_given_year_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsAfterYear(someInfo(), actual, 2000);
+  }
+  
 }

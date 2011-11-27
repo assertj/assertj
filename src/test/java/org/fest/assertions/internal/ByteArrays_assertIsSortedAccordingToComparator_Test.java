@@ -94,7 +94,8 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, byteDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures)
+          .failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, byteDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

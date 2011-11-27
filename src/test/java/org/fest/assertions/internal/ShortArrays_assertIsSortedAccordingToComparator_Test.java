@@ -58,7 +58,7 @@ public class ShortArrays_assertIsSortedAccordingToComparator_Test {
       }
     };
     shortAscendingOrderComparator = new Comparator<Short>() {
-      public int compare(Short short1, Short short2) { 
+      public int compare(Short short1, Short short2) {
         return -short1.compareTo(short2);
       }
     };
@@ -94,7 +94,8 @@ public class ShortArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, shortDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(2, actual, shortDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

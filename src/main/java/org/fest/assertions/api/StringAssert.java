@@ -14,10 +14,13 @@
  */
 package org.fest.assertions.api;
 
-import java.util.regex.*;
+import java.util.Comparator;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.internal.Strings;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -29,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert> {
 
@@ -187,5 +191,19 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
   public StringAssert doesNotMatch(Pattern pattern) {
     strings.assertDoesNotMatch(info, actual, pattern);
     return this;
+  }
+
+  @Override
+  public StringAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public StringAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.strings = Strings.instance();
+    return myself;
   }
 }

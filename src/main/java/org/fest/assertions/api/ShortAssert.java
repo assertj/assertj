@@ -14,8 +14,11 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.NumberAssert;
 import org.fest.assertions.internal.Shorts;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -132,5 +135,19 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
   public ShortAssert isGreaterThanOrEqualTo(short other) {
     shorts.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
+  }
+
+  @Override
+  public ShortAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.shorts = new Shorts(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public ShortAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.shorts = Shorts.instance();
+    return myself;
   }
 }

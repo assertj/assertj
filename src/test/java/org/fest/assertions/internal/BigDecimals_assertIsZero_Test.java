@@ -14,34 +14,50 @@
  */
 package org.fest.assertions.internal;
 
-import static java.math.BigDecimal.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.mockito.Mockito.*;
+
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link BigDecimals#assertIsZero(AssertionInfo, BigDecimal)}</code>.
  *
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class BigDecimals_assertIsZero_Test {
+public class BigDecimals_assertIsZero_Test extends AbstractTest_for_BigDecimals{
 
-  private Comparables comparables;
-  private BigDecimals bigDecimals;
-
-  @Before public void setUp() {
-    comparables = mock(Comparables.class);
-    bigDecimals = new BigDecimals();
-    bigDecimals.comparables = comparables;
+  @Test
+  public void should_succeed_since_actual_is_zero() {
+    bigDecimals.assertIsZero(someInfo(), BigDecimal.ZERO);
   }
 
-  @Test public void should_verify_that_actual_is_equal_to_zero() {
-    AssertionInfo info = someInfo();
-    bigDecimals.assertIsZero(info, ONE);
-    verify(comparables).assertEqualByComparison(info, ONE, ZERO);
+  @Test
+  public void should_fail_since_actual_is_not_zero() {
+    try {
+      bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+    }
   }
+
+  @Test
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
+  }
+  
+  @Test
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+    try {
+      bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+    }
+  }
+  
 }

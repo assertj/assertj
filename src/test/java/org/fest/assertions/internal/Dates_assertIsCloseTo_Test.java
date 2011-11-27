@@ -24,7 +24,8 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -76,4 +77,33 @@ public class Dates_assertIsCloseTo_Test extends AbstractDatesTest {
     dates.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
   }
 
+  @Test
+  public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    try {
+      datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), actual, null, 10);
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10);
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
+  }
+  
 }

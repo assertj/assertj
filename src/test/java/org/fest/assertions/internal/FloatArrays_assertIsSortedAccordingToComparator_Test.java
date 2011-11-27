@@ -59,7 +59,7 @@ public class FloatArrays_assertIsSortedAccordingToComparator_Test {
     };
     floatSquareComparator = new Comparator<Float>() {
       public int compare(Float float1, Float float2) {
-        return new Float(float1*float1).compareTo(new Float(float2*float2));
+        return new Float(float1 * float1).compareTo(new Float(float2 * float2));
       }
     };
   }
@@ -94,7 +94,8 @@ public class FloatArrays_assertIsSortedAccordingToComparator_Test {
     try {
       arrays.assertIsSortedAccordingToComparator(info, actual, floatDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(2, actual, floatDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

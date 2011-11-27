@@ -16,6 +16,9 @@ package org.fest.assertions.error;
 
 import java.util.Date;
 
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is after or equals to another one failed.
  *
@@ -27,14 +30,25 @@ public class ShouldBeAfterOrEqualsTo extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeAfterOrEqualsTo}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeAfterOrEqualsTo(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeAfterOrEqualsTo(actual, other, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeAfterOrEqualsTo}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAfterOrEqualsTo(Date actual, Date other) {
-    return new ShouldBeAfterOrEqualsTo(actual, other);
+    return new ShouldBeAfterOrEqualsTo(actual, other, StandardComparisonStrategy.instance());
   }
-
-  private ShouldBeAfterOrEqualsTo(Date actual, Date other) {
-    super("expected:<%s> to be after or equals to :<%s>", actual, other);
+  
+  private ShouldBeAfterOrEqualsTo(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> to be after or equals to :<%s>%s", actual, other, comparisonStrategy);
   }
 }
 

@@ -14,7 +14,10 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.internal.Characters;
+import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -28,6 +31,7 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
 
@@ -129,5 +133,19 @@ public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, C
   public CharacterAssert isUpperCase() {
     characters.assertUpperCase(info, actual);
     return this;
+  }
+
+  @Override
+  public CharacterAssert usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public CharacterAssert usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.characters = Characters.instance();
+    return myself;
   }
 }

@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 
@@ -35,13 +35,6 @@ import org.fest.assertions.core.AssertionInfo;
  */
 public class Dates_assertIsBefore_Test extends AbstractDatesTest {
 
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    actual = parseDate("2011-01-01");
-  }
-
   @Test
   public void should_fail_if_actual_is_not_strictly_before_given_date() {
     AssertionInfo info = someInfo();
@@ -49,7 +42,7 @@ public class Dates_assertIsBefore_Test extends AbstractDatesTest {
     try {
       dates.assertIsBefore(info, actual, other);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotStrictlyBeforeOtherDate(info, actual, other);
+      verify(failures).failure(info, shouldBeBefore(actual, other));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -62,7 +55,7 @@ public class Dates_assertIsBefore_Test extends AbstractDatesTest {
     try {
       dates.assertIsBefore(info, actual, other);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenActualIsNotStrictlyBeforeOtherDate(info, actual, other);
+      verify(failures).failure(info, shouldBeBefore(actual, other));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -85,9 +78,47 @@ public class Dates_assertIsBefore_Test extends AbstractDatesTest {
     dates.assertIsBefore(someInfo(), actual, parseDate("2020-01-01"));
   }
 
-  private void verifyFailureThrownWhenActualIsNotStrictlyBeforeOtherDate(AssertionInfo info, Date actualDate,
-      Date otherDate) {
-    verify(failures).failure(info, shouldBeBefore(actualDate, otherDate));
+  @Test
+  public void should_fail_if_actual_is_not_strictly_before_given_date_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    Date other = parseDate("2000-01-01");
+    try {
+      datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeBefore(actual, other, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
+  
+  @Test
+  public void should_fail_if_actual_is_equals_to_given_date_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    Date other = parseDate("2011-01-31");
+    try {
+      datesWithCustomComparisonStrategy.assertIsBefore(info, actual, other);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeBefore(actual, other, yearAndMonthComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
+  public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
+    datesWithCustomComparisonStrategy.assertIsBefore(someInfo(), actual, null);
+  }
+  
+  @Test
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    datesWithCustomComparisonStrategy.assertIsBefore(someInfo(), null, parseDate("2010-01-01"));
+  }
+  
+  @Test
+  public void should_pass_if_actual_is_strictly_before_given_date_according_to_custom_comparison_strategy() {
+    datesWithCustomComparisonStrategy.assertIsBefore(someInfo(), actual, parseDate("2020-01-01"));
+  }
+  
 }

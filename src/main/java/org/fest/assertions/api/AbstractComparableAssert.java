@@ -14,9 +14,11 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
+
 import org.fest.assertions.core.ComparableAssert;
 import org.fest.assertions.internal.Comparables;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Base class for all implementations of <code>{@link ComparableAssert}</code>.
@@ -56,6 +58,20 @@ public abstract class AbstractComparableAssert<S, A extends Comparable<A>> exten
   /** {@inheritDoc} */
   public final S isGreaterThanOrEqualTo(A other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
+    return myself;
+  }
+
+  @Override
+  public S usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public S usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.comparables = Comparables.instance();
     return myself;
   }
 }

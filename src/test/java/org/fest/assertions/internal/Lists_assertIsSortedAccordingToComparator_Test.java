@@ -15,57 +15,50 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Collections#assertDoesNotContainNull(AssertionInfo, Collection)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Lists_assertIsSortedAccordingToComparator_Test {
+public class Lists_assertIsSortedAccordingToComparator_Test extends AbstractTest_for_Lists {
 
-  @Rule
-  public ExpectedException thrown = none();
+  private static Comparator<String> stringDescendingOrderComparator = new Comparator<String>() {
+    public int compare(String s1, String s2) {
+      return -s1.compareTo(s2);
+    }
+  };
 
-  private Failures failures;
-  private Lists lists;
-  private Comparator<String> stringDescendingOrderComparator;
-  private Comparator<Object> comparator;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    lists = new Lists();
-    lists.failures = failures;
-    stringDescendingOrderComparator = new Comparator<String>() {
-      public int compare(String s1, String s2) {
-        return -s1.compareTo(s2);
-      }
-    };
-    comparator = new Comparator<Object>() {
-      public int compare(Object o1, Object o2) {
-        return o1.toString().compareTo(o2.toString());
-      }
-    };
-  }
+  private static Comparator<Object> comparator = new Comparator<Object>() {
+    public int compare(Object o1, Object o2) {
+      return o1.toString().compareTo(o2.toString());
+    }
+  };
 
   @Test
   public void should_pass_if_actual_is_sorted_according_to_given_comparator() {
     lists.assertIsSortedAccordingToComparator(someInfo(), list("Yoda", "Vador", "Luke", "Leia", "Leia"),
         stringDescendingOrderComparator);
+  }
+
+  @Test
+  public void should_pass_if_actual_is_sorted_according_to_given_comparator_whatever_custom_comparison_strategy_is() {
+    listsWithCaseInsensitiveComparisonStrategy.assertIsSortedAccordingToComparator(someInfo(),
+        list("Yoda", "Vador", "Luke", "Leia", "Leia"), stringDescendingOrderComparator);
   }
 
   @Test
@@ -98,7 +91,8 @@ public class Lists_assertIsSortedAccordingToComparator_Test {
     try {
       lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(3, actual));
+      verify(failures).failure(info,
+          shouldBeSortedAccordingToGivenComparator(3, actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -114,7 +108,8 @@ public class Lists_assertIsSortedAccordingToComparator_Test {
     try {
       lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -127,7 +122,8 @@ public class Lists_assertIsSortedAccordingToComparator_Test {
     try {
       lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveComparableElementsAccordingToGivenComparator(actual));
+      verify(failures).failure(info,
+          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

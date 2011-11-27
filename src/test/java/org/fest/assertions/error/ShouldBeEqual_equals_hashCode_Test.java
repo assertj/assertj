@@ -15,6 +15,8 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertFalse;
+
+import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.test.EqualsHashCodeContractAssert.*;
 
 import org.junit.*;
@@ -29,7 +31,7 @@ public class ShouldBeEqual_equals_hashCode_Test {
   private static ShouldBeEqual factory;
 
   @BeforeClass public static void setUpOnce() {
-    factory = new ShouldBeEqual("Yoda", "Luke");
+    factory = (ShouldBeEqual) shouldBeEqual("Yoda", "Luke");
   }
 
   @Test public void should_have_reflexive_equals() {
@@ -37,15 +39,15 @@ public class ShouldBeEqual_equals_hashCode_Test {
   }
 
   @Test public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(factory, new ShouldBeEqual("Yoda", "Luke"));
+    assertEqualsIsSymmetric(factory, shouldBeEqual("Yoda", "Luke"));
   }
 
   @Test public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(factory, new ShouldBeEqual("Yoda", "Luke"), new ShouldBeEqual("Yoda", "Luke"));
+    assertEqualsIsTransitive(factory, shouldBeEqual("Yoda", "Luke"), shouldBeEqual("Yoda", "Luke"));
   }
 
   @Test public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(factory, new ShouldBeEqual("Yoda", "Luke"));
+    assertMaintainsEqualsAndHashCodeContract(factory, shouldBeEqual("Yoda", "Luke"));
   }
 
   @Test public void should_not_be_equal_to_Object_of_different_type() {
@@ -57,10 +59,10 @@ public class ShouldBeEqual_equals_hashCode_Test {
   }
 
   @Test public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
-    assertFalse(factory.equals(new ShouldBeEqual("Leia", "Luke")));
+    assertFalse(factory.equals(shouldBeEqual("Leia", "Luke")));
   }
 
   @Test public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
-    assertFalse(factory.equals(new ShouldBeEqual("Yoda", "Leia")));
+    assertFalse(factory.equals(shouldBeEqual("Yoda", "Leia")));
   }
 }

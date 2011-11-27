@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.api;
 
-import java.util.Collection;
+import java.util.*;
 
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.Collections;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -113,6 +113,20 @@ public abstract class AbstractCollectionAssert<S, A extends Collection<?>> exten
   /** {@inheritDoc} */
   public S doesNotContainNull() {
     collections.assertDoesNotContainNull(info, actual);
+    return myself;
+  }
+  
+  @Override
+  public S usingComparator(Comparator<?> customComparator) {
+    super.usingComparator(customComparator);
+    this.collections = new Collections(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
+  }
+  
+  @Override
+  public S usingDefaultComparator() {
+    super.usingDefaultComparator();
+    this.collections = Collections.instance();
     return myself;
   }
 }

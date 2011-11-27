@@ -17,36 +17,24 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.test.DoubleArrayFactory.*;
 import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertContains(AssertionInfo, double[], double[])}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class DoubleArrays_assertContains_Test {
-
-  @Rule public ExpectedException thrown = none();
-
-  private Failures failures;
-  private double[] actual;
-  private DoubleArrays arrays;
-
-  @Before public void setUp() {
-    failures = spy(new Failures());
-    actual = array(6d, 8d, 10d);
-    arrays = new DoubleArrays();
-    arrays.failures = failures;
-  }
+public class DoubleArrays_assertContains_Test extends AbstractTest_for_DoubleArrays{
 
   @Test public void should_pass_if_actual_contains_given_values() {
     arrays.assertContains(someInfo(), actual, array(6d));
@@ -91,6 +79,53 @@ public class DoubleArrays_assertContains_Test {
       arrays.assertContains(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContain(actual, expected, set(9d)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  @Test public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6d));
+  }
+  
+  @Test public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-8d, 10d));
+  }
+  
+  @Test public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6d, -8d, 10d));
+  }
+  
+  @Test public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
+    actual = array(6d, -8d, 10d, 10d, -8d);
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-8d));
+  }
+  
+  @Test public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6d, 6d));
+  }
+  
+  @Test public void should_throw_error_if_array_of_values_to_look_for_is_empty_whatever_custom_comparison_strategy_is() {
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, emptyArray());
+  }
+  
+  @Test public void should_throw_error_if_array_of_values_to_look_for_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, null);
+  }
+  
+  @Test public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, array(-8d));
+  }
+  
+  @Test public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    double[] expected = { 6d, -8d, 9d };
+    try {
+      arraysWithCustomComparisonStrategy.assertContains(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldContain(actual, expected, set(9d), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -16,6 +16,9 @@ package org.fest.assertions.error;
 
 import java.util.Date;
 
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is today (matching only year, month and day but not hours).
  *
@@ -26,13 +29,23 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
   /**
    * Creates a new </code>{@link ShouldBeToday}</code>.
    * @param actual the actual value in the failed assertion.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeToday(Date actual, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeToday(actual, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeToday}</code>.
+   * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeToday(Date actual) {
-    return new ShouldBeToday(actual);
+    return new ShouldBeToday(actual, StandardComparisonStrategy.instance());
   }
-
-  private ShouldBeToday(Date actual) {
-    super("expected:<%s> to be today", actual);
+  
+  private ShouldBeToday(Date actual, ComparisonStrategy comparisonStrategy) {
+    super("expected:<%s> to be today%s", actual, comparisonStrategy);
   }
 }
