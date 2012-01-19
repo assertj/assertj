@@ -17,6 +17,7 @@ package org.fest.assertions.error;
 import static org.fest.util.Systems.LINE_SEPARATOR;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -34,13 +35,32 @@ public class ShouldHaveEqualContent extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveEqualContent(File actual, File expected, List<String> diffs) {
-    StringBuilder b = new StringBuilder();
+    return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
+   * @param actual the actual InputStream in the failed assertion.
+   * @param expected the expected Stream in the failed assertion.
+   * @param diffs the differences between {@code actual} and {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveEqualContent(InputStream actual, InputStream expected, List<String> diffs) {
+    return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
+  }
+  
+  private static String diffsAsString(List<String> diffs) {
+	StringBuilder b = new StringBuilder();
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
-    return new ShouldHaveEqualContent(actual, expected, b.toString());
+	return b.toString();
   }
 
   private ShouldHaveEqualContent(File actual, File expected, String diffs) {
     super("file:<%s> and file:<%s> do not have equal content:" + diffs, actual, expected);
+  }
+  
+  private ShouldHaveEqualContent(InputStream actual, InputStream expected, String diffs) {
+	super("InputStreams do not have equal content:" + diffs, actual, expected);
   }
 }

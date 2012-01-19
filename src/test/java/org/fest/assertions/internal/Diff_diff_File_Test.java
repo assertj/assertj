@@ -29,7 +29,7 @@ import org.junit.rules.TemporaryFolder;
  *
  * @author Yvonne Wang
  */
-public class Diff_diff_Test {
+public class Diff_diff_File_Test {
 
   @Rule public TemporaryFolder folder = new TemporaryFolder();
 

@@ -16,6 +16,7 @@ package org.fest.assertions.api;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -187,6 +188,15 @@ public class Assertions {
     return new FileAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link InputStreamAssert}</code>.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static InputStreamAssert assertThat(InputStream actual) {
+    return new InputStreamAssert(actual);
+  }
+  
   /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    * @param actual the actual value.

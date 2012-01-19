@@ -23,7 +23,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * Compares the contents of two files.
+ * Compares the contents of two files or two streams.
  *
  * @author David DIDIER
  * @author Alex Ruiz
@@ -33,6 +33,19 @@ class Diff {
 
   private static final String EOF = "EOF";
 
+  List<String> diff(InputStream actual, InputStream expected) throws IOException {
+	  LineNumberReader reader1 = null;
+	  LineNumberReader reader2 = null;
+	  try {
+		  reader1 = readerFor(actual);
+		  reader2 = readerFor(expected);
+		  return unmodifiableList(diff(reader1, reader2));
+	  } finally {
+		  close(reader1);
+		  close(reader2);
+	  } 
+  }
+  
   List<String> diff(File actual, File expected) throws IOException {
     LineNumberReader reader1 = null;
     LineNumberReader reader2 = null;
@@ -46,8 +59,12 @@ class Diff {
     }
   }
 
+  private LineNumberReader readerFor(InputStream stream) {
+	return new LineNumberReader(new BufferedReader(new InputStreamReader(stream)));
+  }
+  
   private LineNumberReader readerFor(File file) throws IOException {
-    return new LineNumberReader(new BufferedReader(new InputStreamReader(new FileInputStream(file))));
+    return readerFor(new FileInputStream(file));
   }
 
   // reader1 -> actual, reader2 -> expected
