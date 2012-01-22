@@ -18,11 +18,10 @@ import static org.fest.assertions.error.ShouldBeToday.shouldBeToday;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Dates.monthOf;
+import static org.fest.util.Dates.*;
 
 import static org.mockito.Mockito.verify;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
@@ -81,15 +80,10 @@ public class Dates_assertIsToday_Test extends AbstractDatesTest {
   
   @Test
   public void should_pass_if_actual_is_today_according_to_custom_comparison_strategy() {
-    // we want actual to be different from today but still in the same month so that it is = today according to our
-    // comparison strategy (that compares only month and year) 
+    // we want actual to be different from today but still in the same month so that it is equal to today 
+    // according to our comparison strategy (that compares only month and year). 
     // => if we are at the end of the month we subtract one day instead of adding one
-    Calendar cal = Calendar.getInstance();
-    cal.add(Calendar.DAY_OF_MONTH, 1);
-    Date tomorrow = cal.getTime();
-    cal.add(Calendar.DAY_OF_MONTH, -2);
-    Date yesterday = cal.getTime();
-    actual = monthOf(tomorrow) == monthOf(new Date()) ? tomorrow : yesterday;
+    actual = monthOf(tomorrow()) == monthOf(new Date()) ? tomorrow() : yesterday();
     datesWithCustomComparisonStrategy.assertIsToday(someInfo(), actual);
   }
   
