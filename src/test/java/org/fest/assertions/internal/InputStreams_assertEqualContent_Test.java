@@ -14,18 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
+
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import static org.mockito.Mockito.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -33,16 +31,18 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.util.InputStreamsException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.test.ExpectedException;
+
 /**
  * Tests for <code>{@link InputStreams#assertEqualContent(AssertionInfo, InputStream, InputStream)}</code>.
+ * 
+ * @author Matthieu Baechler
  */
 public class InputStreams_assertEqualContent_Test {
 

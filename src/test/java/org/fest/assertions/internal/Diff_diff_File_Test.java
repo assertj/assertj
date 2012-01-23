@@ -15,14 +15,20 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.fest.util.Arrays.array;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import org.fest.assertions.test.TextFileWriter;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+
+import org.fest.assertions.test.TextFileWriter;
 
 /**
  * Tests for <code>{@link Diff#diff(File, File)}</code>.

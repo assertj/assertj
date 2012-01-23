@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -25,6 +24,8 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(InputStream)}</code>.
+ * 
+ * @author Matthieu Baechler
  */
 public class Assertions_assertThat_with_InputStream_Test {
 

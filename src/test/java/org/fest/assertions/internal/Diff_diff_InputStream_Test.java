@@ -27,6 +27,8 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link Diff#diff(InputStream, InputStream)}</code>.
+ * 
+ * @author Matthieu Baechler
  */
 public class Diff_diff_InputStream_Test {
 

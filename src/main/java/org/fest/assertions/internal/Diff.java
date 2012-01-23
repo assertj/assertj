@@ -16,11 +16,19 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
+
 import static org.fest.util.Closeables.close;
 import static org.fest.util.Objects.areEqual;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.LineNumberReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Compares the contents of two files or two streams.
@@ -28,6 +36,7 @@ import java.util.*;
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Matthieu Baechler
  */
 class Diff {
 

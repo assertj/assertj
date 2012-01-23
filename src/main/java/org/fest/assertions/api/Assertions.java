@@ -18,7 +18,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.fest.assertions.util.ImageReader;
 
@@ -40,6 +43,8 @@ import org.fest.assertions.util.ImageReader;
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ted Young
+ * @author Joel Costigliola
+ * @author Matthieu Baechler
  */
 public class Assertions {
 
