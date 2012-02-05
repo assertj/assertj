@@ -33,6 +33,7 @@ import static org.fest.util.Collections.*;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -75,9 +76,8 @@ public class Iterables {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
-    }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+        .getComparator(); }
     return null;
   }
 
@@ -124,8 +124,7 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param expectedSize the expected size of {@code actual}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the number of elements in the given {@code Iterable} is different than the expected
-   *           one.
+   * @throws AssertionError if the number of elements in the given {@code Iterable} is different than the expected one.
    */
   public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
@@ -206,7 +205,7 @@ public class Iterables {
     if (elements == null) return null;
     Set<Object> set = new HashSet<Object>();
     for (Object e : elements) {
-      // only add is not already there 
+      // only add is not already there
       if (!iterableContains(set, e)) set.add(e);
     }
     return set;
@@ -221,12 +220,12 @@ public class Iterables {
     if (iterable == null) return null;
     Set<Object> set = new HashSet<Object>();
     for (Object e : iterable) {
-      // only add is not already there 
+      // only add is not already there
       if (!iterableContains(set, e)) set.add(e);
     }
     return set;
   }
-  
+
   /**
    * Verifies that the given <code>{@link Iterable}</code> contains the given sequence of objects, without any other
    * objects between them.
@@ -241,21 +240,28 @@ public class Iterables {
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     checkIsNotNullAndNotEmpty(sequence);
     assertNotNull(info, actual);
-    boolean firstAlreadyFound = false;
-    int i = 0;
-    int sequenceSize = sequence.length;
-    for (Object o : actual) {
-      if (i >= sequenceSize) break;
-      if (!firstAlreadyFound) {
-        if (!areEqual(o, sequence[i])) continue;
-        firstAlreadyFound = true;
-        i++;
-        continue;
-      }
-      if (areEqual(o, sequence[i++])) continue;
-      throw actualDoesNotContainSequence(info, actual, sequence);
+    List<?> actualAsList = list(actual);
+    for (int i = 0; i < actualAsList.size(); i++) {
+      // look for given sequence in actual starting from current index (i)
+      if (containsSequenceAtGivenIndex(actualAsList, sequence, i)) return;
     }
-    if (!firstAlreadyFound || i < sequenceSize) throw actualDoesNotContainSequence(info, actual, sequence);
+    throw actualDoesNotContainSequence(info, actual, sequence);
+  }
+
+  /**
+   * Return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
+   * @param actualAsList the list to look sequance in 
+   * @param sequence the sequence to look for
+   * @param startingIndex the index of actual list at which we start looking for sequence.
+   * @return
+   */
+  private boolean containsSequenceAtGivenIndex(List<?> actualAsList, Object[] sequence, int startingIndex) {
+    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence 
+    if (actualAsList.size() - startingIndex < sequence.length) return false;
+    for (int i = 0; i < sequence.length; i++) {
+      if (!areEqual(actualAsList.get(startingIndex + i), sequence[i])) return false;
+    }
+    return true;
   }
 
   /**
@@ -335,9 +341,9 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the given {@code Iterable} ends with the given sequence of objects, without any other objects
-   * between them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it
-   * also verifies that the last element in the sequence is also the last element of the given {@code Iterable}.
+   * Verifies that the given {@code Iterable} ends with the given sequence of objects, without any other objects between
+   * them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it also
+   * verifies that the last element in the sequence is also the last element of the given {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param sequence the sequence of objects to look for.

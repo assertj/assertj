@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -39,7 +40,12 @@ import org.fest.assertions.core.AssertionInfo;
  */
 public class Iterables_assertContainsSequence_Test extends AbstractTest_for_Iterables {
 
-  private static Collection<String> actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
+  @Override
+  @Before
+  public void setUp() {
+    super.setUp();
+    actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
+  }
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
@@ -110,6 +116,12 @@ public class Iterables_assertContainsSequence_Test extends AbstractTest_for_Iter
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
     iterables.assertContainsSequence(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_both_partial_and_complete_sequence() {
+    actual = list("Yoda", "Luke", "Yoda", "Obi-Wan");
+    iterables.assertContainsSequence(someInfo(), actual, array("Yoda", "Obi-Wan"));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
