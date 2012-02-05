@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import org.fest.assertions.internal.Collections;
+import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.Lists;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
@@ -39,7 +39,7 @@ public class ListAssert_usingComparator_Test {
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
     assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.collections, Collections.instance());
+    assertSame(assertions.iterables, Iterables.instance());
     assertSame(assertions.lists, Lists.instance());
   }
   
@@ -48,7 +48,7 @@ public class ListAssert_usingComparator_Test {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
     assertions.usingComparator(CaseInsensitiveStringComparator.instance);
     assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.collections.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertSame(assertions.iterables.getComparator(), CaseInsensitiveStringComparator.instance);
     assertSame(assertions.lists.getComparator(), CaseInsensitiveStringComparator.instance);
   }
 }

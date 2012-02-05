@@ -35,7 +35,7 @@ import org.fest.assertions.util.ImageReader;
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
- * {@link Assertions#assertThat(Collection) assertThat}(newEmployees).{@link CollectionAssert#hasSize(int) hasSize}(6);
+ * {@link Assertions#assertThat(Collection) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
  * </pre>
  * </p>
  *
@@ -149,12 +149,12 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link CollectionAssert}</code>.
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CollectionAssert assertThat(Collection<?> actual) {
-    return new CollectionAssert(actual);
+  public static IterableAssert assertThat(Iterable<?> actual) {
+    return new IterableAssert(actual);
   }
 
   /**

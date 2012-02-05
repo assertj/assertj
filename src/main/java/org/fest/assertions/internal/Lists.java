@@ -86,7 +86,7 @@ public class Lists {
    */
   public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
     assertNotNull(info, actual);
-    Collections.instance().assertNotEmpty(info, actual);
+    Iterables.instance().assertNotEmpty(info, actual);
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;

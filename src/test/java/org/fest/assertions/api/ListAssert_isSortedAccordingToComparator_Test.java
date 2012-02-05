@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.fest.assertions.internal.Lists;
 
 /**
- * Tests for <code>{@link AbstractCollectionAssert#isSortedAccordingTo(Comparator)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#isSortedAccordingTo(Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */

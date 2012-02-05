@@ -15,31 +15,26 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyList;
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
-import org.junit.Test;
+import org.junit.Before;
 
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.Iterables;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#isSorted()}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#contains(Object...)}</code>.
  *
  * @author Joel Costigliola
  */
-public class ListAssert_isSorted_Test {
+public class AbstractTest_for_IterableAssert {
 
-  @Test
-  public void should_verify_that_actual_does_not_contain_null() {
-    Lists lists = mock(Lists.class);
-    ListAssert assertions = new ListAssert(emptyList());
-    assertions.lists = lists;
-    assertions.isSorted();
-    verify(lists).assertIsSorted(assertions.info, assertions.actual);
+  protected Iterables iterables;
+  protected ConcreteIterableAssert assertions;
+
+  @Before public void setUp() {
+    iterables = mock(Iterables.class);
+    assertions = new ConcreteIterableAssert(emptyList());
+    assertions.iterables = iterables;
   }
 
-  @Test public void should_return_this() {
-    ListAssert assertions = new ListAssert(emptyList());
-    assertSame(assertions, assertions.isSorted());
-  }
 }

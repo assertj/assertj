@@ -33,7 +33,8 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ListAssert extends AbstractCollectionAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
+// TODO inherits from IterableAssert and remove AbstractIterableAssert ? 
+public class ListAssert extends AbstractIterableAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
 
   @VisibleForTesting
   Lists lists = Lists.instance();

@@ -22,7 +22,6 @@ import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.Test;
@@ -30,7 +29,7 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 
 /**
- * Tests for <code>{@link Collections#assertDoesNotContainNull(AssertionInfo, Collection)}</code>.
+ * Tests for <code>{@link Lists#assertIsSorted(AssertionInfo, List)}</code>.
  * 
  * @author Joel Costigliola
  */

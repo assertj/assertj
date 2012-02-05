@@ -36,6 +36,7 @@ import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
+import static org.fest.util.Collections.isEmpty;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -180,17 +181,17 @@ class Arrays {
   }
 
   /**
-   * Delegates to {@link ComparisonStrategy#collectionContains(Collection, Object)}
+   * Delegates to {@link ComparisonStrategy#iterableContains(Collection, Object)}
    */
   private boolean collectionContains(Collection<?> actual, Object value) {
-    return comparisonStrategy.collectionContains(actual, value);
+    return comparisonStrategy.iterableContains(actual, value);
   }
 
   /**
-   * Delegates to {@link ComparisonStrategy#collectionRemoves(Collection, Object)}
+   * Delegates to {@link ComparisonStrategy#iterableRemoves(Iterable, Object)}
    */
   private void collectionRemoves(Collection<?> actual, Object value) {
-    comparisonStrategy.collectionRemoves(actual, value);
+    comparisonStrategy.iterableRemoves(actual, value);
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object array, Object sequence) {
@@ -249,8 +250,8 @@ class Arrays {
   void assertDoesNotHaveDuplicates(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
-    Collection<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
-    if (duplicates.isEmpty()) return;
+    Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
+    if (isEmpty(duplicates)) return;
     throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));
   }
 
