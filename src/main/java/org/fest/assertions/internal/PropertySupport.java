@@ -15,13 +15,17 @@
 package org.fest.assertions.internal;
 
 import static java.util.Collections.*;
+
 import static org.fest.util.Collections.*;
 import static org.fest.util.Introspection.descriptorForProperty;
 
 import java.beans.PropertyDescriptor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.util.*;
+import org.fest.util.IntrospectionError;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Utility methods for properties access.
@@ -71,6 +75,25 @@ public class PropertySupport {
     }
     return simplePropertyValues(propertyName, cleanedUp);
   }
+  
+  /**
+   * Static variant of {@link #propertyValue(String, Object)} for synthetic sugar.
+   * <p>
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
+   * given <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will
+   * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   * for {@code null} or empty.
+   * @param target the given {@code Collection}.
+   * @return a {@code List} containing the values of the given property name, from the elements of the given
+   * {@code Collection}.
+   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
+   * name.
+   */
+  public static List<Object> propertyValuesOf(String propertyName, Collection<?> target) {
+    return instance().propertyValues(propertyName, target);
+  }
+  
 
   private List<Object> simplePropertyValues(String propertyName, Collection<?> target) {
     List<Object> propertyValues = new ArrayList<Object>();
