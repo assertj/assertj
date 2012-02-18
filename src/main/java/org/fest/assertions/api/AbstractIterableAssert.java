@@ -34,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Mathieu Baechler
  * @author Joel Costigliola
+ * @author Maciej Jaskowski
  */
 public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends AbstractAssert<S, A> implements
     ObjectEnumerableAssert<S> {
@@ -78,6 +79,12 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
     return myself;
   }
 
+
+  public final S isSubsetOf(Iterable<?> values) {
+    iterables.assertIsSubsetOf(info, actual, values);
+    return myself;
+  }
+  
   /** {@inheritDoc} */
   public final S containsSequence(Object... sequence) {
     iterables.assertContainsSequence(info, actual, sequence);

@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.error.ShouldBeSubsetOf;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -47,6 +48,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Maciej Jaskowski
  */
 public class Iterables {
 
@@ -249,6 +251,34 @@ public class Iterables {
   }
 
   /**
+   * Verifies that the actual <code>{@link Iterable}</code> is a subset of set <code>{@link Iterable}</code>.
+   * <br/>Both actual and set are treated as sets, therefore duplicates on either of them are ignored. 
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code Iterable}.
+   * @param values the set {@code Iterable}.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the set sequence is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of set <code>{@link Iterable}</code>
+   */
+  public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
+    assertNotNull(info, actual);
+    checkNotNull(info, values);
+    for (Object e : actual) {
+      if ( ! iterableContains(values, e)) {
+        throw actualIsNotSubsetOfSet(info, actual, values);
+      }
+    }
+  }
+
+  private void checkNotNull(AssertionInfo info, Iterable<?> set) {
+    if (set == null) throw arrayOfValuesToLookForIsNull();
+  }
+
+  private AssertionError actualIsNotSubsetOfSet(AssertionInfo info, Object actual, Iterable<?> set) {
+    return failures.failure(info, ShouldBeSubsetOf.shouldBeSubsetOf(actual, set, comparisonStrategy));
+  }
+
+/**
    * Return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
    * @param actualAsList the list to look sequance in 
    * @param sequence the sequence to look for
