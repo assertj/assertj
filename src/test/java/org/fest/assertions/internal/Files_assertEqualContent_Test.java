@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.*;
+
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.test.ExpectedException.none;
@@ -22,16 +23,22 @@ import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.fest.util.Files.*;
+
 import static org.mockito.Mockito.*;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.util.FilesException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link Files#assertEqualContent(AssertionInfo, File, File)}</code>.
@@ -44,13 +51,8 @@ public class Files_assertEqualContent_Test {
   private static File expected;
 
   @BeforeClass public static void setUpOnce() {
-    actual = newTemporaryFile();
-    expected = newTemporaryFile();
-  }
-
-  @AfterClass public static void tearDownOnce() {
-    delete(actual);
-    delete(expected);
+    actual = new File("src/test/resources/actual_file.txt");
+    expected = new File("src/test/resources/expected_file.txt");
   }
 
   @Rule public ExpectedException thrown = none();
