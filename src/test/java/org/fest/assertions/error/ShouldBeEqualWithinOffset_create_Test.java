@@ -15,12 +15,15 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link ShouldBeEqualWithinOffset#create(Description)}</code>.
@@ -37,6 +40,6 @@ public class ShouldBeEqualWithinOffset_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected:<8.0> but was:<6.0> within offset:<1.0>", message);
+    assertEquals("[Test] expected:<8.0f> but was:<6.0f> within offset:<1.0f>", message);
   }
 }

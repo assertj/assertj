@@ -40,7 +40,7 @@ public class Floats_assertIsNotZero_Test extends AbstractTest_for_Floats{
     try {
       floats.assertIsNotZero(someInfo(), 0.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0.0> should not be equal to:<0.0>");
+      assertEquals(e.getMessage(), "<0.0f> should not be equal to:<0.0f>");
     }
   }
 
@@ -54,7 +54,7 @@ public class Floats_assertIsNotZero_Test extends AbstractTest_for_Floats{
     try {
       floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0.0> should not be equal to:<0.0>");
+      assertEquals(e.getMessage(), "<0.0f> should not be equal to:<0.0f>");
     }
   }
   

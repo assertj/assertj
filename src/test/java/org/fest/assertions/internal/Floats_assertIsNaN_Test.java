@@ -40,7 +40,7 @@ public class Floats_assertIsNaN_Test extends AbstractTest_for_Floats {
     try {
       floats.assertIsNaN(someInfo(), 6.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[NaN]> but was:<[6.0]>");
+      assertEquals(e.getMessage(), "expected:<[NaN]f> but was:<[6.0]f>");
     }
   }
   
@@ -54,7 +54,7 @@ public class Floats_assertIsNaN_Test extends AbstractTest_for_Floats {
     try {
       floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[NaN]> but was:<[6.0]>");
+      assertEquals(e.getMessage(), "expected:<[NaN]f> but was:<[6.0]f>");
     }
   }
 }

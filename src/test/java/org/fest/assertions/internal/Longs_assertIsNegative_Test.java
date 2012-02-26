@@ -35,19 +35,19 @@ public class Longs_assertIsNegative_Test extends AbstractTest_for_Longs {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("expected:<6> to be less than:<0>");
+    thrown.expectAssertionError("expected:<6L> to be less than:<0L>");
     longs.assertIsNegative(someInfo(), 6l);
   }
 
   @Test
   public void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<-1> to be less than:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("expected:<-1L> to be less than:<0L> according to 'AbsValueComparator' comparator");
     longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1L);
   }
   
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    thrown.expectAssertionError("expected:<1L> to be less than:<0L>");
     longsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1L);
   }
   

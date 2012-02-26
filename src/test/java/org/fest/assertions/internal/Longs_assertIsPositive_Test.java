@@ -35,7 +35,7 @@ public class Longs_assertIsPositive_Test extends AbstractTest_for_Longs{
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("expected:<-6> to be greater than:<0>");
+    thrown.expectAssertionError("expected:<-6L> to be greater than:<0L>");
     longs.assertIsPositive(someInfo(), -6l);
   }
 
@@ -47,7 +47,7 @@ public class Longs_assertIsPositive_Test extends AbstractTest_for_Longs{
   
   @Test
   public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<0> to be greater than:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("expected:<0L> to be greater than:<0L> according to 'AbsValueComparator' comparator");
     longsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), 0L);
   }
   

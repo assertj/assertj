@@ -57,4 +57,12 @@ public class ShouldContain_create_Test {
     assertEquals("[Test] expecting:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']> "
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
+  
+  @Test
+  public void should_create_error_message_differentiating_long_from_integer() {
+    factory = shouldContain(list(5L, 7L), list(5, 7), set(5, 7));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expecting:<[5L, 7L]> to contain:<[5, 7]> but could not find:<[5, 7]>", message);
+  }
+  
 }

@@ -40,7 +40,7 @@ public class Longs_assertIsZero_Test extends AbstractTest_for_Longs{
     try {
       longs.assertIsZero(someInfo(), 2l);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[2]>");
+      assertEquals(e.getMessage(), "expected:<[0]L> but was:<[2]L>");
     }
   }
 
@@ -54,7 +54,7 @@ public class Longs_assertIsZero_Test extends AbstractTest_for_Longs{
     try {
       longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "<0L> should not be equal to:<0L>");
     }
   }
   

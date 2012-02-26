@@ -35,7 +35,7 @@ public class Floats_assertIsPositive_Test extends AbstractTest_for_Floats{
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("expected:<-6.0> to be greater than:<0.0>");
+    thrown.expectAssertionError("expected:<-6.0f> to be greater than:<0.0f>");
     floats.assertIsPositive(someInfo(), -6.0f);
   }
 

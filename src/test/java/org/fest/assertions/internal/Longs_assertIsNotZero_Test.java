@@ -37,7 +37,7 @@ public class Longs_assertIsNotZero_Test extends AbstractTest_for_Longs{
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("<0> should not be equal to:<0>");
+    thrown.expectAssertionError("<0L> should not be equal to:<0L>");
     longs.assertIsNotZero(someInfo(), 0l);
   }
 
@@ -51,7 +51,7 @@ public class Longs_assertIsNotZero_Test extends AbstractTest_for_Longs{
     try {
       longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "<0L> should not be equal to:<0L>");
     }
   }
   

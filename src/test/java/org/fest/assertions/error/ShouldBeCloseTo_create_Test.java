@@ -23,7 +23,8 @@ import java.text.ParseException;
 
 import org.junit.Test;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
  * Tests for <code>{@link ShouldBeCloseTo#create(Description)}</code>.
@@ -38,7 +39,7 @@ public class ShouldBeCloseTo_create_Test {
         ISO_DATE_TIME_FORMAT_WITH_MS.parse("2011-01-01T00:00:00.101"), 100, 101);
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] expected '2011-01-01T00:00:00.000' to be close to '2011-01-01T00:00:00.101' by less than 100 ms but difference was of 101 ms",
+        "[Test] expected '2011-01-01T00:00:00.000' to be close to '2011-01-01T00:00:00.101' by less than 100ms but difference was of 101ms",
         message);
   }
 

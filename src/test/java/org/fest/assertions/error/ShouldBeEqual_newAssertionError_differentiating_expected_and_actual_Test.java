@@ -57,8 +57,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] expected:<'42.0 (Double@" + toHexString(expected.hashCode()) + ")'> but was:<'42.0 (Float@"
-        + toHexString(actual.hashCode()) + ")'>", error.getMessage());
+    assertEquals("[my test] expected:<42.0[]> but was:<42.0[f]>", error.getMessage());
   }
 
   @Test
