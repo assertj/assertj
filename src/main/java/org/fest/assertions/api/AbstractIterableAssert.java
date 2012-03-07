@@ -79,7 +79,14 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
     return myself;
   }
 
-
+  /**
+   * Verifies that all the values of the actual iterable are present in the given values iterable.
+   * @param values the iterable of objects forming a set.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the set sequence is {@code null}.
+   * @throws AssertionError if the actual {@code Iterable} is not subset of set <code>{@link Iterable}</code>
+   */
   public final S isSubsetOf(Iterable<?> values) {
     iterables.assertIsSubsetOf(info, actual, values);
     return myself;

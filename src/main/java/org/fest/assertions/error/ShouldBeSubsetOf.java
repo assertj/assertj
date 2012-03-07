@@ -31,11 +31,21 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * @param comparisonStrategy the <code>{@link ComparisonStrategy}</code> used
    * @return the created <code>{@link ErrorMessageFactory}</code>
    */
-  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeSubsetOf(actual, values, comparisonStrategy);
+  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeSubsetOf(actual, values, unexpected, comparisonStrategy);
+  }
+  
+  /**
+   * Creates a new <code>{@link ShouldBeSubsetOf}</code>.
+   * @param actual the actual set
+   * @param values the expected superset
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object sequence, Iterable<?> unexpected) {
+    return new ShouldBeSubsetOf(actual, sequence, unexpected, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeSubsetOf(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
-    super("Expecting:<%s> to be subset of <%s>%s", actual, values, comparisonStrategy);
+  private ShouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected, ComparisonStrategy comparisonStrategy) {
+    super("Expecting:<%s> to be subset of <%s>%s but found those extra elements: <%s>", actual, values, comparisonStrategy, unexpected);
   }
 }

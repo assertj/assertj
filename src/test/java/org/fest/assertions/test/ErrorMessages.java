@@ -57,6 +57,10 @@ public final class ErrorMessages {
   public static String isNotArray(Object o) {
     return String.format("The object <%s> should be an array", toStringOf(o));
   }
+  
+  public static String iterableToLookForIsNull() {
+    return "The iterable to look for should not be null";
+  }
 
   public static String offsetIsNull() {
     return "The given offset should not be null";

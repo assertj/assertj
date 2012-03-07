@@ -27,9 +27,9 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.util.Collections.*;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -263,19 +263,24 @@ public class Iterables {
   public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkNotNull(info, values);
+    List<Object> extra = new ArrayList<Object>();
+    
     for (Object e : actual) {
       if ( ! iterableContains(values, e)) {
-        throw actualIsNotSubsetOfSet(info, actual, values);
+        extra.add(e);
       }
+    }
+    if (extra.size() > 0) {
+      throw actualIsNotSubsetOfSet(info, actual, values, extra);
     }
   }
 
   private void checkNotNull(AssertionInfo info, Iterable<?> set) {
-    if (set == null) throw arrayOfValuesToLookForIsNull();
+    if (set == null) throw iterableToLookForIsNull();
   }
 
-  private AssertionError actualIsNotSubsetOfSet(AssertionInfo info, Object actual, Iterable<?> set) {
-    return failures.failure(info, ShouldBeSubsetOf.shouldBeSubsetOf(actual, set, comparisonStrategy));
+  private AssertionError actualIsNotSubsetOfSet(AssertionInfo info, Object actual, Iterable<?> set, Iterable<?> extra) {
+    return failures.failure(info, ShouldBeSubsetOf.shouldBeSubsetOf(actual, set, extra, comparisonStrategy));
   }
 
 /**
@@ -422,8 +427,8 @@ public class Iterables {
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw arrayOfValuesToLookForIsNull();
-    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
+    if (values == null) throw iterableToLookForIsNull();
+    if (values.length == 0) throw iterableToLookForIsEmpty();
   }
 
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {
@@ -432,6 +437,14 @@ public class Iterables {
 
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
+  }
+  
+  static public NullPointerException iterableToLookForIsNull() {
+    return new NullPointerException("The iterable to look for should not be null");
+  }
+
+  static public IllegalArgumentException iterableToLookForIsEmpty() {
+    return new IllegalArgumentException("The iterable to look for should not be empty");
   }
 
 }

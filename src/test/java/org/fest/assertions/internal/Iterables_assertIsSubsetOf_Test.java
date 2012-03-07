@@ -14,21 +14,19 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsNull;
+import static org.fest.assertions.error.ShouldBeSubsetOf.shouldBeSubsetOf;
+import static org.fest.assertions.test.ErrorMessages.iterableToLookForIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.error.ShouldBeSubsetOf.*;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-import org.junit.Before;
 import org.junit.Test;
 
 
@@ -39,20 +37,15 @@ import org.junit.Test;
  */
 public class Iterables_assertIsSubsetOf_Test extends AbstractTest_for_Iterables {
 
-  @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    actual = list("Yoda", "Luke");
-  }
-
   @Test
   public void should_pass_if_actual_is_subset_of_set() {
+	  actual = list("Yoda", "Luke");
 	  iterables.assertIsSubsetOf(someInfo(), actual, list("Luke", "Yoda", "Obi-Wan"));
   }
   
   @Test
   public void should_pass_if_actual_has_the_same_elements_as_set() {
+	  actual = list("Yoda", "Luke");
 	  iterables.assertIsSubsetOf(someInfo(), actual, list("Luke", "Yoda"));
   }
   
@@ -88,18 +81,33 @@ public class Iterables_assertIsSubsetOf_Test extends AbstractTest_for_Iterables 
   
   @Test
   public void should_throw_error_if_set_is_null() {
-	  thrown.expectNullPointerException(valuesToLookForIsNull());
+	  actual = list("Yoda", "Luke");
+	  thrown.expectNullPointerException(iterableToLookForIsNull());
 	  iterables.assertIsSubsetOf(someInfo(), actual, null);
   }
   
   @Test
   public void should_throw_error_if_actual_is_null() {
+	  actual = null;
 	  thrown.expectAssertionError(actualIsNull());
-	  iterables.assertIsSubsetOf(someInfo(), null, list());
+	  iterables.assertIsSubsetOf(someInfo(), actual, list());
   }
   
+  @Test
+  public void should_fail_if_actual_is_not_subset_of_values() {
+      AssertionInfo info = someInfo();
+      actual = list("Yoda");	  
+      List<String> values = list("C-3PO", "Leila");
+      List<String> extra = list("Yoda");
+      try {
+        iterables.assertIsSubsetOf(info, actual, values);
+      } catch (AssertionError e) {	      
+        verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra));
+        return;
+      }
+      failBecauseExpectedAssertionErrorWasNotThrown();
+  }
   
-  //duplicates in actual ; duplicates in values; duplicates in both
 
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
@@ -107,6 +115,7 @@ public class Iterables_assertIsSubsetOf_Test extends AbstractTest_for_Iterables 
 
   @Test
   public void should_pass_if_actual_is_subset_of_values_according_to_custom_comparison_strategy() {
+    actual = list("Yoda", "Luke");
     iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, list("yoda", "lUKE" ));
   }
 
@@ -118,21 +127,23 @@ public class Iterables_assertIsSubsetOf_Test extends AbstractTest_for_Iterables 
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+	actual = list("Yoda", "Luke");
     iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LUke", "LuKe", "yoda"));
   }
   
   @Test
   public void should_fail_if_actual_is_not_subset_of_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
+    actual = list("Yoda", "Luke");
     List<String> values = list("yoda", "C-3PO" );
+    List<String> extra = list("Luke");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeSubsetOf(actual, values, comparisonStrategy));
+      verify(failures).failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
 
 }
