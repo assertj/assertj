@@ -27,6 +27,7 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.util.Collections.*;
 
 import java.util.ArrayList;
@@ -425,10 +426,10 @@ public class Iterables {
     assertNotNull(info, actual);
     if (iterableContains(actual, null)) throw failures.failure(info, shouldNotContainNull(actual));
   }
-
+  
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw iterableToLookForIsNull();
-    if (values.length == 0) throw iterableToLookForIsEmpty();
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {
