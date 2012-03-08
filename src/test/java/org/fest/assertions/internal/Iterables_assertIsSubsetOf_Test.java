@@ -21,13 +21,15 @@ import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
+
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.fest.assertions.core.AssertionInfo;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
 
 
 /**
@@ -107,7 +109,6 @@ public class Iterables_assertIsSubsetOf_Test extends AbstractTest_for_Iterables 
       }
       failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
 
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy

@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
@@ -30,7 +31,6 @@ import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.util.Collections.*;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.ShouldBeSubsetOf;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -252,47 +251,44 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the actual <code>{@link Iterable}</code> is a subset of set <code>{@link Iterable}</code>.
-   * <br/>Both actual and set are treated as sets, therefore duplicates on either of them are ignored. 
+   * Verifies that the actual <code>Iterable</code> is a subset of values <code>Iterable</code>. <br/>
+   * Both actual and given iterable are treated as sets, therefore duplicates on either of them are ignored.
    * @param info contains information about the assertion.
    * @param actual the actual {@code Iterable}.
-   * @param values the set {@code Iterable}.
+   * @param values the {@code Iterable} that should contain all actual elements.
    * @throws AssertionError if the actual {@code Iterable} is {@code null}.
-   * @throws NullPointerException if the set sequence is {@code null}.
+   * @throws NullPointerException if the given Iterable is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set <code>{@link Iterable}</code>
    */
   public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
     checkNotNull(info, values);
-    List<Object> extra = new ArrayList<Object>();
-    
-    for (Object e : actual) {
-      if ( ! iterableContains(values, e)) {
-        extra.add(e);
+    List<Object> extra = list();
+    for (Object actualElement : actual) {
+      if (!iterableContains(values, actualElement)) {
+        extra.add(actualElement);
       }
     }
-    if (extra.size() > 0) {
-      throw actualIsNotSubsetOfSet(info, actual, values, extra);
-    }
+    if (extra.size() > 0) throw actualIsNotSubsetOfSet(info, actual, values, extra);
   }
 
-  private void checkNotNull(AssertionInfo info, Iterable<?> set) {
+  private static void checkNotNull(AssertionInfo info, Iterable<?> set) {
     if (set == null) throw iterableToLookForIsNull();
   }
 
   private AssertionError actualIsNotSubsetOfSet(AssertionInfo info, Object actual, Iterable<?> set, Iterable<?> extra) {
-    return failures.failure(info, ShouldBeSubsetOf.shouldBeSubsetOf(actual, set, extra, comparisonStrategy));
+    return failures.failure(info, shouldBeSubsetOf(actual, set, extra, comparisonStrategy));
   }
 
-/**
+  /**
    * Return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
-   * @param actualAsList the list to look sequance in 
+   * @param actualAsList the list to look sequance in
    * @param sequence the sequence to look for
    * @param startingIndex the index of actual list at which we start looking for sequence.
    * @return
    */
   private boolean containsSequenceAtGivenIndex(List<?> actualAsList, Object[] sequence, int startingIndex) {
-    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence 
+    // check that, starting from given index, actualAsList has enough remaining elements to contain sequence
     if (actualAsList.size() - startingIndex < sequence.length) return false;
     for (int i = 0; i < sequence.length; i++) {
       if (!areEqual(actualAsList.get(startingIndex + i), sequence[i])) return false;
@@ -426,7 +422,7 @@ public class Iterables {
     assertNotNull(info, actual);
     if (iterableContains(actual, null)) throw failures.failure(info, shouldNotContainNull(actual));
   }
-  
+
   private void checkIsNotNullAndNotEmpty(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
     if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
@@ -439,7 +435,7 @@ public class Iterables {
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
   }
-  
+
   static public NullPointerException iterableToLookForIsNull() {
     return new NullPointerException("The iterable to look for should not be null");
   }
