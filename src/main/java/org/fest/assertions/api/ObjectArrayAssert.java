@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import java.util.Comparator;
 
 import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
@@ -33,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
     ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert, ArraySortedAssert<ObjectArrayAssert, Object> {
@@ -133,6 +135,30 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   }
 
   /** {@inheritDoc} */
+  public <E> ObjectArrayAssert eachElementIs(Condition<E> condition) {
+	  arrays.assertEachElementIs(info, actual, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert eachElementIsNot(Condition<E> condition) {
+	  arrays.assertEachElementIsNot(info, actual, condition);
+	  return myself;
+  } 
+ 
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert eachElementHas(Condition<E> condition) {
+	  arrays.assertEachElementHas(info, actual, condition);
+	  return myself;
+  }  
+
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert eachElementHasNot(Condition<E> condition) {
+	  arrays.assertEachElementHasNot(info, actual, condition);
+	  return myself;
+  }   
+  
+  /** {@inheritDoc} */
   public ObjectArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
@@ -157,4 +183,7 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     this.arrays = ObjectArrays.instance();
     return myself;
   }
+  
+  
+  
 }

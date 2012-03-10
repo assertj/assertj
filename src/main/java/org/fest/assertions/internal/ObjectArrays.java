@@ -18,6 +18,7 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.ArraySortedAssert;
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -28,6 +29,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public class ObjectArrays {
 
@@ -257,7 +259,59 @@ public class ObjectArrays {
   public void assertDoesNotContainNull(AssertionInfo info, Object[] actual) {
     arrays.assertDoesNotContainNull(info, failures, actual);
   }
+  
+  /**
+   * Assert that each element of given array satisfies the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */
+  public <E> void assertEachElementIs(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertEachElementIs(info, failures, actual, condition);
+  }  
+  
+  /**
+   * Assert that each element of given array not satisfies the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
+  public <E> void assertEachElementIsNot(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertEachElementIsNot(info, failures, actual, condition);
+  }   
+  
+  /**
+   * Assert that each element of given array satisfies the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */
+  public <E> void assertEachElementHas(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertEachElementHas(info, failures, actual, condition);
+  }    
 
+  /**
+   * Assert that each element of given array not satisfies the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
+  public <E> void assertEachElementHasNot(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertEachElementHasNot(info, failures, actual, condition);
+  }   
+  
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
    * 

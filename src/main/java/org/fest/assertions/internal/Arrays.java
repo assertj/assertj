@@ -15,10 +15,17 @@
 package org.fest.assertions.internal;
 
 import static java.lang.reflect.Array.getLength;
-
+import static org.fest.assertions.error.EachElementShouldBe.eachElementShouldBe;
+import static org.fest.assertions.error.EachElementShouldHave.eachElementShouldHave;
+import static org.fest.assertions.error.EachElementShouldNotBe.eachElementShouldNotBe;
+import static org.fest.assertions.error.EachElementShouldNotHave.eachElementShouldNotHave;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldBeSorted.*;
+import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
+import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
+import static org.fest.assertions.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
+import static org.fest.assertions.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
@@ -32,7 +39,8 @@ import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContain
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.internal.CommonErrors.*;
+import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
@@ -43,10 +51,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.util.ArrayWrapperList;
 import org.fest.util.ComparatorBasedComparisonStrategy;
@@ -59,6 +69,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Nicolas François 
  */
 class Arrays {
 
@@ -72,7 +83,7 @@ class Arrays {
     return INSTANCE;
   }
 
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   private Arrays() {
     this(StandardComparisonStrategy.instance());
@@ -295,6 +306,87 @@ class Arrays {
     assertNotNull(info, array);
     if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
   }
+  
+  @SuppressWarnings("unchecked")
+  public <E> void assertEachElementIs(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+	  assertNotNull(info, array);
+	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  List<E> notSatisfiesCondition = new LinkedList<E>();
+	  int arraySize = sizeOf(array);
+	  try {
+		  for (int i = 0; i < arraySize; i++) {
+			  Object o = Array.get(array, i);
+			  if(!condition.matches((E) o)){
+				  notSatisfiesCondition.add((E) o);
+			  }
+		  }
+		  if(notSatisfiesCondition.isEmpty()) return;
+		  throw failures.failure(info, eachElementShouldBe(array, notSatisfiesCondition, condition));
+	  } catch (ClassCastException e) {
+		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+	  }
+  }    
+  
+  
+  @SuppressWarnings("unchecked")
+  public <E> void assertEachElementIsNot(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+	  assertNotNull(info, array);
+	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  List<E> satisfiesCondition = new LinkedList<E>();
+	  int arraySize = sizeOf(array);
+	  try {
+		  for (int i = 0; i < arraySize; i++) {
+			  Object o = Array.get(array, i);
+			  if(condition.matches((E) o)){
+				  satisfiesCondition.add((E) o);
+			  }
+		  }
+		  if(satisfiesCondition.isEmpty()) return;
+		  throw failures.failure(info, eachElementShouldNotBe(array, satisfiesCondition, condition));
+	  } catch (ClassCastException e) {
+		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+	  }
+  }  
+  
+  @SuppressWarnings("unchecked")
+  public <E> void assertEachElementHas(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+	  assertNotNull(info, array);
+	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  List<E> notSatisfiesCondition = new LinkedList<E>();
+	  int arraySize = sizeOf(array);
+	  try {
+		  for (int i = 0; i < arraySize; i++) {
+			  Object o = Array.get(array, i);
+			  if(!condition.matches((E) o)){
+				  notSatisfiesCondition.add((E) o);
+			  }
+		  }
+		  if(notSatisfiesCondition.isEmpty()) return;
+		  throw failures.failure(info, eachElementShouldHave(array, notSatisfiesCondition, condition));
+	  } catch (ClassCastException e) {
+		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+	  }
+  }   
+  
+  @SuppressWarnings("unchecked")
+  public <E> void assertEachElementHasNot(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+	  assertNotNull(info, array);
+	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  List<E> satisfiesCondition = new LinkedList<E>();
+	  int arraySize = sizeOf(array);
+	  try {
+		  for (int i = 0; i < arraySize; i++) {
+			  Object o = Array.get(array, i);
+			  if(condition.matches((E) o)){
+				  satisfiesCondition.add((E) o);
+			  }
+		  }
+		  if(satisfiesCondition.isEmpty()) return;
+		  throw failures.failure(info, eachElementShouldNotHave(array, satisfiesCondition, condition));
+	  } catch (ClassCastException e) {
+		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+	  }
+  }    
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
