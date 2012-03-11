@@ -15,41 +15,37 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
- * Tests for <code>{@link ObjectArrayAssert#eachElementHasNot(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#are(org.fest.assertions.core.Condition)()}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_eachElementIsNot_Test {
-
-	  private ObjectArrays arrays;
-	  private ObjectArrayAssert assertions;
+public class IterableAssert_are_Test extends AbstractTest_for_IterableAssert {
+	
 	  private static Condition<Object> condition;
 
-	  @Before public void setUp() {
-	    arrays = mock(ObjectArrays.class);
-	    assertions = new ObjectArrayAssert(emptyArray());
-	    assertions.arrays = arrays;
+	  @BeforeClass public static void setUpOnce() {
 	    condition = new TestCondition<Object>();
 	  }
 
-	  @Test public void should_verify_that_each_elements_is_not() {
-	    assertions.eachElementHasNot(condition);
-	    verify(arrays).assertEachElementHasNot(assertions.info, assertions.actual, condition);
+	  @Test
+	  public void should_verify_that_each_element_is() {
+	    assertions.are(condition);
+	    verify(iterables).assertAre(assertions.info, assertions.actual, condition);
 	  }
 
-	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.eachElementHasNot(condition));
+	  @Test
+	  public void should_return_this() {
+	    ConcreteIterableAssert returned = assertions.are(condition);
+	    assertSame(assertions, returned);
 	  }	
 	
 }

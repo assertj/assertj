@@ -16,28 +16,27 @@ package org.fest.assertions.error;
 
 import org.fest.assertions.core.Condition;
 
-
 /**
- * Creates an error message indicating that an assertion that verifies  that each element of a group satisfies a {@code Condition}
+ * Creates an error message indicating that an assertion that not verifies that each element of a group satisfies a {@code Condition}
  * A group of elements can be a collection, an array.<br>
  * 
  * @author Nicolas François
  */
-public class EachElementShouldBe extends BasicErrorMessageFactory {
+public class ElementsShouldNotBe extends BasicErrorMessageFactory {
+
 
 	  /**
-	   * Creates a new </code>{@link EachElementShouldBe}</code>.
+	   * Creates a new </code>{@link ElementsShouldNotBe}</code>.
 	   * @param actual the actual value in the failed assertion.
-	   * @param notSatisfies elements that not satisfies the condition
+	   * @param satisfies elements that satisfies the condition
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory eachElementShouldBe(Object actual, Object notSatisfies, Condition<E> condition) {
-	    return new EachElementShouldBe(actual, notSatisfies, condition);
+	  public static <E> ErrorMessageFactory elementsShouldNotBe(Object actual, Object satisfies, Condition<E> condition) {
+	    return new ElementsShouldNotBe(actual, satisfies, condition);
 	  }
   
-	  public EachElementShouldBe(Object actual, Object notSatisfies,	Condition<?> condition) {
-		  super("expecting: elements <%s> of <%s> to be <%s>", notSatisfies, actual, condition);
+	  public ElementsShouldNotBe(Object actual, Object satisfies, Condition<?> condition) {
+		  super("expecting: elements <%s> of <%s> not to be <%s>", satisfies, actual, condition);
 	  }
-
 }

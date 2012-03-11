@@ -26,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#eachElementIs(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#have(org.fest.assertions.core.Condition)}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_eachElementIs_Test {
+public class ObjectArrayAssert_have_Test {
 
 	  private ObjectArrays arrays;
 	  private ObjectArrayAssert assertions;
@@ -44,12 +44,12 @@ public class ObjectArrayAssert_eachElementIs_Test {
 	  }
 
 	  @Test public void should_verify_that_each_elements_is() {
-	    assertions.eachElementIs(condition);
-	    verify(arrays).assertEachElementIs(assertions.info, assertions.actual, condition);
+	    assertions.have(condition);
+	    verify(arrays).assertHave(assertions.info, assertions.actual, condition);
 	  }
 
 	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.eachElementIs(condition));
+	    assertSame(assertions, assertions.have(condition));
 	  }	
 	
 }

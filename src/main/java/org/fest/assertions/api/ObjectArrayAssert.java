@@ -135,26 +135,26 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   }
 
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert eachElementIs(Condition<E> condition) {
-	  arrays.assertEachElementIs(info, actual, condition);
+  public <E> ObjectArrayAssert are(Condition<E> condition) {
+	  arrays.assertAre(info, actual, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert eachElementIsNot(Condition<E> condition) {
-	  arrays.assertEachElementIsNot(info, actual, condition);
+  public <E> ObjectArrayAssert areNot(Condition<E> condition) {
+	  arrays.assertAreNot(info, actual, condition);
 	  return myself;
   } 
  
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert eachElementHas(Condition<E> condition) {
-	  arrays.assertEachElementHas(info, actual, condition);
+  public <E> ObjectArrayAssert have(Condition<E> condition) {
+	  arrays.assertHave(info, actual, condition);
 	  return myself;
   }  
 
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert eachElementHasNot(Condition<E> condition) {
-	  arrays.assertEachElementHasNot(info, actual, condition);
+  public <E> ObjectArrayAssert doNotHave(Condition<E> condition) {
+	  arrays.assertDoNotHave(info, actual, condition);
 	  return myself;
   }   
   

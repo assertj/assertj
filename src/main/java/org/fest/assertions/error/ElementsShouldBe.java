@@ -23,21 +23,21 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  */
-public class EachElementShouldHave extends BasicErrorMessageFactory {
+public class ElementsShouldBe extends BasicErrorMessageFactory {
 
 	  /**
-	   * Creates a new </code>{@link EachElementShouldHave}</code>.
+	   * Creates a new </code>{@link ElementsShouldBe}</code>.
 	   * @param actual the actual value in the failed assertion.
 	   * @param notSatisfies elements that not satisfies the condition
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory eachElementShouldHave(Object actual, Object notSatisfies, Condition<E> condition) {
-	    return new EachElementShouldHave(actual, notSatisfies, condition);
+	  public static <E> ErrorMessageFactory elementsShouldBe(Object actual, Object notSatisfies, Condition<E> condition) {
+	    return new ElementsShouldBe(actual, notSatisfies, condition);
 	  }
   
-	  public EachElementShouldHave(Object actual, Object notSatisfies,	Condition<?> condition) {
-		  super("expecting: elements <%s> of <%s> to have <%s>", notSatisfies, actual, condition);
+	  public ElementsShouldBe(Object actual, Object notSatisfies,	Condition<?> condition) {
+		  super("expecting: elements <%s> of <%s> to be <%s>", notSatisfies, actual, condition);
 	  }
 
 }

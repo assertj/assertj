@@ -137,26 +137,26 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
   }
   
   /** {@inheritDoc} */
-  public <E> S eachElementIs(Condition<E> condition) {
-	iterables.assertEachElementIs(info, actual, condition);
+  public <E> S are(Condition<E> condition) {
+	iterables.assertAre(info, actual, condition);
 	return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> S eachElementIsNot(Condition<E> condition) {
-	iterables.assertEachElementIsNot(info, actual, condition);
+  public <E> S areNot(Condition<E> condition) {
+	iterables.assertAreNot(info, actual, condition);
 	return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> S eachElementHas(Condition<E> condition) {
-	iterables.assertEachElementHas(info, actual, condition);
+  public <E> S have(Condition<E> condition) {
+	iterables.assertHave(info, actual, condition);
 	return myself;
   }  
   
   /** {@inheritDoc} */
-  public <E> S eachElementHasNot(Condition<E> condition) {
-	iterables.assertEachElementHasNot(info, actual, condition);
+  public <E> S doNotHave(Condition<E> condition) {
+	iterables.assertDoNotHave(info, actual, condition);
 	return myself;
   }   
   

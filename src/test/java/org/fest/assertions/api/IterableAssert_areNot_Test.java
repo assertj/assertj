@@ -24,11 +24,11 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#eachElementHasNot(org.fest.assertions.core.Condition)()}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#areNot(org.fest.assertions.core.Condition)()}</code>.
  * 
  * @author Nicolas François 
  */
-public class IterableAssert_eachElementHasNot_Test extends AbstractTest_for_IterableAssert {
+public class IterableAssert_areNot_Test extends AbstractTest_for_IterableAssert {
 	
 	  private static Condition<Object> condition;
 
@@ -37,14 +37,14 @@ public class IterableAssert_eachElementHasNot_Test extends AbstractTest_for_Iter
 	  }
 
 	  @Test
-	  public void should_verify_that_each_element_has_not() {
-	    assertions.eachElementHasNot(condition);
-	    verify(iterables).assertEachElementHasNot(assertions.info, assertions.actual, condition);
+	  public void should_verify_that_each_element_is_not() {
+	    assertions.areNot(condition);
+	    verify(iterables).assertAreNot(assertions.info, assertions.actual, condition);
 	  }
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.eachElementHasNot(condition);
+	    ConcreteIterableAssert returned = assertions.areNot(condition);
 	    assertSame(assertions, returned);
 	  }	
 	

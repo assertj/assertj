@@ -24,11 +24,11 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#eachElementIs(org.fest.assertions.core.Condition)()}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#doNotHave(org.fest.assertions.core.Condition)}</code>.
  * 
  * @author Nicolas François 
  */
-public class IterableAssert_eachElementIs_Test extends AbstractTest_for_IterableAssert {
+public class IterableAssert_doNotHave_Test extends AbstractTest_for_IterableAssert {
 	
 	  private static Condition<Object> condition;
 
@@ -37,14 +37,14 @@ public class IterableAssert_eachElementIs_Test extends AbstractTest_for_Iterable
 	  }
 
 	  @Test
-	  public void should_verify_that_each_element_is() {
-	    assertions.eachElementIs(condition);
-	    verify(iterables).assertEachElementIs(assertions.info, assertions.actual, condition);
+	  public void should_verify_that_each_element_has_not() {
+	    assertions.doNotHave(condition);
+	    verify(iterables).assertDoNotHave(assertions.info, assertions.actual, condition);
 	  }
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.eachElementIs(condition);
+	    ConcreteIterableAssert returned = assertions.doNotHave(condition);
 	    assertSame(assertions, returned);
 	  }	
 	

@@ -14,18 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
-import static org.fest.assertions.error.EachElementShouldNotBe.eachElementShouldNotBe;
+import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.set;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import java.util.Set;
-
+import org.fest.assertions.condition.JediPowerCondition;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
@@ -34,15 +32,17 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link ObjectArrays#assertEachElementIsNot(org.fest.assertions.core.AssertionInfo, Object[], org.fest.assertions.core.Condition)}</code>
+ * <code>{@link ObjectArrays#assertDoNotHave(org.fest.assertions.core.AssertionInfo, Object[], org.fest.assertions.core.Condition)}</code>
  * .
  * 
  * @author Nicolas François
  */
-public class ObjectArrays_assertEachElementIsNot_Test extends AbstractTest_for_ObjectArrays {
+public class ObjectArrays_assertDoNotHave_Test extends AbstractTest_for_ObjectArrays {
 
+	private Condition<String> jediPower = new JediPowerCondition();
 	private Failures failures;
 	private TestCondition<Object> testCondition;
+	private Conditions conditions;	
 
 	@Override
 	@Before
@@ -52,29 +52,22 @@ public class ObjectArrays_assertEachElementIsNot_Test extends AbstractTest_for_O
 		testCondition = new TestCondition<Object>();
 		arrays = new ObjectArrays();
 		arrays.failures = failures;
+		conditions = spy(new Conditions());		
+		arrays.conditions = conditions;
 	}	
-	
-	private final Condition<String> condition = new Condition<String>() {
-
-		private final Set<String> jedis = set("Luke", "Yoda", "Obiwan");
-
-		@Override
-		public boolean matches(String value) {
-			return jedis.contains(value);
-		};
-
-	};
 	
 	@Test
 	public void should_pass_if_each_element_satisfies_condition() {
 		actual = array("Darth Vader", "Leia");
-		arrays.assertEachElementIsNot(someInfo(), actual, condition);
+		arrays.assertDoNotHave(someInfo(), actual, jediPower);
+		verify(conditions).assertIsNotNull(jediPower);		
 	}	
 	
 	@Test
 	public void should_throw_error_if_condition_is_null() {
 		thrown.expectNullPointerException("The condition to evaluate should not be null");
-		arrays.assertEachElementIsNot(someInfo(), actual, null);
+		arrays.assertDoNotHave(someInfo(), actual, null);
+		verify(conditions).assertIsNotNull(null);			
 	}
 	
 	@Test
@@ -82,9 +75,10 @@ public class ObjectArrays_assertEachElementIsNot_Test extends AbstractTest_for_O
 		actual = array(42);
 	    AssertionInfo info = someInfo();
 	    try {
-	    	arrays.assertEachElementIsNot(someInfo(), actual, condition);
+	    	arrays.assertDoNotHave(someInfo(), actual, jediPower);
 	    } catch (AssertionError e) {
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+		  verify(conditions).assertIsNotNull(jediPower);		
+	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jediPower));
 	      return;
 	    }
 	    failBecauseExpectedAssertionErrorWasNotThrown();		
@@ -96,9 +90,10 @@ public class ObjectArrays_assertEachElementIsNot_Test extends AbstractTest_for_O
 	    AssertionInfo info = someInfo();
 	    try {
 	    	actual = array("Darth Vader", "Leia", "Yoda");
-	    	arrays.assertEachElementIsNot(someInfo(), actual, condition);
+	    	arrays.assertDoNotHave(someInfo(), actual, jediPower);
 	    } catch (AssertionError e) {
-	      verify(failures).failure(info, eachElementShouldNotBe(actual, list("Yoda"), condition));
+		  verify(conditions).assertIsNotNull(jediPower);	    	
+	      verify(failures).failure(info, elementsShouldNotHave(actual, list("Yoda"), jediPower));
 	      return;
 	    }
 	    failBecauseExpectedAssertionErrorWasNotThrown();

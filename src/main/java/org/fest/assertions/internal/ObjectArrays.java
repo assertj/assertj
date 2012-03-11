@@ -61,6 +61,9 @@ public class ObjectArrays {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
+  
+  @VisibleForTesting
+  Conditions conditions = Conditions.instance();  
 
   /**
    * Asserts that the given array is {@code null} or empty.
@@ -269,8 +272,8 @@ public class ObjectArrays {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  public <E> void assertEachElementIs(AssertionInfo info, Object[] actual, Condition<E> condition){
-	  arrays.assertEachElementIs(info, failures, actual, condition);
+  public <E> void assertAre(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertAre(info, failures, conditions, actual, condition);
   }  
   
   /**
@@ -282,8 +285,8 @@ public class ObjectArrays {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  public <E> void assertEachElementIsNot(AssertionInfo info, Object[] actual, Condition<E> condition){
-	  arrays.assertEachElementIsNot(info, failures, actual, condition);
+  public <E> void assertAreNot(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertAreNot(info, failures, conditions, actual, condition);
   }   
   
   /**
@@ -295,8 +298,8 @@ public class ObjectArrays {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  public <E> void assertEachElementHas(AssertionInfo info, Object[] actual, Condition<E> condition){
-	  arrays.assertEachElementHas(info, failures, actual, condition);
+  public <E> void assertHave(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertHave(info, failures, conditions, actual, condition);
   }    
 
   /**
@@ -308,8 +311,8 @@ public class ObjectArrays {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  public <E> void assertEachElementHasNot(AssertionInfo info, Object[] actual, Condition<E> condition){
-	  arrays.assertEachElementHasNot(info, failures, actual, condition);
+  public <E> void assertDoNotHave(AssertionInfo info, Object[] actual, Condition<E> condition){
+	  arrays.assertHaveNot(info, failures, conditions, actual, condition);
   }   
   
   /**

@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.EachElementShouldBe.eachElementShouldBe;
-import static org.fest.assertions.error.EachElementShouldHave.eachElementShouldHave;
-import static org.fest.assertions.error.EachElementShouldNotBe.eachElementShouldNotBe;
-import static org.fest.assertions.error.EachElementShouldNotHave.eachElementShouldNotHave;
+import static org.fest.assertions.error.ElementsShouldBe.elementsShouldBe;
+import static org.fest.assertions.error.ElementsShouldHave.elementsShouldHave;
+import static org.fest.assertions.error.ElementsShouldNotBe.elementsShouldNotBe;
+import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
@@ -77,6 +77,9 @@ public class Iterables {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
+  
+  @VisibleForTesting
+  Conditions conditions = Conditions.instance();
 
   @VisibleForTesting
   Iterables() {
@@ -443,24 +446,18 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  @SuppressWarnings("unchecked")
-  public <E> void assertEachElementIs(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
+  public <E> void assertAre(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
 	  assertNotNull(info, actual);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  try {
-		  List<E> notSatisfiesCondition = new LinkedList<E>();
-		  for (Object o : actual) {
-			if(!condition.matches((E) o)){
-				notSatisfiesCondition.add((E) o);
-			}
-		  }
+		  List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
 		  if(notSatisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldBe(actual, notSatisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldBe(actual, notSatisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
 	  }
   }
-  
+
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
    * @param info contains information about the assertion.
@@ -470,19 +467,13 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  @SuppressWarnings("unchecked")
-  public <E> void assertEachElementIsNot(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
-	  assertNotNull(info, actual);	
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+  public <E> void assertAreNot(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
+	  assertNotNull(info, actual);
+	  conditions.assertIsNotNull(condition);
 	  try {
-		  List<E> satisfiesCondition = new LinkedList<E>();
-		  for (Object o : actual) {
-			if(condition.matches((E) o)){
-				satisfiesCondition.add((E) o);
-			}
-		  }
+		  List<E> satisfiesCondition = satisfiesCondition(actual, condition);
 		  if(satisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldNotBe(actual, satisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldNotBe(actual, satisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
 	  }
@@ -497,19 +488,13 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  @SuppressWarnings("unchecked")
-  public <E> void assertEachElementHas(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
+  public <E> void assertHave(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
 	  assertNotNull(info, actual);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  try {
-		  List<E> notSatisfiesCondition = new LinkedList<E>();
-		  for (Object o : actual) {
-			if(!condition.matches((E) o)){
-				notSatisfiesCondition.add((E) o);
-			}
-		  }
+		  List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
 		  if(notSatisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldHave(actual, notSatisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldHave(actual, notSatisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
 	  }
@@ -524,19 +509,13 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  @SuppressWarnings("unchecked")
-  public <E> void assertEachElementHasNot(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
+  public <E> void assertDoNotHave(AssertionInfo info, Iterable<?> actual, Condition<E> condition){
 	  assertNotNull(info, actual);	
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  try {
-		  List<E> satisfiesCondition = new LinkedList<E>();
-		  for (Object o : actual) {
-			if(condition.matches((E) o)){
-				satisfiesCondition.add((E) o);
-			}
-		  }
+		  List<E> satisfiesCondition = satisfiesCondition(actual, condition);
 		  if(satisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldNotHave(actual, satisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldNotHave(actual, satisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
 	  }
@@ -554,6 +533,28 @@ public class Iterables {
   private AssertionError actualDoesNotEndWithSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     return failures.failure(info, shouldEndWith(actual, sequence, comparisonStrategy));
   }
+  
+  @SuppressWarnings("unchecked")
+  private <E> List<E> notSatisfiesCondition(Iterable<?> actual, Condition<E> condition){
+	  List<E> notSatisfiesCondition = new LinkedList<E>();
+	  for (Object o : actual) {
+		if(!condition.matches((E) o)){
+			notSatisfiesCondition.add((E) o);
+		}
+	  }	  
+	  return notSatisfiesCondition;
+  }
+  
+  @SuppressWarnings("unchecked")
+  private <E> List<E> satisfiesCondition(Iterable<?> actual, Condition<E> condition){
+	  List<E> satisfiesCondition = new LinkedList<E>();
+	  for (Object o : actual) {
+		if(condition.matches((E) o)){
+			satisfiesCondition.add((E) o);
+		}
+	  }	  
+	  return satisfiesCondition;
+  }  
 
   static public NullPointerException iterableToLookForIsNull() {
     return new NullPointerException("The iterable to look for should not be null");

@@ -15,41 +15,37 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
- * Tests for <code>{@link ObjectArrayAssert#eachElementHas(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#have(org.fest.assertions.core.Condition)()}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_eachElementHas_Test {
-
-	  private ObjectArrays arrays;
-	  private ObjectArrayAssert assertions;
+public class IterableAssert_have_Test extends AbstractTest_for_IterableAssert {
+	
 	  private static Condition<Object> condition;
 
-	  @Before public void setUp() {
-	    arrays = mock(ObjectArrays.class);
-	    assertions = new ObjectArrayAssert(emptyArray());
-	    assertions.arrays = arrays;
+	  @BeforeClass public static void setUpOnce() {
 	    condition = new TestCondition<Object>();
 	  }
 
-	  @Test public void should_verify_that_each_elements_is() {
-	    assertions.eachElementHas(condition);
-	    verify(arrays).assertEachElementHas(assertions.info, assertions.actual, condition);
+	  @Test
+	  public void should_verify_that_each_element_has() {
+	    assertions.have(condition);
+	    verify(iterables).assertHave(assertions.info, assertions.actual, condition);
 	  }
 
-	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.eachElementHas(condition));
+	  @Test
+	  public void should_return_this() {
+	    ConcreteIterableAssert returned = assertions.have(condition);
+	    assertSame(assertions, returned);
 	  }	
 	
 }

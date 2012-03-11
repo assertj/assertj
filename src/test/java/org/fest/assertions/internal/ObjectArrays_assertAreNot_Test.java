@@ -14,18 +14,16 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
-import static org.fest.assertions.error.EachElementShouldNotBe.eachElementShouldNotBe;
+import static org.fest.assertions.error.ElementsShouldNotBe.elementsShouldNotBe;
+import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.set;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import java.util.List;
-import java.util.Set;
-
+import org.fest.assertions.condition.JediCondition;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
@@ -34,61 +32,57 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link Iterables#assertEachElementIsNot(AssertionInfo, Iterable, org.fest.assertions.core.Condition)}</code>
+ * <code>{@link ObjectArrays#areNot(org.fest.assertions.core.AssertionInfo, Object[], org.fest.assertions.core.Condition)}</code>
  * .
  * 
  * @author Nicolas François
  */
-public class Iterables_assertEachElementIsNot_Test extends AbstractTest_for_Iterables {
+public class ObjectArrays_assertAreNot_Test extends AbstractTest_for_ObjectArrays {
 
+	private Condition<String> jedi = new JediCondition();
 	private Failures failures;
 	private TestCondition<Object> testCondition;
-
+	private Conditions conditions;
+	
 	@Override
 	@Before
 	public void setUp() {
 		super.setUp();
 		failures = spy(new Failures());
 		testCondition = new TestCondition<Object>();
-		iterables = new Iterables();
-		iterables.failures = failures;
-	}
+		arrays = new ObjectArrays();
+		arrays.failures = failures;
+		conditions = spy(new Conditions());		
+		arrays.conditions = conditions;
+	}	
 	
-	private final Condition<String> condition = new Condition<String>() {
-
-		private final Set<String> jedis = set("Luke", "Yoda", "Obiwan");
-
-		@Override
-		public boolean matches(String value) {
-			return jedis.contains(value);
-		};
-
-	};
-
+	
 	@Test
-	public void should_pass_if_each_element_not_satisfies_condition() {
-		actual = list("Darth Vader", "Leia");
-		iterables.assertEachElementIsNot(someInfo(), actual, condition);
-	}
-
+	public void should_pass_if_each_element_satisfies_condition() {
+		actual = array("Solo", "Leia");
+		arrays.assertAreNot(someInfo(), actual, jedi);
+		verify(conditions).assertIsNotNull(jedi);		
+	}	
+	
 	@Test
 	public void should_throw_error_if_condition_is_null() {
 		thrown.expectNullPointerException("The condition to evaluate should not be null");
-		actual = list("Darth Vader", "Leia");
-		iterables.assertEachElementIsNot(someInfo(), actual, null);
+		arrays.assertAreNot(someInfo(), actual, null);
+		verify(conditions).assertIsNotNull(null);
 	}
 	
 	@Test
-	public void should_fail_if_condition_has_bad_type() {
+	public void should_throw_error_if_condition_has_bad_type() {
+		actual = array(42);
 	    AssertionInfo info = someInfo();
-	    List<Integer> actual = list(42);
 	    try {
-	    	iterables.assertEachElementIsNot(someInfo(), actual, condition);
+	    	arrays.assertAreNot(someInfo(), actual, jedi);
 	    } catch (AssertionError e) {
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+		  verify(conditions).assertIsNotNull(jedi);
+	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jedi));
 	      return;
 	    }
-	    failBecauseExpectedAssertionErrorWasNotThrown();
+	    failBecauseExpectedAssertionErrorWasNotThrown();		
 	}	
 
 	@Test
@@ -96,13 +90,14 @@ public class Iterables_assertEachElementIsNot_Test extends AbstractTest_for_Iter
 	    testCondition.shouldMatch(false);
 	    AssertionInfo info = someInfo();
 	    try {
-	    	actual = list("Darth Vader", "Leia", "Yoda");
-	    	iterables.assertEachElementIsNot(someInfo(), actual, condition);
+	    	actual = array("Solo", "Leia", "Yoda");
+	    	arrays.assertAreNot(someInfo(), actual, jedi);
 	    } catch (AssertionError e) {
-	      verify(failures).failure(info, eachElementShouldNotBe(actual, list("Yoda"), condition));
+	      verify(conditions).assertIsNotNull(jedi);
+	      verify(failures).failure(info, elementsShouldNotBe(actual, list("Yoda"), jedi));
 	      return;
 	    }
 	    failBecauseExpectedAssertionErrorWasNotThrown();
-	}
+	}	
 
 }

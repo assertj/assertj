@@ -15,13 +15,13 @@
 package org.fest.assertions.internal;
 
 import static java.lang.reflect.Array.getLength;
-import static org.fest.assertions.error.EachElementShouldBe.eachElementShouldBe;
-import static org.fest.assertions.error.EachElementShouldHave.eachElementShouldHave;
-import static org.fest.assertions.error.EachElementShouldNotBe.eachElementShouldNotBe;
-import static org.fest.assertions.error.EachElementShouldNotHave.eachElementShouldNotHave;
+import static org.fest.assertions.error.ElementsShouldBe.elementsShouldBe;
+import static org.fest.assertions.error.ElementsShouldHave.elementsShouldHave;
+import static org.fest.assertions.error.ElementsShouldNotBe.elementsShouldNotBe;
+import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.assertions.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
@@ -308,9 +308,9 @@ class Arrays {
   }
   
   @SuppressWarnings("unchecked")
-  public <E> void assertEachElementIs(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+  public <E> void assertAre(AssertionInfo info, Failures failures, Conditions conditions, Object array, Condition<E> condition){
 	  assertNotNull(info, array);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  List<E> notSatisfiesCondition = new LinkedList<E>();
 	  int arraySize = sizeOf(array);
 	  try {
@@ -321,7 +321,7 @@ class Arrays {
 			  }
 		  }
 		  if(notSatisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldBe(array, notSatisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldBe(array, notSatisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
 	  }
@@ -329,9 +329,9 @@ class Arrays {
   
   
   @SuppressWarnings("unchecked")
-  public <E> void assertEachElementIsNot(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+  public <E> void assertAreNot(AssertionInfo info, Failures failures, Conditions conditions, Object array, Condition<E> condition){
 	  assertNotNull(info, array);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  List<E> satisfiesCondition = new LinkedList<E>();
 	  int arraySize = sizeOf(array);
 	  try {
@@ -342,16 +342,16 @@ class Arrays {
 			  }
 		  }
 		  if(satisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldNotBe(array, satisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldNotBe(array, satisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
 	  }
   }  
   
   @SuppressWarnings("unchecked")
-  public <E> void assertEachElementHas(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+  public <E> void assertHave(AssertionInfo info, Failures failures, Conditions conditions, Object array, Condition<E> condition){
 	  assertNotNull(info, array);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  List<E> notSatisfiesCondition = new LinkedList<E>();
 	  int arraySize = sizeOf(array);
 	  try {
@@ -362,16 +362,16 @@ class Arrays {
 			  }
 		  }
 		  if(notSatisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldHave(array, notSatisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldHave(array, notSatisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
 	  }
   }   
   
   @SuppressWarnings("unchecked")
-  public <E> void assertEachElementHasNot(AssertionInfo info, Failures failures, Object array, Condition<E> condition){
+  public <E> void assertHaveNot(AssertionInfo info, Failures failures, Conditions conditions, Object array, Condition<E> condition){
 	  assertNotNull(info, array);
-	  if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
+	  conditions.assertIsNotNull(condition);
 	  List<E> satisfiesCondition = new LinkedList<E>();
 	  int arraySize = sizeOf(array);
 	  try {
@@ -382,7 +382,7 @@ class Arrays {
 			  }
 		  }
 		  if(satisfiesCondition.isEmpty()) return;
-		  throw failures.failure(info, eachElementShouldNotHave(array, satisfiesCondition, condition));
+		  throw failures.failure(info, elementsShouldNotHave(array, satisfiesCondition, condition));
 	  } catch (ClassCastException e) {
 		  throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
 	  }
@@ -415,7 +415,7 @@ class Arrays {
       throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
     }
   }
-
+  
   // is static to avoid "generify" Arrays
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
       Comparator<T> comparator) {

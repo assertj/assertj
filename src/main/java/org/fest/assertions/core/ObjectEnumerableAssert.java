@@ -128,7 +128,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  <E> S eachElementIs(Condition<E> condition);
+  <E> S are(Condition<E> condition);
   
  
   /**
@@ -139,7 +139,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  <E> S eachElementIsNot(Condition<E> condition);
+  <E> S areNot(Condition<E> condition);
   
   /**
    * Verifies that each element value satisfies the given condition
@@ -149,7 +149,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  <E> S eachElementHas(Condition<E> condition);
+  <E> S have(Condition<E> condition);
   
  
   /**
@@ -160,6 +160,6 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  <E> S eachElementHasNot(Condition<E> condition); 
+  <E> S doNotHave(Condition<E> condition); 
 
 }

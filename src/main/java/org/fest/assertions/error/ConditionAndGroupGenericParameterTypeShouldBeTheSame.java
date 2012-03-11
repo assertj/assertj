@@ -23,20 +23,20 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  */
-public class ShouldBeSameGenericBetweenIterableAndCondition extends BasicErrorMessageFactory {
+public class ConditionAndGroupGenericParameterTypeShouldBeTheSame extends BasicErrorMessageFactory {
 
-	public ShouldBeSameGenericBetweenIterableAndCondition(Object actual, Condition<?> condition) {
+	public ConditionAndGroupGenericParameterTypeShouldBeTheSame(Object actual, Condition<?> condition) {
 		super("expecting: <%s> have the same generic type as condition <%s>",actual, condition);
 	}
 
 	/**
-	 * Creates a new </code>{@link ShouldBeSameGenericBetweenIterableAndCondition}</code>
+	 * Creates a new </code>{@link ConditionAndGroupGenericParameterTypeShouldBeTheSame}</code>
 	 * @param actual the actual value in the failed assertion.
 	 * @param condition the {@code Condition}.
 	 * @return the created {@code ErrorMessageFactory}.
 	 */
 	public static <E> ErrorMessageFactory shouldBeSameGenericBetweenIterableAndCondition(Object actual, Condition<E> condition) {
-		return new ShouldBeSameGenericBetweenIterableAndCondition(actual, condition);
+		return new ConditionAndGroupGenericParameterTypeShouldBeTheSame(actual, condition);
 	}
 
 }

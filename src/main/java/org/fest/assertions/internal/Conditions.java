@@ -53,7 +53,7 @@ public class Conditions {
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
   public <T> void assertIs(AssertionInfo info, T actual, Condition<T> condition) {
-    verifyIsNotNull(condition);
+    assertIsNotNull(condition);
     if (condition.matches(actual)) return;
     throw failures.failure(info, shouldBe(actual, condition));
   }
@@ -68,7 +68,7 @@ public class Conditions {
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
   public <T> void assertIsNot(AssertionInfo info, T actual, Condition<T> condition) {
-    verifyIsNotNull(condition);
+    assertIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, shouldNotBe(actual, condition));
   }
@@ -83,7 +83,7 @@ public class Conditions {
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
   public <T> void assertHas(AssertionInfo info, T actual, Condition<T> condition) {
-    verifyIsNotNull(condition);
+    assertIsNotNull(condition);
     if (condition.matches(actual)) return;
     throw failures.failure(info, shouldHave(actual, condition));
   }
@@ -98,12 +98,17 @@ public class Conditions {
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
   public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<T> condition) {
-    verifyIsNotNull(condition);
+    assertIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, shouldNotHave(actual, condition));
   }
 
-  private void verifyIsNotNull(Condition<?> condition) {
+  /**
+   * Asserts the the given <code>{@link Condition}</code> is not null.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   */
+  public void assertIsNotNull(Condition<?> condition) {
     if (condition == null) throw new NullPointerException("The condition to evaluate should not be null");
   }
 }

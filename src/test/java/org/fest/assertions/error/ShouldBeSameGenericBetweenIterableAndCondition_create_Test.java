@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 import static org.fest.util.Collections.*;
-import static org.fest.assertions.error.ShouldBeSameGenericBetweenIterableAndCondition.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.core.TestCondition;
