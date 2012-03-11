@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import java.util.Collection;
 import java.util.Comparator;
 
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.Iterables;
 import org.fest.util.ComparatorBasedComparisonStrategy;
@@ -35,6 +36,7 @@ import org.fest.util.VisibleForTesting;
  * @author Mathieu Baechler
  * @author Joel Costigliola
  * @author Maciej Jaskowski
+ * @author Nicolas François 
  */
 public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends AbstractAssert<S, A> implements
     ObjectEnumerableAssert<S> {
@@ -133,6 +135,30 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
     iterables.assertDoesNotContainNull(info, actual);
     return myself;
   }
+  
+  /** {@inheritDoc} */
+  public <E> S are(Condition<E> condition) {
+	iterables.assertAre(info, actual, condition);
+	return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> S areNot(Condition<E> condition) {
+	iterables.assertAreNot(info, actual, condition);
+	return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> S have(Condition<E> condition) {
+	iterables.assertHave(info, actual, condition);
+	return myself;
+  }  
+  
+  /** {@inheritDoc} */
+  public <E> S doNotHave(Condition<E> condition) {
+	iterables.assertDoNotHave(info, actual, condition);
+	return myself;
+  }   
   
   @Override
   public S usingComparator(Comparator<?> customComparator) {

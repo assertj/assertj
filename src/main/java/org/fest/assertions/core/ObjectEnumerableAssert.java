@@ -22,6 +22,7 @@ package org.fest.assertions.core;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Nicolas François 
  */
 public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
 
@@ -118,5 +119,47 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if the actual group contains a null element.
    */
   S doesNotContainNull();
+  
+  /**
+   * Verifies that each element value satisfies the given condition
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */
+  <E> S are(Condition<E> condition);
+  
+ 
+  /**
+   * Verifies that each element value not satisfies the given condition
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
+  <E> S areNot(Condition<E> condition);
+  
+  /**
+   * Verifies that each element value satisfies the given condition
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */
+  <E> S have(Condition<E> condition);
+  
+ 
+  /**
+   * Verifies that each element value not satisfies the given condition
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */
+  <E> S doNotHave(Condition<E> condition); 
 
 }
