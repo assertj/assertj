@@ -1,21 +1,22 @@
 /*
  * Created on Dec 21, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
 
 import java.util.Comparator;
 
+import org.fest.assertions.core.ArraySortedAssert;
 import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ShortArrays;
@@ -27,14 +28,16 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(short[])}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements EnumerableAssert<ShortArrayAssert> {
+public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements
+    EnumerableAssert<ShortArrayAssert>, ArraySortedAssert<ShortArrayAssert, Short> {
 
-  @VisibleForTesting ShortArrays arrays = ShortArrays.instance();
+  @VisibleForTesting
+  ShortArrays arrays = ShortArrays.instance();
 
   protected ShortArrayAssert(short[] actual) {
     super(actual, ShortArrayAssert.class);
@@ -84,7 +87,7 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   * or none of the given values, or the actual array contains more values than the given ones.
+   *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public ShortArrayAssert containsOnly(short... values) {
     arrays.assertContainsOnly(info, actual, values);
@@ -112,7 +115,7 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   * the actual array.
+   *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public ShortArrayAssert contains(short value, Index index) {
@@ -209,7 +212,7 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
     this.arrays = new ShortArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public ShortArrayAssert usingDefaultComparator() {
     super.usingDefaultComparator();

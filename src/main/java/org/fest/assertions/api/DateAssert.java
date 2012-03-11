@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import org.fest.assertions.core.Assert;
 import org.fest.assertions.internal.Dates;
 import org.fest.assertions.internal.Failures;
 import org.fest.util.ComparatorBasedComparisonStrategy;
@@ -55,7 +56,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isEqualTo(Date)} but given Date is represented as String either with ISO date format
+   * Same assertion as {@link AbstractAssert#isEqualTo(Object) isEqualTo(Date date)} but given Date is represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -67,7 +68,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isNotEqualTo(Date)} but given Date is represented as String either with ISO date format
+   * Same assertion as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(Date date)} but given Date is represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
@@ -79,7 +80,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isIn(Object...))} but given Dates are represented as String either with ISO date format
+   * Same assertion as {@link Assert#isIn(Object...)} but given Dates are represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -95,10 +96,10 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isIn(Collection))} but given Dates are represented as String either with ISO date format
+   * Same assertion as {@link Assert#isIn(Collection)} but given Dates are represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
-   * Method signature could not be <code>isIn(Collection<String>)</code> because it would be same signature as
-   * <code>isIn(Collection<Date>)</code> since java collection type are erased at runtime.
+   * Method signature could not be <code>isIn(Collection&lt;String&gt;)</code> because it would be same signature as
+   * <code>isIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
    * @throws AssertionError if actual is not in given Dates represented as String.
@@ -113,7 +114,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isNotIn(Object...))} but given Dates are represented as String either with ISO date
+   * Same assertion as {@link Assert#isNotIn(Object...)} but given Dates are represented as String either with ISO date
    * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
@@ -129,10 +130,10 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link #isNotIn(Collection))} but given Dates are represented as String either with ISO date
+   * Same assertion as {@link Assert#isNotIn(Collection)} but given Dates are represented as String either with ISO date
    * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
-   * Method signature could not be <code>isNotIn(Collection<String>)</code> because it would be same signature as
-   * <code>isNotIn(Collection<Date>)</code> since java collection type are erased at runtime.
+   * Method signature could not be <code>isNotIn(Collection&lt;String&gt;)</code> because it would be same signature as
+   * <code>isNotIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
    * @param datesAsString the given Dates represented as String in default or custom date format.
    * @return this assertion object.
    * @throws AssertionError if actual is in given Dates represented as String.

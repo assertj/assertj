@@ -17,9 +17,11 @@ package org.fest.assertions.internal;
 import static org.fest.util.Strings.isEmpty;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.*;
-import org.fest.util.*;
+import org.fest.assertions.error.AssertionErrorFactory;
+import org.fest.assertions.error.ErrorMessageFactory;
+import org.fest.assertions.error.ShouldBeEqual;
 import org.fest.util.Throwables;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Failure actions.
@@ -103,7 +105,7 @@ public class Failures {
   /**
    * Creates a <code>{@link AssertionError}</code> using the given {@code String} as message.
    * <p>
-   * filters the AssertionError stack trace is {@link #isRemoveFestRelatedElementsFromStackTrace()} is true (see {@link #removeFestRelatedElementsFromStackTraceIfNeeded(AssertionError)} for details.
+   * It filters the AssertionError stack trace be default, to have full stack trace use  {@link #setRemoveFestRelatedElementsFromStackTrace(boolean)}.
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
@@ -114,8 +116,10 @@ public class Failures {
   }
 
   /**
-   * If is {@link #isRemoveFestRelatedElementsFromStackTrace()} is true, filters the stack trace of the given {@link AssertionError} 
-   * by removing stack trace elements of minor relevance (the one related to Fest) to get a more readable stack trace, see example below :
+   * If is {@link #removeFestRelatedElementsFromStackTrace} is true, it filters the stack trace of the given {@link AssertionError} 
+   * by removing stack trace elements related to Fest in order to get a more readable stack trace.
+   * <p>
+   * See example below :
    * <pre>
 --------------- stack trace not filtered -----------------
 org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
@@ -140,7 +144,7 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)
    * </pre>
    * 
-   * Method is public because we need to call it from ShouldBeEqual.newAssertionError that is building ComparisonFailure by reflection. 
+   * Method is public because we need to call it from {@link ShouldBeEqual#newAssertionError(org.fest.assertions.description.Description)} that is building a junit ComparisonFailure by reflection. 
    *  
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */

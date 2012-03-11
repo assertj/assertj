@@ -129,7 +129,6 @@ public class Lists {
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
-   * @return {@code this} assertion object.
    * 
    * @throws AssertionError if the actual list is not sorted into ascending order according to the natural ordering of
    *           its elements.
@@ -168,8 +167,6 @@ public class Lists {
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
    * @param comparator the {@link Comparator} used to compare list elements
-   * 
-   * @return {@code this} assertion object.
    * 
    * @throws AssertionError if the actual list is not sorted according to the given comparator.
    * @throws AssertionError if the actual list is <code>null</code>.

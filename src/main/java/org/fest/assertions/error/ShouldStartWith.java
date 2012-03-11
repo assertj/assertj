@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements starts with a given
@@ -41,7 +42,6 @@ public class ShouldStartWith extends BasicErrorMessageFactory {
    * Creates a new <code>{@link ShouldStartWith}</code>.
    * @param actual the actual value in the failed assertion.
    * @param expected the value or sequence of values that {@code actual} is expected to start with.
-   * @param absValueComparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldStartWith(Object actual, Object expected) {

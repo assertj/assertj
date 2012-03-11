@@ -68,7 +68,6 @@ public class Throwables {
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param message the expected message.
-   * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */

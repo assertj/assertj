@@ -36,7 +36,6 @@ public final class Fail {
   /**
    * Fails with the given message.
    * @param failureMessage error message.
-   * @return the thrown {@code AssertionError}.
    * @throws AssertionError with the given message.
    */
   public static void fail(String failureMessage) {
@@ -47,6 +46,7 @@ public final class Fail {
    * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
    * @param realCause cause of the error.
+   * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   public static void fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
@@ -55,8 +55,9 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with a message explaining that an expection of type exceptionClass was expected to be thrown.
+   * Throws an {@link AssertionError} with a message explaining that an expection of given exceptionClass type was expected to be thrown but had not been.
    * @param exceptionClass the class exception that was expected to be thrown.
+   * @throws AssertionError with a message explaining that an expection of given exceptionClass type was expected to be thrown but had not been.
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
     String message = String.format("Expected %s to be thrown", exceptionClass.getSimpleName());

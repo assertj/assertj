@@ -14,11 +14,12 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link Iterable}</code> is
- * a subset of an other set {@Iterable} failed.
+ * Creates an error message indicating that an assertion that verifies that an <code>Iterable</code> is
+ * a subset of an other set <code>Iterable</code> failed.
  * 
  * @author Maciej Jaskowski
  */
@@ -41,8 +42,8 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
    * @param values the expected superset
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object sequence, Iterable<?> unexpected) {
-    return new ShouldBeSubsetOf(actual, sequence, unexpected, StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected) {
+    return new ShouldBeSubsetOf(actual, values, unexpected, StandardComparisonStrategy.instance());
   }
 
   private ShouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected, ComparisonStrategy comparisonStrategy) {

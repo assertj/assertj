@@ -34,9 +34,9 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object notFound,
+  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object found,
       ComparisonStrategy comparisonStrategy) {
-    return new ShouldNotContain(actual, expected, notFound, comparisonStrategy);
+    return new ShouldNotContain(actual, expected, found, comparisonStrategy);
   }
 
   /**
@@ -46,12 +46,12 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
    * @param found the values in {@code expected} found in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object notFound) {
-    return new ShouldNotContain(actual, expected, notFound, StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldNotContain(Object actual, Object expected, Object found) {
+    return new ShouldNotContain(actual, expected, found, StandardComparisonStrategy.instance());
   }
-  
-  private ShouldNotContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> not to contain:<%s> but found:<%s>%s", actual, expected, notFound, comparisonStrategy);
+
+  private ShouldNotContain(Object actual, Object expected, Object found, ComparisonStrategy comparisonStrategy) {
+    super("expecting:<%s> not to contain:<%s> but found:<%s>%s", actual, expected, found, comparisonStrategy);
   }
 
 }
