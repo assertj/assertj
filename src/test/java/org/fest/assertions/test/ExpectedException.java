@@ -52,7 +52,11 @@ public class ExpectedException implements MethodRule {
   public void expectIndexOutOfBoundsException(String message) {
     expect(IndexOutOfBoundsException.class, message);
   }
-
+  
+  public  void expectUnsupportedOperationException(String message){
+	expect(UnsupportedOperationException.class, message);	  
+  }
+  
   private void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
