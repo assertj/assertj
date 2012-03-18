@@ -26,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#doNotHave(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#have(org.fest.assertions.core.Condition)}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_have_Test {
+public class ObjectArrayAssert_doNothave_Test {
 
 	  private ObjectArrays arrays;
 	  private ObjectArrayAssert assertions;
@@ -44,12 +44,12 @@ public class ObjectArrayAssert_have_Test {
 	  }
 
 	  @Test public void should_verify_that_each_elements_is() {
-	    assertions.doNotHave(condition);
-	    verify(arrays).assertDoNotHave(assertions.info, assertions.actual, condition);
+	    assertions.have(condition);
+	    verify(arrays).assertHave(assertions.info, assertions.actual, condition);
 	  }
 
 	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.doNotHave(condition));
+	    assertSame(assertions, assertions.have(condition));
 	  }	
 	
 }

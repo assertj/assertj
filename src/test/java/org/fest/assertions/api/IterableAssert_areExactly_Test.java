@@ -1,5 +1,5 @@
 /*
- * Created on Mar 5, 2012
+ * Created on Mar 17, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,41 +15,37 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.internal.ObjectArrays;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+
 /**
- * Tests for <code>{@link ObjectArrayAssert#doNotHave(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#areExactly(Condition, int)}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_have_Test {
-
-	  private ObjectArrays arrays;
-	  private ObjectArrayAssert assertions;
+public class IterableAssert_areExactly_Test extends AbstractTest_for_IterableAssert {
+	
 	  private static Condition<Object> condition;
-
-	  @Before public void setUp() {
-	    arrays = mock(ObjectArrays.class);
-	    assertions = new ObjectArrayAssert(emptyArray());
-	    assertions.arrays = arrays;
+	  
+	  @BeforeClass public static void setUpOnce() {
 	    condition = new TestCondition<Object>();
 	  }
 
-	  @Test public void should_verify_that_each_elements_is() {
-	    assertions.doNotHave(condition);
-	    verify(arrays).assertDoNotHave(assertions.info, assertions.actual, condition);
+	  @Test
+	  public void should_verify_that_elements_are_at_most() {
+	    assertions.areExactly(2, condition);
+	    verify(iterables).assertAreExactly(assertions.info, assertions.actual, 2, condition);
 	  }
 
-	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.doNotHave(condition));
+	  @Test
+	  public void should_return_this() {
+	    ConcreteIterableAssert returned = assertions.areExactly(2, condition);
+	    assertSame(assertions, returned);
 	  }	
 	
 }

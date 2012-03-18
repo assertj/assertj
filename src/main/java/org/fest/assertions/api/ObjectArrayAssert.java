@@ -159,6 +159,78 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   }   
   
   /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areAtLeast(int times, Condition<E> condition) {
+	  arrays.assertAreAtLeast(info, actual, times, condition);
+	  return myself;
+  }   
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areNotAtLeast(int times, Condition<E> condition) {
+	  arrays.assertAreNotAtLeast(info, actual, times, condition);
+	  return myself;
+  }     
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areAtMost(int times, Condition<E> condition) {
+	  arrays.assertAreAtMost(info, actual, times, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areNotAtMost(int times, Condition<E> condition) {
+	  arrays.assertAreNotAtMost(info, actual, times, condition);
+	  return myself;
+  }     
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areExactly(int times, Condition<E> condition) {
+	  arrays.assertAreExactly(info, actual, times, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert areNotExactly(int times, Condition<E> condition) {
+	  arrays.assertAreNotExactly(info, actual, times, condition);
+	  return myself;
+  }  
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert haveAtLeast(int times, Condition<E> condition) {
+	  arrays.assertHaveAtLeast(info, actual, times, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert doNotHaveAtLeast(int times, Condition<E> condition) {
+	  arrays.assertDoNotHaveAtLeast(info, actual, times, condition);
+	  return myself;
+  }  
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert haveAtMost(int times, Condition<E> condition) {
+	  arrays.assertHaveAtMost(info, actual, times, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert doNotHaveAtMost(int times, Condition<E> condition) {
+	  arrays.assertDoNotHaveAtMost(info, actual, times, condition);
+	  return myself;
+  }  
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert haveExactly(int times, Condition<E> condition) {
+	  arrays.assertHaveExactly(info, actual, times, condition);
+	  return myself;
+  }
+  
+  /** {@inheritDoc} */
+  public <E> ObjectArrayAssert doNotHaveExactly(int times, Condition<E> condition) {
+	  arrays.assertDoNotHaveExactly(info, actual, times, condition);
+	  return myself;
+  }  
+  
+  /** {@inheritDoc} */
   public ObjectArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;

@@ -1,5 +1,5 @@
 /*
- * Created on Mar 15, 2012
+ * Created on Mar 17, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ElementsShouldBe.elementsShouldBe;
 import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.assertions.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
@@ -33,12 +33,12 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link Iterables#assertAre(AssertionInfo, Iterable, org.fest.assertions.core.Condition)}</code>
+ * <code>{@link Iterables#assertAreExactly(AssertionInfo, Iterable, Condition, int)}</code>
  * .
  * 
  * @author Nicolas François
  */
-public class Iterables_assertAre_Test extends AbstractTest_for_Iterables {
+public class Iterables_assertAreExactly_Test extends AbstractTest_for_Iterables {
 
 	private Condition<String> jedi = new JediCondition();
 	private Failures failures;
@@ -59,17 +59,17 @@ public class Iterables_assertAre_Test extends AbstractTest_for_Iterables {
 	
 
 	@Test
-	public void should_pass_if_each_element_satisfies_condition() {
-		actual = list("Yoda", "Luke");
-		iterables.assertAre(someInfo(), actual, jedi);
+	public void should_pass_if_satisfies_exactly_times_condition() {
+		actual = list("Yoda", "Luke", "Leia");
+		iterables.assertAreExactly(someInfo(), actual, 2, jedi);
 		verify(conditions).assertIsNotNull(jedi);
 	}
-
+	
 	@Test
 	public void should_throw_error_if_condition_is_null() {
 		thrown.expectNullPointerException("The condition to evaluate should not be null");
 		actual = list("Yoda", "Luke");
-		iterables.assertAre(someInfo(), actual, null);
+		iterables.assertAreExactly(someInfo(), actual, 2, null);
 		verify(conditions).assertIsNotNull(null);
 	}
 	
@@ -78,7 +78,7 @@ public class Iterables_assertAre_Test extends AbstractTest_for_Iterables {
 	    AssertionInfo info = someInfo();
 	    List<Integer> actual = list(42);
 	    try {
-	    	iterables.assertAre(someInfo(), actual, jedi);
+	    	iterables.assertAreExactly(someInfo(), actual, 2, jedi);
 	    } catch (AssertionError e) {
 	      verify(conditions).assertIsNotNull(jedi);
 	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jedi));
@@ -88,18 +88,33 @@ public class Iterables_assertAre_Test extends AbstractTest_for_Iterables {
 	}	
 
 	@Test
-	public void should_fail_if_condition_is_not_met() {
+	public void should_fail_if_condition_is_not_met_enought() {
 	    testCondition.shouldMatch(false);
 	    AssertionInfo info = someInfo();
 	    try {
-	    	actual = list("Yoda", "Luke", "Leia");
-	    	iterables.assertAre(someInfo(), actual, jedi);
+	    	actual = list("Yoda", "Solo", "Leia");
+	    	iterables.assertAreExactly(someInfo(), actual, 2, jedi);
 	    } catch (AssertionError e) {
 	      verify(conditions).assertIsNotNull(jedi);	
-	      verify(failures).failure(info, elementsShouldBe(actual, list("Leia"), jedi));
+	      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
 	      return;
 	    }
 	    failBecauseExpectedAssertionErrorWasNotThrown();
 	}
+	
+	@Test
+	public void should_fail_if_condition_is_met_much() {
+	    testCondition.shouldMatch(false);
+	    AssertionInfo info = someInfo();
+	    try {
+	    	actual = list("Yoda", "Luke", "Obiwan");
+	    	iterables.assertAreExactly(someInfo(), actual, 2, jedi);
+	    } catch (AssertionError e) {
+	      verify(conditions).assertIsNotNull(jedi);	
+	      verify(failures).failure(info, elementsShouldBeExactly(actual, 2, jedi));
+	      return;
+	    }
+	    failBecauseExpectedAssertionErrorWasNotThrown();
+	}	
 
 }

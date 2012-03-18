@@ -160,6 +160,78 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
 	return myself;
   }   
   
+  /** {@inheritDoc} */  
+  public <E> S areAtLeast(int times, Condition<E> condition) {
+	iterables.assertAreAtLeast(info, actual, times, condition);
+	return myself;
+   }
+  
+  /** {@inheritDoc} */  
+  public <E> S areNotAtLeast(int times, Condition<E> condition) {
+	iterables.assertAreNotAtLeast(info, actual, times, condition);
+	return myself;
+   }  
+  
+  /** {@inheritDoc} */  
+  public <E> S areAtMost(int times, Condition<E> condition) {
+	iterables.assertAreAtMost(info, actual, times, condition);
+	return myself;
+   }  
+  
+  /** {@inheritDoc} */  
+  public <E> S areNotAtMost(int times, Condition<E> condition) {
+	iterables.assertAreNotAtMost(info, actual, times, condition);
+	return myself;
+   }
+  
+  /** {@inheritDoc} */  
+  public <E> S areExactly(int times, Condition<E> condition) {
+	iterables.assertAreExactly(info, actual, times, condition);
+	return myself;
+   }    
+  
+  /** {@inheritDoc} */  
+  public <E> S areNotExactly(int times, Condition<E> condition) {
+	iterables.assertAreNotExactly(info, actual, times, condition);
+	return myself;
+   }  
+  
+  /** {@inheritDoc} */  
+  public <E> S haveAtLeast(int times, Condition<E> condition) {
+	iterables.assertHaveAtLeast(info, actual, times, condition);
+	return myself;
+   }
+  
+  /** {@inheritDoc} */  
+  public <E> S doNotHaveAtLeast(int times, Condition<E> condition) {
+	iterables.assertDoNotHaveAtLeast(info, actual, times, condition);
+	return myself;
+   }  
+  
+  /** {@inheritDoc} */  
+  public <E> S haveAtMost(int times, Condition<E> condition) {
+	iterables.assertHaveAtMost(info, actual, times, condition);
+	return myself;
+   }
+  
+  /** {@inheritDoc} */  
+  public <E> S doNotHaveAtMost(int times, Condition<E> condition) {
+	iterables.assertDoNotHaveAtMost(info, actual, times, condition);
+	return myself;
+   }   
+  
+  /** {@inheritDoc} */  
+  public <E> S haveExactly(int times, Condition<E> condition) {
+	iterables.assertHaveExactly(info, actual, times, condition);
+	return myself;
+   }  
+  /** {@inheritDoc} */  
+  public <E> S doNotHaveExactly(int times, Condition<E> condition) {
+	iterables.assertDoNotHaveExactly(info, actual, times, condition);
+	return myself;
+   }  
+  
+  
   @Override
   public S usingComparator(Comparator<?> customComparator) {
     super.usingComparator(customComparator);

@@ -123,7 +123,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   /**
    * Verifies that each element value satisfies the given condition
    * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
+   * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
@@ -134,7 +134,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   /**
    * Verifies that each element value not satisfies the given condition
    * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
+   * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
@@ -144,7 +144,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   /**
    * Verifies that each element value satisfies the given condition
    * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
+   * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
@@ -155,11 +155,144 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   /**
    * Verifies that each element value not satisfies the given condition
    * @param condition the given condition.
-   * @return {@code this ExtensionPoints} object.
+   * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
   <E> S doNotHave(Condition<E> condition); 
+  
+  /**
+   * Verifies elements value satisfies as least n times the given condition
+   * @param times least times the condition should be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areAtLeast(int times, Condition<E> condition);  
+  
+  /**
+   * Verifies elements value not satisfies as least n times the given condition
+   * @param times least times the condition should not be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areNotAtLeast(int times, Condition<E> condition);   
+  
+  /**
+   * Verifies elements value satisfies as most n times the given condition
+   * @param times most times the condition should be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areAtMost(int times, Condition<E> condition);
+  
+  /**
+   * Verifies elements value not satisfies as most n times the given condition
+   * @param times most times the condition should not be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areNotAtMost(int times, Condition<E> condition);  
+  
+  /**
+   * Verifies elements value satisfies exactly n times the given condition
+   * @param times exactly times the condition should be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areExactly(int times, Condition<E> condition);
+  
+  /**
+   * Verifies elements value not satisfies exactly n times the given condition
+   * @param times exactly times the condition should not be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S areNotExactly(int times, Condition<E> condition);  
+  
+  /**
+   * Verifies elements value satisfies as least n times the given condition
+   * @param times least times the condition should be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S haveAtLeast(int times, Condition<E> condition);
+  
+  /**
+   * Verifies elements value not satisfies as least n times the given condition
+   * @param times least times the condition should not be verify.
+   * @param condition the given condition.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S doNotHaveAtLeast(int times, Condition<E> condition);
+  
+  
+  /**
+   * Verifies elements value satisfies as most n times the given condition
+   * @param condition the given condition.
+   * @param times most times the condition should be verify.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S haveAtMost(int times, Condition<E> condition);
+  
+  /**
+   * Verifies elements value not satisfies as most n times the given condition
+   * @param condition the given condition.
+   * @param times most times the condition should not be verify.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S doNotHaveAtMost(int times, Condition<E> condition);    
+  
+  /**
+   * Verifies elements value satisfies exactly n times the given condition
+   * @param condition the given condition.
+   * @param times exactly times the condition should be verify.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S haveExactly(int times, Condition<E> condition);
+  
+  /**
+   * Verifies elements value not satisfies exactly n times the given condition
+   * @param condition the given condition.
+   * @param times exactly times the condition should not be verify.
+   * @return {@code this} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element not satisfy the given condition.
+   */  
+  <E> S doNotHaveExactly(int times, Condition<E> condition);     
 
 }

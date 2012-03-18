@@ -313,6 +313,174 @@ public class ObjectArrays {
    */
   public <E> void assertDoNotHave(AssertionInfo info, Object[] actual, Condition<E> condition){
 	  arrays.assertHaveNot(info, failures, conditions, actual, condition);
+  }
+  
+  /**
+   * Assert that elements of given array satisfies at least n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times least times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreAtLeast(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreAtLeast(info, failures, conditions, actual, times, condition);
+  }
+  
+  /**
+   * Assert that elements of given array not satisfies at least n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times least times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreNotAtLeast(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreNotAtLeast(info, failures, conditions, actual, times, condition);
+  }  
+  
+  /**
+   * Assert that elements of given array satisfies at most n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreAtMost(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreAtMost(info, failures, conditions, actual, times, condition);
+  }
+  
+  /**
+   * Assert that elements of given array not satisfies at most n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreNotAtMost(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreNotAtMost(info, failures, conditions, actual, times, condition);
+  }   
+  
+  /**
+   * Assert that elements of given array satisfies exactly n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreExactly(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreExactly(info, failures, conditions, actual, times, condition);
+  }
+  
+  /**
+   * Assert that elements of given array not satisfies exactly n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertAreNotExactly(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertAreNotExactly(info, failures, conditions, actual, times, condition);
+  }      
+  
+  /**
+   * Assert that elements of given array satisfies at least n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times least times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertHaveAtLeast(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertHaveAtLeast(info, failures, conditions, actual, times, condition);
+  }
+  
+  /**
+   * Assert that elements of given array not satisfies at least n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times least times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertDoNotHaveAtLeast(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertDoNotHaveAtLeast(info, failures, conditions, actual, times, condition);
+  }  
+  
+  /**
+   * Assert that elements of given array satisfies at most n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertHaveAtMost(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertHaveAtMost(info, failures, conditions, actual, times, condition);
+  }   
+  
+  /**
+   * Assert that elements of given array not satisfies at most n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertDoNotHaveAtMost(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertDoNotHaveAtMost(info, failures, conditions, actual, times, condition);
+  }    
+  
+  /**
+   * Assert that elements of given array satisfies exactly n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertHaveExactly(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
+  }    
+  
+  /**
+   * Assert that elements of given array not satisfies exactly n times the given condition.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param times most times the condition should not be verify.
+   * @param condition the given {@code Condition}.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if a element cannot be cast to E.
+   * @throws AssertionError if one or more element satisfy the given condition.
+   */  
+  public <E> void assertDoNotHaveExactly(AssertionInfo info, Object[] actual, int times, Condition<E> condition){
+	  arrays.assertDoNotHaveExactly(info, failures, conditions, actual, times, condition);
   }   
   
   /**

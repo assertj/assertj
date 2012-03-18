@@ -1,5 +1,5 @@
 /*
- * Created on Mar 5, 2012
+ * Created on Mar 17, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -26,11 +26,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#doNotHave(org.fest.assertions.core.Condition)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#areNotAtLeast(Condition, int)}</code>.
  * 
  * @author Nicolas François 
  */
-public class ObjectArrayAssert_have_Test {
+public class ObjectArrayAssert_areNotAtLeast_Test {
 
 	  private ObjectArrays arrays;
 	  private ObjectArrayAssert assertions;
@@ -43,13 +43,13 @@ public class ObjectArrayAssert_have_Test {
 	    condition = new TestCondition<Object>();
 	  }
 
-	  @Test public void should_verify_that_each_elements_is() {
-	    assertions.doNotHave(condition);
-	    verify(arrays).assertDoNotHave(assertions.info, assertions.actual, condition);
+	  @Test public void should_verify_that_elements_are_at_least() {
+	    assertions.areNotAtLeast(2, condition);
+	    verify(arrays).assertAreNotAtLeast(assertions.info, assertions.actual, 2, condition);
 	  }
 
 	  @Test public void should_return_this() {
-	    assertSame(assertions, assertions.doNotHave(condition));
+	    assertSame(assertions, assertions.areAtLeast(2, condition));
 	  }	
 	
 }

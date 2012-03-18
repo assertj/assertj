@@ -36,7 +36,7 @@ public class ElementsShouldHave extends BasicErrorMessageFactory {
 	    return new ElementsShouldHave(actual, notSatisfies, condition);
 	  }
   
-	  public ElementsShouldHave(Object actual, Object notSatisfies,	Condition<?> condition) {
+	  private ElementsShouldHave(Object actual, Object notSatisfies,	Condition<?> condition) {
 		  super("expecting: elements <%s> of <%s> to have <%s>", notSatisfies, actual, condition);
 	  }
 
