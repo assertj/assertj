@@ -182,4 +182,20 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     this.objects = Objects.instance();
     return myself;
   }
+  
+  /** {@inheritDoc} */
+  @Override 
+  public final boolean equals(Object obj) {
+    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+  }  
+  
+  /**
+   * Always returns 1.
+   * @return 1.
+   */
+  @Override 
+  public final int hashCode() { 
+	  return 1;
+  }  
+  
 }
