@@ -163,136 +163,99 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   <E> S doNotHave(Condition<E> condition); 
   
   /**
-   * Verifies elements value satisfies as least n times the given condition
-   * @param times least times the condition should be verify.
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * @param n the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if an element can not be cast to E.
+   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */  
-  <E> S areAtLeast(int times, Condition<E> condition);  
+  <E> S areAtLeast(int n, Condition<E> condition);  
   
   /**
-   * Verifies elements value not satisfies as least n times the given condition
-   * @param times least times the condition should not be verify.
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * @param n the number of times the condition should not be verified at least.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
    */  
-  <E> S areNotAtLeast(int times, Condition<E> condition);   
+  <E> S areNotAtLeast(int n, Condition<E> condition);  
   
   /**
-   * Verifies elements value satisfies as most n times the given condition
-   * @param times most times the condition should be verify.
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * @param n the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */  
-  <E> S areAtMost(int times, Condition<E> condition);
+  <E> S areAtMost(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value not satisfies as most n times the given condition
-   * @param times most times the condition should not be verify.
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * @param n the number of times the condition should not be verified at most.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
    */  
-  <E> S areNotAtMost(int times, Condition<E> condition);  
+  <E> S areNotAtMost(int n, Condition<E> condition);  
   
   /**
-   * Verifies elements value satisfies exactly n times the given condition
-   * @param times exactly times the condition should be verify.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
+   * @param n the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */  
-  <E> S areExactly(int times, Condition<E> condition);
+  <E> S areExactly(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value not satisfies exactly n times the given condition
-   * @param times exactly times the condition should not be verify.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * @param n the exact number of times the condition should not be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
    */  
-  <E> S areNotExactly(int times, Condition<E> condition);  
+  <E> S areNotExactly(int n, Condition<E> condition);  
   
   /**
-   * Verifies elements value satisfies as least n times the given condition
-   * @param times least times the condition should be verify.
-   * @param condition the given condition.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */  
-  <E> S haveAtLeast(int times, Condition<E> condition);
+  <E> S haveAtLeast(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value not satisfies as least n times the given condition
-   * @param times least times the condition should not be verify.
-   * @param condition the given condition.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias {@link #areNotAtLeast(int, Condition)}.
    */  
-  <E> S doNotHaveAtLeast(int times, Condition<E> condition);
-  
+  <E> S doNotHaveAtLeast(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value satisfies as most n times the given condition
-   * @param condition the given condition.
-   * @param times most times the condition should be verify.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias {@link #areAtMost(int, Condition)}.
    */  
-  <E> S haveAtMost(int times, Condition<E> condition);
+  <E> S haveAtMost(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value not satisfies as most n times the given condition
-   * @param condition the given condition.
-   * @param times most times the condition should not be verify.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias {@link #areNotAtMost(int, Condition)}.
    */  
-  <E> S doNotHaveAtMost(int times, Condition<E> condition);    
+  <E> S doNotHaveAtMost(int n, Condition<E> condition);    
   
   /**
-   * Verifies elements value satisfies exactly n times the given condition
-   * @param condition the given condition.
-   * @param times exactly times the condition should be verify.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias {@link #areExactly(int, Condition)}.
    */  
-  <E> S haveExactly(int times, Condition<E> condition);
+  <E> S haveExactly(int n, Condition<E> condition);
   
   /**
-   * Verifies elements value not satisfies exactly n times the given condition
-   * @param condition the given condition.
-   * @param times exactly times the condition should not be verify.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if one or more element not satisfy the given condition.
+   * This method is an alias {@link #areNotExactly(int, Condition)}.
    */  
-  <E> S doNotHaveExactly(int times, Condition<E> condition);     
+  <E> S doNotHaveExactly(int n, Condition<E> condition);     
 
 }
