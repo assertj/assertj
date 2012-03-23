@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.easytesting</groupId>
     <artifactId>fest</artifactId>
-    <version>1.0.9-SNAPSHOT</version>
+    <version>1.0.11</version>
   </parent>
   <mailingLists>
     <mailingList>
