@@ -15,7 +15,6 @@
 package org.fest.assertions.condition;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.condition.Not.not;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
@@ -23,23 +22,23 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Not#toString()}</code>.
+ * Tests for <code>{@link HasNot#toString()}</code>.
  *
  * @author Nicolas François
  */
-public class Not_toString_Test {
+public class HasNot_toString_Test {
 
   private TestCondition<Object> condition;
-  private Condition<Object> not;
+  private Condition<Object> hasNot;
 
   @Before public void setUp() {
     condition = new TestCondition<Object>("Jedi");
-    not = not(condition);
+    hasNot = HasNot. hasNot(condition);
   }
 
   @Test public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
-    String expected = "not :<Jedi>";
-    assertEquals(expected, not.toString());
+    String expected = "has not :<Jedi>";
+    assertEquals(expected, hasNot.toString());
   }
 	
 }

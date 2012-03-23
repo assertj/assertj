@@ -15,34 +15,27 @@
 package org.fest.assertions.condition;
 
 import org.fest.assertions.core.Condition;
-import org.fest.util.VisibleForTesting;
 
 /**
  * Returns {@code true} if the condition is not satisfied.
  * 
  * @author Nicolas François
  */
-public class Not<T> extends Condition<T>{
+public class Not<T> extends Negative<T> {
 
-	@VisibleForTesting final Condition<T> condition;
-
-	  /**
-	   * Creates a new </code>{@link Not}</code>.
-	   * @param conditions the conditions to inverse.
-	   */	
-	public static <T> Not<T> not(Condition<T> condition){
+	/**
+	 * Creates a new </code>{@link Not}</code>.
+	 * 
+	 * @param conditions  the conditions to inverse.
+	 */
+	public static <T> Not<T> not(Condition<T> condition) {
 		return new Not<T>(condition);
 	}
-	
-	@Override
-	public boolean matches(T value) {
-		return !condition.matches(value);
-	}
-	
+
 	private Not(Condition<T> condition) {
-		this.condition = condition;
+		super(condition);
 	}
-	
+
 	@Override
 	public String toString() {
 		return String.format("not :<%s>", condition);

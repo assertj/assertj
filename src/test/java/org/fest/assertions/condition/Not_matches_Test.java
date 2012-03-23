@@ -40,13 +40,13 @@ public class Not_matches_Test {
 	}
 
 	@Test
-	public void should_match_if_at_least_one_Condition_matches() {
+	public void should_match_if_Condition_not_match() {
 		condition.shouldMatch(false);
 		assertTrue(not.matches("Yoda"));
 	}
 
 	@Test
-	public void should_not_match_if_none_of_the_Conditions_match() {
+	public void should_not_match_Conditions_match() {
 		condition.shouldMatch(true);
 		assertFalse(not.matches("Yoda"));
 	}
