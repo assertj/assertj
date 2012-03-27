@@ -26,7 +26,8 @@ public class Not<T> extends Negative<T> {
 	/**
 	 * Creates a new </code>{@link Not}</code>.
 	 * 
-	 * @param conditions  the conditions to inverse.
+	 * @param condition the condition to inverse.
+	 * @return The Not condition created.
 	 */
 	public static <T> Not<T> not(Condition<T> condition) {
 		return new Not<T>(condition);

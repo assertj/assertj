@@ -26,7 +26,8 @@ public class HasNot<T> extends Negative<T>{
 	/**
 	 * Creates a new </code>{@link HasNot}</code>.
 	 * 
-	 * @param conditions the conditions to inverse.
+	 * @param condition the condition to inverse.
+   * @return The Not condition created.
 	 */	
 	public static <T> HasNot<T> hasNot(Condition<T> condition){
 		return new HasNot<T>(condition);

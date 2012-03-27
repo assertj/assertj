@@ -15,26 +15,26 @@
 package org.fest.assertions.condition;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.condition.HasNot.hasNot;
+import static org.fest.assertions.condition.Not.not;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link HasNot#hasNot(Condition)}</code>.
+ * Tests for <code>{@link Not#not(Condition)}</code>.
  *
  * @author Nicolas François
  */
-public class HasNot_hasNot_with_condition {
+public class Not_with_condition {
 
 	@Test
-	public void should_create_new_hasNot_with_passed_Conditions() {
+	public void should_create_new_notOf_with_passed_Conditions() {
 		TestCondition<Object> condition = new TestCondition<Object>();
-		Condition<Object> created = hasNot(condition);
-		assertEquals(HasNot.class, created.getClass());
-		HasNot<Object> hasNot = (HasNot<Object>) created;
-		assertEquals(condition, hasNot.condition);
+		Condition<Object> created = not(condition);
+		assertEquals(Not.class, created.getClass());
+		Not<Object> not = (Not<Object>) created;
+		assertEquals(condition, not.condition);
 	}
 
 }

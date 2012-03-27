@@ -14,14 +14,15 @@
  */
 package org.fest.assertions.condition;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.*;
+
 import static org.fest.assertions.condition.Not.not;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link Not#matches(Object)}</code>.
@@ -40,13 +41,13 @@ public class Not_matches_Test {
 	}
 
 	@Test
-	public void should_match_if_Condition_not_match() {
+	public void should_match_if_condition_does_not_match() {
 		condition.shouldMatch(false);
 		assertTrue(not.matches("Yoda"));
 	}
 
 	@Test
-	public void should_not_match_Conditions_match() {
+	public void should_not_match_if_condition_matches() {
 		condition.shouldMatch(true);
 		assertFalse(not.matches("Yoda"));
 	}
