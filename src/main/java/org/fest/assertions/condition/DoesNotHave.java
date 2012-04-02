@@ -20,26 +20,27 @@ import org.fest.assertions.core.Condition;
  * Returns {@code true} if the condition is not satisfied.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class HasNot<T> extends Negative<T>{
+public class DoesNotHave<T> extends Negative<T> {
 
-	/**
-	 * Creates a new </code>{@link HasNot}</code>.
-	 * 
-	 * @param condition the condition to inverse.
+  /**
+   * Creates a new </code>{@link DoesNotHave}</code>.
+   * 
+   * @param condition the condition to inverse.
    * @return The Not condition created.
-	 */	
-	public static <T> HasNot<T> hasNot(Condition<T> condition){
-		return new HasNot<T>(condition);
-	}
-	
-	private HasNot(Condition<T> condition) {
-		super(condition);
-	}
-	
-	@Override
-	public String toString() {
-		return String.format("has not :<%s>", condition);
-	}
+   */
+  public static <T> DoesNotHave<T> doesNotHave(Condition<T> condition) {
+    return new DoesNotHave<T>(condition);
+  }
+
+  private DoesNotHave(Condition<T> condition) {
+    super(condition);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("does not have :<%s>", condition);
+  }
 
 }

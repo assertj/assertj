@@ -14,27 +14,42 @@
  */
 package org.fest.assertions.condition;
 
-import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.condition.HasNot.hasNot;
+import static junit.framework.Assert.*;
+
+import static org.fest.assertions.condition.DoesNotHave.doesNotHave;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.junit.Test;
 
 /**
- * Tests for <code>{@link HasNot#hasNot(Condition)}</code>.
- *
+ * Tests for <code>{@link Not#matches(Object)}</code>.
+ * 
  * @author Nicolas François
  */
-public class HasNot_with_condition {
+public class DoesNotHave_matches_Test {
+
+	private TestCondition<Object> condition;
+	private Condition<Object> doesNotHave;
+
+	@Before
+	public void setUp() {
+		condition = new TestCondition<Object>();
+		doesNotHave = doesNotHave(condition);
+	}
 
 	@Test
-	public void should_create_new_hasNot_with_passed_Conditions() {
-		TestCondition<Object> condition = new TestCondition<Object>();
-		Condition<Object> created = hasNot(condition);
-		assertEquals(HasNot.class, created.getClass());
-		HasNot<Object> hasNot = (HasNot<Object>) created;
-		assertEquals(condition, hasNot.condition);
+	public void should_match_if_Condition_not_match() {
+		condition.shouldMatch(false);
+		assertTrue(doesNotHave.matches("Yoda"));
+	}
+
+	@Test
+	public void should_not_match_Conditions_match() {
+		condition.shouldMatch(true);
+		assertFalse(doesNotHave.matches("Yoda"));
 	}
 
 }
