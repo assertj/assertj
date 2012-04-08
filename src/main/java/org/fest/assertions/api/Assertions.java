@@ -1,15 +1,15 @@
 /*
  * Created on Sep 30, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -22,13 +22,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.fest.assertions.data.MapEntry;
+import org.fest.assertions.groups.Properties;
 import org.fest.assertions.util.ImageReader;
 
 /**
- * Entry point for assertion methods for different data types. Each method in this class is a static
- * factory for the type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
+ * type-specific assertion objects. The purpose of this class is to make test code more readable.
  * <p>
  * For example:
+ * 
  * <pre>
  * int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
@@ -37,7 +40,7 @@ import org.fest.assertions.util.ImageReader;
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
  * </pre>
  * </p>
- *
+ * 
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -200,7 +203,7 @@ public class Assertions {
   public static InputStreamAssert assertThat(InputStream actual) {
     return new InputStreamAssert(actual);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    * @param actual the actual value.
@@ -372,6 +375,84 @@ public class Assertions {
     return new ThrowableAssert(actual);
   }
 
+  // -------------------------------------------------------------------------------------------------
+  // fail methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // -------------------------------------------------------------------------------------------------
+
+  /**
+   * Only delegate to {@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full
+   * feature entry point to all Fest Assert features (but you can use Fail if you prefer).
+   */
+  public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
+    Fail.setRemoveFestRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
+  }
+
+  /**
+   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use Fail if you prefer).
+   */
+  public static void fail(String failureMessage) {
+    Fail.fail(failureMessage);
+  }
+
+  /**
+   * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
+   * Fest Assert features (but you can use Fail if you prefer).
+   */
+  public static void fail(String failureMessage, Throwable realCause) {
+    Fail.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
+   * entry point to all Fest Assert features (but you can use Fail if you prefer).
+   */
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
+    Fail.failBecauseExceptionWasNotThrown(exceptionClass);
+  }
+
+  // ------------------------------------------------------------------------------------------------------
+  // properties methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // ------------------------------------------------------------------------------------------------------
+
+  /**
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
+   * all Fest Assert features (but you can use Fail if you prefer).
+   * <p>
+   * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
+   * <pre>
+   * // extract simple property values having a java standard type (here String)
+   * assertThat(extractProperty("name").from(fellowshipOfTheRing)).contains("Boromir", "Gandalf", "Frodo", "Legolas")
+   *                                                              .doesNotContain("Sauron", "Elrond");
+   *                                                              
+   * // extracting property works also with user's types (here Race)
+   * assertThat(extractProperty("race").from(fellowshipOfTheRing)).contains(HOBBIT, ELF).doesNotContain(ORC);
+   * 
+   * // extract nested property on Race
+   * assertThat(extractProperty("race.name").from(fellowshipOfTheRing)).contains("Hobbit", "Elf").doesNotContain("Orc");
+   * </pre>
+   */
+  public static Properties extractProperty(String propertyName) {
+    return Properties.extractProperty(propertyName);
+  }
+
+  // ------------------------------------------------------------------------------------------------------
+  // Map utility methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // ------------------------------------------------------------------------------------------------------
+
+  /**
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
+   * all Fest Assert features (but you can use Fail if you prefer).
+   * <p>
+   * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
+   * <pre>
+   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
+   * </pre>
+   */
+  public static MapEntry entry(Object key, Object value) {
+    return MapEntry.entry(key, value);
+  }
+  
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }
