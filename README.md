@@ -8,4 +8,7 @@ IDE will show you all the assertions available for the type of the given object 
 order of the "expected" and "actual" values. Our assertions are very readable as well: they read very close to plain 
 English, making it easier for non-technical people to read test code.
 
-For more details please visit [FEST's home page](http://fest.easytesting.org).
+For more details please visit :
+
+* [FEST's github wiki](https://github.com/alexruiz/fest-assert-2.x/wiki) for the most up to date documentation (work in progress but worth a look !).
+* [FEST's home page](http://fest.easytesting.org).
