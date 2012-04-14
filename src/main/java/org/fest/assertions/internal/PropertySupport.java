@@ -15,9 +15,10 @@
 package org.fest.assertions.internal;
 
 import static java.util.Arrays.asList;
-import static java.util.Collections.*;
-
-import static org.fest.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+import static org.fest.util.Collections.isEmpty;
+import static org.fest.util.Collections.nonNullElements;
 import static org.fest.util.Introspection.descriptorForProperty;
 
 import java.beans.PropertyDescriptor;
@@ -33,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Joel Costigliola
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class PropertySupport {
 
@@ -110,6 +112,34 @@ public class PropertySupport {
   public static List<Object> propertyValuesOf(String propertyName, Object[] target) {
     return instance().propertyValues(propertyName, asList(target));
   }
+  
+  /**
+   * Static varient of {@link #propertyValue(String, Object, Class)}  for synthetic sugar.
+   * <p>
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
+   * @param target the given object
+   * @param clazz type of property
+   * @return a the values of the given property name
+   * @throws IntrospectionError if the given target does not have a property with a matching name.
+   */
+  public static <T>  T propertyValueOf(String propertyName, Object target, Class<T> clazz){
+	  return instance().propertyValue(propertyName, target, clazz);
+  }
+  
+  /**
+   * Return the value of property from a target object.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
+   * @param target the given object
+   * @param clazz type of property
+   * @return a the values of the given property name
+   * @throws IntrospectionError if the given target does not have a property with a matching name.
+   */
+  @SuppressWarnings("unchecked")
+  public <T>  T propertyValue(String propertyName, Object target, Class<T> clazz){
+	  return  (T) propertyValue(propertyName, target);
+  }  
 
   private List<Object> simplePropertyValues(String propertyName, Collection<?> target) {
     List<Object> propertyValues = new ArrayList<Object>();

@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import org.fest.util.IntrospectionError;
+
 /**
  * Assertion methods for {@code Object}s.
  * <p>
@@ -22,6 +24,7 @@ package org.fest.assertions.api;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
 
@@ -55,4 +58,47 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
     objects.assertIsInstanceOfAny(info, actual, types);
     return this;
   }
+  
+  /**
+   * Assert that the given object is lenient equals by ignoring null fields value on other object.
+   * @param other the object to compare {@code actual} to.
+   * @throws NullPointerException if the actual type is {@code null}.
+   * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */  
+  public ObjectAssert isLenientEqualsToByIgnoringNullFields(Object other){
+	  objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
+	  return this;
+  }
+  
+  /**
+   * Assert that the given object is lenient equals by accepting fields.
+   * @param other the object to compare {@code actual} to.
+   * @param fields accepted fields for lenient equality.
+   * @throws NullPointerException if the actual type is {@code null}.
+   * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws IntrospectionError if a field does not exist in actual.
+   */  
+  public ObjectAssert isLenientEqualsToByAcceptingFields(Object other, String... fields){
+	  objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, fields);
+	  return this;
+  }
+  
+  /**
+   * Assert that the given object is lenient equals by ignoring fields.
+   * @param other the object to compare {@code actual} to.
+   * @param fields ignored fields for lenient equality.
+   * @throws NullPointerException if the actual type is {@code null}.
+   * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */  
+  public ObjectAssert isLenientEqualsToByIgnoringFields(Object other, String... fields){
+	  objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
+	  return this;
+  }  
+  
 }
