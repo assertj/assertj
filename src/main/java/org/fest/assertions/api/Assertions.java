@@ -18,10 +18,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.fest.assertions.condition.AnyOf;
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.groups.Properties;
 import org.fest.assertions.util.ImageReader;
@@ -420,6 +423,7 @@ public class Assertions {
    * all Fest Assert features (but you can use Fail if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
+   * 
    * <pre>
    * // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty("name").from(fellowshipOfTheRing)).contains("Boromir", "Gandalf", "Frodo", "Legolas")
@@ -441,10 +445,11 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use Fail if you prefer).
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
+   * Fest Assert features (but you can use Fail if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
+   * 
    * <pre>
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </pre>
@@ -452,7 +457,37 @@ public class Assertions {
   public static MapEntry entry(Object key, Object value) {
     return MapEntry.entry(key, value);
   }
-  
+
+  // ------------------------------------------------------------------------------------------------------
+  // Condition methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // ------------------------------------------------------------------------------------------------------
+  /**
+   * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use AnyOf if you prefer).
+   * <p>
+   * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
+   * 
+   * <pre>
+   * assertThat("Vader").is(anyOf(jedi, sith));
+   * </pre>
+   * See 
+   */
+  public static <T> Condition<T> anyOf(Condition<T>... conditions) {
+    return AnyOf.anyOf(conditions);
+  }
+
+  /**
+   * Creates a new <code>{@link AnyOf}</code>
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
+   * @throws NullPointerException if the given collection is {@code null}.
+   * @throws NullPointerException if any of the elements in the given collection is {@code null}.
+   */
+  public static <T> Condition<T> anyOf(Collection<Condition<T>> conditions) {
+    return AnyOf.anyOf(conditions);
+  }
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }
