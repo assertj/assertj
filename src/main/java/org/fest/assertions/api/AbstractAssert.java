@@ -164,8 +164,11 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
     return myself;
   }
 
-  @VisibleForTesting
-  final String descriptionText() {
+  /**
+   * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
+   * @return the description String representation of this assertion. 
+   */
+  public final String descriptionText() {
     return info.descriptionText();
   }
 
