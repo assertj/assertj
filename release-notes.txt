@@ -1,0 +1,44 @@
+Not yet released but done
+-------------------------
+
+
+
+2.0M2 release notes 
+-------------------
+- github#9 : Allow custom assertions to have access to their description using descriptionText()
+
+
+2.0M1 release notes 
+-------------------
+
+- Date assertions : 28 assertions !
+- Using a custom comparator instead of equals() to compare objects in assertions
+- Assertions class now exposes all assertions related API : assertThat, fail API, entry for Map assertions and anyOf condition
+- Richer conditions : has, are, areAtLeast, areAtMost, ...
+- OR assertions with anyOf conditions
+- isEqualTo assertion error message improvement
+- Iterable assertions
+- InputStream assertions
+- 3 new exception assertions : hasMessageStartingWith, hasMessageContaining, hasMessageEndingWith
+- When an assertion fails, the exception stack is filtered to avoidshowing fest stack trace elements
+- New List and array assertion : isSorted
+- isGreaterThan, isLessThan, isGreaterThanOrEqualTo and isLessThanOrEqualTo work now with primitive wrappers
+- Fail API : fail() method removed
+- Fail API learned failBecauseExceptionWasNotThrown(exception class)
+- New collection/array assertions : containsNull, doesNotContainNull
+- New collection assertions : isSubsetOf
+
+Jira release note :
+http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=11920&version=18363
+
+
+1.4 -> 2.0 Breaking changes
+---------------------------
+
+- the package change, API is now in org.fest.assertions.api
+- satisfies() method has been replaced by is() or has() - pick the one you prefer
+- fail() method replaced by failBecauseExceptionWasNotThrown(exceptionclass).
+- onProperty feature becomes extractPropertie("propName").from(collection)
+- the class you must inherit from when writing your own assertionclass.
+- description() in 1.4 becormes descriptionText() in 2.0
+
