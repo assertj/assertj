@@ -25,7 +25,9 @@ import java.util.Map;
 
 import org.fest.assertions.condition.AnyOf;
 import org.fest.assertions.core.Condition;
+import org.fest.assertions.data.Index;
 import org.fest.assertions.data.MapEntry;
+import org.fest.assertions.data.Offset;
 import org.fest.assertions.groups.Properties;
 import org.fest.assertions.util.ImageReader;
 
@@ -384,7 +386,7 @@ public class Assertions {
 
   /**
    * Only delegate to {@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full
-   * feature entry point to all Fest Assert features (but you can use Fail if you prefer).
+   * feature entry point to all Fest Assert features (but you can use {@link Fail} if you prefer).
    */
   public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
     Fail.setRemoveFestRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
@@ -420,7 +422,7 @@ public class Assertions {
 
   /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use Fail if you prefer).
+   * all Fest Assert features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * 
@@ -441,12 +443,12 @@ public class Assertions {
   }
 
   // ------------------------------------------------------------------------------------------------------
-  // Map utility methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // Data utility methods : not assertions but here to have a single entry point to all Fest Assert features.
   // ------------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
-   * Fest Assert features (but you can use Fail if you prefer).
+   * Fest Assert features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * 
@@ -458,19 +460,63 @@ public class Assertions {
     return MapEntry.entry(key, value);
   }
 
+  /**
+   * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Index} if you prefer).
+   * <p>
+   * Typical usage :
+   * 
+   * <pre>
+   * List<Ring> elvesRings = list(vilya, nenya, narya);
+   * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
+   * </pre>
+   */
+  public static Index atIndex(int index) {
+    return Index.atIndex(index);
+  }
+
+  /**
+   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Offset} if you prefer).
+   * <p>
+   * Typical usage :
+   * 
+   * <pre>
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   * </pre>
+   */
+  public static Offset<Double> offset(Double value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Offset} if you prefer).
+   * <p>
+   * Typical usage :
+   * 
+   * <pre>
+   * assertThat(8.2f).isEqualTo(8.0f, offset(0.2f));
+   * </pre>
+   */
+  public static Offset<Float> offset(Float value) {
+    return Offset.offset(value);
+  }
+  
+  
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all Fest Assert features.
   // ------------------------------------------------------------------------------------------------------
+  
   /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use AnyOf if you prefer).
+   * Assert features (but you can use {@link AnyOf} if you prefer).
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * 
    * <pre>
    * assertThat("Vader").is(anyOf(jedi, sith));
    * </pre>
-   * See 
    */
   public static <T> Condition<T> anyOf(Condition<T>... conditions) {
     return AnyOf.anyOf(conditions);
@@ -486,7 +532,7 @@ public class Assertions {
    */
   public static <T> Condition<T> anyOf(Collection<Condition<T>> conditions) {
     return AnyOf.anyOf(conditions);
-  }
+  }  
 
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
