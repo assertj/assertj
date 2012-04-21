@@ -1,5 +1,5 @@
-Not yet released but done
--------------------------
+Shipped in the next release
+---------------------------
 
 
 
@@ -40,5 +40,5 @@ http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=11920&version=18363
 - fail() method replaced by failBecauseExceptionWasNotThrown(exceptionclass).
 - onProperty feature becomes extractPropertie("propName").from(collection)
 - the class you must inherit from when writing your own assertionclass.
-- description() in 1.4 becormes descriptionText() in 2.0
-
+- description() in 1.4 becomes descriptionText() in 2.0
+- delta() in 1.4 becomes offset() in 2.0
