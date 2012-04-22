@@ -36,8 +36,9 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public abstract class AbstractAssert<S, A> implements Assert<S, A> {
+public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implements Assert<S, A> {
 
   @VisibleForTesting
   Objects objects = Objects.instance();
@@ -53,8 +54,9 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   protected final A actual;
   protected final S myself;
 
-  protected AbstractAssert(A actual, Class<S> selfType) {
-    myself = selfType.cast(this);
+  @SuppressWarnings("unchecked")
+  protected AbstractAssert(A actual, Class<?> selfType) {
+    myself = (S) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo();
   }

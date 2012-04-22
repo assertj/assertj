@@ -24,11 +24,12 @@ import org.fest.assertions.core.UnevenComparableAssert;
  * @param <A> the type of the "actual" value.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public abstract class AbstractUnevenComparableAssert<S, A extends Comparable<A>> extends
-    AbstractComparableAssert<S, A> implements UnevenComparableAssert<S, A> {
+public abstract class AbstractUnevenComparableAssert<S extends AbstractUnevenComparableAssert<S, A>, A extends Comparable<A>>
+    extends AbstractComparableAssert<S, A> implements UnevenComparableAssert<S, A> {
 
-  protected AbstractUnevenComparableAssert(A actual, Class<S> selfType) {
+  protected AbstractUnevenComparableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 

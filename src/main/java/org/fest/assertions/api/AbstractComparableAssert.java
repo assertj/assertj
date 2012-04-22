@@ -28,12 +28,14 @@ import org.fest.util.*;
  * @param <A> the type of the "actual" value.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public abstract class AbstractComparableAssert<S, A extends Comparable<A>> extends AbstractAssert<S, A> implements ComparableAssert<S, A> {
+public abstract class AbstractComparableAssert<S extends AbstractComparableAssert<S, A>, A extends Comparable<A>>
+    extends AbstractAssert<S, A> implements ComparableAssert<S, A> {
 
   @VisibleForTesting Comparables comparables = Comparables.instance();
 
-  protected AbstractComparableAssert(A actual, Class<S> selfType) {
+  protected AbstractComparableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
