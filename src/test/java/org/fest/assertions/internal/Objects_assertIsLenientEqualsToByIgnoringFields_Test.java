@@ -14,10 +14,10 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeLenientEqual.shouldBeLenientEqual;
+import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -53,7 +53,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
   @Test public void should_pass_when_different_field_is_not_accepted() {
 	 Jedi actual = new Jedi("Yoda", "Green");
 	 Jedi other = new Jedi("Yoda", "Blue");
-	 objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "lightsaberColor");	 
+	 objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "lightSaberColor");	 
   }
   
   @Test public void should_pass_when_value_is_null() {
@@ -68,9 +68,11 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
     Jedi other = new Jedi("Yoda", "Blue");
     try {
       objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");	
-      fail();
-    } catch (AssertionError err) {}
-    verify(failures).failure(info, shouldBeLenientEqual(actual, list("lightsaberColor"), list((Object) "Blue"))); 
+    } catch (AssertionError err) {
+    	verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Blue"), list("name"))); 
+    	return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   } 
 
   @Test public void should_fail_when_different_type() {
@@ -79,9 +81,11 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
     Employee other = new Employee();
     try {
       objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
-      fail();
-    } catch (AssertionError err) {}
-    verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass())); 
+    } catch (AssertionError err) {
+    	verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass())); 
+    	return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }   
   
 }

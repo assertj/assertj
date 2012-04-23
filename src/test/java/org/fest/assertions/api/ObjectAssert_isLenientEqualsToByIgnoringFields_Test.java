@@ -42,13 +42,13 @@ public class ObjectAssert_isLenientEqualsToByIgnoringFields_Test {
 
   @Test public void should_verify_that_actual_is_instance_of_type() {
 	Object other = new Jedi("Yoda", "Blue");
-    assertions.isLenientEqualsToByIgnoringFields(other, "lightsaberColor");
-    verify(objects).assertIsLenientEqualsToByIgnoringFields(assertions.info, assertions.actual, other, "lightsaberColor");
+    assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
+    verify(objects).assertIsLenientEqualsToByIgnoringFields(assertions.info, assertions.actual, other, "lightSaberColor");
   }
 
   @Test public void should_return_this() {
 	Object other = new Jedi("Yoda", "Blue");
-    ObjectAssert returned = assertions.isLenientEqualsToByIgnoringFields(other, "lightsaberColor");
+    ObjectAssert returned = assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
     assertSame(assertions, returned);
   }
 }

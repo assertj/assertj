@@ -18,12 +18,14 @@ import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
-import static org.fest.assertions.error.ShouldBeLenientEqual.shouldBeLenientEqual;
+import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
+import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
+import static org.fest.util.Collections.list;
 import static org.fest.util.Collections.set;
 import static org.fest.util.ToString.toStringOf;
 
@@ -317,6 +319,7 @@ public class Objects {
 	assertIsInstanceOf(info, other, actual.getClass());
 	List<String> fieldsNames = new LinkedList<String>();
 	List<Object> values = new LinkedList<Object>();
+	List<String> nullFields = new LinkedList<String>();
 	for (Field field : actual.getClass().getDeclaredFields()) {
 		try {
 			Object otherFieldValue = propertySupport.propertyValue(field.getName(), other, field.getType());
@@ -326,13 +329,15 @@ public class Objects {
 					fieldsNames.add(field.getName());
 					values.add(otherFieldValue);
 				}
+			} else {
+				nullFields.add(field.getName());
 			}
 		} catch (IntrospectionError e) {
 			// Not readeable field, skip.
 		}
 	}
 	if(fieldsNames.isEmpty()) return;
-	throw failures.failure(info,shouldBeLenientEqual(actual, fieldsNames, values));	  
+	throw failures.failure(info, shouldBeLenientEqualByIgnoring (actual, fieldsNames, values, nullFields));	  
   }
   
   /**
@@ -360,7 +365,7 @@ public class Objects {
 		}
 	}
 	if(fieldsNames.isEmpty()) return;
-	throw failures.failure(info,shouldBeLenientEqual(actual, fieldsNames, values));	  
+	throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));	  
   }
 
   /**
@@ -396,6 +401,6 @@ public class Objects {
 			}
 		}		
 		if(fieldsNames.isEmpty()) return;
-		throw failures.failure(info,shouldBeLenientEqual(actual, fieldsNames, values));	 		
+		throw failures.failure(info,shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, list(fields)));	 		
 	}  
 }

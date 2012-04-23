@@ -15,15 +15,16 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.ShouldBeLenientEqual.shouldBeLenientEqual;
+import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
+import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.ShouldBeInstance;
 import org.fest.assertions.test.Employee;
 import org.fest.assertions.test.Jedi;
 import org.fest.util.IntrospectionError;
@@ -49,7 +50,7 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
   @Test public void should_pass_when_same_fields() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightsaberColor");
+    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
   }
   
   @Test public void should_pass_when_different_field_is_not_accepted() {
@@ -61,7 +62,7 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
   @Test public void should_pass_when_value_is_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightsaberColor");	
+    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");	
   } 
   
   @Test public void should_fail_when_a_field_is_not_same() {
@@ -69,10 +70,12 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightsaberColor");	
-      fail();
-    } catch (AssertionError err) {}
-    verify(failures).failure(info, shouldBeLenientEqual(actual, list("lightsaberColor"), list((Object) "Blue"))); 
+      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");	
+    } catch (AssertionError err) {
+    	verify(failures).failure(info, shouldBeLenientEqualByAccepting(actual, list("lightSaberColor"), list((Object) "Blue"), list("name", "lightSaberColor"))); 
+    	return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   } 
 
   @Test public void should_fail_when_different_type() {
@@ -81,9 +84,11 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
     Employee other = new Employee();
     try {
       objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name");
-      fail();
-    } catch (AssertionError err) {}
-    verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass())); 
+    } catch (AssertionError err) {
+    	verify(failures).failure(info, shouldBeInstance(other, actual.getClass())); 
+    	return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }   
   
   @Test public void should_fail_when_unexist_field() {
@@ -92,11 +97,12 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
     Jedi other = new Jedi("Yoda", "Blue");
     try {
       objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "age");
-      fail("expecting an IntrospectionError to be thrown");
     } catch (IntrospectionError expected) {
       String msg = String.format("No getter for property '%s' in %s", "age", actual.getClass().getName());
       assertEquals(msg, expected.getMessage());
+      return;
     }
+    fail("expecting an IntrospectionError to be thrown");
   }  
  
 }

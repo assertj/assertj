@@ -23,13 +23,13 @@ package org.fest.assertions.test;
 public class Jedi {
 	
 	private String name;
-	private String lightsaberColor;
+	private String lightSaberColor;
 	@SuppressWarnings("unused")
 	private Object strangeNotReadablePrivateField;
 	
-	public Jedi(String name, String lightsaberColor) {
+	public Jedi(String name, String lightSaberColor) {
 		this.name = name;
-		this.lightsaberColor = lightsaberColor;
+		this.lightSaberColor = lightSaberColor;
 	}
 	
 	public String getName() {
@@ -37,8 +37,8 @@ public class Jedi {
 	}
 	
 	
-	public String getLightsaberColor() {
-		return lightsaberColor;
+	public String getLightSaberColor() {
+		return lightSaberColor;
 	}
 	
 	@Override

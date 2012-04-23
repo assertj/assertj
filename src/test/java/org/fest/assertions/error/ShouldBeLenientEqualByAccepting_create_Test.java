@@ -1,5 +1,5 @@
 /*
- * Created on Mar 19, 2012
+ * Created on Apr 23, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.assertions.error.ShouldBeLenientEqual.shouldBeLenientEqual;
+import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.util.Collections.list;
 import static org.junit.Assert.assertEquals;
 
@@ -24,24 +24,24 @@ import org.fest.assertions.test.Jedi;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeLenientEqual#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeLenientEqualByIgnoring#create(Description)}</code>.
  *
  * @author Nicolas François
  */
-public class ShouldBeLenientEqual_create_Test {
+public class ShouldBeLenientEqualByAccepting_create_Test {
 
 	  private ErrorMessageFactory factory;
 
-	  @Test public void should_create_error_message_plurial() {
-		  factory = shouldBeLenientEqual(new Jedi("Yoda","green"), list("name", "lightsaberColor"), list((Object)"Yoda", (Object)"green"));
+	  @Test public void should_create_error_message_with_all_fields_differences() {
+		  factory = shouldBeLenientEqualByAccepting(new Jedi("Yoda","green"), list("name", "lightSaberColor"), list((Object)"Yoda", (Object)"green"), list("lightSaberColor"));
 		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected values <['Yoda', 'green']> in fields <['name', 'lightsaberColor']> of <Yoda the Jedi>", message);
+		  assertEquals("[Test] expected values <['Yoda', 'green']> in fields <['name', 'lightSaberColor']> of <Yoda the Jedi>, comparison was performed on fields <['lightSaberColor']>", message);
 	  }	
 	 
-	  @Test public void should_create_error_message_singular() {
-		  factory = shouldBeLenientEqual(new Jedi("Yoda","green"), list("lightsaberColor"), list((Object)"green"));
+	  @Test public void should_create_error_message_with_single_field_difference() {
+		  factory = shouldBeLenientEqualByAccepting(new Jedi("Yoda","green"), list("lightSaberColor"), list((Object)"green"), list("lightSaberColor"));
 		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected value <'green'> in field <'lightsaberColor'> of <Yoda the Jedi>", message);
+		  assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>, comparison was performed on fields <['lightSaberColor']>", message);
 	  }		  
 	  
 }
