@@ -1,15 +1,15 @@
 /*
  * Created on Dec 26, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -21,7 +21,7 @@ import org.fest.util.IntrospectionError;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Object)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -54,14 +54,17 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
-  public ObjectAssert isInstanceOfAny(Class<?>...types) {
+  public ObjectAssert isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
     return this;
   }
-  
+
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and not null other fields 
-   * (i.e. if an actual field is not null and the corresponding field in other is null, then assertion will fail).
+   * Assert that the actual object is lenient equals to given one by only comparing actual and <b>not null</b> other
+   * fields.
+   * <p>
+   * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by
+   * lenient comparison, but the inverse will make assertion fail (null field in actual, not null in other).
    * 
    * <pre>
    * Example: 
@@ -69,9 +72,10 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT); 
    * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT); 
    * 
-   * // Null fields in expected object are ignored, the mysteriousHobbit has null name
+   * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
    * assertThat(frodo).isLenientEqualsToByIgnoringNullFields(mysteriousHobbit); //=> OK
-   * // ... But the lenient equality is not reversible !
+   * 
+   * // ... but the lenient equality is not reversible !
    * assertThat(mysteriousHobbit).isLenientEqualsToByIgnoringNullFields(frodo); //=> FAIL
    * 
    * </pre>
@@ -81,14 +85,15 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
-   */  
-  public ObjectAssert isLenientEqualsToByIgnoringNullFields(Object other){
-	  objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
-	  return this;
+   */
+  public ObjectAssert isLenientEqualsToByIgnoringNullFields(Object other) {
+    objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
+    return this;
   }
-  
+
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given "accepted" fields.
+   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given
+   * "accepted" fields only.
    * 
    * <pre>
    * Example: 
@@ -98,7 +103,8 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * 
    * // frodo and sam both are hobbits, so they are lenient equals on race
    * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, "race"); //=> OK
-   * // but not when accepting name and race
+   * 
+   * // ... but not when accepting name and race
    * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, "name", "race"); //=> FAIL
    * 
    * </pre>
@@ -110,14 +116,15 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
-   */  
-  public ObjectAssert isLenientEqualsToByAcceptingFields(Object other, String... fields){
-	  objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, fields);
-	  return this;
+   */
+  public ObjectAssert isLenientEqualsToByAcceptingFields(Object other, String... fields) {
+    objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, fields);
+    return this;
   }
-  
+
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and other fields unless the given "ignored" fields.
+   * Assert that the actual object is lenient equals to given one by comparing actual and other fields except the given
+   * "ignored" fields.
    * 
    * <pre>
    * Example: 
@@ -125,9 +132,10 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT); 
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT); 
    * 
-   * // Except name and age, frodo and sam both are hobbits, so they are lenient equals ignoring name and age
+   * // frodo and sam both are lenient equals ignoring name and age since only remaining property is race and frodo and sam both are HOBBIT
    * assertThat(frodo).isLenientEqualsToByIgnoringFields(sam, "name", "age"); //=> OK
-   * // But not when juste age is ignore
+   * 
+   * // ... but they are not lenient equals if only age is ignored because their names differ.
    * assertThat(frodo).isLenientEqualsToByIgnoringFields(sam, "age"); //=> FAIL
    * 
    * </pre>
@@ -138,10 +146,10 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
-   */  
-  public ObjectAssert isLenientEqualsToByIgnoringFields(Object other, String... fields){
-	  objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
-	  return this;
-  }  
-  
+   */
+  public ObjectAssert isLenientEqualsToByIgnoringFields(Object other, String... fields) {
+    objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
+    return this;
+  }
+
 }

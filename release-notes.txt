@@ -1,10 +1,12 @@
-Shipped in the next release
----------------------------
+For the next release
+--------------------
 
+- FEST-470 Lenient Equals (allows pecifying on which properties equals should be perfomed)
 
 
 2.0M2 release notes 
 -------------------
+
 - github#9 : Allow custom assertions to have access to their description using descriptionText()
 
 
@@ -32,13 +34,7 @@ Jira release note :
 http://jira.codehaus.org/secure/ReleaseNote.jspa?projectId=11920&version=18363
 
 
-1.4 -> 2.0 Breaking changes
----------------------------
-
-- the package change, API is now in org.fest.assertions.api
-- satisfies() method has been replaced by is() or has() - pick the one you prefer
-- fail() method replaced by failBecauseExceptionWasNotThrown(exceptionclass).
-- onProperty feature becomes extractPropertie("propName").from(collection)
-- the class you must inherit from when writing your own assertionclass.
-- description() in 1.4 becomes descriptionText() in 2.0
-- delta() in 1.4 becomes offset() in 2.0
+1.4 -> 2.0 Migration guide
+--------------------------
+Migration steps are detailed in Fest Assertions github wiki :
+https://github.com/alexruiz/fest-assert-2.x/wiki/Migrating-from-fest-assert-1.4
