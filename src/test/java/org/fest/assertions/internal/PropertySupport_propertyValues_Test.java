@@ -14,21 +14,28 @@
  */
 package org.fest.assertions.internal;
 
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.util.Collections.list;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-import org.fest.assertions.test.*;
+import org.fest.assertions.test.Employee;
+import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.test.Name;
 import org.fest.util.IntrospectionError;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
  *
  * @author Yvonne Wang
+ * @author Nicolas François
  */
 public class PropertySupport_propertyValues_Test {
 
@@ -80,5 +87,10 @@ public class PropertySupport_propertyValues_Test {
   @Test public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
     propertySupport.propertyValues("id.", employees);
+  }
+  
+  @Test public void should_extract_property(){
+	  long id = propertySupport.propertyValue("id", yoda, long.class);
+	  assertEquals(6000L, id);
   }
 }
