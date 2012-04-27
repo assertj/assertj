@@ -36,7 +36,7 @@ import org.fest.util.VisibleForTesting;
  * @author Mathieu Baechler
  * @author Joel Costigliola
  * @author Maciej Jaskowski
- * @author Nicolas François 
+ * @author Nicolas François
  */
 public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends AbstractAssert<S, A> implements
     ObjectEnumerableAssert<S> {
@@ -65,9 +65,21 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
 
   /** {@inheritDoc} */
   public final S hasSize(int expected) {
-    iterables.assertHasSize(info, actual, expected);
+    iterables.assertHasSizeAs(info, actual, expected);
     return myself;
   }
+  
+  /** {@inheritDoc} */  
+  public S hasSameSizeAs(Object[] other) {
+    iterables.assertHasSameSizeAs(info, actual, other);
+	return myself;
+  }
+  
+  /** {@inheritDoc} */  
+  public S hasSameSizeAs(Iterable<?> other) {
+    iterables.assertHasSameSizeAs(info, actual, other);
+	return myself;
+  }  
 
   /** {@inheritDoc} */
   public final S contains(Object... values) {

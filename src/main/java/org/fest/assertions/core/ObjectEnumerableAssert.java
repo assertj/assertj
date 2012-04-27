@@ -121,6 +121,26 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   S doesNotContainNull();
   
   /**
+   * Verifies that the actual group has the same size that another group.
+   * @param the array to compare size with
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  S hasSameSizeAs(Object[] other);
+  
+  /**
+   * Verifies that the actual group has the same size that another group.
+   * @param the iterable to compare size with
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  S hasSameSizeAs(Iterable<?> other);  
+  
+  /**
    * Verifies that each element value satisfies the given condition
    * @param condition the given condition.
    * @return {@code this} object.
@@ -256,6 +276,6 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
   /**
    * This method is an alias {@link #areNotExactly(int, Condition)}.
    */  
-  <E> S doNotHaveExactly(int n, Condition<E> condition);     
-
+  <E> S doNotHaveExactly(int n, Condition<E> condition); 
+  
 }

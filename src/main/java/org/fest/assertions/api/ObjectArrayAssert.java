@@ -67,6 +67,18 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ObjectArrayAssert hasSameSizeAs(Object[] other) {
+    arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public ObjectArrayAssert hasSameSizeAs(Iterable<?> other) {
+    arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }  
 
   /** {@inheritDoc} */
   public ObjectArrayAssert contains(Object... values) {

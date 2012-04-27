@@ -108,6 +108,34 @@ public class ObjectArrays {
   public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
     arrays.assertHasSize(info, failures, actual, expectedSize);
   }
+  
+  /**
+   * Assert that the actual group has the same size that another group.
+   * @param info contains information about the assertion.
+   * @param actual the given iterable.
+   * @param other the group to compare 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Iterable<?> other) {
+    arrays.assertHasSameSizeAs(info, failures, actual, other);
+  }
+  
+  /**
+   * Assert that the actual group has the same size that another group.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param other the group to compare 
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Object[] other) {
+    arrays.assertHasSameSizeAs(info, failures, actual, other);
+  }  
 
   /**
    * Asserts that the given array contains the given values, in any order.
@@ -469,4 +497,5 @@ public class ObjectArrays {
       Comparator<? extends Object> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
+
 }
