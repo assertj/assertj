@@ -19,6 +19,7 @@ import static org.fest.util.ToString.toStringOf;
 /**
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Nicolas François
  */
 public final class ErrorMessages {
 
@@ -30,12 +31,12 @@ public final class ErrorMessages {
     return "The given array should not be empty";
   }
 
-  public static String collectionIsNull() {
-    return "The given collection should not be null";
+  public static String iterableIsNull() {
+    return "The given iterable should not be null";
   }
 
-  public static String collectionIsEmpty() {
-    return "The given collection should not be empty";
+  public static String iterableIsEmpty() {
+    return "The given iterable should not be empty";
   }
 
   public static String descriptionIsNull() {

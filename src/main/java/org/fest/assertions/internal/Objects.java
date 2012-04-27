@@ -30,7 +30,6 @@ import static org.fest.util.Collections.set;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -266,12 +265,12 @@ public class Objects {
    * Asserts that the given object is present in the given collection.
    * @param info contains information about the assertion.
    * @param actual the given object.
-   * @param values the given collection.
+   * @param values the given iterable.
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is not present in the given collection.
    */
-  public void assertIsIn(AssertionInfo info, Object actual, Collection<?> values) {
+  public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
@@ -283,23 +282,23 @@ public class Objects {
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given collection.
-   * @throws NullPointerException if the given collection is {@code null}.
+   * @throws NullPointerException if the given iterable is {@code null}.
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is present in the given collection.
    */
-  public void assertIsNotIn(AssertionInfo info, Object actual, Collection<?> values) {
+  public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) return;
     throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
-  private void checkIsNotNullAndNotEmpty(Collection<?> values) {
-    if (values == null) throw new NullPointerException("The given collection should not be null");
-    if (values.isEmpty()) throw new IllegalArgumentException("The given collection should not be empty");
+  private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
+    if (values == null) throw new NullPointerException("The given iterable should not be null");
+    if (!values.iterator().hasNext()) throw new IllegalArgumentException("The given iterable should not be empty");
   }
 
-  private boolean isActualIn(Object actual, Collection<?> values) {
+  private boolean isActualIn(Object actual, Iterable<?> values) {
     for (Object value : values)
       if (areEqual(value, actual)) return true;
     return false;

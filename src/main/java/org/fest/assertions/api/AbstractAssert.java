@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.api;
 
-import java.util.Collection;
 import java.util.Comparator;
 
 import org.fest.assertions.core.Assert;
@@ -36,6 +35,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public abstract class AbstractAssert<S, A> implements Assert<S, A> {
 
@@ -129,13 +129,13 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public final S isIn(Collection<?> values) {
+  public final S isIn(Iterable<?> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotIn(Collection<?> values) {
+  public final S isNotIn(Iterable<?> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
