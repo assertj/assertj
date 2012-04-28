@@ -32,7 +32,7 @@ public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends AbstractTes
   List<String> other = list("Solo, Leia");
 
   @Test
-  public void should_verify_that_actual_has_expected_size() {
+  public void should_verify_that_actual_has_same_size_as_iterable() {
 	assertions.hasSameSizeAs(other);
     verify(iterables).assertHasSameSizeAs(assertions.info, assertions.actual, other);
   }

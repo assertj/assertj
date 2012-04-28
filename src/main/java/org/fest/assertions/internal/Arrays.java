@@ -72,6 +72,7 @@ import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.error.ElementsShouldNotBeExactly;
 import org.fest.assertions.util.ArrayWrapperList;
+import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -136,7 +137,7 @@ class Arrays {
 	assertNotNull(info, array);
 	if(other == null) throw new NullPointerException("The iterable to look for should not be null");
 	int sizeOfActual = sizeOf(array);
-	int sizeOfOther = sizeOf(other);
+	int sizeOfOther = Collections.sizeOf(other);
 	if(sizeOfActual == sizeOfOther) return;
 	throw failures.failure(info, shouldHaveSameSizeAs(array, sizeOfActual, sizeOfOther));
   }
@@ -662,12 +663,4 @@ class Arrays {
     return Array.getLength(array);
   }
   
-  private static int sizeOf(Iterable<?> iterable) {
-    if (iterable == null) throw new IllegalArgumentException("iterable parameter must not be null");
-	int size = 0;
-	for (@SuppressWarnings("unused") Object object : iterable) {
-	   size++;
-	}
-	return size;
-  }  
 }

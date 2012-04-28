@@ -155,7 +155,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of elements in the given {@code Iterable} is different than the expected one.
    */
-  public void assertHasSizeAs(AssertionInfo info, Iterable<?> actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
     int sizeOfActual = sizeOf(actual);
     if (sizeOfActual == expectedSize) return;

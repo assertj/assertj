@@ -65,7 +65,7 @@ public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends 
 
   /** {@inheritDoc} */
   public final S hasSize(int expected) {
-    iterables.assertHasSizeAs(info, actual, expected);
+    iterables.assertHasSize(info, actual, expected);
     return myself;
   }
   

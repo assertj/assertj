@@ -53,7 +53,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends AbstractTest_
 	  }  
 
 	  @Test
-	  public void should_fail_if_size_of_actual_is_not_same_size_as_other() {
+	  public void should_fail_if_actual_size_is_not_equal_to_other_size() {
 	    AssertionInfo info = someInfo();
 	    Collection<String> actual = list("Yoda");
 	    String[] other = array("Solo", "Luke", "Leia");
@@ -67,7 +67,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends AbstractTest_
 	  }
 	  
 	  @Test
-	  public void should_pass_if_size_of_actual_is_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
+	  public void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
 	    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), list("Luke", "Yoda"), array("Solo", "Leia"));
 	  }
 	  
@@ -85,7 +85,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends AbstractTest_
 	  }  
 	  
 	  @Test
-	  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
+	  public void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
 	    AssertionInfo info = someInfo();
 	    Collection<String> actual = list("Yoda");
 	    String[] other = array("Solo", "Luke", "Leia");

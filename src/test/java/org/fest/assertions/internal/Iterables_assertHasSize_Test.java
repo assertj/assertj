@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 
 /**
- * Tests for <code>{@link Iterables#assertHasSizeAs(AssertionInfo, Collection, int)}</code>.
+ * Tests for <code>{@link Iterables#assertHasSize(AssertionInfo, Collection, int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -38,13 +38,13 @@ public class Iterables_assertHasSize_Test extends AbstractTest_for_Iterables {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    iterables.assertHasSizeAs(someInfo(), list("Luke", "Yoda"), 2);
+    iterables.assertHasSize(someInfo(), list("Luke", "Yoda"), 2);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    iterables.assertHasSizeAs(someInfo(), null, 8);
+    iterables.assertHasSize(someInfo(), null, 8);
   }
 
   @Test
@@ -52,7 +52,7 @@ public class Iterables_assertHasSize_Test extends AbstractTest_for_Iterables {
     AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");
     try {
-      iterables.assertHasSizeAs(info, actual, 8);
+      iterables.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
       return;
@@ -62,13 +62,13 @@ public class Iterables_assertHasSize_Test extends AbstractTest_for_Iterables {
   
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSizeAs(someInfo(), list("Luke", "Yoda"), 2);
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), list("Luke", "Yoda"), 2);
   }
   
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSizeAs(someInfo(), null, 8);
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 8);
   }
   
   @Test
@@ -76,7 +76,7 @@ public class Iterables_assertHasSize_Test extends AbstractTest_for_Iterables {
     AssertionInfo info = someInfo();
     Collection<String> actual = list("Yoda");
     try {
-      iterablesWithCaseInsensitiveComparisonStrategy.assertHasSizeAs(info, actual, 8);
+      iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
       return;

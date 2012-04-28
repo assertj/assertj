@@ -30,7 +30,7 @@ public class IterableAssert_hasSameSizeAs_with_Array_Test extends AbstractTest_f
   String[] other = array("Solo, Leia");
 
   @Test
-  public void should_verify_that_actual_has_expected_size() {
+  public void should_verify_that_actual_has_same_size_as_array() {
 	assertions.hasSameSizeAs(other);
     verify(iterables).assertHasSameSizeAs(assertions.info, assertions.actual, other);
   }

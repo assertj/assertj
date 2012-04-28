@@ -30,7 +30,7 @@ public class IterableAssert_hasSize_Test extends AbstractTest_for_IterableAssert
   @Test
   public void should_verify_that_actual_has_expected_size() {
     assertions.hasSize(6);
-    verify(iterables).assertHasSizeAs(assertions.info, assertions.actual, 6);
+    verify(iterables).assertHasSize(assertions.info, assertions.actual, 6);
   }
 
   @Test

@@ -63,7 +63,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test {
     arrays.assertHasSameSizeAs(someInfo(), actual, other);
   }
 
-  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  @Test public void should_fail_if_actual_size_is_not_equal_to_other_size() {
     AssertionInfo info = someInfo();
     String[] actual = array("Yoda");
     List<String> other = list("Solo", "Leia");
@@ -76,7 +76,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  @Test public void should_pass_if_actual_has_same_size_as_other() {
     arrays.assertHasSameSizeAs(someInfo(), array("Solo", "Leia"), list("Solo", "Leia"));
   }
 }
