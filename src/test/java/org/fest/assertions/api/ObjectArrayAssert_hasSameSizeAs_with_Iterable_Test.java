@@ -31,11 +31,11 @@ import org.junit.Test;
  *
  * @author Nicolas François
  */
-public class ObjectArrayAssert_hasSameSizeAs_Iterable_Test {
+public class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test {
 
   private ObjectArrays arrays;
   private ObjectArrayAssert assertions;
-  private List<String> other = list("Yoda");
+  private final List<String> other = list("Yoda");
 
   @Before
   public void setUp() {
@@ -45,7 +45,7 @@ public class ObjectArrayAssert_hasSameSizeAs_Iterable_Test {
   }
 
   @Test
-  public void should_verify_that_actual_has_expected_size() {
+  public void should_verify_that_actual_has_same_size_as_other() {
     assertions.hasSameSizeAs(other);
     verify(arrays).assertHasSameSizeAs(assertions.info, assertions.actual, other);
   }

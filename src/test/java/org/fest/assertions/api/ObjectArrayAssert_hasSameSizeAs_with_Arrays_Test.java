@@ -25,15 +25,15 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(int)}</code>.
+ * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(Object[]))}</code>.
  *
  * @author Nicolas François
  */
-public class ObjectArrayAssert_hasSameSizeAs_Arrays_Test {
+public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   private ObjectArrays arrays;
   private ObjectArrayAssert assertions;
-  private String[] other = array("Yoda");
+  private final String[] other = array("Yoda");
 
   @Before
   public void setUp() {
@@ -43,7 +43,7 @@ public class ObjectArrayAssert_hasSameSizeAs_Arrays_Test {
   }
 
   @Test
-  public void should_verify_that_actual_has_expected_size() {
+  public void should_verify_that_actual_has_same_size_as_other() {
     assertions.hasSameSizeAs(other);
     verify(arrays).assertHasSameSizeAs(assertions.info, assertions.actual, other);
   }

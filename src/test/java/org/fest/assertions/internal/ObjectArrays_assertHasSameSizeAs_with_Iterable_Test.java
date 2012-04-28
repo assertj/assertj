@@ -37,7 +37,7 @@ import org.junit.Test;
  *
  * @author Nicolas François
  */
-public class ObjectArrays_assertHasSameSizeAs_Iterable_Test {
+public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test {
 
   @Rule public ExpectedException thrown = none();
 

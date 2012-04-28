@@ -34,7 +34,7 @@ import org.junit.Test;
  *
  * @author Nicolas François
  */
-public class ObjectArrays_assertHasSameSizeAs_Array_Test {
+public class ObjectArrays_assertHasSameSizeAs_with_Array_Test {
 
   @Rule public ExpectedException thrown = none();
 

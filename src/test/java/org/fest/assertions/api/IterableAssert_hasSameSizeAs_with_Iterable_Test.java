@@ -27,7 +27,7 @@ import org.junit.Test;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_Iterable_Test extends AbstractTest_for_IterableAssert {
+public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends AbstractTest_for_IterableAssert {
 
   List<String> other = list("Solo, Leia");
 

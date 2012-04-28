@@ -32,7 +32,7 @@ import org.junit.Test;
  * 
  * @author Nicolas François
  */
-public class Iterables_assertHasSameSizeAs_Array_Test extends AbstractTest_for_Iterables {
+public class Iterables_assertHasSameSizeAs_with_Array_Test extends AbstractTest_for_Iterables {
 
 	  @Test
 	  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {

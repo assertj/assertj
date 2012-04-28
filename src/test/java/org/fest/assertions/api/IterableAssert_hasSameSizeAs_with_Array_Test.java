@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_Array_Test extends AbstractTest_for_IterableAssert {
+public class IterableAssert_hasSameSizeAs_with_Array_Test extends AbstractTest_for_IterableAssert {
 
   String[] other = array("Solo, Leia");
 
