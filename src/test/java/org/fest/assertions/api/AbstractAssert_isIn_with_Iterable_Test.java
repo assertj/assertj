@@ -15,31 +15,31 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
-
-import java.util.*;
-
-import org.junit.*;
+import static org.fest.util.Collections.list;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link AbstractAssert#isIn(Collection)}</code>.
+ * Tests for <code>{@link AbstractAssert#isIn(Iterable))}</code>.
  *
  * @author Yvonne Wang
  * @author Joel Costigliola
+ * @author Nicolas François
  */
-public class AbstractAssert_isIn_with_Collection_Test {
+public class AbstractAssert_isIn_with_Iterable_Test {
 
-  private static Collection<Object> values;
+  private static Iterable<?> values;
 
   private Objects objects;
   private ConcreteAssert assertions;
 
   @BeforeClass public static void setUpOnce() {
-    values = new ArrayList<Object>();
-    values.add("Yoda");
-    values.add("Luke");
+    values = list("Yoda", "Luke");
   }
 
   @Before public void setUp() {
@@ -48,7 +48,7 @@ public class AbstractAssert_isIn_with_Collection_Test {
     assertions.objects = objects;
   }
 
-  @Test public void should_verify_that_actual_is_in_Collection() {
+  @Test public void should_verify_that_actual_is_in_Iterable() {
     assertions.isIn(values);
     verify(objects).assertIsIn(assertions.info, assertions.actual, values);
   }

@@ -97,4 +97,5 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_O
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+  
 }
