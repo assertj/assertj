@@ -102,7 +102,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is not present in the given collection.
    */
-  S isIn(Iterable<?> values);
+  S isIn(Iterable<? extends A> values);
 
   /**
    * Verifies that the actual value is not present in the given collection of values.
@@ -112,7 +112,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is present in the given collection.
    */
-  S isNotIn(Iterable<?> values);
+  S isNotIn(Iterable<? extends A> values);
 
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.<br>

@@ -129,13 +129,13 @@ public abstract class AbstractAssert<S, A> implements Assert<S, A> {
   }
 
   /** {@inheritDoc} */
-  public final S isIn(Iterable<?> values) {
+  public final S isIn(Iterable<? extends A> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotIn(Iterable<?> values) {
+  public final S isNotIn(Iterable<? extends A> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }

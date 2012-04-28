@@ -270,7 +270,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is not present in the given collection.
    */
-  public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
+  public <A> void assertIsIn(AssertionInfo info, Object actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
@@ -286,7 +286,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is present in the given collection.
    */
-  public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
+  public <A> void assertIsNotIn(AssertionInfo info, Object actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) return;
@@ -298,7 +298,7 @@ public class Objects {
     if (!values.iterator().hasNext()) throw new IllegalArgumentException("The given iterable should not be empty");
   }
 
-  private boolean isActualIn(Object actual, Iterable<?> values) {
+  private <A> boolean isActualIn(Object actual, Iterable<? extends A> values) {
     for (Object value : values)
       if (areEqual(value, actual)) return true;
     return false;
