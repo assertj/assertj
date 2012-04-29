@@ -118,7 +118,7 @@ public class Comparables {
    * {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
    * values are not equal.
    */
-  public <T extends Comparable<T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
+  public <T extends Comparable<? super T>> void assertEqualByComparison(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(expected) == 0) return;
@@ -136,7 +136,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
-  public <T extends Comparable<T>> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<? super T>> void assertNotEqualByComparison(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     // we don't delagate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(other) != 0) return;
@@ -153,7 +153,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not less than the other one: this assertion will
    * fail if the actual value is equal to or greater than the other value.
    */
-  public <T extends Comparable<T>> void assertLessThan(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<? super T>> void assertLessThan(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (isLessThan(actual, other)) return;
     throw failures.failure(info, shouldBeLess(actual, other, comparisonStrategy));
@@ -168,7 +168,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the other one.
    */
-  public <T extends Comparable<T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<? super T>> void assertLessThanOrEqualTo(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (!isGreaterThan(actual, other)) return;
     throw failures.failure(info, shouldBeLessOrEqual(actual, other, comparisonStrategy));
@@ -184,7 +184,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is not greater than the other one: this assertion will
    * fail if the actual value is equal to or less than the other value.
    */
-  public <T extends Comparable<T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<? super T>> void assertGreaterThan(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (isGreaterThan(actual, other)) return;
     throw failures.failure(info, shouldBeGreater(actual, other, comparisonStrategy));
@@ -206,7 +206,7 @@ public class Comparables {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the other one.
    */
-  public <T extends Comparable<T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
+  public <T extends Comparable<? super T>> void assertGreaterThanOrEqualTo(AssertionInfo info, T actual, T other) {
     assertNotNull(info, actual);
     if (!isLessThan(actual, other)) return;
     throw failures.failure(info, shouldBeGreaterOrEqual(actual, other, comparisonStrategy));

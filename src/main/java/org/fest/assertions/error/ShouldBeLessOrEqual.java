@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is less than or equal to another one
@@ -32,7 +33,7 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeLessOrEqual(T actual, T other) {
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLessOrEqual(T actual, T other) {
     return new ShouldBeLessOrEqual(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -44,7 +45,7 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeLessOrEqual(T actual, T other,
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLessOrEqual(T actual, T other,
       ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLessOrEqual(actual, other, comparisonStrategy);
   }

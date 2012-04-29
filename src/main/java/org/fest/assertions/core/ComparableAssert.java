@@ -24,7 +24,7 @@ package org.fest.assertions.core;
  * @author Alex Ruiz
  * @author Ted M. Young
  */
-public interface ComparableAssert<S, A extends Comparable<A>> {
+public interface ComparableAssert<S, A extends Comparable<? super A>> {
 
   /**
    * Verifies that the actual value is less than the given one.

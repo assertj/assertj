@@ -26,7 +26,7 @@ import org.fest.assertions.core.UnevenComparableAssert;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public abstract class AbstractUnevenComparableAssert<S extends AbstractUnevenComparableAssert<S, A>, A extends Comparable<A>>
+public abstract class AbstractUnevenComparableAssert<S extends AbstractUnevenComparableAssert<S, A>, A extends Comparable<? super A>>
     extends AbstractComparableAssert<S, A> implements UnevenComparableAssert<S, A> {
 
   protected AbstractUnevenComparableAssert(A actual, Class<?> selfType) {

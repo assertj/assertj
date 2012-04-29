@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is greater than or equal to another
@@ -44,7 +45,7 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeGreaterOrEqual(T actual, T other,
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeGreaterOrEqual(T actual, T other,
       ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);
   }
