@@ -37,13 +37,14 @@ import org.fest.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Maciej Jaskowski
  * @author Nicolas François 
+ * @author Mikhail Mazursky
  */
-public abstract class AbstractIterableAssert<S, A extends Iterable<?> > extends AbstractAssert<S, A> implements
-    ObjectEnumerableAssert<S> {
+public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A>, A extends Iterable<?>> extends
+    AbstractAssert<S, A> implements ObjectEnumerableAssert<S> {
 
   @VisibleForTesting Iterables iterables = Iterables.instance();
 
-  protected AbstractIterableAssert(A actual, Class<S> selfType) {
+  protected AbstractIterableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
