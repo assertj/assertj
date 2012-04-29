@@ -17,7 +17,7 @@ package org.fest.assertions.api;
 /**
  * @author Mikhail Mazursky
  */
-public class ConcreteGenericAssert<A extends GenericIface<A>> extends
+public class ConcreteGenericAssert<A extends GenericInterface<A>> extends
     AbstractAssert<ConcreteGenericAssert<A>, A> {
 
   public ConcreteGenericAssert(A actual) {

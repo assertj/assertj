@@ -17,7 +17,7 @@ package org.fest.assertions.api;
 /**
  * @author Mikhail Mazursky
  */
-public class ConcreteGenericComparableAssert<A extends GenericComparableIface<A>> extends
+public class ConcreteGenericComparableAssert<A extends GenericComparableInterfaceface<A>> extends
     AbstractComparableAssert<ConcreteGenericComparableAssert<A>, A> {
 
   public ConcreteGenericComparableAssert(A actual) {

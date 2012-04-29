@@ -17,6 +17,6 @@ package org.fest.assertions.api;
 /**
  * @author Mikhail Mazursky
  */
-public interface GenericIface<X> {
+public interface GenericInterface<X> {
 
 }

@@ -17,6 +17,6 @@ package org.fest.assertions.api;
 /**
  * @author Mikhail Mazursky
  */
-public interface GenericComparableIface<X> extends Comparable<X> {
+public interface GenericComparableInterfaceface<X> extends Comparable<X> {
 
 }
