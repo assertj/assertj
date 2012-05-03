@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.fest.assertions.api.filter.Filters;
 import org.fest.assertions.condition.AnyOf;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
@@ -534,6 +535,50 @@ public class Assertions {
     return AnyOf.anyOf(conditions);
   }  
 
+  // --------------------------------------------------------------------------------------------------
+  // Filter methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // --------------------------------------------------------------------------------------------------
+
+  /**
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Filters} if you prefer).
+   * <p>
+   * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
+   * <p>
+   * Typical usage with {@link Condition} :
+   * 
+   * <pre>
+   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
+   * and with filter language based on java bean property :
+   * <pre>
+   * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
+   *                           .and("assistsPerGame").greaterThan(7)
+   *                           .get()).containsOnly(james, rose);</pre>
+   */
+  public static <E> Filters<E> filter(E[] array) {
+    return Filters.filter(array);
+  }
+  
+  /**
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Filters} if you prefer).
+   * <p>
+   * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
+   * <p>
+   * Typical usage with {@link Condition} :
+   * 
+   * <pre>
+   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
+   * and with filter language based on java bean property :
+   * <pre>
+   * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
+   *                           .and("assistsPerGame").greaterThan(7)
+   *                           .get()).containsOnly(james, rose);</pre>
+   */
+  public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
+    return Filters.filter(iterableToFilter);
+  }
+  
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

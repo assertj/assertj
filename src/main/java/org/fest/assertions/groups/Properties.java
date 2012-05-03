@@ -16,13 +16,15 @@ package org.fest.assertions.groups;
 
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
 import org.fest.assertions.internal.PropertySupport;
-import org.fest.util.*;
+import org.fest.util.IntrospectionError;
+import org.fest.util.VisibleForTesting;
 
 /**
- * Extracts the values of an specified property from the elements of a given <code>{@link Collection}</code> or array.
+ * Extracts the values of a specified property from the elements of a given <code>{@link Collection}</code> or array.
  *
  * @author Yvonne Wang
  */

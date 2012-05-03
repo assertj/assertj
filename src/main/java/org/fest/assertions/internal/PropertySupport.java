@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
@@ -173,8 +174,32 @@ public class PropertySupport {
     try {
       return javaBeanDescriptor.invokeReadMethod(descriptor, target);
     } catch (Throwable unexpected) {
-      String msg = String.format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);
+      String msg = format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);
       throw new IntrospectionError(msg, unexpected);
     }
   }
+
+  /**
+   * Returns the value of the given property name given target. If the given object is {@code null}, this method will
+   * return null.<br>
+   * This method supports nested properties (e.g. "address.street.number").
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
+   * @param target the given Object to extract property from.
+   * @return the value of the given property name given target.
+   * @throws IntrospectionError if target object does not have a property with a matching name.
+   */
+  public Object propertyValueOf(String propertyName, Object target) {
+    // returns null if target is null as we can't extract a property from a null object
+    if (target == null) return null;
+
+    if (isNestedProperty(propertyName)) {
+      String firstPropertyName = popPropertyNameFrom(propertyName);
+      Object propertyValue = propertyValue(firstPropertyName, target);
+      // extract next sub-property values until reaching the last sub-property
+      return propertyValueOf(nextPropertyNameFrom(propertyName), propertyValue);
+    }
+    return propertyValue(propertyName, target);
+  }
+
 }

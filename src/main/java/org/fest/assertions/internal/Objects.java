@@ -25,8 +25,7 @@ import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Collections.*;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -230,7 +229,7 @@ public class Objects {
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (isActualIn(actual, values)) return;
+    if (isItemInArray(actual, values)) return;
     throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
@@ -246,7 +245,7 @@ public class Objects {
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (!isActualIn(actual, values)) return;
+    if (!isItemInArray(actual, values)) return;
     throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
@@ -255,9 +254,15 @@ public class Objects {
     if (values.length == 0) throw new IllegalArgumentException("The given array should not be empty");
   }
 
-  private boolean isActualIn(Object actual, Object[] values) {
-    for (Object value : values)
-      if (areEqual(value, actual)) return true;
+  /**
+   * Returns <code>true</code> if given item is in given array, <code>false</code> otherwise. 
+   * @param item the object to look for in arrayOfValues 
+   * @param arrayOfValues the array of values
+   * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
+   */
+  private boolean isItemInArray(Object item, Object[] arrayOfValues) {
+    for (Object value : arrayOfValues)
+      if (areEqual(value, item)) return true;
     return false;
   }
 

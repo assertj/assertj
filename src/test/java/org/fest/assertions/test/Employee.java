@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.test;
 
+import static java.lang.String.format;
+
 /**
  * @author Yvonne Wang
  */
@@ -56,6 +58,6 @@ public class Employee {
   }
 
   @Override public String toString() {
-    return String.format("%s[id=%d, name=%s, age=%d]", getClass().getSimpleName(), id, name, age);
+    return format("%s[id=%d, name=%s, age=%d]", getClass().getSimpleName(), id, name, age);
   }
 }
