@@ -43,6 +43,7 @@ import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
+import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
@@ -71,6 +72,7 @@ import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.error.ElementsShouldNotBeExactly;
 import org.fest.assertions.util.ArrayWrapperList;
+import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -130,6 +132,25 @@ class Arrays {
     if (sizeOfActual == expectedSize) return;
     throw failures.failure(info, shouldHaveSize(array, sizeOfActual, expectedSize));
   }
+  
+  void assertHasSameSizeAs(AssertionInfo info, Failures failures, Object array, Iterable<?> other){
+	assertNotNull(info, array);
+	if(other == null) throw new NullPointerException("The iterable to look for should not be null");
+	int sizeOfActual = sizeOf(array);
+	int sizeOfOther = Collections.sizeOf(other);
+	if(sizeOfActual == sizeOfOther) return;
+	throw failures.failure(info, shouldHaveSameSizeAs(array, sizeOfActual, sizeOfOther));
+  }
+  
+  void assertHasSameSizeAs(AssertionInfo info, Failures failures, Object array, Object other){
+	assertNotNull(info, array);
+	if(other == null) throw arrayOfValuesToLookForIsNull();
+	int sizeOfActual = sizeOf(array);
+	int sizeOfOther = sizeOf(other);
+	if(sizeOfActual == sizeOfOther) return;
+	throw failures.failure(info, shouldHaveSameSizeAs(array, sizeOfActual, sizeOfOther));
+  }  
+	  
 
   void assertContains(AssertionInfo info, Failures failures, Object array, Object values) {
     checkIsNotNullAndNotEmpty(values);
@@ -641,4 +662,5 @@ class Arrays {
   private int sizeOf(Object array) {
     return Array.getLength(array);
   }
+  
 }
