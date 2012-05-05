@@ -110,11 +110,10 @@ public class ObjectArrays {
   }
   
   /**
-   * Assert that the actual group has the same size that another group.
+   * Assert that the actual array has the same size as the other {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given iterable.
    * @param other the group to compare 
-   * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
@@ -124,11 +123,10 @@ public class ObjectArrays {
   }
   
   /**
-   * Assert that the actual group has the same size that another group.
+   * Assert that the actual array has the same size as the other array.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare 
-   * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.

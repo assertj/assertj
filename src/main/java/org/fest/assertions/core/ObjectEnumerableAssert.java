@@ -1,28 +1,28 @@
 /*
  * Created on Jul 26, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.core;
 
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
- * @param <S> the "self" type of this assertion class. Please read
- * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
- * API implementation</a>&quot; for more details.
- *
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
- * @author Nicolas François 
+ * @author Nicolas François
  */
 public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
 
@@ -45,7 +45,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   * or none of the given values, or the actual group contains more values than the given ones.
+   *           or none of the given values, or the actual group contains more values than the given ones.
    */
   S containsOnly(Object... values);
 
@@ -119,27 +119,27 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if the actual group contains a null element.
    */
   S doesNotContainNull();
-  
+
   /**
    * Verifies that the actual group has the same size as given array.
-   * @param the array to compare size with
+   * @param other the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual and other groups does not have the same size.
+   * @throws AssertionError if the other array is {@code null}.
+   * @throws AssertionError if actual group and given array don't have the same size.
    */
   S hasSameSizeAs(Object[] other);
-  
+
   /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
-   * @param the iterable to compare size with
+   * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual and other groups does not have the same size.
+   * @throws AssertionError if the other {@code Iterable} is {@code null}.
+   * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
    */
-  S hasSameSizeAs(Iterable<?> other);  
-  
+  S hasSameSizeAs(Iterable<?> other);
+
   /**
    * Verifies that each element value satisfies the given condition
    * @param condition the given condition.
@@ -149,8 +149,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
   <E> S are(Condition<E> condition);
-  
- 
+
   /**
    * Verifies that each element value not satisfies the given condition
    * @param condition the given condition.
@@ -160,7 +159,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if one or more element satisfy the given condition.
    */
   <E> S areNot(Condition<E> condition);
-  
+
   /**
    * Verifies that each element value satisfies the given condition
    * @param condition the given condition.
@@ -170,8 +169,7 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
   <E> S have(Condition<E> condition);
-  
- 
+
   /**
    * Verifies that each element value not satisfies the given condition
    * @param condition the given condition.
@@ -180,8 +178,8 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  <E> S doNotHave(Condition<E> condition); 
-  
+  <E> S doNotHave(Condition<E> condition);
+
   /**
    * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
    * @param n the minimum number of times the condition should be verified.
@@ -190,20 +188,21 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if an element can not be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
-   */  
-  <E> S areAtLeast(int n, Condition<E> condition);  
-  
+   */
+  <E> S areAtLeast(int n, Condition<E> condition);
+
   /**
-   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
+   * condition.
    * @param n the number of times the condition should not be verified at least.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
-   */  
-  <E> S areNotAtLeast(int n, Condition<E> condition);  
-  
+   */
+  <E> S areNotAtLeast(int n, Condition<E> condition);
+
   /**
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * @param n the number of times the condition should be at most verified.
@@ -212,20 +211,21 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
-   */  
+   */
   <E> S areAtMost(int n, Condition<E> condition);
-  
+
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
+   * condition.
    * @param n the number of times the condition should not be verified at most.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
-   */  
-  <E> S areNotAtMost(int n, Condition<E> condition);  
-  
+   */
+  <E> S areNotAtMost(int n, Condition<E> condition);
+
   /**
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
    * @param n the exact number of times the condition should be verified.
@@ -234,48 +234,49 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
-   */  
+   */
   <E> S areExactly(int n, Condition<E> condition);
-  
+
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
+   * condition.
    * @param n the exact number of times the condition should not be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
-   */  
-  <E> S areNotExactly(int n, Condition<E> condition);  
-  
+   */
+  <E> S areNotExactly(int n, Condition<E> condition);
+
   /**
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
-   */  
+   */
   <E> S haveAtLeast(int n, Condition<E> condition);
-  
+
   /**
    * This method is an alias {@link #areNotAtLeast(int, Condition)}.
-   */  
+   */
   <E> S doNotHaveAtLeast(int n, Condition<E> condition);
-  
+
   /**
    * This method is an alias {@link #areAtMost(int, Condition)}.
-   */  
+   */
   <E> S haveAtMost(int n, Condition<E> condition);
-  
+
   /**
    * This method is an alias {@link #areNotAtMost(int, Condition)}.
-   */  
-  <E> S doNotHaveAtMost(int n, Condition<E> condition);    
-  
+   */
+  <E> S doNotHaveAtMost(int n, Condition<E> condition);
+
   /**
    * This method is an alias {@link #areExactly(int, Condition)}.
-   */  
+   */
   <E> S haveExactly(int n, Condition<E> condition);
-  
+
   /**
    * This method is an alias {@link #areNotExactly(int, Condition)}.
-   */  
-  <E> S doNotHaveExactly(int n, Condition<E> condition); 
-  
+   */
+  <E> S doNotHaveExactly(int n, Condition<E> condition);
+
 }

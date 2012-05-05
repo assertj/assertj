@@ -45,11 +45,8 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
-import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
-import static org.fest.util.Collections.isEmpty;
-import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.sizeOf;
+import static org.fest.assertions.internal.CommonErrors.*;
+import static org.fest.util.Collections.*;
 
 import java.util.Comparator;
 import java.util.HashSet;
@@ -161,45 +158,43 @@ public class Iterables {
     if (sizeOfActual == expectedSize) return;
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
-  
-  /**
-   * Assert that the actual group has the same size that another group.
-   * @param info contains information about the assertion.
-   * @param actual the given array.
-   * @param other the group to compare 
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual group does not have the same size.
-   */
-  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object[] other){
-    assertNotNull(info, actual);
-    if (other == null) throw arrayOfValuesToLookForIsNull();
-	int sizeOfActual = sizeOf(actual);
-	int sizeOfOther = other.length;
-	if(sizeOfActual == sizeOfOther) return;
-	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
-  }   
 
   /**
-   * Assert that the actual group has the same size that another group.
+   * Assert that the actual {@code Iterable} has the same size as the other array.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param other the given array to compare.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if actual {@code Iterable} and other array don't have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object[] other) {
+    assertNotNull(info, actual);
+    if (other == null) throw arrayOfValuesToLookForIsNull();
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfOther = other.length;
+    if (sizeOfActual == sizeOfOther) return;
+    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+  }
+
+  /**
+   * Assert that the actual {@code Iterable} has the same size as the other {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param other the given {@code Iterable}.
-   * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual group does not have the same size.
+   * @throws AssertionError if actual and other {@code Iterable} don't have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Iterable<?> other){
+  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
     assertNotNull(info, actual);
     checkNotNull(info, other);
-	int sizeOfActual = sizeOf(actual);
-	int sizeOfOther = sizeOf(other);
-	if(sizeOfActual == sizeOfOther) return;
-	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfOther = sizeOf(other);
+    if (sizeOfActual == sizeOfOther) return;
+    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
   }
-  
+
   /**
    * Asserts that the given {@code Iterable} contains the given values, in any order.
    * @param info contains information about the assertion.
@@ -711,8 +706,8 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<?> actual, int times, Condition<E> condition) {
     assertNotNull(info, actual);
@@ -775,8 +770,8 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
   public <E> void assertHaveExactly(AssertionInfo info, Iterable<?> actual, int times, Condition<E> condition) {
     assertNotNull(info, actual);
