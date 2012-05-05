@@ -96,7 +96,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link Assert#isIn(Collection)} but given Dates are represented as String either with ISO date format
+   * Same assertion as {@link Assert#isIn(Iterable)} but given Dates are represented as String either with ISO date format
    * (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
    * Method signature could not be <code>isIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.
@@ -130,7 +130,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Same assertion as {@link Assert#isNotIn(Collection)} but given Dates are represented as String either with ISO date
+   * Same assertion as {@link Assert#isNotIn(Iterable)} but given Dates are represented as String either with ISO date
    * format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).<br>
    * Method signature could not be <code>isNotIn(Collection&lt;String&gt;)</code> because it would be same signature as
    * <code>isNotIn(Collection&lt;Date&gt;)</code> since java collection type are erased at runtime.

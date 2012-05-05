@@ -95,7 +95,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S isNotIn(A... values);
 
   /**
-   * Verifies that the actual value is present in the given collection of values.
+   * Verifies that the actual value is present in the given values.
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
@@ -105,7 +105,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S isIn(Iterable<? extends A> values);
 
   /**
-   * Verifies that the actual value is not present in the given collection of values.
+   * Verifies that the actual value is not present in the given values.
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
