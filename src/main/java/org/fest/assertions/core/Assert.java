@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.core;
 
-import java.util.*;
+import java.util.Comparator;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
@@ -25,6 +25,7 @@ import java.util.*;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
@@ -95,23 +96,23 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
    * Verifies that the actual value is present in the given collection of values.
-   * @param values the given collection to search the actual value in.
+   * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is not present in the given collection.
    */
-  S isIn(Collection<?> values);
+  S isIn(Iterable<? extends A> values);
 
   /**
    * Verifies that the actual value is not present in the given collection of values.
-   * @param values the given collection to search the actual value in.
+   * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is present in the given collection.
    */
-  S isNotIn(Collection<?> values);
+  S isNotIn(Iterable<? extends A> values);
 
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.<br>
