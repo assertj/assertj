@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
@@ -138,7 +139,7 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
   }
 
   @Override
-  public ByteAssert usingComparator(Comparator<?> customComparator) {
+  public ByteAssert usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);
     this.bytes = new Bytes(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

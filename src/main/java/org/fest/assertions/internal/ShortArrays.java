@@ -27,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for arrays of {@code short}s.
  * 
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ShortArrays {
 
@@ -253,7 +254,7 @@ public class ShortArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, short[] actual,
-      Comparator<? extends Short> comparator) {
+      Comparator<? super Short> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

@@ -14,16 +14,19 @@
  */
 package org.fest.assertions.core;
 
+import java.util.Comparator;
+
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
  * @param <S> the "self" type of this assertion class. Please read
  * &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating 'self types' using Java Generics to simplify fluent
  * API implementation</a>&quot; for more details.
- *
+ * @param <T> the type of elements of the "actual" value.
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public interface EnumerableAssert<S> {
+public interface EnumerableAssert<S, T> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
@@ -51,4 +54,8 @@ public interface EnumerableAssert<S> {
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
    */
   S hasSize(int expected);
+
+  S usingElementComparator(Comparator<? super T> customComparator);
+
+  S usingDefaultElementComparator();
 }

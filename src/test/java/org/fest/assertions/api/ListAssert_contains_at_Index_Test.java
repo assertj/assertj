@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
+import java.util.Collections;
 import static junit.framework.Assert.assertSame;
 
 import static org.fest.assertions.test.TestData.someIndex;
@@ -36,11 +36,11 @@ import org.fest.assertions.internal.Lists;
 public class ListAssert_contains_at_Index_Test {
 
   private Lists lists;
-  private ListAssert assertions;
+  private ListAssert<String> assertions;
 
   @Before public void setUp() {
     lists = mock(Lists.class);
-    assertions = new ListAssert(emptyList());
+    assertions = new ListAssert<String>(Collections.<String>emptyList());
     assertions.lists = lists;
   }
 
@@ -51,7 +51,7 @@ public class ListAssert_contains_at_Index_Test {
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.contains("Luke", someIndex());
+    ListAssert<String> returned = assertions.contains("Luke", someIndex());
     assertSame(assertions, returned);
   }
 }

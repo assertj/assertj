@@ -18,10 +18,11 @@ import java.util.Collection;
 
 /**
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public class ConcreteIterableAssert extends AbstractIterableAssert<ConcreteIterableAssert, Collection<?>> {
+public class ConcreteIterableAssert<T> extends AbstractIterableAssert<ConcreteIterableAssert<T>, Collection<T>, T> {
 
-  public ConcreteIterableAssert(Collection<?> actual) {
+  public ConcreteIterableAssert(Collection<T> actual) {
     super(actual, ConcreteIterableAssert.class);
   }
 }

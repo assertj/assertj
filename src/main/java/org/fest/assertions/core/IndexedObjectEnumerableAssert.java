@@ -20,8 +20,9 @@ import org.fest.assertions.data.Index;
  * Assertions methods applicable to indexed groups of objects (e.g. arrays or lists.)
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public interface IndexedObjectEnumerableAssert {
+public interface IndexedObjectEnumerableAssert<T> {
 
   /**
    * Verifies that the actual group contains the given object at the given index.
@@ -34,7 +35,7 @@ public interface IndexedObjectEnumerableAssert {
    * the actual group.
    * @throws AssertionError if the actual group does not contain the given object at the given index.
    */
-  IndexedObjectEnumerableAssert contains(Object value, Index index);
+  IndexedObjectEnumerableAssert<T> contains(T value, Index index);
 
   /**
    * Verifies that the actual group does not contain the given object at the given index.
@@ -45,5 +46,5 @@ public interface IndexedObjectEnumerableAssert {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual group contains the given object at the given index.
    */
-  IndexedObjectEnumerableAssert doesNotContain(Object value, Index index);
+  IndexedObjectEnumerableAssert<T> doesNotContain(T value, Index index);
 }

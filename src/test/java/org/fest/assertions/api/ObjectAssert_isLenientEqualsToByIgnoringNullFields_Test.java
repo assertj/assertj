@@ -28,27 +28,28 @@ import org.junit.Test;
  * Tests for <code>{@link ObjectAssert#isLenientEqualsToByIgnoringNullFields(Object)}</code>.
  *
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectAssert_isLenientEqualsToByIgnoringNullFields_Test {
 
   private Objects objects;
-  private ObjectAssert assertions;
+  private ObjectAssert<Jedi> assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert(new Jedi("Yoda", "Green"));
+    assertions = new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
     assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_is_instance_of_type() {
-	Object other = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Green");
     assertions.isLenientEqualsToByIgnoringNullFields(other);
     verify(objects).assertIsLenientEqualsToByIgnoringNullFields(assertions.info, assertions.actual, other);
   }
 
   @Test public void should_return_this() {
-	Object other = new Jedi("Yoda", "Green");
-    ObjectAssert returned = assertions.isLenientEqualsToByIgnoringNullFields(other);
+    Jedi other = new Jedi("Yoda", "Green");
+    ObjectAssert<Jedi> returned = assertions.isLenientEqualsToByIgnoringNullFields(other);
     assertSame(assertions, returned);
   }
 }

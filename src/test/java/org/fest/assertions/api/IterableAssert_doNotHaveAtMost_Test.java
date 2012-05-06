@@ -44,7 +44,7 @@ public class IterableAssert_doNotHaveAtMost_Test extends AbstractTest_for_Iterab
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.doNotHaveAtMost(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.doNotHaveAtMost(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

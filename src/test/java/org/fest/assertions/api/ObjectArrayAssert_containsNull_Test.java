@@ -28,15 +28,16 @@ import org.fest.assertions.internal.ObjectArrays;
  * Tests for <code>{@link ObjectArrayAssert#doesNotContainNull()}</code>.
  *
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_containsNull_Test {
 
   private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private ObjectArrayAssert<Object> assertions;
 
   @Before public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(emptyArray());
+    assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
   }
 
@@ -46,7 +47,7 @@ public class ObjectArrayAssert_containsNull_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.containsNull();
+    ObjectArrayAssert<Object> returned = assertions.containsNull();
     assertSame(assertions, returned);
   }
 }

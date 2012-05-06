@@ -25,10 +25,11 @@ package org.fest.assertions.api;
  * @author Alex Ruiz
  * @author Matthieu Baechler
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class IterableAssert extends AbstractIterableAssert<IterableAssert, Iterable<?> >  {
+public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>, Iterable<T>, T>  {
 
-  protected IterableAssert(Iterable<?>  actual) {
+  protected IterableAssert(Iterable<T>  actual) {
     super(actual, IterableAssert.class);
   }
 }

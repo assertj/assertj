@@ -15,24 +15,36 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.BigDecimals;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link BigDecimalAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link BigDecimalAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class BigDecimalAssert_usingComparator_Test {
 
   private BigDecimalAssert assertions = new BigDecimalAssert(BigDecimal.ONE);
+
+  @Mock
+  private Comparator<BigDecimal> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void using_default_comparator_test() {
@@ -43,9 +55,9 @@ public class BigDecimalAssert_usingComparator_Test {
   
   @Test
   public void using_custom_comparator_test() {
-    // in that test, the comparator type is not important, we only check that we correctly switch of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.bigDecimals.getComparator(), CaseInsensitiveStringComparator.instance);
+    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.bigDecimals.getComparator(), comparator);
   }
 }

@@ -17,7 +17,7 @@ package org.fest.assertions.core;
 import java.util.Comparator;
 
 /**
- * Assertions applicable to primitive arrays or arrays of elements wether naturally {@link Comparable} or according to a
+ * Assertions applicable to primitive arrays or arrays of elements either naturally {@link Comparable} or according to a
  * given {@link Comparator}.
  * <p>
  * Note that the contract defined here is can't be totally applied to List (that's why its name is not SortedAssert),
@@ -30,6 +30,7 @@ import java.util.Comparator;
  * @param <E> the array element type.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public interface ArraySortedAssert<S, E> {
 
@@ -69,8 +70,8 @@ public interface ArraySortedAssert<S, E> {
    * @throws AssertionError if the actual array is not sorted according to the given comparator.
    * @throws AssertionError if the actual array is <code>null</code>.
    * @throws NullPointerException if the given comparator is <code>null</code>.
-   * @throws AssertionError if the actual array elements are not mutually comparabe according to given Comparator.
+   * @throws AssertionError if the actual array elements are not mutually comparable according to given Comparator.
    */
-  S isSortedAccordingTo(Comparator<? extends E> comparator);
+  S isSortedAccordingTo(Comparator<? super E> comparator);
 
 }

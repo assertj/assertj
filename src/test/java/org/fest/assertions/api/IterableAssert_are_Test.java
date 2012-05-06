@@ -44,7 +44,7 @@ public class IterableAssert_are_Test extends AbstractTest_for_IterableAssert {
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.are(condition);
+	    ConcreteIterableAssert<Object> returned = assertions.are(condition);
 	    assertSame(assertions, returned);
 	  }	
 	

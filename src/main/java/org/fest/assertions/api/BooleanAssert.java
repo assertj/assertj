@@ -30,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
+ * @author Mikhail Mazursky
  */
 public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
 
@@ -85,7 +86,7 @@ public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
   }
 
   @Override
-  public BooleanAssert usingComparator(Comparator<?> customComparator) {
+  public BooleanAssert usingComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }

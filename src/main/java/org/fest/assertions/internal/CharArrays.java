@@ -28,6 +28,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class CharArrays {
 
@@ -254,7 +255,7 @@ public class CharArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, char[] actual,
-      Comparator<? extends Character> comparator) {
+      Comparator<? super Character> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

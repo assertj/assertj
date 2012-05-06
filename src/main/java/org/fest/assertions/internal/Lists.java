@@ -184,13 +184,13 @@ public class Lists {
       if (actual.size() == 0) return;
       Comparator rawComparator = comparator;
       if (actual.size() == 1) {
-        // Compare unique element with itself to verify thta it is compatible with comparator (a ClassCastException is
+        // Compare unique element with itself to verify that it is compatible with comparator (a ClassCastException is
         // thrown if not). We have to use a raw comparator to compare the unique element of actual ... :(
         rawComparator.compare(actual.get(0), actual.get(0));
         return;
       }
       for (int i = 0; i < actual.size() - 1; i++) {
-        // List is sorted in comparator defined order iif current element is less or equal than next element
+        // List is sorted in comparator defined order if current element is less or equal than next element
         if (rawComparator.compare(actual.get(i), actual.get(i + 1)) > 0)
           throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, actual, comparator));
       }

@@ -30,6 +30,7 @@ import org.fest.util.VisibleForTesting;
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
+ * @param <T> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -39,8 +40,8 @@ import org.fest.util.VisibleForTesting;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A>, A extends Iterable<?>> extends
-    AbstractAssert<S, A> implements ObjectEnumerableAssert<S> {
+public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<T>, T> extends
+    AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
 
   @VisibleForTesting
   Iterables iterables = Iterables.instance();
@@ -84,13 +85,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
-  public final S contains(Object... values) {
+  public final S contains(T... values) {
     iterables.assertContains(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S containsOnly(Object... values) {
+  public final S containsOnly(T... values) {
     iterables.assertContainsOnly(info, actual, values);
     return myself;
   }
@@ -103,19 +104,19 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
-  public final S isSubsetOf(Iterable<?> values) {
+  public final S isSubsetOf(Iterable<? extends T> values) {
     iterables.assertIsSubsetOf(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S containsSequence(Object... sequence) {
+  public final S containsSequence(T... sequence) {
     iterables.assertContainsSequence(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotContain(Object... values) {
+  public final S doesNotContain(T... values) {
     iterables.assertDoesNotContain(info, actual, values);
     return myself;
   }
@@ -127,13 +128,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
-  public final S startsWith(Object... sequence) {
+  public final S startsWith(T... sequence) {
     iterables.assertStartsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S endsWith(Object... sequence) {
+  public final S endsWith(T... sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }
@@ -252,16 +253,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return myself;
   }
 
-  @Override
-  public S usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+  public S usingElementComparator(Comparator<? super T> customComparator) {
     this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
-  @Override
-  public S usingDefaultComparator() {
-    super.usingDefaultComparator();
+  public S usingDefaultElementComparator() {
     this.iterables = Iterables.instance();
     return myself;
   }

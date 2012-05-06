@@ -38,7 +38,7 @@ public class IterableAssert_startsWith_Test extends AbstractTest_for_IterableAss
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.startsWith("Luke", "Yoda");
+    ConcreteIterableAssert<Object> returned = assertions.startsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

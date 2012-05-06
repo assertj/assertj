@@ -38,7 +38,7 @@ public class IterableAssert_endsWith_Test extends AbstractTest_for_IterableAsser
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.endsWith("Luke", "Yoda");
+    ConcreteIterableAssert<Object> returned = assertions.endsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

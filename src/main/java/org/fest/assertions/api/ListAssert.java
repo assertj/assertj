@@ -32,25 +32,26 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 // TODO inherits from IterableAssert and remove AbstractIterableAssert ? 
-public class ListAssert extends AbstractIterableAssert<ListAssert, List<?>> implements IndexedObjectEnumerableAssert {
+public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>, T> implements IndexedObjectEnumerableAssert<T> {
 
   @VisibleForTesting
   Lists lists = Lists.instance();
 
-  protected ListAssert(List<?> actual) {
+  protected ListAssert(List<T> actual) {
     super(actual, ListAssert.class);
   }
 
   /** {@inheritDoc} */
-  public ListAssert contains(Object value, Index index) {
+  public ListAssert<T> contains(T value, Index index) {
     lists.assertContains(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ListAssert doesNotContain(Object value, Index index) {
+  public ListAssert<T> doesNotContain(T value, Index index) {
     lists.assertDoesNotContain(info, actual, value, index);
     return this;
   }
@@ -76,7 +77,7 @@ public class ListAssert extends AbstractIterableAssert<ListAssert, List<?>> impl
    * @throws AssertionError if the actual list element type does not implement {@link Comparable}.
    * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
    */
-  public ListAssert isSorted() {
+  public ListAssert<T> isSorted() {
     lists.assertIsSorted(info, actual); 
     return this;
   }
@@ -92,23 +93,23 @@ public class ListAssert extends AbstractIterableAssert<ListAssert, List<?>> impl
    * @throws AssertionError if the actual list is not sorted according to the given comparator.
    * @throws AssertionError if the actual list is <code>null</code>.
    * @throws NullPointerException if the given comparator is <code>null</code>.
-   * @throws AssertionError if the actual list elements are not mutually comparabe according to given Comparator.
+   * @throws AssertionError if the actual list elements are not mutually comparable according to given Comparator.
    */
-  public ListAssert isSortedAccordingTo(Comparator<? extends Object> comparator) {
+  public ListAssert<T> isSortedAccordingTo(Comparator<? super T> comparator) {
     lists.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   @Override
-  public ListAssert usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+  public ListAssert<T> usingElementComparator(Comparator<? super T> customComparator) {
+    super.usingElementComparator(customComparator);
     this.lists = new Lists(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
-  public ListAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
+  public ListAssert<T> usingDefaultElementComparator() {
+    super.usingDefaultElementComparator();
     this.lists = Lists.instance();
     return myself;
   }

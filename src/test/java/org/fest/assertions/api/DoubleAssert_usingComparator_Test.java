@@ -15,22 +15,35 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.Comparator;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.Doubles;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link DoubleAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link DoubleAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class DoubleAssert_usingComparator_Test {
 
   private DoubleAssert assertions = new DoubleAssert(5.0);
+
+  @Mock
+  private Comparator<Double> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void using_default_comparator_test() {
@@ -38,12 +51,12 @@ public class DoubleAssert_usingComparator_Test {
     assertSame(assertions.objects, Objects.instance());
     assertSame(assertions.doubles, Doubles.instance());
   }
-  
+
   @Test
   public void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.doubles.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.doubles.getComparator(), comparator);
   }
 }

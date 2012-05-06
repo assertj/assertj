@@ -26,15 +26,16 @@ import org.junit.*;
  * Tests for <code>{@link ObjectArrayAssert#endsWith(Object...)}</code>.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_endsWith_Test {
 
   private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private ObjectArrayAssert<Object> assertions;
 
   @Before public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(emptyArray());
+    assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
   }
 
@@ -44,7 +45,7 @@ public class ObjectArrayAssert_endsWith_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.endsWith("Luke", "Yoda");
+    ObjectArrayAssert<Object> returned = assertions.endsWith("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

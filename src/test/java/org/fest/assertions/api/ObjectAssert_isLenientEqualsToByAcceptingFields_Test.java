@@ -28,27 +28,28 @@ import org.junit.Test;
  * Tests for <code>{@link ObjectAssert#isLenientEqualsToByAcceptingFields(Object, String...)}</code>.
  *
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectAssert_isLenientEqualsToByAcceptingFields_Test {
 
   private Objects objects;
-  private ObjectAssert assertions;
+  private ObjectAssert<Jedi> assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert(new Jedi("Yoda", "Green"));
+    assertions = new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
     assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_is_instance_of_type() {
-	Object other = new Jedi("Yoda", "Blue");
+    Jedi other = new Jedi("Yoda", "Blue");
     assertions.isLenientEqualsToByAcceptingFields(other, "name");
     verify(objects).assertIsLenientEqualsToByAcceptingFields(assertions.info, assertions.actual, other, "name");
   }
 
   @Test public void should_return_this() {
-	Object other = new Jedi("Yoda", "Blue");
-    ObjectAssert returned = assertions.isLenientEqualsToByAcceptingFields(other, "name");
+    Jedi other = new Jedi("Yoda", "Blue");
+    ObjectAssert<Jedi> returned = assertions.isLenientEqualsToByAcceptingFields(other, "name");
     assertSame(assertions, returned);
   }
 }

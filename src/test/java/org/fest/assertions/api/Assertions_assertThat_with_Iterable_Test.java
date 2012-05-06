@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   public void should_create_Assert() {
-    IterableAssert assertions = Assertions.assertThat(set());
+    IterableAssert<Object> assertions = Assertions.assertThat(set());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Iterable<String> names = set("Luke");
-    IterableAssert assertions = Assertions.assertThat(names);
+    IterableAssert<String> assertions = Assertions.assertThat(names);
     assertSame(names, assertions.actual);
   }
 }

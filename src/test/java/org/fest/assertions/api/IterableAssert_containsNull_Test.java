@@ -34,7 +34,7 @@ public class IterableAssert_containsNull_Test extends AbstractTest_for_IterableA
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.containsNull();
+    ConcreteIterableAssert<Object> returned = assertions.containsNull();
     assertSame(assertions, returned);
   }
 }

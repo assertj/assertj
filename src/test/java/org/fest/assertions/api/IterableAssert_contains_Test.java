@@ -36,7 +36,7 @@ public class IterableAssert_contains_Test extends AbstractTest_for_IterableAsser
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.contains("Luke");
+    ConcreteIterableAssert<Object> returned = assertions.contains("Luke");
     assertSame(assertions, returned);
   }
 }

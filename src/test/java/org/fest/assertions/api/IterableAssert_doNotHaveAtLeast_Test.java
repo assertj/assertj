@@ -44,7 +44,7 @@ public class IterableAssert_doNotHaveAtLeast_Test extends AbstractTest_for_Itera
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.doNotHaveAtLeast(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.doNotHaveAtLeast(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

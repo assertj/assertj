@@ -35,7 +35,7 @@ public class IterableAssert_hasSize_Test extends AbstractTest_for_IterableAssert
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.hasSize(0);
+    ConcreteIterableAssert<Object> returned = assertions.hasSize(0);
     assertSame(assertions, returned);
   }
 }

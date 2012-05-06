@@ -32,10 +32,11 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements
-    EnumerableAssert<ByteArrayAssert>, ArraySortedAssert<ByteArrayAssert, Byte> {
-  
+    EnumerableAssert<ByteArrayAssert, Byte>, ArraySortedAssert<ByteArrayAssert, Byte> {
+
   @VisibleForTesting
   ByteArrays arrays = ByteArrays.instance();
 
@@ -201,21 +202,19 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
   }
 
   /** {@inheritDoc} */
-  public ByteArrayAssert isSortedAccordingTo(Comparator<? extends Byte> comparator) {
+  public ByteArrayAssert isSortedAccordingTo(Comparator<? super Byte> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
-  @Override
-  public ByteArrayAssert usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+  /** {@inheritDoc} */
+  public ByteArrayAssert usingElementComparator(Comparator<? super Byte> customComparator) {
     this.arrays = new ByteArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
-  @Override
-  public ByteArrayAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
+  /** {@inheritDoc} */
+  public ByteArrayAssert usingDefaultElementComparator() {
     this.arrays = ByteArrays.instance();
     return myself;
   }

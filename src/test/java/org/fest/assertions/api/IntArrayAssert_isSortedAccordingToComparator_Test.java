@@ -15,16 +15,17 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-
 import static org.fest.assertions.test.IntArrayFactory.emptyArray;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.junit.Test;
-
 import org.fest.assertions.internal.IntArrays;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link IntArrayAssert#isSortedAccordingTo(Comparator)}</code>.
@@ -33,8 +34,13 @@ import org.fest.assertions.internal.IntArrays;
  */
 public class IntArrayAssert_isSortedAccordingToComparator_Test {
 
-  @SuppressWarnings("unchecked")
-  private Comparator<? extends Integer> comparator = mock(Comparator.class);
+  @Mock
+  private Comparator<Integer> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void should_verify_that_assertIsSorted_is_called() {

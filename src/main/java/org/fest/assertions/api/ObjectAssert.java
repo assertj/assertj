@@ -25,10 +25,11 @@ import org.fest.util.IntrospectionError;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
-public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
+public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
 
-  protected ObjectAssert(Object actual) {
+  protected ObjectAssert(T actual) {
     super(actual, ObjectAssert.class);
   }
 
@@ -40,7 +41,7 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws AssertionError if the actual {@code Object} is {@code null}.
    * @throws AssertionError if the actual {@code Object} is not an instance of the given type.
    */
-  public ObjectAssert isInstanceOf(Class<?> type) {
+  public ObjectAssert<T> isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return this;
   }
@@ -54,7 +55,7 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
-  public ObjectAssert isInstanceOfAny(Class<?>... types) {
+  public ObjectAssert<T> isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
     return this;
   }
@@ -86,7 +87,7 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public ObjectAssert isLenientEqualsToByIgnoringNullFields(Object other) {
+  public ObjectAssert<T> isLenientEqualsToByIgnoringNullFields(T other) {
     objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     return this;
   }
@@ -117,7 +118,7 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
-  public ObjectAssert isLenientEqualsToByAcceptingFields(Object other, String... fields) {
+  public ObjectAssert<T> isLenientEqualsToByAcceptingFields(T other, String... fields) {
     objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, fields);
     return this;
   }
@@ -147,7 +148,7 @@ public class ObjectAssert extends AbstractAssert<ObjectAssert, Object> {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public ObjectAssert isLenientEqualsToByIgnoringFields(Object other, String... fields) {
+  public ObjectAssert<T> isLenientEqualsToByIgnoringFields(T other, String... fields) {
     objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
     return this;
   }

@@ -37,7 +37,7 @@ public class IterableAssert_hasSameSizeAs_with_Array_Test extends AbstractTest_f
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.hasSameSizeAs(other);
+    ConcreteIterableAssert<Object> returned = assertions.hasSameSizeAs(other);
     assertSame(assertions, returned);
   }
 }

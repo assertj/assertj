@@ -32,13 +32,13 @@ import org.junit.Test;
 public class Assertions_assertThat_with_List_Test {
 
   @Test public void should_create_Assert() {
-    IndexedObjectEnumerableAssert assertions = Assertions.assertThat(emptyList());
+    IndexedObjectEnumerableAssert<Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
     List<String> names = list("Luke");
-    ListAssert assertions = Assertions.assertThat(names);
+    ListAssert<String> assertions = Assertions.assertThat(names);
     assertSame(names, assertions.actual);
   }
 }

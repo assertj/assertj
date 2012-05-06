@@ -15,12 +15,15 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.junit.Test;
+import java.util.Comparator;
 
 import org.fest.assertions.internal.Bytes;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ByteAssert#usingComparator(java.util.Comparator)}</code> and
@@ -32,6 +35,14 @@ public class CollectionAssert_usingComparator_Test {
 
   private ByteAssert assertions = new ByteAssert((byte)5);
 
+  @Mock
+  private Comparator<Byte> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
+
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
@@ -42,8 +53,8 @@ public class CollectionAssert_usingComparator_Test {
   @Test
   public void using_custom_comparator_test() {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.bytes.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.bytes.getComparator(), comparator);
   }
 }

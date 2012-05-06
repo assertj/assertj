@@ -44,7 +44,7 @@ public class IterableAssert_doNotHaveExactly_Test extends AbstractTest_for_Itera
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.doNotHaveExactly(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.doNotHaveExactly(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

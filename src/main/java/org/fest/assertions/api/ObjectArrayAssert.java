@@ -35,14 +35,15 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[]> implements
-    ObjectEnumerableAssert<ObjectArrayAssert>, IndexedObjectEnumerableAssert, ArraySortedAssert<ObjectArrayAssert, Object> {
+public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T[]> implements
+    ObjectEnumerableAssert<ObjectArrayAssert<T>, T>, IndexedObjectEnumerableAssert<T>, ArraySortedAssert<ObjectArrayAssert<T>, T> {
 
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
 
-  protected ObjectArrayAssert(Object[] actual) {
+  protected ObjectArrayAssert(T[] actual) {
     super(actual, ObjectArrayAssert.class);
   }
 
@@ -57,199 +58,199 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert isNotEmpty() {
+  public ObjectArrayAssert<T> isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert hasSize(int expected) {
+  public ObjectArrayAssert<T> hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
   
   /** {@inheritDoc} */
-  public ObjectArrayAssert hasSameSizeAs(Object[] other) {
+  public ObjectArrayAssert<T> hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
   
   /** {@inheritDoc} */
-  public ObjectArrayAssert hasSameSizeAs(Iterable<?> other) {
+  public ObjectArrayAssert<T> hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }  
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert contains(Object... values) {
+  public ObjectArrayAssert<T> contains(Object... values) {
     arrays.assertContains(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert containsOnly(Object... values) {
+  public ObjectArrayAssert<T> containsOnly(Object... values) {
     arrays.assertContainsOnly(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert containsSequence(Object... sequence) {
+  public ObjectArrayAssert<T> containsSequence(Object... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert contains(Object value, Index index) {
+  public ObjectArrayAssert<T> contains(Object value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert doesNotContain(Object value, Index index) {
+  public ObjectArrayAssert<T> doesNotContain(Object value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert doesNotContain(Object... values) {
+  public ObjectArrayAssert<T> doesNotContain(Object... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert doesNotHaveDuplicates() {
+  public ObjectArrayAssert<T> doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert startsWith(Object... sequence) {
+  public ObjectArrayAssert<T> startsWith(Object... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert endsWith(Object... sequence) {
+  public ObjectArrayAssert<T> endsWith(Object... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert containsNull() {
+  public ObjectArrayAssert<T> containsNull() {
     arrays.assertContainsNull(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert doesNotContainNull() {
+  public ObjectArrayAssert<T> doesNotContainNull() {
     arrays.assertDoesNotContainNull(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert are(Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> are(Condition<E> condition) {
 	  arrays.assertAre(info, actual, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areNot(Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areNot(Condition<E> condition) {
 	  arrays.assertAreNot(info, actual, condition);
 	  return myself;
   } 
  
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert have(Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> have(Condition<E> condition) {
 	  arrays.assertHave(info, actual, condition);
 	  return myself;
   }  
 
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert doNotHave(Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> doNotHave(Condition<E> condition) {
 	  arrays.assertDoNotHave(info, actual, condition);
 	  return myself;
   }   
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areAtLeast(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areAtLeast(int times, Condition<E> condition) {
 	  arrays.assertAreAtLeast(info, actual, times, condition);
 	  return myself;
   }   
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areNotAtLeast(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areNotAtLeast(int times, Condition<E> condition) {
 	  arrays.assertAreNotAtLeast(info, actual, times, condition);
 	  return myself;
   }     
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areAtMost(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areAtMost(int times, Condition<E> condition) {
 	  arrays.assertAreAtMost(info, actual, times, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areNotAtMost(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areNotAtMost(int times, Condition<E> condition) {
 	  arrays.assertAreNotAtMost(info, actual, times, condition);
 	  return myself;
   }     
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areExactly(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areExactly(int times, Condition<E> condition) {
 	  arrays.assertAreExactly(info, actual, times, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert areNotExactly(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> areNotExactly(int times, Condition<E> condition) {
 	  arrays.assertAreNotExactly(info, actual, times, condition);
 	  return myself;
   }  
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert haveAtLeast(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> haveAtLeast(int times, Condition<E> condition) {
 	  arrays.assertHaveAtLeast(info, actual, times, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert doNotHaveAtLeast(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> doNotHaveAtLeast(int times, Condition<E> condition) {
 	  arrays.assertDoNotHaveAtLeast(info, actual, times, condition);
 	  return myself;
   }  
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert haveAtMost(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> haveAtMost(int times, Condition<E> condition) {
 	  arrays.assertHaveAtMost(info, actual, times, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert doNotHaveAtMost(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> doNotHaveAtMost(int times, Condition<E> condition) {
 	  arrays.assertDoNotHaveAtMost(info, actual, times, condition);
 	  return myself;
   }  
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert haveExactly(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> haveExactly(int times, Condition<E> condition) {
 	  arrays.assertHaveExactly(info, actual, times, condition);
 	  return myself;
   }
   
   /** {@inheritDoc} */
-  public <E> ObjectArrayAssert doNotHaveExactly(int times, Condition<E> condition) {
+  public <E> ObjectArrayAssert<T> doNotHaveExactly(int times, Condition<E> condition) {
 	  arrays.assertDoNotHaveExactly(info, actual, times, condition);
 	  return myself;
   }  
   
   /** {@inheritDoc} */
-  public ObjectArrayAssert isSorted() {
+  public ObjectArrayAssert<T> isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert isSortedAccordingTo(Comparator<? extends Object> comparator) {
+  public ObjectArrayAssert<T> isSortedAccordingTo(Comparator<? super T> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
@@ -260,18 +261,14 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     return this;
   }
 
-  @Override
-  public ObjectArrayAssert usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+  public ObjectArrayAssert<T> usingElementComparator(Comparator<? super T> customComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
-  @Override
-  public ObjectArrayAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
+
+  public ObjectArrayAssert<T> usingDefaultElementComparator() {
     this.arrays = ObjectArrays.instance();
     return myself;
   }
-  
+
 }

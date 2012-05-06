@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
 
@@ -136,7 +137,7 @@ public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, C
   }
 
   @Override
-  public CharacterAssert usingComparator(Comparator<?> customComparator) {
+  public CharacterAssert usingComparator(Comparator<? super Character> customComparator) {
     super.usingComparator(customComparator);
     this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

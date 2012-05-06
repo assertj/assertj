@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.api;
 
+import java.util.Comparator;
 import java.util.Map;
 
 import org.fest.assertions.core.EnumerableAssert;
@@ -30,8 +31,9 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert> {
+public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert, MapEntry> {
 
   @VisibleForTesting Maps maps = Maps.instance();
 
@@ -88,5 +90,15 @@ public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements E
   public MapAssert doesNotContain(MapEntry...entries) {
     maps.assertDoesNotContain(info, actual, entries);
     return this;
+  }
+
+  /** {@inheritDoc} */
+  public MapAssert usingElementComparator(Comparator<? super MapEntry> customComparator) {
+    throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
+  }
+
+  /** {@inheritDoc} */
+  public MapAssert usingDefaultElementComparator() {
+    throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 }

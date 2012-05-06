@@ -27,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for arrays of {@code float}s.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class FloatArrays {
 
@@ -251,7 +252,7 @@ public class FloatArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, float[] actual,
-      Comparator<? extends Float> comparator) {
+      Comparator<? super Float> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

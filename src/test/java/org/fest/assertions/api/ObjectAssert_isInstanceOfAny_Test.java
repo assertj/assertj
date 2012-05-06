@@ -24,15 +24,16 @@ import org.junit.*;
  * Tests for <code>{@link ObjectAssert#isInstanceOfAny(Class...)}</code>.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ObjectAssert_isInstanceOfAny_Test {
 
   private Objects objects;
-  private ObjectAssert assertions;
+  private ObjectAssert<String> assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert("Yoda");
+    assertions = new ObjectAssert<String>("Yoda");
     assertions.objects = objects;
   }
 
@@ -43,7 +44,7 @@ public class ObjectAssert_isInstanceOfAny_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectAssert returned = assertions.isInstanceOfAny(String.class);
+    ObjectAssert<String> returned = assertions.isInstanceOfAny(String.class);
     assertSame(assertions, returned);
   }
 }

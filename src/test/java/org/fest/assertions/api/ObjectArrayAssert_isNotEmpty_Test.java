@@ -25,15 +25,16 @@ import org.junit.*;
  * Tests for <code>{@link ObjectArrayAssert#isNotEmpty()}</code>.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_isNotEmpty_Test {
 
   private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private ObjectArrayAssert<Object> assertions;
 
   @Before public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(emptyArray());
+    assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
   }
 
@@ -43,7 +44,7 @@ public class ObjectArrayAssert_isNotEmpty_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.isNotEmpty();
+    ObjectArrayAssert<Object> returned = assertions.isNotEmpty();
     assertSame(assertions, returned);
   }
 }

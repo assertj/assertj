@@ -47,6 +47,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class Objects {
 
@@ -76,7 +77,7 @@ public class Objects {
   public Objects(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
   }
-  
+
   @VisibleForTesting
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
@@ -275,7 +276,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is not present in the given collection.
    */
-  public <A> void assertIsIn(AssertionInfo info, Object actual, Iterable<? extends A> values) {
+  public <A> void assertIsIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) return;
@@ -291,7 +292,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is present in the given collection.
    */
-  public <A> void assertIsNotIn(AssertionInfo info, Object actual, Iterable<? extends A> values) {
+  public <A> void assertIsNotIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) return;
@@ -303,8 +304,8 @@ public class Objects {
     if (!values.iterator().hasNext()) throw new IllegalArgumentException("The given iterable should not be empty");
   }
 
-  private <A> boolean isActualIn(Object actual, Iterable<? extends A> values) {
-    for (Object value : values)
+  private <A> boolean isActualIn(A actual, Iterable<? extends A> values) {
+    for (A value : values)
       if (areEqual(value, actual)) return true;
     return false;
   }
@@ -319,29 +320,29 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, Object actual, Object other){
-	assertIsInstanceOf(info, other, actual.getClass());
-	List<String> fieldsNames = new LinkedList<String>();
-	List<Object> values = new LinkedList<Object>();
-	List<String> nullFields = new LinkedList<String>();
-	for (Field field : actual.getClass().getDeclaredFields()) {
-		try {
-			Object otherFieldValue = propertySupport.propertyValue(field.getName(), other, field.getType());
-			if(otherFieldValue != null){
-				Object actualFieldValue = propertySupport.propertyValue(field.getName(), actual, field.getType());
-				if(!otherFieldValue.equals(actualFieldValue)){
-					fieldsNames.add(field.getName());
-					values.add(otherFieldValue);
-				}
-			} else {
-				nullFields.add(field.getName());
-			}
-		} catch (IntrospectionError e) {
-			// Not readeable field, skip.
-		}
-	}
-	if(fieldsNames.isEmpty()) return;
-	throw failures.failure(info, shouldBeLenientEqualByIgnoring (actual, fieldsNames, values, nullFields));	  
+  public <A> void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, A actual, A other){
+  	assertIsInstanceOf(info, other, actual.getClass());
+  	List<String> fieldsNames = new LinkedList<String>();
+  	List<Object> values = new LinkedList<Object>();
+  	List<String> nullFields = new LinkedList<String>();
+  	for (Field field : actual.getClass().getDeclaredFields()) {
+  		try {
+  			Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
+  			if (otherFieldValue != null) {
+  				Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
+  				if (!otherFieldValue.equals(actualFieldValue)){
+  					fieldsNames.add(field.getName());
+  					values.add(otherFieldValue);
+  				}
+  			} else {
+  				nullFields.add(field.getName());
+  			}
+  		} catch (IntrospectionError e) {
+  			// Not readeable field, skip.
+  		}
+  	}
+  	if (fieldsNames.isEmpty()) return;
+  	throw failures.failure(info, shouldBeLenientEqualByIgnoring (actual, fieldsNames, values, nullFields));	  
   }
   
   /**
@@ -356,20 +357,20 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
-  public void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, Object actual, Object other, String... fields){
-	assertIsInstanceOf(info, other, actual.getClass());
-	List<String> fieldsNames = new LinkedList<String>();
-	List<Object> values = new LinkedList<Object>();
-	for (String fieldName : fields) {
-		Object actualFieldValue = propertySupport.propertyValue(fieldName, actual, Object.class);
-		Object otherFieldValue = propertySupport.propertyValue(fieldName, other, Object.class);
-		if(!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))){
-			fieldsNames.add(fieldName);
-			values.add(otherFieldValue);				
-		}
-	}
-	if(fieldsNames.isEmpty()) return;
-	throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));	  
+  public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields){
+  	assertIsInstanceOf(info, other, actual.getClass());
+  	List<String> fieldsNames = new LinkedList<String>();
+  	List<Object> values = new LinkedList<Object>();
+  	for (String fieldName : fields) {
+  		Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
+  		Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
+  		if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+  			fieldsNames.add(fieldName);
+  			values.add(otherFieldValue);				
+  		}
+  	}
+  	if (fieldsNames.isEmpty()) return;
+  	throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));	  
   }
 
   /**
@@ -382,29 +383,29 @@ public class Objects {
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
-   */  
-	public void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, Object actual, Object other, String... fields) {
+   */
+	public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
 		assertIsInstanceOf(info, other, actual.getClass());
 		List<String> fieldsNames = new LinkedList<String>();
 		List<Object> values = new LinkedList<Object>();
 		Set<String> ignoredFields = set(fields);
 		for (Field field : actual.getClass().getDeclaredFields()) {
 			try {
-				if(!ignoredFields.contains(field.getName())){
-					Object otherFieldValue = propertySupport.propertyValue(field.getName(), other, field.getType());
-					if(otherFieldValue != null){
-						Object actualFieldValue = propertySupport.propertyValue(field.getName(), actual, field.getType());
-						if(!otherFieldValue.equals(actualFieldValue)){
+				if (!ignoredFields.contains(field.getName())) {
+					Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
+					if (otherFieldValue != null) {
+						Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
+						if (!otherFieldValue.equals(actualFieldValue)) {
 							fieldsNames.add(field.getName());
 							values.add(otherFieldValue);
 						}
 					}
-				}	
+				}
 			} catch (IntrospectionError e) {
 				// Not readeable field, skip.
 			}
-		}		
-		if(fieldsNames.isEmpty()) return;
+		}
+		if (fieldsNames.isEmpty()) return;
 		throw failures.failure(info,shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, list(fields)));	 		
-	}  
+	}
 }

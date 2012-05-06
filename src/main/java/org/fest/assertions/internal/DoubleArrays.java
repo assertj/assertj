@@ -27,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for arrays of {@code double}s.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class DoubleArrays {
 
@@ -251,7 +252,7 @@ public class DoubleArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual,
-      Comparator<? extends Double> comparator) {
+      Comparator<? super Double> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

@@ -15,12 +15,15 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.junit.Test;
+import java.util.Comparator;
 
 import org.fest.assertions.internal.Integers;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link IntegerAssert#usingComparator(java.util.Comparator)}</code> and
@@ -32,6 +35,14 @@ public class IntegerAssert_usingComparator_Test {
 
   private IntegerAssert assertions = new IntegerAssert(5);
 
+  @Mock
+  private Comparator<Integer> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
+
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
@@ -42,8 +53,8 @@ public class IntegerAssert_usingComparator_Test {
   @Test
   public void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.integers.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.integers.getComparator(), comparator);
   }
 }

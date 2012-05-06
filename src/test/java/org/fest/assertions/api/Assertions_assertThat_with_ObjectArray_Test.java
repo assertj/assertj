@@ -23,17 +23,18 @@ import org.junit.Test;
  * Tests for <code>{@link Assertions#assertThat(Object[])}</code>.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_ObjectArray_Test {
 
   @Test public void should_create_Assert() {
-    ObjectArrayAssert assertions = Assertions.assertThat(emptyArray());
+    ObjectArrayAssert<Object> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
     Object[] actual = emptyArray();
-    ObjectArrayAssert assertions = Assertions.assertThat(actual);
+    ObjectArrayAssert<Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

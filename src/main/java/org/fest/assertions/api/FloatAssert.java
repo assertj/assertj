@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Ansgar Konermann
+ * @author Mikhail Mazursky
  */
 public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
@@ -170,7 +171,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   }
 
   @Override
-  public FloatAssert usingComparator(Comparator<?> customComparator) {
+  public FloatAssert usingComparator(Comparator<? super Float> customComparator) {
     super.usingComparator(customComparator);
     this.floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

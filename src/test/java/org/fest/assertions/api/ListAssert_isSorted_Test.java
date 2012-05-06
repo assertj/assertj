@@ -14,13 +14,14 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Test;
+import java.util.Collections;
 
 import org.fest.assertions.internal.Lists;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSorted()}</code>.
@@ -32,14 +33,14 @@ public class ListAssert_isSorted_Test {
   @Test
   public void should_verify_that_actual_does_not_contain_null() {
     Lists lists = mock(Lists.class);
-    ListAssert assertions = new ListAssert(emptyList());
+    ListAssert<String> assertions = new ListAssert<String>(Collections.<String>emptyList());
     assertions.lists = lists;
     assertions.isSorted();
     verify(lists).assertIsSorted(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    ListAssert assertions = new ListAssert(emptyList());
+    ListAssert<String> assertions = new ListAssert<String>(Collections.<String>emptyList());
     assertSame(assertions, assertions.isSorted());
   }
 }

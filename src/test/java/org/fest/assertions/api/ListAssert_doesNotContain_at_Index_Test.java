@@ -14,14 +14,17 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyList;
 import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.TestData.someIndex;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.Collections;
 
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ListAssert#doesNotContain(Object, Index)}</code>.
@@ -31,11 +34,11 @@ import org.junit.*;
 public class ListAssert_doesNotContain_at_Index_Test {
 
   private Lists lists;
-  private ListAssert assertions;
+  private ListAssert<String> assertions;
 
   @Before public void setUp() {
     lists = mock(Lists.class);
-    assertions = new ListAssert(emptyList());
+    assertions = new ListAssert<String>(Collections.<String>emptyList());
     assertions.lists = lists;
   }
 
@@ -46,7 +49,7 @@ public class ListAssert_doesNotContain_at_Index_Test {
   }
 
   @Test public void should_return_this() {
-    ListAssert returned = assertions.doesNotContain("Luke", someIndex());
+    ListAssert<String> returned = assertions.doesNotContain("Luke", someIndex());
     assertSame(assertions, returned);
   }
 }

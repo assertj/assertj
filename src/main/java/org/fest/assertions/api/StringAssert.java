@@ -33,8 +33,9 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert> {
+public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert, String> {
 
   @VisibleForTesting Strings strings = Strings.instance();
 
@@ -193,13 +194,24 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return this;
   }
 
+  /** {@inheritDoc} */
+  public StringAssert usingElementComparator(Comparator<? super String> customComparator) {
+    // TODO maybe use Comparator<? super Character>
+    throw new UnsupportedOperationException("custom element Comparator is not supported for String comparison");
+  }
+
+  /** {@inheritDoc} */
+  public StringAssert usingDefaultElementComparator() {
+    throw new UnsupportedOperationException("custom element Comparator is not supported for String comparison");
+  }
+
   @Override
-  public StringAssert usingComparator(Comparator<?> customComparator) {
+  public StringAssert usingComparator(Comparator<? super String> customComparator) {
     super.usingComparator(customComparator);
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public StringAssert usingDefaultComparator() {
     super.usingDefaultComparator();

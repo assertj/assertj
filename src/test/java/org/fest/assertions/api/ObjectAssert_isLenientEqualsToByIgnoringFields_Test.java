@@ -28,27 +28,28 @@ import org.junit.Test;
  * Tests for <code>{@link ObjectAssert#isLenientEqualsToByIgnoringFields(Object, String...)}</code>.
  *
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectAssert_isLenientEqualsToByIgnoringFields_Test {
 
   private Objects objects;
-  private ObjectAssert assertions;
+  private ObjectAssert<Jedi> assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert(new Jedi("Yoda", "Green"));
+    assertions = new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
     assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_is_instance_of_type() {
-	Object other = new Jedi("Yoda", "Blue");
+    Jedi other = new Jedi("Yoda", "Blue");
     assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
     verify(objects).assertIsLenientEqualsToByIgnoringFields(assertions.info, assertions.actual, other, "lightSaberColor");
   }
 
   @Test public void should_return_this() {
-	Object other = new Jedi("Yoda", "Blue");
-    ObjectAssert returned = assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
+    Jedi other = new Jedi("Yoda", "Blue");
+    ObjectAssert<Jedi> returned = assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
     assertSame(assertions, returned);
   }
 }

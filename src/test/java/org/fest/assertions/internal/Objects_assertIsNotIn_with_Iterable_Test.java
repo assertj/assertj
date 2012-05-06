@@ -38,7 +38,7 @@ import org.junit.Test;
  */
 public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_Objects {
 
-  private static Iterable<?> values;
+  private static Iterable<String> values;
 
   @BeforeClass
   public static void setUpOnce() {
@@ -48,7 +48,7 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_O
   @Test
   public void should_throw_error_if_Iterable_is_null() {
     thrown.expectNullPointerException(iterableIsNull());
-    Iterable<?> c = null;
+    Iterable<String> c = null;
     objects.assertIsNotIn(someInfo(), "Luke", c);
   }
 

@@ -29,13 +29,14 @@ import org.fest.assertions.internal.ObjectArrays;
  * Tests for <code>{@link ObjectArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_isSorted_Test {
 
   @Test
   public void should_verify_that_assertIsSorted_is_called() {
     ObjectArrays arrays = mock(ObjectArrays.class);
-    ObjectArrayAssert assertions = new ObjectArrayAssert(emptyArray());
+    ObjectArrayAssert<Object> assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
     assertions.isSorted();
     verify(arrays).assertIsSorted(assertions.info, assertions.actual);
@@ -43,7 +44,7 @@ public class ObjectArrayAssert_isSorted_Test {
 
   @Test
   public void should_return_this() {
-    ObjectArrayAssert objectArrayAssert = new ObjectArrayAssert(array("a", "b"));
+    ObjectArrayAssert<Object> objectArrayAssert = new ObjectArrayAssert<Object>(array("a", "b"));
     assertSame(objectArrayAssert, objectArrayAssert.isSorted());
   }
 

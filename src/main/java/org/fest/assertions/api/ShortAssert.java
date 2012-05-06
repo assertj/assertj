@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Ansgar Konermann
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
@@ -138,7 +139,7 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
   }
 
   @Override
-  public ShortAssert usingComparator(Comparator<?> customComparator) {
+  public ShortAssert usingComparator(Comparator<? super Short> customComparator) {
     super.usingComparator(customComparator);
     this.shorts = new Shorts(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

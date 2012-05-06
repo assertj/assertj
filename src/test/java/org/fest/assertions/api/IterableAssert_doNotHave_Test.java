@@ -44,7 +44,7 @@ public class IterableAssert_doNotHave_Test extends AbstractTest_for_IterableAsse
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.doNotHave(condition);
+	    ConcreteIterableAssert<Object> returned = assertions.doNotHave(condition);
 	    assertSame(assertions, returned);
 	  }	
 	

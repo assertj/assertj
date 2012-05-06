@@ -38,7 +38,7 @@ public class IterableAssert_containsSequence_Test extends AbstractTest_for_Itera
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.containsSequence("Luke", "Yoda");
+    ConcreteIterableAssert<Object> returned = assertions.containsSequence("Luke", "Yoda");
     assertSame(assertions, returned);
   }
 }

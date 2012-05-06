@@ -36,7 +36,7 @@ public class IterableAssert_doesNotContain_Test extends AbstractTest_for_Iterabl
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.doesNotContain("Luke");
+    ConcreteIterableAssert<Object> returned = assertions.doesNotContain("Luke");
     assertSame(assertions, returned);
   }
 }

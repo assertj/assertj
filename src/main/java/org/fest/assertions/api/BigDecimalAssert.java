@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalAssert, BigDecimal> implements
     NumberAssert<BigDecimal> {
@@ -85,7 +86,7 @@ public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalA
   }
 
   @Override
-  public BigDecimalAssert usingComparator(Comparator<?> customComparator) {
+  public BigDecimalAssert usingComparator(Comparator<? super BigDecimal> customComparator) {
     super.usingComparator(customComparator);
     this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

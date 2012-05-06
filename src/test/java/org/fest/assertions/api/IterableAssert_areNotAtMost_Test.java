@@ -44,7 +44,7 @@ public class IterableAssert_areNotAtMost_Test extends AbstractTest_for_IterableA
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.areNotAtMost(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.areNotAtMost(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

@@ -19,10 +19,13 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.ByteArrays;
 
@@ -33,8 +36,13 @@ import org.fest.assertions.internal.ByteArrays;
  */
 public class ByteArrayAssert_isSortedAccordingToComparator_Test {
 
-  @SuppressWarnings("unchecked")
-  private Comparator<? extends Byte> comparator = mock(Comparator.class);
+  @Mock
+  private Comparator<Byte> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void should_verify_that_assertIsSorted_is_called() {

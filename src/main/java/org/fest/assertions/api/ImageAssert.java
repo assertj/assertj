@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
 
@@ -97,7 +98,7 @@ public class ImageAssert extends AbstractAssert<ImageAssert, BufferedImage> {
   }
 
   @Override
-  public ImageAssert usingComparator(Comparator<?> customComparator) {
+  public ImageAssert usingComparator(Comparator<? super BufferedImage> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for image comparison");
   }
 

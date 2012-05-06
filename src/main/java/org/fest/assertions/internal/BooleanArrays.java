@@ -25,6 +25,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class BooleanArrays {
 
@@ -240,7 +241,7 @@ public class BooleanArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, boolean[] actual,
-      Comparator<? extends Boolean> comparator) {
+      Comparator<? super Boolean> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

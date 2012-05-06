@@ -40,7 +40,7 @@ public class IterableAssert_isSubsetOf_Test extends AbstractTest_for_IterableAss
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.isSubsetOf(list("Luke"));
+    ConcreteIterableAssert<Object> returned = assertions.isSubsetOf(list("Luke"));
     assertSame(assertions, returned);
   }
 }

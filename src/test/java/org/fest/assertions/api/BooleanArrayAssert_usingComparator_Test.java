@@ -16,29 +16,44 @@ package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
 
+import java.util.Comparator;
+
 import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.mockito.MockitoAnnotations.initMocks;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.BooleanArrays;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link BooleanArrayAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class BooleanArrayAssert_usingComparator_Test {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   private BooleanArrayAssert assertions = new BooleanArrayAssert(emptyArray());
+
+  @Mock
+  private Comparator<Boolean> elementComparator;
+  @Mock
+  private Comparator<boolean[]> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void using_default_comparator_test() {
@@ -46,12 +61,19 @@ public class BooleanArrayAssert_usingComparator_Test {
     assertSame(assertions.objects, Objects.instance());
     assertSame(assertions.arrays, BooleanArrays.instance());
   }
-  
+
   @Test
   public void using_custom_comparator_test() {
+    // in that, we don't care of the comparator, the point to check is that we can't use a comparator
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.arrays, BooleanArrays.instance());
+  }
+
+  @Test
+  public void using_custom_element_comparator_test() {
     thrown.expect(UnsupportedOperationException.class);
     // in that, we don't care of the comparator, the point to check is that we can't use a comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
+    assertions.usingElementComparator(elementComparator);
   }
-  
 }

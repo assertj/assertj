@@ -36,6 +36,7 @@ import org.junit.Test;
  *
  * @author Yvonne Wang
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class PropertySupport_propertyValues_Test {
 
@@ -54,43 +55,43 @@ public class PropertySupport_propertyValues_Test {
   @Rule public ExpectedException thrown = none();
 
   @Test public void should_return_empty_List_if_given_Collection_is_null() {
-    List<Object> ids = propertySupport.propertyValues("ids", null);
+    List<Long> ids = propertySupport.propertyValues("ids", Long.class, null);
     assertEquals(emptyList(), ids);
   }
 
   @Test public void should_return_empty_List_if_given_Collection_is_empty() {
-    List<Object> ids = propertySupport.propertyValues("ids", emptySet());
+    List<Long> ids = propertySupport.propertyValues("ids", Long.class, emptySet());
     assertEquals(emptyList(), ids);
   }
 
   @Test public void should_return_empty_List_if_given_Collection_contains_only_nulls() {
-    List<Object> ids = propertySupport.propertyValues("ids", list(null, null));
+    List<Long> ids = propertySupport.propertyValues("ids", Long.class, list(null, null));
     assertEquals(emptyList(), ids);
   }
 
   @Test public void should_remove_null_values_from_given_Collection() {
     List<Employee> anotherList = list(yoda, null, luke, null);
-    List<Object> ids = propertySupport.propertyValues("id", anotherList);
+    List<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
     assertEquals(list(6000L, 8000L), ids);
   }
 
   @Test public void should_return_values_of_simple_property() {
-    List<Object> ids = propertySupport.propertyValues("id", employees);
+    List<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
     assertEquals(list(6000L, 8000L), ids);
   }
 
   @Test public void should_return_values_of_nested_property() {
-    List<Object> firstNames = propertySupport.propertyValues("name.first", employees);
+    List<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
     assertEquals(list("Yoda", "Luke"), firstNames);
   }
 
   @Test public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
-    propertySupport.propertyValues("id.", employees);
+    propertySupport.propertyValues("id.", Long.class, employees);
   }
-  
+
   @Test public void should_extract_property(){
-	  long id = propertySupport.propertyValue("id", yoda, long.class);
-	  assertEquals(6000L, id);
+	  Long id = propertySupport.propertyValue("id", Long.class, yoda);
+	  assertEquals(Long.valueOf(6000L), id);
   }
 }

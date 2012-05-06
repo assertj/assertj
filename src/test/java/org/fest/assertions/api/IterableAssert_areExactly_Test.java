@@ -44,7 +44,7 @@ public class IterableAssert_areExactly_Test extends AbstractTest_for_IterableAss
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.areExactly(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.areExactly(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

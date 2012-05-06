@@ -69,21 +69,21 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
    *           name.
    */
-  public List<Object> propertyValues(String propertyName, Collection<?> target) {
+  public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Collection<?> target) {
     // ignore null elements as we can't extract a property from a null object
     Collection<?> cleanedUp = nonNullElements(target);
     if (isEmpty(cleanedUp)) return emptyList();
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
-      List<Object> propertyValues = propertyValues(firstPropertyName, cleanedUp);
+      List<Object> propertyValues = propertyValues(firstPropertyName, Object.class, cleanedUp);
       // extract next sub-property values until reaching the last sub-property
-      return propertyValues(nextPropertyNameFrom(propertyName), propertyValues);
+      return propertyValues(nextPropertyNameFrom(propertyName), clazz, propertyValues);
     }
-    return simplePropertyValues(propertyName, cleanedUp);
+    return simplePropertyValues(propertyName, clazz, cleanedUp);
   }
 
   /**
-   * Static variant of {@link #propertyValue(String, Object)} for synthetic sugar.
+   * Static variant of {@link #propertyValues(String, Class, Collection)} for syntactic sugar.
    * <p>
    * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
    * given <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will
@@ -96,8 +96,8 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
    *           name.
    */
-  public static List<Object> propertyValuesOf(String propertyName, Collection<?> target) {
-    return instance().propertyValues(propertyName, target);
+  public static <T> List<T> propertyValuesOf(String propertyName, Collection<?> target, Class<T> clazz) {
+    return instance().propertyValues(propertyName, clazz, target);
   }
 
   /**
@@ -110,12 +110,12 @@ public class PropertySupport {
    * @return a {@code List} containing the values of the given property name, from the elements of the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
    */
-  public static List<Object> propertyValuesOf(String propertyName, Object[] target) {
-    return instance().propertyValues(propertyName, asList(target));
+  public static <T> List<T> propertyValuesOf(String propertyName, Object[] target, Class<T> clazz) {
+    return instance().propertyValues(propertyName, clazz, asList(target));
   }
-  
+
   /**
-   * Static varient of {@link #propertyValue(String, Object, Class)}  for synthetic sugar.
+   * Static variant of {@link #propertyValue(String, Object, Class)}  for syntactic sugar.
    * <p>
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -124,28 +124,14 @@ public class PropertySupport {
    * @return a the values of the given property name
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
-  public static <T>  T propertyValueOf(String propertyName, Object target, Class<T> clazz){
-	  return instance().propertyValue(propertyName, target, clazz);
+  public static <T> T propertyValueOf(String propertyName, Object target, Class<T> clazz){
+	  return instance().propertyValue(propertyName, clazz, target);
   }
-  
-  /**
-   * Return the value of property from a target object.
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
-   * @param target the given object
-   * @param clazz type of property
-   * @return a the values of the given property name
-   * @throws IntrospectionError if the given target does not have a property with a matching name.
-   */
-  @SuppressWarnings("unchecked")
-  public <T>  T propertyValue(String propertyName, Object target, Class<T> clazz){
-	  return  (T) propertyValue(propertyName, target);
-  }  
 
-  private List<Object> simplePropertyValues(String propertyName, Collection<?> target) {
-    List<Object> propertyValues = new ArrayList<Object>();
+  private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Collection<?> target) {
+    List<T> propertyValues = new ArrayList<T>();
     for (Object e : target)
-      propertyValues.add(propertyValue(propertyName, e));
+      propertyValues.add(propertyValue(propertyName, clazz, e));
     return unmodifiableList(propertyValues);
   }
 
@@ -169,10 +155,22 @@ public class PropertySupport {
     return propertyName.contains(SEPARATOR) && !propertyName.startsWith(SEPARATOR) && !propertyName.endsWith(SEPARATOR);
   }
 
-  private Object propertyValue(String propertyName, Object target) {
+  /**
+   * Return the value of property from a target object.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
+   * @param target the given object
+   * @param clazz type of property
+   * @return a the values of the given property name
+   * @throws IntrospectionError if the given target does not have a property with a matching name.
+   */
+  public <T> T propertyValue(String propertyName, Class<T> clazz, Object target) {
     PropertyDescriptor descriptor = descriptorForProperty(propertyName, target);
     try {
-      return javaBeanDescriptor.invokeReadMethod(descriptor, target);
+      return clazz.cast(javaBeanDescriptor.invokeReadMethod(descriptor, target));
+    } catch (ClassCastException e) {
+      String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>", propertyName, target, clazz);
+      throw new IntrospectionError(msg, e);
     } catch (Throwable unexpected) {
       String msg = format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);
       throw new IntrospectionError(msg, unexpected);
@@ -189,17 +187,17 @@ public class PropertySupport {
    * @return the value of the given property name given target.
    * @throws IntrospectionError if target object does not have a property with a matching name.
    */
-  public Object propertyValueOf(String propertyName, Object target) {
+  public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
     // returns null if target is null as we can't extract a property from a null object
     if (target == null) return null;
 
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
-      Object propertyValue = propertyValue(firstPropertyName, target);
+      Object propertyValue = propertyValue(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
-      return propertyValueOf(nextPropertyNameFrom(propertyName), propertyValue);
+      return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
     }
-    return propertyValue(propertyName, target);
+    return propertyValue(propertyName, clazz, target);
   }
 
 }

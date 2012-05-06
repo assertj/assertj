@@ -44,7 +44,7 @@ public class IterableAssert_haveAtLeast_Test extends AbstractTest_for_IterableAs
 
 	  @Test
 	  public void should_return_this() {
-	    ConcreteIterableAssert returned = assertions.haveAtLeast(2, condition);
+	    ConcreteIterableAssert<Object> returned = assertions.haveAtLeast(2, condition);
 	    assertSame(assertions, returned);
 	  }	
 	

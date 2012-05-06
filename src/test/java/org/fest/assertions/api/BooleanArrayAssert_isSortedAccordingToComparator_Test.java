@@ -19,10 +19,13 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.BooleanArrays;
 
@@ -33,9 +36,14 @@ import org.fest.assertions.internal.BooleanArrays;
  */
 public class BooleanArrayAssert_isSortedAccordingToComparator_Test {
 
-  @SuppressWarnings("unchecked")
-  private Comparator<? extends Boolean> comparator = mock(Comparator.class);
+  @Mock
+  private Comparator<Boolean> comparator;
 
+  @Before
+  public void before(){
+    initMocks(this);
+  }
+  
   @Test
   public void should_verify_that_assertIsSorted_is_called() {
     BooleanArrays arrays = mock(BooleanArrays.class);

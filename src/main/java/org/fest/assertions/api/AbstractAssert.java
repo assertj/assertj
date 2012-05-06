@@ -178,7 +178,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public S usingComparator(Comparator<?> customComparator) {  
+  public S usingComparator(Comparator<? super A> customComparator) {  
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
@@ -190,13 +190,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     this.objects = Objects.instance();
     return myself;
   }
-  
+
   /** {@inheritDoc} */
   @Override 
   public final boolean equals(Object obj) {
     throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }  
-  
+
   /**
    * Always returns 1.
    * @return 1.

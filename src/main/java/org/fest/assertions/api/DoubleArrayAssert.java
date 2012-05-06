@@ -16,10 +16,12 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.EnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.DoubleArrays;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code double}s.
@@ -30,9 +32,10 @@ import org.fest.util.*;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[]> implements
-    EnumerableAssert<DoubleArrayAssert>, ArraySortedAssert<DoubleArrayAssert, Double> {
+    EnumerableAssert<DoubleArrayAssert, Double>, ArraySortedAssert<DoubleArrayAssert, Double> {
 
   @VisibleForTesting
   DoubleArrays arrays = DoubleArrays.instance();
@@ -199,22 +202,21 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
   }
 
   /** {@inheritDoc} */
-  public DoubleArrayAssert isSortedAccordingTo(Comparator<? extends Double> comparator) {
+  public DoubleArrayAssert isSortedAccordingTo(Comparator<? super Double> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
-  
-  @Override
-  public DoubleArrayAssert usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+
+  /** {@inheritDoc} */
+  public DoubleArrayAssert usingElementComparator(Comparator<? super Double> customComparator) {
     this.arrays = new DoubleArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
-  @Override
-  public DoubleArrayAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
+
+  /** {@inheritDoc} */
+  public DoubleArrayAssert usingDefaultElementComparator() {
     this.arrays = DoubleArrays.instance();
     return myself;
   }
+
 }

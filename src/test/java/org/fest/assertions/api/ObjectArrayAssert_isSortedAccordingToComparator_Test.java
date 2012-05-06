@@ -20,10 +20,13 @@ import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.util.Arrays.array;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.ObjectArrays;
 
@@ -31,15 +34,22 @@ import org.fest.assertions.internal.ObjectArrays;
  * Tests for <code>{@link ObjectArrayAssert#isSortedAccordingTo(Comparator)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_isSortedAccordingToComparator_Test {
 
-  private Comparator<?> mockComparator = mock(Comparator.class);
+  @Mock
+  private Comparator<Object> mockComparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void should_verify_that_assertIsSortedAccordingToComparator_is_called() {
     ObjectArrays arrays = mock(ObjectArrays.class);
-    ObjectArrayAssert assertions = new ObjectArrayAssert(emptyArray());
+    ObjectArrayAssert<Object> assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
     assertions.isSortedAccordingTo(mockComparator);
     verify(arrays).assertIsSortedAccordingToComparator(assertions.info, assertions.actual,
@@ -48,7 +58,7 @@ public class ObjectArrayAssert_isSortedAccordingToComparator_Test {
 
   @Test
   public void should_return_this() {
-    ObjectArrayAssert objectArrayAssert = new ObjectArrayAssert(array("b", "a"));
+    ObjectArrayAssert<Object> objectArrayAssert = new ObjectArrayAssert<Object>(array("b", "a"));
     assertSame(objectArrayAssert, objectArrayAssert.isSortedAccordingTo(mockComparator));
   }
 }

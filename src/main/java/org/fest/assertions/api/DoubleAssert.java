@@ -34,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements
     FloatingPointNumberAssert<Double> {
@@ -174,7 +175,7 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
   }
 
   @Override
-  public DoubleAssert usingComparator(Comparator<?> customComparator) {
+  public DoubleAssert usingComparator(Comparator<? super Double> customComparator) {
     super.usingComparator(customComparator);
     this.doubles = new Doubles(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

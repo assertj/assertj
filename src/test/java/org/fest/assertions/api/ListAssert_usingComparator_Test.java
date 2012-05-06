@@ -15,25 +15,37 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.ArrayList;
-
-import org.junit.Test;
+import java.util.Comparator;
+import java.util.List;
 
 import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.Lists;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ListAssert#usingComparator(java.util.Comparator)}</code> and
  * <code>{@link ListAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ListAssert_usingComparator_Test {
 
-  private ListAssert assertions = new ListAssert(new ArrayList<String>());
+  private ListAssert<String> assertions = new ListAssert<String>(new ArrayList<String>());
+
+  @Mock
+  private Comparator<List<String>> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void using_default_comparator_test() {
@@ -42,13 +54,13 @@ public class ListAssert_usingComparator_Test {
     assertSame(assertions.iterables, Iterables.instance());
     assertSame(assertions.lists, Lists.instance());
   }
-  
+
   @Test
   public void using_custom_comparator_test() {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.iterables.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.lists.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+//    assertSame(assertions.iterables.getComparator(), Iterables.instance());
+//    assertSame(assertions.lists.getComparator(), Lists.instance());
   }
 }

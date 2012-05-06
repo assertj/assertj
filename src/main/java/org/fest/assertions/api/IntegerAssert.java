@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
@@ -139,7 +140,7 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
   }
 
   @Override
-  public IntegerAssert usingComparator(Comparator<?> customComparator) {
+  public IntegerAssert usingComparator(Comparator<? super Integer> customComparator) {
     super.usingComparator(customComparator);
     this.integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

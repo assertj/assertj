@@ -36,7 +36,7 @@ public class IterableAssert_isNotEmpty_Test extends AbstractTest_for_IterableAss
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.isNotEmpty();
+    ConcreteIterableAssert<Object> returned = assertions.isNotEmpty();
     assertSame(assertions, returned);
   }
 }

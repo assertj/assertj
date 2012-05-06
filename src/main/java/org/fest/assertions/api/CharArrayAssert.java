@@ -32,9 +32,10 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> implements
-    EnumerableAssert<CharArrayAssert>, ArraySortedAssert<CharArrayAssert, Character> {
+    EnumerableAssert<CharArrayAssert, Character>, ArraySortedAssert<CharArrayAssert, Character> {
 
   @VisibleForTesting
   CharArrays arrays = CharArrays.instance();
@@ -201,21 +202,19 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
   }
 
   /** {@inheritDoc} */
-  public CharArrayAssert isSortedAccordingTo(Comparator<? extends Character> comparator) {
+  public CharArrayAssert isSortedAccordingTo(Comparator<? super Character> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
-  @Override
-  public CharArrayAssert usingComparator(Comparator<?> customComparator) {
-    super.usingComparator(customComparator);
+  /** {@inheritDoc} */
+  public CharArrayAssert usingElementComparator(Comparator<? super Character> customComparator) {
     this.arrays = new CharArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
-  @Override
-  public CharArrayAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
+
+  /** {@inheritDoc} */
+  public CharArrayAssert usingDefaultElementComparator() {
     this.arrays = CharArrays.instance();
     return myself;
   }

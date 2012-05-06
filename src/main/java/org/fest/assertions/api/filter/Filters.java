@@ -57,6 +57,7 @@ import org.fest.util.VisibleForTesting;
  * @param <E> the type of element of group to filter.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class Filters<E> {
 
@@ -308,7 +309,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue
+          .getClass(), element);
       if (areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
       }
@@ -335,7 +337,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue
+          .getClass(), element);
       if (!areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
       }
@@ -367,7 +370,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues
+          .getClass().getComponentType(), element);
       if (isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
         newFilteredIterable.add(element);
       }
@@ -394,7 +398,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues
+          .getClass().getComponentType(), element);
       if (!isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
         newFilteredIterable.add(element);
       }

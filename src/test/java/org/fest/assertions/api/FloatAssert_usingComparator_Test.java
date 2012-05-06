@@ -15,12 +15,16 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.util.Comparator;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.Floats;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
  * Tests for <code>{@link FloatAssert#usingComparator(java.util.Comparator)}</code> and
@@ -32,6 +36,14 @@ public class FloatAssert_usingComparator_Test {
 
   private FloatAssert assertions = new FloatAssert(5f);
 
+  @Mock
+  private Comparator<Float> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
+
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
@@ -42,8 +54,8 @@ public class FloatAssert_usingComparator_Test {
   @Test
   public void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.floats.getComparator(), CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
+    assertSame(assertions.objects.getComparator(), comparator);
+    assertSame(assertions.floats.getComparator(), comparator);
   }
 }

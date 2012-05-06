@@ -19,10 +19,13 @@ import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 
 import static org.mockito.Mockito.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import org.fest.assertions.internal.CharArrays;
 
@@ -33,8 +36,13 @@ import org.fest.assertions.internal.CharArrays;
  */
 public class CharArrayAssert_isSortedAccordingToComparator_Test {
 
-  @SuppressWarnings("unchecked")
-  private Comparator<? extends Character> comparator = mock(Comparator.class);
+  @Mock
+  private Comparator<Character> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
 
   @Test
   public void should_verify_that_assertIsSorted_is_called() {

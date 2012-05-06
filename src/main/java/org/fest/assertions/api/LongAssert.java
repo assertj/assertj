@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
@@ -139,7 +140,7 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
   }
 
   @Override
-  public LongAssert usingComparator(Comparator<?> customComparator) {
+  public LongAssert usingComparator(Comparator<? super Long> customComparator) {
     super.usingComparator(customComparator);
     this.longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

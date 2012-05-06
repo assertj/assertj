@@ -35,7 +35,7 @@ public class IterableAssert_doesNotHaveDuplicates_Test extends AbstractTest_for_
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.doesNotHaveDuplicates();
+    ConcreteIterableAssert<Object> returned = assertions.doesNotHaveDuplicates();
     assertSame(assertions, returned);
   }
 }

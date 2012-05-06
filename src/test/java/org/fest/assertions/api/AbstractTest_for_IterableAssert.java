@@ -17,23 +17,22 @@ package org.fest.assertions.api;
 import static java.util.Collections.emptyList;
 import static org.mockito.Mockito.mock;
 
-import org.junit.Before;
-
 import org.fest.assertions.internal.Iterables;
+import org.junit.Before;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#contains(Object...)}</code>.
  *
  * @author Joel Costigliola
  */
-public class AbstractTest_for_IterableAssert {
+public abstract class AbstractTest_for_IterableAssert {
 
   protected Iterables iterables;
-  protected ConcreteIterableAssert assertions;
+  protected ConcreteIterableAssert<Object> assertions;
 
   @Before public void setUp() {
     iterables = mock(Iterables.class);
-    assertions = new ConcreteIterableAssert(emptyList());
+    assertions = new ConcreteIterableAssert<Object>(emptyList());
     assertions.iterables = iterables;
   }
 

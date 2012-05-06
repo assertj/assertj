@@ -21,26 +21,27 @@ import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link Properties#extractProperty(String)}</code>.
+ * Tests for <code>{@link Properties#extractProperty(String, Class)}</code>.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class Properties_extractProperty_Test {
 
   @Rule public ExpectedException thrown = none();
 
   @Test public void should_create_a_new_Properties() {
-    Properties properties = Properties.extractProperty("id");
+    Properties<Object> properties = Properties.extractProperty("id", Object.class);
     assertEquals("id", properties.propertyName);
   }
 
   @Test public void should_throw_error_if_property_name_is_null() {
     thrown.expectNullPointerException("The name of the property to read should not be null");
-    Properties.extractProperty(null);
+    Properties.extractProperty(null, Object.class);
   }
 
   @Test public void should_throw_error_if_property_name_is_empty() {
     thrown.expectIllegalArgumentException("The name of the property to read should not be empty");
-    Properties.extractProperty("");
+    Properties.extractProperty("", Object.class);
   }
 }

@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
@@ -877,7 +878,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   @Override
-  public DateAssert usingComparator(Comparator<?> customComparator) {
+  public DateAssert usingComparator(Comparator<? super Date> customComparator) {
     super.usingComparator(customComparator);
     this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

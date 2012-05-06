@@ -31,6 +31,7 @@ import org.junit.*;
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class PropertySupport_propertyValues_with_mocks_Test {
 
@@ -56,7 +57,7 @@ public class PropertySupport_propertyValues_with_mocks_Test {
     PropertyDescriptor real = descriptorForProperty("id", yoda);
     when(descriptor.invokeReadMethod(real, yoda)).thenThrow(thrownOnPurpose);
     try {
-      propertySupport.propertyValues("id", employees);
+      propertySupport.propertyValues("id", Long.class, employees);
       fail("expecting an IntrospectionError to be thrown");
     } catch (IntrospectionError expected) {
       assertSame(thrownOnPurpose, expected.getCause());

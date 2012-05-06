@@ -28,17 +28,18 @@ import org.junit.Test;
 /**
  * Tests for <code>{@link ObjectArrayAssert#have(org.fest.assertions.core.Condition)}</code>.
  * 
- * @author Nicolas François 
+ * @author Nicolas François
+ * @author Mikhail Mazursky 
  */
 public class ObjectArrayAssert_doNothave_Test {
 
 	  private ObjectArrays arrays;
-	  private ObjectArrayAssert assertions;
+	  private ObjectArrayAssert<Object> assertions;
 	  private static Condition<Object> condition;
 
 	  @Before public void setUp() {
 	    arrays = mock(ObjectArrays.class);
-	    assertions = new ObjectArrayAssert(emptyArray());
+	    assertions = new ObjectArrayAssert<Object>(emptyArray());
 	    assertions.arrays = arrays;
 	    condition = new TestCondition<Object>();
 	  }

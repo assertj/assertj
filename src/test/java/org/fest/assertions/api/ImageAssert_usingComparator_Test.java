@@ -15,17 +15,18 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-
 import static org.fest.assertions.test.ExpectedException.none;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.awt.image.BufferedImage;
-
-import org.junit.Rule;
-import org.junit.Test;
+import java.util.Comparator;
 
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
@@ -40,6 +41,14 @@ public class ImageAssert_usingComparator_Test {
   
   private ImageAssert assertions = new ImageAssert(new BufferedImage(10, 10, 1));
 
+  @Mock
+  private Comparator<BufferedImage> comparator;
+
+  @Before
+  public void before(){
+    initMocks(this);
+  }
+
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
@@ -50,7 +59,7 @@ public class ImageAssert_usingComparator_Test {
   public void using_custom_comparator_test() {
     thrown.expect(UnsupportedOperationException.class);
     // in that, we don't care of the comparator, the point to check is that we can't use a comparator
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(comparator);
   }
   
 }

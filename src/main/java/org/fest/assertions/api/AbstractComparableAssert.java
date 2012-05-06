@@ -66,7 +66,7 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   }
 
   @Override
-  public S usingComparator(Comparator<?> customComparator) {
+  public S usingComparator(Comparator<? super A> customComparator) {
     super.usingComparator(customComparator);
     this.comparables = new Comparables(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;

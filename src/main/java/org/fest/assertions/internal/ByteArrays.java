@@ -27,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for arrays of {@code byte}s.
  * 
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ByteArrays {
 
@@ -253,7 +254,7 @@ public class ByteArrays {
    * @param comparator the {@link Comparator} used to compare array elements
    */
   public void assertIsSortedAccordingToComparator(AssertionInfo info, byte[] actual,
-      Comparator<? extends Byte> comparator) {
+      Comparator<? super Byte> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

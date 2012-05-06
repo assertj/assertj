@@ -30,17 +30,18 @@ import org.junit.Test;
  * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(int)}</code>.
  *
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test {
 
   private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private ObjectArrayAssert<Object> assertions;
   private final List<String> other = list("Yoda");
 
   @Before
   public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(emptyArray());
+    assertions = new ObjectArrayAssert<Object>(emptyArray());
     assertions.arrays = arrays;
   }
 
@@ -51,7 +52,7 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.hasSameSizeAs(other);
+    ObjectArrayAssert<Object> returned = assertions.hasSameSizeAs(other);
     assertSame(assertions, returned);
   }
 }

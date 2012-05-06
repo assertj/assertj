@@ -22,18 +22,19 @@ import org.junit.Test;
  * Tests for <code>{@link Assertions#assertThat(Object)}</code>.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_Object_Test {
 
   @Test public void should_create_Assert() {
     Object actual = new Object();
-    ObjectAssert assertions = Assertions.assertThat(actual);
+    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
     Object actual = new Object();
-    ObjectAssert assertions = Assertions.assertThat(actual);
+    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

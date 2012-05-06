@@ -29,6 +29,7 @@ import org.junit.*;
  * Tests for <code>{@link Properties#from(Object[])}</code>.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class Properties_from_with_array_Test {
 
@@ -42,19 +43,19 @@ public class Properties_from_with_array_Test {
 
   private PropertySupport propertySupport;
   private String propertyName;
-  private Properties properties;
+  private Properties<Long> properties;
 
   @Before public void setUp() {
     propertySupport = mock(PropertySupport.class);
     propertyName = "id";
-    properties = new Properties(propertyName);
+    properties = new Properties<Long>(propertyName, Long.class);
     properties.propertySupport = propertySupport;
   }
 
   @Test public void should_return_values_of_property() {
-    List<Object> ids = new ArrayList<Object>();
+    List<Long> ids = new ArrayList<Long>();
     ids.add(yoda.getId());
-    when(propertySupport.propertyValues(propertyName, wrap(employees))).thenReturn(ids);
+    when(propertySupport.propertyValues(propertyName, Long.class, wrap(employees))).thenReturn(ids);
     assertSame(ids, properties.from(employees));
   }
 }

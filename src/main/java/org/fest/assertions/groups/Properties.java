@@ -27,10 +27,12 @@ import org.fest.util.VisibleForTesting;
  * Extracts the values of a specified property from the elements of a given <code>{@link Collection}</code> or array.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
-public class Properties {
+public class Properties<T> {
 
   @VisibleForTesting final String propertyName;
+  final Class<T> propertyType;
 
   @VisibleForTesting PropertySupport propertySupport = PropertySupport.instance();
 
@@ -42,9 +44,9 @@ public class Properties {
    * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
    */
-  public static Properties extractProperty(String propertyName) {
+  public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     checkIsNotNullOrEmpty(propertyName);
-    return new Properties(propertyName);
+    return new Properties<T>(propertyName, propertyType);
   }
 
   private static void checkIsNotNullOrEmpty(String propertyName) {
@@ -53,8 +55,9 @@ public class Properties {
       throw new IllegalArgumentException("The name of the property to read should not be empty");
   }
 
-  @VisibleForTesting Properties(String propertyName) {
+  @VisibleForTesting Properties(String propertyName, Class<T> propertyType) {
     this.propertyName = propertyName;
+    this.propertyType = propertyType;
   }
 
   /**
@@ -65,8 +68,8 @@ public class Properties {
    * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
    * name.
    */
-  public List<?> from(Collection<?> c) {
-    return propertySupport.propertyValues(propertyName, c);
+  public List<T> from(Collection<?> c) {
+    return propertySupport.propertyValues(propertyName, propertyType, c);
   }
 
   /**
@@ -76,7 +79,7 @@ public class Properties {
    * @return the values of the previously specified property extracted from the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
    */
-  public List<?> from(Object[] array) {
-    return propertySupport.propertyValues(propertyName, wrap(array));
+  public List<T> from(Object[] array) {
+    return propertySupport.propertyValues(propertyName, propertyType, wrap(array));
   }
 }
