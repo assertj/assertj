@@ -1,9 +1,12 @@
 For the next release
 --------------------
 
-- FEST-470 : Lenient Equals (allows pecifying on which properties equals should be perfomed)
+- FEST-404 : Filter API on iterable/array
+- FEST-470 : Lenient Equals (allows specifying on which properties equality should be performed)
 - FEST-447 : Increase ComparableAssert API flexibility 
 - FEST-478 : Add support for parametrized types in AbstractAssert
+- FEST-221 : Array and Iterable new assertion : hasSameSizeAs
+- FEST-481 : isIn() and isNotIn() assertions should take Iterable<?> instead of Collection<?>
 
 2.0M2 release notes 
 -------------------
