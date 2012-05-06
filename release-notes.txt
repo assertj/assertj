@@ -7,6 +7,7 @@ For the next release
 - FEST-478 : Add support for parametrized types in AbstractAssert
 - FEST-221 : Array and Iterable new assertion : hasSameSizeAs
 - FEST-481 : isIn() and isNotIn() assertions should take Iterable<?> instead of Collection<?>
+- github#17 : DateAssert isNotBetween error message must be improved
 
 2.0M2 release notes 
 -------------------
