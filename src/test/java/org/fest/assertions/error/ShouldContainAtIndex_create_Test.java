@@ -39,7 +39,8 @@ public class ShouldContainAtIndex_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting <'Leia'> at index <1> but found <'Luke'> in <['Yoda', 'Luke']>", message);
+    assertEquals("[Test] expecting:<'Leia'> at index <1> but found <'Luke'> in:\n" +
+        " <['Yoda', 'Luke']>\n", message);
   }
 
   @Test
@@ -47,7 +48,8 @@ public class ShouldContainAtIndex_create_Test {
     ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting <'Leia'> at index <1> but found <'Luke'> in <['Yoda', 'Luke']> "
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] expecting:<'Leia'> at index <1> but found <'Luke'> in:\n" +
+        " <['Yoda', 'Luke']>\n"
+        + " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

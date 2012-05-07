@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements contains a sequence of
@@ -48,7 +49,7 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldContainSequence(Object actual, Object sequence, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> to contain sequence:<%s>%s", actual, sequence, comparisonStrategy);
+    super("expecting:\n<%s>\n to contain sequence:\n<%s>\n%s", actual, sequence, comparisonStrategy);
   }
 
 }

@@ -50,9 +50,9 @@ public class ShouldContain extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound) {
     return new ShouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
   }
-  
+
   private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> to contain:<%s> but could not find:<%s>%s", actual, expected, notFound, comparisonStrategy);
+    super("expecting:\n<%s>\n to contain:\n<%s>\n but could not find:\n<%s>\n%s", actual, expected, notFound, comparisonStrategy);
   }
 
 }

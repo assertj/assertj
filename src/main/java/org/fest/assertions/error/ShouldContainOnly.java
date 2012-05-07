@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -55,8 +56,8 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
 
   private ShouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected,
       ComparisonStrategy comparisonStrategy) {
-    super("expected:<%s> to contain only:<%s>; not found:<%s> and not expected:<%s>%s", actual, expected, notFound,
-        notExpected, comparisonStrategy);
+    super("expecting:\n<%s>\n to contain only:\n<%s>\n elements not found:\n<%s>\n and elements not expected:\n<%s>\n%s", actual,
+        expected, notFound, notExpected, comparisonStrategy);
   }
 
 }

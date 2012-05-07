@@ -46,23 +46,38 @@ public class ShouldContain_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']>", message);
+    assertEquals("[Test] expecting:\n" +
+        "<['Yoda']>\n" +
+        " to contain:\n" +
+        "<['Luke', 'Yoda']>\n" +
+        " but could not find:\n" +
+        "<['Luke']>\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"), new ComparatorBasedComparisonStrategy(
-        CaseInsensitiveStringComparator.instance));
+    factory = shouldContain(list("Yoda"), list("Luke", "Yoda"), set("Luke"),
+                            new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda']> to contain:<['Luke', 'Yoda']> but could not find:<['Luke']> "
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] expecting:\n" +
+        "<['Yoda']>\n" +
+        " to contain:\n" +
+        "<['Luke', 'Yoda']>\n" +
+        " but could not find:\n" +
+        "<['Luke']>\n"
+        + " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
-  
+
   @Test
   public void should_create_error_message_differentiating_long_from_integer() {
     factory = shouldContain(list(5L, 7L), list(5, 7), set(5, 7));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<[5L, 7L]> to contain:<[5, 7]> but could not find:<[5, 7]>", message);
+    assertEquals("[Test] expecting:\n" +
+        "<[5L, 7L]>\n" +
+        " to contain:\n" +
+        "<[5, 7]>\n" +
+        " but could not find:\n" +
+        "<[5, 7]>\n", message);
   }
-  
+
 }

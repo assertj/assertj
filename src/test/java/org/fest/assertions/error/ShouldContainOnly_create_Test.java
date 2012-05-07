@@ -46,9 +46,14 @@ public class ShouldContainOnly_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals(
-        "[Test] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda']>; not found:<['Luke']> and not expected:<['Han']>",
-        message);
+    assertEquals("[Test] expecting:\n" +
+        "<['Yoda', 'Han']>\n" +
+        " to contain only:\n" +
+        "<['Luke', 'Yoda']>\n" +
+        " elements not found:\n" +
+        "<['Luke']>\n" +
+        " and elements not expected:\n" +
+        "<['Han']>\n", message);
   }
 
   @Test
@@ -56,7 +61,14 @@ public class ShouldContainOnly_create_Test {
     ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Han"), list("Luke", "Yoda"), set("Luke"), set("Han"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<['Yoda', 'Han']> to contain only:<['Luke', 'Yoda']>; not found:<['Luke']> "
-        + "and not expected:<['Han']> according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] expecting:\n" +
+        "<['Yoda', 'Han']>\n" +
+        " to contain only:\n" +
+        "<['Luke', 'Yoda']>\n" +
+        " elements not found:\n" +
+        "<['Luke']>\n" +
+        " and elements not expected:\n" +
+        "<['Han']>\n" +
+        " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }
