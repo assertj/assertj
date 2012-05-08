@@ -8,6 +8,7 @@ For the next release
 - FEST-221 : Array and Iterable new assertion : hasSameSizeAs
 - FEST-481 : isIn() and isNotIn() assertions should take Iterable<?> instead of Collection<?>
 - github#17 : DateAssert isNotBetween error message must be improved
+- github#13 : Improve error messages
 
 2.0M2 release notes 
 -------------------

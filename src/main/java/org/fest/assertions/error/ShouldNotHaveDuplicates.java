@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is does not have duplicates
@@ -48,7 +49,7 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveDuplicates(Object actual, Object duplicates, ComparisonStrategy comparisonStrategy) {
-    super("found duplicate(s):<%s> in:<%s>%s", duplicates, actual, comparisonStrategy);
+    super("found duplicate(s)\n<%s>\n in\n<%s>\n%s", duplicates, actual, comparisonStrategy);
   }
 
 }

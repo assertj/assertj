@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a group of elements ends with a given value
@@ -47,6 +48,6 @@ public class ShouldEndWith extends BasicErrorMessageFactory {
   }
   
   private ShouldEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> to end with:<%s>%s", actual, expected, comparisonStrategy);
+    super("expecting\n<%s>\n to end with\n<%s>\n%s", actual, expected, comparisonStrategy);
   }
 }

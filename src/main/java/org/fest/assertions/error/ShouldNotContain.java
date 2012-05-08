@@ -51,7 +51,7 @@ public class ShouldNotContain extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContain(Object actual, Object expected, Object found, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> not to contain:<%s> but found:<%s>%s", actual, expected, found, comparisonStrategy);
+    super("expecting\n<%s>\n not to contain\n<%s>\n but found\n<%s>\n%s", actual, expected, found, comparisonStrategy);
   }
 
 }

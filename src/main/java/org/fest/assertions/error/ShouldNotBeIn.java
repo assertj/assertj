@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is not in a
@@ -47,7 +48,7 @@ public class ShouldNotBeIn extends BasicErrorMessageFactory {
   }
   
   private ShouldNotBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> not to be in:<%s>%s", actual, values, comparisonStrategy);
+    super("expecting:\n<%s>\n not to be in:\n<%s>\n%s", actual, values, comparisonStrategy);
   }
   
 }

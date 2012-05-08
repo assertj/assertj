@@ -37,17 +37,18 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBeSorted(int i, Object group) {
     List<?> groupAsList = groupAsList(group);
-    return new ShouldBeSorted(
-        "group is not sorted because element %s:<%s> is not less or equal than element %s:<%s>, group was:<%s>", i,
-        groupAsList.get(i), i + 1, groupAsList.get(i + 1), groupAsList);
+    return new ShouldBeSorted("group is not sorted because element %s:<%s> is not less or equal than element %s:<%s>.\n"
+        + "group was:\n"
+        + "<%s>", i, groupAsList.get(i), i + 1, groupAsList.get(i + 1), groupAsList);
   }
 
   public static ErrorMessageFactory shouldBeSortedAccordingToGivenComparator(int i, Object group,
       Comparator<?> comparator) {
     List<?> arrayWrapper = groupAsList(group);
     return new ShouldBeSorted(
-        "group is not sorted according to %s comparator because element %s:<%s> is not less or equal than element %s:<%s>, group was:<%s>",
-        comparator, i, arrayWrapper.get(i), i + 1, arrayWrapper.get(i + 1), arrayWrapper);
+        "group is not sorted according to %s comparator because element %s:<%s> is not less or equal than element %s:<%s>.\n"
+            + "group was:\n"
+            + "<%s>", comparator, i, arrayWrapper.get(i), i + 1, arrayWrapper.get(i + 1), arrayWrapper);
   }
 
   public static ErrorMessageFactory shouldHaveMutuallyComparableElements(Object actual) {

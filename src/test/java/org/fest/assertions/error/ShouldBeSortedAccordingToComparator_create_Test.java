@@ -36,11 +36,13 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
 
   @Test
   public void should_create_error_message_with_comparator() {
-    ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
+    ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "A"),
         new CaseInsensitiveStringComparator());
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] group is not sorted according to 'CaseInsensitiveStringComparator' comparator "
-        + "because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>", message);
+    assertEquals(
+        "[Test] group is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:<'c'> is not less or equal than element 2:<'A'>.\n"
+            + "group was:\n"
+            + "<['b', 'c', 'A']>", message);
   }
 
   @Test
@@ -48,8 +50,10 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
         new StaticStringComparator());
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] group is not sorted according to 'StaticStringComparator' comparator "
-        + "because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>", message);
+    assertEquals(
+        "[Test] group is not sorted according to 'StaticStringComparator' comparator because element 1:<'c'> is not less or equal than element 2:<'a'>.\n"
+            + "group was:\n"
+            + "<['b', 'c', 'a']>", message);
   }
 
   private static class StaticStringComparator implements Comparator<String> {

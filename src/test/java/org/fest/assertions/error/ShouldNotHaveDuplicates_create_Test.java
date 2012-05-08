@@ -45,7 +45,10 @@ public class ShouldNotHaveDuplicates_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] found duplicate(s):<['Yoda']> in:<['Yoda', 'Yoda', 'Luke']>", message);
+    assertEquals("[Test] found duplicate(s)\n" +
+        "<['Yoda']>\n" +
+        " in\n" +
+        "<['Yoda', 'Yoda', 'Luke']>\n", message);
   }
 
   @Test
@@ -53,7 +56,10 @@ public class ShouldNotHaveDuplicates_create_Test {
     factory = shouldNotHaveDuplicates(list("Yoda", "Yoda", "Luke"), list("Yoda"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] found duplicate(s):<['Yoda']> in:<['Yoda', 'Yoda', 'Luke']>"
-        + " according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] found duplicate(s)\n" +
+        "<['Yoda']>\n" +
+        " in\n" +
+        "<['Yoda', 'Yoda', 'Luke']>\n" +
+        " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

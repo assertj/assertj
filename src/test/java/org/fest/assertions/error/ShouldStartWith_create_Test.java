@@ -45,7 +45,10 @@ public class ShouldStartWith_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to start with:<['Han', 'Leia']>", message);
+    assertEquals("[Test] expecting\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to start with\n" +
+        "<['Han', 'Leia']>\n", message);
   }
 
   @Test
@@ -53,7 +56,10 @@ public class ShouldStartWith_create_Test {
     factory = shouldStartWith(list("Yoda", "Luke"), list("Han", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to start with:<['Han', 'Leia']>"
-        + " according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] expecting\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to start with\n" +
+        "<['Han', 'Leia']>\n" +
+        " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

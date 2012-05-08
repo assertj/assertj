@@ -40,7 +40,10 @@ public class ShouldEndWith_create_Test {
   public void should_create_error_message() {
     factory = shouldEndWith(list("Yoda", "Luke"), list("Han", "Leia"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to end with:<['Han', 'Leia']>", message);
+    assertEquals("[Test] expecting\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to end with\n" +
+        "<['Han', 'Leia']>\n", message);
   }
 
   @Test
@@ -48,7 +51,10 @@ public class ShouldEndWith_create_Test {
     factory = shouldEndWith(list("Yoda", "Luke"), list("Han", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to end with:<['Han', 'Leia']>"
-        + " according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] expecting\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to end with\n" +
+        "<['Han', 'Leia']>\n" +
+        " according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

@@ -38,7 +38,7 @@ public class ShouldBeSorted_create_Test {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   private ErrorMessageFactory factory;
 
   @Before
@@ -49,8 +49,9 @@ public class ShouldBeSorted_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals(
-        "[Test] group is not sorted because element 1:<'c'> is not less or equal than element 2:<'a'>, group was:<['b', 'c', 'a']>",
+    assertEquals("[Test] group is not sorted because element 1:<'c'> is not less or equal than element 2:<'a'>.\n" +
+        "group was:\n" +
+        "<['b', 'c', 'a']>",
         message);
   }
 

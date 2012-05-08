@@ -44,15 +44,24 @@ public class ShouldBeSubsetOf_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to be subset of <['Han', 'Luke']> but found those extra elements: <['Yoda']>", message);
+    assertEquals("[Test] expecting:\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to be subset of\n" +
+        "<['Han', 'Luke']>\n" +
+        " but found those extra elements:\n" +
+        "<['Yoda']>", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"), 
+    ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<['Yoda', 'Luke']> to be subset of <['Han', 'Luke']> "
-        + "according to 'CaseInsensitiveStringComparator' comparator but found those extra elements: <['Yoda']>", message);
+    assertEquals("[Test] expecting according to 'CaseInsensitiveStringComparator' comparator:\n" +
+        "<['Yoda', 'Luke']>\n" +
+        " to be subset of\n" +
+        "<['Han', 'Luke']>\n" +
+        " but found those extra elements:\n" +
+        "<['Yoda']>", message);
   }
 }

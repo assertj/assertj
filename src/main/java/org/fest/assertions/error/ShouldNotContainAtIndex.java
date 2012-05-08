@@ -15,7 +15,8 @@
 package org.fest.assertions.error;
 
 import org.fest.assertions.data.Index;
-import org.fest.util.*;
+import org.fest.util.ComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a value at a
@@ -52,6 +53,6 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainAtIndex(Object actual, Object expected, Index index, ComparisonStrategy comparisonStrategy) {
-    super("expecting <%s> not to contain <%s> at index <%s>%s", actual, expected, index.value, comparisonStrategy);
+    super("expecting \n<%s>\n not to contain \n<%s>\n at index <%s>\n%s", actual, expected, index.value, comparisonStrategy);
   }
 }
