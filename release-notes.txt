@@ -1,6 +1,9 @@
 For the next release
 --------------------
 
+2.0M3 release notes 
+-------------------
+
 - FEST-404 : Filter API on iterable/array
 - FEST-470 : Lenient Equals (allows specifying on which properties equality should be performed)
 - FEST-447 : Increase ComparableAssert API flexibility 
@@ -9,6 +12,7 @@ For the next release
 - FEST-481 : isIn() and isNotIn() assertions should take Iterable<?> instead of Collection<?>
 - github#17 : DateAssert isNotBetween error message must be improved
 - github#13 : Improve error messages
+
 
 2.0M2 release notes 
 -------------------
