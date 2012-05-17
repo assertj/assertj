@@ -152,7 +152,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public final S isNot(Condition<A> condition) {
+  public final S isNot(Condition<? super A> condition) {
     conditions.assertIsNot(info, actual, condition);
     return myself;
   }

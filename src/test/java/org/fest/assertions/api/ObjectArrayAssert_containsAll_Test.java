@@ -16,7 +16,6 @@ package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
 
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.*;
@@ -34,11 +33,11 @@ import org.fest.assertions.internal.ObjectArrays;
 public class ObjectArrayAssert_containsAll_Test {
 
   private ObjectArrays arrays;
-  private ObjectArrayAssert assertions;
+  private ObjectArrayAssert<String> assertions;
 
   @Before public void setUp() {
     arrays = mock(ObjectArrays.class);
-    assertions = new ObjectArrayAssert(emptyArray());
+    assertions = new ObjectArrayAssert<String>(new String[0]);
     assertions.arrays = arrays;
   }
 
@@ -48,7 +47,7 @@ public class ObjectArrayAssert_containsAll_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectArrayAssert returned = assertions.contains("Luke");
+    ObjectArrayAssert<?> returned = assertions.contains("Luke");
     assertSame(assertions, returned);
   }
 }

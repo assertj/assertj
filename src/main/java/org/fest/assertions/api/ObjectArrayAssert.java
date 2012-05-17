@@ -256,7 +256,7 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
   }
   
   /** {@inheritDoc} */
-  public ObjectArrayAssert containsAll(Iterable<?> iterable) {
+  public ObjectArrayAssert<T> containsAll(Iterable<? extends T> iterable) {
     arrays.assertContainsAll(info, actual, iterable);
     return this;
   }

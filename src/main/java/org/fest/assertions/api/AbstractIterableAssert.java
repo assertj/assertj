@@ -248,16 +248,18 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
   
   /** {@inheritDoc} */
-  public S containsAll(Iterable<?> iterable) {
+  public S containsAll(Iterable<? extends T> iterable) {
     iterables.assertContainsAll(info, actual, iterable);
     return myself;
   }
 
+  /** {@inheritDoc} */
   public S usingElementComparator(Comparator<? super T> customComparator) {
     this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
+  /** {@inheritDoc} */
   public S usingDefaultElementComparator() {
     this.iterables = Iterables.instance();
     return myself;

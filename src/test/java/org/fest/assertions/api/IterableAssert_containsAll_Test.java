@@ -15,11 +15,9 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-
-import static org.fest.util.Collections.list;
-
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -33,14 +31,16 @@ public class IterableAssert_containsAll_Test extends AbstractTest_for_IterableAs
 
   @Test
   public void should_verify_that_actual_contains_given_values() {
-    List<String> list = list("Yoda", "Luke");
+    List<Object> list = new ArrayList<Object>();
+    list.add("Yoda");
+    list.add("Luke");
     assertions.containsAll(list);
     verify(iterables).assertContainsAll(assertions.info, assertions.actual, list);
   }
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert returned = assertions.contains("Luke");
+    ConcreteIterableAssert<Object> returned = assertions.contains("Luke");
     assertSame(assertions, returned);
   }
 }

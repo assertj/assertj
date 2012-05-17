@@ -116,34 +116,17 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S isNotIn(Iterable<? extends A> values);
 
   /**
-   * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.<br>
+   * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
+   * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
-   * comparison strategy. </p> Example :
+   * comparison strategy.
+   * <p>
+   * Examples :
    * 
    * <pre>
-   * // compares invoices by payee 
-   * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList).
-   * 
-   * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
-   * assertThat(invoiceList).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
-   * 
-   * // as assertThat(invoiceList) creates a new assertion, it uses standard comparison strategy (Invoice's equal method) to compare invoiceList elements to lowestInvoice.                                                      
-   * assertThat(invoiceList).contains(lowestInvoice).
-   * </pre>
-   * 
-   * Custom comparator is not parameterized with actual type A (ie. Comparator&lt;A&gt;) because if it was, we could not
-   * write the following code :
-   * 
-   * <pre>
-   * // frodo and sam are instances of Character (a Character having a Race)
+   * // frodo and sam are instances of Character with Hobbit race (obviously :).
    * // raceComparator implements Comparator&lt;Character&gt; 
-   * // assertThat(frodo) returns an ObjectAssert and not a custom CharacterAssert implementing Assert&lt;CharacterAssert, Character&gt;  
-   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam); // won't compile !
-   * 
-   * The code does not compile because assertThat(frodo) returns an ObjectAssert, thus usingComparator expects a Comparator&lt;Object&gt; 
-   * and Comparator&lt;Character&gt; is not a Comparator&lt;Object&gt; as generics are not reified.
-   * 
-   * Note that, it would have worked if assertThat(frodo) returned a CharacterAssert implementing Assert&lt;CharacterAssert, Character&gt;. 
+   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam); 
    * </pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.
@@ -153,7 +136,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S usingComparator(Comparator<? super A> customComparator);
 
   /**
-   * Revert to standard comparison for incoming assertion checks.<br>
+   * Revert to standard comparison for incoming assertion checks.<p>
    * This method should be used to disable a custom comparison strategy set by calling
    * {@link #usingComparator(Comparator)}.
    * @return {@code this} assertion object.
@@ -165,5 +148,6 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * <code>{@link #equals(Object)}</code> instead of <code>isEqualTo</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
-  @Override boolean equals(Object obj);
+  @Override
+  boolean equals(Object obj);
 }

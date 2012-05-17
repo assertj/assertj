@@ -291,6 +291,6 @@ public interface ObjectEnumerableAssert<S, T> extends EnumerableAssert<S, T> {
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
    */
-  S containsAll(Iterable<?> iterable);
+  S containsAll(Iterable<? extends T> iterable);
 
 }

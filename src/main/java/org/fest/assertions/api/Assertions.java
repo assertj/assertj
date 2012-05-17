@@ -430,20 +430,50 @@ public class Assertions {
    * 
    * <pre>
    * // extract simple property values having a java standard type (here String)
-   * assertThat(extractProperty("name").from(fellowshipOfTheRing)).contains("Boromir", "Gandalf", "Frodo", "Legolas")
-   *                                                              .doesNotContain("Sauron", "Elrond");
+   * assertThat(extractProperty("name", String.class).from(fellowshipOfTheRing))
+   *           .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+   *           .doesNotContain("Sauron", "Elrond");
    *                                                              
    * // extracting property works also with user's types (here Race)
-   * assertThat(extractProperty("race").from(fellowshipOfTheRing)).contains(HOBBIT, ELF).doesNotContain(ORC);
+   * assertThat(extractProperty("race", String.class).from(fellowshipOfTheRing))
+   *           .contains(HOBBIT, ELF)
+   *           .doesNotContain(ORC);
    * 
    * // extract nested property on Race
-   * assertThat(extractProperty("race.name").from(fellowshipOfTheRing)).contains("Hobbit", "Elf").doesNotContain("Orc");
+   * assertThat(extractProperty("race.name", String.class).from(fellowshipOfTheRing))
+   *           .contains("Hobbit", "Elf")
+   *           .doesNotContain("Orc");
    * </pre>
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
   }
 
+  /**
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
+   * all Fest Assert features (but you can use {@link Properties} if you prefer).
+   * <p>
+   * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
+   * 
+   * <pre>
+   * // extract simple property values, as no type has been defined the extracted property will be considered as Object 
+   * // to define the real property type (here String) use extractProperty("name", String.class) instead. 
+   * assertThat(extractProperty("name").from(fellowshipOfTheRing))
+   *           .contains("Boromir", "Gandalf", "Frodo", "Legolas")
+   *           .doesNotContain("Sauron", "Elrond");
+   *                                                              
+   * // extracting property works also with user's types (here Race), even though it will be considered as Object
+   * // to define the real property type (here String) use extractProperty("name", Race.class) instead. 
+   * assertThat(extractProperty("race").from(fellowshipOfTheRing)).contains(HOBBIT, ELF).doesNotContain(ORC);
+   * 
+   * // extract nested property on Race
+   * assertThat(extractProperty("race.name").from(fellowshipOfTheRing)).contains("Hobbit", "Elf").doesNotContain("Orc");
+   * </pre>
+   */
+  public static Properties<Object> extractProperty(String propertyName) {
+    return Properties.extractProperty(propertyName);
+  }
+  
   // ------------------------------------------------------------------------------------------------------
   // Data utility methods : not assertions but here to have a single entry point to all Fest Assert features.
   // ------------------------------------------------------------------------------------------------------

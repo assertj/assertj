@@ -16,10 +16,9 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
-import static org.fest.util.Collections.isEmpty;
-import static org.fest.util.Collections.nonNullElements;
+import static java.util.Collections.*;
+
+import static org.fest.util.Collections.*;
 import static org.fest.util.Introspection.descriptorForProperty;
 
 import java.beans.PropertyDescriptor;
@@ -115,7 +114,7 @@ public class PropertySupport {
   }
 
   /**
-   * Static variant of {@link #propertyValue(String, Object, Class)}  for syntactic sugar.
+   * Static variant of {@link #propertyValue(String, Class, Object)} for syntactic sugar.
    * <p>
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
@@ -124,8 +123,8 @@ public class PropertySupport {
    * @return a the values of the given property name
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
-  public static <T> T propertyValueOf(String propertyName, Object target, Class<T> clazz){
-	  return instance().propertyValue(propertyName, clazz, target);
+  public static <T> T propertyValueOf(String propertyName, Object target, Class<T> clazz) {
+    return instance().propertyValue(propertyName, clazz, target);
   }
 
   private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Collection<?> target) {
@@ -145,11 +144,18 @@ public class PropertySupport {
     return propertyNameChain.substring(propertyNameChain.indexOf(SEPARATOR) + 1);
   }
 
-  /*
-   * isNestedProperty("address.street"); // true isNestedProperty("address.street.name"); // true
-   * isNestedProperty("person"); // false isNestedProperty(".name"); // false isNestedProperty("person."); // false
-   * isNestedProperty("person.name."); // false isNestedProperty(".person.name"); // false isNestedProperty("."); //
-   * false isNestedProperty(""); // false
+  /**
+   * <pre>
+   * isNestedProperty("address.street"); // true 
+   * isNestedProperty("address.street.name"); // true
+   * isNestedProperty("person"); // false 
+   * isNestedProperty(".name"); // false 
+   * isNestedProperty("person."); // false
+   * isNestedProperty("person.name."); // false 
+   * isNestedProperty(".person.name"); // false 
+   * isNestedProperty("."); // false 
+   * isNestedProperty(""); // false
+   * </pre>
    */
   private boolean isNestedProperty(String propertyName) {
     return propertyName.contains(SEPARATOR) && !propertyName.startsWith(SEPARATOR) && !propertyName.endsWith(SEPARATOR);
@@ -169,7 +175,8 @@ public class PropertySupport {
     try {
       return clazz.cast(javaBeanDescriptor.invokeReadMethod(descriptor, target));
     } catch (ClassCastException e) {
-      String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>", propertyName, target, clazz);
+      String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
+          propertyName, target, clazz);
       throw new IntrospectionError(msg, e);
     } catch (Throwable unexpected) {
       String msg = format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);

@@ -45,7 +45,7 @@ public interface ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  S isNot(Condition<A> condition);
+  S isNot(Condition<? super A> condition);
 
   /**
    * Verifies that the actual value satisfies the given condition. This method is an alias for
