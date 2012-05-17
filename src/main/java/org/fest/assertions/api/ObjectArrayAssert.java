@@ -253,6 +253,12 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ObjectArrayAssert containsAll(Iterable<?> iterable) {
+    arrays.assertContainsAll(info, actual, iterable);
+    return this;
+  }
 
   @Override
   public ObjectArrayAssert usingComparator(Comparator<?> customComparator) {
@@ -267,7 +273,5 @@ public class ObjectArrayAssert extends AbstractAssert<ObjectArrayAssert, Object[
     this.arrays = ObjectArrays.instance();
     return myself;
   }
-  
-  
   
 }

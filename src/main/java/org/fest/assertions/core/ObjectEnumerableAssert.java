@@ -23,6 +23,7 @@ package org.fest.assertions.core;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
 
@@ -278,5 +279,15 @@ public interface ObjectEnumerableAssert<S> extends EnumerableAssert<S> {
    * This method is an alias {@link #areNotExactly(int, Condition)}.
    */
   <E> S doNotHaveExactly(int n, Condition<E> condition);
+
+  /**
+   * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
+   * @param iterable the given {@code Iterable} we will get elements from.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
+   */
+  S containsAll(Iterable<?> iterable);
 
 }

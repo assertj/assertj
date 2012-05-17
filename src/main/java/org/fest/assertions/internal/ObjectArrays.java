@@ -496,4 +496,18 @@ public class ObjectArrays {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 
+  /**
+   * Asserts that the given array contains all the elements of the given {@code Iterable}, in any order.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param other the other {@code Iterable}.
+   * @throws NullPointerException if {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other
+   *           {@code Iterable}, in any order.
+   */
+  public void assertContainsAll(AssertionInfo info, Object[] actual, Iterable<?> other) {
+    arrays.assertcontainsAll(info, failures, actual, other);
+  }
+
 }

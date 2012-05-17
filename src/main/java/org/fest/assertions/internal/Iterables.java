@@ -801,6 +801,27 @@ public class Iterables {
     }
   }
 
+  /**
+   * Asserts that the given {@code Iterable} contains all the elements of the other {@code Iterable}, in any order.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param other the other {@code Iterable}.
+   * @throws NullPointerException if {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other
+   *           {@code Iterable}, in any order.
+   */
+  public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
+    if (other == null) throw iterableToLookForIsNull();
+    assertNotNull(info, actual);
+    Object[] values = list(other).toArray();
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    for (Object value : values)
+      if (!iterableContains(actual, value)) notFound.add(value);
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
   private void checkIsNotNullAndNotEmpty(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
     if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();

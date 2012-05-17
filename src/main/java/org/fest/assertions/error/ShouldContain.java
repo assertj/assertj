@@ -48,7 +48,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContain(Object actual, Object expected, Object notFound) {
-    return new ShouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
+    return shouldContain(actual, expected, notFound, StandardComparisonStrategy.instance());
   }
 
   private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {

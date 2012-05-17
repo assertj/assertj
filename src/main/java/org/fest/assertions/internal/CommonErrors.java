@@ -23,6 +23,10 @@ final class CommonErrors {
     return new NullPointerException("The array of values to look for should not be null");
   }
 
+  static NullPointerException iterableToLookForIsNull() {
+    return new NullPointerException("The iterable to look for should not be null");
+  }
+  
   static IllegalArgumentException arrayOfValuesToLookForIsEmpty() {
     return new IllegalArgumentException("The array of values to look for should not be empty");
   }

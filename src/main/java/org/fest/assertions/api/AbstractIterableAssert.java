@@ -245,6 +245,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     iterables.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
+  
+  /** {@inheritDoc} */
+  public S containsAll(Iterable<?> iterable) {
+    iterables.assertContainsAll(info, actual, iterable);
+    return myself;
+  }
 
   @Override
   public S usingComparator(Comparator<?> customComparator) {

@@ -15,6 +15,7 @@
 package org.fest.assertions.internal;
 
 import static java.lang.reflect.Array.getLength;
+
 import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ElementsShouldBe.elementsShouldBe;
 import static org.fest.assertions.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -33,10 +34,7 @@ import static org.fest.assertions.error.ElementsShouldNotHaveAtMost.elementsShou
 import static org.fest.assertions.error.ElementsShouldNotHaveExactly.elementsShouldNotHaveExactly;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
-import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.assertions.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
-import static org.fest.assertions.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
+import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
@@ -51,12 +49,11 @@ import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContain
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
-import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
-import static org.fest.util.Collections.isEmpty;
+import static org.fest.util.Collections.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -161,6 +158,17 @@ class Arrays {
       Object value = Array.get(values, i);
       if (!arrayContains(array, value)) notFound.add(value);
     }
+    if (notFound.isEmpty()) return;
+    throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
+  }
+
+  void assertcontainsAll(AssertionInfo info, Failures failures, Object array, Iterable<?> iterable) {
+    if (iterable == null) throw iterableToLookForIsNull();
+    assertNotNull(info, array);
+    Object[] values = list(iterable).toArray();
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    for (Object value : values)
+      if (!arrayContains(array, value)) notFound.add(value);
     if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
