@@ -1,6 +1,10 @@
 For the next release
 --------------------
 
+- Improve type safety 
+- github#20 : new group assertions : containsAll(Iterable)
+- github#16 : new BigDecimalAssert assertions : isEqualTo(String) and isEqualByComparingTo(String)
+
 2.0M3 release notes 
 -------------------
 
