@@ -2,6 +2,7 @@ For the next release
 --------------------
 
 - Improve type safety 
+- Refactor custom comparators : introducing customElementComparator for group assertions
 - github#20 : new group assertions : containsAll(Iterable)
 - github#16 : new BigDecimalAssert assertions : isEqualTo(String) and isEqualByComparingTo(String)
 
