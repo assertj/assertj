@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.lang.Math.abs;
 
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.fest.assertions.internal.CommonValidations.checkOffsetIsNotNull;
+import static org.fest.assertions.internal.CommonValidations.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
@@ -84,10 +84,11 @@ public class Floats extends RealNumbers<Float> {
   public void assertEqual(AssertionInfo info, Float actual, Float expected, Offset<Float> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
+    checkNumberIsNotNull(expected);
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
     if (expected != null && isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset));
+    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual.floatValue())));
   }
 
 }

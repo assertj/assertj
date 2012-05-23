@@ -31,6 +31,7 @@ public interface FloatingPointNumberAssert<T extends Number> extends NumberAsser
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   FloatingPointNumberAssert<T> isEqualTo(T expected, Offset<T> offset);

@@ -35,11 +35,11 @@ public class ShouldBeEqualWithinOffset_create_Test {
   private ErrorMessageFactory factory;
 
   @Before public void setUp() {
-    factory = shouldBeEqual(6f, 8f, offset(1f));
+    factory = shouldBeEqual(8f, 6f, offset(1f), 2f);
   }
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected:<8.0f> but was:<6.0f> within offset:<1.0f>", message);
+    assertEquals("[Test] expecting <8.0f> to be close to <6.0f> within offset <1.0f> but offset was <2.0f>", message);
   }
 }

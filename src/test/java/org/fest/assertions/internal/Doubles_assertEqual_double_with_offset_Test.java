@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.api.Assertions.*;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
@@ -58,12 +59,24 @@ public class Doubles_assertEqual_double_with_offset_Test extends AbstractTest_fo
     try {
       doubles.assertEqual(info, new Double(6d), 8d, offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset, 2d));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_fail_if_second_double_is_null_but_not_the_first() {
+    AssertionInfo info = someInfo();
+    Offset<Double> offset = offset(1d);
+    try {
+      doubles.assertEqual(info, 6d, null, offset);
+      failBecauseExceptionWasNotThrown(NullPointerException.class);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("The given number should not be null");
+    }
+  }
+  
   @Test
   public void should_throw_error_if_offset_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(offsetIsNull());
@@ -87,9 +100,21 @@ public class Doubles_assertEqual_double_with_offset_Test extends AbstractTest_fo
     try {
       doublesWithAbsValueComparisonStrategy.assertEqual(info, new Double(6d), 8d, offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset, 2d));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_second_double_is_null_but_not_the_first_whatever_custom_comparison_strategy_is() {
+    AssertionInfo info = someInfo();
+    Offset<Double> offset = offset(1d);
+    try {
+      doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, null, offset);
+      failBecauseExceptionWasNotThrown(NullPointerException.class);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("The given number should not be null");
+    }
   }
 }

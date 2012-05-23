@@ -58,7 +58,7 @@ public class Floats_assertEqual_with_offset_Test extends AbstractTest_for_Floats
     try {
       floats.assertEqual(info, new Float(6f), new Float(8f), offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset, 2f));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -87,7 +87,7 @@ public class Floats_assertEqual_with_offset_Test extends AbstractTest_for_Floats
     try {
       floatsWithAbsValueComparisonStrategy.assertEqual(info, new Float(6f), new Float(8f), offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset, 2f));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

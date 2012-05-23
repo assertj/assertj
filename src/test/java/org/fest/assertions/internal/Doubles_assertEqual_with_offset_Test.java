@@ -58,7 +58,7 @@ public class Doubles_assertEqual_with_offset_Test extends AbstractTest_for_Doubl
     try {
       doubles.assertEqual(info, new Double(6d), new Double(8d), offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset, 2d));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -87,7 +87,7 @@ public class Doubles_assertEqual_with_offset_Test extends AbstractTest_for_Doubl
     try {
       doublesWithAbsValueComparisonStrategy.assertEqual(info, new Double(6d), new Double(8d), offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, offset, 2d));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

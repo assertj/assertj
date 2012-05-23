@@ -14,7 +14,8 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.assertions.data.*;
+import org.fest.assertions.data.Index;
+import org.fest.assertions.data.Offset;
 
 /**
  * @author Alex Ruiz
@@ -32,5 +33,9 @@ final class CommonValidations {
     if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
 
+  static void checkNumberIsNotNull(Number number) {
+    if (number == null) throw new NullPointerException("The given number should not be null");
+  }
+  
   private CommonValidations() {}
 }

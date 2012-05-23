@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.api.Assertions.*;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
@@ -59,7 +60,7 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
     try {
       floats.assertEqual(info, new Float(6f), 8f, offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset, 2f));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -77,11 +78,10 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
     Offset<Float> offset = offset(1f);
     try {
       floats.assertEqual(info, 6f, null, offset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, null, offset));
-      return;
+      failBecauseExceptionWasNotThrown(NullPointerException.class);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("The given number should not be null");
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -107,7 +107,7 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
     try {
       floatsWithAbsValueComparisonStrategy.assertEqual(info, new Float(6f), 8f, offset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, offset, 2f));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -125,10 +125,9 @@ public class Floats_assertEqual_float_with_offset_Test extends AbstractTest_for_
     Offset<Float> offset = offset(1f);
     try {
       floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, null, offset);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, null, offset));
-      return;
+      failBecauseExceptionWasNotThrown(NullPointerException.class);
+    } catch (NullPointerException e) {
+      assertThat(e).hasMessage("The given number should not be null");
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }
