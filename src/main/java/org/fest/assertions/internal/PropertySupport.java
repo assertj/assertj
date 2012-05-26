@@ -190,6 +190,7 @@ public class PropertySupport {
    * This method supports nested properties (e.g. "address.street.number").
    * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
    *          for {@code null} or empty.
+   * @param clazz the class of property.
    * @param target the given Object to extract property from.
    * @return the value of the given property name given target.
    * @throws IntrospectionError if target object does not have a property with a matching name.
