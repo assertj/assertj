@@ -41,8 +41,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class ShouldBeEqual implements AssertionErrorFactory {
 
-  private static final String EXPECTED_BUT_WAS_MESSAGE = "expected:<%s> but was:<%s>";
-  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "Expecting actual:<%s> to be equal to <%s>%s but was not.";
+  private static final String EXPECTED_BUT_WAS_MESSAGE = "expected:\n<%s>\n but was:\n<%s>";
+  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "Expecting actual:\n<%s>\n to be equal to \n<%s>\n%s but was not.";
 
   private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
 

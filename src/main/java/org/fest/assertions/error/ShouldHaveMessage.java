@@ -16,7 +16,6 @@ package org.fest.assertions.error;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Throwable} have certain message failed.
- *
  * @author Joel Costigliola
  */
 public class ShouldHaveMessage extends BasicErrorMessageFactory {
@@ -32,6 +31,6 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveMessage(Throwable actual, String expectedMessage) {
-    super("expected message:<%s> but was:<%s>", expectedMessage, actual.getMessage());
+    super("expected message:\n<%s>\n but was:\n<%s>", expectedMessage, actual.getMessage());
   }
 }

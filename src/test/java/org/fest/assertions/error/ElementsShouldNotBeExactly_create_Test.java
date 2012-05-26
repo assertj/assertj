@@ -16,13 +16,15 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotBeAtLeast.elementsShouldNotBeAtLeast;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ElementsShouldNotBeAtLeast#create(Description)}</code>.
@@ -40,7 +42,7 @@ public class ElementsShouldNotBeExactly_create_Test {
 	  @Test 
 	  public void should_create_error_message() {
 	    String message = factory.create(new TextDescription("Test"));
-	    assertEquals("[Test] expecting: elements  <['Yoda', 'Solo', 'Leia']> not to be at least 2 times <Not a Jedi>", message);
+	    assertEquals("[Test] expecting elements:\n<['Yoda', 'Solo', 'Leia']>\n not to be at least 2 times <Not a Jedi>", message);
 	  }		
 	
 }

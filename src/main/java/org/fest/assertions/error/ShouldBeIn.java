@@ -48,7 +48,7 @@ public class ShouldBeIn extends BasicErrorMessageFactory {
   }
   
   private ShouldBeIn(Object actual, Object values, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> to be in:<%s>%s", actual, values, comparisonStrategy);
+    super("expecting:\n<%s>\n to be in:\n<%s>\n%s", actual, values, comparisonStrategy);
   }
 
 }

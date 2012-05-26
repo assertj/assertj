@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldBeExactly extends BasicErrorMessageFactory  {
 
@@ -37,6 +38,6 @@ public class ElementsShouldBeExactly extends BasicErrorMessageFactory  {
 	  }
 
 	  private ElementsShouldBeExactly(Object actual, int times, Condition<?> condition) {
-		  super("expecting: elements  <%s> to be exactly %s times <%s>", actual, times, condition);
+		  super("expecting elements:\n<%s>\n to be exactly %s times <%s>", actual, times, condition);
 	  }
 }

@@ -16,38 +16,41 @@ package org.fest.assertions.error;
 
 import java.util.List;
 
-
 /**
- * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are lenient equal by accepting fields
- * failed.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
+ * lenient equal by accepting fields failed.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class ShouldBeLenientEqualByAccepting extends BasicErrorMessageFactory {
 
-	  /**
-	   * Creates a new </code>{@link ShouldBeLenientEqualByAccepting}</code>.
-	   * @param actual the actual value in the failed assertion.
-	   * @param rejectedFields fields name not matching
-	   * @param rejectedValues fields value not matching
-	   * @param acceptedFields fields which are base the lenient equality
-	   * @return the created {@code ErrorMessageFactory}.
-	   */
-	  public static <E> ErrorMessageFactory shouldBeLenientEqualByAccepting(Object actual, List<String> rejectedFields, List<Object> rejectedValues, List<String> acceptedFields) {
-		if(rejectedFields.size() == 1){
-			return new ShouldBeLenientEqualByAccepting(actual, rejectedFields.get(0), rejectedValues.get(0), acceptedFields);
-		} else {
-			return new ShouldBeLenientEqualByAccepting(actual, rejectedFields, rejectedValues, acceptedFields);
-		}
-	  }
+  /**
+   * Creates a new </code>{@link ShouldBeLenientEqualByAccepting}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param rejectedFields fields name not matching
+   * @param expectedValues fields value not matching
+   * @param acceptedFields fields on which is based the lenient equality
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <E> ErrorMessageFactory shouldBeLenientEqualByAccepting(Object actual, List<String> rejectedFields,
+      List<Object> expectedValues, List<String> acceptedFields) {
+    if (rejectedFields.size() == 1) {
+      return new ShouldBeLenientEqualByAccepting(actual, rejectedFields.get(0), expectedValues.get(0), acceptedFields);
+    } else {
+      return new ShouldBeLenientEqualByAccepting(actual, rejectedFields, expectedValues, acceptedFields);
+    }
+  }
 
-  
-	  private ShouldBeLenientEqualByAccepting(Object actual, List<String> rejectedFields, List<Object> rejectedValue, List<String> acceptedFields) {
-		  super("expected values <%s> in fields <%s> of <%s>, comparison was performed on fields <%s>", rejectedValue, rejectedFields, actual, acceptedFields);
-	  }
-	  
-	  private ShouldBeLenientEqualByAccepting(Object actual, String rejectedField, Object rejectedValue, List<String> acceptedFields) {
-		  super("expected value <%s> in field <%s> of <%s>, comparison was performed on fields <%s>", rejectedValue, rejectedField, actual, acceptedFields);
-	  }
-	  
+  private ShouldBeLenientEqualByAccepting(Object actual, List<String> rejectedFields, List<Object> expectedValue,
+      List<String> acceptedFields) {
+    super("expected values:\n<%s>\n in fields:\n<%s>\n of <%s>.\nComparison was performed on fields <%s>", expectedValue, rejectedFields,
+        actual, acceptedFields);
+  }
+
+  private ShouldBeLenientEqualByAccepting(Object actual, String rejectedField, Object rejectedValue, List<String> acceptedFields) {
+    super("expected value <%s> in field <%s> of <%s>.\nComparison was performed on fields <%s>", rejectedValue, rejectedField,
+        actual, acceptedFields);
+  }
+
 }

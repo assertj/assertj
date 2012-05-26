@@ -68,8 +68,8 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] expected:<'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")'> but was:<'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>", error.getMessage());
+    assertEquals("[my test] expected:\n<'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")'>\n but was:\n<'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>", error.getMessage());
   }
 
   @Test
@@ -81,8 +81,8 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] Expecting actual:<'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
-        + ")'> to be equal to <'Person[name=Jake] (Person@" + toHexString(expected.hashCode()) + ")'> according to 'PersonComparator' comparator but was not.", error.getMessage());
+    assertEquals("[my test] Expecting actual:\n<'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+        + ")'>\n to be equal to \n<'Person[name=Jake] (Person@" + toHexString(expected.hashCode()) + ")'>\n according to 'PersonComparator' comparator but was not.", error.getMessage());
   }
   
   private static class Person {

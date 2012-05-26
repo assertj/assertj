@@ -16,13 +16,15 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldHave.elementsShouldHave;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ElementsShouldHave#create(Description)}</code>.
@@ -34,12 +36,12 @@ public class ElementsShouldHave_create_Test {
 	  private ErrorMessageFactory factory;
 
 	  @Before public void setUp() {
-	    factory = elementsShouldHave(list("Yoda", "Luke","Leia"), list("Leia"), new TestCondition<String>("Is a Jedi"));
+	    factory = elementsShouldHave(list("Yoda", "Luke","Leia"), list("Leia"), new TestCondition<String>("jedi power"));
 	  }
 
 	  @Test public void should_create_error_message() {
 	    String message = factory.create(new TextDescription("Test"));
-	    assertEquals("[Test] expecting: elements <['Leia']> of <['Yoda', 'Luke', 'Leia']> to have <Is a Jedi>", message);
+	    assertEquals("[Test] expecting elements:\n<['Leia']>\n of \n<['Yoda', 'Luke', 'Leia']>\n to have <jedi power>", message);
 	  }	
 	
 	

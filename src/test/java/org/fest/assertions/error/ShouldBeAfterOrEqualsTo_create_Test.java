@@ -19,9 +19,11 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.fest.util.Dates.parse;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
  * Tests for <code>{@link ShouldBeAfterOrEqualsTo#create(Description)}</code>.
@@ -38,6 +40,6 @@ public class ShouldBeAfterOrEqualsTo_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<2011-01-01T00:00:00> to be after or equals to :<2012-01-01T00:00:00>", message);
+    assertEquals("[Test] expected:<2011-01-01T00:00:00> to be after or equals to:<2012-01-01T00:00:00>", message);
   }
 }

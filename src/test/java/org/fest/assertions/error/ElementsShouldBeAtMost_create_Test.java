@@ -16,12 +16,14 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ElementsShouldBeAtMost#create(Description)}</code>.
@@ -33,13 +35,13 @@ public class ElementsShouldBeAtMost_create_Test {
 	  private ErrorMessageFactory factory;
 
 	  @Before public void setUp() {
-	    factory = elementsShouldBeAtMost(list("Yoda","Luke", "Obiwan"), 2, new TestCondition<String>("Is a Jedi"));
+	    factory = elementsShouldBeAtMost(list("Yoda","Luke", "Obiwan"), 2, new TestCondition<String>("a Jedi"));
 	  }
 
 	  @Test 
 	  public void should_create_error_message() {
 	    String message = factory.create(new TextDescription("Test"));
-	    assertEquals("[Test] expecting: elements  <['Yoda', 'Luke', 'Obiwan']> to be at most 2 times <Is a Jedi>", message);
+	    assertEquals("[Test] expecting elements:\n<['Yoda', 'Luke', 'Obiwan']>\n to be at most 2 times <a Jedi>", message);
 	  }		
 	
 }

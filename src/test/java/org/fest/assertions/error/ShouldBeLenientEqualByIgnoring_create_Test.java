@@ -16,49 +16,71 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
+import org.junit.Test;
+
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
 import org.fest.assertions.test.Jedi;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShouldBeLenientEqualByIgnoring#create(Description)}</code>.
- *
+ * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class ShouldBeLenientEqualByIgnoring_create_Test {
 
-	  private ErrorMessageFactory factory;
+  private ErrorMessageFactory factory;
 
-	  @Test public void should_create_error_message_with_all_fields_differences() {
-		  factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda","green"), list("name", "lightSaberColor"), list((Object)"Yoda", (Object)"green"), list("lightSaberColor"));
-		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected values <['Yoda', 'green']> in fields <['name', 'lightSaberColor']> of <Yoda the Jedi>, comparison was performed on all fields but <['lightSaberColor']>", message);
-	  }	
-	 
-	  @Test public void should_create_error_message_with_single_field_difference() {
-		  factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda","green"), list("lightSaberColor"), list((Object)"green"), list("lightSaberColor"));
-		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>, comparison was performed on all fields but <['lightSaberColor']>", message);
-	  }	
-	  
-	  @Test public void should_create_error_message_with_all_fields_differences_without_ignored_fields() {
-		  List<String> ignoredFields = list();
-		  factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda","green"), list("name", "lightSaberColor"), list((Object)"Yoda", (Object)"green"), ignoredFields);
-		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected values <['Yoda', 'green']> in fields <['name', 'lightSaberColor']> of <Yoda the Jedi>, comparison was performed on all fields", message);
-	  }	
-	  
-	  
-	  @Test public void should_create_error_message_with_single_field_difference_without_ignored_fields() {
-		  List<String> ignoredFields = list();
-		  factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda","green"), list("lightSaberColor"), list((Object)"green"), ignoredFields);
-		  String message = factory.create(new TextDescription("Test"));
-		  assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>, comparison was performed on all fields", message);
-	  }	  
-	  
+  @Test
+  public void should_create_error_message_with_all_fields_differences() {
+    factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda", "green"), list("name", "lightSaberColor"),
+        list((Object) "Yoda", (Object) "green"), list("lightSaberColor"));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expected values:\n" +
+        "<['Yoda', 'green']>\n" +
+        " in fields:\n" +
+        "<['name', 'lightSaberColor']>\n" +
+        " of <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields but <['lightSaberColor']>", message);
+  }
+
+  @Test
+  public void should_create_error_message_with_single_field_difference() {
+    factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda", "green"), list("lightSaberColor"), list((Object) "green"),
+        list("lightSaberColor"));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>." +
+        "\nComparison was performed on all fields but <['lightSaberColor']>", message);
+  }
+
+  @Test
+  public void should_create_error_message_with_all_fields_differences_without_ignored_fields() {
+    List<String> ignoredFields = list();
+    factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda", "green"), list("name", "lightSaberColor"),
+        list((Object) "Yoda", (Object) "green"), ignoredFields);
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expected values:\n" +
+        "<['Yoda', 'green']>\n" +
+        " in fields:\n" +
+        "<['name', 'lightSaberColor']>\n" +
+        " of <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields", message);
+  }
+
+  @Test
+  public void should_create_error_message_with_single_field_difference_without_ignored_fields() {
+    List<String> ignoredFields = list();
+    factory = shouldBeLenientEqualByIgnoring(new Jedi("Yoda", "green"), list("lightSaberColor"), list((Object) "green"),
+        ignoredFields);
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>." +
+        "\nComparison was performed on all fields", message);
+  }
+
 }

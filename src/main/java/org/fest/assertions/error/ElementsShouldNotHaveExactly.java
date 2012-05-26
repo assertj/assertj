@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldNotHaveExactly extends BasicErrorMessageFactory  {
 
@@ -37,6 +38,6 @@ public class ElementsShouldNotHaveExactly extends BasicErrorMessageFactory  {
 	  }
 
 	  private ElementsShouldNotHaveExactly(Object actual, int times, Condition<?> condition) {
-		  super("expecting: elements  <%s> not to have exactly %s times <%s>", actual, times, condition);
+		  super("expecting elements:\n<%s>\n not to have exactly %s times <%s>", actual, times, condition);
 	  }
 }

@@ -16,13 +16,15 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ElementsShouldNotBe#create(Description)}</code>.
@@ -34,12 +36,12 @@ public class ElementsShouldNotBe_create_Test {
 	  private ErrorMessageFactory factory;
 
 	  @Before public void setUp() {
-	    factory = elementsShouldNotBe(list("Darth Vader", "Leia","Yoda"), list("Yoda"), new TestCondition<String>("Not a Jedi"));
+	    factory = elementsShouldNotBe(list("Darth Vader", "Leia","Yoda"), list("Yoda"), new TestCondition<String>("not a Jedi"));
 	  }
 
 	  @Test public void should_create_error_message() {
 	    String message = factory.create(new TextDescription("Test"));
-	    assertEquals("[Test] expecting: elements <['Yoda']> of <['Darth Vader', 'Leia', 'Yoda']> not to be <Not a Jedi>", message);
+	    assertEquals("[Test] expecting elements:\n<['Yoda']>\n of \n<['Darth Vader', 'Leia', 'Yoda']>\n not to be <not a Jedi>", message);
 	  }	
 	
 	

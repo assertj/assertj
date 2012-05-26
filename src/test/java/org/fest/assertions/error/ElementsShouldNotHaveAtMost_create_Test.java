@@ -16,13 +16,15 @@ package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotHaveAtMost.elementsShouldNotHaveAtMost;
 import static org.fest.util.Collections.list;
+
 import static org.junit.Assert.assertEquals;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ElementsShouldNotHaveAtMost#create(Description)}</code>.
@@ -40,7 +42,7 @@ public class ElementsShouldNotHaveAtMost_create_Test {
 	  @Test 
 	  public void should_create_error_message() {
 	    String message = factory.create(new TextDescription("Test"));
-	    assertEquals("[Test] expecting: elements  <['Yoda', 'Luke', 'Obiwan']> not to have at most 2 times <Jedi power>", message);
+	    assertEquals("[Test] expecting elements:\n<['Yoda', 'Luke', 'Obiwan']>\n not to have at most 2 times <Jedi power>", message);
 	  }		
 	
 }

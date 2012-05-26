@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldHaveAtMost extends BasicErrorMessageFactory  {
 
@@ -37,6 +38,6 @@ public class ElementsShouldHaveAtMost extends BasicErrorMessageFactory  {
 	  }
 
 	  private ElementsShouldHaveAtMost(Object actual, int times, Condition<?> condition) {
-		  super("expecting: elements  <%s> to have at most %s times <%s>", actual, times, condition);
+		  super("expecting elements:\n<%s>\n to have at most %s times <%s>", actual, times, condition);
 	  }
 }

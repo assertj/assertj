@@ -37,6 +37,6 @@ public class ShouldBe extends BasicErrorMessageFactory {
   }
 
   private ShouldBe(Object actual, Condition<?> condition) {
-    super("expecting:<%s> to be:<%s>", actual, condition);
+    super("expecting:\n<%s>\n to be:\n<%s>", actual, condition);
   }
 }

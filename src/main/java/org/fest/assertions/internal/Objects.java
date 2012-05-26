@@ -345,7 +345,7 @@ public class Objects {
   }
 
   /**
-   * Assert that the given object is lenient equals by ignoring null fields value on other object.
+   * Assert that the given object is lenient equals to other object by comparing given fields value only.
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -358,18 +358,18 @@ public class Objects {
    */
   public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields) {
     assertIsInstanceOf(info, other, actual.getClass());
-    List<String> fieldsNames = new LinkedList<String>();
-    List<Object> values = new LinkedList<Object>();
+    List<String> rejectedFieldsNames = new LinkedList<String>();
+    List<Object> expectedValues = new LinkedList<Object>();
     for (String fieldName : fields) {
       Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
       Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
       if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
-        fieldsNames.add(fieldName);
-        values.add(otherFieldValue);
+        rejectedFieldsNames.add(fieldName);
+        expectedValues.add(otherFieldValue);
       }
     }
-    if (fieldsNames.isEmpty()) return;
-    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));
+    if (rejectedFieldsNames.isEmpty()) return;
+    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
   }
 
   /**
@@ -377,7 +377,7 @@ public class Objects {
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
-   * @param fields ignore fields
+   * @param fields the fields to ignore in comparison
    * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
@@ -386,7 +386,7 @@ public class Objects {
   public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
     assertIsInstanceOf(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
-    List<Object> values = new LinkedList<Object>();
+    List<Object> expectedValues = new LinkedList<Object>();
     Set<String> ignoredFields = set(fields);
     for (Field field : actual.getClass().getDeclaredFields()) {
       try {
@@ -396,7 +396,7 @@ public class Objects {
           Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
           if (!org.fest.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
             fieldsNames.add(fieldName);
-            values.add(otherFieldValue);
+            expectedValues.add(otherFieldValue);
           }
         }
       } catch (IntrospectionError e) {
@@ -404,6 +404,6 @@ public class Objects {
       }
     }
     if (fieldsNames.isEmpty()) return;
-    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, list(fields)));
+    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, list(fields)));
   }
 }

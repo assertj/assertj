@@ -19,6 +19,7 @@ package org.fest.assertions.error;
  * types failed.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
 
@@ -33,6 +34,6 @@ public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInstanceOfAny(Object actual, Class<?>[] types) {
-    super("expected <%s> to be an instance of any of:<%s> but was instance of:<%s>", actual, types, actual.getClass());
+    super("expected <%s> to be an instance of any of:\n<%s>\n but was instance of:<%s>", actual, types, actual.getClass());
   }
 }

@@ -16,54 +16,59 @@ package org.fest.assertions.error;
 
 import java.util.List;
 
-
 /**
- * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are lenient equal by ignoring fields
- * failed.
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
+ * lenient equal by ignoring fields failed.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class ShouldBeLenientEqualByIgnoring extends BasicErrorMessageFactory {
 
-	  /**
-	   * Creates a new </code>{@link ShouldBeLenientEqualByIgnoring}</code>.
-	   * @param actual the actual value in the failed assertion.
-	   * @param rejectedFields fields name not matching
-	   * @param rejectedValues fields value not matching
-	   * @param ignoredFields fields which are not base the lenient equality
-	   * @return the created {@code ErrorMessageFactory}.
-	   */
-	  public static <E> ErrorMessageFactory shouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields, List<Object> rejectedValues, List<String> ignoredFields) {
-		if(rejectedFields.size() == 1){
-			if(ignoredFields.isEmpty()){
-				return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields.get(0), rejectedValues.get(0));
-			} else {
-				return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields.get(0), rejectedValues.get(0), ignoredFields);
-			}
-		} else {
-			if(ignoredFields.isEmpty()){
-				return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields, rejectedValues);
-			} else {
-				return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields, rejectedValues, ignoredFields);
-			}
-		}
-	  }
+  /**
+   * Creates a new </code>{@link ShouldBeLenientEqualByIgnoring}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param rejectedFields fields name not matching
+   * @param expectedValues fields value not matching
+   * @param ignoredFields fields which are not base the lenient equality
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <E> ErrorMessageFactory shouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields,
+      List<Object> expectedValues, List<String> ignoredFields) {
+    if (rejectedFields.size() == 1) {
+      if (ignoredFields.isEmpty()) {
+        return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields.get(0), expectedValues.get(0));
+      } else {
+        return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields.get(0), expectedValues.get(0), ignoredFields);
+      }
+    } else {
+      if (ignoredFields.isEmpty()) {
+        return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields, expectedValues);
+      } else {
+        return new ShouldBeLenientEqualByIgnoring(actual, rejectedFields, expectedValues, ignoredFields);
+      }
+    }
+  }
 
-  
-	  private ShouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields, List<Object> rejectedValue, List<String> ignoredFields) {
-		  super("expected values <%s> in fields <%s> of <%s>, comparison was performed on all fields but <%s>", rejectedValue, rejectedFields, actual, ignoredFields);
-	  }
-	  
-	  private ShouldBeLenientEqualByIgnoring(Object actual, String rejectedField, Object rejectedValue, List<String> ignoredFields) {
-		  super("expected value <%s> in field <%s> of <%s>, comparison was performed on all fields but <%s>", rejectedValue, rejectedField, actual, ignoredFields);
-	  }
-	  
-	  private ShouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields, List<Object> rejectedValue) {
-		  super("expected values <%s> in fields <%s> of <%s>, comparison was performed on all fields", rejectedValue, rejectedFields, actual);
-	  }
-	  
-	  private ShouldBeLenientEqualByIgnoring(Object actual, String rejectedField, Object rejectedValue) {
-		  super("expected value <%s> in field <%s> of <%s>, comparison was performed on all fields", rejectedValue, rejectedField, actual);
-	  }
-	  
+  private ShouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields, List<Object> expectedValues,
+      List<String> ignoredFields) {
+    super("expected values:\n<%s>\n in fields:\n<%s>\n of <%s>.\nComparison was performed on all fields but <%s>", expectedValues,
+        rejectedFields, actual, ignoredFields);
+  }
+
+  private ShouldBeLenientEqualByIgnoring(Object actual, String rejectedField, Object expectedValue, List<String> ignoredFields) {
+    super("expected value <%s> in field <%s> of <%s>.\nComparison was performed on all fields but <%s>", expectedValue,
+        rejectedField, actual, ignoredFields);
+  }
+
+  private ShouldBeLenientEqualByIgnoring(Object actual, List<String> rejectedFields, List<Object> expectedValue) {
+    super("expected values:\n<%s>\n in fields:\n<%s>\n of <%s>.\nComparison was performed on all fields", expectedValue, rejectedFields,
+        actual);
+  }
+
+  private ShouldBeLenientEqualByIgnoring(Object actual, String rejectedField, Object expectedValue) {
+    super("expected value <%s> in field <%s> of <%s>.\nComparison was performed on all fields", expectedValue, rejectedField,
+        actual);
+  }
+
 }

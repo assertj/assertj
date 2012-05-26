@@ -21,7 +21,9 @@ import static org.fest.util.Arrays.array;
 
 import static org.mockito.Mockito.*;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.ComparisonFailure;
+import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -64,7 +66,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private void check(AssertionError error) throws Exception {
     createComparisonFailure(verify(constructorInvoker));
     assertFalse(error instanceof ComparisonFailure);
-    assertEquals("[Jedi] expected:<'Yoda'> but was:<'Luke'>", error.getMessage());
+    assertEquals("[Jedi] expected:\n<'Yoda'>\n but was:\n<'Luke'>", error.getMessage());
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {

@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldNotHave extends BasicErrorMessageFactory {
 
@@ -37,6 +38,6 @@ public class ElementsShouldNotHave extends BasicErrorMessageFactory {
 	  }
   
 	  private ElementsShouldNotHave(Object actual, Object notSatisfies,	Condition<?> condition) {
-		  super("expecting: elements <%s> of <%s> not to have <%s>", notSatisfies, actual, condition);
+		  super("expecting elements:\n<%s>\n of \n<%s>\n not to have <%s>", notSatisfies, actual, condition);
 	  }
 }

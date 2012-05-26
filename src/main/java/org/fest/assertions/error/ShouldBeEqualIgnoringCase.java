@@ -33,6 +33,6 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringCase(String actual, String expected) {
-    super("expecting <%s> to be equal to <%s>, ignoring case considerations", actual, expected);
+    super("expecting:\n<%s>\n to be equal to:\n<%s>\n ignoring case considerations", actual, expected);
   }
 }

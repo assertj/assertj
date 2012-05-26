@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory  {
 
@@ -37,6 +38,6 @@ public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory  {
 	  }
 
 	  private ElementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
-		  super("expecting: elements  <%s> to be at least %s times <%s>", actual, times, condition);
+		  super("expecting elements:\n<%s>\n to be at least %s times <%s>", actual, times, condition);
 	  }
 }

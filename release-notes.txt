@@ -9,6 +9,7 @@ New features :
 - FEST-476 : Improve error message when comparing numbers with offset (Joel Costigliola)
 
 Improvement :
+- Use multiline error message to ease comparing actual and expected (Joel Costigliola)
 - Make assertions more type safe (work in progress) (Mikhail Mazursky)
 
 Bug :

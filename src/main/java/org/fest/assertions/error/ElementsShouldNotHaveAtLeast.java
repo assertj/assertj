@@ -22,6 +22,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public class ElementsShouldNotHaveAtLeast extends BasicErrorMessageFactory  {
 
@@ -37,6 +38,6 @@ public class ElementsShouldNotHaveAtLeast extends BasicErrorMessageFactory  {
 	  }
 
 	  private ElementsShouldNotHaveAtLeast(Object actual, int times, Condition<?> condition) {
-		  super("expecting: elements  <%s> not to have at least %s times <%s>", actual, times, condition);
+		  super("expecting elements:\n<%s>\n not to have at least %s times <%s>", actual, times, condition);
 	  }
 }

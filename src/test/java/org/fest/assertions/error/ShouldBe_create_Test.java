@@ -15,11 +15,15 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ShouldBe.shouldBe;
+
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.description.*;
-import org.junit.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
  * Tests for <code>{@link ShouldBe#create(Description)}</code>.
@@ -36,6 +40,6 @@ public class ShouldBe_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> to be:<green>", message);
+    assertEquals("[Test] expecting:\n<'Yoda'>\n to be:\n<green>", message);
   }
 }

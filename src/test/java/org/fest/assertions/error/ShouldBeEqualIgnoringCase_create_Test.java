@@ -15,16 +15,20 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link ShouldBeEqualIgnoringCase#create(Description)}</code>.
  *
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ShouldBeEqualIgnoringCase_create_Test {
 
@@ -36,6 +40,6 @@ public class ShouldBeEqualIgnoringCase_create_Test {
 
   @Test public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expecting <'Yoda'> to be equal to <'Luke'>, ignoring case considerations", message);
+    assertEquals("[Test] expecting:\n<'Yoda'>\n to be equal to:\n<'Luke'>\n ignoring case considerations", message);
   }
 }
