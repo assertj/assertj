@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
-import static org.fest.util.Collections.sizeOf;
 
 import static org.junit.Assert.fail;
 
@@ -16,16 +15,16 @@ import org.fest.util.IntrospectionError;
 public class Filter_with_property_not_in_given_values_Test extends AbstractTest_filter {
 
   @Test
-  public void should_filter_iterable_elements_with_property_not_equals_to_given_value() {
+  public void should_filter_iterable_elements_with_property_not_in_given_values() {
     Iterable<Player> filteredPlayers = filter(players).with("team").notIn("OKC", "Miami Heat").get();
     assertThat(filteredPlayers).containsOnly(rose, noah);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
 
     filteredPlayers = filter(players).with("name.last").notIn("Rose", "Noah").get();
     assertThat(filteredPlayers).containsOnly(durant, james);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
   }
 
   @Test

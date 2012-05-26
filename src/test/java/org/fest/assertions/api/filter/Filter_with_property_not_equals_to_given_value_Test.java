@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
-import static org.fest.util.Collections.sizeOf;
 
 import static org.junit.Assert.fail;
 
@@ -20,12 +19,12 @@ public class Filter_with_property_not_equals_to_given_value_Test extends Abstrac
     Iterable<Player> nonOKCPlayers = filter(players).with("team").notEqualsTo("OKC").get();
     assertThat(nonOKCPlayers).containsOnly(rose, noah, james);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
 
     Iterable<Player> filteredPlayers = filter(players).with("name.last").notEqualsTo("Rose").get();
     assertThat(filteredPlayers).containsOnly(durant, noah, james);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
   }
 
   @Test

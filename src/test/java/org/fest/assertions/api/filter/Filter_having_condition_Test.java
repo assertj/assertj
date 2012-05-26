@@ -1,10 +1,7 @@
 package org.fest.assertions.api.filter;
 
-import static junit.framework.Assert.assertEquals;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
-import static org.fest.util.Collections.sizeOf;
 
 import static org.junit.Assert.fail;
 
@@ -14,14 +11,14 @@ import org.fest.assertions.test.Player;
 
 public class Filter_having_condition_Test extends AbstractTest_filter {
 
-  private PotentialMvpCondition mvpStats= new PotentialMvpCondition();
-  
+  private PotentialMvpCondition mvpStats = new PotentialMvpCondition();
+
   @Test
   public void should_filter_iterable_elements_satisfying_condition() {
     Iterable<Player> playersHavinMvpStats = filter(players).having(mvpStats).get();
     assertThat(playersHavinMvpStats).containsOnly(rose, james);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
   }
 
   @Test
@@ -30,7 +27,7 @@ public class Filter_having_condition_Test extends AbstractTest_filter {
       filter(players).having(null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
-      assertEquals("The filter condition should not be null", e.getMessage());
+      assertThat(e).hasMessage("The filter condition should not be null");
     }
   }
 

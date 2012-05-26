@@ -1,10 +1,7 @@
 package org.fest.assertions.api.filter;
 
-import static junit.framework.Assert.assertEquals;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
-import static org.fest.util.Collections.sizeOf;
 
 import static org.junit.Assert.fail;
 
@@ -20,12 +17,12 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
     Iterable<Player> bullsPlayers = filterIterable(players, "team", "Chicago Bulls");
     assertThat(bullsPlayers).containsOnly(rose, noah);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
 
     Iterable<Player> filteredPlayers = filter(players).with("name.last", "James").get();
     assertThat(filteredPlayers).containsOnly(james);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
   }
 
   protected abstract Iterable<Player> filterIterable(Iterable<Player> players, String propertyName, Object propertyValue);
@@ -36,7 +33,7 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
       filterIterable(players, null, 6000L);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
-      assertEquals("The property name to filter on should not be null", e.getMessage());
+      assertThat(e).hasMessage("The property name to filter on should not be null");
     }
   }
 
@@ -46,7 +43,7 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
       filterIterable(players, "nickname", "dude");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertEquals("No getter for property 'nickname' in org.fest.assertions.test.Player", e.getMessage());
+      assertThat(e).hasMessage("No getter for property 'nickname' in org.fest.assertions.test.Player");
     }
   }
 

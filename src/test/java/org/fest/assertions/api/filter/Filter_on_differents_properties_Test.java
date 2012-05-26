@@ -4,7 +4,6 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
-import static org.fest.util.Collections.sizeOf;
 
 import static org.junit.Assert.fail;
 
@@ -20,7 +19,7 @@ public class Filter_on_differents_properties_Test extends AbstractTest_filter {
     assertThat(filter(players).with("reboundsPerGame").equalsTo(5).and("team").notEqualsTo("OKC").get()).containsOnly(
         rose);
     // players is not modified
-    assertEquals(4, sizeOf(players));
+    assertThat(players).hasSize(4);
   }
 
   @Test

@@ -2,6 +2,7 @@ package org.fest.assertions.api.filter;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.filter.Filters.filter;
 
 import static org.junit.Assert.fail;
@@ -26,25 +27,25 @@ public class Filter_create_Test extends AbstractTest_filter {
     Filters<Player> filter = filter(playersArray);
     assertEquals(players, filter.get());
   }
-  
+
   @Test
   public void should_fail_if_constructor_iterable_parameter_is_null() {
     try {
-      filter((List<Player>)null);
+      filter((List<Player>) null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
-      assertEquals("The iterable to filter should not be null", e.getMessage());
+      assertThat(e).hasMessage("The iterable to filter should not be null");
     }
   }
 
   @Test
   public void should_fail_if_constructor_array_parameter_is_null() {
     try {
-      filter((Player[])null);
+      filter((Player[]) null);
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
-      assertEquals("The array to filter should not be null", e.getMessage());
+      assertThat(e).hasMessage("The array to filter should not be null");
     }
   }
-  
+
 }
