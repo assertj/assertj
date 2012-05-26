@@ -1,6 +1,11 @@
 For the next release
 --------------------
 
+- FEST-476 : Improve error message when comparing numbers with offset
+
+2.0M4 release notes 
+-------------------
+
 - Improve type safety 
 - Refactor custom comparators : introducing customElementComparator for group assertions
 - github#20 : new group assertions : containsAll(Iterable)
