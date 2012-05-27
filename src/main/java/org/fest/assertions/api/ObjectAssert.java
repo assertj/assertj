@@ -152,5 +152,30 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
     objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
     return this;
   }
+  
+  /**
+   * Assert that the actual object is equals fields by fields to another object.
+   * 
+   * <pre>
+   * Example: 
+   * 
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT); 
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT); 
+   * 
+   * // frodo and frodoClone are equals by comparing fields
+   * assertThat(frodo).isLenientEqualsToByIgnoringFields(frodoClone); //=> OK
+   * 
+   * </pre>
+   *  
+   * @param other the object to compare {@code actual} to.
+   * @throws NullPointerException if the actual type is {@code null}.
+   * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if the actual and the given object are not equals fields by fields.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */
+  public ObjectAssert<T> isEqualsToByComparingFields(T other){
+	 objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other);
+	 return this;
+  }
 
 }
