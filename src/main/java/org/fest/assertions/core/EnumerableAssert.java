@@ -25,8 +25,9 @@ import java.util.Comparator;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public interface EnumerableAssert<S, T> {
+public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.

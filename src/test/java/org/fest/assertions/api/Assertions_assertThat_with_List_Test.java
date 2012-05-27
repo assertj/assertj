@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
-import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.junit.Test;
 
 /**
@@ -28,11 +27,12 @@ import org.junit.Test;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_List_Test {
 
   @Test public void should_create_Assert() {
-    IndexedObjectEnumerableAssert<Object> assertions = Assertions.assertThat(emptyList());
+    ListAssert<Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
   }
 
