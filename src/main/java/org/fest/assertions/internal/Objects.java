@@ -25,8 +25,7 @@ import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Collections.*;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -64,12 +63,12 @@ public class Objects {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
-  
+
   @VisibleForTesting
   PropertySupport propertySupport = PropertySupport.instance();
 
   private final ComparisonStrategy comparisonStrategy;
-  
+
   @VisibleForTesting
   Objects() {
     this(StandardComparisonStrategy.instance());
@@ -81,9 +80,8 @@ public class Objects {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
-    }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+        .getComparator(); }
     return null;
   }
 
@@ -257,8 +255,8 @@ public class Objects {
   }
 
   /**
-   * Returns <code>true</code> if given item is in given array, <code>false</code> otherwise. 
-   * @param item the object to look for in arrayOfValues 
+   * Returns <code>true</code> if given item is in given array, <code>false</code> otherwise.
+   * @param item the object to look for in arrayOfValues
    * @param arrayOfValues the array of values
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
    */
@@ -310,7 +308,7 @@ public class Objects {
       if (areEqual(value, actual)) return true;
     return false;
   }
-  
+
   /**
    * Assert that the given object is lenient equals by ignoring null fields value on other object.
    * @param info contains information about the assertion.
@@ -321,31 +319,31 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, A actual, A other){
-  	assertIsInstanceOf(info, other, actual.getClass());
-  	List<String> fieldsNames = new LinkedList<String>();
-  	List<Object> values = new LinkedList<Object>();
-  	List<String> nullFields = new LinkedList<String>();
-  	for (Field field : actual.getClass().getDeclaredFields()) {
-  		try {
-  			Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
-  			if (otherFieldValue != null) {
-  				Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
-  				if (!otherFieldValue.equals(actualFieldValue)){
-  					fieldsNames.add(field.getName());
-  					values.add(otherFieldValue);
-  				}
-  			} else {
-  				nullFields.add(field.getName());
-  			}
-  		} catch (IntrospectionError e) {
-  			// Not readeable field, skip.
-  		}
-  	}
-  	if (fieldsNames.isEmpty()) return;
-  	throw failures.failure(info, shouldBeLenientEqualByIgnoring (actual, fieldsNames, values, nullFields));	  
+  public <A> void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, A actual, A other) {
+    assertIsInstanceOf(info, other, actual.getClass());
+    List<String> fieldsNames = new LinkedList<String>();
+    List<Object> values = new LinkedList<Object>();
+    List<String> nullFields = new LinkedList<String>();
+    for (Field field : actual.getClass().getDeclaredFields()) {
+      try {
+        Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
+        if (otherFieldValue != null) {
+          Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
+          if (!otherFieldValue.equals(actualFieldValue)) {
+            fieldsNames.add(field.getName());
+            values.add(otherFieldValue);
+          }
+        } else {
+          nullFields.add(field.getName());
+        }
+      } catch (IntrospectionError e) {
+        // Not readeable field, skip.
+      }
+    }
+    if (fieldsNames.isEmpty()) return;
+    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, nullFields));
   }
-  
+
   /**
    * Assert that the given object is lenient equals by ignoring null fields value on other object.
    * @param info contains information about the assertion.
@@ -358,20 +356,20 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
-  public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields){
-  	assertIsInstanceOf(info, other, actual.getClass());
-  	List<String> fieldsNames = new LinkedList<String>();
-  	List<Object> values = new LinkedList<Object>();
-  	for (String fieldName : fields) {
-  		Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
-  		Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-  		if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
-  			fieldsNames.add(fieldName);
-  			values.add(otherFieldValue);				
-  		}
-  	}
-  	if (fieldsNames.isEmpty()) return;
-  	throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));	  
+  public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields) {
+    assertIsInstanceOf(info, other, actual.getClass());
+    List<String> fieldsNames = new LinkedList<String>();
+    List<Object> values = new LinkedList<Object>();
+    for (String fieldName : fields) {
+      Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
+      Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
+      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+        fieldsNames.add(fieldName);
+        values.add(otherFieldValue);
+      }
+    }
+    if (fieldsNames.isEmpty()) return;
+    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, fieldsNames, values, list(fields)));
   }
 
   /**
@@ -385,27 +383,27 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-	public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
-		assertIsInstanceOf(info, other, actual.getClass());
-		List<String> fieldsNames = new LinkedList<String>();
-		List<Object> values = new LinkedList<Object>();
-		Set<String> ignoredFields = set(fields);
-		for (Field field : actual.getClass().getDeclaredFields()) {
-			try {
-				if (!ignoredFields.contains(field.getName())) {
-					String fieldName = field.getName();
-			  		Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
-			  		Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-			  		if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
-			  			fieldsNames.add(fieldName);
-			  			values.add(otherFieldValue);				
-			  		}
-				}
-			} catch (IntrospectionError e) {
-				// Not readeable field, skip.
-			}
-		}
-		if (fieldsNames.isEmpty()) return;
-		throw failures.failure(info,shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, list(fields)));	 		
-	}
+  public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
+    assertIsInstanceOf(info, other, actual.getClass());
+    List<String> fieldsNames = new LinkedList<String>();
+    List<Object> values = new LinkedList<Object>();
+    Set<String> ignoredFields = set(fields);
+    for (Field field : actual.getClass().getDeclaredFields()) {
+      try {
+        if (!ignoredFields.contains(field.getName())) {
+          String fieldName = field.getName();
+          Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
+          Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
+          if (!org.fest.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+            fieldsNames.add(fieldName);
+            values.add(otherFieldValue);
+          }
+        }
+      } catch (IntrospectionError e) {
+        // Not readeable field, skip.
+      }
+    }
+    if (fieldsNames.isEmpty()) return;
+    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, list(fields)));
+  }
 }
