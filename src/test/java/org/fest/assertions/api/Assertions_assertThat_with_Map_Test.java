@@ -15,9 +15,11 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Test;
 
@@ -25,17 +27,18 @@ import org.junit.Test;
  * Tests for <code>{@link Assertions#assertThat(Map)}</code>.
  *
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class Assertions_assertThat_with_Map_Test {
 
   @Test public void should_create_Assert() {
-    MapAssert assertions = Assertions.assertThat(emptyMap());
+    MapAssert<Object, Object> assertions = Assertions.assertThat(emptyMap());
     assertNotNull(assertions);
   }
 
   @Test public void should_pass_actual() {
-    Map<?, ?> actual = new HashMap<Object, Object>();
-    MapAssert assertions = Assertions.assertThat(actual);
+    Map<Object, Object> actual = new HashMap<Object, Object>();
+    MapAssert<Object, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

@@ -32,12 +32,13 @@ import org.fest.util.VisibleForTesting;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
-public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements EnumerableAssert<MapAssert, MapEntry> {
+public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> implements EnumerableAssert<MapAssert<K, V>, MapEntry> {
 
   @VisibleForTesting Maps maps = Maps.instance();
 
-  protected MapAssert(Map<?, ?> actual) {
+  protected MapAssert(Map<K, V> actual) {
     super(actual, MapAssert.class);
   }
 
@@ -52,13 +53,13 @@ public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements E
   }
 
   /** {@inheritDoc} */
-  public MapAssert isNotEmpty() {
+  public MapAssert<K, V> isNotEmpty() {
     maps.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public MapAssert hasSize(int expected) {
+  public MapAssert<K, V> hasSize(int expected) {
     maps.assertHasSize(info, actual, expected);
     return this;
   }
@@ -73,7 +74,7 @@ public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements E
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */
-  public MapAssert contains(MapEntry...entries) {
+  public MapAssert<K, V> contains(MapEntry...entries) {
     maps.assertContains(info, actual, entries);
     return this;
   }
@@ -87,18 +88,18 @@ public class MapAssert extends AbstractAssert<MapAssert, Map<?, ?>> implements E
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
    */
-  public MapAssert doesNotContain(MapEntry...entries) {
+  public MapAssert<K, V> doesNotContain(MapEntry...entries) {
     maps.assertDoesNotContain(info, actual, entries);
     return this;
   }
 
   /** {@inheritDoc} */
-  public MapAssert usingElementComparator(Comparator<? super MapEntry> customComparator) {
+  public MapAssert<K, V> usingElementComparator(Comparator<? super MapEntry> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 
   /** {@inheritDoc} */
-  public MapAssert usingDefaultElementComparator() {
+  public MapAssert<K, V> usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 }

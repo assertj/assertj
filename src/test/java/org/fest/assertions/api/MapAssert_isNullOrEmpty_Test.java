@@ -15,24 +15,27 @@
 package org.fest.assertions.api;
 
 import static java.util.Collections.emptyMap;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.internal.Maps;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapAssert#isNullOrEmpty()}</code>.
  *
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class MapAssert_isNullOrEmpty_Test {
 
   private Maps maps;
-  private MapAssert assertions;
+  private MapAssert<Object, Object> assertions;
 
   @Before public void setUp() {
     maps = mock(Maps.class);
-    assertions = new MapAssert(emptyMap());
+    assertions = new MapAssert<Object, Object>(emptyMap());
     assertions.maps = maps;
   }
 
