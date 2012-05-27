@@ -30,6 +30,7 @@ import org.fest.assertions.core.AssertionInfo;
  * Tests for <code>{@link ObjectArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArrays {
 
@@ -81,7 +82,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type() {
     AssertionInfo info = someInfo();
-    actual = array(new Object());
+    Object[] actual = array(new Object());
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -94,7 +95,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_some_elements_with_non_comparable_component_type() {
     AssertionInfo info = someInfo();
-    actual = array("bar", new Object(), "foo");
+    Object[] actual = array("bar", new Object(), "foo");
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -107,7 +108,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
     AssertionInfo info = someInfo();
-    actual = new Object[] { "bar", new Integer(5), "foo" };
+    Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -162,7 +163,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_only_one_element_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(new Object());
+    Object[] actual = array(new Object());
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -176,7 +177,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_some_elements_with_non_comparable_component_type_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array("bar", new Object(), "foo");
+    Object[] actual = array("bar", new Object(), "foo");
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -190,7 +191,7 @@ public class ObjectArrays_assertIsSorted_Test extends AbstractTest_for_ObjectArr
   @Test
   public void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = new Object[] { "bar", new Integer(5), "foo" };
+    Object[] actual = new Object[] { "bar", new Integer(5), "foo" };
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {

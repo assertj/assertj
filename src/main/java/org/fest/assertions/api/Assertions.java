@@ -550,7 +550,7 @@ public class Assertions {
    * assertThat("Vader").is(anyOf(jedi, sith));
    * </pre>
    */
-  public static <T> Condition<T> anyOf(Condition<T>... conditions) {
+  public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
     return AnyOf.anyOf(conditions);
   }
 
@@ -562,7 +562,7 @@ public class Assertions {
    * @throws NullPointerException if the given collection is {@code null}.
    * @throws NullPointerException if any of the elements in the given collection is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Collection<Condition<T>> conditions) {
+  public static <T> Condition<T> anyOf(Collection<Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
   }  
 

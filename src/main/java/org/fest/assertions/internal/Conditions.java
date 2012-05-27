@@ -52,7 +52,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
-  public <T> void assertIs(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertIs(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (condition.matches(actual)) return;
     throw failures.failure(info, shouldBe(actual, condition));
@@ -67,7 +67,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
-  public <T> void assertIsNot(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertIsNot(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, shouldNotBe(actual, condition));
@@ -82,7 +82,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given {@code Condition}.
    */
-  public <T> void assertHas(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertHas(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (condition.matches(actual)) return;
     throw failures.failure(info, shouldHave(actual, condition));
@@ -97,7 +97,7 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    * @throws AssertionError if the actual value satisfies the given {@code Condition}.
    */
-  public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<T> condition) {
+  public <T> void assertDoesNotHave(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
     if (!condition.matches(actual)) return;
     throw failures.failure(info, shouldNotHave(actual, condition));

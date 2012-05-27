@@ -21,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * 
  * @author Nicolas François
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class DoesNotHave<T> extends Negative<T> {
 
@@ -30,11 +31,11 @@ public class DoesNotHave<T> extends Negative<T> {
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
-  public static <T> DoesNotHave<T> doesNotHave(Condition<T> condition) {
+  public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
     return new DoesNotHave<T>(condition);
   }
 
-  private DoesNotHave(Condition<T> condition) {
+  private DoesNotHave(Condition<? super T> condition) {
     super(condition);
   }
 

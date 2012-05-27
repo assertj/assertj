@@ -146,7 +146,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public final S is(Condition<A> condition) {
+  public final S is(Condition<? super A> condition) {
     conditions.assertIs(info, actual, condition);
     return myself;
   }
@@ -158,13 +158,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public final S has(Condition<A> condition) {
+  public final S has(Condition<? super A> condition) {
     conditions.assertHas(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotHave(Condition<A> condition) {
+  public final S doesNotHave(Condition<? super A> condition) {
     conditions.assertDoesNotHave(info, actual, condition);
     return myself;
   }

@@ -26,10 +26,11 @@ import org.fest.util.VisibleForTesting;
  * @param <T> the type of object this condition accepts.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public abstract class Join<T> extends Condition<T> {
 
-  @VisibleForTesting final Collection<Condition<T>> conditions;
+  @VisibleForTesting final Collection<Condition<? super T>> conditions;
 
   /**
    * Creates a new </code>{@link Join}</code>.
@@ -37,31 +38,31 @@ public abstract class Join<T> extends Condition<T> {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
-  protected Join(Condition<T>...conditions) {
+  protected Join(Condition<? super T>...conditions) {
     this.conditions = listWithoutNulls(conditions);
   }
 
-  private static <T> List<Condition<T>> listWithoutNulls(Condition<T>...conditions) {
+  private static <T> List<Condition<? super T>> listWithoutNulls(Condition<? super T>...conditions) {
     if (conditions == null) throw conditionsIsNull();
-    List<Condition<T>> list = new ArrayList<Condition<T>>();
-    for (Condition<T> condition : conditions) list.add(notNull(condition));
+    List<Condition<? super T>> list = new ArrayList<Condition<? super T>>();
+    for (Condition<? super T> condition : conditions) list.add(notNull(condition));
     return list;
   }
 
   /**
    * Creates a new </code>{@link Join}</code>.
    * @param conditions the conditions to join.
-   * @throws NullPointerException if the given collection is {@code null}.
-   * @throws NullPointerException if any of the elements in the given collection is {@code null}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
-  protected Join(Collection<Condition<T>> conditions) {
+  protected Join(Iterable<? extends Condition<? super T>> conditions) {
     this.conditions = listWithoutNulls(conditions);
   }
 
-  private static <T> List<Condition<T>> listWithoutNulls(Collection<Condition<T>> conditions) {
+  private static <T> List<Condition<? super T>> listWithoutNulls(Iterable<? extends Condition<? super T>> conditions) {
     if (conditions == null) throw conditionsIsNull();
-    List<Condition<T>> list = new ArrayList<Condition<T>>();
-    for (Condition<T> condition : conditions) list.add(notNull(condition));
+    List<Condition<? super T>> list = new ArrayList<Condition<? super T>>();
+    for (Condition<? super T> condition : conditions) list.add(notNull(condition));
     return list;
   }
 
@@ -78,7 +79,7 @@ public abstract class Join<T> extends Condition<T> {
    * Returns the conditions to join.
    * @return the conditions to join.
    */
-  protected final Collection<Condition<T>> conditions() {
+  protected final Collection<Condition<? super T>> conditions() {
     return unmodifiableCollection(conditions);
   }
 }

@@ -22,6 +22,7 @@ package org.fest.assertions.core;
  * @param <A> the type of the "actual" value.
  *
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public interface ExtensionPoints<S, A> {
 
@@ -34,7 +35,7 @@ public interface ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  S is(Condition<A> condition);
+  S is(Condition<? super A> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition. This method is an alias for
@@ -56,7 +57,7 @@ public interface ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @see #is(Condition)
    */
-  S has(Condition<A> condition);
+  S has(Condition<? super A> condition);
 
   /**
    * Verifies that the actual value does not satisfy the given condition. This method is an alias for
@@ -67,5 +68,5 @@ public interface ExtensionPoints<S, A> {
    * @throws AssertionError if the actual value satisfies the given condition.
    * @see #isNot(Condition)
    */
-  S doesNotHave(Condition<A> condition);
+  S doesNotHave(Condition<? super A> condition);
 }

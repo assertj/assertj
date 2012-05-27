@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotHave;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -36,6 +35,7 @@ import org.junit.Test;
  * .
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectArrays_assertDoNotHave_Test extends AbstractTest_for_ObjectArrays {
 
@@ -70,20 +70,6 @@ public class ObjectArrays_assertDoNotHave_Test extends AbstractTest_for_ObjectAr
 		verify(conditions).assertIsNotNull(null);			
 	}
 	
-	@Test
-	public void should_throw_error_if_condition_has_bad_type() {
-		actual = array(42);
-	    AssertionInfo info = someInfo();
-	    try {
-	    	arrays.assertDoNotHave(someInfo(), actual, jediPower);
-	    } catch (AssertionError e) {
-		  verify(conditions).assertIsNotNull(jediPower);		
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jediPower));
-	      return;
-	    }
-	    failBecauseExpectedAssertionErrorWasNotThrown();		
-	}	
-
 	@Test
 	public void should_fail_if_condition_is_met() {
 	    testCondition.shouldMatch(false);
