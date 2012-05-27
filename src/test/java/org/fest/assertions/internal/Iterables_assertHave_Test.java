@@ -15,14 +15,11 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ElementsShouldHave.elementsShouldHave;
-import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
 
 import org.fest.assertions.condition.JediPowerCondition;
 import org.fest.assertions.core.AssertionInfo;
@@ -37,6 +34,7 @@ import org.junit.Test;
  * .
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class Iterables_assertHave_Test extends AbstractTest_for_Iterables {
 
@@ -73,20 +71,6 @@ public class Iterables_assertHave_Test extends AbstractTest_for_Iterables {
 		verify(conditions).assertIsNotNull(jediPower);
 	}
 	
-	@Test
-	public void should_fail_if_condition_has_bad_type() {
-	    AssertionInfo info = someInfo();
-	    List<Integer> actual = list(42);
-	    try {
-	    	iterables.assertHave(someInfo(), actual, jediPower);
-	    } catch (AssertionError e) {
-	      verify(conditions).assertIsNotNull(jediPower);
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jediPower));
-	      return;
-	    }
-	    failBecauseExpectedAssertionErrorWasNotThrown();
-	}	
-
 	@Test
 	public void should_fail_if_condition_is_not_met() {
 	    testCondition.shouldMatch(false);

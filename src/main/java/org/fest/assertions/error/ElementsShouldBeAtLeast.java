@@ -21,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * A group of elements can be a collection, an array.<br>
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory  {
 
@@ -31,13 +32,11 @@ public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory  {
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory elementsShouldBeAtLeast(Object actual, int times, Condition<E> condition) {
+	  public static ErrorMessageFactory elementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
 	    return new ElementsShouldBeAtLeast(actual, times, condition);
 	  }
 
 	  private ElementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
 		  super("expecting: elements  <%s> to be at least %s times <%s>", actual, times, condition);
 	  }
-	
-	
 }

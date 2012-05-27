@@ -21,9 +21,9 @@ import org.fest.assertions.core.Condition;
  * A group of elements can be a collection, an array.<br>
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ElementsShouldNotBe extends BasicErrorMessageFactory {
-
 
 	  /**
 	   * Creates a new </code>{@link ElementsShouldNotBe}</code>.
@@ -32,7 +32,7 @@ public class ElementsShouldNotBe extends BasicErrorMessageFactory {
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory elementsShouldNotBe(Object actual, Object satisfies, Condition<E> condition) {
+	  public static ErrorMessageFactory elementsShouldNotBe(Object actual, Object satisfies, Condition<?> condition) {
 	    return new ElementsShouldNotBe(actual, satisfies, condition);
 	  }
   

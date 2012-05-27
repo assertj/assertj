@@ -20,6 +20,7 @@ import org.fest.assertions.core.Condition;
  * Returns {@code true} if the condition is not satisfied.
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class Not<T> extends Negative<T> {
 
@@ -29,11 +30,11 @@ public class Not<T> extends Negative<T> {
 	 * @param condition the condition to inverse.
 	 * @return The Not condition created.
 	 */
-	public static <T> Not<T> not(Condition<T> condition) {
+	public static <T> Not<T> not(Condition<? super T> condition) {
 		return new Not<T>(condition);
 	}
 
-	private Not(Condition<T> condition) {
+	private Not(Condition<? super T> condition) {
 		super(condition);
 	}
 

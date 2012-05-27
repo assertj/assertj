@@ -21,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * A group of elements can be a collection, an array.<br>
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ElementsShouldNotHaveAtMost extends BasicErrorMessageFactory  {
 
@@ -31,13 +32,11 @@ public class ElementsShouldNotHaveAtMost extends BasicErrorMessageFactory  {
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory elementsShouldNotHaveAtMost(Object actual, int times, Condition<E> condition) {
+	  public static <E> ErrorMessageFactory elementsShouldNotHaveAtMost(Object actual, int times, Condition<?> condition) {
 	    return new ElementsShouldNotHaveAtMost(actual, times, condition);
 	  }
 
 	  private ElementsShouldNotHaveAtMost(Object actual, int times, Condition<?> condition) {
 		  super("expecting: elements  <%s> not to have at most %s times <%s>", actual, times, condition);
 	  }
-	
-	
 }

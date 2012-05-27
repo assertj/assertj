@@ -24,7 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.fest.assertions.api.filter.Filters;
+import org.fest.assertions.condition.AllOf;
 import org.fest.assertions.condition.AnyOf;
+import org.fest.assertions.condition.DoesNotHave;
+import org.fest.assertions.condition.Not;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.data.MapEntry;
@@ -541,6 +544,30 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
   
   /**
+   * Creates a new <code>{@link AllOf}</code>
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws NullPointerException if any of the elements in the given array is {@code null}.
+   */
+  public static <T> Condition<T> allOf(Condition<? super T>...conditions) {
+	  return AllOf.allOf(conditions);
+  }
+
+  /**
+   * Creates a new <code>{@link AllOf}</code>
+   * @param <T> the type of object the given condition accept.
+   * @param conditions the conditions to evaluate.
+   * @return the created {@code AnyOf}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
+   */
+  public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
+    return AllOf.allOf(conditions);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest
    * Assert features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -559,12 +586,32 @@ public class Assertions {
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
-   * @throws NullPointerException if the given collection is {@code null}.
-   * @throws NullPointerException if any of the elements in the given collection is {@code null}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Collection<Condition<? super T>> conditions) {
+  public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
   }  
+
+  /**
+   * Creates a new </code>{@link DoesNotHave}</code>.
+   * 
+   * @param condition the condition to inverse.
+   * @return The Not condition created.
+   */
+  public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
+    return DoesNotHave.doesNotHave(condition);
+  }
+
+  /**
+   * Creates a new </code>{@link Not}</code>.
+   * 
+   * @param condition the condition to inverse.
+   * @return The Not condition created.
+   */
+  public static <T> Not<T> not(Condition<? super T> condition) {
+    return Not.not(condition);
+  }
 
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a single entry point to all Fest Assert features.

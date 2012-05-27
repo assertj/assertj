@@ -25,11 +25,13 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.Arrays;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertDoesNotContainNull(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrays_assertDoesNotContainNull_Test extends AbstractTest_for_ObjectArrays {
 
@@ -45,7 +47,7 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends AbstractTest_for
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    actual = array();
+    actual = Arrays.<String>array();
     arrays.assertDoesNotContainNull(someInfo(), actual);
   }
 
@@ -75,7 +77,7 @@ public class ObjectArrays_assertDoesNotContainNull_Test extends AbstractTest_for
   
   @Test
   public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    actual = array();
+    actual = Arrays.<String>array();
     arraysWithCustomComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
   

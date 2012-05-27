@@ -21,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * <code>{@link Condition}</code> failed.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class ShouldNotHave extends BasicErrorMessageFactory {
 
@@ -31,7 +32,7 @@ public class ShouldNotHave extends BasicErrorMessageFactory {
    * @param condition the {@code Condition}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldNotHave(T actual, Condition<T> condition) {
+  public static <T> ErrorMessageFactory shouldNotHave(T actual, Condition<? super T> condition) {
     return new ShouldNotHave(actual, condition);
   }
 

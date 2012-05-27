@@ -20,6 +20,7 @@ package org.fest.assertions.core;
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class TestCondition<T> extends Condition<T> {
 
@@ -37,7 +38,7 @@ public class TestCondition<T> extends Condition<T> {
     matches = val;
   }
 
-  @Override public boolean matches(Object value) {
+  @Override public boolean matches(T value) {
     return matches;
   }
 }
