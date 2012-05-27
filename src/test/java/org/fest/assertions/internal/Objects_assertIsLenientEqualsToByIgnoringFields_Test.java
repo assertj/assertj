@@ -88,4 +88,18 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }   
   
+  @Test 
+  public void should_fail_when_value_is_null_just_on_other() {
+	AssertionInfo info = someInfo();
+	Jedi actual = new Jedi("Yoda", "Green");
+	Jedi other = new Jedi("Yoda", null);
+	try {
+	  objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
+	} catch (AssertionError err) {
+		verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) null), list("name"))); 
+		return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();	
+  }   
+  
 }
