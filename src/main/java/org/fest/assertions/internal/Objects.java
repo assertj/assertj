@@ -25,7 +25,8 @@ import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.list;
+import static org.fest.util.Collections.set;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -392,14 +393,13 @@ public class Objects {
 		for (Field field : actual.getClass().getDeclaredFields()) {
 			try {
 				if (!ignoredFields.contains(field.getName())) {
-					Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
-					if (otherFieldValue != null) {
-						Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
-						if (!otherFieldValue.equals(actualFieldValue)) {
-							fieldsNames.add(field.getName());
-							values.add(otherFieldValue);
-						}
-					}
+					String fieldName = field.getName();
+			  		Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
+			  		Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
+			  		if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+			  			fieldsNames.add(fieldName);
+			  			values.add(otherFieldValue);				
+			  		}
 				}
 			} catch (IntrospectionError e) {
 				// Not readeable field, skip.
