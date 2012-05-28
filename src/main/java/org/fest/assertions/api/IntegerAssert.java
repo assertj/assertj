@@ -103,13 +103,6 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
     integers.assertIsNotPositive(info, actual);
     return this;
   }  
-  
-  /** {@inheritDoc} */
-  public IntegerAssert isGreaterThanOrEqualTo(int other) {
-    integers.assertGreaterThanOrEqualTo(info, actual, other);
-    return this;
-  }
-  
 
   /**
    * Verifies that the actual value is less than the given one.
@@ -144,6 +137,18 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
    */
   public IntegerAssert isGreaterThan(int other) {
     integers.assertGreaterThan(info, actual, other);
+    return this;
+  }
+  
+  /**
+   * Verifies that the actual value is greater than or equal to the given one.
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is less than the given one.
+   */
+  public IntegerAssert isGreaterThanOrEqualTo(int other) {
+    integers.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
   
