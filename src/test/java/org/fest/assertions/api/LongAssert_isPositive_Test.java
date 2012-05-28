@@ -36,7 +36,7 @@ public class LongAssert_isPositive_Test {
     assertions.longs = longs;
   }
 
-  @Test public void should_verify_that_actual_is_negative() {
+  @Test public void should_verify_that_actual_is_positive() {
     assertions.isPositive();
     verify(longs).assertIsPositive(assertions.info, assertions.actual);
   }

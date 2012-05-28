@@ -1,5 +1,5 @@
 /*
- * Created on Oct 24, 2010
+ * Created on May 28, 2012
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,34 +15,36 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Floats;
-import org.junit.*;
+import org.fest.assertions.internal.Integers;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link FloatAssert#isPositive()}</code>.
+ * Tests for <code>{@link IntegerAssert#isNotPositive()}</code>.
  *
- * @author Alex Ruiz
+ * @author Nicolas François
  */
-public class FloatAssert_isPositive_Test {
+public class IntegerAssert_isNotPostitive_Test {
 
-  private Floats floats;
-  private FloatAssert assertions;
+  private Integers integers;
+  private IntegerAssert assertions;
 
   @Before public void setUp() {
-    floats = mock(Floats.class);
-    assertions = new FloatAssert(6f);
-    assertions.floats = floats;
+    integers = mock(Integers.class);
+    assertions = new IntegerAssert(6);
+    assertions.integers = integers;
   }
 
-  @Test public void should_verify_that_actual_is_positive() {
-    assertions.isPositive();
-    verify(floats).assertIsPositive(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_is_non_positive() {
+    assertions.isNotNegative();
+    verify(integers).assertIsNotNegative(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    FloatAssert returned = assertions.isPositive();
+    IntegerAssert returned = assertions.isNotPositive();
     assertSame(assertions, returned);
   }
 }

@@ -14,11 +14,13 @@
  */
 package org.fest.assertions.core;
 
+
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
  * @param <T> the type of the "actual" value.
  *
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public interface NumberAssert<T extends Number> {
 
@@ -47,11 +49,19 @@ public interface NumberAssert<T extends Number> {
   NumberAssert<T> isPositive();
 
   /**
-   * Verifies that the actual value is negative.
-   * @return this assertion object.
+   * Verifies that the actual value is non negative (positive or equal zero).
+   * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not negative.
+   * @throws AssertionError if the actual value is not non negative.
    */
-  NumberAssert<T> isNegative();
-
+  NumberAssert<T> isNotNegative();
+  
+  /**
+   * Verifies that the actual value is non positive (negative or equal zero).
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not non positive.
+   */
+  NumberAssert<T> isNotPositive();
+  
 }

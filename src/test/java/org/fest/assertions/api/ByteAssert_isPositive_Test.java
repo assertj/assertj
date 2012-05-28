@@ -36,7 +36,7 @@ public class ByteAssert_isPositive_Test {
     assertions.bytes = bytes;
   }
 
-  @Test public void should_verify_that_actual_is_negative() {
+  @Test public void should_verify_that_actual_is_positive() {
     assertions.isPositive();
     verify(bytes).assertIsPositive(assertions.info, assertions.actual);
   }

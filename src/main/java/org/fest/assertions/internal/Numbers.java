@@ -21,6 +21,7 @@ import org.fest.util.ComparisonStrategy;
  * Base class of reusable assertions for numbers.
  * 
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Comparables {
 
@@ -78,6 +79,28 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
    */
   public void assertIsPositive(AssertionInfo info, NUMBER actual) {
     assertGreaterThan(info, actual, zero());
+  }
+  
+  /**
+   * Asserts that the actual value is not negative.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is negative.
+   */  
+  public void assertIsNotNegative(AssertionInfo info, NUMBER actual) {
+    assertGreaterThanOrEqualTo(info, actual, zero());
+  }
+  
+  /**
+   * Asserts that the actual value is not positive.
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is positive.
+   */  
+  public void assertIsNotPositive(AssertionInfo info, NUMBER actual) {
+    assertLessThanOrEqualTo(info, actual, zero());
   }
 
 }

@@ -35,6 +35,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double> implements
     FloatingPointNumberAssert<Double> {
@@ -81,6 +82,18 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
     doubles.assertIsNegative(info, actual);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public DoubleAssert isNotNegative(){
+    doubles.assertIsNotNegative(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isNotPositive(){
+    doubles.assertIsNotPositive(info, actual);
+    return this;
+  }    
 
   /**
    * Verifies that the actual value is equal to the given one.
