@@ -14,15 +14,16 @@
  */
 package org.fest.assertions.test;
 
-import org.junit.rules.MethodRule;
-import org.junit.runners.model.*;
+import org.junit.rules.TestRule;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 
 /**
  * Allows in-test specification of expected exception types and messages.
  *
  * @author Alex Ruiz
  */
-public class ExpectedException implements MethodRule {
+public class ExpectedException implements TestRule {
 
   private final org.junit.rules.ExpectedException delegate = org.junit.rules.ExpectedException.none();
 
@@ -33,8 +34,8 @@ public class ExpectedException implements MethodRule {
   private ExpectedException() {}
 
   /** {@inheritDoc} */
-  public Statement apply(Statement base, FrameworkMethod method, Object target) {
-    return delegate.apply(base, method, target);
+  public Statement apply(Statement base, Description description) {
+    return delegate.apply(base, description);
   }
 
   public void expectAssertionError(String message) {
