@@ -39,14 +39,9 @@ public abstract class Join<T> extends Condition<T> {
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
   protected Join(Condition<? super T>...conditions) {
-    this.conditions = listWithoutNulls(conditions);
-  }
-
-  private static <T> List<Condition<? super T>> listWithoutNulls(Condition<? super T>...conditions) {
     if (conditions == null) throw conditionsIsNull();
-    List<Condition<? super T>> list = new ArrayList<Condition<? super T>>();
-    for (Condition<? super T> condition : conditions) list.add(notNull(condition));
-    return list;
+    this.conditions = new ArrayList<Condition<? super T>>();
+    for (Condition<? super T> condition : conditions) this.conditions.add(notNull(condition));
   }
 
   /**
@@ -56,14 +51,9 @@ public abstract class Join<T> extends Condition<T> {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   protected Join(Iterable<? extends Condition<? super T>> conditions) {
-    this.conditions = listWithoutNulls(conditions);
-  }
-
-  private static <T> List<Condition<? super T>> listWithoutNulls(Iterable<? extends Condition<? super T>> conditions) {
     if (conditions == null) throw conditionsIsNull();
-    List<Condition<? super T>> list = new ArrayList<Condition<? super T>>();
-    for (Condition<? super T> condition : conditions) list.add(notNull(condition));
-    return list;
+    this.conditions = new ArrayList<Condition<? super T>>();
+    for (Condition<? super T> condition : conditions) this.conditions.add(notNull(condition));
   }
 
   private static NullPointerException conditionsIsNull() {
