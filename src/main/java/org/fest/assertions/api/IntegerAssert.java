@@ -34,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<Integer> {
 
@@ -91,6 +92,18 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
     return this;
   }
 
+  /** {@inheritDoc} */
+  public IntegerAssert isNotNegative(){
+    integers.assertIsNotNegative(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public IntegerAssert isNotPositive(){
+    integers.assertIsNotPositive(info, actual);
+    return this;
+  }  
+
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -126,7 +139,7 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
     integers.assertGreaterThan(info, actual, other);
     return this;
   }
-
+  
   /**
    * Verifies that the actual value is greater than or equal to the given one.
    * @param other the given value to compare the actual value to.
@@ -138,6 +151,7 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
     integers.assertGreaterThanOrEqualTo(info, actual, other);
     return this;
   }
+  
 
   @Override
   public IntegerAssert usingComparator(Comparator<? super Integer> customComparator) {

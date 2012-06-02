@@ -1,5 +1,5 @@
 /*
- * Created on Feb 8, 2011
+ * Created on Feb 28, 2012
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright @2011 the original author or authors.
+ * Copyright @2011-2012 the original author or authors.
  */
 package org.fest.assertions.api;
 
@@ -24,11 +24,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link BigDecimalAssert#isPositive()}</code>.
+ * Tests for <code>{@link BigDecimalAssert#isNotPositive()}</code>.
  *
- * @author Yvonne Wang
+ * @author Nicolas François
  */
-public class BigDecimalAssert_isPositive_Test {
+public class BigDecimalAssert_isNotPositive_Test {
 
   private BigDecimals bigDecimals;
   private BigDecimalAssert assertions;
@@ -39,13 +39,13 @@ public class BigDecimalAssert_isPositive_Test {
     assertions.bigDecimals = bigDecimals;
   }
 
-  @Test public void should_verify_that_actual_is_positive() {
-    assertions.isPositive();
-    verify(bigDecimals).assertIsPositive(assertions.info, assertions.actual);
+  @Test public void should_verify_that_actual_is_not_positive() {
+    assertions.isNotPositive();
+    verify(bigDecimals).assertIsNotPositive(assertions.info, assertions.actual);
   }
 
   @Test public void should_return_this() {
-    BigDecimalAssert returned = assertions.isPositive();
+    BigDecimalAssert returned = assertions.isNotPositive();
     assertSame(assertions, returned);
   }
 }

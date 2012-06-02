@@ -36,7 +36,7 @@ public class DoubleAssert_isPositive_Test {
     assertions.doubles = doubles;
   }
 
-  @Test public void should_verify_that_actual_is_negative() {
+  @Test public void should_verify_that_actual_is_positive() {
     assertions.isPositive();
     verify(doubles).assertIsPositive(assertions.info, assertions.actual);
   }

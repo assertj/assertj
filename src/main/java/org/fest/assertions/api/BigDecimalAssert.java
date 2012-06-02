@@ -68,6 +68,18 @@ public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalA
     bigDecimals.assertIsNegative(info, actual);
     return myself;
   }
+  
+  /** {@inheritDoc} */
+  public BigDecimalAssert isNotPositive(){
+    bigDecimals.assertIsNotPositive(info, actual);
+    return this;
+  }  
+  
+  /** {@inheritDoc} */
+  public BigDecimalAssert isNotNegative(){
+    bigDecimals.assertIsNotNegative(info, actual);
+    return this;
+  }
 
   /**
    * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigDecimal)} but takes care of converting given String to

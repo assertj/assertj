@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> implements NumberAssert<Byte> {
 
@@ -89,7 +90,20 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
     bytes.assertIsNegative(info, actual);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ByteAssert isNotNegative(){
+    bytes.assertIsNotNegative(info, actual);
+    return this;
+  }
 
+  /** {@inheritDoc} */
+  public ByteAssert isNotPositive(){
+    bytes.assertIsNotPositive(info, actual);
+    return this;
+  }  
+  
+  
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.

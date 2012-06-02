@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
@@ -89,7 +90,19 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
     shorts.assertIsNegative(info, actual);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ShortAssert isNotNegative() {
+    shorts.assertIsNotNegative(info, actual);
+    return this;
+  }
 
+  /** {@inheritDoc} */
+  public ShortAssert isNotPositive() {
+    shorts.assertIsNotPositive(info, actual);
+    return this;
+  }
+  
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.

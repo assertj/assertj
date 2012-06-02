@@ -34,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
@@ -88,6 +89,18 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
   /** {@inheritDoc} */
   public LongAssert isNegative() {
     longs.assertIsNegative(info, actual);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public LongAssert isNotNegative() {
+    longs.assertIsNotNegative(info, actual);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public LongAssert isNotPositive() {
+    longs.assertIsNotPositive(info, actual);
     return this;
   }
 

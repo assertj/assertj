@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
@@ -78,6 +79,18 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
     return this;
   }
 
+  /** {@inheritDoc} */
+  public FloatAssert isNotNegative(){
+    floats.assertIsNotNegative(info, actual);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isNotPositive(){
+    floats.assertIsNotPositive(info, actual);
+    return this;
+  }  
+  
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
