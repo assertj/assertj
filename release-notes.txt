@@ -1,6 +1,7 @@
 For the next release
 --------------------
 
+- FEST-358 : New numbers assertions : isNotPositive / isNotNegative
 - FEST-476 : Improve error message when comparing numbers with offset
 
 2.0M4 release notes 
