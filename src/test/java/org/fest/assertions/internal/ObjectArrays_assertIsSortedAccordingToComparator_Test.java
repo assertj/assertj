@@ -34,6 +34,7 @@ import org.fest.assertions.test.ExpectedException;
  * Tests for <code>{@link ObjectArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
 
@@ -41,7 +42,7 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
   public ExpectedException thrown = none();
 
   private Failures failures;
-  private Object[] actual;
+  private String[] actual;
   private ObjectArrays arrays;
   private Comparator<String> stringDescendingOrderComparator;
   private Comparator<Object> comparator;
@@ -100,47 +101,4 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
-  @Test
-  public void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_given_comparator() {
-    AssertionInfo info = someInfo();
-    actual = array("bar", new Object(), "foo");
-    try {
-      arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_unique_element_is_not_compatible_with_given_comparator() {
-    AssertionInfo info = someInfo();
-    actual = array(new Object());
-    try {
-      arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_elements_are_not_compatible_with_given_comparator() {
-    AssertionInfo info = someInfo();
-    actual = array(new Integer(1), new Integer(2));
-    try {
-      arrays.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
-    } catch (AssertionError e) {
-      verify(failures).failure(info,
-          shouldHaveComparableElementsAccordingToGivenComparator(actual, stringDescendingOrderComparator));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
 }

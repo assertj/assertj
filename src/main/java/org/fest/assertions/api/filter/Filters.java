@@ -188,7 +188,7 @@ public class Filters<E> {
    * @return this {@link Filters} to chain other filter operations.
    * @throws NullPointerException if the given condition is {@code null}.
    */
-  public Filters<E> being(Condition<E> condition) {
+  public Filters<E> being(Condition<? super E> condition) {
     if (condition == null) throw new NullPointerException("The filter condition should not be null");
     return applyFilterCondition(condition);
   }
@@ -213,12 +213,12 @@ public class Filters<E> {
    * @return this {@link Filters} to chain other filter operations.
    * @throws NullPointerException if the given condition is {@code null}.
    */
-  public Filters<E> having(Condition<E> condition) {
+  public Filters<E> having(Condition<? super E> condition) {
     if (condition == null) throw new NullPointerException("The filter condition should not be null");
     return applyFilterCondition(condition);
   }
 
-  private Filters<E> applyFilterCondition(Condition<E> condition) {
+  private Filters<E> applyFilterCondition(Condition<? super E> condition) {
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
       if (condition.matches(element)) {

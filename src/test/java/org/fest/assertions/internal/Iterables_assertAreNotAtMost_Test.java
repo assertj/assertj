@@ -14,15 +14,12 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ElementsShouldNotBeAtMost.elementsShouldNotBeAtMost;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
-
-import java.util.List;
 
 import org.fest.assertions.condition.JediCondition;
 import org.fest.assertions.core.AssertionInfo;
@@ -37,6 +34,7 @@ import org.junit.Test;
  * .
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class Iterables_assertAreNotAtMost_Test extends AbstractTest_for_Iterables {
 
@@ -80,20 +78,6 @@ public class Iterables_assertAreNotAtMost_Test extends AbstractTest_for_Iterable
 		verify(conditions).assertIsNotNull(null);
 	}
 	
-	@Test
-	public void should_fail_if_condition_has_bad_type() {
-	    AssertionInfo info = someInfo();
-	    List<Integer> actual = list(42);
-	    try {
-	    	iterables.assertAreNotAtMost(someInfo(), actual, 2, jedi);
-	    } catch (AssertionError e) {
-	      verify(conditions).assertIsNotNull(jedi);
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jedi));
-	      return;
-	    }
-	    failBecauseExpectedAssertionErrorWasNotThrown();
-	}	
-
 	@Test
 	public void should_fail_if_condition_is_not_met_much() {
 	    testCondition.shouldMatch(false);

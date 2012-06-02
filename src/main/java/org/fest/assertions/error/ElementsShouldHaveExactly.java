@@ -21,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * A group of elements can be a collection, an array.<br>
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ElementsShouldHaveExactly extends BasicErrorMessageFactory  {
 
@@ -31,13 +32,11 @@ public class ElementsShouldHaveExactly extends BasicErrorMessageFactory  {
 	   * @param condition the {@code Condition}.
 	   * @return the created {@code ErrorMessageFactory}.
 	   */
-	  public static <E> ErrorMessageFactory elementsShouldHaveExactly(Object actual, int times, Condition<E> condition) {
+	  public static <E> ErrorMessageFactory elementsShouldHaveExactly(Object actual, int times, Condition<?> condition) {
 	    return new ElementsShouldHaveExactly(actual, times, condition);
 	  }
 
 	  private ElementsShouldHaveExactly(Object actual, int times, Condition<?> condition) {
 		  super("expecting: elements  <%s> to have exactly %s times <%s>", actual, times, condition);
 	  }
-	
-	
 }

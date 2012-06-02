@@ -34,6 +34,7 @@ import org.fest.util.StandardComparisonStrategy;
  * and another with {@link ComparatorBasedComparisonStrategy}.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class AbstractTest_for_ObjectArrays {
 
@@ -43,7 +44,7 @@ public class AbstractTest_for_ObjectArrays {
   /**
    * is initialized with {@link #initActualArray()}
    */
-  protected Object[] actual;
+  protected String[] actual;
   protected Failures failures;
   protected ObjectArrays arrays;
   

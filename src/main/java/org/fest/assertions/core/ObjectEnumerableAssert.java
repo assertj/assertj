@@ -152,7 +152,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  <E> S are(Condition<E> condition);
+  S are(Condition<? super T> condition);
 
   /**
    * Verifies that each element value not satisfies the given condition
@@ -162,7 +162,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  <E> S areNot(Condition<E> condition);
+  S areNot(Condition<? super T> condition);
 
   /**
    * Verifies that each element value satisfies the given condition
@@ -172,7 +172,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element not satisfy the given condition.
    */
-  <E> S have(Condition<E> condition);
+  S have(Condition<? super T> condition);
 
   /**
    * Verifies that each element value not satisfies the given condition
@@ -182,7 +182,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if one or more element satisfy the given condition.
    */
-  <E> S doNotHave(Condition<E> condition);
+  S doNotHave(Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -193,7 +193,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if an element can not be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  <E> S areAtLeast(int n, Condition<E> condition);
+  S areAtLeast(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
@@ -205,7 +205,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
    */
-  <E> S areNotAtLeast(int n, Condition<E> condition);
+  S areNotAtLeast(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -216,7 +216,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
-  <E> S areAtMost(int n, Condition<E> condition);
+  S areAtMost(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
@@ -228,7 +228,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
    */
-  <E> S areNotAtMost(int n, Condition<E> condition);
+  S areNotAtMost(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -239,7 +239,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  <E> S areExactly(int n, Condition<E> condition);
+  S areExactly(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
@@ -251,37 +251,37 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
    */
-  <E> S areNotExactly(int n, Condition<E> condition);
+  S areNotExactly(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
-  <E> S haveAtLeast(int n, Condition<E> condition);
+  S haveAtLeast(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areNotAtLeast(int, Condition)}.
    */
-  <E> S doNotHaveAtLeast(int n, Condition<E> condition);
+  S doNotHaveAtLeast(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
-  <E> S haveAtMost(int n, Condition<E> condition);
+  S haveAtMost(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areNotAtMost(int, Condition)}.
    */
-  <E> S doNotHaveAtMost(int n, Condition<E> condition);
+  S doNotHaveAtMost(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
-  <E> S haveExactly(int n, Condition<E> condition);
+  S haveExactly(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areNotExactly(int, Condition)}.
    */
-  <E> S doNotHaveExactly(int n, Condition<E> condition);
+  S doNotHaveExactly(int n, Condition<? super T> condition);
 
   /**
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.

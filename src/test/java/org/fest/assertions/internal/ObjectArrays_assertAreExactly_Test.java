@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -35,6 +34,7 @@ import org.junit.Test;
  * .
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class ObjectArrays_assertAreExactly_Test extends AbstractTest_for_ObjectArrays {
 
@@ -71,20 +71,6 @@ public class ObjectArrays_assertAreExactly_Test extends AbstractTest_for_ObjectA
 		verify(conditions).assertIsNotNull(null);
 	}
 	
-	@Test
-	public void should_fail_if_condition_has_bad_type() {
-	    AssertionInfo info = someInfo();
-		actual = array(42);
-	    try {
-	    	arrays.assertAreExactly(someInfo(), actual, 2, jedi);
-	    } catch (AssertionError e) {
-	      verify(conditions).assertIsNotNull(jedi);
-	      verify(failures).failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, jedi));
-	      return;
-	    }
-	    failBecauseExpectedAssertionErrorWasNotThrown();
-	}	
-
 	@Test
 	public void should_fail_if_condition_is_not_met_enought() {
 	    testCondition.shouldMatch(false);

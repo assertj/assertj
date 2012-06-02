@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.condition;
 
-import java.util.Collection;
-
 import org.fest.assertions.core.Condition;
 
 /**
@@ -23,6 +21,7 @@ import org.fest.assertions.core.Condition;
  * @param <T> the type of object this condition accepts.
  *
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class AnyOf<T> extends Join<T> {
 
@@ -34,7 +33,7 @@ public class AnyOf<T> extends Join<T> {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Condition<T>...conditions) {
+  public static <T> Condition<T> anyOf(Condition<? super T>...conditions) {
     return new AnyOf<T>(conditions);
   }
 
@@ -43,24 +42,24 @@ public class AnyOf<T> extends Join<T> {
    * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
-   * @throws NullPointerException if the given collection is {@code null}.
-   * @throws NullPointerException if any of the elements in the given collection is {@code null}.
+   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
-  public static <T> Condition<T> anyOf(Collection<Condition<T>> conditions) {
+  public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return new AnyOf<T>(conditions);
   }
 
-  private AnyOf(Condition<T>...conditions) {
+  private AnyOf(Condition<? super T>...conditions) {
     super(conditions);
   }
 
-  private AnyOf(Collection<Condition<T>> conditions) {
+  private AnyOf(Iterable<? extends Condition<? super T>> conditions) {
     super(conditions);
   }
 
   /** {@inheritDoc} */
   @Override public boolean matches(T value) {
-    for (Condition<T> condition : conditions)
+    for (Condition<? super T> condition : conditions)
       if (condition.matches(value)) return true;
     return false;
   }

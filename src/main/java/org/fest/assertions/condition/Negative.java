@@ -22,17 +22,18 @@ import org.fest.util.VisibleForTesting;
  * Inverse the condition.
  * 
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public abstract class Negative<T> extends Condition<T> {
 	
-	@VisibleForTesting final Condition<T> condition;	
+	@VisibleForTesting final Condition<? super T> condition;
 	
 	@Override
 	public boolean matches(T value) {
 		return !condition.matches(value);
 	}
 
-	protected Negative(Condition<T> condition) {
+	protected Negative(Condition<? super T> condition) {
 		this.condition = condition;
 	}	
 
