@@ -1,17 +1,26 @@
 For the next release
 --------------------
 
-- Make assertions more type safe (work in progress)
-- FEST-358 : New numbers assertions : isNotPositive / isNotNegative
-- FEST-476 : Improve error message when comparing numbers with offset
+New features :
+- github#34 : Add generic type to MapAssert (Nicolas Francois)
+- github#22 : add base assertion isEqualsToByComparingFields (Nicolas Francois)
+- github#23 : Filters now support null value (Joel Costigliola)
+- FEST-358 : New numbers assertions : isNotPositive / isNotNegative (Nicolas Francois)
+- FEST-476 : Improve error message when comparing numbers with offset (Joel Costigliola)
+
+Improvement :
+- Make assertions more type safe (work in progress) (Mikhail Mazursky)
+
+Bug :
+- github#26 : fix Lenient Equals By Ignoring Fields (Nicolas Francois)
 
 2.0M4 release notes 
 -------------------
 
-- Improve type safety 
-- Refactor custom comparators : introducing customElementComparator for group assertions
-- github#20 : new group assertions : containsAll(Iterable)
-- github#16 : new BigDecimalAssert assertions : isEqualTo(String) and isEqualByComparingTo(String)
+- Improve type safety (Mikhail Mazursky) 
+- Refactor custom comparators : introducing customElementComparator for group assertions (Mikhail Mazursky)
+- github#20 : new group assertions : containsAll(Iterable)  (Joel Costigliola)
+- github#16 : new BigDecimalAssert assertions : isEqualTo(String) and isEqualByComparingTo(String)  (Joel Costigliola)
 
 2.0M3 release notes 
 -------------------
