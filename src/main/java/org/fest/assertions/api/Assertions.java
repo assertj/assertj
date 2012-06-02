@@ -54,6 +54,7 @@ import org.fest.assertions.util.ImageReader;
  * @author Joel Costigliola
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class Assertions {
 
@@ -324,8 +325,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static MapAssert assertThat(Map<?, ?> actual) {
-    return new MapAssert(actual);
+  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+    return new MapAssert<K, V>(actual);
   }
 
   /**

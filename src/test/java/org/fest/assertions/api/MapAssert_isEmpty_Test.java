@@ -18,22 +18,24 @@ import static java.util.Collections.emptyMap;
 import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Maps;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 import org.mockito.Mockito;
 
 /**
  * Tests for <code>{@link MapAssert#isEmpty()}</code>.
  *
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class MapAssert_isEmpty_Test {
 
   private Maps maps;
-  private MapAssert assertions;
+  private MapAssert<Object, Object> assertions;
 
   @Before public void setUp() {
     maps = mock(Maps.class);
-    assertions = new MapAssert(emptyMap());
+    assertions = new MapAssert<Object, Object>(emptyMap());
     assertions.maps = maps;
   }
 
