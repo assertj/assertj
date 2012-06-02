@@ -20,6 +20,7 @@ package org.fest.assertions.api;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Iterable)}</code>.
  * </p>
+ * @param <T> the type of elements of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz

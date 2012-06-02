@@ -18,11 +18,15 @@ import org.fest.assertions.data.Index;
 
 /**
  * Assertions methods applicable to indexed groups of objects (e.g. arrays or lists.)
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <T> the type of elements of the "actual" value.
  *
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface IndexedObjectEnumerableAssert<T> {
+public interface IndexedObjectEnumerableAssert<S extends IndexedObjectEnumerableAssert<S, T>, T> extends ObjectEnumerableAssert<S, T> {
 
   /**
    * Verifies that the actual group contains the given object at the given index.
@@ -35,7 +39,7 @@ public interface IndexedObjectEnumerableAssert<T> {
    * the actual group.
    * @throws AssertionError if the actual group does not contain the given object at the given index.
    */
-  IndexedObjectEnumerableAssert<T> contains(T value, Index index);
+  S contains(T value, Index index);
 
   /**
    * Verifies that the actual group does not contain the given object at the given index.
@@ -46,5 +50,5 @@ public interface IndexedObjectEnumerableAssert<T> {
    * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual group contains the given object at the given index.
    */
-  IndexedObjectEnumerableAssert<T> doesNotContain(T value, Index index);
+  S doesNotContain(T value, Index index);
 }

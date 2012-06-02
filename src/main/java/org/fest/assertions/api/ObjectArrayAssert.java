@@ -19,7 +19,6 @@ import java.util.Comparator;
 import org.fest.assertions.core.ArraySortedAssert;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
-import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.ObjectArrays;
 import org.fest.util.ComparatorBasedComparisonStrategy;
@@ -30,6 +29,7 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
+ * @param <T> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -38,7 +38,7 @@ import org.fest.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T[]> implements
-    ObjectEnumerableAssert<ObjectArrayAssert<T>, T>, IndexedObjectEnumerableAssert<T>, ArraySortedAssert<ObjectArrayAssert<T>, T> {
+    IndexedObjectEnumerableAssert<ObjectArrayAssert<T>, T>, ArraySortedAssert<ObjectArrayAssert<T>, T> {
 
   @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();

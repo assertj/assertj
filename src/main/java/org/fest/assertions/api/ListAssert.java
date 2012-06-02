@@ -28,6 +28,7 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
  * </p>
+ * @param <T> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -35,7 +36,7 @@ import org.fest.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 // TODO inherits from IterableAssert and remove AbstractIterableAssert ? 
-public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>, T> implements IndexedObjectEnumerableAssert<T> {
+public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>, T> implements IndexedObjectEnumerableAssert<ListAssert<T>, T> {
 
   @VisibleForTesting
   Lists lists = Lists.instance();

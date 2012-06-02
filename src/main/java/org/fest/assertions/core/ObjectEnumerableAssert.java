@@ -28,7 +28,7 @@ package org.fest.assertions.core;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  */
-public interface ObjectEnumerableAssert<S, T> extends EnumerableAssert<S, T> {
+public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, T> extends EnumerableAssert<S, T> {
 
   /**
    * Verifies that the actual group contains the given values, in any order.
