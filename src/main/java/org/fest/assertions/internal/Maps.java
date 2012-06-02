@@ -14,15 +14,21 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldContainKey.shouldContainKey;
+import static org.fest.assertions.error.ShouldContainValue.shouldContainValue;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.error.ShouldNotContainKey.shouldNotContainKey;
+import static org.fest.assertions.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.fest.util.Objects.areEqual;
 
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.MapEntry;
@@ -32,6 +38,7 @@ import org.fest.util.VisibleForTesting;
  * Reusable assertions for <code>{@link Map}</code>s.
  *
  * @author Alex Ruiz
+ * @author Nicolas François
  */
 public class Maps {
 
@@ -140,6 +147,62 @@ public class Maps {
     if (found.isEmpty()) return;
     throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
+
+  /**
+   * Verifies that the actual map contain the given key.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given key.
+   */  
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+    assertNotNull(info, actual);
+    if(actual.containsKey(key)) return;
+    throw failures.failure(info, shouldContainKey(actual, key));
+  }  
+  
+  /**
+   * Verifies that the actual map not contains the given key.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given key.
+   */  
+  public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
+    assertNotNull(info, actual);
+    if(!actual.containsKey(key)) return;
+    throw failures.failure(info, shouldNotContainKey(actual, key));
+  }   
+  
+  /**
+   * Verifies that the actual map contain the given value.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param value the given value
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given value.
+   */  
+  public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
+    assertNotNull(info, actual);
+    if(actual.containsValue(value)) return;
+    throw failures.failure(info, shouldContainValue(actual, value));
+  }  
+  
+  /**
+   * Verifies that the actual map not contains the given value.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param value the given value
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given value.
+   */  
+  public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
+    assertNotNull(info, actual);
+    if(!actual.containsValue(value)) return;
+    throw failures.failure(info, shouldNotContainValue(actual, value));    
+  }   
 
   private void isNotEmptyOrNull(MapEntry[] entries) {
     if (entries == null) throw new NullPointerException("The array of entries to look for should not be null");

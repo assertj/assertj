@@ -92,6 +92,50 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
     maps.assertDoesNotContain(info, actual, entries);
     return this;
   }
+  
+  /**
+   * Verifies that the actual map contain the given key.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given key.
+   */
+  public MapAssert<K, V> containsKey(K key){
+    maps.assertContainsKey(info, actual, key);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual map not contains the given key.
+   * @param key the given key
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given key.
+   */
+  public MapAssert<K, V> doesNotContainKey(K key){
+    maps.assertDoesNotContainKey(info, actual, key);
+    return this;
+  }
+  
+  /**
+   * Verifies that the actual map contain the given value.
+   * @param value the given value
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given value.
+   */
+  public MapAssert<K, V> containsValue(V value){
+    maps.assertContainsValue(info, actual, value);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual map not contains the given value.
+   * @param value the given value
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given value.
+   */
+  public MapAssert<K, V> doesNotContainValue(V value){
+    maps.assertDoesNotContainValue(info, actual, value);
+    return this;
+  }  
 
   /** {@inheritDoc} */
   public MapAssert<K, V> usingElementComparator(Comparator<? super MapEntry> customComparator) {
