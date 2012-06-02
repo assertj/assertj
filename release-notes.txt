@@ -1,6 +1,7 @@
 For the next release
 --------------------
 
+- Make assertions more type safe (work in progress)
 - FEST-358 : New numbers assertions : isNotPositive / isNotNegative
 - FEST-476 : Improve error message when comparing numbers with offset
 
