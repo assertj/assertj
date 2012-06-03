@@ -23,9 +23,12 @@ import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeL
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
+import static org.fest.assertions.error.ShouldNotBeInstance.shouldNotBeInstance;
+import static org.fest.assertions.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.list;
+import static org.fest.util.Collections.set;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -129,6 +132,51 @@ public class Objects {
     if (found) return;
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
+  
+  /**
+   * Verifies that the given object is not an instance of the given type.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param type the type to check the given object against.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the given object is {@code null}.
+   * @throws AssertionError if the given object is an instance of the given type.
+   */
+  public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+    if (type == null) throw new NullPointerException("The given type should not be null");
+    assertNotNull(info, actual);
+    if (!type.isInstance(actual)) return;
+    throw failures.failure(info, shouldNotBeInstance(actual, type));
+  }
+
+  /**
+   * Verifies that the given object is not an instance of any of the given types.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param types the types to check the given object against.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws IllegalArgumentException if the given array is empty.
+   * @throws NullPointerException if the given array has {@code null} elements.
+   * @throws AssertionError if the given object is {@code null}.
+   * @throws AssertionError if the given object is an instance of any of the given types.
+   */
+  public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
+    checkIsNotNullAndIsNotEmpty(types);
+    assertNotNull(info, actual);
+    boolean found = false;
+    for (Class<?> type : types) {
+      if (type == null) {
+        String format = "The given array of types:<%s> should not have null elements";
+        throw new NullPointerException(String.format(format, toStringOf(types)));
+      }
+      if (type.isInstance(actual)) {
+        found = true;
+        break;
+      }
+    }
+    if (!found) return;
+    throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
+  } 
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     if (types == null) throw new NullPointerException("The given array of types should not be null");
