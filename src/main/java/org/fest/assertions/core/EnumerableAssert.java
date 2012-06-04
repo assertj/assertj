@@ -26,6 +26,7 @@ import java.util.Comparator;
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
 
@@ -55,7 +56,27 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
    */
   S hasSize(int expected);
+  
+  /**
+   * Verifies that the actual group has the same size as given {@link Iterable}.
+   * @param other the {@code Iterable} to compare size with actual group.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other {@code Iterable} is {@code null}.
+   * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
+   */
+  S hasSameSizeAs(Iterable<?> other);  
 
+  /**
+   * Verifies that the actual group has the same size as given array.
+   * @param other the array to compare size with actual group.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other array is {@code null}.
+   * @throws AssertionError if actual group and given array don't have the same size.
+   */
+  S hasSameSizeAs(Object[] other);  
+  
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
    * elements for incoming assertion checks.

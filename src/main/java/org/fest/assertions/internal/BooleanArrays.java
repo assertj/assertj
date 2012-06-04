@@ -16,7 +16,8 @@ package org.fest.assertions.internal;
 
 import java.util.Comparator;
 
-import org.fest.assertions.core.*;
+import org.fest.assertions.core.ArraySortedAssert;
+import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
 import org.fest.util.VisibleForTesting;
 
@@ -26,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class BooleanArrays {
 
@@ -90,6 +92,32 @@ public class BooleanArrays {
   public void assertHasSize(AssertionInfo info, boolean[] actual, int expectedSize) {
     arrays.assertHasSize(info, failures, actual, expectedSize);
   }
+  
+  /**
+   * Assert that the actual array has the same size as the other {@code Iterable}.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param other the group to compare 
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, boolean[] actual, Iterable<?> other) {
+    arrays.assertHasSameSizeAs(info, failures, actual, other);
+  }
+  
+  /**
+   * Assert that the actual array has the same size as the other array.
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param other the group to compare 
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the other group is {@code null}.
+   * @throws AssertionError if the actual group does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, boolean[] actual, Object[] other) {
+    arrays.assertHasSameSizeAs(info, failures, actual, other);
+  }    
 
   /**
    * Asserts that the given array contains the given values, in any order.

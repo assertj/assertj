@@ -63,6 +63,18 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
     maps.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public MapAssert<K, V> hasSameSizeAs(Object[] other) {
+	maps.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public MapAssert<K, V> hasSameSizeAs(Iterable<?> other) {
+	maps.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }   
 
   /**
    * Verifies that the actual map contains the given entries, in any order.

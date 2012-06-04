@@ -34,6 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert, String> {
 
@@ -64,6 +65,18 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     strings.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public StringAssert hasSameSizeAs(Object[] other) {
+	strings.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public StringAssert hasSameSizeAs(Iterable<?> other) {
+	strings.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }   
 
   /**
    * Verifies that the actual {@code String} is equal to the given one, ignoring case considerations.

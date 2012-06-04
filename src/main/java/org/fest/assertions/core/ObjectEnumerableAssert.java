@@ -27,6 +27,7 @@ package org.fest.assertions.core;
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, T> extends EnumerableAssert<S, T> {
 
@@ -123,26 +124,6 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group contains a null element.
    */
   S doesNotContainNull();
-
-  /**
-   * Verifies that the actual group has the same size as given array.
-   * @param other the array to compare size with actual group.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other array is {@code null}.
-   * @throws AssertionError if actual group and given array don't have the same size.
-   */
-  S hasSameSizeAs(Object[] other);
-
-  /**
-   * Verifies that the actual group has the same size as given {@link Iterable}.
-   * @param other the {@code Iterable} to compare size with actual group.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other {@code Iterable} is {@code null}.
-   * @throws AssertionError if actual group and given {@code Iterable} don't have the same size.
-   */
-  S hasSameSizeAs(Iterable<?> other);
 
   /**
    * Verifies that each element value satisfies the given condition

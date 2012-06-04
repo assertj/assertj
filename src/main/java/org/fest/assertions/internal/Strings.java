@@ -17,20 +17,25 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldContainString.*;
+import static org.fest.assertions.error.ShouldContainString.shouldContain;
+import static org.fest.assertions.error.ShouldContainString.shouldContainIgnoringCase;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
+import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 
+import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -41,6 +46,7 @@ import org.fest.util.VisibleForTesting;
  *
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Nicolas François
  */
 public class Strings {
 
@@ -129,6 +135,42 @@ public class Strings {
     if (sizeOfActual == expectedSize) return;
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
+  
+  /**
+   * Asserts that the number of entries in the given {@code String} has the same size as the other {@code Iterable}.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @param other the group to compare 
+   * @throws AssertionError if the given {@code String}. is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}. 
+   * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, String actual, Iterable<?> other) {
+	assertNotNull(info, actual);
+	if(other == null) throw new NullPointerException("The iterable to look for should not be null");
+	int sizeOfActual = actual.length();
+	int sizeOfOther = Collections.sizeOf(other);
+	if(sizeOfActual == sizeOfOther) return;
+	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+  }
+  
+  /**
+   * Asserts that the number of entries in the given {@code String} has the same size as the other array.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code String}.
+   * @param other the group to compare 
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the given array is {@code null}. 
+   * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, String actual, Object[] other) {
+	assertNotNull(info, actual);
+	if(other == null) throw arrayOfValuesToLookForIsNull();
+	int sizeOfActual = actual.length();
+	int sizeOfOther = Array.getLength(other);
+	if(sizeOfActual == sizeOfOther) return;
+	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));	
+  }  
 
   /**
    * Verifies that the given {@code String} contains the given sequence.

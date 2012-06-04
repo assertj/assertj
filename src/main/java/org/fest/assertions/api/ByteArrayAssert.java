@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> implements
     EnumerableAssert<ByteArrayAssert, Byte>, ArraySortedAssert<ByteArrayAssert, Byte> {
@@ -65,6 +66,18 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ByteArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public ByteArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }   
 
   /**
    * Verifies that the actual array contains the given values, in any order.

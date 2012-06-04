@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[]> implements
     EnumerableAssert<DoubleArrayAssert, Double>, ArraySortedAssert<DoubleArrayAssert, Double> {
@@ -65,6 +66,18 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public DoubleArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public DoubleArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }  
 
   /**
    * Verifies that the actual array contains the given values, in any order.

@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> implements
     EnumerableAssert<ShortArrayAssert, Short>, ArraySortedAssert<ShortArrayAssert, Short> {
@@ -65,6 +66,18 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ShortArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public ShortArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }   
 
   /**
    * Verifies that the actual array contains the given values, in any order.

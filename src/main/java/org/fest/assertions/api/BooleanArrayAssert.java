@@ -32,6 +32,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boolean[]> implements
     EnumerableAssert<BooleanArrayAssert, Boolean>, ArraySortedAssert<BooleanArrayAssert, Boolean> {
@@ -64,6 +65,18 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public BooleanArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public BooleanArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  } 
 
   /**
    * Verifies that the actual array contains the given values, in any order.

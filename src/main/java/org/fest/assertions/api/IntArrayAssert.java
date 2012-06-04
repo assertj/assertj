@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implements EnumerableAssert<IntArrayAssert, Integer>,
     ArraySortedAssert<IntArrayAssert, Integer> {
@@ -65,6 +66,18 @@ public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implem
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public IntArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public IntArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }   
 
   /**
    * Verifies that the actual array contains the given values, in any order.

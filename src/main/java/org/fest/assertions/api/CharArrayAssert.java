@@ -33,6 +33,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
 public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> implements
     EnumerableAssert<CharArrayAssert, Character>, ArraySortedAssert<CharArrayAssert, Character> {
@@ -65,6 +66,18 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public CharArrayAssert hasSameSizeAs(Object[] other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }
+  
+  /** {@inheritDoc} */
+  public CharArrayAssert hasSameSizeAs(Iterable<?> other) {
+	arrays.assertHasSameSizeAs(info, actual, other);
+    return this;
+  }    
 
   /**
    * Verifies that the actual array contains the given values, in any order.
