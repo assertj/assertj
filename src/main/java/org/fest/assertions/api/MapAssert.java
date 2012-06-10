@@ -94,10 +94,10 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
   }
   
   /**
-   * Verifies that the actual map contain the given key.
+   * Verifies that the actual map contains the given key.
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if the actual map not contains the given key.
+   * @throws AssertionError if the actual map does not contain the given key.
    */
   public MapAssert<K, V> containsKey(K key){
     maps.assertContainsKey(info, actual, key);
@@ -105,7 +105,7 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
   }
 
   /**
-   * Verifies that the actual map not contains the given key.
+   * Verifies that the actual map does not contain the given key.
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
@@ -116,10 +116,10 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
   }
   
   /**
-   * Verifies that the actual map contain the given value.
-   * @param value the given value
+   * Verifies that the actual map contains the given value.
+   * @param value the value to look for.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws AssertionError if the actual map not contains the given value.
+   * @throws AssertionError if the actual map does not contain the given value.
    */
   public MapAssert<K, V> containsValue(V value){
     maps.assertContainsValue(info, actual, value);
@@ -127,8 +127,8 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K,V>> i
   }
 
   /**
-   * Verifies that the actual map not contains the given value.
-   * @param value the given value
+   * Verifies that the actual map does not contain the given value.
+   * @param value the value that should not be in actual map.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given value.
    */
