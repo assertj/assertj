@@ -15,25 +15,28 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#isInstanceOf(Class)}</code>.
  *
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ * @author Nicolas François
  */
-public class ObjectAssert_isInstanceOf_Test {
+public class AbstractAssert_isInstanceOf_Test {
 
   private Objects objects;
-  private ObjectAssert<String> assertions;
+  private ConcreteAssert assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert<String>("Yoda");
+    assertions = new ConcreteAssert("Yoda");
     assertions.objects = objects;
   }
 
@@ -43,7 +46,7 @@ public class ObjectAssert_isInstanceOf_Test {
   }
 
   @Test public void should_return_this() {
-    ObjectAssert<String> returned = assertions.isInstanceOf(String.class);
+    ConcreteAssert returned = assertions.isInstanceOf(String.class);
     assertSame(assertions, returned);
   }
 }

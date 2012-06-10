@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Jun 3, 2012
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,41 +10,42 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright @2010-2011 the original author or authors.
+ * Copyright @2010-2012 the original author or authors.
  */
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.internal.Objects;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#isInstanceOfAny(Class...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isNotInstanceOfAny(Class...)}</code>.
  *
- * @author Alex Ruiz
- * @author Mikhail Mazursky
+ * @author Nicolas François
  */
-public class ObjectAssert_isInstanceOfAny_Test {
+public class AbstractAssert_isNotInstanceOfAny_Test {
 
   private Objects objects;
-  private ObjectAssert<String> assertions;
+  private ConcreteAssert assertions;
 
   @Before public void setUp() {
     objects = mock(Objects.class);
-    assertions = new ObjectAssert<String>("Yoda");
+    assertions = new ConcreteAssert("Yoda");
     assertions.objects = objects;
   }
 
   @Test public void should_verify_that_actual_is_instance_of_any_type() {
     Class<?>[] types = { String.class, Object.class };
-    assertions.isInstanceOfAny(types);
-    verify(objects).assertIsInstanceOfAny(assertions.info, assertions.actual, types);
+    assertions.isNotInstanceOfAny(types);
+    verify(objects).assertIsNotInstanceOfAny(assertions.info, assertions.actual, types);
   }
 
   @Test public void should_return_this() {
-    ObjectAssert<String> returned = assertions.isInstanceOfAny(String.class);
+    ConcreteAssert returned = assertions.isNotInstanceOfAny(String.class);
     assertSame(assertions, returned);
   }
 }

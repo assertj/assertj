@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.internal.*;
+import org.fest.assertions.internal.Throwables;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -33,19 +33,6 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
 
   protected ThrowableAssert(Throwable actual) {
     super(actual, ThrowableAssert.class);
-  }
-
-  /**
-   * Verifies that the actual {@code Throwable} is an instance of the given type.
-   * @param type the type to check the actual {@code Throwable} against.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is not an instance of the given type.
-   * @throws NullPointerException if the given type is {@code null}.
-   */
-  public ThrowableAssert isInstanceOf(Class<? extends Throwable> type) {
-    Objects.instance().assertIsInstanceOf(info, actual, type);
-    return this;
   }
 
   /**

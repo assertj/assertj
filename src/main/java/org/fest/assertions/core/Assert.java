@@ -136,7 +136,8 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S usingComparator(Comparator<? super A> customComparator);
 
   /**
-   * Revert to standard comparison for incoming assertion checks.<p>
+   * Revert to standard comparison for incoming assertion checks.
+   * <p>
    * This method should be used to disable a custom comparison strategy set by calling
    * {@link #usingComparator(Comparator)}.
    * @return {@code this} assertion object.
@@ -144,10 +145,51 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S usingDefaultComparator();
 
   /**
+   * Verifies that the actual value is an instance of the given type.
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of the given type.
+   */
+  S isInstanceOf(Class<?> type);
+
+  /**
+   * Verifies that the actual value is an instance of any of the given types.
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of any of the given types.
+   * @throws NullPointerException if the given array of types is {@code null}.
+   * @throws NullPointerException if the given array of types contains {@code null}s.
+   */
+  S isInstanceOfAny(Class<?>... types);
+  
+  /**
+   * Verifies that the actual value is not an instance of the given type.
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is an instance of the given type.
+   */
+  S isNotInstanceOf(Class<?> type);
+
+  /**
+   * Verifies that the actual value is not an instance of any of the given types.
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is an instance of any of the given types.
+   * @throws NullPointerException if the given array of types is {@code null}.
+   * @throws NullPointerException if the given array of types contains {@code null}s.
+   */
+  S isNotInstanceOfAny(Class<?>... types);  
+
+  /**
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
    * <code>{@link #equals(Object)}</code> instead of <code>isEqualTo</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
-  @Override
-  boolean equals(Object obj);
+  @Override boolean equals(Object obj);
 }

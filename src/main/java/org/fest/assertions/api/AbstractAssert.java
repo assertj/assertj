@@ -25,7 +25,6 @@ import org.fest.assertions.internal.Objects;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
-
 /**
  * Base class for all assertions.
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
@@ -40,25 +39,20 @@ import org.fest.util.VisibleForTesting;
  */
 public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implements Assert<S, A> {
 
-  @VisibleForTesting
-  Objects objects = Objects.instance();
-  
-  @VisibleForTesting
-  Conditions conditions = Conditions.instance();
+  @VisibleForTesting Objects objects = Objects.instance();
 
-  @VisibleForTesting
-  final WritableAssertionInfo info;
-  
+  @VisibleForTesting Conditions conditions = Conditions.instance();
+
+  @VisibleForTesting final WritableAssertionInfo info;
+
   // visibility is protected to allow us write custom assertions that need access to actual
-  @VisibleForTesting
-  protected final A actual;
+  @VisibleForTesting protected final A actual;
   protected final S myself;
 
-  // we prefer not to use Class<? extends S> selfType because it would force inherited 
-  // constructor to cast with a compiler warning 
+  // we prefer not to use Class<? extends S> selfType because it would force inherited
+  // constructor to cast with a compiler warning
   // let's keep compiler warning internal to fest (when we can) and not expose them to our end users.
-  @SuppressWarnings("unchecked")
-  protected AbstractAssert(A actual, Class<?> selfType) {
+  @SuppressWarnings("unchecked") protected AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo();
@@ -169,41 +163,63 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return myself;
   }
 
+  /** {@inheritDoc} */
+  public final S isInstanceOf(Class<?> type) {
+    objects.assertIsInstanceOf(info, actual, type);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S isInstanceOfAny(Class<?>... types) {
+    objects.assertIsInstanceOfAny(info, actual, types);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isNotInstanceOf(Class<?> type) {
+    objects.assertIsNotInstanceOf(info, actual, type);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isNotInstanceOfAny(Class<?>... types) {
+    objects.assertIsNotInstanceOfAny(info, actual, types);
+    return myself;
+  }
+
   /**
    * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
-   * @return the description String representation of this assertion. 
+   * @return the description String representation of this assertion.
    */
   public final String descriptionText() {
     return info.descriptionText();
   }
 
   /** {@inheritDoc} */
-  public S usingComparator(Comparator<? super A> customComparator) {  
+  public S usingComparator(Comparator<? super A> customComparator) {
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S usingDefaultComparator() {  
+  public S usingDefaultComparator() {
     // fall back to default strategy to compare actual with other objects.
     this.objects = Objects.instance();
     return myself;
   }
 
   /** {@inheritDoc} */
-  @Override 
-  public final boolean equals(Object obj) {
+  @Override public final boolean equals(Object obj) {
     throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
-  }  
+  }
 
   /**
    * Always returns 1.
    * @return 1.
    */
-  @Override 
-  public final int hashCode() { 
-	  return 1;
-  }  
-  
+  @Override public final int hashCode() {
+    return 1;
+  }
+
 }
