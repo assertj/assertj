@@ -14,7 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.fest.assertions.error.ShouldContainString.shouldContain;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveMessage.shouldHaveMessage;
@@ -45,23 +44,6 @@ public class Throwables {
   @VisibleForTesting  Diff diff = new Diff();
   @VisibleForTesting  Failures failures = Failures.instance();
   @VisibleForTesting  Throwables() {}
-
-  /**
-   * Asserts that the actual {@code Throwable} type is an the same as the given type.<br> 
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Throwable}.
-   * @param type the type to check the actual {@code Throwable} against.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is not an instance of the given type.
-   * @throws NullPointerException if the given type is {@code null}.
-   */
-  public void assertIsExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    assertNotNull(info, actual);
-    if (type == null) throw new NullPointerException("The given type should not be null");
-    Class<?> current = actual.getClass();
-    if (type.equals(current)) return;
-    throw failures.failure(info, shouldBeExactlyInstance(actual, type));
-  }
 
   /**
    * Asserts that the given actual {@code Throwable} message is equal to the given one.

@@ -15,70 +15,47 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
-
-import org.junit.*;
+import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link Throwables#assertIsExactlyInstanceOf(AssertionInfo, Throwable, Class)}</code>.
+ * Tests for <code>{@link Objects#assertIsExactlyInstanceOf(AssertionInfo, Object, Class)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Nicolas François
  */
-public class Throwables_assertIsExactlyInstanceOf_Test {
-
-  private static Throwable actual;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = new NullPointerException("Throwable message");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Throwables throwables;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    throwables = new Throwables();
-    throwables.failures = failures;
-  }
+public class Objects_assertIsExactlyInstanceOf_Test extends AbstractTest_for_Objects {
 
   @Test
   public void should_pass_if_actual_is_exactly_instance_of_type() {
-    throwables.assertIsExactlyInstanceOf(someInfo(), actual, NullPointerException.class);
+    objects.assertIsExactlyInstanceOf(someInfo(), "Yoda", String.class);
   }
 
   @Test
   public void should_throw_error_if_type_is_null() {
     thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertIsExactlyInstanceOf(someInfo(), actual, null);
+    objects.assertIsExactlyInstanceOf(someInfo(), "Yoda", null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    throwables.assertIsExactlyInstanceOf(someInfo(), null, NullPointerException.class);
+    objects.assertIsExactlyInstanceOf(someInfo(), null, String.class);
   }
 
   @Test
   public void should_fail_if_actual_is_not_exactly_instance_of_type() {
     AssertionInfo info = someInfo();
     try {
-      throwables.assertIsExactlyInstanceOf(info, actual, RuntimeException.class);
-      fail("AssertionError expected");
+      objects.assertIsExactlyInstanceOf(info, "Yoda", Object.class);
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeExactlyInstance(actual, RuntimeException.class));
+      verify(failures).failure(info, shouldBeExactlyInstance("Yoda", Object.class));
     }
   }
 }

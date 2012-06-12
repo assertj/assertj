@@ -36,20 +36,6 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
   }
 
   /**
-   * Verifies that the actual {@code Throwable} is an instance of the given type. In order for the assertion to
-   * pass, the type of the actual {@code Throwable} has to be exactly the same as the given type.
-   * @param type the type to check the actual {@code Throwable} against.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is not an instance of the given type.
-   * @throws NullPointerException if the given type is {@code null}.
-   */
-  public ThrowableAssert isExactlyInstanceOf(Class<? extends Throwable> type) {
-    throwables.assertIsExactlyInstanceOf(info, actual, type);
-    return this;
-  }
-
-  /**
    * Verifies that the message of the actual {@code Throwable} is equal to the given one.
    * @param message the expected message.
    * @return this assertion object.

@@ -187,6 +187,42 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return myself;
   }
 
+  /** {@inheritDoc} */
+  public S hasSameClassAs(Object other) {
+    objects.assertHasSameClassAs(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S hasNotSameClassAs(Object other) {
+    objects.assertHasNotSameClassAs(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isExactlyInstanceOf(Class<?> type) {
+    objects.assertIsExactlyInstanceOf(info, actual, type);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isNotExactlyInstanceOf(Class<?> type) {
+    objects.assertIsNotExactlyInstanceOf(info, actual, type);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isOfClassIn(Class<?>... types) {
+    objects.assertIsOfClassIn(info, actual, types);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public S isNotOfClassIn(Class<?>... types) {
+    objects.assertIsNotOfClassIn(info, actual, types);
+    return myself;
+  }
+
   /**
    * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
    * @return the description String representation of this assertion.

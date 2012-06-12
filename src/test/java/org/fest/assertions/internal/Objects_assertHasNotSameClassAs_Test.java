@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Jun 11, 2012
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -10,11 +10,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright @2010-2011 the original author or authors.
+ * Copyright @2010-2012 the original author or authors.
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
+import static org.fest.assertions.error.ShouldHaveSameClass.shouldHaveSameClass;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -31,11 +31,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Objects#assertIsInstanceOf(AssertionInfo, Object, Class)}</code>.
+ * Tests for <code>{@link Objects#assertHasSameClassAs(AssertionInfo, Object, Object)}</code>.
  *
- * @author Alex Ruiz
+ * @author Nicolas François
  */
-public class Objects_assertIsInstanceOf_Test {
+public class Objects_assertHasNotSameClassAs_Test {
 
   private static Person actual;
 
@@ -54,28 +54,27 @@ public class Objects_assertIsInstanceOf_Test {
     objects.failures = failures;
   }
 
-  @Test public void should_pass_if_actual_is_instance_of_type() {
-    objects.assertIsInstanceOf(someInfo(), actual, Person.class);
+  @Test public void should_pass_if_actual_has_not_same_type_as_other() {
+    objects.assertHasSameClassAs(someInfo(), actual, new Person("Luke"));
   }
 
   @Test public void should_throw_error_if_type_is_null() {
-    thrown.expectNullPointerException("The given type should not be null");
-    objects.assertIsInstanceOf(someInfo(), actual, null);
+    thrown.expectNullPointerException("The given object should not be null");
+    objects.assertHasSameClassAs(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    objects.assertIsInstanceOf(someInfo(), null, Object.class);
+    objects.assertHasSameClassAs(someInfo(), null, Object.class);
   }
 
-  @Test public void should_fail_if_actual_is_not_instance_of_type() {
+  @Test public void should_pass_if_actual_has_same_type_as_other() {
     AssertionInfo info = someInfo();
     try {
-      objects.assertIsInstanceOf(info, actual, String.class);
+      objects.assertHasSameClassAs(info, actual, "Yoda");
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeInstance(actual, String.class));
-      return;
+      verify(failures).failure(info, shouldHaveSameClass(actual, String.class));
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

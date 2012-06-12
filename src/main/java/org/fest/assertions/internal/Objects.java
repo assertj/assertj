@@ -15,17 +15,21 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
+import static org.fest.assertions.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.fest.assertions.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
 import static org.fest.assertions.error.ShouldNotBeInstance.shouldNotBeInstance;
 import static org.fest.assertions.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.util.Collections.list;
 import static org.fest.util.Collections.set;
@@ -38,6 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.error.ShouldHaveSameClass;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.IntrospectionError;
@@ -64,16 +69,13 @@ public class Objects {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  @VisibleForTesting Failures failures = Failures.instance();
 
-  @VisibleForTesting
-  PropertySupport propertySupport = PropertySupport.instance();
+  @VisibleForTesting PropertySupport propertySupport = PropertySupport.instance();
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
-  Objects() {
+  @VisibleForTesting Objects() {
     this(StandardComparisonStrategy.instance());
   }
 
@@ -81,8 +83,7 @@ public class Objects {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
-  public Comparator<?> getComparator() {
+  @VisibleForTesting public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
         .getComparator(); }
     return null;
@@ -132,7 +133,7 @@ public class Objects {
     if (found) return;
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
-  
+
   /**
    * Verifies that the given object is not an instance of the given type.
    * @param info contains information about the assertion.
@@ -176,7 +177,108 @@ public class Objects {
     }
     if (!found) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
-  } 
+  }
+
+  /**
+   * Verifies that the actual value has the same class as the given object.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @throws AssertionError if the actual has not the same type has the given object.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
+   */
+  public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
+    assertNotNull(info, actual);
+    if (other == null) throw new NullPointerException("The given object should not be null");
+    Class<?> actualClass = actual.getClass();
+    Class<?> otherClass = other.getClass();
+    if (actualClass.equals(otherClass)) return;
+    throw failures.failure(info, ShouldHaveSameClass.shouldHaveSameClass(actual, otherClass));
+  }
+
+  /**
+   * Verifies that the actual value not has the same class as the given object.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to check type against.
+   * @throws AssertionError if the actual has the same type has the given object.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
+   */
+  public void assertHasNotSameClassAs(AssertionInfo info, Object actual, Object other) {
+    assertNotNull(info, actual);
+    if (other == null) throw new NullPointerException("The given object should not be null");
+    Class<?> actualClass = actual.getClass();
+    Class<?> otherClass = other.getClass();
+    if (!actualClass.equals(otherClass)) return;
+    throw failures.failure(info, ShouldHaveSameClass.shouldHaveSameClass(actual, otherClass));
+  }
+
+  /**
+   * Verifies that the actual value is exactly a instance of given type.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param type the type to check the actual value against.
+   * @throws AssertionError if the actual is not exactly a instance of given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
+   */
+  public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+    assertNotNull(info, actual);
+    if (type == null) throw new NullPointerException("The given type should not be null");
+    Class<?> current = actual.getClass();
+    if (type.equals(current)) return;
+    throw failures.failure(info, shouldBeExactlyInstance(actual, type));
+  }
+
+  /**
+   * Verifies that the actual value is not exactly a instance of given type.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param type the type to check the actual value against.
+   * @throws AssertionError if the actual is exactly a instance of given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
+   */
+  public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+    assertNotNull(info, actual);
+    if (type == null) throw new NullPointerException("The given type should not be null");
+    Class<?> current = actual.getClass();
+    if (!type.equals(current)) return;
+    throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
+  }
+  
+  /**
+   * Verifies that the actual value type is in given types.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param types the types to check the actual value against.
+   * @throws AssertionError if the actual value type is in given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given types is null.
+   */  
+  public void assertIsOfClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
+    if (types == null) throw new NullPointerException("The given types should not be null");  
+    if (isItemInArray(actual.getClass(), types)) return;
+    throw failures.failure(info, shouldBeOfClassIn(actual, types));
+  }  
+  
+  /**
+   * Verifies that the actual value type is not in given types.
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param types the types to check the actual value against.
+   * @throws AssertionError if the actual value type is in given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given types is null.
+   */  
+  public void assertIsNotOfClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+    assertNotNull(info, actual);
+    if (types == null) throw new NullPointerException("The given types should not be null");
+    if (!isItemInArray(actual.getClass(), types)) return;
+    throw failures.failure(info, shouldNotBeOfClassIn(actual, types));    
+  }    
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     if (types == null) throw new NullPointerException("The given array of types should not be null");
@@ -411,13 +513,15 @@ public class Objects {
     for (String fieldName : fields) {
       Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
       Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue
+          .equals(otherFieldValue)))) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
       }
     }
     if (rejectedFieldsNames.isEmpty()) return;
-    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
+    throw failures.failure(info,
+        shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
   }
 
   /**
@@ -454,4 +558,5 @@ public class Objects {
     if (fieldsNames.isEmpty()) return;
     throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, list(fields)));
   }
+
 }
