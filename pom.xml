@@ -28,8 +28,8 @@
     <url>https://github.com/alexruiz/fest-assert-2.x</url>
   </scm>
   <issueManagement>
-    <system>JIRA</system>
-    <url>http://jira.codehaus.org/browse/FEST</url>
+        <system>github</system>
+        <url>https://github.com/alexruiz/fest-assert-2.x/issues</url>
   </issueManagement>
   <dependencies>
     <dependency>
