@@ -17,19 +17,20 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.FloatArrayFactory.array;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import static org.mockito.Mockito.*;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.test.FloatArrayFactory;
 
 /**
  * Tests for <code>{@link FloatArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.
@@ -46,7 +47,9 @@ public class FloatArrays_assertHasSameSizeAs_with_Array_Test {
   private FloatArrays arrays;
 
   @BeforeClass public static void setUpOnce() {
-    actual = array(6f, 8f);
+    // don't use a static import here, it leads to a compilation error with oracle jdk 1.7.0_05 compiler due to the
+    // other array static import.
+    actual = FloatArrayFactory.array(6f, 8f);
   }
 
   @Before public void setUp() {
