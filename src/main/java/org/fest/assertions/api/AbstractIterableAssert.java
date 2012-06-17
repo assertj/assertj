@@ -20,6 +20,7 @@ import java.util.Comparator;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.Iterables;
+import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
@@ -40,11 +41,10 @@ import org.fest.util.VisibleForTesting;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<T>, T> extends
-    AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
+public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<T>, T>
+    extends AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
 
-  @VisibleForTesting
-  Iterables iterables = Iterables.instance();
+  @VisibleForTesting Iterables iterables = Iterables.instance();
 
   protected AbstractIterableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
@@ -93,6 +93,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /** {@inheritDoc} */
   public final S containsOnly(T... values) {
     iterables.assertContainsOnly(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  public final S containsExactly(T... values) {
+    objects.assertEqual(info, actual, Collections.list(values));
     return myself;
   }
 
@@ -246,7 +252,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     iterables.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
-  
+
   /** {@inheritDoc} */
   public S containsAll(Iterable<? extends T> iterable) {
     iterables.assertContainsAll(info, actual, iterable);

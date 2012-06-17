@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.util.Collections.list;
+
 import java.util.Comparator;
 
 import org.fest.assertions.core.ArraySortedAssert;
@@ -92,6 +94,12 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
     arrays.assertContainsOnly(info, actual, values);
     return this;
   }
+  
+  /** {@inheritDoc} */
+  public ObjectArrayAssert<T> containsExactly(Object... values) {
+    objects.assertEqual(info, actual, list(values));
+    return this;
+  };
 
   /** {@inheritDoc} */
   public ObjectArrayAssert<T> containsSequence(Object... sequence) {
