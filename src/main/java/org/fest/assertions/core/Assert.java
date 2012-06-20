@@ -197,7 +197,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S hasSameClassAs(Object other);
 
   /**
-   * Verifies that the actual value not has the same class as the given object.
+   * Verifies that the actual value has not the same class as the given object.
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has the same type has the given object.
@@ -207,17 +207,17 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S hasNotSameClassAs(Object other);
 
   /**
-   * Verifies that the actual value is exactly a instance of given type.
+   * Verifies that the actual value is <b>exactly</b> an instance of the given type.
    * @param type the type to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual is not exactly a instance of given type.
+   * @throws AssertionError if the actual is not <b>exactly</b> an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
   S isExactlyInstanceOf(Class<?> type);
 
   /**
-   * Verifies that the actual value is not exactly a instance of given type.
+   * Verifies that the actual value is not <b>exactly</b> an instance of given type.
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual is exactly a instance of given type.
@@ -234,17 +234,17 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
-  S isOfClassIn(Class<?>... types);
+  S isOfAnyClassIn(Class<?>... types);
 
   /**
    * Verifies that the actual value type is not in given types.
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual value type is in given type.
+   * @throws AssertionError if the actual value type is in given types.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
-  S isNotOfClassIn(Class<?>... types);
+  S isNotOfAnyClassIn(Class<?>... types);
 
   /**
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call

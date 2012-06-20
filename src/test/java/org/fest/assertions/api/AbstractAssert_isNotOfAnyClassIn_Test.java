@@ -25,11 +25,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#isNotOfClassIn(Class...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isNotOfAnyClassIn(Class...)}</code>.
  *
  * @author Nicolas François
  */
-public class AbstractAssert_isNotOfClassIn_Test {
+public class AbstractAssert_isNotOfAnyClassIn_Test {
 
   private Objects objects;
   private ConcreteAssert assertions;
@@ -41,12 +41,12 @@ public class AbstractAssert_isNotOfClassIn_Test {
   }
 
   @Test public void should_verify_that_actual_is_not_of_class_in() {
-    assertions.isNotOfClassIn(Long.class, File.class);
-    verify(objects).assertIsNotOfClassIn(assertions.info, assertions.actual, new Class[]{Long.class, File.class});
+    assertions.isNotOfAnyClassIn(Long.class, File.class);
+    verify(objects).assertIsNotOfAnyClassIn(assertions.info, assertions.actual, new Class[]{Long.class, File.class});
   }
 
   @Test public void should_return_this() {
-    ConcreteAssert returned = assertions.isNotOfClassIn(Long.class, File.class);
+    ConcreteAssert returned = assertions.isNotOfAnyClassIn(Long.class, File.class);
     assertSame(assertions, returned);
   }
 }

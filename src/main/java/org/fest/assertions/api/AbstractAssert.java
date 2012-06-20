@@ -212,14 +212,14 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public S isOfClassIn(Class<?>... types) {
-    objects.assertIsOfClassIn(info, actual, types);
+  public S isOfAnyClassIn(Class<?>... types) {
+    objects.assertIsOfAnyClassIn(info, actual, types);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S isNotOfClassIn(Class<?>... types) {
-    objects.assertIsNotOfClassIn(info, actual, types);
+  public S isNotOfAnyClassIn(Class<?>... types) {
+    objects.assertIsNotOfAnyClassIn(info, actual, types);
     return myself;
   }
 

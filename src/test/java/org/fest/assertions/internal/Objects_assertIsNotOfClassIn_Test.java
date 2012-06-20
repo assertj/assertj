@@ -33,7 +33,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Objects#assertIsNotOfClassIn(AssertionInfo, Object, Class[])}</code>.
+ * Tests for <code>{@link Objects#assertIsNotOfAnyClassIn(AssertionInfo, Object, Class[])}</code>.
  * 
  * @author Nicolas François
  */
@@ -58,30 +58,30 @@ public class Objects_assertIsNotOfClassIn_Test {
 
   @Test public void should_pass_if_actual_is_not_of_class_in_types() {
     Class<?>[] types = new Class[] { File.class, String.class };
-    objects.assertIsNotOfClassIn(someInfo(), actual, types);
+    objects.assertIsNotOfAnyClassIn(someInfo(), actual, types);
   }
 
   @Test public void should_pass_if_actual_is__of_class_in_empty_types() {
     Class<?>[] types = new Class[] {};
-    objects.assertIsNotOfClassIn(someInfo(), actual, types);
+    objects.assertIsNotOfAnyClassIn(someInfo(), actual, types);
   }
 
   @Test public void should_throw_error_if_type_is_null() {
     thrown.expectNullPointerException("The given types should not be null");
-    objects.assertIsNotOfClassIn(someInfo(), actual, null);
+    objects.assertIsNotOfAnyClassIn(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     Class<?>[] types = new Class[] { File.class, Person.class, String.class };
     thrown.expectAssertionError(actualIsNull());
-    objects.assertIsNotOfClassIn(someInfo(), null, types);
+    objects.assertIsNotOfAnyClassIn(someInfo(), null, types);
   }
 
   @Test public void should_fail_if_actual_is_of_class_in_types() {
     AssertionInfo info = someInfo();
     Class<?>[] types = new Class[] { File.class, Person.class, String.class };
     try {
-      objects.assertIsNotOfClassIn(info, actual, types);
+      objects.assertIsNotOfAnyClassIn(info, actual, types);
       failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldNotBeOfClassIn(actual, types));

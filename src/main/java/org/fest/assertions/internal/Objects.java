@@ -23,6 +23,7 @@ import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBe
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.fest.assertions.error.ShouldBeSame.shouldBeSame;
+import static org.fest.assertions.error.ShouldHaveSameClass.shouldHaveSameClass;
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
@@ -31,8 +32,8 @@ import static org.fest.assertions.error.ShouldNotBeInstanceOfAny.shouldNotBeInst
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
-import static org.fest.util.Collections.list;
-import static org.fest.util.Collections.set;
+import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
+import static org.fest.util.Collections.*;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -42,7 +43,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.ShouldHaveSameClass;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.IntrospectionError;
@@ -193,7 +193,7 @@ public class Objects {
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
     if (actualClass.equals(otherClass)) return;
-    throw failures.failure(info, ShouldHaveSameClass.shouldHaveSameClass(actual, otherClass));
+    throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
 
   /**
@@ -211,7 +211,7 @@ public class Objects {
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
     if (!actualClass.equals(otherClass)) return;
-    throw failures.failure(info, ShouldHaveSameClass.shouldHaveSameClass(actual, otherClass));
+    throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
   /**
@@ -257,7 +257,7 @@ public class Objects {
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */  
-  public void assertIsOfClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
     if (types == null) throw new NullPointerException("The given types should not be null");  
     if (isItemInArray(actual.getClass(), types)) return;
@@ -273,7 +273,7 @@ public class Objects {
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */  
-  public void assertIsNotOfClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
+  public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
     if (types == null) throw new NullPointerException("The given types should not be null");
     if (!isItemInArray(actual.getClass(), types)) return;

@@ -19,16 +19,17 @@ import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.test.Person;
+import static org.mockito.Mockito.*;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.test.Person;
 
 /**
  * Tests for <code>{@link Objects#assertHasSameClassAs(AssertionInfo, Object, Object)}</code>.
@@ -74,7 +75,7 @@ public class Objects_assertHasSameClassAs_Test {
       objects.assertHasSameClassAs(info, actual, "Yoda");
       failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveSameClass(actual, String.class));
+      verify(failures).failure(info, shouldHaveSameClass(actual, "Yoda"));
     }
   }
 }

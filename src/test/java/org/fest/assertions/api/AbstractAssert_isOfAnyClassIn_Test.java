@@ -15,21 +15,21 @@
 package org.fest.assertions.api;
 
 import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.io.File;
 
-import org.fest.assertions.internal.Objects;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.fest.assertions.internal.Objects;
+
 /**
- * Tests for <code>{@link ObjectAssert#isNotOfClassIn(Class...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isOfAnyClassIn(Class...)}</code>.
  *
  * @author Nicolas François
  */
-public class AbstractAssert_isOfClassIn_Test {
+public class AbstractAssert_isOfAnyClassIn_Test {
 
   private Objects objects;
   private ConcreteAssert assertions;
@@ -41,12 +41,12 @@ public class AbstractAssert_isOfClassIn_Test {
   }
 
   @Test public void should_verify_that_actual_is_of_class_in() {
-    assertions.isOfClassIn(String.class, File.class);
-    verify(objects).assertIsOfClassIn(assertions.info, assertions.actual, new Class[]{String.class, File.class});
+    assertions.isOfAnyClassIn(String.class, File.class);
+    verify(objects).assertIsOfAnyClassIn(assertions.info, assertions.actual, new Class[]{String.class, File.class});
   }
 
   @Test public void should_return_this() {
-    ConcreteAssert returned = assertions.isOfClassIn(String.class, File.class);
+    ConcreteAssert returned = assertions.isOfAnyClassIn(String.class, File.class);
     assertSame(assertions, returned);
   }
 }
