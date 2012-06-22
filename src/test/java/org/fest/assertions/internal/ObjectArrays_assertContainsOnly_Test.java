@@ -33,12 +33,14 @@ import org.fest.assertions.core.AssertionInfo;
  * Tests for <code>{@link ObjectArrays#assertContainsOnly(AssertionInfo, Object[], Object[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 public class ObjectArrays_assertContainsOnly_Test extends AbstractTest_for_ObjectArrays {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia"));
+    actual = array("Luke", null, "Yoda", null, "Leia");
+    arrays.assertContainsOnly(someInfo(), actual, array("Luke", "Yoda", "Leia", null));
   }
 
   @Test

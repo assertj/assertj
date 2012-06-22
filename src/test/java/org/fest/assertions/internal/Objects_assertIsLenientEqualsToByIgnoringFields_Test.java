@@ -18,15 +18,19 @@ import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeL
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+
+import static org.mockito.Mockito.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.error.ShouldBeInstance;
 import org.fest.assertions.test.Employee;
 import org.fest.assertions.test.Jedi;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.
@@ -96,7 +100,9 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
 	try {
 	  objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
 	} catch (AssertionError err) {
-		verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) null), list("name"))); 
+		List<Object> list = new ArrayList<Object>();
+		list.add(null);
+    verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list, list("name"))); 
 		return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();	
