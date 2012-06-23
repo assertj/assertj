@@ -1,6 +1,27 @@
 For the next release
 --------------------
 
+2.0M6 release notes 
+-------------------
+
+New features :
+github#29 : MapAssert should have containsKey(), containsValue() and counterparts 
+github#31 : Move isInstanceOf and friends to AbstractAssert 
+github#32 : add class related assertions : hasSameClassAs, doesNotHaveSameClassAs, isExactlyInstanceOf, isOfAnyClassIn and counterparts 
+github#35 : Port containsExactly to Fest 2.0 (was in Fest 1.x) 
+github#42 : Move hasSameSize to EnumerableAssert to make it available in *ArrayAssert 
+
+Improvement :
+github#52 : Remove final on methods to provide better extensibility (FEST-475)
+github#56 : Date assert error message improvement
+
+Bug :
+Fix some error compilation only occuring with oracle jdk 1.7.0_05, error being having two static import with same name. 
+github#56 : containsOnly does not handle null elements
+
+2.0M5 release notes 
+-------------------
+
 New features :
 - github#34 : Add generic type to MapAssert (Nicolas Francois)
 - github#22 : add base assertion isEqualsToByComparingFields (Nicolas Francois)
@@ -9,7 +30,7 @@ New features :
 - FEST-476 : Improve error message when comparing numbers with offset (Joel Costigliola)
 
 Improvement :
-- Use multiline error message to ease comparing actual and expected (Joel Costigliola)
+- github#22 : Use multiline error message to ease comparing actual and expected (Joel Costigliola)
 - Make assertions more type safe (work in progress) (Mikhail Mazursky)
 
 Bug :
