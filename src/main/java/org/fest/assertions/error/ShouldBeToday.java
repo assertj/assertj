@@ -46,6 +46,6 @@ public class ShouldBeToday extends BasicErrorMessageFactory {
   }
   
   private ShouldBeToday(Date actual, ComparisonStrategy comparisonStrategy) {
-    super("expected:<%s> to be today%s", actual, comparisonStrategy);
+    super("expected:<%s> to be today%s but was not.", actual, comparisonStrategy);
   }
 }

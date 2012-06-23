@@ -46,6 +46,6 @@ public class ShouldBeInThePast extends BasicErrorMessageFactory {
   }
   
   private ShouldBeInThePast(Date actual, ComparisonStrategy comparisonStrategy) {
-    super("expected:<%s> to be in the past%s", actual, comparisonStrategy);
+    super("expected:<%s> to be in the past%s but was not.", actual, comparisonStrategy);
   }
 }
