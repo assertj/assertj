@@ -194,8 +194,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public S hasNotSameClassAs(Object other) {
-    objects.assertHasNotSameClassAs(info, actual, other);
+  public S doesNotHaveSameClassAs(Object other) {
+    objects.assertDoesNotHaveSameClassAs(info, actual, other);
     return myself;
   }
 

@@ -14,13 +14,14 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.util.Collections.list;
+
 import java.util.Collection;
 import java.util.Comparator;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.ObjectEnumerableAssert;
 import org.fest.assertions.internal.Iterables;
-import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
@@ -98,7 +99,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /** {@inheritDoc} */
   public final S containsExactly(T... values) {
-    objects.assertEqual(info, actual, Collections.list(values));
+    objects.assertEqual(info, actual, list(values));
     return myself;
   }
 

@@ -197,7 +197,7 @@ public class Objects {
   }
 
   /**
-   * Verifies that the actual value not has the same class as the given object.
+   * Verifies that the actual value does not have the same class as the given object.
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to check type against.
@@ -205,7 +205,7 @@ public class Objects {
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  public void assertHasNotSameClassAs(AssertionInfo info, Object actual, Object other) {
+  public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
     assertNotNull(info, actual);
     if (other == null) throw new NullPointerException("The given object should not be null");
     Class<?> actualClass = actual.getClass();

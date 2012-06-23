@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.error.ShouldHaveSameClass.shouldHaveSameClass;
+import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -32,11 +32,12 @@ import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.test.Person;
 
 /**
- * Tests for <code>{@link Objects#assertHasSameClassAs(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertDoesNotHaveSameClassAs(AssertionInfo, Object, Object)}</code>.
  *
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Objects_assertHasNotSameClassAs_Test {
+public class Objects_assertDoesNotHaveNotSameClassAs_Test {
 
   private static Person actual;
 
@@ -55,27 +56,27 @@ public class Objects_assertHasNotSameClassAs_Test {
     objects.failures = failures;
   }
 
-  @Test public void should_pass_if_actual_has_not_same_type_as_other() {
-    objects.assertHasSameClassAs(someInfo(), actual, new Person("Luke"));
+  @Test public void should_pass_if_actual_does_not_have_not_same_class_as_other() {
+    objects.assertDoesNotHaveSameClassAs(someInfo(), actual, "Luke");
   }
 
   @Test public void should_throw_error_if_type_is_null() {
     thrown.expectNullPointerException("The given object should not be null");
-    objects.assertHasSameClassAs(someInfo(), actual, null);
+    objects.assertDoesNotHaveSameClassAs(someInfo(), actual, null);
   }
 
   @Test public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    objects.assertHasSameClassAs(someInfo(), null, Object.class);
+    objects.assertDoesNotHaveSameClassAs(someInfo(), null, Object.class);
   }
 
-  @Test public void should_pass_if_actual_has_same_type_as_other() {
+  @Test public void should_fail_if_actual_has_same_type_as_other() {
     AssertionInfo info = someInfo();
     try {
-      objects.assertHasSameClassAs(info, actual, "Yoda");
+      objects.assertDoesNotHaveSameClassAs(info, actual, new Person("Luke"));
       failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveSameClass(actual, "Yoda"));
+      verify(failures).failure(info, shouldNotHaveSameClass(actual, new Person("Luke")));
     }
   }
 }

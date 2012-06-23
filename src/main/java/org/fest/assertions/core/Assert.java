@@ -197,14 +197,14 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   S hasSameClassAs(Object other);
 
   /**
-   * Verifies that the actual value has not the same class as the given object.
+   * Verifies that the actual value does not have the same class as the given object.
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has the same type has the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
-  S hasNotSameClassAs(Object other);
+  S doesNotHaveSameClassAs(Object other);
 
   /**
    * Verifies that the actual value is <b>exactly</b> an instance of the given type.

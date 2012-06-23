@@ -23,11 +23,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#hasNotSameClassAs(Object)}</code>.
+ * Tests for <code>{@link ObjectAssert#doesNotHaveSameClassAs(Object)}</code>.
  *
  * @author Nicolas François
  */
-public class AbstractAssert_hasNotTheSameClassAs_Test {
+public class AbstractAssert_doesNotHaveTheSameClassAs_Test {
 
   private Objects objects;
   private ConcreteAssert assertions;
@@ -39,12 +39,12 @@ public class AbstractAssert_hasNotTheSameClassAs_Test {
   }
 
   @Test public void should_verify_that_actual_is_instance_of_type() {
-    assertions.hasNotSameClassAs("Luke");
-    verify(objects).assertHasNotSameClassAs(assertions.info, assertions.actual, "Luke");
+    assertions.doesNotHaveSameClassAs("Luke");
+    verify(objects).assertDoesNotHaveSameClassAs(assertions.info, assertions.actual, "Luke");
   }
 
   @Test public void should_return_this() {
-    ConcreteAssert returned = assertions.hasNotSameClassAs("Luke");
+    ConcreteAssert returned = assertions.doesNotHaveSameClassAs("Luke");
     assertSame(assertions, returned);
   }
 }
