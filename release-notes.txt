@@ -5,14 +5,14 @@ For the next release
 -------------------
 
 New features :
-github#29 : MapAssert should have containsKey(), containsValue() and counterparts 
-github#31 : Move isInstanceOf and friends to AbstractAssert 
-github#32 : add class related assertions : hasSameClassAs, doesNotHaveSameClassAs, isExactlyInstanceOf, isOfAnyClassIn and counterparts 
-github#35 : Port containsExactly to Fest 2.0 (was in Fest 1.x) 
-github#42 : Move hasSameSize to EnumerableAssert to make it available in *ArrayAssert 
+github#29 : MapAssert should have containsKey(), containsValue() and counterparts (Nicolas Francois) 
+github#31 : Move isInstanceOf and friends to AbstractAssert  (Nicolas Francois)
+github#32 : add class related assertions : hasSameClassAs, doesNotHaveSameClassAs, isExactlyInstanceOf, isOfAnyClassIn and counterparts (Nicolas Francois) 
+github#35 : Port containsExactly to Fest 2.0 (was in Fest 1.x) (Nicolas Francois) 
+github#42 : Move hasSameSize to EnumerableAssert to make it available in *ArrayAssert (Nicolas Francois) 
 
 Improvement :
-github#52 : Remove final on methods to provide better extensibility (FEST-475)
+github#52 : Remove final on methods to provide better extensibility (FEST-475) 
 github#56 : Date assert error message improvement
 
 Bug :
