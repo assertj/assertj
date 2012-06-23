@@ -19,7 +19,7 @@ package org.fest.assertions.internal;
  * 
  * @author Matthieu Baechler
  */
-public final class InputStreamsException extends RuntimeException {
+public class InputStreamsException extends RuntimeException {
 
   private static final long serialVersionUID = 1L;
 

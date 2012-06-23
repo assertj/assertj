@@ -28,7 +28,7 @@ public abstract class Description {
    */
   public abstract String value();
 
-  @Override public final String toString() {
+  @Override public String toString() {
     return value();
   }
 }

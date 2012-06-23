@@ -42,25 +42,25 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   }
 
   /** {@inheritDoc} */
-  public final S isLessThan(A other) {
+  public S isLessThan(A other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isLessThanOrEqualTo(A other) {
+  public S isLessThanOrEqualTo(A other) {
     comparables.assertLessThanOrEqualTo(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isGreaterThan(A other) {
+  public S isGreaterThan(A other) {
     comparables.assertGreaterThan(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isGreaterThanOrEqualTo(A other) {
+  public S isGreaterThanOrEqualTo(A other) {
     comparables.assertGreaterThanOrEqualTo(info, actual, other);
     return myself;
   }

@@ -39,7 +39,7 @@ public class TextDescription extends Description {
   }
 
   /** {@inheritDoc} */
-  @Override public final String value() {
+  @Override public String value() {
     return value;
   }
 

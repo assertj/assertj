@@ -59,23 +59,23 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public final S as(String description) {
+  public S as(String description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
-  public final S as(Description description) {
+  public S as(Description description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
-  public final S describedAs(String description) {
+  public S describedAs(String description) {
     info.description(description);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S describedAs(Description description) {
+  public S describedAs(Description description) {
     info.description(description);
     return myself;
   }
@@ -93,84 +93,84 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public final void isNull() {
+  public void isNull() {
     objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
-  public final S isNotNull() {
+  public S isNotNull() {
     objects.assertNotNull(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isSameAs(A expected) {
+  public S isSameAs(A expected) {
     objects.assertSame(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotSameAs(A other) {
+  public S isNotSameAs(A other) {
     objects.assertNotSame(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isIn(A... values) {
+  public S isIn(A... values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotIn(A... values) {
+  public S isNotIn(A... values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isIn(Iterable<? extends A> values) {
+  public S isIn(Iterable<? extends A> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNotIn(Iterable<? extends A> values) {
+  public S isNotIn(Iterable<? extends A> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S is(Condition<? super A> condition) {
+  public S is(Condition<? super A> condition) {
     conditions.assertIs(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isNot(Condition<? super A> condition) {
+  public S isNot(Condition<? super A> condition) {
     conditions.assertIsNot(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S has(Condition<? super A> condition) {
+  public S has(Condition<? super A> condition) {
     conditions.assertHas(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotHave(Condition<? super A> condition) {
+  public S doesNotHave(Condition<? super A> condition) {
     conditions.assertDoesNotHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isInstanceOf(Class<?> type) {
+  public S isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S isInstanceOfAny(Class<?>... types) {
+  public S isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
     return myself;
   }
@@ -227,7 +227,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
    * @return the description String representation of this assertion.
    */
-  public final String descriptionText() {
+  public String descriptionText() {
     return info.descriptionText();
   }
 

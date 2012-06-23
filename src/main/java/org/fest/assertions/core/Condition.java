@@ -57,23 +57,23 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /** {@inheritDoc} */
-  public final Condition<T> describedAs(String newDescription) {
+  public Condition<T> describedAs(String newDescription) {
     return as(newDescription);
   }
 
   /** {@inheritDoc} */
-  public final Condition<T> as(String newDescription) {
+  public Condition<T> as(String newDescription) {
     description = checkIsNotNull(newDescription);
     return this;
   }
 
   /** {@inheritDoc} */
-  public final Condition<T> describedAs(Description newDescription) {
+  public Condition<T> describedAs(Description newDescription) {
     return as(newDescription);
   }
 
   /** {@inheritDoc} */
-  public final Condition<T> as(Description newDescription) {
+  public Condition<T> as(Description newDescription) {
     description = checkIsNotNull(newDescription);
     return this;
   }
@@ -82,7 +82,7 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
    * Returns the description of this condition.
    * @return the description of this condition.
    */
-  public final Description description() {
+  public Description description() {
     return description;
   }
 

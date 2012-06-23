@@ -52,23 +52,23 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
-  public final void isNullOrEmpty() {
+  public void isNullOrEmpty() {
     iterables.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
-  public final void isEmpty() {
+  public void isEmpty() {
     iterables.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
-  public final S isNotEmpty() {
+  public S isNotEmpty() {
     iterables.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S hasSize(int expected) {
+  public S hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
     return myself;
   }
@@ -86,19 +86,19 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
-  public final S contains(T... values) {
+  public S contains(T... values) {
     iterables.assertContains(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S containsOnly(T... values) {
+  public S containsOnly(T... values) {
     iterables.assertContainsOnly(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S containsExactly(T... values) {
+  public S containsExactly(T... values) {
     objects.assertEqual(info, actual, list(values));
     return myself;
   }
@@ -111,37 +111,37 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
-  public final S isSubsetOf(Iterable<? extends T> values) {
+  public S isSubsetOf(Iterable<? extends T> values) {
     iterables.assertIsSubsetOf(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S containsSequence(T... sequence) {
+  public S containsSequence(T... sequence) {
     iterables.assertContainsSequence(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotContain(T... values) {
+  public S doesNotContain(T... values) {
     iterables.assertDoesNotContain(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S doesNotHaveDuplicates() {
+  public S doesNotHaveDuplicates() {
     iterables.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S startsWith(T... sequence) {
+  public S startsWith(T... sequence) {
     iterables.assertStartsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public final S endsWith(T... sequence) {
+  public S endsWith(T... sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }

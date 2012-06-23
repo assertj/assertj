@@ -15,10 +15,12 @@
 package org.fest.assertions.core;
 
 import static java.lang.String.format;
+
 import static org.fest.assertions.core.DescriptionValidations.checkIsNotNull;
 import static org.fest.util.Strings.quote;
 
-import org.fest.assertions.description.*;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.EmptyTextDescription;
 
 /**
  * Writable information about an assertion.
@@ -26,7 +28,7 @@ import org.fest.assertions.description.*;
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
-public final class WritableAssertionInfo implements AssertionInfo {
+public class WritableAssertionInfo implements AssertionInfo {
 
   private String overridingErrorMessage;
   private Description description;
