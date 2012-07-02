@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.fest.assertions.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 
@@ -24,6 +25,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
@@ -199,6 +201,32 @@ public class Lists {
     }
   }
 
+  /**
+   * Verifies that the given {@code List} satisfies the given <code>{@link Condition}</code> at the given index.
+   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
+   * @param info contains information about the assertion.
+   * @param actual the given {@code List}.
+   * @param condition the given {@code Condition}.
+   * @param index the index where the object should be stored in the given {@code List}.
+   * @throws AssertionError if the given {@code List} is {@code null} or empty.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
+   *           the given {@code List}.
+   * @throws NullPointerException if the given {@code Condition} is {@code null}.
+   * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}.
+   */
+  public <T> void assertHas(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
+    assertNotNull(info, actual);
+    assertNotNull(condition);
+    Iterables.instance().assertNotEmpty(info, actual);
+    checkIndexValueIsValid(index, actual.size() - 1);
+    int indexValue = index.value;
+    if (indexValue >= actual.size()) return;
+    T actualElement = actual.get(index.value);
+    if (condition.matches(actualElement)) return;
+    throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actualElement));
+  }
+
   @SuppressWarnings("unchecked")
   private static List<Comparable<Object>> listOfComparableElements(List<?> collection) {
     List<Comparable<Object>> listOfComparableElements = new ArrayList<Comparable<Object>>();
@@ -210,6 +238,10 @@ public class Lists {
 
   private void assertNotNull(AssertionInfo info, List<?> actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  private void assertNotNull(Condition<?> condition) {
+    Conditions.instance().assertIsNotNull(condition);
   }
 
   /**
