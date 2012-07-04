@@ -21,7 +21,7 @@ import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link Lists#assertHas(AssertionInfo, List, Condition, Index)}</code>
+ * Tests for <code>{@link Lists#assertHas(AssertionInfo, List, Condition, Index)}</code>.
  *
  * @author Bo Gotthardt
  */

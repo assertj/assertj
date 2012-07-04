@@ -203,17 +203,17 @@ public class Lists {
 
   /**
    * Verifies that the given {@code List} satisfies the given <code>{@link Condition}</code> at the given index.
-   * @param <T> the type of the actual value and the type of values that given {@code Condition} takes.
-   * @param info contains information about the assertion.
-   * @param actual the given {@code List}.
+   * @param <T>       the type of the actual value and the type of values that given {@code Condition} takes.
+   * @param info      contains information about the assertion.
+   * @param actual    the given {@code List}.
    * @param condition the given {@code Condition}.
-   * @param index the index where the object should be stored in the given {@code List}.
-   * @throws AssertionError if the given {@code List} is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @param index     the index where the object should be stored in the given {@code List}.
+   * @throws AssertionError            if the given {@code List} is {@code null} or empty.
+   * @throws NullPointerException      if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   *           the given {@code List}.
-   * @throws NullPointerException if the given {@code Condition} is {@code null}.
-   * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}.
+   *                                   the given {@code List}.
+   * @throws NullPointerException      if the given {@code Condition} is {@code null}.
+   * @throws AssertionError            if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}.
    */
   public <T> void assertHas(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
     assertNotNull(info, actual);

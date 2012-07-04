@@ -10,7 +10,7 @@ import static org.fest.util.Collections.list;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Tests for <code>{@link ShouldHaveAtIndex#create(Description)}</code>
+ * Tests for <code>{@link ShouldHaveAtIndex#create(Description)}</code>.
  *
  * @author Bo Gotthardt
  */
