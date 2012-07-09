@@ -10,7 +10,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright @2011 the original author or authors.
+ * Copyright @2011-2012 the original author or authors.
  */
 package org.fest.assertions.api;
 
@@ -28,6 +28,7 @@ import org.fest.util.*;
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Olivier Demeijer
  */
 public class FileAssert extends AbstractAssert<FileAssert, File> {
 
@@ -116,6 +117,42 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
    */
   public FileAssert hasContentEqualTo(File expected) {
     files.assertEqualContent(info, actual, expected);
+    return this;
+  }
+  
+  /**
+   * 
+   * Verifies that the actual {@code File} can be modified by the application.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be modified by the application.
+   */
+  public FileAssert canWrite() {
+    files.assertCanWrite(info, actual);
+    return this;
+  }
+
+  /**
+   * 
+   * Verifies that the actual {@code File} can be read by the application.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be read by the application.
+   */
+  public FileAssert canRead() {
+    files.assertCanRead(info, actual);
+    return this;
+  }
+
+  /**
+   * 
+   * Verifies that the actual {@code File} can be executed by the application.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} can not be executed by the application.
+   */
+  public FileAssert canExecute() {
+    files.assertCanExecute(info, actual);
     return this;
   }
 }
