@@ -1,15 +1,15 @@
 /*
  * Created on Nov 24, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -27,28 +27,32 @@ import org.junit.*;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertHasSize(AssertionInfo, Object[], int)}</code>.
- *
+ * 
  * @author Alex Ruiz
  */
 public class ObjectArrays_assertHasSize_Test {
 
-  @Rule public ExpectedException thrown = none();
+  @Rule
+  public ExpectedException thrown = none();
 
   private Failures failures;
   private ObjectArrays arrays;
 
-  @Before public void setUp() {
+  @Before
+  public void setUp() {
     failures = spy(new Failures());
     arrays = new ObjectArrays();
     arrays.failures = failures;
   }
 
-  @Test public void should_fail_if_actual_is_null() {
+  @Test
+  public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     arrays.assertHasSize(someInfo(), null, 6);
   }
 
-  @Test public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  @Test
+  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     Character[] actual = new Character[2];
     try {
@@ -60,7 +64,8 @@ public class ObjectArrays_assertHasSize_Test {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+  @Test
+  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     Byte[] actual = new Byte[2];
     arrays.assertHasSize(someInfo(), actual, 2);
   }

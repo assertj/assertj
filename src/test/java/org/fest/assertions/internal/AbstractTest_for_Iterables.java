@@ -25,7 +25,7 @@ public class AbstractTest_for_Iterables {
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Iterables iterablesWithCaseInsensitiveComparisonStrategy;
-  
+
   @Before
   public void setUp() {
     actual = list("Luke", "Yoda", "Leia");

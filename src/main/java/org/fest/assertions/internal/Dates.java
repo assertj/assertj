@@ -62,9 +62,8 @@ public class Dates {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
-    }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+        .getComparator(); }
     return null;
   }
 
@@ -147,8 +146,7 @@ public class Dates {
    * @throws NullPointerException if end {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} is not in <i>start:end</i> period.
    */
-  public void assertIsBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
-      boolean inclusiveEnd) {
+  public void assertIsBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     startDateParameterIsNotNull(start);
     endDateParameterIsNotNull(end);
@@ -200,8 +198,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that the actual {@code Date} is today, by comparing only year, month and day of actual to today (ie. we
-   * don't check hours).
+   * Verifies that the actual {@code Date} is today, by comparing only year, month and day of actual to today (ie. we don't check
+   * hours).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -271,8 +269,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that the actual {@code Date} month is equal to the given month, <b>month value starting at 1</b>
-   * (January=1, February=2, ...).
+   * Verifies that the actual {@code Date} month is equal to the given month, <b>month value starting at 1</b> (January=1,
+   * February=2, ...).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param month the month to compare actual month to, see {@link Calendar#MONTH} for valid values
@@ -303,8 +301,7 @@ public class Dates {
    * Verifies that the actual {@code Date} day of week is equal to the given day of week.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
-   * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
-   *          values
+   * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid values
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Date} week is not equal to the given day of week.
    */
@@ -423,8 +420,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same day of month (and thus in the same
-   * month and year).
+   * Verifies that actual and given {@code Date} are chronologically in the same day of month (and thus in the same month and
+   * year).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -450,8 +447,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same hour (and thus in the same day of
-   * month, month and year).
+   * Verifies that actual and given {@code Date} are chronologically in the same hour (and thus in the same day of month, month
+   * and year).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -477,8 +474,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same minute (and thus in the same hour, day
-   * of month, month and year).
+   * Verifies that actual and given {@code Date} are chronologically in the same minute (and thus in the same hour, day of month,
+   * month and year).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -504,8 +501,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same second (and thus in the same minute,
-   * hour, day of month, month and year).
+   * Verifies that actual and given {@code Date} are chronologically in the same second (and thus in the same minute, hour, day of
+   * month, month and year).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -531,8 +528,8 @@ public class Dates {
   }
 
   /**
-   * Verifies that the actual {@code Date} is close to the other date by less than delta, if difference is equals to
-   * delta it is ok.<br>
+   * Verifies that the actual {@code Date} is close to the other date by less than delta, if difference is equals to delta it is
+   * ok.<br>
    * Note that delta expressed in milliseconds.<br>
    * Use handy TimeUnit to convert a duration in milliseconds, for example you can express a delta of 5 seconds with
    * <code>TimeUnit.SECONDS.toMillis(5)</code>.
@@ -553,8 +550,8 @@ public class Dates {
   }
 
   /**
-   * used to check that the date to compare actual date to is not null, in that case throws a
-   * {@link NullPointerException} with an explicit message
+   * used to check that the date to compare actual date to is not null, in that case throws a {@link NullPointerException} with an
+   * explicit message
    * @param date the date to check
    * @throws a {@link NullPointerException} with an explicit message if the given date is null
    */
@@ -569,8 +566,7 @@ public class Dates {
    * @throws a {@link NullPointerException} with an explicit message if the given start date is null
    */
   private static void startDateParameterIsNotNull(Date start) {
-    if (start == null)
-      throw new NullPointerException("The start date of period to compare actual with should not be null");
+    if (start == null) throw new NullPointerException("The start date of period to compare actual with should not be null");
   }
 
   /**
@@ -580,8 +576,7 @@ public class Dates {
    * @throws a {@link NullPointerException} with an explicit message if the given end date is null
    */
   private static void endDateParameterIsNotNull(Date end) {
-    if (end == null)
-      throw new NullPointerException("The end date of period to compare actual with should not be null");
+    if (end == null) throw new NullPointerException("The end date of period to compare actual with should not be null");
   }
 
   private void assertNotNull(AssertionInfo info, Date actual) {
@@ -602,8 +597,8 @@ public class Dates {
   }
 
   /**
-   * Returns true if the actual {@code Date} is equal to the given one according to underlying
-   * {@link #comparisonStrategy}, false otherwise.
+   * Returns true if the actual {@code Date} is equal to the given one according to underlying {@link #comparisonStrategy}, false
+   * otherwise.
    * @param actual the actual date - must not be null.
    * @param other the given Date.
    * @return <code>true</code> if the actual {@code Date} is equal to the given one according to underlying

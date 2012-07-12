@@ -1,15 +1,15 @@
 /*
  * Created on Oct 20, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -27,7 +27,7 @@ import org.fest.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Short)}</code> or
  * <code>{@link Assertions#assertThat(short)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -37,7 +37,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> implements NumberAssert<Short> {
 
-  @VisibleForTesting Shorts shorts = Shorts.instance();
+  @VisibleForTesting
+  Shorts shorts = Shorts.instance();
 
   protected ShortAssert(Short actual) {
     super(actual, ShortAssert.class);
@@ -90,7 +91,7 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
     shorts.assertIsNegative(info, actual);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public ShortAssert isNotNegative() {
     shorts.assertIsNotNegative(info, actual);
@@ -102,7 +103,7 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
     shorts.assertIsNotPositive(info, actual);
     return this;
   }
-  
+
   /**
    * Verifies that the actual value is less than the given one.
    * @param other the given value to compare the actual value to.
@@ -157,7 +158,7 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
     this.shorts = new Shorts(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public ShortAssert usingDefaultComparator() {
     super.usingDefaultComparator();

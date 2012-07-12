@@ -1,14 +1,14 @@
 /*
  * Created on Sep 30, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -35,8 +35,8 @@ import org.fest.assertions.groups.Properties;
 import org.fest.assertions.util.ImageReader;
 
 /**
- * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * Entry point for assertion methods for different data types. Each method in this class is a static factory for the type-specific
+ * assertion objects. The purpose of this class is to make test code more readable.
  * <p>
  * For example:
  * 
@@ -390,32 +390,32 @@ public class Assertions {
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full
-   * feature entry point to all Fest Assert features (but you can use {@link Fail} if you prefer).
+   * Only delegate to {@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full feature
+   * entry point to all Fest Assert features (but you can use {@link Fail} if you prefer).
    */
   public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
     Fail.setRemoveFestRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Fest Assert
-   * features (but you can use Fail if you prefer).
+   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Fest Assert features
+   * (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
-   * Fest Assert features (but you can use Fail if you prefer).
+   * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
   }
 
   /**
-   * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
-   * entry point to all Fest Assert features (but you can use Fail if you prefer).
+   * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature entry point to
+   * all Fest Assert features (but you can use Fail if you prefer).
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
     Fail.failBecauseExceptionWasNotThrown(exceptionClass);
@@ -426,8 +426,8 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use {@link Properties} if you prefer).
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * 
@@ -453,8 +453,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use {@link Properties} if you prefer).
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * 
@@ -476,14 +476,14 @@ public class Assertions {
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
   }
-  
+
   // ------------------------------------------------------------------------------------------------------
   // Data utility methods : not assertions but here to have a single entry point to all Fest Assert features.
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
-   * Fest Assert features (but you can use {@link MapEntry} if you prefer).
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all Fest
+   * Assert features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * 
@@ -496,8 +496,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Index} if you prefer).
+   * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all Fest Assert features
+   * (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
    * 
@@ -511,8 +511,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Offset} if you prefer).
+   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use {@link Offset} if you prefer).
    * <p>
    * Typical usage :
    * 
@@ -525,8 +525,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Offset} if you prefer).
+   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use {@link Offset} if you prefer).
    * <p>
    * Typical usage :
    * 
@@ -537,12 +537,11 @@ public class Assertions {
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
   }
-  
-  
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all Fest Assert features.
   // ------------------------------------------------------------------------------------------------------
-  
+
   /**
    * Creates a new <code>{@link AllOf}</code>
    * @param <T> the type of object the given condition accept.
@@ -551,8 +550,8 @@ public class Assertions {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
-  public static <T> Condition<T> allOf(Condition<? super T>...conditions) {
-	  return AllOf.allOf(conditions);
+  public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
+    return AllOf.allOf(conditions);
   }
 
   /**
@@ -568,8 +567,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link AnyOf} if you prefer).
+   * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use {@link AnyOf} if you prefer).
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * 
@@ -591,7 +590,7 @@ public class Assertions {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
-  }  
+  }
 
   /**
    * Creates a new </code>{@link DoesNotHave}</code>.
@@ -618,8 +617,8 @@ public class Assertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Filters} if you prefer).
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use {@link Filters} if you prefer).
    * <p>
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
@@ -628,6 +627,7 @@ public class Assertions {
    * <pre>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
    * and with filter language based on java bean property :
+   * 
    * <pre>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
@@ -636,10 +636,10 @@ public class Assertions {
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
   }
-  
+
   /**
-   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Filters} if you prefer).
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest Assert
+   * features (but you can use {@link Filters} if you prefer).
    * <p>
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
@@ -648,6 +648,7 @@ public class Assertions {
    * <pre>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
    * and with filter language based on java bean property :
+   * 
    * <pre>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
@@ -656,7 +657,7 @@ public class Assertions {
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
   }
-  
+
   /** Creates a new </code>{@link Assertions}</code>. */
   protected Assertions() {}
 }

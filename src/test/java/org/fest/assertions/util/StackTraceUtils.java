@@ -15,5 +15,4 @@ public class StackTraceUtils {
     return false;
   }
 
-
 }

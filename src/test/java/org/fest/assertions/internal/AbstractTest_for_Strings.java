@@ -21,7 +21,7 @@ public class AbstractTest_for_Strings {
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Strings stringsWithCaseInsensitiveComparisonStrategy;
-  
+
   @Before
   public void setUp() {
     failures = spy(new Failures());

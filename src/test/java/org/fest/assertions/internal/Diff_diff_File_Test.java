@@ -1,15 +1,15 @@
 /*
  * Created on Jan 28, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -32,17 +32,19 @@ import org.fest.assertions.test.TextFileWriter;
 
 /**
  * Tests for <code>{@link Diff#diff(File, File)}</code>.
- *
+ * 
  * @author Yvonne Wang
  */
 public class Diff_diff_File_Test {
 
-  @Rule public TemporaryFolder folder = new TemporaryFolder();
+  @Rule
+  public TemporaryFolder folder = new TemporaryFolder();
 
   private static Diff diff;
   private static TextFileWriter writer;
 
-  @BeforeClass public static void setUpOnce() {
+  @BeforeClass
+  public static void setUpOnce() {
     diff = new Diff();
     writer = TextFileWriter.instance();
   }
@@ -50,12 +52,14 @@ public class Diff_diff_File_Test {
   private File actual;
   private File expected;
 
-  @Before public void setUp() throws IOException {
+  @Before
+  public void setUp() throws IOException {
     actual = folder.newFile("actual.txt");
     expected = folder.newFile("expected.txt");
   }
 
-  @Test public void should_return_empty_diff_list_if_files_have_equal_content() throws IOException {
+  @Test
+  public void should_return_empty_diff_list_if_files_have_equal_content() throws IOException {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
     writer.write(expected, content);
@@ -63,7 +67,8 @@ public class Diff_diff_File_Test {
     assertEquals(0, diffs.size());
   }
 
-  @Test public void should_return_diffs_if_files_do_not_have_equal_content() throws IOException {
+  @Test
+  public void should_return_diffs_if_files_do_not_have_equal_content() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
@@ -72,7 +77,8 @@ public class Diff_diff_File_Test {
     assertEquals("line:<1>, expected:<line1> but was:<line_1>", diffs.get(1));
   }
 
-  @Test public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
+  @Test
+  public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
     writer.write(expected, "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
@@ -80,7 +86,8 @@ public class Diff_diff_File_Test {
     assertEquals("line:<1>, expected:<line_1> but was:<EOF>", diffs.get(0));
   }
 
-  @Test public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
+  @Test
+  public void should_return_diffs_if_content_of_actual_is_longer_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line_0");
     List<String> diffs = diff.diff(actual, expected);

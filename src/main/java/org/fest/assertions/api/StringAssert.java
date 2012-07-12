@@ -1,15 +1,15 @@
 /*
  * Created on Dec 22, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -28,7 +28,7 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(String)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
@@ -38,7 +38,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert, String> {
 
-  @VisibleForTesting Strings strings = Strings.instance();
+  @VisibleForTesting
+  Strings strings = Strings.instance();
 
   protected StringAssert(String actual) {
     super(actual, StringAssert.class);
@@ -65,18 +66,18 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     strings.assertHasSize(info, actual, expected);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public StringAssert hasSameSizeAs(Object[] other) {
-	strings.assertHasSameSizeAs(info, actual, other);
+    strings.assertHasSameSizeAs(info, actual, other);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public StringAssert hasSameSizeAs(Iterable<?> other) {
-	strings.assertHasSameSizeAs(info, actual, other);
+    strings.assertHasSameSizeAs(info, actual, other);
     return this;
-  }   
+  }
 
   /**
    * Verifies that the actual {@code String} is equal to the given one, ignoring case considerations.

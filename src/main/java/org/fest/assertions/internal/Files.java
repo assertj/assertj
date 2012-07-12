@@ -1,15 +1,15 @@
 /*
  * Created on Jan 26, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -30,7 +30,7 @@ import org.fest.util.*;
 
 /**
  * Reusable assertions for <code>{@link File}</code>s.
- *
+ * 
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -47,15 +47,18 @@ public class Files {
     return INSTANCE;
   }
 
-  @VisibleForTesting Diff diff = new Diff();
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Diff diff = new Diff();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting Files() {}
+  @VisibleForTesting
+  Files() {}
 
   /**
-   * Asserts that the given files have equal content. Adapted from
-   * <a href="http://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from
-   * <a href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
+   * Asserts that the given files have equal content. Adapted from <a
+   * href="http://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
+   * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
    * @param expected the "expected" file.

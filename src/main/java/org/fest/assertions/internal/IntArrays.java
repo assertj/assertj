@@ -1,14 +1,14 @@
 /*
  * Created on Dec 14, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -61,7 +61,7 @@ public class IntArrays {
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }
-  
+
   /**
    * Asserts that the given array is {@code null} or empty.
    * @param info contains information about the assertion.
@@ -105,12 +105,12 @@ public class IntArrays {
   public void assertHasSize(AssertionInfo info, int[] actual, int expectedSize) {
     arrays.assertHasSize(info, failures, actual, expectedSize);
   }
-  
+
   /**
    * Assert that the actual array has the same size as the other {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
@@ -118,19 +118,19 @@ public class IntArrays {
   public void assertHasSameSizeAs(AssertionInfo info, int[] actual, Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, failures, actual, other);
   }
-  
+
   /**
    * Assert that the actual array has the same size as the other array.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, int[] actual, Object[] other) {
     arrays.assertHasSameSizeAs(info, failures, actual, other);
-  }   
+  }
 
   /**
    * Asserts that the given array contains the given values, in any order.
@@ -154,8 +154,8 @@ public class IntArrays {
    * @param index the index where the value should be stored in the given array.
    * @throws AssertionError if the given array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   *           the given array.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the given
+   *           array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, int[] actual, int value, Index index) {
@@ -184,8 +184,8 @@ public class IntArrays {
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not contain the given values or if the given array contains values
-   *           that are not in the given array.
+   * @throws AssertionError if the given array does not contain the given values or if the given array contains values that are
+   *           not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, int[] actual, int[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
@@ -233,9 +233,9 @@ public class IntArrays {
   }
 
   /**
-   * Verifies that the given array starts with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies that the
-   * first element in the sequence is also the first element of the given array.
+   * Verifies that the given array starts with the given sequence of values, without any other values between them. Similar to
+   * <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies that the first element in the
+   * sequence is also the first element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of values to look for.
@@ -249,9 +249,9 @@ public class IntArrays {
   }
 
   /**
-   * Verifies that the given array ends with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies that the
-   * last element in the sequence is also the last element of the given array.
+   * Verifies that the given array ends with the given sequence of values, without any other values between them. Similar to
+   * <code>{@link #assertContainsSequence(AssertionInfo, int[], int[])}</code>, but it also verifies that the last element in the
+   * sequence is also the last element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of values to look for.
@@ -281,8 +281,7 @@ public class IntArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, int[] actual,
-      Comparator<? super Integer> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, int[] actual, Comparator<? super Integer> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 

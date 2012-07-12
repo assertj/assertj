@@ -1,25 +1,23 @@
 /*
  * Created on Jul 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.core;
 
-
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <T> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
@@ -49,11 +47,11 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some or none of
+   *           the given values, or the actual group contains more values than the given ones.
    */
   S containsOnly(T... values);
-  
+
   /**
    * Verifies that the actual group contains only the given values and nothing else, in order.
    * @param values the given values.
@@ -61,10 +59,11 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group contains some
-   *           or none of the given values, or the actual group contains more values than the given ones or values are not in same order.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group contains
+   *           some or none of the given values, or the actual group contains more values than the given ones or values are not in
+   *           same order.
    */
-  S containsExactly(T... values); 
+  S containsExactly(T... values);
 
   /**
    * Verifies that the actual group contains the given sequence, without any other values between them.
@@ -96,9 +95,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S doesNotHaveDuplicates();
 
   /**
-   * Verifies that the actual group starts with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the first element in the
-   * sequence is also first element of the actual group.
+   * Verifies that the actual group starts with the given sequence of objects, without any other objects between them. Similar to
+   * <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the first element in the sequence is also first
+   * element of the actual group.
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -109,9 +108,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S startsWith(T... sequence);
 
   /**
-   * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the
-   * sequence is also last element of the actual group.
+   * Verifies that the actual group ends with the given sequence of objects, without any other objects between them. Similar to
+   * <code>{@link #containsSequence(Object...)}</code>, but it also verifies that the last element in the sequence is also last
+   * element of the actual group.
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -189,8 +188,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtLeast(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
    * @param n the number of times the condition should not be verified at least.
    * @param condition the given condition.
    * @return {@code this} object.
@@ -212,8 +210,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtMost(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
    * @param n the number of times the condition should not be verified at most.
    * @param condition the given condition.
    * @return {@code this} object.
@@ -235,8 +232,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areExactly(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given condition.
    * @param n the exact number of times the condition should not be verified.
    * @param condition the given condition.
    * @return {@code this} object.

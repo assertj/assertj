@@ -1,14 +1,14 @@
 /*
  * Created on Dec 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -34,11 +34,10 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and <b>not null</b> other
-   * fields.
+   * Assert that the actual object is lenient equals to given one by only comparing actual and <b>not null</b> other fields.
    * <p>
-   * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by
-   * lenient comparison, but the inverse will make assertion fail (null field in actual, not null in other).
+   * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by lenient
+   * comparison, but the inverse will make assertion fail (null field in actual, not null in other).
    * 
    * <pre>
    * Example: 
@@ -66,8 +65,8 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given
-   * "accepted" fields only.
+   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given "accepted"
+   * fields only.
    * 
    * <pre>
    * Example: 
@@ -97,8 +96,8 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by comparing actual and other fields except the given
-   * "ignored" fields.
+   * Assert that the actual object is lenient equals to given one by comparing actual and other fields except the given "ignored"
+   * fields.
    * 
    * <pre>
    * Example: 
@@ -125,7 +124,7 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
     objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
     return this;
   }
-  
+
   /**
    * Assert that the actual object is equals fields by fields to another object.
    * 
@@ -139,16 +138,16 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
    * assertThat(frodo).isLenientEqualsToByIgnoringFields(frodoClone); //=> OK
    * 
    * </pre>
-   *  
+   * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
    * @throws AssertionError if the actual and the given object are not equals fields by fields.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public ObjectAssert<T> isEqualsToByComparingFields(T other){
-	 objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other);
-	 return this;
+  public ObjectAssert<T> isEqualsToByComparingFields(T other) {
+    objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other);
+    return this;
   }
 
 }

@@ -7,7 +7,7 @@ import org.junit.*;
 import org.fest.assertions.internal.Dates;
 
 /**
- *
+ * 
  * Abstract class that factorize DateAssert tests with an int arg.
  * <p>
  * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
@@ -15,11 +15,11 @@ import org.fest.assertions.internal.Dates;
  * <li>successfull assertion test with an int</li>
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>
- *
+ * 
  * Subclasses are expected to define what is the invoked assertion method.
- *
+ * 
  * @author Joel Costigliola
- *
+ * 
  */
 public abstract class AbstractDateAssertWithOneIntArg_Test extends AbstractBaseDateAssert_Test {
 
@@ -49,7 +49,7 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends AbstractBaseD
    * <p>
    * example with <code>isWithinMonth</code> date assertion:<br>
    * <code>assertions.isWithinMonth(5);</code>
-   *
+   * 
    * @return the DateAssert instance called
    */
   protected abstract DateAssert assertionInvocationWithOneIntArg();
@@ -59,7 +59,7 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends AbstractBaseD
    * <p>
    * example with <code>isWithinMonth</code> date assertion:<br>
    * <code>verify(dates).isWithinMonth(assertions.info, assertions.actual, intArg);</code>
-   *
+   * 
    */
   protected abstract void verifyAssertionInvocation();
 }

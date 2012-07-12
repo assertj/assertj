@@ -1,14 +1,14 @@
 /*
  * Created on Nov 3, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -109,12 +109,12 @@ public class ObjectArrays {
   public void assertHasSize(AssertionInfo info, Object[] actual, int expectedSize) {
     arrays.assertHasSize(info, failures, actual, expectedSize);
   }
-  
+
   /**
    * Assert that the actual array has the same size as the other {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given iterable.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
@@ -122,19 +122,19 @@ public class ObjectArrays {
   public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, failures, actual, other);
   }
-  
+
   /**
    * Assert that the actual array has the same size as the other array.
    * @param info contains information about the assertion.
    * @param actual the given array.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, Object[] actual, Object[] other) {
     arrays.assertHasSameSizeAs(info, failures, actual, other);
-  }  
+  }
 
   /**
    * Asserts that the given array contains the given values, in any order.
@@ -158,8 +158,8 @@ public class ObjectArrays {
    * @param index the index where the object should be stored in the given array.
    * @throws AssertionError if the given array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   *           the given array.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the given
+   *           array.
    * @throws AssertionError if the given array does not contain the given object at the given index.
    */
   public void assertContains(AssertionInfo info, Object[] actual, Object value, Index index) {
@@ -188,8 +188,8 @@ public class ObjectArrays {
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not contain the given values or if the given array contains values
-   *           that are not in the given array.
+   * @throws AssertionError if the given array does not contain the given values or if the given array contains values that are
+   *           not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Object[] actual, Object[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
@@ -237,9 +237,9 @@ public class ObjectArrays {
   }
 
   /**
-   * Verifies that the given array starts with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
-   * that the first element in the sequence is also the first element of the given array.
+   * Verifies that the given array starts with the given sequence of objects, without any other objects between them. Similar to
+   * <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies that the first element
+   * in the sequence is also the first element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of objects to look for.
@@ -253,9 +253,9 @@ public class ObjectArrays {
   }
 
   /**
-   * Verifies that the given array ends with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies
-   * that the last element in the sequence is also the last element of the given array.
+   * Verifies that the given array ends with the given sequence of objects, without any other objects between them. Similar to
+   * <code>{@link #assertContainsSequence(AssertionInfo, Object[], Object[])}</code>, but it also verifies that the last element
+   * in the sequence is also the last element of the given array.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of objects to look for.
@@ -404,8 +404,8 @@ public class ObjectArrays {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
-   * given condition.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the given
+   * condition.
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param n most times the condition should not be verify.
@@ -418,48 +418,48 @@ public class ObjectArrays {
   }
 
   /**
-   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveAtLeast(info, failures, conditions, actual, times, condition);
   }
 
   /**
-   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
+   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertDoNotHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertDoNotHaveAtLeast(info, failures, conditions, actual, times, condition);
   }
 
   /**
-   * An alias method of {@link #assertAreAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveAtMost(info, failures, conditions, actual, times, condition);
   }
 
   /**
-   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
+   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertDoNotHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertDoNotHaveAtMost(info, failures, conditions, actual, times, condition);
   }
 
   /**
-   * An alias method of {@link #assertAreExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
   }
 
   /**
-   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api
-   * (same logic, only error message differs).
+   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent api (same
+   * logic, only error message differs).
    */
   public <E> void assertDoNotHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertDoNotHaveExactly(info, failures, conditions, actual, times, condition);
@@ -493,8 +493,8 @@ public class ObjectArrays {
    * @param other the other {@code Iterable}.
    * @throws NullPointerException if {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other
-   *           {@code Iterable}, in any order.
+   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other {@code Iterable}, in any
+   *           order.
    */
   public <E> void assertContainsAll(AssertionInfo info, E[] actual, Iterable<? extends E> other) {
     arrays.assertcontainsAll(info, failures, actual, other);

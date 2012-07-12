@@ -1,15 +1,15 @@
 /*
  * Created on Apr 8, 2012
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2012 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -41,57 +41,68 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
   private Failures failures;
   private Objects objects;
 
-  @Before public void setUp() {
+  @Before
+  public void setUp() {
     failures = spy(new Failures());
     objects = new Objects();
     objects.failures = failures;
   }
 
-  @Test public void should_pass_when_same_fields() {
+  @Test
+  public void should_pass_when_same_fields() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
     objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
   }
-  
-  @Test public void should_pass_when_different_field_is_not_accepted() {
-	 Jedi actual = new Jedi("Yoda", "Green");
-	 Jedi other = new Jedi("Yoda", "Blue");
-	 objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name");	 
+
+  @Test
+  public void should_pass_when_different_field_is_not_accepted() {
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name");
   }
-  
-  @Test public void should_pass_when_value_is_null() {
+
+  @Test
+  public void should_pass_when_value_is_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");	
-  } 
-  
-  @Test public void should_fail_when_a_field_is_not_same() {
+    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
+  }
+
+  @Test
+  public void should_fail_when_a_field_is_not_same() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");	
+      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");
     } catch (AssertionError err) {
-    	verify(failures).failure(info, shouldBeLenientEqualByAccepting(actual, list("lightSaberColor"), list((Object) "Blue"), list("name", "lightSaberColor"))); 
-    	return;
+      verify(failures)
+          .failure(
+              info,
+              shouldBeLenientEqualByAccepting(actual, list("lightSaberColor"), list((Object) "Blue"),
+                  list("name", "lightSaberColor")));
+      return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  } 
+  }
 
-  @Test public void should_fail_when_different_type() {
+  @Test
+  public void should_fail_when_different_type() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
       objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name");
     } catch (AssertionError err) {
-    	verify(failures).failure(info, shouldBeInstance(other, actual.getClass())); 
-    	return;
+      verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
+      return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
-  }   
-  
-  @Test public void should_fail_when_unexist_field() {
+  }
+
+  @Test
+  public void should_fail_when_unexist_field() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
@@ -103,6 +114,6 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
       return;
     }
     fail("expecting an IntrospectionError to be thrown");
-  }  
- 
+  }
+
 }

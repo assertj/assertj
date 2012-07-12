@@ -1,15 +1,15 @@
 /*
  * Created on Jan 28, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.error;
@@ -30,7 +30,7 @@ import org.fest.assertions.description.TextDescription;
 
 /**
  * Tests for <code>{@link ShouldHaveEqualContent#create(Description)}</code>.
- *
+ * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
  */
@@ -39,12 +39,10 @@ public class ShouldHaveEqualContent_create_Test {
   private ErrorMessageFactory factory;
   private List<String> diffs;
 
-  @Before public void setUp() {
-    diffs = list(
-        "line:<0>, expected:<line0> but was:<line_0>",
-        "line:<1>, expected:<line1> but was:<line_1>",
-        "line:<2>, expected:<line2> but was:<line_2>"
-    );
+  @Before
+  public void setUp() {
+    diffs = list("line:<0>, expected:<line0> but was:<line_0>", "line:<1>, expected:<line1> but was:<line_1>",
+        "line:<2>, expected:<line2> but was:<line_2>");
   }
 
   @Test

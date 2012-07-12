@@ -14,21 +14,22 @@ import org.fest.assertions.internal.Dates;
 import org.fest.assertions.test.ExpectedException;
 
 /**
- *
+ * 
  * Abstract class that factorize DateAssert tests with a date arg (either Date or String based).
  * <p>
- * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :<ul>
+ * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
+ * <ul>
  * <li>successfull assertion test with a date</li>
  * <li>successfull assertion test with a date as string following default date format</li>
  * <li>successfull assertion test with a date as string following custom date format</li>
  * <li>failed assertion test when date as string does not follow the expected date format</li>
  * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
  * </ul>
- *
+ * 
  * Subclasses are expected to define the invoked assertion method.
- *
+ * 
  * @author Joel Costigliola
- *
+ * 
  */
 public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDateAssert_Test {
 
@@ -88,7 +89,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDat
    * <p>
    * example with <code>isBefore</code> date assertion:<br>
    * <code>assertions.isBefore(otherDate);</code>
-   *
+   * 
    * @return the DateAssert instance called
    */
   protected abstract DateAssert assertionInvocationWithDateArg();
@@ -98,7 +99,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDat
    * <p>
    * example with <code>isBefore</code> date assertion:<br>
    * <code>assertions.isBefore(date);</code>
-   *
+   * 
    * @param dateAsString a date in String based format
    * @return the DateAssert instance called
    */
@@ -109,7 +110,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDat
    * <p>
    * example with <code>isBefore</code> date assertion:<br>
    * <code>verify(dates).assertIsBefore(assertions.info, assertions.actual, date);</code>
-   *
+   * 
    * @param date the given date (not the actual date !)
    */
   protected abstract void verifyAssertionInvocation(Date date);

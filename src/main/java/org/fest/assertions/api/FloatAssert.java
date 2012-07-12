@@ -1,15 +1,15 @@
 /*
  * Created on Oct 24, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -28,7 +28,7 @@ import org.fest.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Float)}</code> or
  * <code>{@link Assertions#assertThat(float)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Ansgar Konermann
@@ -37,7 +37,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
 
-  @VisibleForTesting Floats floats = Floats.instance();
+  @VisibleForTesting
+  Floats floats = Floats.instance();
 
   protected FloatAssert(Float actual) {
     super(actual, FloatAssert.class);
@@ -80,17 +81,17 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   }
 
   /** {@inheritDoc} */
-  public FloatAssert isNotNegative(){
+  public FloatAssert isNotNegative() {
     floats.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
-  public FloatAssert isNotPositive(){
+  public FloatAssert isNotPositive() {
     floats.assertIsNotPositive(info, actual);
     return this;
-  }  
-  
+  }
+
   /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
@@ -189,7 +190,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
     this.floats = new Floats(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public FloatAssert usingDefaultComparator() {
     super.usingDefaultComparator();

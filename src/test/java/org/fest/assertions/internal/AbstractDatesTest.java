@@ -25,7 +25,7 @@ public abstract class AbstractDatesTest {
   protected Date actual;
 
   private YearAndMonthComparator yearAndMonthComparator = new YearAndMonthComparator();
-  
+
   @Before
   public void setUp() {
     failures = spy(new Failures());
@@ -62,5 +62,5 @@ public abstract class AbstractDatesTest {
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return yearAndMonthComparator;
   }
-  
+
 }

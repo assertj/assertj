@@ -29,8 +29,7 @@ public class InputStreamAssert extends AbstractAssert<InputStreamAssert, InputSt
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given
-   *           one.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
    * @throws InputStreamsException if an I/O error occurs.
    */
   public InputStreamAssert hasContentEqualTo(InputStream expected) {

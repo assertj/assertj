@@ -1,14 +1,14 @@
 /*
  * Created on Jul 15, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -18,9 +18,8 @@ import java.util.Comparator;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
  * 
  * @author Yvonne Wang
@@ -118,8 +117,8 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
    * <p>
-   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
-   * comparison strategy.
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default comparison
+   * strategy.
    * <p>
    * Examples :
    * 
@@ -138,8 +137,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
   /**
    * Revert to standard comparison for incoming assertion checks.
    * <p>
-   * This method should be used to disable a custom comparison strategy set by calling
-   * {@link #usingComparator(Comparator)}.
+   * This method should be used to disable a custom comparison strategy set by calling {@link #usingComparator(Comparator)}.
    * @return {@code this} assertion object.
    */
   S usingDefaultComparator();
@@ -251,5 +249,6 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * <code>{@link #equals(Object)}</code> instead of <code>isEqualTo</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
-  @Override boolean equals(Object obj);
+  @Override
+  boolean equals(Object obj);
 }

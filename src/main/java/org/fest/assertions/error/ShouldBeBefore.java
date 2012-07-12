@@ -1,15 +1,15 @@
 /*
  * Created on Oct 18, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.error;
@@ -23,7 +23,7 @@ import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is before another one failed.
- *
+ * 
  * @author Joel Costigliola
  */
 public class ShouldBeBefore extends BasicErrorMessageFactory {
@@ -48,7 +48,7 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldBeBefore(Date actual, Date other) {
     return new ShouldBeBefore(actual, other, StandardComparisonStrategy.instance());
   }
-  
+
   /**
    * Creates a new </code>{@link ShouldBeBefore}</code>.
    * @param actual the actual value in the failed assertion.
@@ -64,4 +64,3 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
     super("expected:<%s> to be strictly before:<%s>%s", actual, other, comparisonStrategy);
   }
 }
-

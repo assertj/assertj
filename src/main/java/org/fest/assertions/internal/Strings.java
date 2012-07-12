@@ -1,15 +1,15 @@
 /*
  * Created on Dec 22, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -43,7 +43,7 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link String}</code>s.
- *
+ * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
@@ -60,9 +60,11 @@ public class Strings {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting Strings() {
+  @VisibleForTesting
+  Strings() {
     this(StandardComparisonStrategy.instance());
   }
 
@@ -70,13 +72,12 @@ public class Strings {
 
   public Strings(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
-  }  
-  
+  }
+
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
-    }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+        .getComparator(); }
     return null;
   }
 
@@ -135,42 +136,42 @@ public class Strings {
     if (sizeOfActual == expectedSize) return;
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
-  
+
   /**
    * Asserts that the number of entries in the given {@code String} has the same size as the other {@code Iterable}.
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the given {@code String}. is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}. 
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, String actual, Iterable<?> other) {
-	assertNotNull(info, actual);
-	if(other == null) throw new NullPointerException("The iterable to look for should not be null");
-	int sizeOfActual = actual.length();
-	int sizeOfOther = Collections.sizeOf(other);
-	if(sizeOfActual == sizeOfOther) return;
-	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    assertNotNull(info, actual);
+    if (other == null) throw new NullPointerException("The iterable to look for should not be null");
+    int sizeOfActual = actual.length();
+    int sizeOfOther = Collections.sizeOf(other);
+    if (sizeOfActual == sizeOfOther) return;
+    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
   }
-  
+
   /**
    * Asserts that the number of entries in the given {@code String} has the same size as the other array.
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
-   * @param other the group to compare 
+   * @param other the group to compare
    * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the given array is {@code null}. 
+   * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, String actual, Object[] other) {
-	assertNotNull(info, actual);
-	if(other == null) throw arrayOfValuesToLookForIsNull();
-	int sizeOfActual = actual.length();
-	int sizeOfOther = Array.getLength(other);
-	if(sizeOfActual == sizeOfOther) return;
-	throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));	
-  }  
+    assertNotNull(info, actual);
+    if (other == null) throw arrayOfValuesToLookForIsNull();
+    int sizeOfActual = actual.length();
+    int sizeOfOther = Array.getLength(other);
+    if (sizeOfActual == sizeOfOther) return;
+    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+  }
 
   /**
    * Verifies that the given {@code String} contains the given sequence.
@@ -263,7 +264,7 @@ public class Strings {
     if (comparisonStrategy.stringStartsWith(actual, prefix)) return;
     throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
-  
+
   /**
    * Verifies that the given {@code String} ends with the given suffix.
    * @param info contains information about the assertion.
@@ -277,7 +278,7 @@ public class Strings {
     if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
     if (comparisonStrategy.stringEndsWith(actual, suffix)) return;
-    throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy)); 
+    throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
   }
 
   /**

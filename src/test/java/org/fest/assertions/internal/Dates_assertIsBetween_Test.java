@@ -1,14 +1,14 @@
 /*
  * Created on Dec 24, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -167,7 +167,8 @@ public class Dates_assertIsBetween_Test extends AbstractDatesTest {
     try {
       datesWithCustomComparisonStrategy.assertIsBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+      verify(failures).failure(info,
+          shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -184,7 +185,8 @@ public class Dates_assertIsBetween_Test extends AbstractDatesTest {
     try {
       datesWithCustomComparisonStrategy.assertIsBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
+      verify(failures).failure(info,
+          shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, yearAndMonthComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -221,7 +223,7 @@ public class Dates_assertIsBetween_Test extends AbstractDatesTest {
 
   @Test
   public void should_pass_if_actual_is_equals_to_start_of_given_period_and_start_is_included_in_given_period_according_to_custom_comparison_strategy() {
-    actual = parseDate("2011-09-01"); 
+    actual = parseDate("2011-09-01");
     Date start = parseDate("2011-09-10"); // = 2011-09-01 according to comparison strategy
     Date end = parseDate("2011-10-01");
     datesWithCustomComparisonStrategy.assertIsBetween(someInfo(), actual, start, end, true, false);
@@ -232,7 +234,7 @@ public class Dates_assertIsBetween_Test extends AbstractDatesTest {
   public void should_pass_if_actual_is_equals_to_end_of_given_period_and_end_is_included_in_given_period_according_to_custom_comparison_strategy() {
     actual = parseDate("2011-09-15");
     Date start = parseDate("2011-08-30");
-    Date end = parseDate("2011-09-30"); // = 2011-09-01 according to comparison strategy 
+    Date end = parseDate("2011-09-30"); // = 2011-09-01 according to comparison strategy
     datesWithCustomComparisonStrategy.assertIsBetween(someInfo(), actual, start, end, false, true);
     datesWithCustomComparisonStrategy.assertIsBetween(someInfo(), actual, start, end, true, true);
   }

@@ -1,15 +1,15 @@
 /*
  * Created on Jan 28, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -31,17 +31,20 @@ public class Assertions_assertThat_with_InputStream_Test {
 
   private static InputStream actual;
 
-  @BeforeClass public static void setUpOnce() {
+  @BeforeClass
+  public static void setUpOnce() {
     actual = new ByteArrayInputStream(new byte[0]);
   }
 
-  @Test public void should_create_Assert() {
+  @Test
+  public void should_create_Assert() {
     InputStreamAssert assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
-  @Test public void should_pass_actual() {
-	InputStreamAssert assertions = Assertions.assertThat(actual);
+  @Test
+  public void should_pass_actual() {
+    InputStreamAssert assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

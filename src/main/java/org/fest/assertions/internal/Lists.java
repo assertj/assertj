@@ -1,14 +1,14 @@
 /*
  * Created on Nov 19, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -66,9 +66,8 @@ public class Lists {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
-    }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
+        .getComparator(); }
     return null;
   }
 
@@ -80,8 +79,8 @@ public class Lists {
    * @param index the index where the object should be stored in the given {@code List}.
    * @throws AssertionError if the given {@code List} is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   *           the given {@code List}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the given
+   *           {@code List}.
    * @throws AssertionError if the given {@code List} does not contain the given object at the given index.
    */
   public void assertContains(AssertionInfo info, List<?> actual, Object value, Index index) {
@@ -90,8 +89,7 @@ public class Lists {
     checkIndexValueIsValid(index, actual.size() - 1);
     Object actualElement = actual.get(index.value);
     if (areEqual(actualElement, value)) return;
-    throw failures.failure(info,
-        shouldContainAtIndex(actual, value, index, actual.get(index.value), comparisonStrategy));
+    throw failures.failure(info, shouldContainAtIndex(actual, value, index, actual.get(index.value), comparisonStrategy));
   }
 
   /**
@@ -117,21 +115,20 @@ public class Lists {
   /**
    * Verifies that the actual list is sorted into ascending order according to the natural ordering of its elements.
    * <p>
-   * All list elements must implement the {@link Comparable} interface and must be mutually comparable (that is,
-   * e1.compareTo(e2) must not throw a ClassCastException for any elements e1 and e2 in the list), examples :
+   * All list elements must implement the {@link Comparable} interface and must be mutually comparable (that is, e1.compareTo(e2)
+   * must not throw a ClassCastException for any elements e1 and e2 in the list), examples :
    * <ul>
    * <li>a list composed of {"a1", "a2", "a3"} is ok because the element type (String) is Comparable</li>
    * <li>a list composed of Rectangle {r1, r2, r3} is <b>NOT ok</b> because Rectangle is not Comparable</li>
    * <li>a list composed of {True, "abc", False} is <b>NOT ok</b> because elements are not mutually comparable</li>
    * </ul>
-   * Empty lists are considered sorted.</br> Unique element lists are considered sorted unless the element type is not
-   * Comparable.
+   * Empty lists are considered sorted.</br> Unique element lists are considered sorted unless the element type is not Comparable.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
    * 
-   * @throws AssertionError if the actual list is not sorted into ascending order according to the natural ordering of
-   *           its elements.
+   * @throws AssertionError if the actual list is not sorted into ascending order according to the natural ordering of its
+   *           elements.
    * @throws AssertionError if the actual list is <code>null</code>.
    * @throws AssertionError if the actual list element type does not implement {@link Comparable}.
    * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
@@ -140,7 +137,7 @@ public class Lists {
     assertNotNull(info, actual);
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
       // instead of comparing elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy)comparisonStrategy).getComparator();
+      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
       assertIsSortedAccordingToComparator(info, actual, comparator);
       return;
     }
@@ -161,8 +158,8 @@ public class Lists {
   }
 
   /**
-   * Verifies that the actual list is sorted according to the given comparator.</br> Empty lists are considered sorted
-   * whatever the comparator is.</br> One element lists are considered sorted if element is compatible with comparator.
+   * Verifies that the actual list is sorted according to the given comparator.</br> Empty lists are considered sorted whatever
+   * the comparator is.</br> One element lists are considered sorted if element is compatible with comparator.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code List}.
@@ -174,8 +171,7 @@ public class Lists {
    * @throws AssertionError if the actual list elements are not mutually comparabe according to given Comparator.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual,
-      Comparator<? extends Object> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<? extends Object> comparator) {
     assertNotNull(info, actual);
     if (comparator == null) throw new NullPointerException("The given comparator should not be null");
     try {

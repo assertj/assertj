@@ -1,14 +1,14 @@
 /*
  * Created on Jun 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -57,16 +57,14 @@ public class PropertySupport {
   PropertySupport() {}
 
   /**
-   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
-   * given <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will
-   * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the given
+   * <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will return an empty
+   * {@code List}. This method supports nested properties (e.g. "address.street.number").
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param target the given {@code Collection}.
-   * @return a {@code List} containing the values of the given property name, from the elements of the given
-   *         {@code Collection}.
-   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
-   *           name.
+   * @return a {@code List} containing the values of the given property name, from the elements of the given {@code Collection}.
+   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching name.
    */
   public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Collection<?> target) {
     // ignore null elements as we can't extract a property from a null object
@@ -84,27 +82,25 @@ public class PropertySupport {
   /**
    * Static variant of {@link #propertyValues(String, Class, Collection)} for syntactic sugar.
    * <p>
-   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
-   * given <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will
-   * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the given
+   * <code>{@link Collection}</code>. If the given {@code Collection} is empty or {@code null}, this method will return an empty
+   * {@code List}. This method supports nested properties (e.g. "address.street.number").
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param target the given {@code Collection}.
-   * @return a {@code List} containing the values of the given property name, from the elements of the given
-   *         {@code Collection}.
-   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
-   *           name.
+   * @return a {@code List} containing the values of the given property name, from the elements of the given {@code Collection}.
+   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching name.
    */
   public static <T> List<T> propertyValuesOf(String propertyName, Collection<?> target, Class<T> clazz) {
     return instance().propertyValues(propertyName, clazz, target);
   }
 
   /**
-   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
-   * given array. If the given array is empty or {@code null}, this method will return an empty {@code List}. This
-   * method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the given array.
+   * If the given array is empty or {@code null}, this method will return an empty {@code List}. This method supports nested
+   * properties (e.g. "address.street.number").
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param target the given array.
    * @return a {@code List} containing the values of the given property name, from the elements of the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
@@ -116,8 +112,8 @@ public class PropertySupport {
   /**
    * Static variant of {@link #propertyValue(String, Class, Object)} for syntactic sugar.
    * <p>
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param target the given object
    * @param clazz type of property
    * @return a the values of the given property name
@@ -163,8 +159,8 @@ public class PropertySupport {
 
   /**
    * Return the value of property from a target object.
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param target the given object
    * @param clazz type of property
    * @return a the values of the given property name
@@ -185,11 +181,10 @@ public class PropertySupport {
   }
 
   /**
-   * Returns the value of the given property name given target. If the given object is {@code null}, this method will
-   * return null.<br>
+   * Returns the value of the given property name given target. If the given object is {@code null}, this method will return null.<br>
    * This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
-   *          for {@code null} or empty.
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
+   *          {@code null} or empty.
    * @param clazz the class of property.
    * @param target the given Object to extract property from.
    * @return the value of the given property name given target.

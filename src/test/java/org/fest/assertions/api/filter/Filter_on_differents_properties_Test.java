@@ -16,8 +16,7 @@ public class Filter_on_differents_properties_Test extends AbstractTest_filter {
   @Test
   public void should_filter_iterable_elements_on_different_properties() {
     // rose and durant have 5 rebounds per game but only rose does not play in OKC
-    assertThat(filter(players).with("reboundsPerGame").equalsTo(5).and("team").notEqualsTo("OKC").get()).containsOnly(
-        rose);
+    assertThat(filter(players).with("reboundsPerGame").equalsTo(5).and("team").notEqualsTo("OKC").get()).containsOnly(rose);
     // players is not modified
     assertThat(players).hasSize(4);
   }

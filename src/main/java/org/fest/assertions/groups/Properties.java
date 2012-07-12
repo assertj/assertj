@@ -1,14 +1,14 @@
 /*
  * Created on Feb 22, 2011
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
@@ -41,8 +41,8 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties}</code>.
-   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a
-   *          nested property (e.g. "address.street.number").
+   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a nested
+   *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
@@ -55,8 +55,8 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties} with given propertyName and Object as property type.</code>.
-   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a
-   *          nested property (e.g. "address.street.number").
+   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a nested
+   *          property (e.g. "address.street.number").
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
    * @return the created {@code Properties}.
@@ -64,11 +64,10 @@ public class Properties<T> {
   public static Properties<Object> extractProperty(String propertyName) {
     return extractProperty(propertyName, Object.class);
   }
-  
+
   private static void checkIsNotNullOrEmpty(String propertyName) {
     if (propertyName == null) throw new NullPointerException("The name of the property to read should not be null");
-    if (propertyName.length() == 0)
-      throw new IllegalArgumentException("The name of the property to read should not be empty");
+    if (propertyName.length() == 0) throw new IllegalArgumentException("The name of the property to read should not be empty");
   }
 
   @VisibleForTesting
@@ -78,20 +77,19 @@ public class Properties<T> {
   }
 
   /**
-   * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from
-   * the elements of the given <code>{@link Collection}</code>.
+   * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from the elements
+   * of the given <code>{@link Collection}</code>.
    * @param c the given {@code Collection}.
    * @return the values of the previously specified property extracted from the given {@code Collection}.
-   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching
-   *           name.
+   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching name.
    */
   public List<T> from(Collection<?> c) {
     return propertySupport.propertyValues(propertyName, propertyType, c);
   }
 
   /**
-   * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from
-   * the elements of the given array.
+   * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from the elements
+   * of the given array.
    * @param array the given array.
    * @return the values of the previously specified property extracted from the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.

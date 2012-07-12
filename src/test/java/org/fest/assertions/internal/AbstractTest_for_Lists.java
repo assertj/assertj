@@ -15,7 +15,7 @@ public class AbstractTest_for_Lists {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Lists listsWithCaseInsensitiveComparisonStrategy;
 

@@ -1,14 +1,14 @@
 /*
  * Created on Feb 22, 2011
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
@@ -76,8 +76,7 @@ public class Filters<E> {
   /**
    * Creates a new <code>{@link Filters}</code> with the {@link Iterable} to filter.
    * <p>
-   * Chain this call to express filter criteria either by a {@link Condition} or a pseudo filter language on elements
-   * properties.
+   * Chain this call to express filter criteria either by a {@link Condition} or a pseudo filter language on elements properties.
    * <p>
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
@@ -115,8 +114,7 @@ public class Filters<E> {
   /**
    * Creates a new <code>{@link Filters}</code> with the array to filter.
    * <p>
-   * Chain this call to express filter criteria either by a {@link Condition} or a pseudo filter language on elements
-   * properties.
+   * Chain this call to express filter criteria either by a {@link Condition} or a pseudo filter language on elements properties.
    * <p>
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
@@ -246,8 +244,7 @@ public class Filters<E> {
    * @param propertyName the name of the property whose value will compared to given value. It may be a nested property.
    * @param propertyValue the expected property value.
    * @return this {@link Filters} to chain other filter operations.
-   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a given
-   *           propertyName.
+   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a given propertyName.
    * @throws NullPointerException if the given propertyName is {@code null}.
    */
   public Filters<E> with(String propertyName, Object propertyValue) {
@@ -257,8 +254,7 @@ public class Filters<E> {
   }
 
   /**
-   * Sets the name of the property used for filtering, it may be a nested property like
-   * <code>"adress.street.name"</code>.
+   * Sets the name of the property used for filtering, it may be a nested property like <code>"adress.street.name"</code>.
    * <p>
    * The typical usage is to chain this call with a comparison method, for example :
    * 
@@ -292,8 +288,8 @@ public class Filters<E> {
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b>
-   * given value.
+   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b> given
+   * value.
    * <p>
    * Typical usage :
    * 
@@ -311,8 +307,7 @@ public class Filters<E> {
     for (E element : filteredIterable) {
       // As we don't know the propertyValue class, we use Object.class
       Class<? extends Object> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
-      Object propertyValueOfCurrentElement =
-          propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass, element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass, element);
       if (areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
       }
@@ -322,8 +317,8 @@ public class Filters<E> {
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not equals
-   * to</b> given value.
+   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not equals to</b> given
+   * value.
    * <p>
    * Typical usage :
    * 
@@ -339,8 +334,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue
-          .getClass(), element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue.getClass(),
+          element);
       if (!areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
       }
@@ -355,8 +350,8 @@ public class Filters<E> {
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b>
-   * one of the given values.
+   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b> one of the
+   * given values.
    * <p>
    * Typical usage :
    * 
@@ -372,8 +367,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues
-          .getClass().getComponentType(), element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
+          .getComponentType(), element);
       if (isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
         newFilteredIterable.add(element);
       }
@@ -383,8 +378,8 @@ public class Filters<E> {
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not in</b> the
-   * given values.
+   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not in</b> the given
+   * values.
    * <p>
    * Typical usage :
    * 
@@ -400,8 +395,8 @@ public class Filters<E> {
     checkPropertyNameToFilterOnIsNotNull();
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
-      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues
-          .getClass().getComponentType(), element);
+      Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
+          .getComponentType(), element);
       if (!isItemInArray(propertyValueOfCurrentElement, propertyValues)) {
         newFilteredIterable.add(element);
       }

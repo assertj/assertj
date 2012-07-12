@@ -16,7 +16,7 @@ import org.fest.assertions.util.BigDecimalComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
 public class AbstractTest_for_BigDecimals {
-  
+
   static final BigDecimal ONE_WITH_3_DECIMALS = new BigDecimal("1.000");
 
   @Rule
@@ -26,7 +26,7 @@ public class AbstractTest_for_BigDecimals {
 
   protected ComparatorBasedComparisonStrategy comparatorComparisonStrategy;
   /**
-   * {@link BigDecimals} using a comparison strategy based on {@link BigDecimalComparator}. 
+   * {@link BigDecimals} using a comparison strategy based on {@link BigDecimalComparator}.
    */
   protected BigDecimals bigDecimalsWithComparatorComparisonStrategy;
   // another BigDecimals with a custom ComparisonStrategy other than bigDecimalsWithComparatorComparisonStrategy

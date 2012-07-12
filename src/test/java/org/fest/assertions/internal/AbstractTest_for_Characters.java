@@ -13,10 +13,10 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * 
- * Base class for Characters unit tests 
- *
- * @author Joel Costigliola 
- *
+ * Base class for Characters unit tests
+ * 
+ * @author Joel Costigliola
+ * 
  */
 public class AbstractTest_for_Characters {
 

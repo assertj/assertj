@@ -1,14 +1,14 @@
 /*
  * Created on Aug 4, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -69,13 +69,16 @@ public class Objects {
     return INSTANCE;
   }
 
-  @VisibleForTesting Failures failures = Failures.instance();
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
-  @VisibleForTesting PropertySupport propertySupport = PropertySupport.instance();
+  @VisibleForTesting
+  PropertySupport propertySupport = PropertySupport.instance();
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting Objects() {
+  @VisibleForTesting
+  Objects() {
     this(StandardComparisonStrategy.instance());
   }
 
@@ -83,7 +86,8 @@ public class Objects {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting public Comparator<?> getComparator() {
+  @VisibleForTesting
+  public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
         .getComparator(); }
     return null;
@@ -247,7 +251,7 @@ public class Objects {
     if (!type.equals(current)) return;
     throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
-  
+
   /**
    * Verifies that the actual value type is in given types.
    * @param info contains information about the assertion.
@@ -256,14 +260,14 @@ public class Objects {
    * @throws AssertionError if the actual value type is in given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
-   */  
+   */
   public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
-    if (types == null) throw new NullPointerException("The given types should not be null");  
+    if (types == null) throw new NullPointerException("The given types should not be null");
     if (isItemInArray(actual.getClass(), types)) return;
     throw failures.failure(info, shouldBeOfClassIn(actual, types));
-  }  
-  
+  }
+
   /**
    * Verifies that the actual value type is not in given types.
    * @param info contains information about the assertion.
@@ -272,13 +276,13 @@ public class Objects {
    * @throws AssertionError if the actual value type is in given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
-   */  
+   */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
     if (types == null) throw new NullPointerException("The given types should not be null");
     if (!isItemInArray(actual.getClass(), types)) return;
-    throw failures.failure(info, shouldNotBeOfClassIn(actual, types));    
-  }    
+    throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
+  }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
     if (types == null) throw new NullPointerException("The given array of types should not be null");
@@ -291,8 +295,7 @@ public class Objects {
    * @param actual the "actual" object.
    * @param expected the "expected" object.
    * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
-   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not
-   *           equal.
+   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(actual, expected)) return;
@@ -513,15 +516,13 @@ public class Objects {
     for (String fieldName : fields) {
       Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
       Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue
-          .equals(otherFieldValue)))) {
+      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
       }
     }
     if (rejectedFieldsNames.isEmpty()) return;
-    throw failures.failure(info,
-        shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
+    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
   }
 
   /**

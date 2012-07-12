@@ -1,14 +1,14 @@
 /*
  * Created on Oct 3, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -53,7 +53,7 @@ public class Iterables_assertContainsOnly_Test extends AbstractTest_for_Iterable
     actual.add(null);
     iterables.assertContainsOnly(someInfo(), actual, array("Luke", null, "Yoda", "Leia", null));
   }
-  
+
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
     iterables.assertContainsOnly(someInfo(), actual, array("Leia", "Yoda", "Luke"));
@@ -107,21 +107,18 @@ public class Iterables_assertContainsOnly_Test extends AbstractTest_for_Iterable
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-        array("LUKE", "YODA", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-        array("LEIA", "yoda", "LukE"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(list("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-        array("luke", "YOda", "LeIA"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
   }
 
   @Test

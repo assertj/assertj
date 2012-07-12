@@ -1,15 +1,15 @@
 /*
  * Created on Oct 20, 2010
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -27,7 +27,7 @@ import org.fest.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Long)}</code> or
  * <code>{@link Assertions#assertThat(long)}</code>.
  * </p>
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -38,7 +38,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
 
-  @VisibleForTesting Longs longs = Longs.instance();
+  @VisibleForTesting
+  Longs longs = Longs.instance();
 
   protected LongAssert(Long actual) {
     super(actual, LongAssert.class);
@@ -91,13 +92,13 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
     longs.assertIsNegative(info, actual);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public LongAssert isNotNegative() {
     longs.assertIsNotNegative(info, actual);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public LongAssert isNotPositive() {
     longs.assertIsNotPositive(info, actual);
@@ -158,7 +159,7 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
     this.longs = new Longs(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
-  
+
   @Override
   public LongAssert usingDefaultComparator() {
     super.usingDefaultComparator();

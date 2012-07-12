@@ -13,17 +13,17 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for tests involving {@link Doubles}
- *
- * @author Joel Costigliola 
+ * 
+ * @author Joel Costigliola
  */
 public class AbstractTest_for_Doubles {
 
   @Rule
   public ExpectedException thrown = none();
-  
+
   protected Failures failures;
   protected Doubles doubles;
-  
+
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Doubles doublesWithAbsValueComparisonStrategy;
 

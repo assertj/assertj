@@ -1,14 +1,14 @@
 /*
  * Created on Dec 14, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -65,18 +65,18 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public BooleanArrayAssert hasSameSizeAs(Object[] other) {
-	arrays.assertHasSameSizeAs(info, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public BooleanArrayAssert hasSameSizeAs(Iterable<?> other) {
-	arrays.assertHasSameSizeAs(info, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
     return this;
-  } 
+  }
 
   /**
    * Verifies that the actual array contains the given values, in any order.
@@ -99,8 +99,8 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   *           or none of the given values, or the actual array contains more values than the given ones.
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some or none of
+   *           the given values, or the actual array contains more values than the given ones.
    */
   public BooleanArrayAssert containsOnly(boolean... values) {
     arrays.assertContainsOnly(info, actual, values);
@@ -127,8 +127,8 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
    * @return this assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
-   *           the actual array.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the actual
+   *           array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public BooleanArrayAssert contains(boolean value, Index index) {
@@ -176,9 +176,9 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   }
 
   /**
-   * Verifies that the actual array starts with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the first element in the
-   * sequence is also first element of the actual array.
+   * Verifies that the actual array starts with the given sequence of values, without any other values between them. Similar to
+   * <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the first element in the sequence is also first
+   * element of the actual array.
    * @param sequence the sequence of values to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
@@ -192,9 +192,9 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   }
 
   /**
-   * Verifies that the actual array ends with the given sequence of values, without any other values between them.
-   * Similar to <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the last element in the
-   * sequence is also last element of the actual array.
+   * Verifies that the actual array ends with the given sequence of values, without any other values between them. Similar to
+   * <code>{@link #containsSequence(boolean...)}</code>, but it also verifies that the last element in the sequence is also last
+   * element of the actual array.
    * @param sequence the sequence of values to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.

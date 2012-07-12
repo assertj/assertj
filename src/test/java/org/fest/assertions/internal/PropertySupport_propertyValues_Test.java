@@ -1,15 +1,15 @@
 /*
  * Created on Feb 22, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.internal;
@@ -33,7 +33,7 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
- *
+ * 
  * @author Yvonne Wang
  * @author Nicolas François
  * @author Mikhail Mazursky
@@ -45,53 +45,63 @@ public class PropertySupport_propertyValues_Test {
   private static List<Employee> employees;
   private static PropertySupport propertySupport;
 
-  @BeforeClass public static void setUpOnce() {
+  @BeforeClass
+  public static void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
     luke = new Employee(8000L, new Name("Luke", "Skywalker"), 26);
     employees = list(yoda, luke);
     propertySupport = new PropertySupport();
   }
 
-  @Rule public ExpectedException thrown = none();
+  @Rule
+  public ExpectedException thrown = none();
 
-  @Test public void should_return_empty_List_if_given_Collection_is_null() {
+  @Test
+  public void should_return_empty_List_if_given_Collection_is_null() {
     List<Long> ids = propertySupport.propertyValues("ids", Long.class, null);
     assertEquals(emptyList(), ids);
   }
 
-  @Test public void should_return_empty_List_if_given_Collection_is_empty() {
+  @Test
+  public void should_return_empty_List_if_given_Collection_is_empty() {
     List<Long> ids = propertySupport.propertyValues("ids", Long.class, emptySet());
     assertEquals(emptyList(), ids);
   }
 
-  @Test public void should_return_empty_List_if_given_Collection_contains_only_nulls() {
+  @Test
+  public void should_return_empty_List_if_given_Collection_contains_only_nulls() {
     List<Long> ids = propertySupport.propertyValues("ids", Long.class, list(null, null));
     assertEquals(emptyList(), ids);
   }
 
-  @Test public void should_remove_null_values_from_given_Collection() {
+  @Test
+  public void should_remove_null_values_from_given_Collection() {
     List<Employee> anotherList = list(yoda, null, luke, null);
     List<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
     assertEquals(list(6000L, 8000L), ids);
   }
 
-  @Test public void should_return_values_of_simple_property() {
+  @Test
+  public void should_return_values_of_simple_property() {
     List<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
     assertEquals(list(6000L, 8000L), ids);
   }
 
-  @Test public void should_return_values_of_nested_property() {
+  @Test
+  public void should_return_values_of_nested_property() {
     List<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
     assertEquals(list("Yoda", "Luke"), firstNames);
   }
 
-  @Test public void should_throw_error_if_property_not_found() {
+  @Test
+  public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
     propertySupport.propertyValues("id.", Long.class, employees);
   }
 
-  @Test public void should_extract_property(){
-	  Long id = propertySupport.propertyValue("id", Long.class, yoda);
-	  assertEquals(Long.valueOf(6000L), id);
+  @Test
+  public void should_extract_property() {
+    Long id = propertySupport.propertyValue("id", Long.class, yoda);
+    assertEquals(Long.valueOf(6000L), id);
   }
 }

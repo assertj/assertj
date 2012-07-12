@@ -45,8 +45,8 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
 
   /**
    * Returns true if the two floats parameter are equal within a positive offset, false otherwise.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
-   * comparison strategy.
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison
+   * strategy.
    * @param actual the actual value.
    * @param expected the expected value.
    * @param offset the given positive offset.

@@ -21,7 +21,7 @@ public class AbstractTest_for_Bytes {
 
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Bytes bytesWithAbsValueComparisonStrategy;
-  
+
   @Before
   public void setUp() {
     failures = spy(new Failures());

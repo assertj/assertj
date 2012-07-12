@@ -1,15 +1,15 @@
 /*
  * Created on Jan 28, 2011
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this Throwable except in compliance with
- * the License. You may obtain a copy of the License at
- *
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this Throwable except in compliance with the
+ * License. You may obtain a copy of the License at
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ * 
  * Copyright @2011 the original author or authors.
  */
 package org.fest.assertions.api;
@@ -22,14 +22,15 @@ import org.fest.util.VisibleForTesting;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Throwable)}</code>.
  * </p>
- *
+ * 
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> {
 
-  @VisibleForTesting Throwables throwables = Throwables.instance();
+  @VisibleForTesting
+  Throwables throwables = Throwables.instance();
 
   protected ThrowableAssert(Throwable actual) {
     super(actual, ThrowableAssert.class);
@@ -69,7 +70,7 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     throwables.assertHasMessageStartingWith(info, actual, description);
     return this;
   }
-  
+
   /**
    * Verifies that the message of the actual {@code Throwable} contains with the given description.
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
@@ -81,7 +82,7 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     throwables.assertHasMessageContaining(info, actual, description);
     return this;
   }
-  
+
   /**
    * Verifies that the message of the actual {@code Throwable} ends with the given description.
    * @param description the description expected to end the actual {@code Throwable}'s message.
@@ -93,5 +94,5 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     throwables.assertHasMessageEndingWith(info, actual, description);
     return this;
   }
-  
+
 }
