@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <profiles version="10">
-<profile name="Alex" version="10">
+<profile name="Fest" version="10">
 <setting id="org.eclipse.jdt.core.formatter.align_type_members_on_columns" value="false"/>
 <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_allocation_expression" value="16"/>
 <setting id="org.eclipse.jdt.core.formatter.alignment_for_arguments_in_enum_constant" value="16"/>
