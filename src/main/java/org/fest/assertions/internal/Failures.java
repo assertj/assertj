@@ -19,6 +19,7 @@ import static org.fest.util.Strings.isEmpty;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.error.AssertionErrorFactory;
 import org.fest.assertions.error.ErrorMessageFactory;
+import org.fest.assertions.error.MessageFormatter;
 import org.fest.assertions.error.ShouldBeEqual;
 import org.fest.util.Throwables;
 import org.fest.util.VisibleForTesting;
@@ -98,8 +99,8 @@ public class Failures {
 
   private AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    if (!isEmpty(overridingErrorMessage)) return failure(overridingErrorMessage);
-    return null;
+    return isEmpty(overridingErrorMessage) ? null : failure(MessageFormatter.instance().format(info.description(),
+        overridingErrorMessage));
   }
 
   /**

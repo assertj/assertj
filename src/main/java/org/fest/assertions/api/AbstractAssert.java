@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import static java.lang.String.format;
+
 import java.util.Comparator;
 
 import org.fest.assertions.core.Assert;
@@ -233,6 +235,25 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   public String descriptionText() {
     return info.descriptionText();
+  }
+
+  /**
+   * Overrides Fest default error message by the given one, the new error message can be built using
+   * {@link String#format(String, Object...)}, hence the presence of args parameter.
+   * <p>
+   * Example :
+   * 
+   * <pre>assertThat(player.isRookie()).
+           overridingErrorMessage("Expecting Player <%s> to be a rookie but was not.", player).
+           isTrue();</pre>
+   * @param newErrorMessage the error message that will replace the default one provided by Fest.
+   * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @return this assertion object.
+   * @throws exception see {@link String#format(String, Object...)} exception clause.
+   */
+  public S overridingErrorMessage(String newErrorMessage, Object... args) {
+    info.overridingErrorMessage(format(newErrorMessage, args));
+    return myself;
   }
 
   /** {@inheritDoc} */
