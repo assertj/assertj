@@ -32,8 +32,8 @@ import org.fest.util.VisibleForTesting;
  */
 public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
-  private final String format;
-  private final Object[] arguments;
+  protected final String format;
+  protected final Object[] arguments;
 
   @VisibleForTesting
   MessageFormatter formatter = MessageFormatter.instance();

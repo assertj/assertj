@@ -42,11 +42,11 @@ public class ShouldHaveEqualContent_create_Test {
   @Before
   public void setUp() {
     diffs = list("line:<0>, expected:<line0> but was:<line_0>", "line:<1>, expected:<line1> but was:<line_1>",
-        "line:<2>, expected:<line2> but was:<line_2>");
+        "line:<2>, expected:<line2> but was:<line_%s>");
   }
 
   @Test
-  public void should_create_error_message_file() {
+  public void should_create_error_message_file_even_if_content_contains_format_specifier() {
     factory = ShouldHaveEqualContent.shouldHaveEqualContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
 
     StringBuilder b = new StringBuilder();
@@ -57,7 +57,7 @@ public class ShouldHaveEqualContent_create_Test {
   }
 
   @Test
-  public void should_create_error_message_inputstream() {
+  public void should_create_error_message_inputstream_even_if_content_contains_format_specifier() {
     factory = ShouldHaveEqualContent.shouldHaveEqualContent(new ByteArrayInputStream(new byte[] { 'a' }),
         new ByteArrayInputStream(new byte[] { 'b' }), diffs);
 
