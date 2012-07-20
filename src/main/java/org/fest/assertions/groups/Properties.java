@@ -16,19 +16,18 @@ package org.fest.assertions.groups;
 
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 
-import java.util.Collection;
-import java.util.List;
 
 import org.fest.assertions.internal.PropertySupport;
 import org.fest.util.IntrospectionError;
 import org.fest.util.VisibleForTesting;
 
 /**
- * Extracts the values of a specified property from the elements of a given <code>{@link Collection}</code> or array.
+ * Extracts the values of a specified property from the elements of a given <code>{@link Iterable}</code> or array.
  * 
  * @author Yvonne Wang
  * @author Mikhail Mazursky
  * @author Joel Costigliola
+ * @author Florent Biville
  */
 public class Properties<T> {
 
@@ -41,7 +40,7 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties}</code>.
-   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a nested
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
    * @throws NullPointerException if the given property name is {@code null}.
@@ -55,7 +54,7 @@ public class Properties<T> {
 
   /**
    * Creates a new <code>{@link Properties} with given propertyName and Object as property type.</code>.
-   * @param propertyName the name of the property to be read from the elements of a {@code Collection}. It may be a nested
+   * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
@@ -78,12 +77,12 @@ public class Properties<T> {
 
   /**
    * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from the elements
-   * of the given <code>{@link Collection}</code>.
-   * @param c the given {@code Collection}.
-   * @return the values of the previously specified property extracted from the given {@code Collection}.
-   * @throws IntrospectionError if an element in the given {@code Collection} does not have a property with a matching name.
+   * of the given <code>{@link Iterable}</code>.
+   * @param c the given {@code Iterable}.
+   * @return the values of the previously specified property extracted from the given {@code Iterable}.
+   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
    */
-  public List<T> from(Collection<?> c) {
+  public Iterable<T> from(Iterable<?> c) {
     return propertySupport.propertyValues(propertyName, propertyType, c);
   }
 
@@ -94,7 +93,7 @@ public class Properties<T> {
    * @return the values of the previously specified property extracted from the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
    */
-  public List<T> from(Object[] array) {
+  public Iterable<T> from(Object[] array) {
     return propertySupport.propertyValues(propertyName, propertyType, wrap(array));
   }
 }

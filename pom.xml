@@ -35,7 +35,7 @@
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-util</artifactId>
-      <version>1.2.1</version>
+      <version>1.2.2-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

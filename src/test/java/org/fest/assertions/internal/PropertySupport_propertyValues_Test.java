@@ -37,12 +37,13 @@ import org.junit.Test;
  * @author Yvonne Wang
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Florent Biville
  */
 public class PropertySupport_propertyValues_Test {
 
   private static Employee yoda;
   private static Employee luke;
-  private static List<Employee> employees;
+  private static Iterable<Employee> employees;
   private static PropertySupport propertySupport;
 
   @BeforeClass
@@ -57,39 +58,39 @@ public class PropertySupport_propertyValues_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_empty_List_if_given_Collection_is_null() {
-    List<Long> ids = propertySupport.propertyValues("ids", Long.class, null);
+  public void should_return_empty_List_if_given_Iterable_is_null() {
+    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, null);
     assertEquals(emptyList(), ids);
   }
 
   @Test
-  public void should_return_empty_List_if_given_Collection_is_empty() {
-    List<Long> ids = propertySupport.propertyValues("ids", Long.class, emptySet());
+  public void should_return_empty_List_if_given_Iterable_is_empty() {
+    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, emptySet());
     assertEquals(emptyList(), ids);
   }
 
   @Test
-  public void should_return_empty_List_if_given_Collection_contains_only_nulls() {
-    List<Long> ids = propertySupport.propertyValues("ids", Long.class, list(null, null));
+  public void should_return_empty_List_if_given_Iterable_contains_only_nulls() {
+    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, list(null, null));
     assertEquals(emptyList(), ids);
   }
 
   @Test
-  public void should_remove_null_values_from_given_Collection() {
+  public void should_remove_null_values_from_given_Iterable() {
     List<Employee> anotherList = list(yoda, null, luke, null);
-    List<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
+    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
     assertEquals(list(6000L, 8000L), ids);
   }
 
   @Test
   public void should_return_values_of_simple_property() {
-    List<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
+    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
     assertEquals(list(6000L, 8000L), ids);
   }
 
   @Test
   public void should_return_values_of_nested_property() {
-    List<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
+    Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
     assertEquals(list("Yoda", "Luke"), firstNames);
   }
 
