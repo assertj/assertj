@@ -32,7 +32,6 @@ public class ShouldNotBeOfClassIn_Test {
 
   private ErrorMessageFactory factory;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     factory = shouldNotBeOfClassIn("Yoda", list(Long.class, String.class));
