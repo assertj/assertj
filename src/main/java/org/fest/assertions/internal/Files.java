@@ -19,8 +19,10 @@ import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.fest.assertions.error.ShouldExist.shouldExist;
+import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.error.ShouldNotExist.shouldNotExist;
+import static org.fest.assertions.internal.BinaryDiffResult.SUCCESS;
 
 import java.io.*;
 import java.util.List;
@@ -49,6 +51,8 @@ public class Files {
 
   @VisibleForTesting
   Diff diff = new Diff();
+  @VisibleForTesting
+  BinaryDiff binaryDiff = new BinaryDiff();
   @VisibleForTesting
   Failures failures = Failures.instance();
 
@@ -81,6 +85,31 @@ public class Files {
       throw new FilesException(msg, e);
     }
   }
+  
+  /**
+   * Asserts that the given file has the given binary content.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" file.
+   * @param expected the "expected" binary content.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws FilesException if an I/O error occurs.
+   * @throws AssertionError if the file does not have the binary content.
+   */
+  public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
+    if (expected == null) throw new NullPointerException("The binary content to compare to should not be null");
+    assertIsFile(info, actual);
+    try {
+      BinaryDiffResult result = binaryDiff.diff(actual, expected);
+      if (result == SUCCESS) return;
+      throw failures.failure(info, shouldHaveBinaryContent(actual, result));
+    } catch (IOException e) {
+      String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
+      throw new FilesException(msg, e);
+    }
+  }
+
 
   private void verifyIsFile(File expected) {
     if (expected == null) throw new NullPointerException("The file to compare to should not be null");

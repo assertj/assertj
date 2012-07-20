@@ -119,4 +119,20 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
     files.assertEqualContent(info, actual, expected);
     return this;
   }
+
+  /**
+   * Verifies that the binary content of the actual {@code File} is equal to the given one.
+   * @param expected the expected binary content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given content is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws FilesException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
+   */
+  public FileAssert hasBinaryContent(byte[] expected) {
+    files.assertHasBinaryContent(info, actual, expected);
+    return this;
+  }
+  
 }
