@@ -16,8 +16,18 @@ import static org.fest.assertions.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.fest.assertions.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.fest.assertions.error.ShouldBeToday.shouldBeToday;
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
+import static org.fest.assertions.error.ShouldHaveTime.shouldHaveTime;
 import static org.fest.assertions.error.ShouldNotBeBetween.shouldNotBeBetween;
-import static org.fest.util.Dates.*;
+import static org.fest.util.Dates.dayOfMonthOf;
+import static org.fest.util.Dates.dayOfWeekOf;
+import static org.fest.util.Dates.hourOfDay;
+import static org.fest.util.Dates.millisecondOf;
+import static org.fest.util.Dates.minuteOf;
+import static org.fest.util.Dates.monthOf;
+import static org.fest.util.Dates.secondOf;
+import static org.fest.util.Dates.today;
+import static org.fest.util.Dates.truncateTime;
+import static org.fest.util.Dates.yearOf;
 
 import java.util.Calendar;
 import java.util.Comparator;
@@ -547,6 +557,20 @@ public class Dates {
     long difference = Math.abs(actual.getTime() - other.getTime());
     if (difference <= deltaInMilliseconds) return;
     throw failures.failure(info, shouldBeCloseTo(actual, other, deltaInMilliseconds, difference));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} time is equal to the given timestamp.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param timestamp the timestamp to compare actual time to
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the given timestamp.
+   */
+  public void assertHasTime(AssertionInfo info, Date actual, long timestamp) {
+    assertNotNull(info, actual);
+    if (actual.getTime() == timestamp) return;
+    throw failures.failure(info, shouldHaveTime(actual, actual.getTime(), timestamp));
   }
 
   /**

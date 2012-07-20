@@ -803,6 +803,18 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
+   * Verifies that the actual {@code Date} has the same time to the given timestamp.
+   * @param timestamp the timestamp to compare actual to
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the given timestamp.
+   */
+  public DateAssert hasTime(long timestamp) {
+    dates.assertHasTime(info, actual, timestamp);
+    return this;
+  }
+
+  /**
    * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow the default Date format,
    * that is ISO 8601 format : "yyyy-MM-dd".
    * <p>
