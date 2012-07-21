@@ -18,12 +18,14 @@ import static org.fest.assertions.error.ShouldHaveTime.shouldHaveTime;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
-import org.fest.assertions.core.AssertionInfo;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
 
 /**
  * Tests for <code>{@link Dates#assertHasTime(AssertionInfo, Date, long)}</code>.
@@ -54,9 +56,10 @@ public class Dates_assertHasTime_Test extends AbstractDatesTest {
     AssertionInfo info = someInfo();
     try {
       dates.assertHasTime(someInfo(), actual, 24L);
-      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveTime(actual, 42L, 24L));
+      verify(failures).failure(info, shouldHaveTime(actual, 24L));
+      return;
     }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }

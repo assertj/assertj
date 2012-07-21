@@ -570,7 +570,7 @@ public class Dates {
   public void assertHasTime(AssertionInfo info, Date actual, long timestamp) {
     assertNotNull(info, actual);
     if (actual.getTime() == timestamp) return;
-    throw failures.failure(info, shouldHaveTime(actual, actual.getTime(), timestamp));
+    throw failures.failure(info, shouldHaveTime(actual, timestamp));
   }
 
   /**

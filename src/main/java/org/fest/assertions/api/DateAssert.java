@@ -803,11 +803,14 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Verifies that the actual {@code Date} has the same time to the given timestamp.
-   * @param timestamp the timestamp to compare actual to
+   * Verifies that the actual {@code Date} has the same time as the given timestamp.
+   * <p>
+   * Both time or timestamp express a number of milliseconds since January 1, 1970, 00:00:00 GMT.
+   * @param timestamp the timestamp to compare actual time to.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} time is not equal to the given timestamp.
+   * @see Date#getTime()
    */
   public DateAssert hasTime(long timestamp) {
     dates.assertHasTime(info, actual, timestamp);

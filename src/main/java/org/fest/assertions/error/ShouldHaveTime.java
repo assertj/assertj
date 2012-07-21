@@ -21,6 +21,7 @@ import java.util.Date;
  * 
  * @author Guillaume Girou
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class ShouldHaveTime extends BasicErrorMessageFactory {
 
@@ -31,11 +32,11 @@ public class ShouldHaveTime extends BasicErrorMessageFactory {
    * @param expectedTimestamp the expected timestamp.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveTime(Date actual, long actualTimestamp, long expectedTimestamp) {
-    return new ShouldHaveTime(actual, actualTimestamp, expectedTimestamp);
+  public static ErrorMessageFactory shouldHaveTime(Date actual, long expectedTimestamp) {
+    return new ShouldHaveTime(actual, expectedTimestamp);
   }
 
-  private ShouldHaveTime(Date actual, long actualTimestamp, long expectedTimestamp) {
-    super("expected <%s> to have time:<%s> but was:<%s>", actual, expectedTimestamp, actualTimestamp);
+  private ShouldHaveTime(Date actual, long expectedTimestamp) {
+    super("expected <%s> to have time:\n<%s>\n but was:\n<%s>", actual, expectedTimestamp, actual.getTime());
   }
 }

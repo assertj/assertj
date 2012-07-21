@@ -15,32 +15,32 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
+
 import static org.fest.assertions.error.ShouldHaveTime.shouldHaveTime;
 import static org.fest.util.Dates.ISO_DATE_TIME_FORMAT;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import org.junit.Test;
+
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShouldHaveTime#create(Description)}</code>.
  * 
  * @author Guillaume Girou
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class ShouldHaveTime_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @Before
-  public void setUp() throws Exception {
-    factory = shouldHaveTime(ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:01:00"), Long.MIN_VALUE, Long.MAX_VALUE);
-  }
-
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected <2011-01-01T05:01:00> to have time:<9223372036854775807L> but was:<-9223372036854775808L>", message);
+  public void should_create_error_message() throws ParseException {
+    Date date = ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:01:00");
+    String message = shouldHaveTime(date, Long.MAX_VALUE).create(new TextDescription("Test"));
+    assertEquals("[Test] expected <2011-01-01T05:01:00> to have time:\n<9223372036854775807L>\n but was:\n<1293854460000L>",
+        message);
   }
 }
