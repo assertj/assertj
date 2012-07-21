@@ -72,7 +72,7 @@ public class ShouldHaveEqualContent extends BasicErrorMessageFactory {
     return super.create(d) + diffs;
   }
 
-  private static String diffsAsString(List<String> diffs) {
+  static String diffsAsString(List<String> diffs) {
     StringBuilder b = new StringBuilder();
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);

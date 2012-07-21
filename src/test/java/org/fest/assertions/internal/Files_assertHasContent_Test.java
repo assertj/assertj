@@ -1,5 +1,5 @@
 /*
- * Created on Jul 20, 2012
+ * Created on Jul 21, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -17,11 +17,12 @@ package org.fest.assertions.internal;
 import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.fail;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
-import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.fest.assertions.error.ShouldHaveContent.shouldHaveContent;
 import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -29,6 +30,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.test.ExpectedException;
@@ -39,48 +43,50 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Files#assertHasBinaryContent(org.fest.assertions.core.WritableAssertionInfo, File, byte[])}</code>.
+ * Tests for <code>{@link Files#assertHasContent(AssertionInfo, File, String, Charset)}</code>.
  * 
  * @author Olivier Michallat
  */
-public class Files_assertHasBinaryContent_Test {
+public class Files_assertHasContent_Test {
 
   private static File actual;
-  private static byte[] expected;
+  private static String expected;
+  private static Charset charset;
 
   @BeforeClass
   public static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
-    expected = new byte[] {};
+    expected = "xyz";
+    charset = Charset.defaultCharset();
   }
 
   @Rule
   public ExpectedException thrown = none();
 
-  private BinaryDiff binaryDiff;
+  private Diff diff;
   private Failures failures;
   private Files files;
 
   @Before
   public void setUp() {
-    binaryDiff = mock(BinaryDiff.class);
+    diff = mock(Diff.class);
     failures = spy(new Failures());
     files = new Files();
-    files.binaryDiff = binaryDiff;
+    files.diff = diff;
     files.failures = failures;
   }
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The binary content to compare to should not be null");
-    files.assertHasBinaryContent(someInfo(), actual, null);
+    thrown.expectNullPointerException("The text to compare to should not be null");
+    files.assertHasContent(someInfo(), actual, null, charset);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertHasBinaryContent(someInfo(), null, expected);
+    files.assertHasContent(someInfo(), null, expected, charset);
   }
 
   @Test
@@ -88,7 +94,7 @@ public class Files_assertHasBinaryContent_Test {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     try {
-      files.assertHasBinaryContent(info, notAFile, expected);
+      files.assertHasContent(info, notAFile, expected, charset);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeFile(notAFile));
       return;
@@ -97,17 +103,17 @@ public class Files_assertHasBinaryContent_Test {
   }
 
   @Test
-  public void should_pass_if_file_has_expected_binary_content() throws IOException {
-    when(binaryDiff.diff(actual, expected)).thenReturn(BinaryDiffResult.noDiff());
-    files.assertHasBinaryContent(someInfo(), actual, expected);
+  public void should_pass_if_file_has_text_content() throws IOException {
+    when(diff.diff(actual, expected, charset)).thenReturn(new ArrayList<String>());
+    files.assertHasContent(someInfo(), actual, expected, charset);
   }
 
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
-    when(binaryDiff.diff(actual, expected)).thenThrow(cause);
+    when(diff.diff(actual, expected, charset)).thenThrow(cause);
     try {
-      files.assertHasBinaryContent(someInfo(), actual, expected);
+      files.assertHasContent(someInfo(), actual, expected, charset);
       fail("Expected a FilesException to be thrown");
     } catch (FilesException e) {
       assertSame(cause, e.getCause());
@@ -115,14 +121,14 @@ public class Files_assertHasBinaryContent_Test {
   }
 
   @Test
-  public void should_fail_if_file_does_not_have_expected_binary_content() throws IOException {
-    BinaryDiffResult diff = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-    when(binaryDiff.diff(actual, expected)).thenReturn(diff);
+  public void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
+    List<String> diffs = list("line:1, expected:<line1> but was:<EOF>");
+    when(diff.diff(actual, expected, charset)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {
-      files.assertHasBinaryContent(info, actual, expected);
+      files.assertHasContent(info, actual, expected, charset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveBinaryContent(actual, diff));
+      verify(failures).failure(info, shouldHaveContent(actual, charset, diffs));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

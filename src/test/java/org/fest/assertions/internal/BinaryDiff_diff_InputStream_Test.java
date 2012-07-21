@@ -15,8 +15,7 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.internal.BinaryDiffResult.SUCCESS;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -43,11 +42,11 @@ public class BinaryDiff_diff_InputStream_Test {
   private InputStream expected;
 
   @Test
-  public void should_return_success_if_inputstreams_have_equal_content() throws IOException {
+  public void should_return_no_diff_if_inputstreams_have_equal_content() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBA, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertSame(SUCCESS, result);
+    assertTrue(result.hasNoDiff());
   }
   
   @Test

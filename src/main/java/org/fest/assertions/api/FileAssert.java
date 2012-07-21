@@ -15,6 +15,7 @@
 package org.fest.assertions.api;
 
 import java.io.File;
+import java.nio.charset.Charset;
 
 import org.fest.assertions.internal.Files;
 import org.fest.util.*;
@@ -28,11 +29,15 @@ import org.fest.util.*;
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Olivier Michallat
  */
 public class FileAssert extends AbstractAssert<FileAssert, File> {
 
   @VisibleForTesting
   Files files = Files.instance();
+  
+  @VisibleForTesting
+  Charset charset = Charset.defaultCharset();
 
   protected FileAssert(File actual) {
     super(actual, FileAssert.class);
@@ -135,4 +140,46 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
     return this;
   }
   
+  /**
+   * Specifies the name of the charset to use for text-based assertions on the file's contents. 
+   * 
+   * @param charsetName the name of the charset to use.
+   * @return  {@code this} assertion object.
+   * @throws IllegalArgumentException if the given encoding is not supported on this platform.
+   */
+  public FileAssert usingCharset(String charsetName) {
+    if (!Charset.isSupported(charsetName)) throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
+    return usingCharset(Charset.forName(charsetName));
+  }
+
+  /**
+   * Specifies the charset to use for text-based assertions on the file's contents. 
+   * 
+   * @param charset the charset to use.
+   * @return  {@code this} assertion object.
+   * @throws NullPointerException if the given charset is {@code null}.
+   */
+  public FileAssert usingCharset(Charset charset) {
+    if (charset == null) throw new NullPointerException("The charset should not be null");
+    this.charset = charset;
+    return this;
+  }
+  
+  /**
+   * Verifies that the text content of the actual {@code File} is equal to the given one.<br/>
+   * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
+   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
+   * {@link Charset#defaultCharset()}) will be used.
+   * @param expected the expected text content to compare the actual {@code File}'s content to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given content is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws FilesException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
+   */
+  public FileAssert hasContent(String expected) {
+    files.assertHasContent(info, actual, expected, charset);
+    return this;
+  }
 }

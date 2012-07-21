@@ -16,7 +16,6 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
-
 import static org.fest.util.Closeables.close;
 import static org.fest.util.Objects.areEqual;
 
@@ -26,7 +25,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.LineNumberReader;
+import java.io.StringReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +37,15 @@ import java.util.List;
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Matthieu Baechler
+ * @author Olivier Michallat
  */
 class Diff {
 
   private static final String EOF = "EOF";
 
   List<String> diff(InputStream actual, InputStream expected) throws IOException {
-    LineNumberReader reader1 = null;
-    LineNumberReader reader2 = null;
+    BufferedReader reader1 = null;
+    BufferedReader reader2 = null;
     try {
       reader1 = readerFor(actual);
       reader2 = readerFor(expected);
@@ -56,8 +57,8 @@ class Diff {
   }
 
   List<String> diff(File actual, File expected) throws IOException {
-    LineNumberReader reader1 = null;
-    LineNumberReader reader2 = null;
+    BufferedReader reader1 = null;
+    BufferedReader reader2 = null;
     try {
       reader1 = readerFor(actual);
       reader2 = readerFor(expected);
@@ -67,28 +68,53 @@ class Diff {
       close(reader2);
     }
   }
-
-  private LineNumberReader readerFor(InputStream stream) {
-    return new LineNumberReader(new BufferedReader(new InputStreamReader(stream)));
+  
+  List<String> diff(File actual, String expected, Charset charset) throws IOException {
+    BufferedReader reader1 = null;
+    try {
+      reader1 = readerFor(actual, charset);
+      BufferedReader reader2 = readerFor(expected);
+      return unmodifiableList(diff(reader1, reader2));
+    } finally {
+      close(reader1);
+    }
   }
 
-  private LineNumberReader readerFor(File file) throws IOException {
+  private BufferedReader readerFor(InputStream stream) {
+    return new BufferedReader(new InputStreamReader(stream));
+  }
+
+  private BufferedReader readerFor(InputStream stream, Charset charset) {
+    return new BufferedReader(new InputStreamReader(stream, charset));
+  }
+  
+  private BufferedReader readerFor(File file) throws IOException {
     return readerFor(new FileInputStream(file));
   }
 
+  private BufferedReader readerFor(File file, Charset charset) throws IOException {
+    return readerFor(new FileInputStream(file), charset);
+  }
+  
+  private BufferedReader readerFor(String string) {
+    return new BufferedReader(new StringReader(string));
+  }
+  
   // reader1 -> actual, reader2 -> expected
-  private List<String> diff(LineNumberReader reader1, LineNumberReader reader2) throws IOException {
+  private List<String> diff(BufferedReader reader1, BufferedReader reader2) throws IOException {
     List<String> diffs = new ArrayList<String>();
-    while (reader2.ready() && reader1.ready()) {
-      int lineNumber = reader2.getLineNumber();
+    int lineNumber = 0;
+    while (true) {
       String line1 = reader1.readLine();
       String line2 = reader2.readLine();
-      if (areEqual(line1, line2)) continue;
-      diffs.add(output(lineNumber, line1, line2));
+      if (line1 == null || line2 == null) {
+        if (line2 != null) diffs.add(output(lineNumber, EOF, line2));
+        if (line1 != null) diffs.add(output(lineNumber, line1, EOF));
+        return diffs;
+      } else if (!areEqual(line1, line2)) diffs.add(output(lineNumber, line1, line2));
+      
+      lineNumber += 1;
     }
-    if (!reader1.ready() && reader2.ready()) diffs.add(output(reader2.getLineNumber(), EOF, reader2.readLine()));
-    if (reader1.ready() && !reader2.ready()) diffs.add(output(reader1.getLineNumber(), reader1.readLine(), EOF));
-    return diffs;
   }
 
   private String output(int lineNumber, String actual, String expected) {

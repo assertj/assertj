@@ -20,15 +20,18 @@ import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.fest.assertions.error.ShouldExist.shouldExist;
 import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.fest.assertions.error.ShouldHaveContent.shouldHaveContent;
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.fest.assertions.error.ShouldNotExist.shouldNotExist;
-import static org.fest.assertions.internal.BinaryDiffResult.SUCCESS;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.*;
+import org.fest.util.FilesException;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link File}</code>s.
@@ -85,7 +88,7 @@ public class Files {
       throw new FilesException(msg, e);
     }
   }
-  
+
   /**
    * Asserts that the given file has the given binary content.
    * @param info contains information about the assertion.
@@ -102,7 +105,7 @@ public class Files {
     assertIsFile(info, actual);
     try {
       BinaryDiffResult result = binaryDiff.diff(actual, expected);
-      if (result == SUCCESS) return;
+      if (result.hasNoDiff()) return;
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
       String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
@@ -110,6 +113,30 @@ public class Files {
     }
   }
 
+  /**
+   * Asserts that the given file has the given text content.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" file.
+   * @param expected the "expected" text content.
+   * @param charset the charset to use to read the file.
+   * @throws NullPointerException if {@code expected} is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} is not an existing file.
+   * @throws FilesException if an I/O error occurs.
+   * @throws AssertionError if the file does not have the text content.
+   */
+  public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
+    if (expected == null) throw new NullPointerException("The text to compare to should not be null");
+    assertIsFile(info, actual);
+    try {
+      List<String> diffs = diff.diff(actual, expected, charset);
+      if (diffs.isEmpty()) return;
+      throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
+    } catch (IOException e) {
+      String msg = String.format("Unable to verify text contents of file:<%s>", actual);
+      throw new FilesException(msg, e);
+    }
+  }
 
   private void verifyIsFile(File expected) {
     if (expected == null) throw new NullPointerException("The file to compare to should not be null");

@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.internal.BinaryDiffResult.SUCCESS;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,7 +53,7 @@ class BinaryDiff {
     while (true) {
       int actual = actualStream.read();
       int expected = expectedStream.read();
-      if (actual == -1 && expected == -1) return SUCCESS; // reached end of both streams
+      if (actual == -1 && expected == -1) return BinaryDiffResult.noDiff(); // reached end of both streams
       if (actual != expected) return new BinaryDiffResult(index, expected, actual);
       index += 1;
     }

@@ -17,10 +17,16 @@ package org.fest.assertions.test;
 import static org.fest.util.Closeables.close;
 import static org.fest.util.Flushables.flush;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.nio.charset.Charset;
 
 /**
  * @author Yvonne Wang
+ * @author Olivier Michallat
  */
 public class TextFileWriter {
 
@@ -31,9 +37,13 @@ public class TextFileWriter {
   }
 
   public void write(File file, String... content) throws IOException {
+    write(file, Charset.defaultCharset(), content);
+  }
+
+  public void write(File file, Charset charset, String... content) throws IOException {
     PrintWriter writer = null;
     try {
-      writer = new PrintWriter(new FileWriter(file));
+      writer = new PrintWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
       for (String line : content)
         writer.println(line);
     } finally {
@@ -41,6 +51,6 @@ public class TextFileWriter {
       close(writer);
     }
   }
-
+  
   private TextFileWriter() {}
 }
