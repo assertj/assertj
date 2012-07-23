@@ -18,7 +18,8 @@ import java.io.File;
 import java.nio.charset.Charset;
 
 import org.fest.assertions.internal.Files;
-import org.fest.util.*;
+import org.fest.util.FilesException;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Assertion methods for <code>{@link File}</code>s.
@@ -126,7 +127,7 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
   }
 
   /**
-   * Verifies that the binary content of the actual {@code File} is equal to the given one.
+   * Verifies that the binary content of the actual {@code File} is <b>exactly</b> equal to the given one.
    * @param expected the expected binary content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given content is {@code null}.
@@ -166,7 +167,7 @@ public class FileAssert extends AbstractAssert<FileAssert, File> {
   }
   
   /**
-   * Verifies that the text content of the actual {@code File} is equal to the given one.<br/>
+   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one.<br/>
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.

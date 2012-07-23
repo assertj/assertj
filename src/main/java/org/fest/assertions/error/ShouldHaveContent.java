@@ -18,16 +18,13 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import org.fest.assertions.description.Description;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a file has a given text content failed.
  * 
  * @author Olivier Michallat
  */
-public class ShouldHaveContent extends BasicErrorMessageFactory {
-
-  private String diffs;
+public class ShouldHaveContent extends AbstractShouldHaveTextContent {
 
   /**
    * Creates a new <code>{@link ShouldHaveContent}</code>.
@@ -37,13 +34,7 @@ public class ShouldHaveContent extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<String> diffs) {
-    return new ShouldHaveContent(actual, charset, ShouldHaveEqualContent.diffsAsString(diffs));
-  }
-
-  /** @see ShouldHaveEqualContent#create(Description) */
-  @Override
-  public String create(Description d) {
-    return super.create(d) + diffs;
+    return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
 
   private ShouldHaveContent(File actual, Charset charset, String diffs) {

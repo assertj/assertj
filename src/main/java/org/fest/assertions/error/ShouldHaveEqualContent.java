@@ -14,23 +14,19 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.util.Systems.LINE_SEPARATOR;
 
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
-
-import org.fest.assertions.description.Description;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two files/inputStreams have equal content failed.
  * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
+ * @author Joel Costigliola
  */
-public class ShouldHaveEqualContent extends BasicErrorMessageFactory {
-
-  private String diffs;
+public class ShouldHaveEqualContent extends AbstractShouldHaveTextContent {
 
   /**
    * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
@@ -52,31 +48,6 @@ public class ShouldHaveEqualContent extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldHaveEqualContent(InputStream actual, InputStream expected, List<String> diffs) {
     return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
-  }
-
-  @Override
-  public String create(Description d) {
-    // we append diffs here as we can't add in super constructor call, see why below.
-    //
-    // case 1 - append diffs to String passed in super :
-    // super("file:<%s> and file:<%s> do not have equal content:" + diffs, actual, expected);
-    // this leads to a MissingFormatArgumentException if diffs contains a format specifier (like %s) because the String will
-    // finally be evaluated with String.format
-    //
-    // case 2 - add as format arg to the String passed in super :
-    // super("file:<%s> and file:<%s> do not have equal content:"actual, expected, diffs);
-    // this is better than case 1 but the diffs String will be quoted before the class to String.format as all String in Fest
-    // error message. This is not what we want
-    //
-    // The solution is to keep diffs as an attribute and append it after String.format has been applied on the error message.
-    return super.create(d) + diffs;
-  }
-
-  static String diffsAsString(List<String> diffs) {
-    StringBuilder b = new StringBuilder();
-    for (String diff : diffs)
-      b.append(LINE_SEPARATOR).append(diff);
-    return b.toString();
   }
 
   private ShouldHaveEqualContent(File actual, File expected, String diffs) {
