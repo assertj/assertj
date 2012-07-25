@@ -29,7 +29,7 @@ import org.fest.util.VisibleForTesting;
 /**
  * Assertion methods for arrays of objects.
  * <p>
- * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(T[])}</code>.
  * </p>
  * @param <T> the type of elements of the "actual" value.
  * 
@@ -84,43 +84,43 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> contains(Object... values) {
+  public ObjectArrayAssert<T> contains(T... values) {
     arrays.assertContains(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> containsOnly(Object... values) {
+  public ObjectArrayAssert<T> containsOnly(T... values) {
     arrays.assertContainsOnly(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> containsExactly(Object... values) {
+  public ObjectArrayAssert<T> containsExactly(T... values) {
     objects.assertEqual(info, actual, list(values));
     return this;
   };
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> containsSequence(Object... sequence) {
+  public ObjectArrayAssert<T> containsSequence(T... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> contains(Object value, Index index) {
+  public ObjectArrayAssert<T> contains(T value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> doesNotContain(Object value, Index index) {
+  public ObjectArrayAssert<T> doesNotContain(T value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> doesNotContain(Object... values) {
+  public ObjectArrayAssert<T> doesNotContain(T... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return this;
   }
@@ -132,13 +132,13 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> startsWith(Object... sequence) {
+  public ObjectArrayAssert<T> startsWith(T... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
-  public ObjectArrayAssert<T> endsWith(Object... sequence) {
+  public ObjectArrayAssert<T> endsWith(T... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
