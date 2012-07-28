@@ -28,6 +28,7 @@ import org.fest.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  * @author Florent Biville
+ * @author Olivier Michallat
  */
 public class Properties<T> {
 
@@ -63,7 +64,7 @@ public class Properties<T> {
   public static Properties<Object> extractProperty(String propertyName) {
     return extractProperty(propertyName, Object.class);
   }
-
+  
   private static void checkIsNotNullOrEmpty(String propertyName) {
     if (propertyName == null) throw new NullPointerException("The name of the property to read should not be null");
     if (propertyName.length() == 0) throw new IllegalArgumentException("The name of the property to read should not be empty");
@@ -75,6 +76,25 @@ public class Properties<T> {
     this.propertyType = propertyType;
   }
 
+  /**
+   * Specifies the target type of an instance that was previously created with {@link #extractProperty(String)}.
+   * <p>
+   * This is so that you can write:
+   * <pre>
+   * extractProperty("name").ofType(String.class).from(fellowshipOfTheRing)
+   * </pre>
+   * instead of:
+   * <pre>
+   * extractProperty("name", String.class).from(fellowshipOfTheRing)
+   * </pre>
+   * </p>
+   * @param propertyType the type of property to extract.
+   * @return a new {@code Properties} with the given type.
+   */
+  public <U> Properties<U> ofType(Class<U> propertyType) {
+    return extractProperty(this.propertyName, propertyType);
+  }
+  
   /**
    * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from the elements
    * of the given <code>{@link Iterable}</code>.
