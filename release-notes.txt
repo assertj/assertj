@@ -1,6 +1,23 @@
 For the next release
 --------------------
 
+2.0M7 release notes 
+-------------------
+
+New features :
+github#43 : New File assertion : hasContent(String content) and hasBinaryContent(byte[] expected) (Olivier Michallat) 
+github#48 : Add hasTime assertion to DateAssert (Nicolas Francois and Guilluame Girou) 
+
+Improvement :
+github#12 : overridingErrorMessage should be ported in 2.0
+github#54 : ObjectArrayAssert methods should use T parameter instead of Object
+github#70 : Properties.from should use Iterable (Florent Biville)
+github#73 : maven build should assure that we build a java 5 compatible version 
+
+Bug :
+github#75 : ShouldHaveEqualContent unexpected MissingFormatArgumentException.
+github#85 : ShouldHaveTime_create_Test test fails because of time zone dependency.
+
 2.0M6 release notes 
 -------------------
 
