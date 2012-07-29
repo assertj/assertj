@@ -10,14 +10,16 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * 
- * Copyright @2011 the original author or authors.
+ * Copyright @2012 the original author or authors.
  */
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
+import static org.fest.assertions.error.ShouldBeReadable.shouldBeReadable;
 import static org.fest.assertions.error.ShouldBeRelativePath.shouldBeRelativePath;
+import static org.fest.assertions.error.ShouldBeWritable.shouldBeWritable;
 import static org.fest.assertions.error.ShouldExist.shouldExist;
 import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.fest.assertions.error.ShouldHaveContent.shouldHaveContent;
@@ -39,6 +41,7 @@ import org.fest.util.VisibleForTesting;
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author Olivier Demeijer
  */
 public class Files {
 
@@ -223,6 +226,34 @@ public class Files {
     assertNotNull(info, actual);
     if (!actual.exists()) return;
     throw failures.failure(info, shouldNotExist(actual));
+  }
+
+    /**
+   * Asserts that the given file can be modified by the application.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file can not be modified.
+   */
+
+  public void assertCanWrite(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.canWrite()) return;
+    throw failures.failure(info, shouldBeWritable(actual));
+  }
+
+  /**
+   * Asserts that the given file can be read by the application.
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the given file is {@code null}.
+   * @throws AssertionError if the given file can not be modified.
+   */
+
+  public void assertCanRead(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.canRead()) return;
+    throw failures.failure(info, shouldBeReadable(actual));
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {
