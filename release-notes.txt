@@ -7,6 +7,7 @@ For the next release
 New features :
 github#43 : New File assertion : hasContent(String content) and hasBinaryContent(byte[] expected) (Olivier Michallat) 
 github#48 : Add hasTime assertion to DateAssert (Nicolas Francois and Guilluame Girou) 
+github#71 : New File assertions : canRead(), canWrite() (Olivier Demeijer) 
 
 Improvement :
 github#12 : overridingErrorMessage should be ported in 2.0
