@@ -39,8 +39,7 @@ public class ShouldHaveTime_create_Test {
   @Test
   public void should_create_error_message() throws ParseException {
     Date date = ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:01:00");
-    String message = shouldHaveTime(date, Long.MAX_VALUE).create(new TextDescription("Test"));
-    assertEquals("[Test] expected <2011-01-01T05:01:00> to have time:\n<9223372036854775807L>\n but was:\n<1293854460000L>",
-        message);
+    String message = shouldHaveTime(date, 123).create(new TextDescription("Test"));
+    assertEquals("[Test] expected <2011-01-01T05:01:00> to have time:\n<123L>\n but was:\n<" + date.getTime() + "L>", message);
   }
 }
