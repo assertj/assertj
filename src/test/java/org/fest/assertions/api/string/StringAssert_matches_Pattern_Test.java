@@ -12,50 +12,38 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.TestData.matchAnything;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.regex.Pattern;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
+import org.junit.BeforeClass;
 
 /**
  * Tests for <code>{@link StringAssert#matches(Pattern)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_matches_Pattern_Test {
+public class StringAssert_matches_Pattern_Test extends StringAssertTest {
 
   private static Pattern pattern;
-
-  private Strings strings;
-  private StringAssert assertions;
 
   @BeforeClass
   public static void setUpOnce() {
     pattern = matchAnything();
   }
 
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.matches(pattern);
   }
 
-  @Test
-  public void should_verify_that_actual_matches_Pattern() {
-    assertions.matches(pattern);
-    verify(strings).assertMatches(assertions.info, assertions.actual, pattern);
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.matches(pattern);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertMatches(assertionsInfo(), assertionsActual(), pattern);
   }
 }

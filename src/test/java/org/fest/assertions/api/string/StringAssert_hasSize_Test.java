@@ -12,40 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
 
 /**
  * Tests for <code>{@link StringAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_hasSize_Test {
+public class StringAssert_hasSize_Test extends StringAssertTest {
 
-  private Strings strings;
-  private StringAssert assertions;
-
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.hasSize(6);
   }
 
-  @Test
-  public void should_verify_that_actual_has_expected_size() {
-    assertions.hasSize(6);
-    verify(strings).assertHasSize(assertions.info, assertions.actual, 6);
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.hasSize(0);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertHasSize(assertionsInfo(), assertionsActual(), 6);
   }
 }

@@ -12,33 +12,35 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link StringAssert#isEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_isEmpty_Test {
+public class StringAssert_isEmpty_Test extends StringAssertTest {
 
-  private Strings strings;
-  private StringAssert assertions;
-
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    assertions.isEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertEmpty(assertionsInfo(), assertionsActual());
+  }
+  
+  @Override
   @Test
-  public void should_verify_that_actual_is_empty() {
-    assertions.isEmpty();
-    verify(strings).assertEmpty(assertions.info, assertions.actual);
+  public void should_return_this() {
+    // Disable this test, the isEmpty method is void.
   }
 }

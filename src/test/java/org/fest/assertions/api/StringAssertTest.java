@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Jul 30, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,38 +14,27 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Strings;
-import org.junit.*;
 
 /**
- * Tests for <code>{@link StringAssert#endsWith(String)}</code>.
+ * Base class for {@link StringAssert} tests.
  * 
- * @author Alex Ruiz
+ * @author Olivier Michallat
  */
-public class StringAssert_endsWith_Test {
+public abstract class StringAssertTest extends BaseTest<StringAssert, String> {
+  protected Strings strings;
 
-  private Strings strings;
-  private StringAssert assertions;
+  @Override
+  protected StringAssert create_assertions() {
+    return new StringAssert("Yoda");
+  }
 
-  @Before
-  public void setUp() {
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
     strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
     assertions.strings = strings;
-  }
-
-  @Test
-  public void should_verify_that_actual_ends_with_prefix() {
-    assertions.endsWith("Yod");
-    verify(strings).assertEndsWith(assertions.info, assertions.actual, "Yod");
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.endsWith("yo");
-    assertSame(assertions, returned);
   }
 }

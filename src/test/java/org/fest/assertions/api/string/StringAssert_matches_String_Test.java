@@ -12,48 +12,36 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.TestData.matchAnything;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
+import org.junit.BeforeClass;
 
 /**
  * Tests for <code>{@link StringAssert#matches(String)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_matches_String_Test {
+public class StringAssert_matches_String_Test extends StringAssertTest {
 
   private static String regex;
-
-  private Strings strings;
-  private StringAssert assertions;
 
   @BeforeClass
   public static void setUpOnce() {
     regex = matchAnything().pattern();
   }
 
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.matches(regex);
   }
 
-  @Test
-  public void should_verify_that_actual_matches_regular_expression() {
-    assertions.matches(regex);
-    verify(strings).assertMatches(assertions.info, assertions.actual, regex);
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.matches(regex);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertMatches(assertionsInfo(), assertionsActual(), regex);
   }
 }

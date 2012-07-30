@@ -12,46 +12,38 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
+import org.junit.BeforeClass;
 
 /**
  * Tests for <code>{@link StringAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class StringAssert_hasSameSizeAs_with_Iterable_Test {
+public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertTest {
 
-  private Strings strings;
-  private StringAssert assertions;
-
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  private static List<String> other;
+  
+  @BeforeClass
+  public static void setUpOnce() {
+    other = list("Luke");
   }
 
-  @Test
-  public void should_verify_that_actual_has_expected_size() {
-    List<String> other = list("Luke");
-    assertions.hasSameSizeAs(other);
-    verify(strings).assertHasSameSizeAs(assertions.info, assertions.actual, other);
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.hasSameSizeAs(other);
   }
 
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.hasSameSizeAs(list("Luke"));
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertHasSameSizeAs(assertionsInfo(), assertionsActual(), other);
   }
 }

@@ -12,40 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
 
 /**
  * Tests for <code>{@link StringAssert#isNotEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_isNotEmpty_Test {
+public class StringAssert_isNotEmpty_Test extends StringAssertTest {
 
-  private Strings strings;
-  private StringAssert assertions;
-
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.isNotEmpty();
   }
 
-  @Test
-  public void should_verify_that_actual_is_not_empty() {
-    assertions.isNotEmpty();
-    verify(strings).assertNotEmpty(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.isNotEmpty();
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertNotEmpty(assertionsInfo(), assertionsActual());
   }
 }

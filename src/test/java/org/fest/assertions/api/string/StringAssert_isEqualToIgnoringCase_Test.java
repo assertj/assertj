@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Dec 24, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,33 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
 
 /**
- * Tests for <code>{@link StringAssert#isNullOrEmpty()}</code>.
+ * Tests for <code>{@link StringAssert#isEqualToIgnoringCase(String)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_isNullOrEmpty_Test {
+public class StringAssert_isEqualToIgnoringCase_Test extends StringAssertTest {
 
-  private Strings strings;
-  private StringAssert assertions;
-
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.isEqualToIgnoringCase("yoda");
   }
 
-  @Test
-  public void should_verify_actual_is_null_or_empty() {
-    assertions.isNullOrEmpty();
-    verify(strings).assertNullOrEmpty(assertions.info, assertions.actual);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertEqualsIgnoringCase(assertionsInfo(), assertionsActual(), "yoda");
   }
 }

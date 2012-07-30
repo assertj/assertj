@@ -12,50 +12,38 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
-import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.TestData.matchAnything;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.regex.Pattern;
 
-import org.fest.assertions.internal.Strings;
-import org.junit.*;
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
+import org.junit.BeforeClass;
 
 /**
  * Tests for <code>{@link StringAssert#doesNotMatch(Pattern)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_doesNotMatch_Pattern_Test {
+public class StringAssert_doesNotMatch_Pattern_Test extends StringAssertTest {
 
   private static String regex;
-
-  private Strings strings;
-  private StringAssert assertions;
 
   @BeforeClass
   public static void setUpOnce() {
     regex = matchAnything().pattern();
   }
 
-  @Before
-  public void setUp() {
-    strings = mock(Strings.class);
-    assertions = new StringAssert("Yoda");
-    assertions.strings = strings;
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.doesNotMatch(regex);
   }
 
-  @Test
-  public void should_verify_that_actual_does_not_match_Pattern() {
-    assertions.doesNotMatch(regex);
-    verify(strings).assertDoesNotMatch(assertions.info, assertions.actual, regex);
-  }
-
-  @Test
-  public void should_return_this() {
-    StringAssert returned = assertions.doesNotMatch(regex);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(strings).assertDoesNotMatch(assertionsInfo(), assertionsActual(), regex);
   }
 }
