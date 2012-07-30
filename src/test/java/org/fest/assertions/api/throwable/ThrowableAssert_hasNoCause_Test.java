@@ -32,7 +32,7 @@ public class ThrowableAssert_hasNoCause_Test extends ThrowableAssertTest {
   }
 
   @Override
-  protected void verify_internal_class_was_invoked() {
+  protected void verify_internal_object_was_invoked() {
     verify(throwables).assertHasNoCause(assertionsInfo(), assertionsActual());
   }
 }

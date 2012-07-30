@@ -21,7 +21,7 @@ package org.fest.assertions.api;
  */
 public abstract class AbstractAssertTest extends BaseTest<ConcreteAssert, Object> {
   @Override
-  protected ConcreteAssert new_assertion() {
+  protected ConcreteAssert create_assertions() {
     return new ConcreteAssert(6L);
   }
 }

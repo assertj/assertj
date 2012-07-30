@@ -17,7 +17,6 @@ package org.fest.assertions.api;
 import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Comparables;
-import org.junit.Before;
 
 /**
  * Base class for {@link AbstractUnevenComparableAssert}.
@@ -28,15 +27,14 @@ public abstract class AbstractUnevenComparableAssertTest extends BaseTest<Concre
   protected Comparables comparables;
 
   @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
+  protected ConcreteUnevenComparableAssert create_assertions() {
+    return new ConcreteUnevenComparableAssert(8);
   }
 
   @Override
-  protected ConcreteUnevenComparableAssert new_assertion() {
-    return new ConcreteUnevenComparableAssert(8);
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 }

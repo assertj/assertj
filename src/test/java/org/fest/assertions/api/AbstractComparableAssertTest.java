@@ -17,7 +17,6 @@ package org.fest.assertions.api;
 import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Comparables;
-import org.junit.Before;
 
 /**
  * Base class for {@link AbstractComparableAssert} tests.
@@ -26,17 +25,16 @@ import org.junit.Before;
  */
 public abstract class AbstractComparableAssertTest extends BaseTest<ConcreteComparableAssert, Integer> {
   protected Comparables comparables;
-  
+
   @Override
-  @Before
-  public void setUp() {
-    super.setUp();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
+  protected ConcreteComparableAssert create_assertions() {
+    return new ConcreteComparableAssert(8);
   }
 
   @Override
-  protected ConcreteComparableAssert new_assertion() {
-    return new ConcreteComparableAssert(8);
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 }

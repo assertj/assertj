@@ -32,7 +32,7 @@ public class ThrowableAssert_hasMessageStartingWith_Test extends ThrowableAssert
   }
 
   @Override
-  protected void verify_internal_class_was_invoked() {
+  protected void verify_internal_object_was_invoked() {
     verify(throwables).assertHasMessageStartingWith(assertionsInfo(), assertionsActual(), "throw");
   }
 }

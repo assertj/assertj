@@ -17,7 +17,6 @@ package org.fest.assertions.api;
 import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Throwables;
-import org.junit.Before;
 
 /**
  * Base class for {@link ThrowableAssertAssert} tests.
@@ -26,17 +25,16 @@ import org.junit.Before;
  */
 public abstract class ThrowableAssertTest extends BaseTest<ThrowableAssert, Throwable> {
   protected Throwables throwables;
-
+  
   @Override
-  @Before
-  public void setUp() {
-    super.setUp();
+  protected ThrowableAssert create_assertions() {
+    return new ThrowableAssert(new Throwable("throwable message"));
+  }
+  
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
     throwables = mock(Throwables.class);
     assertions.throwables = throwables;
-  }
-
-  @Override
-  protected ThrowableAssert new_assertion() {
-    return new ThrowableAssert(new Throwable("throwable message"));
   }
 }

@@ -33,7 +33,7 @@ public class AbstractComparableAssert_isLessThanOrEqualTo_Test extends AbstractC
   }
 
   @Override
-  protected void verify_internal_class_was_invoked() {
+  protected void verify_internal_object_was_invoked() {
     verify(comparables).assertLessThanOrEqualTo(assertionsInfo(), assertionsActual(), 8);
   }
 }

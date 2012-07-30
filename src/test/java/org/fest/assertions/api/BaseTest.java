@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
+import org.fest.assertions.core.Assert;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Conditions;
 import org.fest.assertions.internal.Objects;
@@ -37,18 +38,34 @@ public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
   protected Conditions conditions;
 
   @Before
-  public void setUp() {
+  public final void setUp() {
+    assertions = create_assertions();
+    inject_internal_objects();
+  }
+
+  /**
+   * Builds an instance of the {@link Assert} implementation under test.
+   * 
+   * This object will be accessible through the {@link #assertions} field.
+   */
+  protected abstract S create_assertions();
+
+  /**
+   * Injects any additional internal objects (typically mocks) into {@link #assertions}.
+   * 
+   * Subclasses that override this method must call the superclass implementation.
+   */
+  protected void inject_internal_objects() {
     objects = mock(Objects.class);
-    assertions = new_assertion();
     assertions.objects = objects;
     conditions = mock(Conditions.class);
     assertions.conditions = conditions;
   }
 
   @Test
-  public void should_delegate_to_internal_class() {
+  public void should_delegate_to_internal_object() {
     invoke_api_method();
-    verify_internal_class_was_invoked();
+    verify_internal_object_was_invoked();
   }
 
   @Test
@@ -56,16 +73,25 @@ public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
     S returned = invoke_api_method();
     assertSame(assertions, returned);
   }
-  
+
+  /**
+   * Provides access to the package private {@link AbstractAssert#info} field, for subclasses that reside in a different package.
+   * @return the field
+   */
   protected AssertionInfo assertionsInfo() {
     return assertions.info;
   }
-  
+
+  /**
+   * Provides access to the package private {@link AbstractAssert#actual} field, for subclasses that reside in a different
+   * package.
+   * @return the field
+   */
   protected A assertionsActual() {
     return assertions.actual;
   }
 
-  protected abstract S new_assertion();
   protected abstract S invoke_api_method();
-  protected abstract void verify_internal_class_was_invoked();
+
+  protected abstract void verify_internal_object_was_invoked();
 }

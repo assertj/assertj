@@ -32,7 +32,7 @@ public class AbstractComparableAssert_isGreaterThan_Test extends AbstractCompara
   }
 
   @Override
-  protected void verify_internal_class_was_invoked() {
+  protected void verify_internal_object_was_invoked() {
     verify(comparables).assertGreaterThan(assertionsInfo(), assertionsActual(), 6);
   }
 }
