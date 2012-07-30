@@ -6,14 +6,14 @@ For the next release
 
 New features :
 github#43 : New File assertion : hasContent(String content) and hasBinaryContent(byte[] expected) (Olivier Michallat) 
-github#48 : Add hasTime assertion to DateAssert (Nicolas Francois and Guilluame Girou) 
+github#48 : Add hasTime assertion to DateAssert (Nicolas Francois and Guillaume Girou) 
 github#71 : New File assertions : canRead(), canWrite() (Olivier Demeijer) 
 
 Improvement :
 github#12 : overridingErrorMessage should be ported in 2.0
 github#54 : ObjectArrayAssert methods should use T parameter instead of Object
 github#70 : Properties.from should use Iterable (Florent Biville)
-github#73 : maven build should assure that we build a java 5 compatible version 
+github#73 : Maven build should assure that we build a java 5 compatible version 
 
 Bug :
 github#75 : ShouldHaveEqualContent unexpected MissingFormatArgumentException.
