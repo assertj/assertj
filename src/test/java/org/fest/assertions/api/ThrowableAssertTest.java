@@ -1,5 +1,5 @@
 /*
- * Created on Dec 24, 2010
+ * Created on Jul 30, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,39 +14,29 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
-
-import org.junit.*;
+import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Throwables;
+import org.junit.Before;
 
 /**
- * Tests for <code>{@link ThrowableAssert#hasMessage(String)}</code>.
+ * Base class for {@link ThrowableAssertAssert} tests.
  * 
- * @author Joel Costigliola
+ * @author Olivier Michallat
  */
-public class ThrowableAssert_hasMessage_Test {
+public abstract class ThrowableAssertTest extends BaseTest<ThrowableAssert, Throwable> {
+  protected Throwables throwables;
 
-  private Throwables throwables;
-  private ThrowableAssert assertions;
-
+  @Override
   @Before
   public void setUp() {
+    super.setUp();
     throwables = mock(Throwables.class);
-    assertions = new ThrowableAssert(new Throwable("throwable message"));
     assertions.throwables = throwables;
   }
 
-  @Test
-  public void should_verify_that_actual_contains_sequence() {
-    assertions.hasMessage("throwable message");
-    verify(throwables).assertHasMessage(assertions.info, assertions.actual, "throwable message");
-  }
-
-  @Test
-  public void should_return_this() {
-    ThrowableAssert returned = assertions.hasMessage("whatever");
-    assertSame(assertions, returned);
+  @Override
+  protected ThrowableAssert new_assertion() {
+    return new ThrowableAssert(new Throwable("throwable message"));
   }
 }

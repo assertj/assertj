@@ -26,6 +26,9 @@ import org.junit.Test;
 /**
  * Root class for API tests.
  * 
+ * @param <S> the "self" type of the assertion under test.
+ * @param <A> the type of the "actual" value.
+ * 
  * @author Olivier Michallat
  */
 public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
