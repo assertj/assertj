@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Jul 31, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,38 +14,27 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Shorts;
-import org.junit.*;
 
 /**
- * Tests for <code>{@link ShortAssert#isNotZero()}</code>.
+ * Base class for {@link ShortAssert} tests.
  * 
- * @author Alex Ruiz
+ * @author Olivier Michallat
  */
-public class ShortAssert_isNotZero_Test {
+public abstract class ShortAssertTest extends BaseTest<ShortAssert, Short> {
+  protected Shorts shorts;
 
-  private Shorts shorts;
-  private ShortAssert assertions;
+  @Override
+  protected ShortAssert create_assertions() {
+    return new ShortAssert((short) 6);
+  }
 
-  @Before
-  public void setUp() {
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
     shorts = mock(Shorts.class);
-    assertions = new ShortAssert((short) 6);
     assertions.shorts = shorts;
-  }
-
-  @Test
-  public void should_verify_that_actual_is_not_equal_to_zero() {
-    assertions.isNotZero();
-    verify(shorts).assertIsNotZero(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    ShortAssert returned = assertions.isNotZero();
-    assertSame(assertions, returned);
   }
 }

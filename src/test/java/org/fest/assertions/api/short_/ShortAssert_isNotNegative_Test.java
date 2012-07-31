@@ -12,42 +12,27 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.short_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Shorts;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.api.ShortAssert;
+import org.fest.assertions.api.ShortAssertTest;
 
 /**
  * Tests for <code>{@link ShortAssert#isNotNegative()}</code>.
  * 
  * @author Nicolas François
  */
-public class ShortAssert_isNotNegative_Test {
+public class ShortAssert_isNotNegative_Test extends ShortAssertTest {
 
-  private Shorts shorts;
-  private ShortAssert assertions;
-
-  @Before
-  public void setUp() {
-    shorts = mock(Shorts.class);
-    assertions = new ShortAssert((short) 6);
-    assertions.shorts = shorts;
+  @Override
+  protected ShortAssert invoke_api_method() {
+    return assertions.isNotNegative();
   }
 
-  @Test
-  public void should_verify_that_actual_is_not_negative() {
-    assertions.isNotNegative();
-    verify(shorts).assertIsNotNegative(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    ShortAssert returned = assertions.isNotNegative();
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(shorts).assertIsNotNegative(assertionsInfo(), assertionsActual());
   }
 }

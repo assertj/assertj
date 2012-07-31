@@ -12,47 +12,32 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
-import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.fest.assertions.internal.ShortArrays;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class ShortArrayAssert_hasSameSizeAs_with_Iterable_Test {
+public class ShortArrayAssert_hasSameSizeAs_with_Iterable_Test extends ShortArrayAssertTest {
 
-  private ShortArrays arrays;
-  private ShortArrayAssert assertions;
   private final List<String> other = list("Yoda", "Luke");
 
-  @Before
-  public void setUp() {
-    arrays = mock(ShortArrays.class);
-    assertions = new ShortArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+  @Override
+  protected ShortArrayAssert invoke_api_method() {
+    return assertions.hasSameSizeAs(other);
   }
 
-  @Test
-  public void should_verify_that_actual_has_expected_size() {
-    assertions.hasSameSizeAs(other);
-    verify(arrays).assertHasSameSizeAs(assertions.info, assertions.actual, other);
-  }
-
-  @Test
-  public void should_return_this() {
-    ShortArrayAssert returned = assertions.hasSameSizeAs(other);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(arrays).assertHasSameSizeAs(assertionsInfo(), assertionsActual(), other);
   }
 }

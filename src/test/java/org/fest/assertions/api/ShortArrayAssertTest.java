@@ -1,5 +1,5 @@
 /*
- * Created on Dec 21, 2010
+ * Created on Jul 31, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,39 +14,28 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.ShortArrays;
-import org.junit.*;
 
 /**
- * Tests for <code>{@link ShortArrayAssert#doesNotHaveDuplicates()}</code>.
+ * Base class for {@link ShortArrayAssert} tests.
  * 
- * @author Alex Ruiz
+ * @author Olivier Michallat
  */
-public class ShortArrayAssert_doesNotHaveDuplicates_Test {
+public abstract class ShortArrayAssertTest extends BaseTest<ShortArrayAssert, short[]> {
+  protected ShortArrays arrays;
 
-  private ShortArrays arrays;
-  private ShortArrayAssert assertions;
+  @Override
+  protected ShortArrayAssert create_assertions() {
+    return new ShortArrayAssert(emptyArray());
+  }
 
-  @Before
-  public void setUp() {
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
     arrays = mock(ShortArrays.class);
-    assertions = new ShortArrayAssert(emptyArray());
     assertions.arrays = arrays;
-  }
-
-  @Test
-  public void should_verify_that_actual_does_not_have_duplicates() {
-    assertions.doesNotHaveDuplicates();
-    verify(arrays).assertDoesNotHaveDuplicates(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    ShortArrayAssert returned = assertions.doesNotHaveDuplicates();
-    assertSame(assertions, returned);
   }
 }

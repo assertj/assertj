@@ -12,34 +12,37 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.ShortArrays;
-import org.junit.*;
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#isNullOrEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_isNullOrEmpty_Test {
+public class ShortArrayAssert_isNullOrEmpty_Test extends ShortArrayAssertTest {
 
-  private ShortArrays arrays;
-  private ShortArrayAssert assertions;
 
-  @Before
-  public void setUp() {
-    arrays = mock(ShortArrays.class);
-    assertions = new ShortArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+  @Override
+  protected ShortArrayAssert invoke_api_method() {
+    assertions.isNullOrEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(arrays).assertNullOrEmpty(assertionsInfo(), assertionsActual());
+  }
+  
+  
+  @Override
   @Test
-  public void should_verify_actual_is_null_or_empty() {
-    assertions.isNullOrEmpty();
-    verify(arrays).assertNullOrEmpty(assertions.info, assertions.actual);
+  public void should_return_this() {
+    // Disable this test, the isNullOrEmpty method is void.
   }
 }

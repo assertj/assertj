@@ -12,34 +12,35 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.ShortArrays;
-import org.junit.*;
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#isEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_isEmpty_Test {
+public class ShortArrayAssert_isEmpty_Test extends ShortArrayAssertTest {
 
-  private ShortArrays arrays;
-  private ShortArrayAssert assertions;
-
-  @Before
-  public void setUp() {
-    arrays = mock(ShortArrays.class);
-    assertions = new ShortArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+  @Override
+  protected ShortArrayAssert invoke_api_method() {
+    assertions.isEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_object_was_invoked() {
+    verify(arrays).assertEmpty(assertionsInfo(), assertionsActual());
+  }
+
+  @Override
   @Test
-  public void should_verify_that_actual_is_empty() {
-    assertions.isEmpty();
-    verify(arrays).assertEmpty(assertions.info, assertions.actual);
+  public void should_return_this() {
+    // Disable this test, the isEmpty method is void.
   }
 }
