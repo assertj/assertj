@@ -12,49 +12,48 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.internal.ShortArrays;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link ShortArrayAssert#usingDefaultElementComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ShortAssert_usingComparator_Test {
-
-  private ShortAssert assertions = new ShortAssert((short) 5);
+public class ShortArrayAssert_usingDefaultElementComparator_Test extends ShortArrayAssertTest {
 
   @Mock
   private Comparator<Short> comparator;
 
+  private Objects objectsBefore;
+
   @Before
   public void before() {
     initMocks(this);
+    objectsBefore = getObjects(assertions);
+    assertions.usingElementComparator(comparator);
   }
 
-  @Test
-  public void using_default_comparator_test() {
-    assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.shorts, Shorts.instance());
+  @Override
+  protected ShortArrayAssert invoke_api_method() {
+    return assertions.usingDefaultElementComparator();
   }
 
-  @Test
-  public void using_custom_comparator_test() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
-    assertions.usingComparator(comparator);
-    assertSame(assertions.objects.getComparator(), comparator);
-    assertSame(assertions.shorts.getComparator(), comparator);
+  @Override
+  protected void verify_internal_effects() {
+    assertSame(getObjects(assertions), objectsBefore);
+    assertSame(getArrays(assertions), ShortArrays.instance());
   }
 }

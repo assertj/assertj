@@ -12,37 +12,37 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.string;
 
 import static junit.framework.Assert.assertSame;
 
-import org.junit.Test;
-
+import org.fest.assertions.api.StringAssert;
+import org.fest.assertions.api.StringAssertTest;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.internal.Strings;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
+import org.junit.Before;
 
 /**
- * Tests for <code>{@link StringAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link StringAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link StringAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class StringAssert_usingComparator_Test {
+public class StringAssert_usingDefaultComparator_Test extends StringAssertTest {
 
-  private StringAssert assertions = new StringAssert("");
-
-  @Test
-  public void using_default_comparator_test() {
-    assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.strings, Strings.instance());
+  @Before
+  public void before() {
+    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
   }
 
-  @Test
-  public void using_custom_comparator_test() {
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.objects.getComparator(), CaseInsensitiveStringComparator.instance);
-    assertSame(assertions.strings.getComparator(), CaseInsensitiveStringComparator.instance);
+  @Override
+  protected StringAssert invoke_api_method() {
+    return assertions.usingDefaultComparator();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    assertSame(getObjects(assertions), Objects.instance());
+    assertSame(getStrings(assertions), Strings.instance());
   }
 }

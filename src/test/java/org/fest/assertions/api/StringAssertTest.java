@@ -37,4 +37,8 @@ public abstract class StringAssertTest extends BaseAssertTest<StringAssert, Stri
     strings = mock(Strings.class);
     assertions.strings = strings;
   }
+
+  protected Strings getStrings(StringAssert someAssertions) {
+    return someAssertions.strings;
+  }
 }

@@ -38,4 +38,8 @@ public abstract class ShortArrayAssertTest extends BaseAssertTest<ShortArrayAsse
     arrays = mock(ShortArrays.class);
     assertions.arrays = arrays;
   }
+  
+  protected ShortArrays getArrays(ShortArrayAssert someAssertions) {
+    return someAssertions.arrays;
+  }
 }

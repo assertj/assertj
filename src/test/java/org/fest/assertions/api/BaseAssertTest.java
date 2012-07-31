@@ -90,21 +90,16 @@ public abstract class BaseAssertTest<S extends AbstractAssert<S, A>, A> {
     assertSame(assertions, returned);
   }
 
-  /**
-   * Provides access to the package private {@link AbstractAssert#info} field, for subclasses that reside in a different package.
-   * @return the field
-   */
   protected AssertionInfo getInfo(S someAssertions) {
     return someAssertions.info;
   }
 
-  /**
-   * Provides access to the package private {@link AbstractAssert#actual} field, for subclasses that reside in a different
-   * package.
-   * @return the field
-   */
   protected A getActual(S someAssertions) {
     return someAssertions.actual;
+  }
+  
+  protected Objects getObjects(S someAssertions) {
+    return someAssertions.objects;
   }
 
   /**

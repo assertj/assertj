@@ -1,5 +1,5 @@
 /*
- * Created on Jul 31, 2012
+ * Created on Dec 2, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,33 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
 
 /**
- * Base class for {@link ShortAssert} tests.
+ * Tests for <code>{@link ShortArrayAssert#isSorted()}</code>.
  * 
- * @author Olivier Michallat
+ * @author Joel Costigliola
  */
-public abstract class ShortAssertTest extends BaseAssertTest<ShortAssert, Short> {
-  protected Shorts shorts;
+public class ShortArrayAssert_isSorted_Test extends ShortArrayAssertTest {
 
   @Override
-  protected ShortAssert create_assertions() {
-    return new ShortAssert((short) 6);
+  protected ShortArrayAssert invoke_api_method() {
+    return assertions.isSorted();
   }
 
   @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    shorts = mock(Shorts.class);
-    assertions.shorts = shorts;
-  }
-
-  protected Shorts getShorts(ShortAssert someAssertions) {
-    return someAssertions.shorts;
+  protected void verify_internal_effects() {
+    verify(arrays).assertIsSorted(getInfo(assertions), getActual(assertions));
   }
 }

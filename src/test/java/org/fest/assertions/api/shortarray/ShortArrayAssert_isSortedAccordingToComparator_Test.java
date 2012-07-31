@@ -12,29 +12,24 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.shortarray;
 
-import static junit.framework.Assert.assertSame;
-
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.fest.assertions.api.ShortArrayAssert;
+import org.fest.assertions.api.ShortArrayAssertTest;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
-
-import org.fest.assertions.internal.ShortArrays;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#isSortedAccordingTo(Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ShortArrayAssert_isSortedAccordingToComparator_Test {
+public class ShortArrayAssert_isSortedAccordingToComparator_Test extends ShortArrayAssertTest {
 
   @Mock
   private Comparator<Short> comparator;
@@ -44,19 +39,13 @@ public class ShortArrayAssert_isSortedAccordingToComparator_Test {
     initMocks(this);
   }
 
-  @Test
-  public void should_verify_that_assertIsSorted_is_called() {
-    ShortArrays arrays = mock(ShortArrays.class);
-    ShortArrayAssert assertions = new ShortArrayAssert(emptyArray());
-    assertions.arrays = arrays;
-    assertions.isSortedAccordingTo(comparator);
-    verify(arrays).assertIsSortedAccordingToComparator(assertions.info, assertions.actual, comparator);
+  @Override
+  protected ShortArrayAssert invoke_api_method() {
+    return assertions.isSortedAccordingTo(comparator);
   }
 
-  @Test
-  public void should_return_this() {
-    ShortArrayAssert objectArrayAssert = new ShortArrayAssert(new short[] { 1, 2 });
-    assertSame(objectArrayAssert, objectArrayAssert.isSortedAccordingTo(comparator));
+  @Override
+  protected void verify_internal_effects() {
+    verify(arrays).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), comparator);
   }
-
 }
