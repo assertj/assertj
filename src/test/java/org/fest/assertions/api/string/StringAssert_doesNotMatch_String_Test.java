@@ -43,7 +43,7 @@ public class StringAssert_doesNotMatch_String_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertDoesNotMatch(assertionsInfo(), assertionsActual(), pattern);
+  protected void verify_internal_effects() {
+    verify(strings).assertDoesNotMatch(getInfo(assertions), getActual(assertions), pattern);
   }
 }

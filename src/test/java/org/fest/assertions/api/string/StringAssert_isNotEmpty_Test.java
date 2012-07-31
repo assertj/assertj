@@ -32,7 +32,7 @@ public class StringAssert_isNotEmpty_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertNotEmpty(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(strings).assertNotEmpty(getInfo(assertions), getActual(assertions));
   }
 }

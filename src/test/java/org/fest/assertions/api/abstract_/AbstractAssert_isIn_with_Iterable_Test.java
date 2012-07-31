@@ -43,7 +43,7 @@ public class AbstractAssert_isIn_with_Iterable_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsIn(assertionsInfo(), assertionsActual(), values);
+  protected void verify_internal_effects() {
+    verify(objects).assertIsIn(getInfo(assertions), getActual(assertions), values);
   }
 }

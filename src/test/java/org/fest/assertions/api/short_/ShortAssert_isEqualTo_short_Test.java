@@ -32,7 +32,7 @@ public class ShortAssert_isEqualTo_short_Test extends ShortAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(shorts).assertEqual(assertionsInfo(), assertionsActual(), (short) 8);
+  protected void verify_internal_effects() {
+    verify(shorts).assertEqual(getInfo(assertions), getActual(assertions), (short) 8);
   }
 }

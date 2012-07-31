@@ -35,7 +35,7 @@ public class AbstractAssert_isOfAnyClassIn_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsOfAnyClassIn(assertionsInfo(), assertionsActual(), new Class[] { String.class, File.class });
+  protected void verify_internal_effects() {
+    verify(objects).assertIsOfAnyClassIn(getInfo(assertions), getActual(assertions), new Class[] { String.class, File.class });
   }
 }

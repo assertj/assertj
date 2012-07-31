@@ -42,7 +42,7 @@ public class AbstractAssert_isNotIn_with_array_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsNotIn(assertionsInfo(), assertionsActual(), values);
+  protected void verify_internal_effects() {
+    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), values);
   }
 }

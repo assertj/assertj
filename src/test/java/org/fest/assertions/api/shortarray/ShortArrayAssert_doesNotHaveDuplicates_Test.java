@@ -32,7 +32,7 @@ public class ShortArrayAssert_doesNotHaveDuplicates_Test extends ShortArrayAsser
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertDoesNotHaveDuplicates(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(arrays).assertDoesNotHaveDuplicates(getInfo(assertions), getActual(assertions));
   }
 }

@@ -39,7 +39,7 @@ public class StringAssert_hasSameSizeAs_with_Array_Test extends StringAssertTest
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertHasSameSizeAs(assertionsInfo(), assertionsActual(), other);
+  protected void verify_internal_effects() {
+    verify(strings).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
   }
 }

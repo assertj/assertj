@@ -32,7 +32,7 @@ public class ShortArrayAssert_hasSize_Test extends ShortArrayAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertHasSize(assertionsInfo(), assertionsActual(), 6);
+  protected void verify_internal_effects() {
+    verify(arrays).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }

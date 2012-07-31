@@ -43,7 +43,7 @@ public class AbstractAssert_has_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(conditions).assertHas(assertionsInfo(), assertionsActual(), condition);
+  protected void verify_internal_effects() {
+    verify(conditions).assertHas(getInfo(assertions), getActual(assertions), condition);
   }
 }

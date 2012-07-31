@@ -32,7 +32,7 @@ public class StringAssert_doesNotContain_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertDoesNotContain(assertionsInfo(), assertionsActual(), "Luke");
+  protected void verify_internal_effects() {
+    verify(strings).assertDoesNotContain(getInfo(assertions), getActual(assertions), "Luke");
   }
 }

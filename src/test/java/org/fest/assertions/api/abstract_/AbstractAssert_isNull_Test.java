@@ -39,8 +39,8 @@ public class AbstractAssert_isNull_Test extends AbstractAssertTest{
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertNull(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(objects).assertNull(getInfo(assertions), getActual(assertions));
   }
   
   @Override

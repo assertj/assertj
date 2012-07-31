@@ -23,7 +23,7 @@ import org.fest.assertions.internal.Shorts;
  * 
  * @author Olivier Michallat
  */
-public abstract class ShortAssertTest extends BaseTest<ShortAssert, Short> {
+public abstract class ShortAssertTest extends BaseAssertTest<ShortAssert, Short> {
   protected Shorts shorts;
 
   @Override

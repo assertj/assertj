@@ -36,7 +36,7 @@ public class AbstractAssert_isInstanceOfAny_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsInstanceOfAny(assertionsInfo(), assertionsActual(), types);
+  protected void verify_internal_effects() {
+    verify(objects).assertIsInstanceOfAny(getInfo(assertions), getActual(assertions), types);
   }
 }

@@ -32,7 +32,7 @@ public class StringAssert_isEqualToIgnoringCase_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertEqualsIgnoringCase(assertionsInfo(), assertionsActual(), "yoda");
+  protected void verify_internal_effects() {
+    verify(strings).assertEqualsIgnoringCase(getInfo(assertions), getActual(assertions), "yoda");
   }
 }

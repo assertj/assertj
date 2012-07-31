@@ -33,7 +33,7 @@ public class AbstractAssert_hasTheSameClassAs_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertHasSameClassAs(assertionsInfo(), assertionsActual(), "Luke");
+  protected void verify_internal_effects() {
+    verify(objects).assertHasSameClassAs(getInfo(assertions), getActual(assertions), "Luke");
   }
 }

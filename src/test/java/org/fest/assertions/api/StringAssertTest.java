@@ -23,7 +23,7 @@ import org.fest.assertions.internal.Strings;
  * 
  * @author Olivier Michallat
  */
-public abstract class StringAssertTest extends BaseTest<StringAssert, String> {
+public abstract class StringAssertTest extends BaseAssertTest<StringAssert, String> {
   protected Strings strings;
 
   @Override

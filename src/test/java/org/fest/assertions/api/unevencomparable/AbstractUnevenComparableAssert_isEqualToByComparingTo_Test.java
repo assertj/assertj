@@ -33,7 +33,7 @@ public class AbstractUnevenComparableAssert_isEqualToByComparingTo_Test extends 
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(comparables).assertEqualByComparison(assertionsInfo(), assertionsActual(), 6);
+  protected void verify_internal_effects() {
+    verify(comparables).assertEqualByComparison(getInfo(assertions), getActual(assertions), 6);
   }
 }

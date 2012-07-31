@@ -32,7 +32,7 @@ public class ShortAssert_isZero_Test extends ShortAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(shorts).assertIsZero(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(shorts).assertIsZero(getInfo(assertions), getActual(assertions));
   }
 }

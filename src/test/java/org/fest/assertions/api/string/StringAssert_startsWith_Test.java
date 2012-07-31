@@ -32,7 +32,7 @@ public class StringAssert_startsWith_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertStartsWith(assertionsInfo(), assertionsActual(), "Yod");
+  protected void verify_internal_effects() {
+    verify(strings).assertStartsWith(getInfo(assertions), getActual(assertions), "Yod");
   }
 }

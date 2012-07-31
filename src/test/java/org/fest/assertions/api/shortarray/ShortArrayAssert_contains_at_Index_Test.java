@@ -36,7 +36,7 @@ public class ShortArrayAssert_contains_at_Index_Test extends ShortArrayAssertTes
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertContains(assertionsInfo(), assertionsActual(), (short) 8, index);
+  protected void verify_internal_effects() {
+    verify(arrays).assertContains(getInfo(assertions), getActual(assertions), (short) 8, index);
   }
 }

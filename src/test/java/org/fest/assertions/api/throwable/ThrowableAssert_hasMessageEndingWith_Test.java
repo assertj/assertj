@@ -32,7 +32,7 @@ public class ThrowableAssert_hasMessageEndingWith_Test extends ThrowableAssertTe
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(throwables).assertHasMessageEndingWith(assertionsInfo(), assertionsActual(), "age");
+  protected void verify_internal_effects() {
+    verify(throwables).assertHasMessageEndingWith(getInfo(assertions), getActual(assertions), "age");
   }
 }

@@ -32,7 +32,7 @@ public class StringAssert_containsIgnoringCase_String_Test extends StringAssertT
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertContainsIgnoringCase(assertionsInfo(), assertionsActual(), "od");
+  protected void verify_internal_effects() {
+    verify(strings).assertContainsIgnoringCase(getInfo(assertions), getActual(assertions), "od");
   }
 }

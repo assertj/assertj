@@ -34,8 +34,8 @@ public class ShortArrayAssert_isEmpty_Test extends ShortArrayAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertEmpty(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(arrays).assertEmpty(getInfo(assertions), getActual(assertions));
   }
 
   @Override

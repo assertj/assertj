@@ -43,7 +43,7 @@ public class AbstractAssert_isNot_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(conditions).assertIsNot(assertionsInfo(), assertionsActual(), condition);
+  protected void verify_internal_effects() {
+    verify(conditions).assertIsNot(getInfo(assertions), getActual(assertions), condition);
   }
 }

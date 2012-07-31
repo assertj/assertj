@@ -35,7 +35,7 @@ public class ShortArrayAssert_hasSameSizeAs_with_Array_Test extends ShortArrayAs
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertHasSameSizeAs(assertionsInfo(), assertionsActual(), other);
+  protected void verify_internal_effects() {
+    verify(arrays).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
   }
 }

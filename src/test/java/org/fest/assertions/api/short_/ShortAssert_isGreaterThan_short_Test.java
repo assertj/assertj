@@ -32,7 +32,7 @@ public class ShortAssert_isGreaterThan_short_Test extends ShortAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(shorts).assertGreaterThan(assertionsInfo(), assertionsActual(), (short) 6);
+  protected void verify_internal_effects() {
+    verify(shorts).assertGreaterThan(getInfo(assertions), getActual(assertions), (short) 6);
   }
 }

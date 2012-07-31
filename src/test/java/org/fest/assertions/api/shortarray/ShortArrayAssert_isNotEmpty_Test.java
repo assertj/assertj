@@ -32,7 +32,7 @@ public class ShortArrayAssert_isNotEmpty_Test extends ShortArrayAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertNotEmpty(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(arrays).assertNotEmpty(getInfo(assertions), getActual(assertions));
   }
 }

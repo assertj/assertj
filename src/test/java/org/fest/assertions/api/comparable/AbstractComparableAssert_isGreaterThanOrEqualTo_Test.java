@@ -33,7 +33,7 @@ public class AbstractComparableAssert_isGreaterThanOrEqualTo_Test extends Abstra
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(comparables).assertGreaterThanOrEqualTo(assertionsInfo(), assertionsActual(), 6);
+  protected void verify_internal_effects() {
+    verify(comparables).assertGreaterThanOrEqualTo(getInfo(assertions), getActual(assertions), 6);
   }
 }

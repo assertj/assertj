@@ -34,8 +34,8 @@ public class StringAssert_isNullOrEmpty_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertNullOrEmpty(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(strings).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
   }
   
   @Override

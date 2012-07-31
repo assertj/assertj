@@ -23,7 +23,7 @@ import org.fest.assertions.internal.Throwables;
  * 
  * @author Olivier Michallat
  */
-public abstract class ThrowableAssertTest extends BaseTest<ThrowableAssert, Throwable> {
+public abstract class ThrowableAssertTest extends BaseAssertTest<ThrowableAssert, Throwable> {
   protected Throwables throwables;
   
   @Override

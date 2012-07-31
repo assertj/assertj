@@ -32,7 +32,7 @@ public class StringAssert_endsWith_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertEndsWith(assertionsInfo(), assertionsActual(), "Yod");
+  protected void verify_internal_effects() {
+    verify(strings).assertEndsWith(getInfo(assertions), getActual(assertions), "Yod");
   }
 }

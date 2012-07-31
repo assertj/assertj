@@ -35,7 +35,7 @@ public class AbstractAssert_isNotIn_with_vararg_Test extends AbstractAssertTest 
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsNotIn(assertionsInfo(), assertionsActual(), new Object[] { "Yoda", "Luke" });
+  protected void verify_internal_effects() {
+    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), new Object[] { "Yoda", "Luke" });
   }
 }

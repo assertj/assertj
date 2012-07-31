@@ -35,8 +35,8 @@ public class ShortArrayAssert_isNullOrEmpty_Test extends ShortArrayAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertNullOrEmpty(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(arrays).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
   }
   
   

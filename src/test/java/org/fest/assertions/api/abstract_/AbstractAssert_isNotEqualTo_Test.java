@@ -33,7 +33,7 @@ public class AbstractAssert_isNotEqualTo_Test extends AbstractAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertNotEqual(assertionsInfo(), assertionsActual(), 8L);
+  protected void verify_internal_effects() {
+    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions), 8L);
   }
 }

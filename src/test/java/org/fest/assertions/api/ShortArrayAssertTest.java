@@ -24,7 +24,7 @@ import org.fest.assertions.internal.ShortArrays;
  * 
  * @author Olivier Michallat
  */
-public abstract class ShortArrayAssertTest extends BaseTest<ShortArrayAssert, short[]> {
+public abstract class ShortArrayAssertTest extends BaseAssertTest<ShortArrayAssert, short[]> {
   protected ShortArrays arrays;
 
   @Override

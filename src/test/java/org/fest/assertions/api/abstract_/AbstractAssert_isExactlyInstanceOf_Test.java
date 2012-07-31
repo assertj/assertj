@@ -32,7 +32,7 @@ public class AbstractAssert_isExactlyInstanceOf_Test extends AbstractAssertTest 
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(objects).assertIsExactlyInstanceOf(assertionsInfo(), assertionsActual(), String.class);
+  protected void verify_internal_effects() {
+    verify(objects).assertIsExactlyInstanceOf(getInfo(assertions), getActual(assertions), String.class);
   }
 }

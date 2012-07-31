@@ -15,11 +15,11 @@
 package org.fest.assertions.api;
 
 /**
- * Base class for {@link AbstractAssert} tests.
+ * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractAssertTest extends BaseTest<ConcreteAssert, Object> {
+public abstract class AbstractAssertTest extends BaseAssertTest<ConcreteAssert, Object> {
   @Override
   protected ConcreteAssert create_assertions() {
     return new ConcreteAssert(6L);

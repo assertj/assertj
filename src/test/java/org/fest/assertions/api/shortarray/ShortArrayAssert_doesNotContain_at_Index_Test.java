@@ -36,7 +36,7 @@ public class ShortArrayAssert_doesNotContain_at_Index_Test extends ShortArrayAss
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertDoesNotContain(assertionsInfo(), assertionsActual(), (short) 8, index);
+  protected void verify_internal_effects() {
+    verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), (short) 8, index);
   }
 }

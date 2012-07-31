@@ -32,7 +32,7 @@ public class StringAssert_contains_String_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertContains(assertionsInfo(), assertionsActual(), "od");
+  protected void verify_internal_effects() {
+    verify(strings).assertContains(getInfo(assertions), getActual(assertions), "od");
   }
 }

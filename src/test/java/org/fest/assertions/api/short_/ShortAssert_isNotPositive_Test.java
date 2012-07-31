@@ -32,7 +32,7 @@ public class ShortAssert_isNotPositive_Test extends ShortAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(shorts).assertIsNotPositive(assertionsInfo(), assertionsActual());
+  protected void verify_internal_effects() {
+    verify(shorts).assertIsNotPositive(getInfo(assertions), getActual(assertions));
   }
 }

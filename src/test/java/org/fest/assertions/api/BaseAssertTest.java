@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
+import org.fest.assertions.api.abstract_.AbstractAssert_isNull_Test;
 import org.fest.assertions.core.Assert;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Conditions;
@@ -25,14 +26,25 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Root class for API tests.
+ * Root class to test {@link AbstractAssert} implementations.
+ * 
+ * <p>
+ * These classes are generally simple wrapper types, that delegate the real work to internal objects. Therefore we only want to
+ * test that:
+ * <ul>
+ * <li>invoking a method properly delegates to the relevant internal objects;</li>
+ * <li>the method returns {@code this} (for assertion chaining).</li>
+ * </ul>
+ * This class factors most of the code to make the actual tests easy to write. See the existing code base for examples of how to
+ * add more tests.
+ * </p>
  * 
  * @param <S> the "self" type of the assertion under test.
  * @param <A> the type of the "actual" value.
  * 
  * @author Olivier Michallat
  */
-public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
+public abstract class BaseAssertTest<S extends AbstractAssert<S, A>, A> {
   protected S assertions;
   protected Objects objects;
   protected Conditions conditions;
@@ -63,11 +75,15 @@ public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
   }
 
   @Test
-  public void should_delegate_to_internal_object() {
+  public void should_have_internal_effects() {
     invoke_api_method();
-    verify_internal_object_was_invoked();
+    verify_internal_effects();
   }
 
+  /**
+   * For the few API methods that don't return {@code this}, override this method to do nothing (see
+   * {@link AbstractAssert_isNull_Test#should_return_this()} for an example).
+   */
   @Test
   public void should_return_this() {
     S returned = invoke_api_method();
@@ -78,8 +94,8 @@ public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
    * Provides access to the package private {@link AbstractAssert#info} field, for subclasses that reside in a different package.
    * @return the field
    */
-  protected AssertionInfo assertionsInfo() {
-    return assertions.info;
+  protected AssertionInfo getInfo(S someAssertions) {
+    return someAssertions.info;
   }
 
   /**
@@ -87,11 +103,21 @@ public abstract class BaseTest<S extends AbstractAssert<S, A>, A> {
    * package.
    * @return the field
    */
-  protected A assertionsActual() {
-    return assertions.actual;
+  protected A getActual(S someAssertions) {
+    return someAssertions.actual;
   }
 
+  /**
+   * Invokes the API method under test.
+   * 
+   * @return the assertion object that is returned by the method. If the method is {@code void}, return {@code null} and override
+   *         {@link #should_return_this()}.
+   */
   protected abstract S invoke_api_method();
 
-  protected abstract void verify_internal_object_was_invoked();
+  /**
+   * Verifies that invoking the API method had the expected effects (usually, setting some internal state or invoking an internal
+   * object).
+   */
+  protected abstract void verify_internal_effects();
 }

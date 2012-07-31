@@ -43,7 +43,7 @@ public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertT
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertHasSameSizeAs(assertionsInfo(), assertionsActual(), other);
+  protected void verify_internal_effects() {
+    verify(strings).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
   }
 }

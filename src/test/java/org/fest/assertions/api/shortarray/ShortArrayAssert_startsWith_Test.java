@@ -33,7 +33,7 @@ public class ShortArrayAssert_startsWith_Test extends ShortArrayAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(arrays).assertStartsWith(assertionsInfo(), assertionsActual(), array(6, 8));
+  protected void verify_internal_effects() {
+    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array(6, 8));
   }
 }

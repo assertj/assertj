@@ -19,11 +19,11 @@ import static org.mockito.Mockito.mock;
 import org.fest.assertions.internal.Comparables;
 
 /**
- * Base class for {@link AbstractUnevenComparableAssert}.
+ * Base class to test the concrete methods of {@link AbstractUnevenComparableAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractUnevenComparableAssertTest extends BaseTest<ConcreteUnevenComparableAssert, Integer> {
+public abstract class AbstractUnevenComparableAssertTest extends BaseAssertTest<ConcreteUnevenComparableAssert, Integer> {
   protected Comparables comparables;
 
   @Override

@@ -32,7 +32,7 @@ public class ThrowableAssert_hasMessage_Test extends ThrowableAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(throwables).assertHasMessage(assertionsInfo(), assertionsActual(), "throwable message");
+  protected void verify_internal_effects() {
+    verify(throwables).assertHasMessage(getInfo(assertions), getActual(assertions), "throwable message");
   }
 }

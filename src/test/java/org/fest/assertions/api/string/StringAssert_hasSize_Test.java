@@ -32,7 +32,7 @@ public class StringAssert_hasSize_Test extends StringAssertTest {
   }
 
   @Override
-  protected void verify_internal_object_was_invoked() {
-    verify(strings).assertHasSize(assertionsInfo(), assertionsActual(), 6);
+  protected void verify_internal_effects() {
+    verify(strings).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }
