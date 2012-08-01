@@ -14,9 +14,6 @@
  */
 package org.fest.assertions.api;
 
-import static org.mockito.Mockito.mock;
-
-import org.fest.assertions.internal.Objects;
 import org.fest.assertions.test.Jedi;
 
 /**
@@ -26,16 +23,8 @@ import org.fest.assertions.test.Jedi;
  */
 public abstract class ObjectAssertTest extends BaseAssertTest<ObjectAssert<Jedi>, Jedi> {
 
-  protected Objects objects;
-
   @Override
   protected ObjectAssert<Jedi> create_assertions() {
     return new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
-  }
-
-  @Override
-  protected void inject_internal_objects() {
-    objects = mock(Objects.class);
-    assertions.objects = objects;
   }
 }

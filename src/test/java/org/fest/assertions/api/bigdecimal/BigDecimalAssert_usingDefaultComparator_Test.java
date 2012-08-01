@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.bigdecimal;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -20,23 +20,20 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-
+import org.fest.assertions.api.BigDecimalAssert;
+import org.fest.assertions.api.BigDecimalAssertTest;
 import org.fest.assertions.internal.BigDecimals;
 import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link BigDecimalAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link BigDecimalAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link BigDecimalAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BigDecimalAssert_usingComparator_Test {
-
-  private BigDecimalAssert assertions = new BigDecimalAssert(BigDecimal.ONE);
+public class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAssertTest {
 
   @Mock
   private Comparator<BigDecimal> comparator;
@@ -44,20 +41,17 @@ public class BigDecimalAssert_usingComparator_Test {
   @Before
   public void before() {
     initMocks(this);
-  }
-
-  @Test
-  public void using_default_comparator_test() {
-    assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.bigDecimals, BigDecimals.instance());
-  }
-
-  @Test
-  public void using_custom_comparator_test() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     assertions.usingComparator(comparator);
-    assertSame(assertions.objects.getComparator(), comparator);
-    assertSame(assertions.bigDecimals.getComparator(), comparator);
+  }
+
+  @Override
+  protected BigDecimalAssert invoke_api_method() {
+    return assertions.usingDefaultComparator();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    assertSame(getObjects(assertions), Objects.instance());
+    assertSame(getBigDecimals(assertions), BigDecimals.instance());
   }
 }
