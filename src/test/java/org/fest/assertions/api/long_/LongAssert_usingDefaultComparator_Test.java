@@ -12,17 +12,18 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 import org.fest.assertions.internal.Longs;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 
 /**
@@ -31,9 +32,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class LongAssert_usingComparator_Test {
-
-  private LongAssert assertions = new LongAssert(5L);
+public class LongAssert_usingDefaultComparator_Test extends LongAssertTest {
 
   @Mock
   private Comparator<Long> comparator;
@@ -41,20 +40,17 @@ public class LongAssert_usingComparator_Test {
   @Before
   public void before() {
     initMocks(this);
-  }
-
-  @Test
-  public void using_default_comparator_test() {
-    assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.longs, Longs.instance());
-  }
-
-  @Test
-  public void using_custom_comparator_test() {
-    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     assertions.usingComparator(comparator);
-    assertSame(assertions.objects.getComparator(), comparator);
-    assertSame(assertions.longs.getComparator(), comparator);
+  }
+
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.usingDefaultComparator();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    assertSame(getObjects(assertions), Objects.instance());
+    assertSame(getLongs(assertions), Longs.instance());
   }
 }

@@ -12,42 +12,27 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Longs;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 
 /**
  * Tests for <code>{@link LongAssert#isNotPositive()}</code>.
  * 
  * @author Nicolas François
  */
-public class LongAssert_isNotPositive_Test {
+public class LongAssert_isNotPositive_Test extends LongAssertTest {
 
-  private Longs longs;
-  private LongAssert assertions;
-
-  @Before
-  public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isNotPositive();
   }
 
-  @Test
-  public void should_verify_that_actual_is_not_positive() {
-    assertions.isNotPositive();
-    verify(longs).assertIsNotPositive(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isNotPositive();
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertIsNotPositive(getInfo(assertions), getActual(assertions));
   }
 }

@@ -12,41 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.*;
-
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 
 /**
  * Tests for <code>{@link LongAssert#isGreaterThan(long)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isGreaterThan_long_Test {
+public class LongAssert_isGreaterThan_long_Test extends LongAssertTest {
 
-  private Longs longs;
-  private LongAssert assertions;
-
-  @Before
-  public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(8L);
-    assertions.longs = longs;
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isGreaterThan(6);
   }
 
-  @Test
-  public void should_verify_that_actual_is_greater_than_expected() {
-    assertions.isGreaterThan(6);
-    verify(longs).assertGreaterThan(assertions.info, assertions.actual, 6L);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isGreaterThan(6);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertGreaterThan(getInfo(assertions), getActual(assertions), 6L);
   }
 }

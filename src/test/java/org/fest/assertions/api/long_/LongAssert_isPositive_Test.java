@@ -12,40 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Longs;
-import org.junit.*;
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 
 /**
  * Tests for <code>{@link LongAssert#isPositive()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isPositive_Test {
+public class LongAssert_isPositive_Test extends LongAssertTest {
 
-  private Longs longs;
-  private LongAssert assertions;
-
-  @Before
-  public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isPositive();
   }
 
-  @Test
-  public void should_verify_that_actual_is_positive() {
-    assertions.isPositive();
-    verify(longs).assertIsPositive(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isPositive();
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertIsPositive(getInfo(assertions), getActual(assertions));
   }
 }

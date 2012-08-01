@@ -12,40 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Longs;
-import org.junit.*;
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 
 /**
  * Tests for <code>{@link LongAssert#isEqualTo(long)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isEqualTo_long_Test {
+public class LongAssert_isEqualTo_long_Test extends LongAssertTest {
 
-  private Longs longs;
-  private LongAssert assertions;
-
-  @Before
-  public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isEqualTo(8L);
   }
 
-  @Test
-  public void should_verify_that_actual_is_equal_to_expected() {
-    assertions.isEqualTo(8L);
-    verify(longs).assertEqual(assertions.info, assertions.actual, 8L);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isEqualTo(8L);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertEqual(getInfo(assertions), getActual(assertions), 8L);
   }
 }

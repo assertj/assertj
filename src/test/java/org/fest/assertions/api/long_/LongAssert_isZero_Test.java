@@ -12,40 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.long_;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Longs;
-import org.junit.*;
+import org.fest.assertions.api.LongAssert;
+import org.fest.assertions.api.LongAssertTest;
 
 /**
  * Tests for <code>{@link LongAssert#isZero()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isZero_Test {
+public class LongAssert_isZero_Test extends LongAssertTest {
 
-  private Longs longs;
-  private LongAssert assertions;
-
-  @Before
-  public void setUp() {
-    longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
-    assertions.longs = longs;
+  @Override
+  protected LongAssert invoke_api_method() {
+    return assertions.isZero();
   }
 
-  @Test
-  public void should_verify_that_actual_is_equal_to_zero() {
-    assertions.isZero();
-    verify(longs).assertIsZero(assertions.info, assertions.actual);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isZero();
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(longs).assertIsZero(getInfo(assertions), getActual(assertions));
   }
 }

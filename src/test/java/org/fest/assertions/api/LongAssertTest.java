@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Aug 01, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,38 +14,31 @@
  */
 package org.fest.assertions.api;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.Longs;
-import org.junit.*;
 
 /**
- * Tests for <code>{@link LongAssert#isLessThanOrEqualTo(long)}</code>.
+ * Base class for {@link LongAssert} tests.
  * 
- * @author Alex Ruiz
+ * @author Olivier Michallat
  */
-public class LongAssert_isLessThanOrEqualTo_long_Test {
+public abstract class LongAssertTest extends BaseAssertTest<LongAssert, Long> {
+  protected Longs longs;
 
-  private Longs longs;
-  private LongAssert assertions;
+  @Override
+  protected LongAssert create_assertions() {
+    return new LongAssert(0L);
+  }
 
-  @Before
-  public void setUp() {
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
     longs = mock(Longs.class);
-    assertions = new LongAssert(6L);
     assertions.longs = longs;
   }
 
-  @Test
-  public void should_verify_that_actual_is_less_than_expected() {
-    assertions.isLessThanOrEqualTo(8L);
-    verify(longs).assertLessThanOrEqualTo(assertions.info, assertions.actual, 8L);
-  }
-
-  @Test
-  public void should_return_this() {
-    LongAssert returned = assertions.isLessThanOrEqualTo(8L);
-    assertSame(assertions, returned);
+  protected Longs getLongs(LongAssert someAssertions) {
+    return someAssertions.longs;
   }
 }
