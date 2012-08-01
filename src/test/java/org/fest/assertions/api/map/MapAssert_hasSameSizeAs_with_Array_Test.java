@@ -12,45 +12,30 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.map;
 
-import static java.util.Collections.emptyMap;
-import static junit.framework.Assert.assertSame;
 import static org.fest.util.Arrays.array;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Maps;
-import org.junit.Before;
-import org.junit.Test;
+import org.fest.assertions.api.MapAssert;
+import org.fest.assertions.api.MapAssertTest;
 
 /**
  * Tests for <code>{@link MapsAssert#hasSameSizeAs(Object[])}</code>.
  * 
  * @author Nicolas François
  */
-public class MapAssert_hasSameSizeAs_with_Array_Test {
+public class MapAssert_hasSameSizeAs_with_Array_Test extends MapAssertTest {
 
-  private Maps maps;
-  private MapAssert<Object, Object> assertions;
   private final String[] other = array("Yoda", "Luke");
 
-  @Before
-  public void setUp() {
-    maps = mock(Maps.class);
-    assertions = new MapAssert<Object, Object>(emptyMap());
-    assertions.maps = maps;
+  @Override
+  protected MapAssert<Object, Object> invoke_api_method() {
+    return assertions.hasSameSizeAs(other);
   }
 
-  @Test
-  public void should_verify_that_actual_has_expected_size() {
-    assertions.hasSameSizeAs(other);
-    verify(maps).assertHasSameSizeAs(assertions.info, assertions.actual, other);
-  }
-
-  @Test
-  public void should_return_this() {
-    MapAssert<?, ?> returned = assertions.hasSameSizeAs(other);
-    assertSame(assertions, returned);
+  @Override
+  protected void verify_internal_effects() {
+    verify(maps).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
   }
 }

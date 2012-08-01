@@ -12,19 +12,15 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.map;
 
-import static java.util.Collections.emptyMap;
-import static junit.framework.Assert.assertSame;
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.util.Arrays.array;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import org.fest.assertions.api.MapAssert;
+import org.fest.assertions.api.MapAssertTest;
 import org.fest.assertions.data.MapEntry;
-import org.fest.assertions.internal.Maps;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for <code>{@link MapAssert#doesNotContain(MapEntry...)}</code>.
@@ -32,28 +28,16 @@ import org.junit.Test;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_doesNotContain_Test {
+public class MapAssert_doesNotContain_Test extends MapAssertTest {
 
-  private Maps maps;
-  private MapAssert<Object, Object> assertions;
-
-  @Before
-  public void setUp() {
-    maps = mock(Maps.class);
-    assertions = new MapAssert<Object, Object>(emptyMap());
-    assertions.maps = maps;
+  @Override
+  protected MapAssert<Object, Object> invoke_api_method() {
+    return assertions.doesNotContain(entry("key1", "value1"), entry("key2", "value2"));
   }
 
-  @Test
-  public void should_verify_that_actual_does_not_contain_given_values() {
-    assertions.doesNotContain(entry("key1", "value1"), entry("key2", "value2"));
+  @Override
+  protected void verify_internal_effects() {
     MapEntry[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
-    verify(maps).assertDoesNotContain(assertions.info, assertions.actual, entries);
-  }
-
-  @Test
-  public void should_return_this() {
-    MapAssert<Object, Object> returned = assertions.doesNotContain(entry("key1", "value1"));
-    assertSame(assertions, returned);
+    verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
   }
 }

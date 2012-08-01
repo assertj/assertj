@@ -12,14 +12,12 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.map;
 
-import static java.util.Collections.emptyMap;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Maps;
-import org.junit.Before;
+import org.fest.assertions.api.MapAssert;
+import org.fest.assertions.api.MapAssertTest;
 import org.junit.Test;
 
 /**
@@ -28,21 +26,22 @@ import org.junit.Test;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_isNullOrEmpty_Test {
+public class MapAssert_isNullOrEmpty_Test extends MapAssertTest {
 
-  private Maps maps;
-  private MapAssert<Object, Object> assertions;
-
-  @Before
-  public void setUp() {
-    maps = mock(Maps.class);
-    assertions = new MapAssert<Object, Object>(emptyMap());
-    assertions.maps = maps;
+  @Override
+  protected MapAssert<Object, Object> invoke_api_method() {
+    assertions.isNullOrEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_effects() {
+    verify(maps).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
+  }
+
+  @Override
   @Test
-  public void should_verify_actual_is_null_or_empty() {
-    assertions.isNullOrEmpty();
-    verify(maps).assertNullOrEmpty(assertions.info, assertions.actual);
+  public void should_return_this() {
+    // Disable this test because isNullOrEmpty is void
   }
 }

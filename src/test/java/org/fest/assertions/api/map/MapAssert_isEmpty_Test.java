@@ -12,44 +12,36 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.map;
 
-import static java.util.Collections.emptyMap;
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Maps;
-import org.junit.Before;
+import org.fest.assertions.api.MapAssert;
+import org.fest.assertions.api.MapAssertTest;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link MapAssert#isNotEmpty()}</code>.
+ * Tests for <code>{@link MapAssert#isEmpty()}</code>.
  * 
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_isNotEmpty_Test {
+public class MapAssert_isEmpty_Test extends MapAssertTest {
 
-  private Maps maps;
-  private MapAssert<Object, Object> assertions;
-
-  @Before
-  public void setUp() {
-    maps = mock(Maps.class);
-    assertions = new MapAssert<Object, Object>(emptyMap());
-    assertions.maps = maps;
+  @Override
+  protected MapAssert<Object, Object> invoke_api_method() {
+    assertions.isEmpty();
+    return null;
   }
 
-  @Test
-  public void should_verify_that_actual_is_not_empty() {
-    assertions.isNotEmpty();
-    verify(maps).assertNotEmpty(assertions.info, assertions.actual);
+  @Override
+  protected void verify_internal_effects() {
+    verify(maps).assertEmpty(getInfo(assertions), getActual(assertions));
   }
 
+  @Override
   @Test
   public void should_return_this() {
-    MapAssert<Object, Object> returned = assertions.isNotEmpty();
-    assertSame(assertions, returned);
+    // Disable this test because isEmpty is void
   }
 }

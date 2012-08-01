@@ -12,37 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.map;
 
-import static java.util.Collections.emptyMap;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.Maps;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import org.fest.assertions.api.MapAssert;
+import org.fest.assertions.api.MapAssertTest;
 
 /**
- * Tests for <code>{@link MapAssert#isEmpty()}</code>.
+ * Tests for <code>{@link MapAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_isEmpty_Test {
+public class MapAssert_hasSize_Test extends MapAssertTest {
 
-  private Maps maps;
-  private MapAssert<Object, Object> assertions;
-
-  @Before
-  public void setUp() {
-    maps = mock(Maps.class);
-    assertions = new MapAssert<Object, Object>(emptyMap());
-    assertions.maps = maps;
+  @Override
+  protected MapAssert<Object, Object> invoke_api_method() {
+    return assertions.hasSize(6);
   }
 
-  @Test
-  public void should_verify_that_actual_is_empty() {
-    assertions.isEmpty();
-    Mockito.verify(maps).assertEmpty(assertions.info, assertions.actual);
+  @Override
+  protected void verify_internal_effects() {
+    verify(maps).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }
