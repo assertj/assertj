@@ -12,29 +12,24 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.longarray;
 
-import static junit.framework.Assert.assertSame;
-
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
+import org.fest.assertions.api.LongArrayAssert;
+import org.fest.assertions.api.LongArrayAssertTest;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
-
-import org.fest.assertions.internal.LongArrays;
 
 /**
  * Tests for <code>{@link LongArrayAssert#isSortedAccordingTo(Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class LongArrayAssert_isSortedAccordingToComparator_Test {
+public class LongArrayAssert_isSortedAccordingToComparator_Test extends LongArrayAssertTest {
 
   @Mock
   private Comparator<Long> comparator;
@@ -44,19 +39,14 @@ public class LongArrayAssert_isSortedAccordingToComparator_Test {
     initMocks(this);
   }
 
-  @Test
-  public void should_verify_that_assertIsSorted_is_called() {
-    LongArrays arrays = mock(LongArrays.class);
-    LongArrayAssert assertions = new LongArrayAssert(emptyArray());
-    assertions.arrays = arrays;
-    assertions.isSortedAccordingTo(comparator);
-    verify(arrays).assertIsSortedAccordingToComparator(assertions.info, assertions.actual, comparator);
+  @Override
+  protected LongArrayAssert invoke_api_method() {
+    return assertions.isSortedAccordingTo(comparator);
   }
 
-  @Test
-  public void should_return_this() {
-    LongArrayAssert objectArrayAssert = new LongArrayAssert(new long[] { 1, 2 });
-    assertSame(objectArrayAssert, objectArrayAssert.isSortedAccordingTo(comparator));
+  @Override
+  protected void verify_internal_effects() {
+    verify(arrays).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), comparator);
   }
 
 }

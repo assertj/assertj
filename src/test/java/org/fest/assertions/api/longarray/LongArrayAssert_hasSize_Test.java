@@ -12,34 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.longarray;
 
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.LongArrays;
-import org.junit.*;
+import org.fest.assertions.api.LongArrayAssert;
+import org.fest.assertions.api.LongArrayAssertTest;
 
 /**
- * Tests for <code>{@link LongArrayAssert#isEmpty()}</code>.
+ * Tests for <code>{@link LongArrayAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_isEmpty_Test {
+public class LongArrayAssert_hasSize_Test extends LongArrayAssertTest {
 
-  private LongArrays arrays;
-  private LongArrayAssert assertions;
-
-  @Before
-  public void setUp() {
-    arrays = mock(LongArrays.class);
-    assertions = new LongArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+  @Override
+  protected LongArrayAssert invoke_api_method() {
+    return assertions.hasSize(6);
   }
 
-  @Test
-  public void should_verify_that_actual_is_empty() {
-    assertions.isEmpty();
-    verify(arrays).assertEmpty(assertions.info, assertions.actual);
+  @Override
+  protected void verify_internal_effects() {
+    verify(arrays).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }

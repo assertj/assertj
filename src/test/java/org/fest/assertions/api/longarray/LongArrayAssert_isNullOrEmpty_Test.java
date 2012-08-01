@@ -12,34 +12,35 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.longarray;
 
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.internal.LongArrays;
-import org.junit.*;
+import org.fest.assertions.api.LongArrayAssert;
+import org.fest.assertions.api.LongArrayAssertTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link LongArrayAssert#isNullOrEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_isNullOrEmpty_Test {
+public class LongArrayAssert_isNullOrEmpty_Test extends LongArrayAssertTest {
 
-  private LongArrays arrays;
-  private LongArrayAssert assertions;
-
-  @Before
-  public void setUp() {
-    arrays = mock(LongArrays.class);
-    assertions = new LongArrayAssert(emptyArray());
-    assertions.arrays = arrays;
+  @Override
+  protected LongArrayAssert invoke_api_method() {
+    assertions.isNullOrEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_effects() {
+    verify(arrays).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
+  }
+
+  @Override
   @Test
-  public void should_verify_actual_is_null_or_empty() {
-    assertions.isNullOrEmpty();
-    verify(arrays).assertNullOrEmpty(assertions.info, assertions.actual);
+  public void should_return_this() {
+    // Disable this test because isNullOrEmpty is void
   }
 }
