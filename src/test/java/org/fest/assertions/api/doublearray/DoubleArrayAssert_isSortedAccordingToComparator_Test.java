@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 2, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,44 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.short_;
+package org.fest.assertions.api.doublearray;
 
-import static junit.framework.Assert.assertSame;
+import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
-import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.api.DoubleArrayAssert;
+import org.fest.assertions.api.DoubleArrayAssertTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link DoubleArrayAssert#isSortedAccordingTo(Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ShortAssert_usingDefaultComparator_Test extends ShortAssertTest {
+public class DoubleArrayAssert_isSortedAccordingToComparator_Test extends DoubleArrayAssertTest {
 
   @Mock
-  private Comparator<Short> comparator;
+  private Comparator<Double> comparator;
 
   @Before
   public void before() {
     initMocks(this);
-    assertions.usingComparator(comparator);
   }
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected DoubleArrayAssert invoke_api_method() {
+    return assertions.isSortedAccordingTo(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
+    verify(arrays).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), comparator);
   }
 }

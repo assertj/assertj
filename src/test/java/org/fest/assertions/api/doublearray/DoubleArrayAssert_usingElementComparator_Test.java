@@ -12,44 +12,47 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.short_;
+package org.fest.assertions.api.doublearray;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
+import org.fest.assertions.api.DoubleArrayAssert;
+import org.fest.assertions.api.DoubleArrayAssertTest;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
 import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link DoubleArrayAssert#usingElementComparator(Comparator)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ShortAssert_usingDefaultComparator_Test extends ShortAssertTest {
+public class DoubleArrayAssert_usingElementComparator_Test extends DoubleArrayAssertTest {
 
   @Mock
-  private Comparator<Short> comparator;
+  private Comparator<Double> comparator;
+
+  private Objects objectsBefore;
 
   @Before
   public void before() {
     initMocks(this);
-    assertions.usingComparator(comparator);
+    objectsBefore = getObjects(assertions);
   }
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected DoubleArrayAssert invoke_api_method() {
+    // in that test, the comparator type is not important, we only check that we correctly switch of comparator
+    return assertions.usingElementComparator(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
+    assertSame(getObjects(assertions), objectsBefore);
+    assertSame(getArrays(assertions).getComparator(), comparator);
   }
 }

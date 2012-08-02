@@ -12,44 +12,42 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.short_;
+package org.fest.assertions.api.float_;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
-import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.api.FloatAssert;
+import org.fest.assertions.api.FloatAssertTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link FloatAssert#usingComparator(java.util.Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ShortAssert_usingDefaultComparator_Test extends ShortAssertTest {
+public class FloatAssert_usingComparator_Test extends FloatAssertTest {
 
   @Mock
-  private Comparator<Short> comparator;
+  private Comparator<Float> comparator;
 
   @Before
   public void before() {
     initMocks(this);
-    assertions.usingComparator(comparator);
   }
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected FloatAssert invoke_api_method() {
+    // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
+    return assertions.usingComparator(comparator);
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
+    assertSame(getObjects(assertions).getComparator(), comparator);
+    assertSame(getFloats(assertions).getComparator(), comparator);
   }
 }

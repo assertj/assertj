@@ -12,44 +12,49 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.short_;
+package org.fest.assertions.api.image;
 
 import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+import java.awt.image.BufferedImage;
 import java.util.Comparator;
 
-import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
+import org.fest.assertions.api.ImageAssert;
+import org.fest.assertions.api.ImageAssertTest;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
+ * <code>{@link ImageAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ShortAssert_usingDefaultComparator_Test extends ShortAssertTest {
+public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Mock
-  private Comparator<Short> comparator;
+  private Comparator<BufferedImage> comparator;
 
   @Before
   public void before() {
     initMocks(this);
-    assertions.usingComparator(comparator);
   }
 
   @Override
-  protected ShortAssert invoke_api_method() {
+  protected ImageAssert invoke_api_method() {
     return assertions.usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
     assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
   }
 }

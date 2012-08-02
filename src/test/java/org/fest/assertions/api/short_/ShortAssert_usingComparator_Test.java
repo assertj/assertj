@@ -25,8 +25,7 @@ import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link ShortAssert#usingComparator(java.util.Comparator)}</code>.
  * 
  * @author Joel Costigliola
  */

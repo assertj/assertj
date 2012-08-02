@@ -12,44 +12,48 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.short_;
+package org.fest.assertions.api.floatarray;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
+import org.fest.assertions.api.FloatArrayAssert;
+import org.fest.assertions.api.FloatArrayAssertTest;
+import org.fest.assertions.internal.FloatArrays;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.internal.Shorts;
 import org.junit.Before;
 import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ShortAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link FloatArrayAssert#usingDefaultElementComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ShortAssert_usingDefaultComparator_Test extends ShortAssertTest {
+public class FloatArrayAssert_usingDefaultElementComparator_Test extends FloatArrayAssertTest {
 
   @Mock
-  private Comparator<Short> comparator;
+  private Comparator<Float> comparator;
+
+  private Objects objectsBefore;
 
   @Before
   public void before() {
     initMocks(this);
-    assertions.usingComparator(comparator);
+    objectsBefore = getObjects(assertions);
+    assertions.usingElementComparator(comparator);
   }
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected FloatArrayAssert invoke_api_method() {
+    return assertions.usingDefaultElementComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
+    assertSame(getObjects(assertions), objectsBefore);
+    assertSame(getArrays(assertions), FloatArrays.instance());
   }
 }
