@@ -12,48 +12,38 @@
  * 
  * Copyright @2012 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.iterable;
 
-import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 
+import org.fest.assertions.api.AbstractIterableAssert;
+import org.fest.assertions.api.ConcreteIterableAssert;
+import org.fest.assertions.api.IterableAssertTest;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#haveAtMost(Condition, int)}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#doNotHaveExactly(Condition, int)}</code>.
  * 
  * @author Nicolas François
  */
-public class IIterableAssert_areNotAtMost_Test extends IterableAssertTest {
+public class IterableAssert_doNotHaveExactly_Test extends IterableAssertTest {
 
   private static Condition<Object> condition;
 
   @BeforeClass
-  public static void setUpOnce() {
+  public static void beforeOnce() {
     condition = new TestCondition<Object>();
-  }
-
-  @Test
-  public void should_verify_that_elements_are_at_most() {
-    assertions.haveAtMost(2, condition);
-    verify(iterables).assertHaveAtMost(assertions.info, assertions.actual, 2, condition);
-  }
-
-  @Test
-  public void should_return_this() {
-    ConcreteIterableAssert<Object> returned = assertions.haveAtMost(2, condition);
-    assertSame(assertions, returned);
   }
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return null;
+    return assertions.doNotHaveExactly(2, condition);
   }
 
   @Override
-  protected void verify_internal_effects() {}
-
+  protected void verify_internal_effects() {
+    verify(iterables).assertDoNotHaveExactly(getInfo(assertions), getActual(assertions), 2, condition);
+  }
 }
