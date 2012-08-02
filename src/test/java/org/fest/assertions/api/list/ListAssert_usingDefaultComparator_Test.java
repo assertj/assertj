@@ -12,20 +12,18 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.list;
 
 import static junit.framework.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.fest.assertions.internal.Iterables;
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.api.ListAssert;
+import org.fest.assertions.api.ListAssertTest;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 
 /**
@@ -35,9 +33,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert_usingComparator_Test {
-
-  private ListAssert<String> assertions = new ListAssert<String>(new ArrayList<String>());
+public class ListAssert_usingDefaultComparator_Test extends ListAssertTest {
 
   @Mock
   private Comparator<List<String>> comparator;
@@ -45,22 +41,16 @@ public class ListAssert_usingComparator_Test {
   @Before
   public void before() {
     initMocks(this);
-  }
-
-  @Test
-  public void using_default_comparator_test() {
-    assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.iterables, Iterables.instance());
-    assertSame(assertions.lists, Lists.instance());
-  }
-
-  @Test
-  public void using_custom_comparator_test() {
-    // in that test, the comparator type is not important, we only check that we correctly switch of comparator
     assertions.usingComparator(comparator);
-    assertSame(assertions.objects.getComparator(), comparator);
-    // assertSame(assertions.iterables.getComparator(), Iterables.instance());
-    // assertSame(assertions.lists.getComparator(), Lists.instance());
+  }
+
+  @Override
+  protected ListAssert<String> invoke_api_method() {
+    return assertions.usingDefaultComparator();
+  }
+
+  @Override
+  protected void verify_internal_effects() {
+    assertSame(getObjects(assertions), Objects.instance());
   }
 }

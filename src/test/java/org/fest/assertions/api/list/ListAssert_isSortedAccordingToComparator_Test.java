@@ -12,19 +12,17 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.list;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-import java.util.Collections;
 import java.util.Comparator;
 
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.api.AbstractIterableAssert;
+import org.fest.assertions.api.ListAssert;
+import org.fest.assertions.api.ListAssertTest;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.Mock;
 
 /**
@@ -32,7 +30,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ListAssert_isSortedAccordingToComparator_Test {
+public class ListAssert_isSortedAccordingToComparator_Test extends ListAssertTest {
 
   @Mock
   private Comparator<String> comparator;
@@ -42,18 +40,13 @@ public class ListAssert_isSortedAccordingToComparator_Test {
     initMocks(this);
   }
 
-  @Test
-  public void should_verify_that_actual_does_not_contain_null() {
-    Lists lists = mock(Lists.class);
-    ListAssert<String> assertions = new ListAssert<String>(Collections.<String> emptyList());
-    assertions.lists = lists;
-    assertions.isSortedAccordingTo(comparator);
-    verify(lists).assertIsSortedAccordingToComparator(assertions.info, assertions.actual, comparator);
+  @Override
+  protected ListAssert<String> invoke_api_method() {
+    return assertions.isSortedAccordingTo(comparator);
   }
 
-  @Test
-  public void should_return_this() {
-    ListAssert<String> assertions = new ListAssert<String>(Collections.<String> emptyList());
-    assertSame(assertions, assertions.isSortedAccordingTo(comparator));
+  @Override
+  protected void verify_internal_effects() {
+    verify(lists).assertIsSortedAccordingToComparator(getInfo(assertions), getActual(assertions), comparator);
   }
 }

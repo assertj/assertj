@@ -12,36 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.list;
 
-import static junit.framework.Assert.assertSame;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.util.Collections;
-
-import org.fest.assertions.internal.Lists;
-import org.junit.Test;
+import org.fest.assertions.api.AbstractIterableAssert;
+import org.fest.assertions.api.ListAssert;
+import org.fest.assertions.api.ListAssertTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ListAssert_isSorted_Test {
+public class ListAssert_isSorted_Test extends ListAssertTest {
 
-  @Test
-  public void should_verify_that_actual_does_not_contain_null() {
-    Lists lists = mock(Lists.class);
-    ListAssert<String> assertions = new ListAssert<String>(Collections.<String> emptyList());
-    assertions.lists = lists;
-    assertions.isSorted();
-    verify(lists).assertIsSorted(assertions.info, assertions.actual);
+  @Override
+  protected ListAssert<String> invoke_api_method() {
+    return assertions.isSorted();
   }
 
-  @Test
-  public void should_return_this() {
-    ListAssert<String> assertions = new ListAssert<String>(Collections.<String> emptyList());
-    assertSame(assertions, assertions.isSorted());
+  @Override
+  protected void verify_internal_effects() {
+    verify(lists).assertIsSorted(getInfo(assertions), getActual(assertions));
   }
 }
