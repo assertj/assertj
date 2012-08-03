@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Oct 22, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,29 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.image;
+package org.fest.assertions.api.boolean_;
 
-import static junit.framework.Assert.assertSame;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.api.BooleanAssert;
+import org.fest.assertions.api.BooleanAssertTest;
 
 /**
- * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ImageAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link BooleanAssert#isFalse()}</code>.
  * 
- * @author Joel Costigliola
+ * @author Alex Ruiz
  */
-public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+public class BooleanAssert_isFalse_Test extends BooleanAssertTest {
 
   @Override
-  protected ImageAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected BooleanAssert invoke_api_method() {
+    return assertions.isFalse();
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
+    verify(booleans).assertEqual(getInfo(assertions), getActual(assertions), false);
   }
 }

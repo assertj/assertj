@@ -12,29 +12,44 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.image;
+package org.fest.assertions.api.character;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import java.util.Comparator;
+
+import org.fest.assertions.api.CharacterAssert;
+import org.fest.assertions.api.CharacterAssertTest;
+import org.fest.assertions.internal.Characters;
 import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ImageAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link CharacterAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+public class CharacterAssert_usingDefaultComparator_Test extends CharacterAssertTest {
+
+  @Mock
+  private Comparator<Character> comparator;
+
+  @Before
+  public void before() {
+    initMocks(this);
+    assertions.usingComparator(comparator);
+  }
 
   @Override
-  protected ImageAssert invoke_api_method() {
+  protected CharacterAssert invoke_api_method() {
     return assertions.usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
     assertSame(getObjects(assertions), Objects.instance());
+    assertSame(getCharacters(assertions), Characters.instance());
   }
 }

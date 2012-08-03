@@ -1,5 +1,5 @@
 /*
- * Created on Nov 29, 2010
+ * Created on Dec 20, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,29 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.image;
+package org.fest.assertions.api.chararray;
 
-import static junit.framework.Assert.assertSame;
+import static org.fest.assertions.test.CharArrayFactory.array;
+import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
-import org.fest.assertions.internal.Objects;
+import org.fest.assertions.api.CharArrayAssert;
+import org.fest.assertions.api.CharArrayAssertTest;
 
 /**
- * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ImageAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link CharArrayAssert#startsWith(char...)}</code>.
  * 
- * @author Joel Costigliola
+ * @author Alex Ruiz
  */
-public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+public class CharArrayAssert_startsWith_Test extends CharArrayAssertTest {
 
   @Override
-  protected ImageAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
+  protected CharArrayAssert invoke_api_method() {
+    return assertions.startsWith('a', 'b');
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
+    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array('a', 'b'));
   }
 }

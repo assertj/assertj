@@ -12,29 +12,48 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.api.image;
+package org.fest.assertions.api.chararray;
 
 import static junit.framework.Assert.assertSame;
+import static org.mockito.MockitoAnnotations.initMocks;
 
-import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import java.util.Comparator;
+
+import org.fest.assertions.api.CharArrayAssert;
+import org.fest.assertions.api.CharArrayAssertTest;
+import org.fest.assertions.internal.CharArrays;
 import org.fest.assertions.internal.Objects;
+import org.junit.Before;
+import org.mockito.Mock;
 
 /**
- * Tests for <code>{@link ImageAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link ImageAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link CharArrayAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+public class CharArrayAssert_usingDefaultComparator_Test extends CharArrayAssertTest {
+
+  @Mock
+  private Comparator<char[]> comparator;
+
+  private CharArrays arraysBefore;
+
+  @Before
+  public void before() {
+    initMocks(this);
+    assertions.usingComparator(comparator);
+    arraysBefore = getArrays(assertions);
+  }
 
   @Override
-  protected ImageAssert invoke_api_method() {
+  protected CharArrayAssert invoke_api_method() {
     return assertions.usingDefaultComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
     assertSame(getObjects(assertions), Objects.instance());
+    assertSame(getArrays(assertions), arraysBefore);
   }
 }
