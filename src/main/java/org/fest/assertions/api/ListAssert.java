@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import java.util.Comparator;
 import java.util.List;
 
+import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
@@ -55,6 +56,23 @@ public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>
   /** {@inheritDoc} */
   public ListAssert<T> doesNotContain(T value, Index index) {
     lists.assertDoesNotContain(info, actual, value, index);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual object at the given index in the actual group satisfies the given condition.
+   * @param condition the given condition.
+   * @param index     the index where the object should be stored in the actual group.
+   * @return this assertion object.
+   * @throws AssertionError            if the given {@code List} is {@code null} or empty.
+   * @throws NullPointerException      if the given {@code Index} is {@code null}.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
+   *                                   the given {@code List}.
+   * @throws NullPointerException      if the given {@code Condition} is {@code null}.
+   * @throws AssertionError            if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}.
+   */
+  public ListAssert<T> has(Condition<? super T> condition, Index index) {
+    lists.assertHas(info, actual, condition, index);
     return this;
   }
 
