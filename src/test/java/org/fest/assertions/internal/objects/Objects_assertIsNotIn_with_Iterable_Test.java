@@ -1,5 +1,5 @@
 /*
- * Created on Jan 3, 2010
+ * Created on Jan 5, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,10 +12,11 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static java.util.Collections.emptyList;
-import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
+import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
+import static org.fest.assertions.test.ErrorMessages.iterableIsEmpty;
 import static org.fest.assertions.test.ErrorMessages.iterableIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -24,20 +25,21 @@ import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ErrorMessages;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Objects#assertIsIn(AssertionInfo, Object, Iterable)}</code>.
+ * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Iterable)}</code>.
  * 
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Nicolas François
- * @author Mikhail Mazursky
  */
-public class Objects_assertIsIn_with_Iterable_Test extends AbstractTest_for_Objects {
+public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
   private static Iterable<String> values;
 
@@ -50,52 +52,53 @@ public class Objects_assertIsIn_with_Iterable_Test extends AbstractTest_for_Obje
   public void should_throw_error_if_Iterable_is_null() {
     thrown.expectNullPointerException(iterableIsNull());
     Iterable<String> c = null;
-    objects.assertIsIn(someInfo(), "Yoda", c);
+    objects.assertIsNotIn(someInfo(), "Luke", c);
   }
 
   @Test
   public void should_throw_error_if_Iterable_is_empty() {
-    thrown.expectIllegalArgumentException(ErrorMessages.iterableIsEmpty());
-    objects.assertIsIn(someInfo(), "Yoda", emptyList());
+    thrown.expectIllegalArgumentException(iterableIsEmpty());
+    objects.assertIsNotIn(someInfo(), "Luke", emptyList());
   }
 
   @Test
-  public void should_pass_if_actual_is_in_Iterable() {
-    objects.assertIsIn(someInfo(), "Yoda", values);
+  public void should_pass_if_actual_is_not_in_Iterable() {
+    objects.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    objects.assertIsIn(someInfo(), null, values);
+    objects.assertIsNotIn(someInfo(), null, values);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_Iterable() {
+  public void should_fail_if_actual_is_in_Iterable() {
     AssertionInfo info = someInfo();
     try {
-      objects.assertIsIn(info, "Luke", values);
+      objects.assertIsNotIn(info, "Yoda", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeIn("Luke", values));
+      verify(failures).failure(info, shouldNotBeIn("Yoda", values));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
-    objectsWithCustomComparisonStrategy.assertIsIn(someInfo(), "YODA", values);
+  public void should_pass_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
+    objectsWithCustomComparisonStrategy.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      objectsWithCustomComparisonStrategy.assertIsIn(info, "Luke", values);
+      objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeIn("Luke", values, customComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeIn("YODA", values, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }

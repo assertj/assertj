@@ -12,32 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.*;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
 
 /**
  * Tests for <code>{@link Objects#assertNotNull(AssertionInfo, Object)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Objects_assertNotNull_Test {
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
-  }
+public class Objects_assertNotNull_Test extends ObjectsBaseTest {
 
   @Test
   public void should_pass_if_object_is_not_null() {

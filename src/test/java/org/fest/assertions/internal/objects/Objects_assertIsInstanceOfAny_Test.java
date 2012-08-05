@@ -12,46 +12,38 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
+
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.*;
-import org.junit.*;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
+import org.fest.assertions.test.Person;
 
 /**
  * Tests for <code>{@link Objects#assertIsInstanceOfAny(AssertionInfo, Object, Class[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Objects_assertIsInstanceOfAny_Test {
+public class Objects_assertIsInstanceOfAny_Test extends ObjectsBaseTest {
 
   private static Person actual;
 
   @BeforeClass
   public static void setUpOnce() {
     actual = new Person("Yoda");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
   }
 
   @Test

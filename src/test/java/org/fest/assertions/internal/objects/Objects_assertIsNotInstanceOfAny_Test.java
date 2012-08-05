@@ -12,51 +12,38 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
+
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.test.Person;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
+import org.fest.assertions.test.Person;
 
 /**
  * Tests for <code>{@link Objects#assertIsNotInstanceOfAny(AssertionInfo, Object, Class[])}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Objects_assertIsNotInstanceOfAny_Test {
+public class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
 
   private static Person actual;
 
   @BeforeClass
   public static void setUpOnce() {
     actual = new Person("Yoda");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
   }
 
   @Test

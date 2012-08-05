@@ -12,61 +12,53 @@
  * 
  * Copyright @2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
-import static junit.framework.Assert.assertEquals;
-import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
-import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
+import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.Employee;
-import org.fest.assertions.test.Jedi;
-import org.fest.util.IntrospectionError;
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.error.ShouldBeInstance;
+import org.fest.assertions.internal.ObjectsBaseTest;
+import org.fest.assertions.test.Employee;
+import org.fest.assertions.test.Jedi;
+
 /**
- * Tests for <code>{@link Objects#assertIsLenientEqualsToByAcceptingFields(AssertionInfo, Object, Object, String...)</code>.
+ * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.
  *
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
-  }
+public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends ObjectsBaseTest {
 
   @Test
   public void should_pass_when_same_fields() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
+    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other);
   }
 
   @Test
   public void should_pass_when_different_field_is_not_accepted() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name");
+    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_value_is_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
+    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "name");
   }
 
   @Test
@@ -75,13 +67,10 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");
+      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
     } catch (AssertionError err) {
-      verify(failures)
-          .failure(
-              info,
-              shouldBeLenientEqualByAccepting(actual, list("lightSaberColor"), list((Object) "Blue"),
-                  list("name", "lightSaberColor")));
+      verify(failures).failure(info,
+          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Blue"), list("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -93,27 +82,28 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name");
+      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
+      verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_when_unexist_field() {
+  public void should_fail_when_value_is_null_just_on_other() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
+    Jedi other = new Jedi("Yoda", null);
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "age");
-    } catch (IntrospectionError expected) {
-      String msg = String.format("No getter for property '%s' in %s", "age", actual.getClass().getName());
-      assertEquals(msg, expected.getMessage());
+      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
+    } catch (AssertionError err) {
+      List<Object> list = new ArrayList<Object>();
+      list.add(null);
+      verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list, list("name")));
       return;
     }
-    fail("expecting an IntrospectionError to be thrown");
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
 }

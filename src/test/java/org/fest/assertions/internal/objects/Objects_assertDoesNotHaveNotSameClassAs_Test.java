@@ -12,23 +12,21 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
 import org.fest.assertions.test.Person;
 
 /**
@@ -37,26 +35,13 @@ import org.fest.assertions.test.Person;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertDoesNotHaveNotSameClassAs_Test {
+public class Objects_assertDoesNotHaveNotSameClassAs_Test extends ObjectsBaseTest {
 
   private static Person actual;
 
   @BeforeClass
   public static void setUpOnce() {
     actual = new Person("Yoda");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
   }
 
   @Test

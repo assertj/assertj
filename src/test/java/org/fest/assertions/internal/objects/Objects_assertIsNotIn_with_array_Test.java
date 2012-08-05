@@ -1,5 +1,5 @@
 /*
- * Created on Jan 5, 2010
+ * Created on Jan 2, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,54 +12,56 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
-import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.fest.assertions.test.ErrorMessages.iterableIsEmpty;
-import static org.fest.assertions.test.ErrorMessages.iterableIsNull;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Arrays.array;
+
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.core.AssertionInfo;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
+
 /**
- * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Iterable)}</code>.
+ * Tests for <code>{@link Objects#assertIsNotIn(AssertionInfo, Object, Object[])}</code>.
  * 
  * @author Joel Costigliola
  * @author Alex Ruiz
  * @author Yvonne Wang
- * @author Nicolas François
  */
-public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_Objects {
+public class Objects_assertIsNotIn_with_array_Test extends ObjectsBaseTest {
 
-  private static Iterable<String> values;
+  private static String[] values;
 
   @BeforeClass
   public static void setUpOnce() {
-    values = list("Yoda", "Leia");
+    values = array("Yoda", "Leia");
   }
 
   @Test
-  public void should_throw_error_if_Iterable_is_null() {
-    thrown.expectNullPointerException(iterableIsNull());
-    Iterable<String> c = null;
-    objects.assertIsNotIn(someInfo(), "Luke", c);
+  public void should_throw_error_if_array_is_null() {
+    thrown.expectNullPointerException(arrayIsNull());
+    Object[] array = null;
+    objects.assertIsNotIn(someInfo(), "Yoda", array);
   }
 
   @Test
-  public void should_throw_error_if_Iterable_is_empty() {
-    thrown.expectIllegalArgumentException(iterableIsEmpty());
-    objects.assertIsNotIn(someInfo(), "Luke", emptyList());
+  public void should_throw_error_if_array_is_empty() {
+    thrown.expectIllegalArgumentException(arrayIsEmpty());
+    objects.assertIsNotIn(someInfo(), "Yoda", emptyArray());
   }
 
   @Test
-  public void should_pass_if_actual_is_not_in_Iterable() {
+  public void should_pass_if_actual_is_in_not_array() {
     objects.assertIsNotIn(someInfo(), "Luke", values);
   }
 
@@ -70,7 +72,7 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_O
   }
 
   @Test
-  public void should_fail_if_actual_is_in_Iterable() {
+  public void should_fail_if_actual_is_not_in_array() {
     AssertionInfo info = someInfo();
     try {
       objects.assertIsNotIn(info, "Yoda", values);
@@ -82,12 +84,12 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_O
   }
 
   @Test
-  public void should_pass_if_actual_is_not_in_Iterable_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_is_in_not_array_according_to_custom_comparison_strategy() {
     objectsWithCustomComparisonStrategy.assertIsNotIn(someInfo(), "Luke", values);
   }
 
   @Test
-  public void should_fail_if_actual_is_in_Iterable_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_not_in_array_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
       objectsWithCustomComparisonStrategy.assertIsNotIn(info, "YODA", values);
@@ -97,5 +99,4 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends AbstractTest_for_O
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
 }

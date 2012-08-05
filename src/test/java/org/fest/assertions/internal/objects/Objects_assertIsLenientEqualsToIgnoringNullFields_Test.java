@@ -12,62 +12,61 @@
  * 
  * Copyright @2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.error.ShouldBeInstance;
+import org.fest.assertions.internal.ObjectsBaseTest;
 import org.fest.assertions.test.Employee;
 import org.fest.assertions.test.Jedi;
 
 /**
- * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.
+ * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringNull(AssertionInfo, Object, Object)</code>.
  *
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
-
-  private Failures failures;
-  private Objects objects;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    objects = new Objects();
-    objects.failures = failures;
-  }
+public class Objects_assertIsLenientEqualsToIgnoringNullFields_Test extends ObjectsBaseTest {
 
   @Test
   public void should_pass_when_same_fields() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other);
+    objects.assertIsLenientEqualsToByIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
-  public void should_pass_when_different_field_is_not_accepted() {
+  public void should_pass_when_same_fields_with_null_in_actual() {
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "lightSaberColor");
+    Jedi other = new Jedi("Yoda", null);
+    objects.assertIsLenientEqualsToByIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
-  public void should_pass_when_value_is_null() {
+  public void should_fail_when_same_fields_with_null_in_actual() {
+    AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
-    Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToByIgnoringFields(someInfo(), actual, other, "name");
+    Jedi other = new Jedi("Yoda", "Green");
+    try {
+      objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
+    } catch (AssertionError err) {
+      List<String> emptyList = list();
+      verify(failures).failure(info,
+          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Green"), emptyList));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -76,10 +75,11 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
+      objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
+      List<String> emptyList = list();
       verify(failures).failure(info,
-          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Blue"), list("name")));
+          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Blue"), emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -91,25 +91,9 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
+      objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
       verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass()));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_when_value_is_null_just_on_other() {
-    AssertionInfo info = someInfo();
-    Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", null);
-    try {
-      objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, "name");
-    } catch (AssertionError err) {
-      List<Object> list = new ArrayList<Object>();
-      list.add(null);
-      verify(failures).failure(info, shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list, list("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

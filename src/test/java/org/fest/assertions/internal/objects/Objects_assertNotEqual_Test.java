@@ -1,5 +1,5 @@
 /*
- * Created on Sep 9, 2010
+ * Created on Sep 14, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.objects;
 
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -23,44 +23,45 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Objects;
+import org.fest.assertions.internal.ObjectsBaseTest;
 
 /**
- * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertNotEqual(AssertionInfo, Object, Object)}</code>.
  * 
  * @author Alex Ruiz
- * @author Joel Costigliola
  */
-public class Objects_assertEqual_Test extends AbstractTest_for_Objects {
+public class Objects_assertNotEqual_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_if_objects_are_equal() {
-    objects.assertEqual(someInfo(), "Yoda", "Yoda");
+  public void should_pass_if_objects_are_not_equal() {
+    objects.assertNotEqual(someInfo(), "Yoda", "Luke");
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal() {
+  public void should_fail_if_objects_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      objects.assertEqual(info, "Luke", "Yoda");
+      objects.assertNotEqual(info, "Yoda", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
+      verify(failures).failure(info, shouldNotBeEqual("Yoda", "Yoda"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_objects_are_equal_according_to_custom_comparison_strategy() {
-    objectsWithCustomComparisonStrategy.assertEqual(someInfo(), "Yoda", "YODA");
+  public void should_pass_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
+    objectsWithCustomComparisonStrategy.assertNotEqual(someInfo(), "Yoda", "Luke");
   }
 
   @Test
-  public void should_fail_if_objects_are_not_equal_according_to_custom_comparison_strategy() {
+  public void should_fail_if_objects_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda");
+      objectsWithCustomComparisonStrategy.assertNotEqual(info, "YoDA", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeEqual("YoDA", "Yoda", customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
