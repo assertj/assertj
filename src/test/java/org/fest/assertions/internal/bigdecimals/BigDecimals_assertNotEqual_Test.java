@@ -12,11 +12,11 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
 
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -28,32 +28,36 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.BigDecimalsBaseTest;
 
 /**
- * Tests for <code>{@link BigDecimals#assertEqualByComparison(AssertionInfo, BigDecimal, bigdecimal)}</code>.
+ * Tests for <code>{@link BigDecimals#assertNotEqual(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertEqualByComparison_Test extends AbstractTest_for_BigDecimals {
+public class BigDecimals_assertNotEqual_Test extends BigDecimalsBaseTest {
+
+  private static final BigDecimal ONE_WITH_3_DECIMALS = new BigDecimal("1.000");
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertEqualByComparison(someInfo(), null, ONE);
+    bigDecimals.assertNotEqual(someInfo(), null, ONE);
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_equal_by_comparison() {
-    bigDecimals.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5.00"));
+  public void should_pass_if_big_decimals_are_not_equal() {
+    bigDecimals.assertNotEqual(someInfo(), ONE, ONE_WITH_3_DECIMALS);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_equal_by_comparison() {
+  public void should_fail_if_big_decimals_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertEqualByComparison(info, TEN, ONE);
+      bigDecimals.assertNotEqual(info, ONE, ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TEN, ONE));
+      verify(failures).failure(info, shouldNotBeEqual(ONE, ONE));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -62,21 +66,21 @@ public class BigDecimals_assertEqualByComparison_Test extends AbstractTest_for_B
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), null, ONE);
+    bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(someInfo(), null, ONE);
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(someInfo(), new BigDecimal("5.0"), new BigDecimal("5"));
+  public void should_pass_if_big_decimals_are_not_equal_according_to_custom_comparison_strategy() {
+    bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(someInfo(), TEN, ONE);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_equal_by_comparison_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_big_decimals_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertEqualByComparison(info, TEN, ONE);
+      bigDecimalsWithComparatorComparisonStrategy.assertNotEqual(info, ONE_WITH_3_DECIMALS, ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TEN, ONE, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE, comparatorComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

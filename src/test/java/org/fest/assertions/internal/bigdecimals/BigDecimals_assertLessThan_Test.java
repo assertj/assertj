@@ -12,11 +12,11 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
 
-import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
+import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -28,32 +28,34 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.BigDecimalsBaseTest;
 
 /**
- * Tests for <code>{@link BigDecimals#assertGreaterThan(AssertionInfo, BigDecimal, bigdecimal)}</code>.
+ * Tests for <code>{@link BigDecimals#assertLessThan(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertGreaterThan_Test extends AbstractTest_for_BigDecimals {
+public class BigDecimals_assertLessThan_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    bigDecimals.assertGreaterThan(someInfo(), null, ONE);
+    bigDecimals.assertLessThan(someInfo(), null, ONE);
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
-    bigDecimals.assertGreaterThan(someInfo(), TEN, ONE);
+  public void should_pass_if_actual_is_less_than_other() {
+    bigDecimals.assertLessThan(someInfo(), ONE, TEN);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThan(info, TEN, TEN);
+      bigDecimals.assertLessThan(info, TEN, TEN);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN, TEN));
+      verify(failures).failure(info, shouldBeLess(TEN, TEN));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -63,9 +65,9 @@ public class BigDecimals_assertGreaterThan_Test extends AbstractTest_for_BigDeci
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimals.assertGreaterThan(info, ONE, TEN);
+      bigDecimals.assertLessThan(info, TEN, ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN));
+      verify(failures).failure(info, shouldBeLess(TEN, ONE));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,17 +78,17 @@ public class BigDecimals_assertGreaterThan_Test extends AbstractTest_for_BigDeci
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), TEN.negate(), ONE);
+  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), ONE, TEN.negate());
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(info, TEN.negate(), TEN);
+      bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), TEN);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(TEN.negate(), TEN, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeLess(TEN.negate(), TEN, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -96,9 +98,9 @@ public class BigDecimals_assertGreaterThan_Test extends AbstractTest_for_BigDeci
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      bigDecimalsWithAbsValueComparisonStrategy.assertGreaterThan(info, ONE, TEN.negate());
+      bigDecimalsWithAbsValueComparisonStrategy.assertLessThan(info, TEN.negate(), ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreater(ONE, TEN.negate(), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeLess(TEN.negate(), ONE, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

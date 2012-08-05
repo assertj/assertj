@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bigdecimals;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -21,6 +21,8 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.BigDecimalsBaseTest;
 
 /**
  * Tests for <code>{@link BigDecimals#assertIsPositive(AssertionInfo, BigDecimal)}</code>.
@@ -28,7 +30,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class BigDecimals_assertIsPositive_Test extends AbstractTest_for_BigDecimals {
+public class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_positive() {

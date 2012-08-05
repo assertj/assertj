@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
 
@@ -28,13 +28,15 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.BigDecimalsBaseTest;
 
 /**
  * Tests for <code>{@link BigDecimals#assertGreaterThanOrEqualTo(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class BigDecimals_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_BigDecimals {
+public class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bigdecimals;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -23,40 +23,42 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.BigDecimalsBaseTest;
 
 /**
- * Tests for <code>{@link BigDecimals#assertIsZero(AssertionInfo, BigDecimal)}</code>.
+ * Tests for <code>{@link BigDecimals#assertIsNotZero(AssertionInfo, BigDecimal)}</code>.
  * 
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class BigDecimals_assertIsZero_Test extends AbstractTest_for_BigDecimals {
+public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_zero() {
-    bigDecimals.assertIsZero(someInfo(), BigDecimal.ZERO);
+    bigDecimals.assertIsNotZero(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero() {
     try {
-      bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
+      bigDecimals.assertIsNotZero(someInfo(), BigDecimal.ZERO);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
     }
   }
 
   @Test
   public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ZERO);
+    bigDecimalsWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ONE);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     try {
-      bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
+      bigDecimalsWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
     }
   }
 

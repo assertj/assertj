@@ -15,9 +15,17 @@ import org.fest.assertions.util.AbsValueComparator;
 import org.fest.assertions.util.BigDecimalComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
-public class AbstractTest_for_BigDecimals {
+/**
+ * Base class for {@link BigDecimals} unit tests
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link BigDecimals#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ * 
+ */
+public class BigDecimalsBaseTest {
 
-  static final BigDecimal ONE_WITH_3_DECIMALS = new BigDecimal("1.000");
+  protected static final BigDecimal ONE_WITH_3_DECIMALS = new BigDecimal("1.000");
 
   @Rule
   public ExpectedException thrown = none();
