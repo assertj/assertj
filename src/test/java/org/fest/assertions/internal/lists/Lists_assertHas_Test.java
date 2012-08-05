@@ -1,9 +1,12 @@
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.lists;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.ListsBaseTest;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,7 +28,7 @@ import static org.mockito.Mockito.verify;
  *
  * @author Bo Gotthardt
  */
-public class Lists_assertHas_Test extends AbstractTest_for_Lists {
+public class Lists_assertHas_Test extends ListsBaseTest {
 
   private static TestCondition<String> condition;
   private static List<String> actual = list("Yoda", "Luke", "Leia");

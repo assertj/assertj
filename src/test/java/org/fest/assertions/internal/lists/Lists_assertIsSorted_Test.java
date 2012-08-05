@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.lists;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -27,13 +27,15 @@ import java.util.List;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.ListsBaseTest;
 
 /**
  * Tests for <code>{@link Lists#assertIsSorted(AssertionInfo, List)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Lists_assertIsSorted_Test extends AbstractTest_for_Lists {
+public class Lists_assertIsSorted_Test extends ListsBaseTest {
 
   private List<String> actual = list("Leia", "Luke", "Luke", "Vador", "Yoda");
 

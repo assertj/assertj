@@ -10,8 +10,18 @@ import org.junit.Rule;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
-public class AbstractTest_for_Lists {
+/**
+ * Base class for testing <code>{@link Lists}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
+ * {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Lists#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ * 
+ */
+public class ListsBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
