@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shorts;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.internal.ShortsBaseTest;
 
 /**
  * Tests for <code>{@link Shorts#assertIsNegative(AssertionInfo, Short)}</code>.
@@ -28,29 +30,26 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Shorts_assertIsZero_Test extends AbstractTest_for_Shorts {
+public class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_zero() {
-    shorts.assertIsZero(someInfo(), (short) 0);
+  public void should_succeed_since_actual_is_not_zero() {
+    shorts.assertIsNotZero(someInfo(), (short) 2);
   }
 
   @Test
-  public void should_fail_since_actual_is_not_zero() {
-    try {
-      shorts.assertIsZero(someInfo(), (short) 2);
-    } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[2]>");
-    }
+  public void should_fail_since_actual_is_zero() {
+    thrown.expectAssertionError("<0> should not be equal to:<0>");
+    shorts.assertIsNotZero(someInfo(), (short) 0);
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 1);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     try {
       shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
     } catch (AssertionError e) {

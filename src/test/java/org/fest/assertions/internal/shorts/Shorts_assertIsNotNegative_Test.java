@@ -12,19 +12,22 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shorts;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
-import org.fest.assertions.core.AssertionInfo;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.internal.ShortsBaseTest;
 
 /**
  * Tests for <code>{@link Shorts#assertIsNotPositive(AssertionInfo, Short)}</code>.
  * 
  * @author Nicolas François
  */
-public class Shorts_assertIsNotNegative_Test extends AbstractTest_for_Shorts {
+public class Shorts_assertIsNotNegative_Test extends ShortsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_negative() {

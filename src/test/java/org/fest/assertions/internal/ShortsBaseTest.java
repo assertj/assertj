@@ -7,11 +7,22 @@ import static org.mockito.Mockito.spy;
 import org.junit.Before;
 import org.junit.Rule;
 
+import org.fest.assertions.internal.Failures;
+import org.fest.assertions.internal.Shorts;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
-public class AbstractTest_for_Shorts {
+/**
+ * 
+ * Base class for {@link Shorts} tests.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Shorts#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ * 
+ */
+public class ShortsBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
