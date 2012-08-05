@@ -1,5 +1,5 @@
 /*
- * Created on Oct 20, 2010
+ * Created on Sep 14, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.integers;
 
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,38 +24,35 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Integers;
+import org.fest.assertions.internal.IntegersBaseTest;
 
 /**
- * Tests for <code>{@link Integers#assertGreaterThanOrEqualTo(AssertionInfo, Integer, int)}</code>.
+ * Tests for <code>{@link Integers#assertNotEqual(AssertionInfo, Integer, int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_Integers {
+public class Integers_assertNotEqual_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    integers.assertGreaterThanOrEqualTo(someInfo(), null, 8);
+    integers.assertNotEqual(someInfo(), null, 8);
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
-    integers.assertGreaterThanOrEqualTo(someInfo(), 8, 6);
+  public void should_pass_if_integers_are_not_equal() {
+    integers.assertNotEqual(someInfo(), 8, 6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
-    integers.assertGreaterThanOrEqualTo(someInfo(), 6, 6);
-  }
-
-  @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  public void should_fail_if_integers_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      integers.assertGreaterThanOrEqualTo(info, 6, 8);
+      integers.assertNotEqual(info, 6, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6, 8));
+      verify(failures).failure(info, shouldNotBeEqual(6, 6));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -64,26 +61,21 @@ public class Integers_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_I
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8);
+    integersWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8);
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -8, 6);
+  public void should_pass_if_integers_are_not_equal_according_to_custom_comparison_strategy() {
+    integersWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8, 6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -6, 6);
-  }
-
-  @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  public void should_fail_if_integers_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      integersWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8);
+      integersWithAbsValueComparisonStrategy.assertNotEqual(info, 6, -6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6, -8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeEqual(6, -6, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

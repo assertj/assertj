@@ -12,18 +12,20 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.integers;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
 import org.junit.Test;
+
+import org.fest.assertions.internal.IntegersBaseTest;
 
 /**
  * Tests for <code>{@link Integers#assertIsNotNegative(AssertionInfo, Integer))}</code>.
  * 
  * @author Nicolas François
  */
-public class Integers_assertIsNotNegative_Test extends AbstractTest_for_Integers {
+public class Integers_assertIsNotNegative_Test extends IntegersBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_negative() {

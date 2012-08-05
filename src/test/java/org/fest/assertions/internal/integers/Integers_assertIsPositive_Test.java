@@ -12,13 +12,15 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.integers;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Integers;
+import org.fest.assertions.internal.IntegersBaseTest;
 
 /**
  * Tests for <code>{@link Integers#assertIsPositive(AssertionInfo, Integer)}</code>.
@@ -26,7 +28,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Integers_assertIsPositive_Test extends AbstractTest_for_Integers {
+public class Integers_assertIsPositive_Test extends IntegersBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_positive() {

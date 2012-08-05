@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.integers;
 
 import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -24,13 +24,15 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Integers;
+import org.fest.assertions.internal.IntegersBaseTest;
 
 /**
  * Tests for <code>{@link Integers#assertLessThan(AssertionInfo, Integer, int)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Integers_assertLessThan_Test extends AbstractTest_for_Integers {
+public class Integers_assertLessThan_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
