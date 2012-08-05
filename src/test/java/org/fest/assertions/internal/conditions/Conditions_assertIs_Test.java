@@ -12,47 +12,29 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.conditions;
 
 import static org.fest.assertions.error.ShouldBe.shouldBe;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.Condition;
+import org.fest.assertions.internal.Conditions;
+import org.fest.assertions.internal.ConditionsBaseTest;
 
 /**
  * Tests for <code>{@link Conditions#assertIs(AssertionInfo, Object, Condition)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Conditions_assertIs_Test {
-
-  private static Object actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = "Yoda";
-  }
-
-  private Failures failures;
-  private TestCondition<Object> condition;
-  private Conditions conditions;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    condition = new TestCondition<Object>();
-    conditions = new Conditions();
-    conditions.failures = failures;
-  }
+public class Conditions_assertIs_Test extends ConditionsBaseTest {
 
   @Test
   public void should_throw_error_if_Condition_is_null() {

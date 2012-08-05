@@ -12,26 +12,22 @@
  * 
  * Copyright @2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.conditions;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import org.junit.Test;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import org.fest.assertions.internal.Conditions;
+import org.fest.assertions.internal.ConditionsBaseTest;
 
 /**
  * Tests for <code>{@link Conditions#assertIsNotNull(Condition)}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Conditions_assertIsNotNull_Test {
-
-  private Conditions conditions = new Conditions();
-  @Rule
-  public ExpectedException thrown = none();
+public class Conditions_assertIsNotNull_Test extends ConditionsBaseTest {
 
   @Test
   public void should_pass_if_condition_is_not_null() {
