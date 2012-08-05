@@ -16,7 +16,8 @@ import org.fest.util.StandardComparisonStrategy;
  * Base class for testing <code>{@link Floats}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
  * {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Floats#failures} appropriately.
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Floats#failures} appropriately and to use
+ * {@link Floats#NaN()}.
  * 
  * @author Joel Costigliola
  */
@@ -45,7 +46,7 @@ public class FloatsBaseTest {
   }
 
   protected Float NaN() {
-    return Floats.instance().NaN();
+    return floats.NaN();
   }
 
 }
