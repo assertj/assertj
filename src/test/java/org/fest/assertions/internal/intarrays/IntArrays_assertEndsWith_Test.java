@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.intarrays;
 
-import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.IntArrayFactory.*;
@@ -26,14 +26,16 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.IntArraysBaseTest;
 
 /**
- * Tests for <code>{@link IntArrays#assertStartsWith(AssertionInfo, int[], int[])}</code>.
+ * Tests for <code>{@link IntArrays#assertEndsWith(AssertionInfo, int[], int[])}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IntArrays_assertStartsWith_Test extends AbstractTest_for_IntArrays {
+public class IntArrays_assertEndsWith_Test extends IntArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -43,19 +45,19 @@ public class IntArrays_assertStartsWith_Test extends AbstractTest_for_IntArrays 
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertStartsWith(someInfo(), actual, null);
+    arrays.assertEndsWith(someInfo(), actual, null);
   }
 
   @Test
   public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertStartsWith(someInfo(), actual, emptyArray());
+    arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, array(8));
+    arrays.assertEndsWith(someInfo(), null, array(8));
   }
 
   @Test
@@ -63,70 +65,66 @@ public class IntArrays_assertStartsWith_Test extends AbstractTest_for_IntArrays 
     AssertionInfo info = someInfo();
     int[] sequence = { 6, 8, 10, 12, 20, 22 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
+      verify(failures).failure(info, shouldEndWith(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence() {
+  public void should_fail_if_actual_does_not_end_with_sequence() {
     AssertionInfo info = someInfo();
-    int[] sequence = { 8, 10 };
+    int[] sequence = { 20, 22 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
+      verify(failures).failure(info, shouldEndWith(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
+  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
-    int[] sequence = { 6, 20 };
+    int[] sequence = { 6, 20, 22 };
     try {
-      arrays.assertStartsWith(info, actual, sequence);
+      arrays.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
+      verify(failures).failure(info, shouldEndWith(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, int[] sequence) {
-    verify(failures).failure(info, shouldStartWith(actual, sequence));
-  }
-
   @Test
-  public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(someInfo(), actual, array(6, 8, 10));
+  public void should_pass_if_actual_ends_with_sequence() {
+    arrays.assertEndsWith(someInfo(), actual, array(8, 10, 12));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(someInfo(), actual, array(6, 8, 10, 12));
+    arrays.assertEndsWith(someInfo(), actual, array(6, 8, 10, 12));
   }
 
   @Test
   public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, null);
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, null);
   }
 
   @Test
   public void should_throw_error_if_sequence_is_empty_whatever_custom_comparison_strategy_is() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, emptyArray());
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, emptyArray());
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, array(-8));
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, array(-8));
   }
 
   @Test
@@ -134,47 +132,47 @@ public class IntArrays_assertStartsWith_Test extends AbstractTest_for_IntArrays 
     AssertionInfo info = someInfo();
     int[] sequence = { 6, -8, 10, 12, 20, 22 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_start_with_sequence_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    int[] sequence = { -8, 10 };
+    int[] sequence = { 20, 22 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    int[] sequence = { 6, 20 };
+    int[] sequence = { 6, 20, 22 };
     try {
-      arraysWithCustomComparisonStrategy.assertStartsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldStartWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, array(6, -8, 10));
+  public void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, array(-8, 10, 12));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, array(6, -8, 10, 12));
+    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, array(6, -8, 10, 12));
   }
 }

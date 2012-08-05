@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.intarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.IntArraysBaseTest;
 
 /**
  * Tests for <code>{@link IntArrays#assertIsSortedAccordingToComparator(AssertionInfo, int[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class IntArrays_assertIsSortedAccordingToComparator_Test {
+public class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private int[] actual;
-  private IntArrays arrays;
   private Comparator<Integer> intDescendingOrderComparator;
   private Comparator<Integer> intSquareComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new int[] { 4, 3, 2, 2, 1 };
-    arrays = new IntArrays();
-    arrays.failures = failures;
     intDescendingOrderComparator = new Comparator<Integer>() {
       public int compare(Integer int1, Integer int2) {
         return -int1.compareTo(int2);

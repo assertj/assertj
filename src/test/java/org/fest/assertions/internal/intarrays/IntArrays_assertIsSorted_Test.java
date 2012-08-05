@@ -1,5 +1,5 @@
 /*
- * Created on Dec 14, 2010
+ * Created on Nov 29, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,89 +12,102 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.intarrays;
 
-import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
+import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.IntArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
 
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.IntArraysBaseTest;
 
 /**
- * Tests for <code>{@link IntArrays#assertDoesNotHaveDuplicates(AssertionInfo, int[])}</code>.
+ * Tests for <code>{@link IntArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
- * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IntArrays_assertDoesNotHaveDuplicates_Test extends AbstractTest_for_IntArrays {
+public class IntArrays_assertIsSorted_Test extends IntArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(6, 8);
+    actual = array(1, 2, 3, 4, 4);
   }
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates() {
-    arrays.assertDoesNotHaveDuplicates(someInfo(), actual);
+  public void should_pass_if_actual_is_sorted_in_ascending_order() {
+    arrays.assertIsSorted(someInfo(), actual);
   }
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    arrays.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
+    arrays.assertIsSorted(someInfo(), emptyArray());
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_only_one_element() {
+    arrays.assertIsSorted(someInfo(), array(1));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotHaveDuplicates(someInfo(), null);
+    arrays.assertIsSorted(someInfo(), (int[]) null);
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates() {
+  public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(6, 8, 6, 8);
+    actual = array(1, 3, 2);
     try {
-      arrays.assertDoesNotHaveDuplicates(info, actual);
+      arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6, 8)));
+      verify(failures).failure(info, shouldBeSorted(1, actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_does_not_have_duplicates_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), actual);
+  public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
+    actual = array(1, -2, 3, 4, -4);
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
   public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), emptyArray());
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), emptyArray());
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), null);
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), (int[]) null);
   }
 
   @Test
-  public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(6, -8, 6, 8);
+    actual = array(1, 3, 2);
     try {
-      arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
+      arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6, 8), absValueComparisonStrategy));
+      verify(failures)
+          .failure(info, shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }

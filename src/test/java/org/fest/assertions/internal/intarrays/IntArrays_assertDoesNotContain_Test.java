@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.intarrays;
 
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.*;
@@ -27,6 +27,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.IntArraysBaseTest;
 
 /**
  * Tests for <code>{@link IntArrays#assertDoesNotContain(AssertionInfo, int[], int[])}</code>.
@@ -34,7 +36,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IntArrays_assertDoesNotContain_Test extends AbstractTest_for_IntArrays {
+public class IntArrays_assertDoesNotContain_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
