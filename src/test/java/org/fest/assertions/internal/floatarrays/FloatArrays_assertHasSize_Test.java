@@ -12,60 +12,49 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floatarrays;
 
-import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.FloatArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.FloatArraysBaseTest;
 
 /**
- * Tests for <code>{@link FloatArrays#assertNotEmpty(AssertionInfo, float[])}</code>.
+ * Tests for <code>{@link FloatArrays#assertHasSize(AssertionInfo, float[], int)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class FloatArrays_assertNotEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private FloatArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new FloatArrays();
-    arrays.failures = failures;
-  }
+public class FloatArrays_assertHasSize_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertNotEmpty(someInfo(), null);
+    arrays.assertHasSize(someInfo(), null, 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
     try {
-      arrays.assertNotEmpty(info, emptyArray());
+      arrays.assertHasSize(info, actual, 4);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
+      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 4));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(someInfo(), array(8f));
+  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+    arrays.assertHasSize(someInfo(), actual, 3);
   }
 }

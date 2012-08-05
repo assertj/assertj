@@ -1,5 +1,5 @@
 /*
- * Created on Dec 20, 2010
+ * Created on Jun 4, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -10,62 +10,46 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * 
- * Copyright @2010-2011 the original author or authors.
+ * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floatarrays;
 
-import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.FloatArrayFactory.array;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+import static org.fest.util.Arrays.array;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.FloatArraysBaseTest;
 
 /**
- * Tests for <code>{@link FloatArrays#assertHasSize(AssertionInfo, float[], int)}</code>.
+ * Tests for <code>{@link FloatArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.
  * 
- * @author Alex Ruiz
+ * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class FloatArrays_assertHasSize_Test {
-
-  private static float[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private FloatArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(6f, 8f);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new FloatArrays();
-    arrays.failures = failures;
-  }
+public class FloatArrays_assertHasSameSizeAs_with_Array_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSize(someInfo(), null, 3);
+    arrays.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia", "Luke"));
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
+    String[] other = array("Solo", "Leia", "Yoda", "Luke");
     try {
-      arrays.assertHasSize(info, actual, 3);
+      arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 3));
+      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.length));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -73,6 +57,6 @@ public class FloatArrays_assertHasSize_Test {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(someInfo(), actual, 2);
+    arrays.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia", "Luke"));
   }
 }

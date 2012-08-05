@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floatarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.FloatArraysBaseTest;
 
 /**
  * Tests for <code>{@link FloatArrays#assertIsSortedAccordingToComparator(AssertionInfo, float[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class FloatArrays_assertIsSortedAccordingToComparator_Test {
+public class FloatArrays_assertIsSortedAccordingToComparator_Test extends FloatArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private float[] actual;
-  private FloatArrays arrays;
   private Comparator<Float> floatDescendingOrderComparator;
   private Comparator<Float> floatSquareComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new float[] { 4.0f, 3.0f, 2.0f, 2.0f, 1.0f };
-    arrays = new FloatArrays();
-    arrays.failures = failures;
     floatDescendingOrderComparator = new Comparator<Float>() {
       public int compare(Float float1, Float float2) {
         return -float1.compareTo(float2);

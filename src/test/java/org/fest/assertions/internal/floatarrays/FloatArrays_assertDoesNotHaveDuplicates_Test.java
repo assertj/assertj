@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floatarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -26,6 +26,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.FloatArraysBaseTest;
 
 /**
  * Tests for <code>{@link FloatArrays#assertDoesNotHaveDuplicates(AssertionInfo, float[])}</code>.
@@ -33,7 +35,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class FloatArrays_assertDoesNotHaveDuplicates_Test extends AbstractTest_for_FloatArrays {
+public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBaseTest {
 
   @Override
   protected void initActualArray() {

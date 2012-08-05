@@ -32,10 +32,12 @@ import org.fest.util.StandardComparisonStrategy;
 /**
  * Base class for testing <code>{@link FloatArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link FloatArrays#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_FloatArrays {
+public class FloatArraysBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

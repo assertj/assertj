@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floatarrays;
 
-import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
+import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.FloatArrayFactory.*;
@@ -26,14 +26,16 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.FloatArrays;
+import org.fest.assertions.internal.FloatArraysBaseTest;
 
 /**
- * Tests for <code>{@link FloatArrays#assertEndsWith(AssertionInfo, float[], float[])}</code>.
+ * Tests for <code>{@link FloatArrays#assertContainsSequence(AssertionInfo, float[], float[])}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class FloatArrays_assertEndsWith_Test extends AbstractTest_for_FloatArrays {
+public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest {
 
   @Override
   protected void initActualArray() {
@@ -41,21 +43,21 @@ public class FloatArrays_assertEndsWith_Test extends AbstractTest_for_FloatArray
   }
 
   @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertContainsSequence(someInfo(), null, array(8f));
+  }
+
+  @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertEndsWith(someInfo(), actual, null);
+    arrays.assertContainsSequence(someInfo(), actual, null);
   }
 
   @Test
   public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertEndsWith(someInfo(), actual, emptyArray());
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertEndsWith(someInfo(), null, array(8f));
+    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test
@@ -63,66 +65,66 @@ public class FloatArrays_assertEndsWith_Test extends AbstractTest_for_FloatArray
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 8f, 10f, 12f, 20f, 22f };
     try {
-      arrays.assertEndsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence() {
+  public void should_fail_if_actual_does_not_contain_whole_sequence() {
     AssertionInfo info = someInfo();
-    float[] sequence = { 20f, 22f };
+    float[] sequence = { 6f, 20f };
     try {
-      arrays.assertEndsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only() {
+  public void should_fail_if_actual_contains_first_elements_of_sequence() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f, 22f };
     try {
-      arrays.assertEndsWith(info, actual, sequence);
+      arrays.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(someInfo(), actual, array(8f, 10f, 12f));
+  public void should_pass_if_actual_contains_sequence() {
+    arrays.assertContainsSequence(someInfo(), actual, array(6f, 8f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(someInfo(), actual, array(6f, 8f, 10f, 12f));
-  }
-
-  @Test
-  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException(valuesToLookForIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, null);
-  }
-
-  @Test
-  public void should_throw_error_if_sequence_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, emptyArray());
+    arrays.assertContainsSequence(someInfo(), actual, array(6f, 8f, 10f, 12f));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, array(-8f));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, array(-8f));
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectNullPointerException(valuesToLookForIsNull());
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, null);
+  }
+
+  @Test
+  public void should_throw_error_if_sequence_is_empty_whatever_custom_comparison_strategy_is() {
+    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test
@@ -130,47 +132,47 @@ public class FloatArrays_assertEndsWith_Test extends AbstractTest_for_FloatArray
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, -8f, 10f, 12f, 20f, 22f };
     try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_does_not_end_with_sequence_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_does_not_contain_whole_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    float[] sequence = { 20f, 22f };
+    float[] sequence = { 6f, 20f };
     try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_ends_with_first_elements_of_sequence_only_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_contains_first_elements_of_sequence_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     float[] sequence = { 6f, 20f, 22f };
     try {
-      arraysWithCustomComparisonStrategy.assertEndsWith(info, actual, sequence);
+      arraysWithCustomComparisonStrategy.assertContainsSequence(info, actual, sequence);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldEndWith(actual, sequence, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainSequence(actual, sequence, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_ends_with_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, array(-8f, 10f, 12f));
+  public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6f, -8f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), actual, array(6f, -8f, 10f, 12f));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6f, -8f, 10f, 12f));
   }
 }
