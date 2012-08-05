@@ -12,47 +12,27 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.throwables;
 
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.*;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Throwables;
+import org.fest.assertions.internal.ThrowablesBaseTest;
 
 /**
  * Tests for <code>{@link Throwables#assertHasMessageEndingWith(AssertionInfo, Throwable, String)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessageContaining_Test {
-
-  private static Throwable actual;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = new NullPointerException("Throwable message");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Throwables throwables;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    throwables = new Throwables();
-    throwables.failures = failures;
-  }
+public class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
   @Test
   public void should_pass_if_actual_has_message_ending_with_expected_description() {
