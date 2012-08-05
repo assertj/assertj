@@ -13,6 +13,8 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for tests involving {@link Doubles}
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Doubles#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
