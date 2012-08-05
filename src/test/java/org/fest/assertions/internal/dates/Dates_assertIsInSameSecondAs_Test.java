@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
-import static org.fest.assertions.error.ShouldBeInSameYear.shouldBeInSameYear;
+import static org.fest.assertions.error.ShouldBeInSameSecond.shouldBeInSameSecond;
 import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -27,22 +27,29 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
- * Tests for <code>{@link Dates#assertIsInSameYearAs(AssertionInfo, Date, Date)}</code>.
+ * Tests for <code>{@link Dates#assertIsInSameSecondAs(AssertionInfo, Date, Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameYearAs_Test extends AbstractDatesTest {
+public class Dates_assertIsInSameSecondAs_Test extends DatesBaseTest {
+
+  @Override
+  protected void initActualDate() {
+    actual = parseDatetime("2011-01-01T03:15:05");
+  }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_year_as_given_date() {
+  public void should_fail_if_actual_is_not_in_same_second_as_given_date() {
     AssertionInfo info = someInfo();
-    Date other = parseDate("2000-01-01");
+    Date other = parseDatetime("2011-01-01T03:15:02");
     try {
-      dates.assertIsInSameYearAs(info, actual, other);
+      dates.assertIsInSameSecondAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameYear(actual, other));
+      verify(failures).failure(info, shouldBeInSameSecond(actual, other));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,28 +58,30 @@ public class Dates_assertIsInSameYearAs_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsInSameYearAs(someInfo(), null, new Date());
+    dates.assertIsInSameSecondAs(someInfo(), null, new Date());
   }
 
   @Test
   public void should_throw_error_if_given_date_is_null() {
     thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    dates.assertIsInSameYearAs(someInfo(), actual, null);
+    dates.assertIsInSameSecondAs(someInfo(), actual, null);
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_year_as_given_date() {
-    dates.assertIsInSameYearAs(someInfo(), actual, parseDate("2011-05-11"));
+  public void should_pass_if_actual_is_in_same_second_as_given_date() {
+    Date other = parseDatetime("2011-01-01T03:15:05");
+    dates.assertIsInSameSecondAs(someInfo(), actual, other);
+    dates.assertIsInSameSecondAs(someInfo(), actual, new Date(other.getTime() + 999));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_not_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Date other = parseDate("2000-01-01");
+    Date other = parseDatetime("2011-01-01T03:15:02");
     try {
-      datesWithCustomComparisonStrategy.assertIsInSameYearAs(info, actual, other);
+      datesWithCustomComparisonStrategy.assertIsInSameSecondAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInSameYear(actual, other));
+      verify(failures).failure(info, shouldBeInSameSecond(actual, other));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -81,18 +90,20 @@ public class Dates_assertIsInSameYearAs_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), null, new Date());
+    datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), null, new Date());
   }
 
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), actual, null);
+    datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), actual, null);
   }
 
   @Test
-  public void should_pass_if_actual_is_in_same_year_as_given_date_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsInSameYearAs(someInfo(), actual, parseDate("2011-05-11"));
+  public void should_pass_if_actual_is_in_same_second_as_given_date_whatever_custom_comparison_strategy_is() {
+    Date other = parseDatetime("2011-01-01T03:15:05");
+    datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), actual, other);
+    datesWithCustomComparisonStrategy.assertIsInSameSecondAs(someInfo(), actual, new Date(other.getTime() + 999));
   }
 
 }

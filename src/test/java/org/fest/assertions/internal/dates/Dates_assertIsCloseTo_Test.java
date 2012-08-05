@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
-import static org.fest.assertions.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.fest.assertions.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
@@ -24,25 +24,39 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Date;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
- * Tests for <code>{@link Dates#assertIsAfterOrEqualsTo(AssertionInfo, Date, Date)}</code>.
+ * Tests for <code>{@link Dates#assertIsCloseTo(AssertionInfo, Date, Date, long)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsAfterOrEqualsTo_Test extends AbstractDatesTest {
+public class Dates_assertIsCloseTo_Test extends DatesBaseTest {
+
+  private Date other;
+  private int delta;
+
+  @Override
+  @Before
+  public void setUp() {
+    super.setUp();
+    actual = parseDatetime("2011-01-01T03:15:05");
+    delta = 100;
+    other = new Date(actual.getTime() + delta + 1);
+  }
 
   @Test
-  public void should_fail_if_actual_is_not_strictly_after_given_date() {
+  public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta() {
     AssertionInfo info = someInfo();
-    Date other = parseDate("2022-01-01");
     try {
-      dates.assertIsAfterOrEqualsTo(info, actual, other);
+      dates.assertIsCloseTo(info, actual, other, delta);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfterOrEqualsTo(actual, other));
+      verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,33 +65,27 @@ public class Dates_assertIsAfterOrEqualsTo_Test extends AbstractDatesTest {
   @Test
   public void should_throw_error_if_given_date_is_null() {
     thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    dates.assertIsAfterOrEqualsTo(someInfo(), actual, null);
+    dates.assertIsCloseTo(someInfo(), actual, null, 10);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01"));
+    dates.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10);
   }
 
   @Test
-  public void should_pass_if_actual_is_strictly_after_given_date() {
-    dates.assertIsAfterOrEqualsTo(someInfo(), actual, parseDate("2000-01-01"));
+  public void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta() {
+    dates.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
   }
 
   @Test
-  public void should_pass_if_actual_is_equals_to_given_date() {
-    dates.assertIsAfterOrEqualsTo(someInfo(), actual, parseDate("2011-01-01"));
-  }
-
-  @Test
-  public void should_fail_if_actual_is_not_strictly_after_given_date_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_not_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Date other = parseDate("2022-01-01");
     try {
-      datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(info, actual, other);
+      datesWithCustomComparisonStrategy.assertIsCloseTo(info, actual, other, delta);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeAfterOrEqualsTo(actual, other, yearAndMonthComparisonStrategy));
+      verify(failures).failure(info, shouldBeCloseTo(actual, other, delta, 101));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -86,23 +94,18 @@ public class Dates_assertIsAfterOrEqualsTo_Test extends AbstractDatesTest {
   @Test
   public void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-    datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), actual, null);
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), actual, null, 10);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), null, parseDate("2010-01-01"));
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), null, parseDate("2010-01-01"), 10);
   }
 
   @Test
-  public void should_pass_if_actual_is_strictly_after_given_date_according_to_custom_comparison_strategy() {
-    datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), actual, parseDate("2000-01-01"));
-  }
-
-  @Test
-  public void should_pass_if_actual_is_equals_to_given_date_according_to_custom_comparison_strategy() {
-    datesWithCustomComparisonStrategy.assertIsAfterOrEqualsTo(someInfo(), actual, parseDate("2011-01-31"));
+  public void should_pass_if_actual_is_close_to_given_date_by_less_than_given_delta_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsCloseTo(someInfo(), actual, parseDatetime("2011-01-01T03:15:05"), delta);
   }
 
 }

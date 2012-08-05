@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -26,22 +26,29 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMonth(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertIsWithinSecond(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMonth_Test extends AbstractDatesTest {
+public class Dates_assertIsWithinSecond_Test extends DatesBaseTest {
+
+  @Override
+  protected void initActualDate() {
+    actual = parseDatetime("2011-01-01T03:49:17");
+  }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_month() {
+  public void should_fail_if_actual_is_not_within_given_second() {
     AssertionInfo info = someInfo();
-    int month = 5;
+    int second = 5;
     try {
-      dates.assertIsWithinMonth(info, actual, month);
+      dates.assertIsWithinSecond(info, actual, second);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "month", month));
+      verify(failures).failure(info, shouldBeWithin(actual, "second", second));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -50,22 +57,22 @@ public class Dates_assertIsWithinMonth_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMonth(someInfo(), null, 1);
+    dates.assertIsWithinSecond(someInfo(), null, 17);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_month() {
-    dates.assertIsWithinMonth(someInfo(), actual, 1);
+  public void should_pass_if_actual_is_within_given_second() {
+    dates.assertIsWithinSecond(someInfo(), actual, 17);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_month_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_not_within_given_second_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int month = 5;
+    int second = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMonth(info, actual, month);
+      datesWithCustomComparisonStrategy.assertIsWithinSecond(info, actual, second);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "month", month));
+      verify(failures).failure(info, shouldBeWithin(actual, "second", second));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -74,12 +81,12 @@ public class Dates_assertIsWithinMonth_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), null, 1);
+    datesWithCustomComparisonStrategy.assertIsWithinSecond(someInfo(), null, 17);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_month_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), actual, 1);
+  public void should_pass_if_actual_is_within_given_second_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsWithinSecond(someInfo(), actual, 17);
   }
 
 }

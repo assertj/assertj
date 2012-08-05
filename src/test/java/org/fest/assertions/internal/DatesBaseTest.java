@@ -14,7 +14,14 @@ import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.YearAndMonthComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
-public abstract class AbstractDatesTest {
+/**
+ * Base class for {@link Dates} unit tests
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Dates#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ */
+public abstract class DatesBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

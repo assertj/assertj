@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
 import static java.util.Calendar.*;
 
@@ -28,13 +28,15 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
  * Tests for <code>{@link Dates#assertIsWithinDayOfWeek(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinDayOfWeek_Test extends AbstractDatesTest {
+public class Dates_assertIsWithinDayOfWeek_Test extends DatesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_not_within_given_day_of_week() {

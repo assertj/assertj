@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -26,27 +26,29 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMinute(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertIsWithinHourOfDay(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMinute_Test extends AbstractDatesTest {
+public class Dates_assertIsWithinHourOfDay_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
-    actual = parseDatetime("2011-01-01T03:49:02");
+    actual = parseDatetime("2011-01-01T03:01:02");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_minute() {
+  public void should_fail_if_actual_is_not_within_given_hour_of_day() {
     AssertionInfo info = someInfo();
-    int minute = 5;
+    int hour_of_day = 5;
     try {
-      dates.assertIsWithinMinute(info, actual, minute);
+      dates.assertIsWithinHourOfDay(info, actual, hour_of_day);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "minute", minute));
+      verify(failures).failure(info, shouldBeWithin(actual, "hour", hour_of_day));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -55,22 +57,22 @@ public class Dates_assertIsWithinMinute_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMinute(someInfo(), null, 49);
+    dates.assertIsWithinHourOfDay(someInfo(), null, 3);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_minute() {
-    dates.assertIsWithinMinute(someInfo(), actual, 49);
+  public void should_pass_if_actual_is_within_given_hour_of_day() {
+    dates.assertIsWithinHourOfDay(someInfo(), actual, 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_minute_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_not_within_given_hour_of_day_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int minute = 5;
+    int hour_of_day = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMinute(info, actual, minute);
+      datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(info, actual, hour_of_day);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "minute", minute));
+      verify(failures).failure(info, shouldBeWithin(actual, "hour", hour_of_day));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -79,12 +81,12 @@ public class Dates_assertIsWithinMinute_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMinute(someInfo(), null, 49);
+    datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(someInfo(), null, 3);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_minute_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMinute(someInfo(), actual, 49);
+  public void should_pass_if_actual_is_within_given_hour_of_day_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(someInfo(), actual, 3);
   }
 
 }

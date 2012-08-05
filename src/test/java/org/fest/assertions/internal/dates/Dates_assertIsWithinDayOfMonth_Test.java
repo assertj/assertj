@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -26,27 +26,24 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMillisecond(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertIsWithinDayOfMonth(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMillisecond_Test extends AbstractDatesTest {
-
-  @Override
-  protected void initActualDate() {
-    actual = new Date(parseDatetime("2011-01-01T03:49:17").getTime() + 13);
-  }
+public class Dates_assertIsWithinDayOfMonth_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_millisecond() {
+  public void should_fail_if_actual_is_not_within_given_day_of_month() {
     AssertionInfo info = someInfo();
-    int millisecond = 5;
+    int day_of_month = 5;
     try {
-      dates.assertIsWithinMillisecond(info, actual, millisecond);
+      dates.assertIsWithinDayOfMonth(info, actual, day_of_month);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "millisecond", millisecond));
+      verify(failures).failure(info, shouldBeWithin(actual, "day of month", day_of_month));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -55,22 +52,22 @@ public class Dates_assertIsWithinMillisecond_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMillisecond(someInfo(), null, 13);
+    dates.assertIsWithinDayOfMonth(someInfo(), null, 1);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_millisecond() {
-    dates.assertIsWithinMillisecond(someInfo(), actual, 13);
+  public void should_pass_if_actual_is_within_given_day_of_month() {
+    dates.assertIsWithinDayOfMonth(someInfo(), actual, 1);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_millisecond_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_not_within_given_day_of_month_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int millisecond = 5;
+    int day_of_month = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMillisecond(info, actual, millisecond);
+      datesWithCustomComparisonStrategy.assertIsWithinDayOfMonth(info, actual, day_of_month);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "millisecond", millisecond));
+      verify(failures).failure(info, shouldBeWithin(actual, "day of month", day_of_month));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -79,12 +76,12 @@ public class Dates_assertIsWithinMillisecond_Test extends AbstractDatesTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMillisecond(someInfo(), null, 13);
+    datesWithCustomComparisonStrategy.assertIsWithinDayOfMonth(someInfo(), null, 1);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_millisecond_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMillisecond(someInfo(), actual, 13);
+  public void should_pass_if_actual_is_within_given_day_of_month_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertIsWithinDayOfMonth(someInfo(), actual, 1);
   }
 
 }

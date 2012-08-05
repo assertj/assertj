@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeInSameHour.shouldBeInSameHour;
 import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
@@ -27,13 +27,15 @@ import java.util.Date;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Dates;
+import org.fest.assertions.internal.DatesBaseTest;
 
 /**
  * Tests for <code>{@link Dates#assertIsInSameHourAs(AssertionInfo, Date, Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsInSameHourAs_Test extends AbstractDatesTest {
+public class Dates_assertIsInSameHourAs_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
