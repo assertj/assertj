@@ -26,17 +26,22 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Root class to test {@link AbstractAssert} implementations.
+ * Template to write tests for {@link AbstractAssert} implementations.
  * 
  * <p>
- * These classes are generally simple wrapper types, that delegate the real work to internal objects. Therefore we only want to
- * test that:
+ * These classes are simple wrapper types, that delegate the real work to internal objects. For each method, we only need to test
+ * that:
  * <ul>
- * <li>invoking a method properly delegates to the relevant internal objects;</li>
+ * <li>invoking the method properly delegates to the relevant internal objects;</li>
  * <li>the method returns {@code this} (for assertion chaining).</li>
  * </ul>
- * This class factors most of the code to make the actual tests easy to write. See the existing code base for examples of how to
- * add more tests.
+ * This template factors most of the code to make the actual tests quick to write.
+ * </p>
+ * <p>
+ * For each assertion class (e.g {@link BigDecimalAssert}), the template is specialized by a "base" class in the same package (
+ * {@link BigDecimalAssertBaseTest}). To avoid cluttering the main package with hundreds of classes, the concrete tests reside in
+ * a subpackage ({@link org.fest.assertions.api.bigdecimal}). The base class also serves as a proxy to the package-private fields
+ * of the assertion that need to be verified in the tests.
  * </p>
  * 
  * @param <S> the "self" type of the assertion under test.
@@ -97,7 +102,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected A getActual(S someAssertions) {
     return someAssertions.actual;
   }
-  
+
   protected Objects getObjects(S someAssertions) {
     return someAssertions.objects;
   }
