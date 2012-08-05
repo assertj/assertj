@@ -12,12 +12,14 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.assertions.test.ErrorMessages.*;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsEmpty;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.LongArrayFactory.*;
+import static org.fest.assertions.test.LongArrayFactory.array;
+import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
@@ -27,6 +29,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.LongArraysBaseTest;
 
 /**
  * Tests for <code>{@link LongArrays#assertDoesNotContain(AssertionInfo, long[], long[])}</code>.
@@ -34,7 +38,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class LongArrays_assertDoesNotContain_Test extends AbstractTest_for_LongArrays {
+public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {

@@ -12,13 +12,14 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.LongArrayFactory.emptyArray;
-import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestData.someIndex;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
@@ -27,6 +28,8 @@ import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.LongArraysBaseTest;
 
 /**
  * Tests for <code>{@link LongArrays#assertDoesNotContain(AssertionInfo, long[], long, Index)}</code>.
@@ -34,7 +37,7 @@ import org.fest.assertions.data.Index;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class LongArrays_assertDoesNotContain_at_Index_Test extends AbstractTest_for_LongArrays {
+public class LongArrays_assertDoesNotContain_at_Index_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

@@ -24,6 +24,8 @@ import java.util.Comparator;
 import org.junit.Before;
 import org.junit.Rule;
 
+import org.fest.assertions.internal.Failures;
+import org.fest.assertions.internal.LongArrays;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
@@ -32,10 +34,12 @@ import org.fest.util.StandardComparisonStrategy;
 /**
  * Base class for testing <code>{@link LongArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link LongArrays#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_LongArrays {
+public class LongArraysBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

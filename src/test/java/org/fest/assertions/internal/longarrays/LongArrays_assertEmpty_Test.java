@@ -12,60 +12,51 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longarrays;
 
-import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.LongArrayFactory.*;
+import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.LongArraysBaseTest;
 
 /**
- * Tests for <code>{@link LongArrays#assertNotEmpty(AssertionInfo, long[])}</code>.
+ * Tests for <code>{@link LongArrays#assertEmpty(AssertionInfo, long[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class LongArrays_assertNotEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private LongArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new LongArrays();
-    arrays.failures = failures;
-  }
+public class LongArrays_assertEmpty_Test extends LongArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertNotEmpty(someInfo(), null);
+    arrays.assertEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  public void should_fail_if_actual_is_not_empty() {
     AssertionInfo info = someInfo();
+    long[] actual = { 6L, 8L };
     try {
-      arrays.assertNotEmpty(info, emptyArray());
+      arrays.assertEmpty(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
+      verify(failures).failure(info, shouldBeEmpty(actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(someInfo(), array(8L));
+  public void should_pass_if_actual_is_empty() {
+    arrays.assertEmpty(someInfo(), emptyArray());
   }
 }

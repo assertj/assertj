@@ -12,11 +12,13 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longarrays;
 
-import static org.fest.assertions.error.ShouldBeSorted.*;
+import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
+import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.LongArrayFactory.*;
+import static org.fest.assertions.test.LongArrayFactory.array;
+import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -25,13 +27,15 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.LongArraysBaseTest;
 
 /**
  * Tests for <code>{@link LongArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
  */
-public class LongArrays_assertIsSorted_Test extends AbstractTest_for_LongArrays {
+public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Override
   protected void initActualArray() {

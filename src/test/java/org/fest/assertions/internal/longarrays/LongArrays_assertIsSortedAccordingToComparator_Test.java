@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.LongArrays;
+import org.fest.assertions.internal.LongArraysBaseTest;
 
 /**
  * Tests for <code>{@link LongArrays#assertIsSortedAccordingToComparator(AssertionInfo, long[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class LongArrays_assertIsSortedAccordingToComparator_Test {
+public class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private long[] actual;
-  private LongArrays arrays;
   private Comparator<Long> longDescendingOrderComparator;
   private Comparator<Long> longSquareComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new long[] { 4L, 3L, 2L, 2L, 1L };
-    arrays = new LongArrays();
-    arrays.failures = failures;
     longDescendingOrderComparator = new Comparator<Long>() {
       public int compare(Long long1, Long long2) {
         return -long1.compareTo(long2);
