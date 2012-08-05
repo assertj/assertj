@@ -16,7 +16,7 @@ import org.fest.util.ComparatorBasedComparisonStrategy;
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_Doubles {
+public class DoublesBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
@@ -35,6 +35,10 @@ public class AbstractTest_for_Doubles {
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Double>());
     doublesWithAbsValueComparisonStrategy = new Doubles(absValueComparisonStrategy);
     doublesWithAbsValueComparisonStrategy.failures = failures;
+  }
+
+  protected Double NaN() {
+    return doubles.NaN();
   }
 
 }

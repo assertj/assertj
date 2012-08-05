@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doubles;
 
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,33 +24,35 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Doubles;
+import org.fest.assertions.internal.DoublesBaseTest;
 
 /**
- * Tests for <code>{@link Doubles#assertEqual(AssertionInfo, Double, double)}</code>.
+ * Tests for <code>{@link Doubles#assertNotEqual(AssertionInfo, Double, double)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Doubles_assertEqual_Test extends AbstractTest_for_Doubles {
+public class Doubles_assertNotEqual_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    doubles.assertEqual(someInfo(), null, 8d);
+    doubles.assertNotEqual(someInfo(), null, 8d);
   }
 
   @Test
-  public void should_pass_if_doubles_are_equal() {
-    doubles.assertEqual(someInfo(), 8d, 8d);
+  public void should_pass_if_doubles_are_not_equal() {
+    doubles.assertNotEqual(someInfo(), 8d, 6d);
   }
 
   @Test
-  public void should_fail_if_doubles_are_not_equal() {
+  public void should_fail_if_doubles_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      doubles.assertEqual(info, 6d, 8d);
+      doubles.assertNotEqual(info, 6d, 6d);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d));
+      verify(failures).failure(info, shouldNotBeEqual(6d, 6d));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -59,21 +61,21 @@ public class Doubles_assertEqual_Test extends AbstractTest_for_Doubles {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    doublesWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8d);
+    doublesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8d);
   }
 
   @Test
-  public void should_pass_if_doubles_are_equal_according_to_custom_comparison_strategy() {
-    doublesWithAbsValueComparisonStrategy.assertEqual(someInfo(), 8d, -8d);
+  public void should_pass_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
+    doublesWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8d, 6d);
   }
 
   @Test
-  public void should_fail_if_doubles_are_not_equal_according_to_custom_comparison_strategy() {
+  public void should_fail_if_doubles_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d);
+      doublesWithAbsValueComparisonStrategy.assertNotEqual(info, 6d, -6d);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeEqual(6d, -6d, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

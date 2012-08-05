@@ -12,19 +12,23 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doubles;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+import org.fest.assertions.internal.Doubles;
+import org.fest.assertions.internal.DoublesBaseTest;
 
 /**
  * Tests for <code>{@link Doubles#NaN()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Doubles_NaN_Test {
+public class Doubles_NaN_Test extends DoublesBaseTest {
 
   @Test
   public void check_double_NaN_method() {
-    Assert.assertEquals(Double.NaN, Doubles.instance().NaN(), 0d);
+    Assert.assertEquals(Double.NaN, NaN(), 0d);
   }
 }

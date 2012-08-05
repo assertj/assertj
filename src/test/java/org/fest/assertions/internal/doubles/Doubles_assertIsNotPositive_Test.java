@@ -12,18 +12,20 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doubles;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
 import org.junit.Test;
+
+import org.fest.assertions.internal.DoublesBaseTest;
 
 /**
  * Tests for <code>{@link Doubles#assertIsNotPositive(org.fest.assertions.core.AssertionInfo, Double))}</code>.
  * 
  * @author Nicolas François
  */
-public class Doubles_assertIsNotPositive_Test extends AbstractTest_for_Doubles {
+public class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_positive() {

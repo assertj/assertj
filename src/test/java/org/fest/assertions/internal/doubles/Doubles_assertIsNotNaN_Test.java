@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doubles;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Doubles;
+import org.fest.assertions.internal.DoublesBaseTest;
 
 /**
  * Tests for <code>{@link Doubles#assertIsNotNan(AssertionInfo, Double)}</code>.
@@ -28,7 +30,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Doubles_assertIsNotNaN_Test extends AbstractTest_for_Doubles {
+public class Doubles_assertIsNotNaN_Test extends DoublesBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_equal_to_NaN() {
