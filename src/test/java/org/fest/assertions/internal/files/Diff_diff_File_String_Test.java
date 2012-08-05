@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.util.Arrays.array;
@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
 
+import org.fest.assertions.internal.Diff;
 import org.fest.assertions.test.TextFileWriter;
 import org.junit.Before;
 import org.junit.BeforeClass;

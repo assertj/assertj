@@ -12,65 +12,54 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
-import static org.fest.assertions.error.ShouldBeDirectory.shouldBeDirectory;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Files;
+import org.fest.assertions.internal.FilesBaseTest;
 
 /**
- * Tests for <code>{@link Files#assertIsDirectory(AssertionInfo, File)}</code>.
+ * Tests for <code>{@link Files#assertIsAbsolute(AssertionInfo, File)}</code>.
  * 
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Files_assertIsDirectory_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private File actual;
-  private Failures failures;
-  private Files files;
-
-  @Before
-  public void setUp() {
-    actual = mock(File.class);
-    failures = spy(new Failures());
-    files = new Files();
-    files.failures = failures;
-  }
+public class Files_assertIsAbsolute_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertIsDirectory(someInfo(), null);
+    files.assertIsAbsolute(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_directory() {
-    when(actual.isDirectory()).thenReturn(false);
+  public void should_fail_if_actual_is_not_absolute_path() {
+    when(actual.isAbsolute()).thenReturn(false);
     AssertionInfo info = someInfo();
     try {
-      files.assertIsDirectory(info, actual);
+      files.assertIsAbsolute(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeDirectory(actual));
+      verify(failures).failure(info, shouldBeAbsolutePath(actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_directory() {
-    when(actual.isDirectory()).thenReturn(true);
-    files.assertIsDirectory(someInfo(), actual);
+  public void should_pass_if_actual_is_absolute_path() {
+    when(actual.isAbsolute()).thenReturn(true);
+    files.assertIsAbsolute(someInfo(), actual);
   }
 }

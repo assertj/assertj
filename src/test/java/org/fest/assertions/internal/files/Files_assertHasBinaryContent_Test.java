@@ -12,38 +12,39 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
 import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.fail;
+
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.util.FilesException;
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.BinaryDiffResult;
+import org.fest.assertions.internal.Files;
+import org.fest.assertions.internal.FilesBaseTest;
+import org.fest.util.FilesException;
 
 /**
  * Tests for <code>{@link Files#assertHasBinaryContent(org.fest.assertions.core.WritableAssertionInfo, File, byte[])}</code>.
  * 
  * @author Olivier Michallat
+ * @author Joel Costigliola
  */
-public class Files_assertHasBinaryContent_Test {
+public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
 
   private static File actual;
   private static byte[] expected;
@@ -53,22 +54,6 @@ public class Files_assertHasBinaryContent_Test {
     // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
     expected = new byte[] {};
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private BinaryDiff binaryDiff;
-  private Failures failures;
-  private Files files;
-
-  @Before
-  public void setUp() {
-    binaryDiff = mock(BinaryDiff.class);
-    failures = spy(new Failures());
-    files = new Files();
-    files.binaryDiff = binaryDiff;
-    files.failures = failures;
   }
 
   @Test

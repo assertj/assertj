@@ -27,8 +27,10 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Olivier Michallat
  */
-class BinaryDiff {
-  BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
+public class BinaryDiff {
+
+  @VisibleForTesting
+  public BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
     InputStream expectedStream = new ByteArrayInputStream(expected);
     InputStream actualStream = null;
     boolean threw = true;

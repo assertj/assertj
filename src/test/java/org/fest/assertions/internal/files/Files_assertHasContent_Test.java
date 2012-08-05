@@ -1,5 +1,5 @@
 /*
- * Created on Jan 27, 2011
+ * Created on Jul 21, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,83 +12,65 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertSame;
+import static junit.framework.Assert.fail;
 
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
-import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldHaveContent.shouldHaveContent;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.Files;
+import org.fest.assertions.internal.FilesBaseTest;
 import org.fest.util.FilesException;
 
 /**
- * Tests for <code>{@link Files#assertEqualContent(AssertionInfo, File, File)}</code>.
+ * Tests for <code>{@link Files#assertHasContent(AssertionInfo, File, String, Charset)}</code>.
  * 
- * @author Yvonne Wang
+ * @author Olivier Michallat
+ * @author Joel Costigliola
  */
-public class Files_assertEqualContent_Test {
+public class Files_assertHasContent_Test extends FilesBaseTest {
 
   private static File actual;
-  private static File expected;
+  private static String expected;
+  private static Charset charset;
 
   @BeforeClass
   public static void setUpOnce() {
+    // Does not matter if the values differ, the actual comparison is mocked in this test
     actual = new File("src/test/resources/actual_file.txt");
-    expected = new File("src/test/resources/expected_file.txt");
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Diff diff;
-  private Failures failures;
-  private Files files;
-
-  @Before
-  public void setUp() {
-    diff = mock(Diff.class);
-    failures = spy(new Failures());
-    files = new Files();
-    files.diff = diff;
-    files.failures = failures;
+    expected = "xyz";
+    charset = Charset.defaultCharset();
   }
 
   @Test
   public void should_throw_error_if_expected_is_null() {
-    thrown.expectNullPointerException("The file to compare to should not be null");
-    files.assertEqualContent(someInfo(), actual, null);
-  }
-
-  @Test
-  public void should_throw_error_if_expected_is_not_file() {
-    thrown.expectIllegalArgumentException("Expected file:<'xyz'> should be an existing file");
-    File notAFile = new File("xyz");
-    files.assertEqualContent(someInfo(), actual, notAFile);
+    thrown.expectNullPointerException("The text to compare to should not be null");
+    files.assertHasContent(someInfo(), actual, null, charset);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertEqualContent(someInfo(), null, expected);
+    files.assertHasContent(someInfo(), null, expected, charset);
   }
 
   @Test
@@ -96,7 +78,7 @@ public class Files_assertEqualContent_Test {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     try {
-      files.assertEqualContent(info, notAFile, expected);
+      files.assertHasContent(info, notAFile, expected, charset);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeFile(notAFile));
       return;
@@ -105,17 +87,17 @@ public class Files_assertEqualContent_Test {
   }
 
   @Test
-  public void should_pass_if_files_have_equal_content() throws IOException {
-    when(diff.diff(actual, expected)).thenReturn(new ArrayList<String>());
-    files.assertEqualContent(someInfo(), actual, expected);
+  public void should_pass_if_file_has_text_content() throws IOException {
+    when(diff.diff(actual, expected, charset)).thenReturn(new ArrayList<String>());
+    files.assertHasContent(someInfo(), actual, expected, charset);
   }
 
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
     IOException cause = new IOException();
-    when(diff.diff(actual, expected)).thenThrow(cause);
+    when(diff.diff(actual, expected, charset)).thenThrow(cause);
     try {
-      files.assertEqualContent(someInfo(), actual, expected);
+      files.assertHasContent(someInfo(), actual, expected, charset);
       fail("Expected a FilesException to be thrown");
     } catch (FilesException e) {
       assertSame(cause, e.getCause());
@@ -123,14 +105,14 @@ public class Files_assertEqualContent_Test {
   }
 
   @Test
-  public void should_fail_if_files_do_not_have_equal_content() throws IOException {
+  public void should_fail_if_file_does_not_have_expected_text_content() throws IOException {
     List<String> diffs = list("line:1, expected:<line1> but was:<EOF>");
-    when(diff.diff(actual, expected)).thenReturn(diffs);
+    when(diff.diff(actual, expected, charset)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {
-      files.assertEqualContent(info, actual, expected);
+      files.assertHasContent(info, actual, expected, charset);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveEqualContent(actual, expected, diffs));
+      verify(failures).failure(info, shouldHaveContent(actual, charset, diffs));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -16,6 +16,7 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
+
 import static org.fest.util.Closeables.close;
 import static org.fest.util.Objects.areEqual;
 
@@ -30,6 +31,8 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.fest.util.VisibleForTesting;
+
 /**
  * Compares the contents of two files or two streams.
  * 
@@ -38,12 +41,15 @@ import java.util.List;
  * @author Yvonne Wang
  * @author Matthieu Baechler
  * @author Olivier Michallat
+ * @author Joel Costigliola
  */
-class Diff {
+@VisibleForTesting
+public class Diff {
 
   private static final String EOF = "EOF";
 
-  List<String> diff(InputStream actual, InputStream expected) throws IOException {
+  @VisibleForTesting
+  public List<String> diff(InputStream actual, InputStream expected) throws IOException {
     BufferedReader reader1 = null;
     BufferedReader reader2 = null;
     try {
@@ -56,7 +62,8 @@ class Diff {
     }
   }
 
-  List<String> diff(File actual, File expected) throws IOException {
+  @VisibleForTesting
+  public List<String> diff(File actual, File expected) throws IOException {
     BufferedReader reader1 = null;
     BufferedReader reader2 = null;
     try {
@@ -69,7 +76,8 @@ class Diff {
     }
   }
   
-  List<String> diff(File actual, String expected, Charset charset) throws IOException {
+  @VisibleForTesting
+  public List<String> diff(File actual, String expected, Charset charset) throws IOException {
     BufferedReader reader1 = null;
     try {
       reader1 = readerFor(actual, charset);

@@ -12,65 +12,54 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
-import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldNotExist.shouldNotExist;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.File;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Files;
+import org.fest.assertions.internal.FilesBaseTest;
 
 /**
- * Tests for <code>{@link Files#assertIsFile(AssertionInfo, File)}</code>.
+ * Tests for <code>{@link Files#assertDoesNotExist(AssertionInfo, File)}</code>.
  * 
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Files_assertIsFile_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private File actual;
-  private Failures failures;
-  private Files files;
-
-  @Before
-  public void setUp() {
-    actual = mock(File.class);
-    failures = spy(new Failures());
-    files = new Files();
-    files.failures = failures;
-  }
+public class Files_assertDoesNotExist_Test extends FilesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertIsFile(someInfo(), null);
+    files.assertDoesNotExist(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_file() {
-    when(actual.isFile()).thenReturn(false);
+  public void should_fail_if_actual_exists() {
+    when(actual.exists()).thenReturn(true);
     AssertionInfo info = someInfo();
     try {
-      files.assertIsFile(info, actual);
+      files.assertDoesNotExist(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeFile(actual));
+      verify(failures).failure(info, shouldNotExist(actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_file() {
-    when(actual.isFile()).thenReturn(true);
-    files.assertIsFile(someInfo(), actual);
+  public void should_pass_if_actual_does_not_exist() {
+    when(actual.exists()).thenReturn(false);
+    files.assertDoesNotExist(someInfo(), actual);
   }
 }

@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.files;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -28,6 +28,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import org.fest.assertions.internal.Diff;
 import org.fest.assertions.test.TextFileWriter;
 
 /**
