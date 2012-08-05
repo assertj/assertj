@@ -12,49 +12,41 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.images;
 
 import static java.awt.Color.BLUE;
+
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.internal.Images.sizeOf;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestData.newImage;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Images;
+import org.fest.assertions.internal.ImagesBaseTest;
 
 /**
  * Tests for <code>{@link Images#assertHasSize(AssertionInfo, BufferedImage, Dimension)}</code>.
  * 
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Images_assertHasSize_Test {
+public class Images_assertHasSize_Test extends ImagesBaseTest {
 
-  private static BufferedImage actual;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = newImage(6, 8, BLUE);
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Images images;
-
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
-    images = new Images();
-    images.failures = failures;
+    super.setUp();
+    actual = newImage(6, 8, BLUE);
   }
 
   @Test

@@ -12,42 +12,34 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.images;
 
 import static java.awt.Color.BLUE;
+
 import static org.fest.assertions.error.ShouldNotBeEqualImages.shouldNotBeEqualImages;
-import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestData.fivePixelBlueImage;
+import static org.fest.assertions.test.TestData.fivePixelYellowImage;
+import static org.fest.assertions.test.TestData.newImage;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.awt.image.BufferedImage;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.junit.*;
+import org.fest.assertions.internal.Images;
+import org.fest.assertions.internal.ImagesBaseTest;
 
 /**
  * Tests for <code>{@link Images#assertNotEqual(AssertionInfo, BufferedImage, BufferedImage)}</code>.
  * 
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Images_assertNotEqual_Test {
-
-  private static BufferedImage actual;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = fivePixelBlueImage();
-  }
-
-  private Failures failures;
-  private Images images;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    images = new Images();
-    images.failures = failures;
-  }
+public class Images_assertNotEqual_Test extends ImagesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_null_and_expected_is_not() {

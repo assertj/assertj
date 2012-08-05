@@ -12,50 +12,39 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.images;
 
 import static java.awt.Color.BLUE;
-import static org.fest.assertions.data.Offset.offset;
+
 import static org.fest.assertions.data.Point.atPoint;
 import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqualColors;
 import static org.fest.assertions.error.ShouldBeEqualImages.shouldBeEqualImages;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.internal.Images.sizeOf;
-import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestData.blue;
+import static org.fest.assertions.test.TestData.fivePixelBlueImage;
+import static org.fest.assertions.test.TestData.fivePixelYellowImage;
+import static org.fest.assertions.test.TestData.newImage;
+import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.assertions.test.TestData.yellow;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.awt.image.BufferedImage;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.data.Offset;
-import org.junit.*;
+import org.fest.assertions.internal.Images;
+import org.fest.assertions.internal.ImagesBaseTest;
 
 /**
  * Tests for <code>{@link Images#assertEqual(AssertionInfo, BufferedImage, BufferedImage)}</code>.
  * 
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
-public class Images_assertEqual_Test {
-
-  private static BufferedImage actual;
-  private static Offset<Integer> offset;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = fivePixelBlueImage();
-    offset = offset(0);
-  }
-
-  private Failures failures;
-  private Images images;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    images = new Images();
-    images.failures = failures;
-  }
+public class Images_assertEqual_Test extends ImagesBaseTest {
 
   @Test
   public void should_pass_if_images_are_equal() {
