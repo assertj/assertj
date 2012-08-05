@@ -17,7 +17,7 @@ package org.fest.assertions.api.floatarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;
-import org.fest.assertions.api.FloatArrayAssertTest;
+import org.fest.assertions.api.FloatArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_isEmpty_Test extends FloatArrayAssertTest {
+public class FloatArrayAssert_isEmpty_Test extends FloatArrayAssertBaseTest {
   @Override
   protected FloatArrayAssert invoke_api_method() {
     assertions.isEmpty();

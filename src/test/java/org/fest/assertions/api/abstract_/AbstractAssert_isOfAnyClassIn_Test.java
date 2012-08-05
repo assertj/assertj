@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import java.io.File;
 
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 import org.fest.assertions.api.ObjectAssert;
 
@@ -27,7 +27,7 @@ import org.fest.assertions.api.ObjectAssert;
  * 
  * @author Nicolas François
  */
-public class AbstractAssert_isOfAnyClassIn_Test extends AbstractAssertTest {
+public class AbstractAssert_isOfAnyClassIn_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

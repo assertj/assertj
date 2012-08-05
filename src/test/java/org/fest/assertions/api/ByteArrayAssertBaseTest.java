@@ -24,7 +24,7 @@ import org.fest.assertions.internal.ByteArrays;
  * 
  * @author Olivier Michallat
  */
-public abstract class ByteArrayAssertTest extends BaseAssertTest<ByteArrayAssert, byte[]> {
+public abstract class ByteArrayAssertBaseTest extends BaseTestTemplate<ByteArrayAssert, byte[]> {
   protected ByteArrays arrays;
 
   @Override

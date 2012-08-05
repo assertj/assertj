@@ -17,14 +17,14 @@ package org.fest.assertions.api.file;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 
 /**
  * Tests for <code>{@link FileAssert#hasBinaryContent(byte[])}</code>.
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_hasBinaryContent_Test extends FileAssertTest {
+public class FileAssert_hasBinaryContent_Test extends FileAssertBaseTest {
 
   private byte[] content = new byte[0];
 

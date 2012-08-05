@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.matchAnything;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -26,7 +26,7 @@ import org.junit.BeforeClass;
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_matches_String_Test extends StringAssertTest {
+public class StringAssert_matches_String_Test extends StringAssertBaseTest {
 
   private static String regex;
 

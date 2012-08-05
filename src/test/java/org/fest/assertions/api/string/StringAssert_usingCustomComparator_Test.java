@@ -17,7 +17,7 @@ package org.fest.assertions.api.string;
 import static junit.framework.Assert.assertSame;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
 
 /**
@@ -25,7 +25,7 @@ import org.fest.assertions.util.CaseInsensitiveStringComparator;
  * 
  * @author Joel Costigliola
  */
-public class StringAssert_usingCustomComparator_Test extends StringAssertTest {
+public class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
   @Override
   protected StringAssert invoke_api_method() {

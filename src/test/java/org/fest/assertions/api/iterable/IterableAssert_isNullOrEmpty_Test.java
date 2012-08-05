@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -28,7 +28,7 @@ import org.junit.Test;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class IterableAssert_isNullOrEmpty_Test extends IterableAssertTest {
+public class IterableAssert_isNullOrEmpty_Test extends IterableAssertBaseTest {
 
   @Test
   public void should_verify_actual_is_null_or_empty() {}

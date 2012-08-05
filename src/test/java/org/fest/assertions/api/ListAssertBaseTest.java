@@ -1,5 +1,5 @@
 /*
- * Created on Aug 01, 2012
+ * Created on Aug 02, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,32 +14,30 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.LongArrays;
+import java.util.Collections;
+import java.util.List;
+
+import org.fest.assertions.internal.Lists;
 
 /**
- * Base class for {@link LongArrayAssert} tests.
+ * Base class for {@link ListAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class LongArrayAssertTest extends BaseAssertTest<LongArrayAssert, long[]> {
-  protected LongArrays arrays;
+public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<String>, List<String>> {
+  protected Lists lists;
 
   @Override
-  protected LongArrayAssert create_assertions() {
-    return new LongArrayAssert(emptyArray());
+  protected ListAssert<String> create_assertions() {
+    return new ListAssert<String>(Collections.<String> emptyList());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(LongArrays.class);
-    assertions.arrays = arrays;
-  }
-  
-  protected LongArrays getArrays(LongArrayAssert someAssertions) {
-    return someAssertions.arrays;
+    lists = mock(Lists.class);
+    assertions.lists = lists;
   }
 }

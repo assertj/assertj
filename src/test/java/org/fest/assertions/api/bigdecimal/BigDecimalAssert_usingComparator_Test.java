@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.fest.assertions.api.BigDecimalAssert;
-import org.fest.assertions.api.BigDecimalAssertTest;
+import org.fest.assertions.api.BigDecimalAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertTest {
+public class BigDecimalAssert_usingComparator_Test extends BigDecimalAssertBaseTest {
 
   @Mock
   private Comparator<BigDecimal> comparator;

@@ -18,14 +18,14 @@ import static org.fest.assertions.test.ByteArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteArrayAssert;
-import org.fest.assertions.api.ByteArrayAssertTest;
+import org.fest.assertions.api.ByteArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrayAssert#startsWith(byte...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ByteArrayAssert_startsWith_Test extends ByteArrayAssertTest {
+public class ByteArrayAssert_startsWith_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

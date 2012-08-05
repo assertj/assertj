@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ObjectAssert;
-import org.fest.assertions.api.ObjectAssertTest;
+import org.fest.assertions.api.ObjectAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.test.Jedi;
 import org.junit.Before;
@@ -32,7 +32,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_usingDefaultComparator_Test extends ObjectAssertTest {
+public class ObjectAssert_usingDefaultComparator_Test extends ObjectAssertBaseTest {
 
   @Mock
   private Comparator<Jedi> comparator;

@@ -14,32 +14,45 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.FloatArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.FloatArrays;
+import java.io.File;
+import java.nio.charset.Charset;
+
+import org.fest.assertions.internal.Files;
 
 /**
- * Base class for {@link FloatArrayAssert} tests.
+ * Base class for {@link FileAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class FloatArrayAssertTest extends BaseAssertTest<FloatArrayAssert, float[]> {
-  protected FloatArrays arrays;
+public abstract class FileAssertBaseTest extends BaseTestTemplate<FileAssert, File> {
+  protected Files files;
+  protected Charset defaultCharset;
+  protected Charset otherCharset;
 
   @Override
-  protected FloatArrayAssert create_assertions() {
-    return new FloatArrayAssert(emptyArray());
+  protected FileAssert create_assertions() {
+    return new FileAssert(new File("abc"));
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(FloatArrays.class);
-    assertions.arrays = arrays;
+    files = mock(Files.class);
+    assertions.files = files;
+
+    defaultCharset = Charset.defaultCharset();
+    for (Charset charset : Charset.availableCharsets().values()) {
+      if (!charset.equals(defaultCharset)) otherCharset = charset;
+    }
   }
-  
-  protected FloatArrays getArrays(FloatArrayAssert someAssertions) {
-    return someAssertions.arrays;
+
+  protected Files getFiles(FileAssert someAssertions) {
+    return someAssertions.files;
+  }
+
+  protected Charset getCharset(FileAssert someAssertions) {
+    return someAssertions.charset;
   }
 }

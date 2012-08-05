@@ -17,7 +17,7 @@ package org.fest.assertions.api.chararray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
-import org.fest.assertions.api.CharArrayAssertTest;
+import org.fest.assertions.api.CharArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_isNullOrEmpty_Test extends CharArrayAssertTest {
+public class CharArrayAssert_isNullOrEmpty_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

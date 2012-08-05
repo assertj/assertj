@@ -17,14 +17,14 @@ package org.fest.assertions.api.bigdecimal;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BigDecimalAssert;
-import org.fest.assertions.api.BigDecimalAssertTest;
+import org.fest.assertions.api.BigDecimalAssertBaseTest;
 
 /**
  * Tests for <code>{@link BigDecimalAssert#isNegative()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class BigDecimalAssert_isNegative_Test extends BigDecimalAssertTest {
+public class BigDecimalAssert_isNegative_Test extends BigDecimalAssertBaseTest {
 
   @Override
   protected BigDecimalAssert invoke_api_method() {

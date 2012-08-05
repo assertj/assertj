@@ -17,14 +17,14 @@ package org.fest.assertions.api.file;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 
 /**
  * Test for <code>{@link FileAssert#usingCharset(String)}</code>.
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_String_Test extends FileAssertTest {
+public class FileAssert_usingCharset_String_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

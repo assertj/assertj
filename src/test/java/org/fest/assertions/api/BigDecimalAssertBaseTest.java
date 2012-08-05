@@ -1,5 +1,5 @@
 /*
- * Created on Jul 31, 2012
+ * Created on Aug 01, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,32 +14,40 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
+import static java.math.BigDecimal.ONE;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.ShortArrays;
+import java.math.BigDecimal;
+
+import org.fest.assertions.internal.BigDecimals;
+import org.fest.assertions.internal.Comparables;
 
 /**
- * Base class for {@link ShortArrayAssert} tests.
+ * Base class for {@link BigDecimalAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ShortArrayAssertTest extends BaseAssertTest<ShortArrayAssert, short[]> {
-  protected ShortArrays arrays;
+public abstract class BigDecimalAssertBaseTest extends BaseTestTemplate<BigDecimalAssert, BigDecimal> {
+
+  protected static final String ONE_AS_STRING = "1";
+  protected BigDecimals bigDecimals;
+  protected Comparables comparables;
 
   @Override
-  protected ShortArrayAssert create_assertions() {
-    return new ShortArrayAssert(emptyArray());
+  protected BigDecimalAssert create_assertions() {
+    return new BigDecimalAssert(ONE);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(ShortArrays.class);
-    assertions.arrays = arrays;
+    bigDecimals = mock(BigDecimals.class);
+    assertions.bigDecimals = bigDecimals;
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
-  
-  protected ShortArrays getArrays(ShortArrayAssert someAssertions) {
-    return someAssertions.arrays;
+
+  protected BigDecimals getBigDecimals(BigDecimalAssert someAssertions) {
+    return someAssertions.bigDecimals;
   }
 }

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#contains(Object...)}</code>.
@@ -26,7 +26,7 @@ import org.fest.assertions.api.IterableAssertTest;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IterableAssert_contains_Test extends IterableAssertTest {
+public class IterableAssert_contains_Test extends IterableAssertBaseTest {
 
   private Object[] values = { "Yoda", "Luke" };
 

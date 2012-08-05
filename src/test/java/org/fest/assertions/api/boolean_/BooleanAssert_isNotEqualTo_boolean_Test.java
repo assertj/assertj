@@ -17,14 +17,14 @@ package org.fest.assertions.api.boolean_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BooleanAssert;
-import org.fest.assertions.api.BooleanAssertTest;
+import org.fest.assertions.api.BooleanAssertBaseTest;
 
 /**
  * Tests for <code>{@link BooleanAssert#isNotEqualTo(boolean)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class BooleanAssert_isNotEqualTo_boolean_Test extends BooleanAssertTest {
+public class BooleanAssert_isNotEqualTo_boolean_Test extends BooleanAssertBaseTest {
 
   @Override
   protected BooleanAssert invoke_api_method() {

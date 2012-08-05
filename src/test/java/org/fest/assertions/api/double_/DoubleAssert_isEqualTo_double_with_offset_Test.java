@@ -18,7 +18,7 @@ import static org.fest.assertions.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleAssert;
-import org.fest.assertions.api.DoubleAssertTest;
+import org.fest.assertions.api.DoubleAssertBaseTest;
 import org.fest.assertions.data.Offset;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Offset;
  * 
  * @author Alex Ruiz
  */
-public class DoubleAssert_isEqualTo_double_with_offset_Test extends DoubleAssertTest {
+public class DoubleAssert_isEqualTo_double_with_offset_Test extends DoubleAssertBaseTest {
   private final Offset<Double> offset = offset(5d);
 
   @Override

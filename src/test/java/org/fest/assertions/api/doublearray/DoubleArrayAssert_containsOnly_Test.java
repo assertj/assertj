@@ -18,14 +18,14 @@ import static org.fest.assertions.test.DoubleArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#containsOnly(double...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_containsOnly_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_containsOnly_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

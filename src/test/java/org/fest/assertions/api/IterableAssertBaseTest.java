@@ -26,7 +26,7 @@ import org.fest.assertions.internal.Iterables;
  * 
  * @author Joel Costigliola
  */
-public abstract class IterableAssertTest extends BaseAssertTest<ConcreteIterableAssert<Object>, Collection<Object>>{
+public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIterableAssert<Object>, Collection<Object>>{
 
   protected Iterables iterables;
 

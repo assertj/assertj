@@ -17,7 +17,7 @@ package org.fest.assertions.api.intarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class IntArrayAssert_isNullOrEmpty_Test extends IntArrayAssertTest {
+public class IntArrayAssert_isNullOrEmpty_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

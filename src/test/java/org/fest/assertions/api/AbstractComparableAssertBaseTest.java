@@ -1,5 +1,5 @@
 /*
- * Created on Jul 30, 2012
+ * Created on Jul 29, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,25 +16,25 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Throwables;
+import org.fest.assertions.internal.Comparables;
 
 /**
- * Base class for {@link ThrowableAssertAssert} tests.
+ * Base class to test the concrete methods of {@link AbstractComparableAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
-public abstract class ThrowableAssertTest extends BaseAssertTest<ThrowableAssert, Throwable> {
-  protected Throwables throwables;
-  
+public abstract class AbstractComparableAssertBaseTest extends BaseTestTemplate<ConcreteComparableAssert, Integer> {
+  protected Comparables comparables;
+
   @Override
-  protected ThrowableAssert create_assertions() {
-    return new ThrowableAssert(new Throwable("throwable message"));
+  protected ConcreteComparableAssert create_assertions() {
+    return new ConcreteComparableAssert(8);
   }
-  
+
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    throwables = mock(Throwables.class);
-    assertions.throwables = throwables;
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 }

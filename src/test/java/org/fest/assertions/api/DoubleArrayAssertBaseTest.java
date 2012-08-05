@@ -1,5 +1,5 @@
 /*
- * Created on Aug 03, 2012
+ * Created on Aug 02, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,31 +14,32 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.DoubleArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Characters;
+import org.fest.assertions.internal.DoubleArrays;
 
 /**
- * Base class for {@link CharacterAssert} tests.
+ * Base class for {@link DoubleArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class CharacterAssertTest extends BaseAssertTest<CharacterAssert, Character> {
-  protected Characters characters;
+public abstract class DoubleArrayAssertBaseTest extends BaseTestTemplate<DoubleArrayAssert, double[]> {
+  protected DoubleArrays arrays;
 
   @Override
-  protected CharacterAssert create_assertions() {
-    return new CharacterAssert('a');
+  protected DoubleArrayAssert create_assertions() {
+    return new DoubleArrayAssert(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    characters = mock(Characters.class);
-    assertions.characters = characters;
+    arrays = mock(DoubleArrays.class);
+    assertions.arrays = arrays;
   }
-
-  protected Characters getCharacters(CharacterAssert someAssertions) {
-    return someAssertions.characters;
+  
+  protected DoubleArrays getArrays(DoubleArrayAssert someAssertions) {
+    return someAssertions.arrays;
   }
 }

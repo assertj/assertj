@@ -17,14 +17,14 @@ package org.fest.assertions.api.floatarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;
-import org.fest.assertions.api.FloatArrayAssertTest;
+import org.fest.assertions.api.FloatArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link FloatArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class FloatArrayAssert_isSorted_Test extends FloatArrayAssertTest {
+public class FloatArrayAssert_isSorted_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {

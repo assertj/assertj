@@ -17,7 +17,7 @@ package org.fest.assertions.api.unevencomparable;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractUnevenComparableAssert;
-import org.fest.assertions.api.AbstractUnevenComparableAssertTest;
+import org.fest.assertions.api.AbstractUnevenComparableAssertBaseTest;
 import org.fest.assertions.api.ConcreteUnevenComparableAssert;
 
 /**
@@ -25,7 +25,7 @@ import org.fest.assertions.api.ConcreteUnevenComparableAssert;
  * 
  * @author Yvonne Wang
  */
-public class AbstractUnevenComparableAssert_isEqualToByComparingTo_Test extends AbstractUnevenComparableAssertTest {
+public class AbstractUnevenComparableAssert_isEqualToByComparingTo_Test extends AbstractUnevenComparableAssertBaseTest {
 
   @Override
   protected ConcreteUnevenComparableAssert invoke_api_method() {

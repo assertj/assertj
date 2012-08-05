@@ -18,14 +18,14 @@ import static org.fest.assertions.test.LongArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link LongArrayAssert#startsWith(long...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_startsWith_Test extends LongArrayAssertTest {
+public class LongArrayAssert_startsWith_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

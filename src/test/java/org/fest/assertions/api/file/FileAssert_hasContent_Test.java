@@ -17,7 +17,7 @@ package org.fest.assertions.api.file;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_hasContent_Test extends FileAssertTest {
+public class FileAssert_hasContent_Test extends FileAssertBaseTest {
 
   private static String expected;
 

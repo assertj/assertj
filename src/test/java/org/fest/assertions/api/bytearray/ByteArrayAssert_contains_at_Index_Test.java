@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteArrayAssert;
-import org.fest.assertions.api.ByteArrayAssertTest;
+import org.fest.assertions.api.ByteArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class ByteArrayAssert_contains_at_Index_Test extends ByteArrayAssertTest {
+public class ByteArrayAssert_contains_at_Index_Test extends ByteArrayAssertBaseTest {
 
   private Index index = someIndex();
 

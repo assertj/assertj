@@ -1,5 +1,5 @@
 /*
- * Created on Aug 03, 2012
+ * Created on Jul 31, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,31 +14,33 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Booleans;
+import org.fest.assertions.internal.ObjectArrays;
 
 /**
- * Base class for {@link BooleanAssert} tests.
+ * Base class for {@link ObjectArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class BooleanAssertTest extends BaseAssertTest<BooleanAssert, Boolean> {
-  protected Booleans booleans;
+public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectArrayAssert<Object>, Object[]> {
+
+  protected ObjectArrays arrays;
 
   @Override
-  protected BooleanAssert create_assertions() {
-    return new BooleanAssert(true);
+  protected ObjectArrayAssert<Object> create_assertions() {
+    return new ObjectArrayAssert<Object>(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    booleans = mock(Booleans.class);
-    assertions.booleans = booleans;
+    arrays = mock(ObjectArrays.class);
+    assertions.arrays = arrays;
   }
-
-  protected Booleans getBooleans(BooleanAssert someAssertions) {
-    return someAssertions.booleans;
+  
+  protected ObjectArrays getArrays(ObjectArrayAssert<Object> someAssertions) {
+    return someAssertions.arrays;
   }
 }

@@ -18,14 +18,14 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ListAssert;
-import org.fest.assertions.api.ListAssertTest;
+import org.fest.assertions.api.ListAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ListAssert_isSorted_Test extends ListAssertTest {
+public class ListAssert_isSorted_Test extends ListAssertBaseTest {
 
   @Override
   protected ListAssert<String> invoke_api_method() {

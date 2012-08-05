@@ -17,14 +17,14 @@ package org.fest.assertions.api.double_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleAssert;
-import org.fest.assertions.api.DoubleAssertTest;
+import org.fest.assertions.api.DoubleAssertBaseTest;
 
 /**
  * Tests for <code>{@link DoubleAssert#isPositive()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class DoubleAssert_isPositive_Test extends DoubleAssertTest {
+public class DoubleAssert_isPositive_Test extends DoubleAssertBaseTest {
 
   @Override
   protected DoubleAssert invoke_api_method() {

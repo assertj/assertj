@@ -18,14 +18,14 @@ import static org.fest.assertions.test.IntArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link IntArrayAssert#containsOnly(int...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class IntArrayAssert_containsOnly_Test extends IntArrayAssertTest {
+public class IntArrayAssert_containsOnly_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

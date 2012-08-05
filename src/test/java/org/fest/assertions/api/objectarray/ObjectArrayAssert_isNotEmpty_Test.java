@@ -17,7 +17,7 @@ package org.fest.assertions.api.objectarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#isNotEmpty()}</code>.
@@ -25,7 +25,7 @@ import org.fest.assertions.api.ObjectArrayAssertTest;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_isNotEmpty_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_isNotEmpty_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

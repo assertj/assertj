@@ -17,7 +17,7 @@ package org.fest.assertions.api.doublearray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_isNullOrEmpty_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_isNullOrEmpty_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

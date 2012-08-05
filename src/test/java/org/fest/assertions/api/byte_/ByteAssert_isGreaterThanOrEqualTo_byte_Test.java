@@ -17,14 +17,14 @@ package org.fest.assertions.api.byte_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteAssert;
-import org.fest.assertions.api.ByteAssertTest;
+import org.fest.assertions.api.ByteAssertBaseTest;
 
 /**
  * Tests for <code>{@link ByteAssert#isGreaterThanOrEqualTo(byte)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ByteAssert_isGreaterThanOrEqualTo_byte_Test extends ByteAssertTest {
+public class ByteAssert_isGreaterThanOrEqualTo_byte_Test extends ByteAssertBaseTest {
 
   @Override
   protected ByteAssert invoke_api_method() {

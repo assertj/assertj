@@ -1,5 +1,5 @@
 /*
- * Created on Aug 01, 2012
+ * Created on Aug 03, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,30 +14,32 @@
  */
 package org.fest.assertions.api;
 
-import static java.util.Collections.emptyMap;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import java.util.Map;
-
-import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.BooleanArrays;
 
 /**
- * Base class for {@link MapAssert} tests.
+ * Base class for {@link BooleanArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class MapAssertTest extends BaseAssertTest<MapAssert<Object, Object>, Map<Object, Object>> {
-  protected Maps maps;
-  
+public abstract class BooleanArrayAssertBaseTest extends BaseTestTemplate<BooleanArrayAssert, boolean[]> {
+  protected BooleanArrays arrays;
+
   @Override
-  protected MapAssert<Object, Object> create_assertions() {
-    return new MapAssert<Object, Object>(emptyMap());
+  protected BooleanArrayAssert create_assertions() {
+    return new BooleanArrayAssert(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    maps = mock(Maps.class);
-    assertions.maps = maps;
+    arrays = mock(BooleanArrays.class);
+    assertions.arrays = arrays;
+  }
+  
+  protected BooleanArrays getArrays(BooleanArrayAssert someAssertions) {
+    return someAssertions.arrays;
   }
 }

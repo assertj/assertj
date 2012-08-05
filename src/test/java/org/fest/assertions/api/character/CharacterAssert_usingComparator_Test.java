@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.CharacterAssert;
-import org.fest.assertions.api.CharacterAssertTest;
+import org.fest.assertions.api.CharacterAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class CharacterAssert_usingComparator_Test extends CharacterAssertTest {
+public class CharacterAssert_usingComparator_Test extends CharacterAssertBaseTest {
 
   @Mock
   private Comparator<Character> comparator;

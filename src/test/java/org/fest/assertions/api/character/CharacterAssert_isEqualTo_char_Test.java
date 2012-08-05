@@ -17,14 +17,14 @@ package org.fest.assertions.api.character;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharacterAssert;
-import org.fest.assertions.api.CharacterAssertTest;
+import org.fest.assertions.api.CharacterAssertBaseTest;
 
 /**
  * Tests for <code>{@link CharacterAssert#isEqualTo(char)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class CharacterAssert_isEqualTo_char_Test extends CharacterAssertTest {
+public class CharacterAssert_isEqualTo_char_Test extends CharacterAssertBaseTest {
 
   @Override
   protected CharacterAssert invoke_api_method() {

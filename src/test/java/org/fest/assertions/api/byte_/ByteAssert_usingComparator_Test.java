@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ByteAssert;
-import org.fest.assertions.api.ByteAssertTest;
+import org.fest.assertions.api.ByteAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ByteAssert_usingComparator_Test extends ByteAssertTest {
+public class ByteAssert_usingComparator_Test extends ByteAssertBaseTest {
 
   @Mock
   private Comparator<Byte> comparator;

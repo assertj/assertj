@@ -1,5 +1,5 @@
 /*
- * Created on Jul 31, 2012
+ * Created on Aug 02, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,33 +14,31 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.ObjectArrays;
+import org.fest.assertions.internal.Doubles;
 
 /**
- * Base class for {@link ObjectArrayAssert} tests.
+ * Base class for {@link DoubleAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ObjectArrayAssertTest extends BaseAssertTest<ObjectArrayAssert<Object>, Object[]> {
-
-  protected ObjectArrays arrays;
+public abstract class DoubleAssertBaseTest extends BaseTestTemplate<DoubleAssert, Double> {
+  protected Doubles doubles;
 
   @Override
-  protected ObjectArrayAssert<Object> create_assertions() {
-    return new ObjectArrayAssert<Object>(emptyArray());
+  protected DoubleAssert create_assertions() {
+    return new DoubleAssert(3.14);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(ObjectArrays.class);
-    assertions.arrays = arrays;
+    doubles = mock(Doubles.class);
+    assertions.doubles = doubles;
   }
-  
-  protected ObjectArrays getArrays(ObjectArrayAssert<Object> someAssertions) {
-    return someAssertions.arrays;
+
+  protected Doubles getDoubles(DoubleAssert someAssertions) {
+    return someAssertions.doubles;
   }
 }

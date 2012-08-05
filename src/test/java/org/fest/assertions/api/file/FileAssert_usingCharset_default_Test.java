@@ -19,14 +19,14 @@ import static org.junit.Assert.assertEquals;
 import java.nio.charset.Charset;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 
 /**
  * Tests the default charset for <code>{@link FileAssert}</code>.
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_default_Test extends FileAssertTest {
+public class FileAssert_usingCharset_default_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

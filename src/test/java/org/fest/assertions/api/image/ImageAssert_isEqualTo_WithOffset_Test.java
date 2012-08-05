@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import org.fest.assertions.api.ImageAssertBaseTest;
 import org.fest.assertions.data.Offset;
 import org.junit.BeforeClass;
 
@@ -30,7 +30,7 @@ import org.junit.BeforeClass;
  * 
  * @author Yvonne Wang
  */
-public class ImageAssert_isEqualTo_WithOffset_Test extends ImageAssertTest {
+public class ImageAssert_isEqualTo_WithOffset_Test extends ImageAssertBaseTest {
 
   private static Offset<Integer> offset;
 

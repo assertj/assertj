@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ShortArrayAssert;
-import org.fest.assertions.api.ShortArrayAssertTest;
+import org.fest.assertions.api.ShortArrayAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ShortArrayAssert_isSortedAccordingToComparator_Test extends ShortArrayAssertTest {
+public class ShortArrayAssert_isSortedAccordingToComparator_Test extends ShortArrayAssertBaseTest {
 
   @Mock
   private Comparator<Short> comparator;

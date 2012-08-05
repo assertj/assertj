@@ -17,7 +17,7 @@ package org.fest.assertions.api.bytearray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteArrayAssert;
-import org.fest.assertions.api.ByteArrayAssertTest;
+import org.fest.assertions.api.ByteArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class ByteArrayAssert_isEmpty_Test extends ByteArrayAssertTest {
+public class ByteArrayAssert_isEmpty_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

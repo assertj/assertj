@@ -17,7 +17,7 @@ package org.fest.assertions.api.longarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_isEmpty_Test extends LongArrayAssertTest {
+public class LongArrayAssert_isEmpty_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

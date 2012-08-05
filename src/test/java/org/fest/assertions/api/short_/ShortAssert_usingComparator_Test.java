@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
+import org.fest.assertions.api.ShortAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ShortAssert_usingComparator_Test extends ShortAssertTest {
+public class ShortAssert_usingComparator_Test extends ShortAssertBaseTest {
 
   @Mock
   private Comparator<Short> comparator;

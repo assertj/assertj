@@ -1,5 +1,5 @@
 /*
- * Created on Aug 03, 2012
+ * Created on Jul 31, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,31 +14,32 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Bytes;
+import org.fest.assertions.internal.ShortArrays;
 
 /**
- * Base class for {@link ByteAssert} tests.
+ * Base class for {@link ShortArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ByteAssertTest extends BaseAssertTest<ByteAssert, Byte> {
-  protected Bytes bytes;
+public abstract class ShortArrayAssertBaseTest extends BaseTestTemplate<ShortArrayAssert, short[]> {
+  protected ShortArrays arrays;
 
   @Override
-  protected ByteAssert create_assertions() {
-    return new ByteAssert((byte) 0);
+  protected ShortArrayAssert create_assertions() {
+    return new ShortArrayAssert(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    bytes = mock(Bytes.class);
-    assertions.bytes = bytes;
+    arrays = mock(ShortArrays.class);
+    assertions.arrays = arrays;
   }
-
-  protected Bytes getBytes(ByteAssert someAssertions) {
-    return someAssertions.bytes;
+  
+  protected ShortArrays getArrays(ShortArrayAssert someAssertions) {
+    return someAssertions.arrays;
   }
 }

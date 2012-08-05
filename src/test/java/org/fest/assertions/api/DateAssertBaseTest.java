@@ -17,7 +17,7 @@ import org.junit.Before;
  * @author Joel Costigliola
  * 
  */
-public abstract class AbstractBaseDateAssert_Test {
+public abstract class DateAssertBaseTest {
 
   protected DateAssert assertions;
   protected Dates dates;

@@ -18,7 +18,7 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(Object[]))}</code>.
@@ -26,7 +26,7 @@ import org.fest.assertions.api.ObjectArrayAssertTest;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test extends ObjectArrayAssertBaseTest {
 
   private final String[] other = array("Yoda");
 

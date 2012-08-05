@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 import java.util.Date;
 
-import org.fest.assertions.api.AbstractBaseDateAssert_Test;
+import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.fest.assertions.internal.Dates;
 import org.fest.assertions.internal.Objects;
@@ -34,7 +34,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_usingComparator_Test extends AbstractBaseDateAssert_Test {
+public class DateAssert_usingComparator_Test extends DateAssertBaseTest {
 
   @Mock
   private Comparator<Date> comparator;

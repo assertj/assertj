@@ -18,14 +18,14 @@ import static org.fest.assertions.test.CharArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
-import org.fest.assertions.api.CharArrayAssertTest;
+import org.fest.assertions.api.CharArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link CharArrayAssert#endsWith(char...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_endsWith_Test extends CharArrayAssertTest {
+public class CharArrayAssert_endsWith_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
  * 
  * @author Yvonne Wang
  */
-public class FileAssert_hasContentEqualTo_Test extends FileAssertTest {
+public class FileAssert_hasContentEqualTo_Test extends FileAssertBaseTest {
 
   private static File expected;
 

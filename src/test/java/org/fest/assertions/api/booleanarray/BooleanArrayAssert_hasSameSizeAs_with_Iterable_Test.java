@@ -20,14 +20,14 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class BooleanArrayAssert_hasSameSizeAs_with_Iterable_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_hasSameSizeAs_with_Iterable_Test extends BooleanArrayAssertBaseTest {
 
   private final List<String> other = list("Yoda", "Luke");
 

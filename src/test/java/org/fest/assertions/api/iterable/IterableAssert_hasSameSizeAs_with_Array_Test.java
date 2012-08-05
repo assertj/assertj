@@ -19,14 +19,14 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#hasSameSizeAs(Object[])}</code>.
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_with_Array_Test extends IterableAssertTest {
+public class IterableAssert_hasSameSizeAs_with_Array_Test extends IterableAssertBaseTest {
 
   String[] other = array("Solo, Leia");
 

@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.FloatAssert;
-import org.fest.assertions.api.FloatAssertTest;
+import org.fest.assertions.api.FloatAssertBaseTest;
 import org.fest.assertions.internal.Floats;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class FloatAssert_usingDefaultComparator_Test extends FloatAssertTest {
+public class FloatAssert_usingDefaultComparator_Test extends FloatAssertBaseTest {
 
   @Mock
   private Comparator<Float> comparator;

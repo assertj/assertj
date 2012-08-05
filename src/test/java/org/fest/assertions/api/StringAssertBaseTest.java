@@ -1,5 +1,5 @@
 /*
- * Created on Jul 29, 2012
+ * Created on Jul 30, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,25 +16,29 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.Strings;
 
 /**
- * Base class to test the concrete methods of {@link AbstractUnevenComparableAssert} (using a dummy implementation).
+ * Base class for {@link StringAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractUnevenComparableAssertTest extends BaseAssertTest<ConcreteUnevenComparableAssert, Integer> {
-  protected Comparables comparables;
+public abstract class StringAssertBaseTest extends BaseTestTemplate<StringAssert, String> {
+  protected Strings strings;
 
   @Override
-  protected ConcreteUnevenComparableAssert create_assertions() {
-    return new ConcreteUnevenComparableAssert(8);
+  protected StringAssert create_assertions() {
+    return new StringAssert("Yoda");
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
+    strings = mock(Strings.class);
+    assertions.strings = strings;
+  }
+
+  protected Strings getStrings(StringAssert someAssertions) {
+    return someAssertions.strings;
   }
 }

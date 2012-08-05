@@ -20,14 +20,14 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.fest.assertions.api.MapAssert;
-import org.fest.assertions.api.MapAssertTest;
+import org.fest.assertions.api.MapAssertBaseTest;
 
 /**
  * Tests for <code>{@link MapsAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class MapAssert_hasSameSizeAs_with_Iterable_Test extends MapAssertTest {
+public class MapAssert_hasSameSizeAs_with_Iterable_Test extends MapAssertBaseTest {
 
   private final List<String> other = list("Yoda", "Luke");
 

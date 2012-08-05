@@ -17,7 +17,7 @@ package org.fest.assertions.api.objectarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_isNullOrEmpty_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_isNullOrEmpty_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

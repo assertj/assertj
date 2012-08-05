@@ -17,14 +17,14 @@ package org.fest.assertions.api.integer_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntegerAssert;
-import org.fest.assertions.api.IntegerAssertTest;
+import org.fest.assertions.api.IntegerAssertBaseTest;
 
 /**
  * Tests for <code>{@link IntegerAssert#isNotPositive()}</code>.
  * 
  * @author Nicolas François
  */
-public class IntegerAssert_isNotPostitive_Test extends IntegerAssertTest {
+public class IntegerAssert_isNotPostitive_Test extends IntegerAssertBaseTest {
 
   @Override
   protected IntegerAssert invoke_api_method() {

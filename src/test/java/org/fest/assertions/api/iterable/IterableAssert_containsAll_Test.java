@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#containsAll(Iterable)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class IterableAssert_containsAll_Test extends IterableAssertTest {
+public class IterableAssert_containsAll_Test extends IterableAssertBaseTest {
 
   private List<Object> list = new ArrayList<Object>();
 

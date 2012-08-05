@@ -17,14 +17,14 @@ package org.fest.assertions.api.float_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatAssert;
-import org.fest.assertions.api.FloatAssertTest;
+import org.fest.assertions.api.FloatAssertBaseTest;
 
 /**
  * Tests for <code>{@link FloatAssert#isNotEqualTo(float)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertTest {
+public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
 
   protected FloatAssert invoke_api_method() {
     return assertions.isNotEqualTo(8f);

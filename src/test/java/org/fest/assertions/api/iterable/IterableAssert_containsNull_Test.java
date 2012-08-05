@@ -18,14 +18,14 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#containsNull()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class IterableAssert_containsNull_Test extends IterableAssertTest {
+public class IterableAssert_containsNull_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

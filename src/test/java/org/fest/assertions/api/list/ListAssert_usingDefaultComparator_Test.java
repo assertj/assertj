@@ -21,7 +21,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.fest.assertions.api.ListAssert;
-import org.fest.assertions.api.ListAssertTest;
+import org.fest.assertions.api.ListAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
 import org.mockito.Mock;
@@ -33,7 +33,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert_usingDefaultComparator_Test extends ListAssertTest {
+public class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
 
   @Mock
   private Comparator<List<String>> comparator;

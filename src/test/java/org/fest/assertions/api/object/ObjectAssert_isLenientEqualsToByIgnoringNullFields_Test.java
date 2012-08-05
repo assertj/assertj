@@ -18,7 +18,7 @@ package org.fest.assertions.api.object;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectAssert;
-import org.fest.assertions.api.ObjectAssertTest;
+import org.fest.assertions.api.ObjectAssertBaseTest;
 import org.fest.assertions.test.Jedi;
 
 /**
@@ -27,7 +27,7 @@ import org.fest.assertions.test.Jedi;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_isLenientEqualsToByIgnoringNullFields_Test extends ObjectAssertTest {
+public class ObjectAssert_isLenientEqualsToByIgnoringNullFields_Test extends ObjectAssertBaseTest {
 
   private Jedi other = new Jedi("Yoda", "Green");
 

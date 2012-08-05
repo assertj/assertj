@@ -17,7 +17,7 @@ package org.fest.assertions.api.abstract_;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 import org.junit.BeforeClass;
 
@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public class AbstractAssert_isIn_with_Iterable_Test extends AbstractAssertTest {
+public class AbstractAssert_isIn_with_Iterable_Test extends AbstractAssertBaseTest {
 
   private static Iterable<?> values;
 

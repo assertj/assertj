@@ -18,7 +18,7 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#startsWith(Object...)}</code>.
@@ -26,7 +26,7 @@ import org.fest.assertions.api.ObjectArrayAssertTest;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_startsWith_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

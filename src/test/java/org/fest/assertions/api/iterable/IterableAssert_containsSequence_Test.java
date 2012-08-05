@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#containsSequence(Object...)}</code>.
@@ -27,7 +27,7 @@ import org.fest.assertions.api.IterableAssertTest;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IterableAssert_containsSequence_Test extends IterableAssertTest {
+public class IterableAssert_containsSequence_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

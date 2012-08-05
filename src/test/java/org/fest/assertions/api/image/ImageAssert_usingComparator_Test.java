@@ -21,7 +21,7 @@ import java.awt.image.BufferedImage;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import org.fest.assertions.api.ImageAssertBaseTest;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -33,7 +33,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class ImageAssert_usingComparator_Test extends ImageAssertTest {
+public class ImageAssert_usingComparator_Test extends ImageAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

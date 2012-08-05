@@ -17,14 +17,14 @@ package org.fest.assertions.api.doublearray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#doesNotHaveDuplicates()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_doesNotHaveDuplicates_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_doesNotHaveDuplicates_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

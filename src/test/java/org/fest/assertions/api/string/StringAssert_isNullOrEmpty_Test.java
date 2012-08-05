@@ -17,7 +17,7 @@ package org.fest.assertions.api.string;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.junit.Test;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_isNullOrEmpty_Test extends StringAssertTest {
+public class StringAssert_isNullOrEmpty_Test extends StringAssertBaseTest {
 
   @Override
   protected StringAssert invoke_api_method() {

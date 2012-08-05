@@ -1,5 +1,5 @@
 /*
- * Created on Aug 02, 2012
+ * Created on Jul 29, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,29 +16,25 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Integers;
+import org.fest.assertions.internal.Comparables;
 
 /**
- * Base class for {@link IntegerAssert} tests.
+ * Base class to test the concrete methods of {@link AbstractUnevenComparableAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
-public abstract class IntegerAssertTest extends BaseAssertTest<IntegerAssert, Integer> {
-  protected Integers integers;
+public abstract class AbstractUnevenComparableAssertBaseTest extends BaseTestTemplate<ConcreteUnevenComparableAssert, Integer> {
+  protected Comparables comparables;
 
   @Override
-  protected IntegerAssert create_assertions() {
-    return new IntegerAssert(0);
+  protected ConcreteUnevenComparableAssert create_assertions() {
+    return new ConcreteUnevenComparableAssert(8);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    integers = mock(Integers.class);
-    assertions.integers = integers;
-  }
-
-  protected Integers getIntegers(IntegerAssert someAssertions) {
-    return someAssertions.integers;
+    comparables = mock(Comparables.class);
+    assertions.comparables = comparables;
   }
 }

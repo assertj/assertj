@@ -18,14 +18,14 @@ import static org.fest.assertions.test.FloatArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;
-import org.fest.assertions.api.FloatArrayAssertTest;
+import org.fest.assertions.api.FloatArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link FloatArrayAssert#endsWith(float...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_endsWith_Test extends FloatArrayAssertTest {
+public class FloatArrayAssert_endsWith_Test extends FloatArrayAssertBaseTest {
 
   @Override
   protected FloatArrayAssert invoke_api_method() {

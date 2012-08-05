@@ -14,31 +14,32 @@
  */
 package org.fest.assertions.api;
 
+import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Floats;
+import org.fest.assertions.internal.IntArrays;
 
 /**
- * Base class for {@link FloatAssert} tests.
+ * Base class for {@link IntArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class FloatAssertTest extends BaseAssertTest<FloatAssert, Float> {
-  protected Floats floats;
+public abstract class IntArrayAssertBaseTest extends BaseTestTemplate<IntArrayAssert, int[]> {
+  protected IntArrays arrays;
 
   @Override
-  protected FloatAssert create_assertions() {
-    return new FloatAssert(6.0f);
+  protected IntArrayAssert create_assertions() {
+    return new IntArrayAssert(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    floats = mock(Floats.class);
-    assertions.floats = floats;
+    arrays = mock(IntArrays.class);
+    assertions.arrays = arrays;
   }
-
-  protected Floats getFloats(FloatAssert someAssertions) {
-    return someAssertions.floats;
+  
+  protected IntArrays getArrays(IntArrayAssert someAssertions) {
+    return someAssertions.arrays;
   }
 }

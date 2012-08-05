@@ -18,7 +18,7 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 import org.junit.BeforeClass;
 
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
  * 
  * @author Yvonne Wang
  */
-public class AbstractAssert_isIn_with_array_Test extends AbstractAssertTest {
+public class AbstractAssert_isIn_with_array_Test extends AbstractAssertBaseTest {
 
   private static Object[] values;
 

@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_doesNotContain_at_Index_Test extends LongArrayAssertTest {
+public class LongArrayAssert_doesNotContain_at_Index_Test extends LongArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

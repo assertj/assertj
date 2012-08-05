@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
 import org.mockito.Mock;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_usingElementComparator_Test extends ObjectArrayAssertBaseTest {
 
   @Mock
   private Comparator<Object> elementComparator;

@@ -17,14 +17,14 @@ package org.fest.assertions.api.float_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatAssert;
-import org.fest.assertions.api.FloatAssertTest;
+import org.fest.assertions.api.FloatAssertBaseTest;
 
 /**
  * Tests for <code>{@link FloatAssert#isNotNaN()}</code>.
  * 
  * @author Yvonne Wang
  */
-public class FloatAssert_isNotNaN_Test extends FloatAssertTest {
+public class FloatAssert_isNotNaN_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {

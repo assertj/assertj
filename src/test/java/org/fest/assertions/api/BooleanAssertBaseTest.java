@@ -1,5 +1,5 @@
 /*
- * Created on Jul 30, 2012
+ * Created on Aug 03, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,29 +16,29 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Strings;
+import org.fest.assertions.internal.Booleans;
 
 /**
- * Base class for {@link StringAssert} tests.
+ * Base class for {@link BooleanAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class StringAssertTest extends BaseAssertTest<StringAssert, String> {
-  protected Strings strings;
+public abstract class BooleanAssertBaseTest extends BaseTestTemplate<BooleanAssert, Boolean> {
+  protected Booleans booleans;
 
   @Override
-  protected StringAssert create_assertions() {
-    return new StringAssert("Yoda");
+  protected BooleanAssert create_assertions() {
+    return new BooleanAssert(true);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    strings = mock(Strings.class);
-    assertions.strings = strings;
+    booleans = mock(Booleans.class);
+    assertions.booleans = booleans;
   }
 
-  protected Strings getStrings(StringAssert someAssertions) {
-    return someAssertions.strings;
+  protected Booleans getBooleans(BooleanAssert someAssertions) {
+    return someAssertions.booleans;
   }
 }

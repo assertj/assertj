@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_doesNotContain_at_Index_Test extends DoubleArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

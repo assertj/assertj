@@ -17,7 +17,7 @@ package org.fest.assertions.api.iterable;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
 import org.junit.BeforeClass;
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
  * 
  * @author Nicolas François
  */
-public class IterableAssert_are_Test extends IterableAssertTest {
+public class IterableAssert_are_Test extends IterableAssertBaseTest {
 
   private static Condition<Object> condition;
 

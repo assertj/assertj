@@ -17,14 +17,14 @@ package org.fest.assertions.api.longarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link LongArrayAssert#doesNotHaveDuplicates()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_doesNotHaveDuplicates_Test extends LongArrayAssertTest {
+public class LongArrayAssert_doesNotHaveDuplicates_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

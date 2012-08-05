@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 import org.fest.assertions.internal.IntArrays;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
@@ -32,7 +32,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class IntArrayAssert_usingDefaultElementComparator_Test extends IntArrayAssertTest {
+public class IntArrayAssert_usingDefaultElementComparator_Test extends IntArrayAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;

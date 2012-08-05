@@ -17,14 +17,14 @@ package org.fest.assertions.api.doublearray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrayAssert_isSorted_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_isSorted_Test extends DoubleArrayAssertBaseTest {
 
   @Override
   protected DoubleArrayAssert invoke_api_method() {

@@ -17,7 +17,7 @@ package org.fest.assertions.api.comparable;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractComparableAssert;
-import org.fest.assertions.api.AbstractComparableAssertTest;
+import org.fest.assertions.api.AbstractComparableAssertBaseTest;
 import org.fest.assertions.api.ConcreteComparableAssert;
 
 /**
@@ -25,7 +25,7 @@ import org.fest.assertions.api.ConcreteComparableAssert;
  * 
  * @author Alex Ruiz
  */
-public class AbstractComparableAssert_isLessThanOrEqualTo_Test extends AbstractComparableAssertTest {
+public class AbstractComparableAssert_isLessThanOrEqualTo_Test extends AbstractComparableAssertBaseTest {
 
   @Override
   protected ConcreteComparableAssert invoke_api_method() {

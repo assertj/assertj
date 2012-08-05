@@ -17,7 +17,7 @@ package org.fest.assertions.api.abstract_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ import org.junit.Test;
  * 
  * @author Alex Ruiz
  */
-public class AbstractAssert_isNull_Test extends AbstractAssertTest{
+public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
 
   @Test
   public void should_verify_that_actual_value_is_null() {

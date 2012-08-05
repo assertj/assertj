@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends IterableAssertTest {
+public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends IterableAssertBaseTest {
 
   List<String> other = list("Solo, Leia");
 

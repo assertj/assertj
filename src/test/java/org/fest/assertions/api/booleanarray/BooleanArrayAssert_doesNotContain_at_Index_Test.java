@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class BooleanArrayAssert_doesNotContain_at_Index_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_doesNotContain_at_Index_Test extends BooleanArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

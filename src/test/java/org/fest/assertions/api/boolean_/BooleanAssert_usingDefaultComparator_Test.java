@@ -17,7 +17,7 @@ package org.fest.assertions.api.boolean_;
 import static junit.framework.Assert.assertSame;
 
 import org.fest.assertions.api.BooleanAssert;
-import org.fest.assertions.api.BooleanAssertTest;
+import org.fest.assertions.api.BooleanAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.internal.Objects;
  * 
  * @author Joel Costigliola
  */
-public class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertTest {
+public class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertBaseTest {
 
   @Override
   protected BooleanAssert invoke_api_method() {

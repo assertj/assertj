@@ -1,5 +1,5 @@
 /*
- * Created on Aug 02, 2012
+ * Created on Aug 03, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,28 +16,29 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.fest.assertions.internal.Lists;
+import org.fest.assertions.internal.Bytes;
 
 /**
- * Base class for {@link ListAssert} tests.
+ * Base class for {@link ByteAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ListAssertTest extends BaseAssertTest<ListAssert<String>, List<String>> {
-  protected Lists lists;
+public abstract class ByteAssertBaseTest extends BaseTestTemplate<ByteAssert, Byte> {
+  protected Bytes bytes;
 
   @Override
-  protected ListAssert<String> create_assertions() {
-    return new ListAssert<String>(Collections.<String> emptyList());
+  protected ByteAssert create_assertions() {
+    return new ByteAssert((byte) 0);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    lists = mock(Lists.class);
-    assertions.lists = lists;
+    bytes = mock(Bytes.class);
+    assertions.bytes = bytes;
+  }
+
+  protected Bytes getBytes(ByteAssert someAssertions) {
+    return someAssertions.bytes;
   }
 }

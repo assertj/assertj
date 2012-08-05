@@ -17,7 +17,7 @@ package org.fest.assertions.api.file;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 
 /**
  * Tests for <code>{@link FileAssert#canWrite()}</code>.
@@ -25,7 +25,7 @@ import org.fest.assertions.api.FileAssertTest;
  * @author Olivier Demeijer
  * 
  */
-public class FileAssert_canWrite_Test extends FileAssertTest {
+public class FileAssert_canWrite_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {

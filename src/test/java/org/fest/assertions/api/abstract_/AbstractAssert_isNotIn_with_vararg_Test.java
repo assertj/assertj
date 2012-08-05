@@ -17,7 +17,7 @@ package org.fest.assertions.api.abstract_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 
 /**
@@ -27,7 +27,7 @@ import org.fest.assertions.api.ConcreteAssert;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public class AbstractAssert_isNotIn_with_vararg_Test extends AbstractAssertTest {
+public class AbstractAssert_isNotIn_with_vararg_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {

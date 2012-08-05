@@ -17,14 +17,14 @@ package org.fest.assertions.api.intarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link IntArrayAssert#isNotEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class IntArrayAssert_isNotEmpty_Test extends IntArrayAssertTest {
+public class IntArrayAssert_isNotEmpty_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

@@ -17,14 +17,14 @@ package org.fest.assertions.api.chararray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
-import org.fest.assertions.api.CharArrayAssertTest;
+import org.fest.assertions.api.CharArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link CharArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class CharArrayAssert_isSorted_Test extends CharArrayAssertTest {
+public class CharArrayAssert_isSorted_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected CharArrayAssert invoke_api_method() {

@@ -2,7 +2,7 @@ package org.fest.assertions.api.date;
 
 import static org.junit.Assert.assertSame;
 
-import org.fest.assertions.api.AbstractBaseDateAssert_Test;
+import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.fest.assertions.internal.Dates;
 import org.junit.Before;
@@ -23,7 +23,7 @@ import org.junit.Test;
  * @author Joel Costigliola
  * 
  */
-public abstract class AbstractDateAssertWithOneIntArg_Test extends AbstractBaseDateAssert_Test {
+public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBaseTest {
 
   protected int intArg;
 

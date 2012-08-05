@@ -17,14 +17,14 @@ package org.fest.assertions.api.throwable;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ThrowableAssert;
-import org.fest.assertions.api.ThrowableAssertTest;
+import org.fest.assertions.api.ThrowableAssertBaseTest;
 
 /**
  * Tests for <code>{@link ThrowableAssert#hasMessageEndingWith(String)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ThrowableAssert_hasMessageEndingWith_Test extends ThrowableAssertTest {
+public class ThrowableAssert_hasMessageEndingWith_Test extends ThrowableAssertBaseTest {
 
   @Override
   protected ThrowableAssert invoke_api_method() {

@@ -18,14 +18,14 @@ import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ObjectArrayAssert#containsAll(Iterable)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ObjectArrayAssert_containsAll_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_containsAll_Test extends ObjectArrayAssertBaseTest {
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

@@ -18,14 +18,14 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.MapAssert;
-import org.fest.assertions.api.MapAssertTest;
+import org.fest.assertions.api.MapAssertBaseTest;
 
 /**
  * Tests for <code>{@link MapsAssert#hasSameSizeAs(Object[])}</code>.
  * 
  * @author Nicolas François
  */
-public class MapAssert_hasSameSizeAs_with_Array_Test extends MapAssertTest {
+public class MapAssert_hasSameSizeAs_with_Array_Test extends MapAssertBaseTest {
 
   private final String[] other = array("Yoda", "Luke");
 

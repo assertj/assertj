@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ListAssert;
-import org.fest.assertions.api.ListAssertTest;
+import org.fest.assertions.api.ListAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class ListAssert_doesNotContain_at_Index_Test extends ListAssertTest {
+public class ListAssert_doesNotContain_at_Index_Test extends ListAssertBaseTest {
 
   private final Index index = someIndex();
 

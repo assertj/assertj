@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;
-import org.fest.assertions.api.FloatArrayAssertTest;
+import org.fest.assertions.api.FloatArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class FloatArrayAssert_doesNotContain_at_Index_Test extends FloatArrayAssertTest {
+public class FloatArrayAssert_doesNotContain_at_Index_Test extends FloatArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

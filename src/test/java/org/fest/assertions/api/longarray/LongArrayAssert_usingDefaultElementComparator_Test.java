@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.internal.LongArrays;
 import org.junit.Before;
@@ -32,7 +32,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class LongArrayAssert_usingDefaultElementComparator_Test extends LongArrayAssertTest {
+public class LongArrayAssert_usingDefaultElementComparator_Test extends LongArrayAssertBaseTest {
 
   @Mock
   private Comparator<Long> comparator;

@@ -1,5 +1,5 @@
 /*
- * Created on Jul 29, 2012
+ * Created on Aug 03, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,14 +14,31 @@
  */
 package org.fest.assertions.api;
 
+import static org.mockito.Mockito.mock;
+
+import org.fest.assertions.internal.Characters;
+
 /**
- * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).
+ * Base class for {@link CharacterAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractAssertTest extends BaseAssertTest<ConcreteAssert, Object> {
+public abstract class CharacterAssertBaseTest extends BaseTestTemplate<CharacterAssert, Character> {
+  protected Characters characters;
+
   @Override
-  protected ConcreteAssert create_assertions() {
-    return new ConcreteAssert(6L);
+  protected CharacterAssert create_assertions() {
+    return new CharacterAssert('a');
+  }
+
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
+    characters = mock(Characters.class);
+    assertions.characters = characters;
+  }
+
+  protected Characters getCharacters(CharacterAssert someAssertions) {
+    return someAssertions.characters;
   }
 }

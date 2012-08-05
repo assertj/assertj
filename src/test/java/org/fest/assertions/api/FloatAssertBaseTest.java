@@ -1,5 +1,5 @@
 /*
- * Created on Aug 03, 2012
+ * Created on Aug 02, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,32 +14,31 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.CharArrays;
+import org.fest.assertions.internal.Floats;
 
 /**
- * Base class for {@link CharArrayAssert} tests.
+ * Base class for {@link FloatAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class CharArrayAssertTest extends BaseAssertTest<CharArrayAssert, char[]> {
-  protected CharArrays arrays;
+public abstract class FloatAssertBaseTest extends BaseTestTemplate<FloatAssert, Float> {
+  protected Floats floats;
 
   @Override
-  protected CharArrayAssert create_assertions() {
-    return new CharArrayAssert(emptyArray());
+  protected FloatAssert create_assertions() {
+    return new FloatAssert(6.0f);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(CharArrays.class);
-    assertions.arrays = arrays;
+    floats = mock(Floats.class);
+    assertions.floats = floats;
   }
-  
-  protected CharArrays getArrays(CharArrayAssert someAssertions) {
-    return someAssertions.arrays;
+
+  protected Floats getFloats(FloatAssert someAssertions) {
+    return someAssertions.floats;
   }
 }

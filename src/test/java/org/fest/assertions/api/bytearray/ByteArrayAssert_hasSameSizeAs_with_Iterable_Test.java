@@ -20,14 +20,14 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.fest.assertions.api.ByteArrayAssert;
-import org.fest.assertions.api.ByteArrayAssertTest;
+import org.fest.assertions.api.ByteArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrayAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class ByteArrayAssert_hasSameSizeAs_with_Iterable_Test extends ByteArrayAssertTest {
+public class ByteArrayAssert_hasSameSizeAs_with_Iterable_Test extends ByteArrayAssertBaseTest {
 
   private final List<String> other = list("Yoda", "Luke");
 

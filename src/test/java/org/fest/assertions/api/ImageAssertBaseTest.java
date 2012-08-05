@@ -26,7 +26,7 @@ import org.fest.assertions.internal.Images;
  * 
  * @author Olivier Michallat
  */
-public abstract class ImageAssertTest extends BaseAssertTest<ImageAssert, BufferedImage> {
+public abstract class ImageAssertBaseTest extends BaseTestTemplate<ImageAssert, BufferedImage> {
   protected Images images;
 
   @Override

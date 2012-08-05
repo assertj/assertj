@@ -14,31 +14,17 @@
  */
 package org.fest.assertions.api;
 
-import static org.mockito.Mockito.mock;
-
-import org.fest.assertions.internal.Shorts;
+import org.fest.assertions.test.Jedi;
 
 /**
- * Base class for {@link ShortAssert} tests.
+ * Base class for {@link ObjectAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ShortAssertTest extends BaseAssertTest<ShortAssert, Short> {
-  protected Shorts shorts;
+public abstract class ObjectAssertBaseTest extends BaseTestTemplate<ObjectAssert<Jedi>, Jedi> {
 
   @Override
-  protected ShortAssert create_assertions() {
-    return new ShortAssert((short) 6);
-  }
-
-  @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    shorts = mock(Shorts.class);
-    assertions.shorts = shorts;
-  }
-
-  protected Shorts getShorts(ShortAssert someAssertions) {
-    return someAssertions.shorts;
+  protected ObjectAssert<Jedi> create_assertions() {
+    return new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
   }
 }

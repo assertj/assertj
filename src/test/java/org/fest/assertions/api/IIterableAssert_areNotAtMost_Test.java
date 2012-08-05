@@ -27,7 +27,7 @@ import org.junit.Test;
  * 
  * @author Nicolas François
  */
-public class IIterableAssert_areNotAtMost_Test extends IterableAssertTest {
+public class IIterableAssert_areNotAtMost_Test extends IterableAssertBaseTest {
 
   private static Condition<Object> condition;
 

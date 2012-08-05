@@ -17,7 +17,7 @@ package org.fest.assertions.api.abstract_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.AbstractAssertTest;
+import org.fest.assertions.api.AbstractAssertBaseTest;
 import org.fest.assertions.api.ConcreteAssert;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
  * 
  * @author Yvonne Wang
  */
-public class AbstractAssert_doesNotHave_Test extends AbstractAssertTest {
+public class AbstractAssert_doesNotHave_Test extends AbstractAssertBaseTest {
 
   private static Condition<Object> condition;
 

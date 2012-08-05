@@ -17,14 +17,14 @@ package org.fest.assertions.api.intarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link IntArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class IntArrayAssert_isSorted_Test extends IntArrayAssertTest {
+public class IntArrayAssert_isSorted_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected IntArrayAssert invoke_api_method() {

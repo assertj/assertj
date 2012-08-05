@@ -18,14 +18,14 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#hasSameSizeAs(Object[])}</code>.
  * 
  * @author Nicolas François
  */
-public class BooleanArrayAssert_hasSameSizeAs_with_Array_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_hasSameSizeAs_with_Array_Test extends BooleanArrayAssertBaseTest {
 
   private final String[] other = array("Yoda", "Luke");
 

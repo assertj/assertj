@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.DoubleArrayAssert;
-import org.fest.assertions.api.DoubleArrayAssertTest;
+import org.fest.assertions.api.DoubleArrayAssertBaseTest;
 import org.fest.assertions.internal.DoubleArrays;
 import org.junit.Before;
 import org.mockito.Mock;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class DoubleArrayAssert_usingComparator_Test extends DoubleArrayAssertTest {
+public class DoubleArrayAssert_usingComparator_Test extends DoubleArrayAssertBaseTest {
 
   @Mock
   private Comparator<double[]> comparator;

@@ -17,14 +17,14 @@ package org.fest.assertions.api.file;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 
 /**
  * Tests for <code>{@link FileAssert#isFile()}</code>.
  * 
  * @author Yvonne Wang
  */
-public class FileAssert_isFile_Test extends FileAssertTest {
+public class FileAssert_isFile_Test extends FileAssertBaseTest {
   @Override
   protected FileAssert invoke_api_method() {
     return assertions.isFile();

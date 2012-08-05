@@ -17,14 +17,14 @@ package org.fest.assertions.api.map;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.MapAssert;
-import org.fest.assertions.api.MapAssertTest;
+import org.fest.assertions.api.MapAssertBaseTest;
 
 /**
  * Tests for <code>{@link MapAssert#doesNotContainValue(Object)}</code>.
  * 
  * @author Nicolas François
  */
-public class MapAssert_doesNotContainValue_Test extends MapAssertTest {
+public class MapAssert_doesNotContainValue_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

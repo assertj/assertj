@@ -17,7 +17,7 @@ package org.fest.assertions.api.file;
 import static org.fest.assertions.test.ExpectedException.none;
 
 import org.fest.assertions.api.FileAssert;
-import org.fest.assertions.api.FileAssertTest;
+import org.fest.assertions.api.FileAssertBaseTest;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import org.junit.Test;
  * 
  * @author Olivier Michallat
  */
-public class FileAssert_usingCharset_String_invalid_Test extends FileAssertTest {
+public class FileAssert_usingCharset_String_invalid_Test extends FileAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

@@ -18,7 +18,7 @@ import static org.fest.assertions.data.Offset.offset;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatAssert;
-import org.fest.assertions.api.FloatAssertTest;
+import org.fest.assertions.api.FloatAssertBaseTest;
 import org.fest.assertions.data.Offset;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Offset;
  * 
  * @author Alex Ruiz
  */
-public class FloatAssert_isEqualTo_float_with_offset_Test extends FloatAssertTest {
+public class FloatAssert_isEqualTo_float_with_offset_Test extends FloatAssertBaseTest {
 
   private final Offset<Float> offset = offset(5f);
 

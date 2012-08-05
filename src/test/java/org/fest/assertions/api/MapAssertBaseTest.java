@@ -1,5 +1,5 @@
 /*
- * Created on Aug 02, 2012
+ * Created on Aug 01, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,31 +14,30 @@
  */
 package org.fest.assertions.api;
 
+import static java.util.Collections.emptyMap;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Doubles;
+import java.util.Map;
+
+import org.fest.assertions.internal.Maps;
 
 /**
- * Base class for {@link DoubleAssert} tests.
+ * Base class for {@link MapAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class DoubleAssertTest extends BaseAssertTest<DoubleAssert, Double> {
-  protected Doubles doubles;
-
+public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Object, Object>, Map<Object, Object>> {
+  protected Maps maps;
+  
   @Override
-  protected DoubleAssert create_assertions() {
-    return new DoubleAssert(3.14);
+  protected MapAssert<Object, Object> create_assertions() {
+    return new MapAssert<Object, Object>(emptyMap());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    doubles = mock(Doubles.class);
-    assertions.doubles = doubles;
-  }
-
-  protected Doubles getDoubles(DoubleAssert someAssertions) {
-    return someAssertions.doubles;
+    maps = mock(Maps.class);
+    assertions.maps = maps;
   }
 }

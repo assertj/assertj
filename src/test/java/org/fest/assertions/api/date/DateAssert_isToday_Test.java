@@ -17,7 +17,7 @@ package org.fest.assertions.api.date;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.AbstractBaseDateAssert_Test;
+import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ import org.junit.Test;
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isToday_Test extends AbstractBaseDateAssert_Test {
+public class DateAssert_isToday_Test extends DateAssertBaseTest {
 
   @Test
   public void should_verify_that_actual_is_today() {

@@ -17,7 +17,7 @@ package org.fest.assertions.api.image;
 import static junit.framework.Assert.assertSame;
 
 import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import org.fest.assertions.api.ImageAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.internal.Objects;
  * 
  * @author Joel Costigliola
  */
-public class ImageAssert_usingDefaultComparator_Test extends ImageAssertTest {
+public class ImageAssert_usingDefaultComparator_Test extends ImageAssertBaseTest {
 
   @Override
   protected ImageAssert invoke_api_method() {

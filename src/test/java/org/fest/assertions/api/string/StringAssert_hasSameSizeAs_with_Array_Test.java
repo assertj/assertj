@@ -17,7 +17,7 @@ package org.fest.assertions.api.string;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -25,7 +25,7 @@ import org.junit.BeforeClass;
  * 
  * @author Nicolas François
  */
-public class StringAssert_hasSameSizeAs_with_Array_Test extends StringAssertTest {
+public class StringAssert_hasSameSizeAs_with_Array_Test extends StringAssertBaseTest {
   private static Object[] other;
   
   @BeforeClass

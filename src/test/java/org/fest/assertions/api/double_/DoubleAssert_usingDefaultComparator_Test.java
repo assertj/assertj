@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.DoubleAssert;
-import org.fest.assertions.api.DoubleAssertTest;
+import org.fest.assertions.api.DoubleAssertBaseTest;
 import org.fest.assertions.internal.Doubles;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertTest {
+public class DoubleAssert_usingDefaultComparator_Test extends DoubleAssertBaseTest {
 
   @Mock
   private Comparator<Double> comparator;

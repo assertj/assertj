@@ -17,7 +17,7 @@ package org.fest.assertions.api.string;
 import static junit.framework.Assert.assertSame;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.internal.Strings;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
@@ -28,7 +28,7 @@ import org.junit.Before;
  * 
  * @author Joel Costigliola
  */
-public class StringAssert_usingDefaultComparator_Test extends StringAssertTest {
+public class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
 
   @Before
   public void before() {

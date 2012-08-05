@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
  * 
  * @author Nicolas François
  */
-public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertTest {
+public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertBaseTest {
 
   private static List<String> other;
   

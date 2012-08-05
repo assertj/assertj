@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 import org.fest.assertions.internal.BooleanArrays;
 import org.junit.Before;
 import org.mockito.Mock;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_usingComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Mock
   private Comparator<boolean[]> comparator;

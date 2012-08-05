@@ -17,7 +17,7 @@ package org.fest.assertions.api.date;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.api.AbstractBaseDateAssert_Test;
+import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ import org.junit.Test;
  * @author Guillaume Girou
  * @author Nicolas François
  */
-public class DateAssert_hasTime_Test extends AbstractBaseDateAssert_Test {
+public class DateAssert_hasTime_Test extends DateAssertBaseTest {
 
   @Test
   public void should_verify_that_actual_has_time_equals_to_expected() {

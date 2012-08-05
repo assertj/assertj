@@ -14,27 +14,14 @@
  */
 package org.fest.assertions.api;
 
-import static org.mockito.Mockito.mock;
-
-import org.fest.assertions.internal.Comparables;
-
 /**
- * Base class to test the concrete methods of {@link AbstractComparableAssert} (using a dummy implementation).
+ * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).
  * 
  * @author Olivier Michallat
  */
-public abstract class AbstractComparableAssertTest extends BaseAssertTest<ConcreteComparableAssert, Integer> {
-  protected Comparables comparables;
-
+public abstract class AbstractAssertBaseTest extends BaseTestTemplate<ConcreteAssert, Object> {
   @Override
-  protected ConcreteComparableAssert create_assertions() {
-    return new ConcreteComparableAssert(8);
-  }
-
-  @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
+  protected ConcreteAssert create_assertions() {
+    return new ConcreteAssert(6L);
   }
 }

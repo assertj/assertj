@@ -1,5 +1,5 @@
 /*
- * Created on Aug 01, 2012
+ * Created on Aug 02, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -16,29 +16,29 @@ package org.fest.assertions.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.Integers;
 
 /**
- * Base class for {@link LongAssert} tests.
+ * Base class for {@link IntegerAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class LongAssertTest extends BaseAssertTest<LongAssert, Long> {
-  protected Longs longs;
+public abstract class IntegerAssertBaseTest extends BaseTestTemplate<IntegerAssert, Integer> {
+  protected Integers integers;
 
   @Override
-  protected LongAssert create_assertions() {
-    return new LongAssert(0L);
+  protected IntegerAssert create_assertions() {
+    return new IntegerAssert(0);
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    longs = mock(Longs.class);
-    assertions.longs = longs;
+    integers = mock(Integers.class);
+    assertions.integers = integers;
   }
 
-  protected Longs getLongs(LongAssert someAssertions) {
-    return someAssertions.longs;
+  protected Integers getIntegers(IntegerAssert someAssertions) {
+    return someAssertions.integers;
   }
 }

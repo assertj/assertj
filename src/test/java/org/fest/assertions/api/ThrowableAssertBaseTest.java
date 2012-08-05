@@ -1,5 +1,5 @@
 /*
- * Created on Aug 02, 2012
+ * Created on Jul 30, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,32 +14,27 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.IntArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import org.fest.assertions.internal.IntArrays;
+import org.fest.assertions.internal.Throwables;
 
 /**
- * Base class for {@link IntArrayAssert} tests.
+ * Base class for {@link ThrowableAssertAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class IntArrayAssertTest extends BaseAssertTest<IntArrayAssert, int[]> {
-  protected IntArrays arrays;
-
+public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert, Throwable> {
+  protected Throwables throwables;
+  
   @Override
-  protected IntArrayAssert create_assertions() {
-    return new IntArrayAssert(emptyArray());
+  protected ThrowableAssert create_assertions() {
+    return new ThrowableAssert(new Throwable("throwable message"));
   }
-
+  
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    arrays = mock(IntArrays.class);
-    assertions.arrays = arrays;
-  }
-  
-  protected IntArrays getArrays(IntArrayAssert someAssertions) {
-    return someAssertions.arrays;
+    throwables = mock(Throwables.class);
+    assertions.throwables = throwables;
   }
 }

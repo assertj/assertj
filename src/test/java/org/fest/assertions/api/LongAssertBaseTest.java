@@ -1,5 +1,5 @@
 /*
- * Created on Jul 31, 2012
+ * Created on Aug 01, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,17 +14,31 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.test.Jedi;
+import static org.mockito.Mockito.mock;
+
+import org.fest.assertions.internal.Longs;
 
 /**
- * Base class for {@link ObjectAssert} tests.
+ * Base class for {@link LongAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class ObjectAssertTest extends BaseAssertTest<ObjectAssert<Jedi>, Jedi> {
+public abstract class LongAssertBaseTest extends BaseTestTemplate<LongAssert, Long> {
+  protected Longs longs;
 
   @Override
-  protected ObjectAssert<Jedi> create_assertions() {
-    return new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
+  protected LongAssert create_assertions() {
+    return new LongAssert(0L);
+  }
+
+  @Override
+  protected void inject_internal_objects() {
+    super.inject_internal_objects();
+    longs = mock(Longs.class);
+    assertions.longs = longs;
+  }
+
+  protected Longs getLongs(LongAssert someAssertions) {
+    return someAssertions.longs;
   }
 }

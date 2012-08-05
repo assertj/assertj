@@ -17,7 +17,7 @@ package org.fest.assertions.api.objectarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
-import org.fest.assertions.api.ObjectArrayAssertTest;
+import org.fest.assertions.api.ObjectArrayAssertBaseTest;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
 import org.junit.Before;
@@ -28,7 +28,7 @@ import org.junit.Before;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectArrayAssert_doNotHaveAtMost_Test extends ObjectArrayAssertTest {
+public class ObjectArrayAssert_doNotHaveAtMost_Test extends ObjectArrayAssertBaseTest {
 
   private static Condition<Object> condition;
 

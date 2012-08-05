@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.IntegerAssert;
-import org.fest.assertions.api.IntegerAssertTest;
+import org.fest.assertions.api.IntegerAssertBaseTest;
 import org.fest.assertions.internal.Integers;
 import org.fest.assertions.internal.Objects;
 import org.junit.Before;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class IntegerAssert_usingDefaultComparator_Test extends IntegerAssertTest {
+public class IntegerAssert_usingDefaultComparator_Test extends IntegerAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;

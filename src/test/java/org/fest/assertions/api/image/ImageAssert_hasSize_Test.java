@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import java.awt.Dimension;
 
 import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import org.fest.assertions.api.ImageAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -27,7 +27,7 @@ import org.junit.BeforeClass;
  * 
  * @author Yvonne Wang
  */
-public class ImageAssert_hasSize_Test extends ImageAssertTest {
+public class ImageAssert_hasSize_Test extends ImageAssertBaseTest {
 
   private static Dimension size;
 

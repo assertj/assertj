@@ -17,14 +17,14 @@ package org.fest.assertions.api.shortarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortArrayAssert;
-import org.fest.assertions.api.ShortArrayAssertTest;
+import org.fest.assertions.api.ShortArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_hasSize_Test extends ShortArrayAssertTest {
+public class ShortArrayAssert_hasSize_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

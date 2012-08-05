@@ -19,7 +19,7 @@ import static org.fest.assertions.test.ExpectedException.none;
 import java.util.Comparator;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +31,7 @@ import org.mockito.Mock;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BooleanArrayAssert_usingDefaultElementComparator_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_usingDefaultElementComparator_Test extends BooleanArrayAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

@@ -20,14 +20,14 @@ import static org.mockito.Mockito.verify;
 import java.awt.image.BufferedImage;
 
 import org.fest.assertions.api.ImageAssert;
-import org.fest.assertions.api.ImageAssertTest;
+import org.fest.assertions.api.ImageAssertBaseTest;
 
 /**
  * Tests for <code>{@link ImageAssert#isNotEqualTo(BufferedImage)}</code>.
  * 
  * @author Yvonne Wang
  */
-public class ImageAssert_isNotEqualTo_Test extends ImageAssertTest {
+public class ImageAssert_isNotEqualTo_Test extends ImageAssertBaseTest {
 
   private final BufferedImage expected = fivePixelBlueImage();
 

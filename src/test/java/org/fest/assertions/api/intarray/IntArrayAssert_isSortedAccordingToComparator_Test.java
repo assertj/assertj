@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.IntArrayAssert;
-import org.fest.assertions.api.IntArrayAssertTest;
+import org.fest.assertions.api.IntArrayAssertBaseTest;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class IntArrayAssert_isSortedAccordingToComparator_Test extends IntArrayAssertTest {
+public class IntArrayAssert_isSortedAccordingToComparator_Test extends IntArrayAssertBaseTest {
 
   @Mock
   private Comparator<Integer> comparator;

@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#doesNotContain(Object...)}</code>.
@@ -26,7 +26,7 @@ import org.fest.assertions.api.IterableAssertTest;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class IterableAssert_doesNotContain_Test extends IterableAssertTest {
+public class IterableAssert_doesNotContain_Test extends IterableAssertBaseTest {
 
   private final Object[] values = { "Yoda", "Luke" };
 

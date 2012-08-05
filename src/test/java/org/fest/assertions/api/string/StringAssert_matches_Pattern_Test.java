@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 import java.util.regex.Pattern;
 
 import org.fest.assertions.api.StringAssert;
-import org.fest.assertions.api.StringAssertTest;
+import org.fest.assertions.api.StringAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
@@ -28,7 +28,7 @@ import org.junit.BeforeClass;
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_matches_Pattern_Test extends StringAssertTest {
+public class StringAssert_matches_Pattern_Test extends StringAssertBaseTest {
 
   private static Pattern pattern;
 

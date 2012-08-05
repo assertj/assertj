@@ -19,7 +19,7 @@ import static org.fest.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.MapAssert;
-import org.fest.assertions.api.MapAssertTest;
+import org.fest.assertions.api.MapAssertBaseTest;
 import org.fest.assertions.data.MapEntry;
 
 /**
@@ -28,7 +28,7 @@ import org.fest.assertions.data.MapEntry;
  * @author Alex Ruiz
  * @author Nicolas François
  */
-public class MapAssert_contains_Test extends MapAssertTest {
+public class MapAssert_contains_Test extends MapAssertBaseTest {
 
   final MapEntry[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
 

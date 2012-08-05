@@ -18,14 +18,14 @@ import static org.fest.assertions.test.ShortArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortArrayAssert;
-import org.fest.assertions.api.ShortArrayAssertTest;
+import org.fest.assertions.api.ShortArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#contains(short...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_contains_Test extends ShortArrayAssertTest {
+public class ShortArrayAssert_contains_Test extends ShortArrayAssertBaseTest {
 
   @Override
   protected ShortArrayAssert invoke_api_method() {

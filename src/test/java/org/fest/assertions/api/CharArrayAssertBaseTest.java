@@ -1,5 +1,5 @@
 /*
- * Created on Aug 01, 2012
+ * Created on Aug 03, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -14,40 +14,32 @@
  */
 package org.fest.assertions.api;
 
-import static java.math.BigDecimal.ONE;
+import static org.fest.assertions.test.CharArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
-import java.math.BigDecimal;
-
-import org.fest.assertions.internal.BigDecimals;
-import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.CharArrays;
 
 /**
- * Base class for {@link BigDecimalAssert} tests.
+ * Base class for {@link CharArrayAssert} tests.
  * 
  * @author Olivier Michallat
  */
-public abstract class BigDecimalAssertTest extends BaseAssertTest<BigDecimalAssert, BigDecimal> {
-
-  protected static final String ONE_AS_STRING = "1";
-  protected BigDecimals bigDecimals;
-  protected Comparables comparables;
+public abstract class CharArrayAssertBaseTest extends BaseTestTemplate<CharArrayAssert, char[]> {
+  protected CharArrays arrays;
 
   @Override
-  protected BigDecimalAssert create_assertions() {
-    return new BigDecimalAssert(ONE);
+  protected CharArrayAssert create_assertions() {
+    return new CharArrayAssert(emptyArray());
   }
 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    bigDecimals = mock(BigDecimals.class);
-    assertions.bigDecimals = bigDecimals;
-    comparables = mock(Comparables.class);
-    assertions.comparables = comparables;
+    arrays = mock(CharArrays.class);
+    assertions.arrays = arrays;
   }
-
-  protected BigDecimals getBigDecimals(BigDecimalAssert someAssertions) {
-    return someAssertions.bigDecimals;
+  
+  protected CharArrays getArrays(CharArrayAssert someAssertions) {
+    return someAssertions.arrays;
   }
 }

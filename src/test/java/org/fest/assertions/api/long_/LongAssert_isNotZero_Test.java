@@ -17,14 +17,14 @@ package org.fest.assertions.api.long_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongAssert;
-import org.fest.assertions.api.LongAssertTest;
+import org.fest.assertions.api.LongAssertBaseTest;
 
 /**
  * Tests for <code>{@link LongAssert#isNotZero()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongAssert_isNotZero_Test extends LongAssertTest {
+public class LongAssert_isNotZero_Test extends LongAssertBaseTest {
 
   @Override
   protected LongAssert invoke_api_method() {

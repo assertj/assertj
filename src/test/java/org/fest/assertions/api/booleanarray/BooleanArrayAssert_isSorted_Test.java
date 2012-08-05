@@ -17,14 +17,14 @@ package org.fest.assertions.api.booleanarray;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BooleanArrayAssert;
-import org.fest.assertions.api.BooleanArrayAssertTest;
+import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#isSorted()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class BooleanArrayAssert_isSorted_Test extends BooleanArrayAssertTest {
+public class BooleanArrayAssert_isSorted_Test extends BooleanArrayAssertBaseTest {
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

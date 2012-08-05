@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
-import org.fest.assertions.api.IterableAssertTest;
+import org.fest.assertions.api.IterableAssertBaseTest;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSubsetOf(Iterable)}</code>.
@@ -30,7 +30,7 @@ import org.fest.assertions.api.IterableAssertTest;
  * @author Joel Costigliola
  * @author Maciej Jaskowski
  */
-public class IterableAssert_isSubsetOf_Test extends IterableAssertTest {
+public class IterableAssert_isSubsetOf_Test extends IterableAssertBaseTest {
 
   private final List<String> values = list("Yoda", "Luke");
 

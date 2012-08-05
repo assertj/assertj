@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
-import org.fest.assertions.api.CharArrayAssertTest;
+import org.fest.assertions.api.CharArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class CharArrayAssert_doesNotContain_at_Index_Test extends CharArrayAssertTest {
+public class CharArrayAssert_doesNotContain_at_Index_Test extends CharArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

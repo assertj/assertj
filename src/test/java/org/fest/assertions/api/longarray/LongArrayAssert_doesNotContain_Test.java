@@ -18,14 +18,14 @@ import static org.fest.assertions.test.LongArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;
-import org.fest.assertions.api.LongArrayAssertTest;
+import org.fest.assertions.api.LongArrayAssertBaseTest;
 
 /**
  * Tests for <code>{@link LongArrayAssert#doesNotContain(long...)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class LongArrayAssert_doesNotContain_Test extends LongArrayAssertTest {
+public class LongArrayAssert_doesNotContain_Test extends LongArrayAssertBaseTest {
 
   @Override
   protected LongArrayAssert invoke_api_method() {

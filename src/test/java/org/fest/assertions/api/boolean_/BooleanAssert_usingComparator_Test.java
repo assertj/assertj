@@ -20,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.Comparator;
 
 import org.fest.assertions.api.BooleanAssert;
-import org.fest.assertions.api.BooleanAssertTest;
+import org.fest.assertions.api.BooleanAssertBaseTest;
 import org.fest.assertions.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -32,7 +32,7 @@ import org.mockito.Mock;
  * 
  * @author Joel Costigliola
  */
-public class BooleanAssert_usingComparator_Test extends BooleanAssertTest {
+public class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

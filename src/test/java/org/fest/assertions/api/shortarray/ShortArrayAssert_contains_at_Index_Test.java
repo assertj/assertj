@@ -18,7 +18,7 @@ import static org.fest.assertions.test.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortArrayAssert;
-import org.fest.assertions.api.ShortArrayAssertTest;
+import org.fest.assertions.api.ShortArrayAssertBaseTest;
 import org.fest.assertions.data.Index;
 
 /**
@@ -26,7 +26,7 @@ import org.fest.assertions.data.Index;
  * 
  * @author Alex Ruiz
  */
-public class ShortArrayAssert_contains_at_Index_Test extends ShortArrayAssertTest {
+public class ShortArrayAssert_contains_at_Index_Test extends ShortArrayAssertBaseTest {
 
   private final Index index = someIndex();
 

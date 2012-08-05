@@ -17,14 +17,14 @@ package org.fest.assertions.api.short_;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortAssert;
-import org.fest.assertions.api.ShortAssertTest;
+import org.fest.assertions.api.ShortAssertBaseTest;
 
 /**
  * Tests for <code>{@link ShortAssert#isGreaterThan(short)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class ShortAssert_isGreaterThan_short_Test extends ShortAssertTest {
+public class ShortAssert_isGreaterThan_short_Test extends ShortAssertBaseTest {
 
   @Override
   protected ShortAssert invoke_api_method() {

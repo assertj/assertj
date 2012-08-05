@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.fest.assertions.api.AbstractBaseDateAssert_Test;
+import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.fest.assertions.internal.Dates;
 import org.fest.assertions.test.ExpectedException;
@@ -33,7 +33,7 @@ import org.junit.Test;
  * @author Joel Costigliola
  * 
  */
-public abstract class AbstractDateAssertWithDateArg_Test extends AbstractBaseDateAssert_Test {
+public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseTest {
 
   protected Date otherDate;
   protected String dateAsStringWithDefaultFormat;
