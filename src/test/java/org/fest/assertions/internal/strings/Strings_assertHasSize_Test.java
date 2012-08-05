@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Dec 14, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.strings;
 
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,58 +24,62 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.StringsBaseTest;
+import org.fest.assertions.internal.Strings;
 
 /**
- * Tests for <code>{@link Strings#assertEmpty(AssertionInfo, String)}</code>.
+ * Tests for <code>{@link Strings#assertHasSize(AssertionInfo, String, int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertEmpty_Test extends AbstractTest_for_Strings {
+public class Strings_assertHasSize_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    strings.assertEmpty(someInfo(), null);
+    strings.assertHasSize(someInfo(), null, 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
+    String actual = "Han";
     try {
-      strings.assertEmpty(info, "Yoda");
+      strings.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty("Yoda"));
+      verify(failures).failure(info, shouldHaveSize(actual, actual.length(), 6));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
-    strings.assertEmpty(someInfo(), "");
+  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+    strings.assertHasSize(someInfo(), "Han", 3);
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null);
+    stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
+    String actual = "Han";
     try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(info, "Yoda");
+      stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty("Yoda"));
+      verify(failures).failure(info, shouldHaveSize(actual, actual.length(), 6));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "");
+  public void should_pass_if_size_of_actual_is_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
+    stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), "Han", 3);
   }
 }

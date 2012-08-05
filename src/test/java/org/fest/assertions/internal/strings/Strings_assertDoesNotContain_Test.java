@@ -12,48 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.test.ErrorMessages.sequenceToLookForIsNull;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.fest.assertions.util.CaseInsensitiveStringComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.StringsBaseTest;
+import org.fest.assertions.internal.Strings;
 
 /**
  * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, String, String)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Strings_assertDoesNotContain_Test extends AbstractTest_for_Strings {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Strings strings;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    strings = new Strings();
-    strings.failures = failures;
-    comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
-    stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
-    stringsWithCaseInsensitiveComparisonStrategy.failures = failures;
-  }
+public class Strings_assertDoesNotContain_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_contains_sequence() {

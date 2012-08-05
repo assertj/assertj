@@ -12,9 +12,10 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.strings;
 
-import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -23,56 +24,60 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.StringsBaseTest;
+import org.fest.assertions.internal.Strings;
 
 /**
- * Tests for <code>{@link Strings#assertNullOrEmpty(AssertionInfo, String)}</code>.
+ * Tests for <code>{@link Strings#assertEmpty(AssertionInfo, String)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertNullOrEmpty_Test extends AbstractTest_for_Strings {
+public class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_is_not_empty() {
-    AssertionInfo info = someInfo();
-    try {
-      strings.assertNullOrEmpty(info, "Yoda");
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    strings.assertEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_pass_if_actual_is_null() {
-    strings.assertNullOrEmpty(someInfo(), null);
+  public void should_fail_if_actual_is_not_empty() {
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertEmpty(info, "Yoda");
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeEmpty("Yoda"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    strings.assertNullOrEmpty(someInfo(), "");
+    strings.assertEmpty(someInfo(), "");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_null_and_is_not_empty_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
+    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     try {
-      stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, "Yoda");
+      stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(info, "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty("Yoda"));
+      verify(failures).failure(info, shouldBeEmpty("Yoda"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), null);
-  }
-
-  @Test
   public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    stringsWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(someInfo(), "");
+    stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "");
   }
 }

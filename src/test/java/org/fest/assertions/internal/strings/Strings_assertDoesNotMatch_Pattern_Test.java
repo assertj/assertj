@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.test.ErrorMessages.regexPatternIsNull;
@@ -26,6 +26,8 @@ import java.util.regex.Pattern;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.StringsBaseTest;
+import org.fest.assertions.internal.Strings;
 
 /**
  * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, String, Pattern)}</code>.
@@ -33,7 +35,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertDoesNotMatch_Pattern_Test extends AbstractTest_for_Strings {
+public class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 

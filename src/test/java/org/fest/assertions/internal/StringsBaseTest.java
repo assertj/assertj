@@ -11,7 +11,16 @@ import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
-public class AbstractTest_for_Strings {
+/**
+ * 
+ * Base class for {@link Strings} tests.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Strings#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ * 
+ */
+public class StringsBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

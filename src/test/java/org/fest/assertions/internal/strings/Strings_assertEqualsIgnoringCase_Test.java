@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.test.CharArrayFactory.array;
@@ -24,6 +24,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.StringsBaseTest;
+import org.fest.assertions.internal.Strings;
 
 /**
  * Tests for <code>{@link Strings#assertEqualsIgnoringCase(AssertionInfo, String, String)}</code>.
@@ -31,7 +33,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertEqualsIgnoringCase_Test extends AbstractTest_for_Strings {
+public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null_and_expected_is_not() {
