@@ -12,69 +12,48 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Arrays.array;
+import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
+import java.util.List;
+
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.BooleanArrayFactory;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertHasSameSizeAs_with_Array_Test {
+public class BooleanArrays_assertHasSameSizeAs_with_Iterable_Test extends BooleanArraysBaseTest {
 
-  private static boolean[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private BooleanArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    // don't use a static import here, it leads to a compilation error with oracle jdk 1.7.0_05 compiler due to the
-    // other array static import.
-    actual = BooleanArrayFactory.array(true, false);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
+  private final List<String> other = list("Solo", "Leia");
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia"));
+    arrays.assertHasSameSizeAs(someInfo(), null, other);
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    String[] other = array("Solo", "Leia", "Yoda");
+    List<String> other = list("Solo", "Leia", "Yoda");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.length));
+      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.size()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -82,6 +61,6 @@ public class BooleanArrays_assertHasSameSizeAs_with_Array_Test {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia"));
+    arrays.assertHasSameSizeAs(someInfo(), actual, other);
   }
 }

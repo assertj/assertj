@@ -12,61 +12,49 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertEmpty(AssertionInfo, boolean[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertHasSize(AssertionInfo, boolean[], int)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private BooleanArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
+public class BooleanArrays_assertHasSize_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertEmpty(someInfo(), null);
+    arrays.assertHasSize(someInfo(), null, 6);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    boolean[] actual = { true, false };
     try {
-      arrays.assertEmpty(info, actual);
+      arrays.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
+      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 6));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), emptyArray());
+  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
+    arrays.assertHasSize(someInfo(), actual, 2);
   }
 }

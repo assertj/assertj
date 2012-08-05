@@ -12,72 +12,57 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
-import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
-import static org.fest.assertions.test.BooleanArrayFactory.*;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
+import static org.fest.assertions.test.BooleanArrayFactory.array;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsEmpty;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertContainsSequence(AssertionInfo, boolean[], boolean[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertStartsWith(AssertionInfo, boolean[], boolean[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertContainsSequence_Test {
-
-  private static boolean[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private BooleanArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(true, false, false, true);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
-
-  @Test
-  public void should_fail_if_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsSequence(someInfo(), null, array(true));
-  }
+public class BooleanArrays_assertStartsWith_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
-    arrays.assertContainsSequence(someInfo(), actual, null);
+    arrays.assertStartsWith(someInfo(), actual, null);
   }
 
   @Test
   public void should_throw_error_if_sequence_is_empty() {
     thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
-    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
+    arrays.assertStartsWith(someInfo(), actual, emptyArray());
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertStartsWith(someInfo(), null, array(true));
   }
 
   @Test
   public void should_fail_if_sequence_is_bigger_than_actual() {
     AssertionInfo info = someInfo();
-    boolean[] sequence = { true, true, true, false, false, false };
+    boolean[] sequence = { true, false, false, true, true, false };
     try {
-      arrays.assertContainsSequence(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
@@ -86,11 +71,11 @@ public class BooleanArrays_assertContainsSequence_Test {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  public void should_fail_if_actual_does_not_start_with_sequence() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { false, true };
     try {
-      arrays.assertContainsSequence(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
@@ -99,11 +84,11 @@ public class BooleanArrays_assertContainsSequence_Test {
   }
 
   @Test
-  public void should_fail_if_actual_contains_first_elements_of_sequence() {
+  public void should_fail_if_actual_starts_with_first_elements_of_sequence_only() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { true, true };
     try {
-      arrays.assertContainsSequence(info, actual, sequence);
+      arrays.assertStartsWith(info, actual, sequence);
     } catch (AssertionError e) {
       verifyFailureThrownWhenSequenceNotFound(info, sequence);
       return;
@@ -112,16 +97,17 @@ public class BooleanArrays_assertContainsSequence_Test {
   }
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, boolean[] sequence) {
-    verify(failures).failure(info, shouldContainSequence(actual, sequence));
+    verify(failures).failure(info, shouldStartWith(actual, sequence));
   }
 
   @Test
-  public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(someInfo(), actual, array(true, false));
+  public void should_pass_if_actual_starts_with_sequence() {
+    arrays.assertStartsWith(someInfo(), actual, array(true, false));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(someInfo(), actual, array(true, false, false, true));
+    actual = array(true, false, false, true);
+    arrays.assertStartsWith(someInfo(), actual, array(true, false, false, true));
   }
 }

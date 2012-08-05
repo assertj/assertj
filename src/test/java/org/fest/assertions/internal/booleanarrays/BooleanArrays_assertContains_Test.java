@@ -12,43 +12,33 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.assertions.test.BooleanArrayFactory.*;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.BooleanArrayFactory.array;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsEmpty;
+import static org.fest.assertions.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrays#assertContains(AssertionInfo, boolean[], boolean[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertContains_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private boolean[] actual;
-  private BooleanArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    actual = array(true, false);
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
+public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values() {

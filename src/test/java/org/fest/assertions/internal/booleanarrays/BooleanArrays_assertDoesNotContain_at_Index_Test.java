@@ -12,48 +12,32 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.fest.assertions.test.BooleanArrayFactory.*;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.TestData.*;
+import static org.fest.assertions.test.TestData.someIndex;
+import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrays#assertDoesNotContain(AssertionInfo, boolean[], boolean, Index)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertDoesNotContain_at_Index_Test {
-
-  private static boolean[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private BooleanArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(true, false);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
-  }
+public class BooleanArrays_assertDoesNotContain_at_Index_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

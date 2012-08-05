@@ -12,59 +12,51 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
-import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertNullOrEmpty(AssertionInfo, boolean[])}</code>.
+ * Tests for <code>{@link BooleanArrays#assertEmpty(AssertionInfo, boolean[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class BooleanArrays_assertNullOrEmpty_Test {
+public class BooleanArrays_assertEmpty_Test extends BooleanArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private BooleanArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
+  @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    arrays.assertEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_array_is_not_null_and_is_not_empty() {
+  public void should_fail_if_actual_is_not_empty() {
     AssertionInfo info = someInfo();
     boolean[] actual = { true, false };
     try {
-      arrays.assertNullOrEmpty(info, actual);
+      arrays.assertEmpty(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeNullOrEmpty(actual));
+      verify(failures).failure(info, shouldBeEmpty(actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_array_is_null() {
-    arrays.assertNullOrEmpty(someInfo(), null);
-  }
-
-  @Test
-  public void should_pass_if_array_is_empty() {
-    arrays.assertNullOrEmpty(someInfo(), emptyArray());
+  public void should_pass_if_actual_is_empty() {
+    arrays.assertEmpty(someInfo(), emptyArray());
   }
 }

@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.assertions.test.BooleanArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.BooleanArrays;
+import org.fest.assertions.internal.BooleanArraysBaseTest;
 
 /**
  * Tests for <code>{@link BooleanArrays#assertIsSortedAccordingToComparator(AssertionInfo, boolean[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class BooleanArrays_assertIsSortedAccordingToComparator_Test {
+public class BooleanArrays_assertIsSortedAccordingToComparator_Test extends BooleanArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private boolean[] actual;
-  private BooleanArrays arrays;
   private Comparator<Boolean> booleanDescendingOrderComparator;
   private Comparator<Boolean> booleanAscendingOrderComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new boolean[] { true, true, false, false };
-    arrays = new BooleanArrays();
-    arrays.failures = failures;
     booleanDescendingOrderComparator = new Comparator<Boolean>() {
       public int compare(Boolean boolean1, Boolean boolean2) {
         return -boolean1.compareTo(boolean2);
