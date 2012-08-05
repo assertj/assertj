@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytearrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.ByteArrays;
+import org.fest.assertions.internal.ByteArraysBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrays#assertIsSortedAccordingToComparator(AssertionInfo, byte[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class ByteArrays_assertIsSortedAccordingToComparator_Test {
+public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private byte[] actual;
-  private ByteArrays arrays;
   private Comparator<Byte> byteDescendingOrderComparator;
   private Comparator<Byte> byteAscendingOrderComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new byte[] { 4, 3, 2, 2, 1 };
-    arrays = new ByteArrays();
-    arrays.failures = failures;
     byteDescendingOrderComparator = new Comparator<Byte>() {
       public int compare(Byte byte1, Byte byte2) {
         return -byte1.compareTo(byte2);

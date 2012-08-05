@@ -32,10 +32,12 @@ import org.fest.util.StandardComparisonStrategy;
 /**
  * Base class for testing <code>{@link ByteArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link ByteArrays#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_ByteArrays {
+public class ByteArraysBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

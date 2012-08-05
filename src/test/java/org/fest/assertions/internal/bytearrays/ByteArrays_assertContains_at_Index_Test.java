@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytearrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.ByteArrays;
+import org.fest.assertions.internal.ByteArraysBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], byte, Index)}</code>.
@@ -34,7 +36,7 @@ import org.fest.assertions.data.Index;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ByteArrays_assertContains_at_Index_Test extends AbstractTest_for_ByteArrays {
+public class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

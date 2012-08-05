@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytearrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.assertions.test.ByteArrayFactory.*;
@@ -25,13 +25,15 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.ByteArrays;
+import org.fest.assertions.internal.ByteArraysBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrays#assertIsSorted(AssertionInfo, Object[])}</code>.
  * 
  * @author Joel Costigliola
  */
-public class ByteArrays_assertIsSorted_Test extends AbstractTest_for_ByteArrays {
+public class ByteArrays_assertIsSorted_Test extends ByteArraysBaseTest {
 
   @Override
   protected void initActualArray() {

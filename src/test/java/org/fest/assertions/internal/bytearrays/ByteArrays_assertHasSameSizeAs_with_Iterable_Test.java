@@ -12,53 +12,31 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytearrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.assertions.test.ByteArrayFactory.array;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.ByteArrays;
+import org.fest.assertions.internal.ByteArraysBaseTest;
 
 /**
  * Tests for <code>{@link ByteArrays#assertHasSameSizeAs(AssertionInfo, Object[], Object[])}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test {
-
-  private static byte[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private ByteArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(6, 8);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new ByteArrays();
-    arrays.failures = failures;
-  }
+public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -69,7 +47,7 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test {
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia", "Yoda");
+    List<String> other = list("Solo", "Leia");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
@@ -81,6 +59,6 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia"));
+    arrays.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia", "Luke"));
   }
 }

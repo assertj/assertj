@@ -12,67 +12,51 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytearrays;
 
-import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.test.ByteArrayFactory.array;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.fest.assertions.test.ByteArrayFactory.emptyArray;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.ByteArrays;
+import org.fest.assertions.internal.ByteArraysBaseTest;
 
 /**
- * Tests for <code>{@link ByteArrays#assertHasSize(AssertionInfo, byte[], int)}</code>.
+ * Tests for <code>{@link ByteArrays#assertEmpty(AssertionInfo, byte[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class ByteArrays_assertHasSize_Test {
-
-  private static byte[] actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private ByteArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(6, 8);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new ByteArrays();
-    arrays.failures = failures;
-  }
+public class ByteArrays_assertEmpty_Test extends ByteArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSize(someInfo(), null, 3);
+    arrays.assertEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
+  public void should_fail_if_actual_is_not_empty() {
     AssertionInfo info = someInfo();
+    byte[] actual = { 6, 8 };
     try {
-      arrays.assertHasSize(info, actual, 3);
+      arrays.assertEmpty(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length, 3));
+      verify(failures).failure(info, shouldBeEmpty(actual));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    arrays.assertHasSize(someInfo(), actual, 2);
+  public void should_pass_if_actual_is_empty() {
+    arrays.assertEmpty(someInfo(), emptyArray());
   }
 }
