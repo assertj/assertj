@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.comparables;
 
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
+import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,38 +24,47 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.ComparablesBaseTest;
 
 /**
- * Tests for <code>{@link Comparables#assertGreaterThanOrEqualTo(AssertionInfo, Comparable, Comparable)}</code>.
+ * Tests for <code>{@link Comparables#assertGreaterThan(AssertionInfo, Comparable, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_Comparables {
+public class Comparables_assertGreaterThan_Test extends ComparablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8);
+    comparables.assertGreaterThan(someInfo(), null, 8);
   }
 
   @Test
   public void should_pass_if_actual_is_greater_than_other() {
-    comparables.assertGreaterThanOrEqualTo(someInfo(), 8, 6);
+    comparables.assertGreaterThan(someInfo(), 8, 6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other() {
-    comparables.assertGreaterThanOrEqualTo(someInfo(), "Yoda", "Yoda");
+  public void should_fail_if_actual_is_equal_to_other() {
+    AssertionInfo info = someInfo();
+    try {
+      comparables.assertGreaterThan(info, "Yoda", "Yoda");
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeGreater("Yoda", "Yoda"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      comparables.assertGreaterThanOrEqualTo(info, 6, 8);
+      comparables.assertGreaterThan(info, 6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6, 8));
+      verify(failures).failure(info, shouldBeGreater(6, 8));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -67,21 +76,28 @@ public class Comparables_assertGreaterThanOrEqualTo_Test extends AbstractTest_fo
 
   @Test
   public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), 8, -6);
+    comparablesWithCustomComparisonStrategy.assertGreaterThan(someInfo(), -8, 6);
   }
 
   @Test
-  public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -8, 8);
+  public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    try {
+      comparablesWithCustomComparisonStrategy.assertGreaterThan(info, 7, -7);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldBeGreater(7, -7, customComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8);
+      comparablesWithCustomComparisonStrategy.assertGreaterThan(info, -6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6, -8, customComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(-6, 8, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

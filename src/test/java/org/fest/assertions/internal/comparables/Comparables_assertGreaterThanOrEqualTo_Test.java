@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.comparables;
 
-import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
+import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,38 +24,40 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.ComparablesBaseTest;
 
 /**
- * Tests for <code>{@link Comparables#assertLessThanOrEqualTo(AssertionInfo, Comparable, Comparable)}</code>.
+ * Tests for <code>{@link Comparables#assertGreaterThanOrEqualTo(AssertionInfo, Comparable, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertLessThanOrEqualTo_Test extends AbstractTest_for_Comparables {
+public class Comparables_assertGreaterThanOrEqualTo_Test extends ComparablesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    comparables.assertLessThanOrEqualTo(someInfo(), null, 8);
+    comparables.assertGreaterThanOrEqualTo(someInfo(), null, 8);
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
-    comparables.assertLessThanOrEqualTo(someInfo(), 6, 8);
+  public void should_pass_if_actual_is_greater_than_other() {
+    comparables.assertGreaterThanOrEqualTo(someInfo(), 8, 6);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    comparables.assertLessThanOrEqualTo(someInfo(), 6, 6);
+    comparables.assertGreaterThanOrEqualTo(someInfo(), "Yoda", "Yoda");
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      comparables.assertLessThanOrEqualTo(info, 8, 6);
+      comparables.assertGreaterThanOrEqualTo(info, 6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLessOrEqual(8, 6));
+      verify(failures).failure(info, shouldBeGreaterOrEqual(6, 8));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -66,22 +68,22 @@ public class Comparables_assertLessThanOrEqualTo_Test extends AbstractTest_for_C
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
-    comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 8);
+  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), 8, -6);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(someInfo(), -6, 6);
+    comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -8, 8);
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      comparablesWithCustomComparisonStrategy.assertLessThanOrEqualTo(info, -8, 6);
+      comparablesWithCustomComparisonStrategy.assertGreaterThanOrEqualTo(info, 6, -8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLessOrEqual(-8, 6, customComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreaterOrEqual(6, -8, customComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.comparables;
 
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -26,6 +26,8 @@ import java.util.Comparator;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Comparables;
+import org.fest.assertions.internal.ComparablesBaseTest;
 import org.fest.assertions.test.Person;
 import org.fest.assertions.test.PersonCaseInsensitiveNameComparator;
 
@@ -35,7 +37,7 @@ import org.fest.assertions.test.PersonCaseInsensitiveNameComparator;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Comparables_assertNotEqualByComparison_Test extends AbstractTest_for_Comparables {
+public class Comparables_assertNotEqualByComparison_Test extends ComparablesBaseTest {
 
   @Override
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

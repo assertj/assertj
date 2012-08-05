@@ -31,10 +31,12 @@ import org.fest.util.StandardComparisonStrategy;
 /**
  * Base class for testing <code>{@link Comparables}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Comparables#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
-public class AbstractTest_for_Comparables {
+public class ComparablesBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
@@ -45,7 +47,7 @@ public class AbstractTest_for_Comparables {
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
   protected Comparables comparablesWithCustomComparisonStrategy;
 
-  public AbstractTest_for_Comparables() {
+  public ComparablesBaseTest() {
     super();
   }
 
