@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longs;
 
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
+import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,38 +24,40 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.LongsBaseTest;
 
 /**
- * Tests for <code>{@link Longs#assertGreaterThanOrEqualTo(AssertionInfo, Long, long)}</code>.
+ * Tests for <code>{@link Longs#assertLessThanOrEqualTo(AssertionInfo, Long, long)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_Longs {
+public class Longs_assertLessThanOrEqualTo_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    longs.assertGreaterThanOrEqualTo(someInfo(), null, 8L);
+    longs.assertLessThanOrEqualTo(someInfo(), null, 8L);
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
-    longs.assertGreaterThanOrEqualTo(someInfo(), 8L, 6L);
+  public void should_pass_if_actual_is_less_than_other() {
+    longs.assertLessThanOrEqualTo(someInfo(), 6L, 8L);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    longs.assertGreaterThanOrEqualTo(someInfo(), 6L, 6L);
+    longs.assertLessThanOrEqualTo(someInfo(), 6L, 6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
-      longs.assertGreaterThanOrEqualTo(info, 6L, 8L);
+      longs.assertLessThanOrEqualTo(info, 8L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6L, 8L));
+      verify(failures).failure(info, shouldBeLessOrEqual(8L, 6L));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -64,26 +66,26 @@ public class Longs_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_Long
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 8L);
+    longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8L);
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -8L, 6L);
+  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6L, -8L);
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), -6L, 6L);
+    longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 6L, -6L);
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      longsWithAbsValueComparisonStrategy.assertGreaterThanOrEqualTo(info, 6L, -8L);
+      longsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, -8L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual(6L, -8L, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeLessOrEqual(-8L, 6L, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

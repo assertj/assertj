@@ -12,18 +12,20 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longs;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
 import org.junit.Test;
+
+import org.fest.assertions.internal.LongsBaseTest;
 
 /**
  * Tests for <code>{@link Longs#assertIsNotNegative(AssertionInfo, Longs))}</code>.
  * 
  * @author Nicolas François
  */
-public class Longs_assertIsNotNegative_Test extends AbstractTest_for_Longs {
+public class Longs_assertIsNotNegative_Test extends LongsBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_negative() {

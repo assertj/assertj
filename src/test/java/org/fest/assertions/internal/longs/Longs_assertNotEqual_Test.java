@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longs;
 
-import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
+import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,33 +24,35 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.LongsBaseTest;
 
 /**
- * Tests for <code>{@link Longs#assertEqual(AssertionInfo, Long, long)}</code>.
+ * Tests for <code>{@link Longs#assertNotEqual(AssertionInfo, Long, long)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertEqual_Test extends AbstractTest_for_Longs {
+public class Longs_assertNotEqual_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    longs.assertEqual(someInfo(), null, 8L);
+    longs.assertNotEqual(someInfo(), null, 8L);
   }
 
   @Test
-  public void should_pass_if_longs_are_equal() {
-    longs.assertEqual(someInfo(), 8L, 8L);
+  public void should_pass_if_longs_are_not_equal() {
+    longs.assertNotEqual(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_longs_are_not_equal() {
+  public void should_fail_if_longs_are_equal() {
     AssertionInfo info = someInfo();
     try {
-      longs.assertEqual(info, 6L, 8L);
+      longs.assertNotEqual(info, 6L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L));
+      verify(failures).failure(info, shouldNotBeEqual(6L, 6L));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -59,21 +61,21 @@ public class Longs_assertEqual_Test extends AbstractTest_for_Longs {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    longsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8L);
+    longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), null, 8L);
   }
 
   @Test
-  public void should_pass_if_longs_are_equal_according_to_custom_comparison_strategy() {
-    longsWithAbsValueComparisonStrategy.assertEqual(someInfo(), 8L, -8L);
+  public void should_pass_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
+    longsWithAbsValueComparisonStrategy.assertNotEqual(someInfo(), 8L, 6L);
   }
 
   @Test
-  public void should_fail_if_longs_are_not_equal_according_to_custom_comparison_strategy() {
+  public void should_fail_if_longs_are_equal_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      longsWithAbsValueComparisonStrategy.assertEqual(info, 6L, 8L);
+      longsWithAbsValueComparisonStrategy.assertNotEqual(info, -6L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotBeEqual(-6L, 6L, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

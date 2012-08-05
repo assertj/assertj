@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.longs;
 
-import static org.fest.assertions.error.ShouldBeLess.shouldBeLess;
+import static org.fest.assertions.error.ShouldBeGreater.shouldBeGreater;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,82 +24,83 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Longs;
+import org.fest.assertions.internal.LongsBaseTest;
 
 /**
- * Tests for <code>{@link Longs#assertLessThan(AssertionInfo, Long, long)}</code>.
+ * Tests for <code>{@link Longs#assertGreaterThan(AssertionInfo, Long, long)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Longs_assertLessThan_Test extends AbstractTest_for_Longs {
+public class Longs_assertGreaterThan_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    longs.assertLessThan(someInfo(), null, 8L);
+    longs.assertGreaterThan(someInfo(), null, 8L);
   }
 
   @Test
-  public void should_pass_if_actual_is_less_than_other() {
-    longs.assertLessThan(someInfo(), 6L, 8L);
+  public void should_pass_if_actual_is_greater_than_other() {
+    longs.assertGreaterThan(someInfo(), 8L, 6L);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other() {
     AssertionInfo info = someInfo();
     try {
-      longs.assertLessThan(info, 6L, 6L);
+      longs.assertGreaterThan(info, 6L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6L, 6L));
+      verify(failures).failure(info, shouldBeGreater(6L, 6L));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other() {
+  public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
-      longs.assertLessThan(info, 8L, 6L);
+      longs.assertGreaterThan(info, 6L, 8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(8L, 6L));
+      verify(failures).failure(info, shouldBeGreater(6L, 8L));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
-  @Test
-  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectAssertionError(actualIsNull());
-    longsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null, 8L);
-  }
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
-    longsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), 6L, -8L);
+  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    longsWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), 8L, 6L);
   }
 
   @Test
   public void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      longsWithAbsValueComparisonStrategy.assertLessThan(info, 6L, -6L);
+      longsWithAbsValueComparisonStrategy.assertGreaterThan(info, -6L, 6L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(6L, -6L, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(-6L, 6L, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      longsWithAbsValueComparisonStrategy.assertLessThan(info, -8L, 6L);
+      longsWithAbsValueComparisonStrategy.assertGreaterThan(info, 6L, -8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeLess(-8L, 6L, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeGreater(6L, -8L, absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }
