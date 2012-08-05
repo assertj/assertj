@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytes;
 
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -24,6 +24,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Bytes;
+import org.fest.assertions.internal.BytesBaseTest;
 
 /**
  * Tests for <code>{@link Bytes#assertEqual(AssertionInfo, Byte, byte)}</code>.
@@ -31,7 +33,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Bytes_assertEqual_Test extends AbstractTest_for_Bytes {
+public class Bytes_assertEqual_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

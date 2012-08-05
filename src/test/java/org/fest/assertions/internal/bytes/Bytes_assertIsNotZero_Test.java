@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.bytes;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -21,6 +21,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Bytes;
+import org.fest.assertions.internal.BytesBaseTest;
 
 /**
  * Tests for <code>{@link Bytes#assertIsNotZero(AssertionInfo, Byte)}</code>.
@@ -28,7 +30,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Bytes_assertIsNotZero_Test extends AbstractTest_for_Bytes {
+public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_not_zero() {

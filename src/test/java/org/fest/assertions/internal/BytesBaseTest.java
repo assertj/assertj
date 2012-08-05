@@ -11,7 +11,15 @@ import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
-public class AbstractTest_for_Bytes {
+/**
+ * Base class for {@link Bytes} unit tests
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Bytes#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ * 
+ */
+public class BytesBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
