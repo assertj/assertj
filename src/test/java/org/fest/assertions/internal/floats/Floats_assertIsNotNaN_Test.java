@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floats;
 
 import static org.fest.assertions.test.TestData.someInfo;
 
@@ -21,40 +21,42 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Floats;
+import org.fest.assertions.internal.FloatsBaseTest;
 
 /**
- * Tests for <code>{@link Floats#assertIsNaN(AssertionInfo, Float)}</code>.
+ * Tests for <code>{@link Floats#assertIsNotNan(AssertionInfo, Float)}</code>.
  * 
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Floats_assertIsNaN_Test extends AbstractTest_for_Floats {
+public class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
 
   @Test
-  public void should_succeed_since_actual_is_equal_to_NaN() {
-    floats.assertIsNaN(someInfo(), Float.NaN);
+  public void should_succeed_since_actual_is_not_equal_to_NaN() {
+    floats.assertIsNotNaN(someInfo(), 6f);
   }
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN() {
     try {
-      floats.assertIsNaN(someInfo(), 6.0f);
+      floats.assertIsNotNaN(someInfo(), 6f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[NaN]f> but was:<[6.0]f>");
+      assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
     }
   }
 
   @Test
-  public void should_succeed_since_actual_is_equal_to_NaN_whatever_custom_comparison_strategy_is() {
-    floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), Float.NaN);
+  public void should_succeed_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
+    floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6f);
   }
 
   @Test
   public void should_fail_since_actual_is_not_equal_to_NaN_whatever_custom_comparison_strategy_is() {
     try {
-      floatsWithAbsValueComparisonStrategy.assertIsNaN(someInfo(), 6.0f);
+      floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[NaN]f> but was:<[6.0]f>");
+      assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
     }
   }
 }

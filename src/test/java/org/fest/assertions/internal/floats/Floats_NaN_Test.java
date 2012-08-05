@@ -12,21 +12,24 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.floats;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import org.fest.assertions.internal.Floats;
+import org.fest.assertions.internal.FloatsBaseTest;
 
 /**
  * Tests for <code>{@link Floats#NaN()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Floats_NaN_Test {
+public class Floats_NaN_Test extends FloatsBaseTest {
 
   @Test
   public void check_float_NaN_method() {
-    assertEquals(Float.NaN, Floats.instance().NaN(), 0d);
+    assertEquals(Float.NaN, NaN(), 0d);
   }
 }

@@ -10,8 +10,17 @@ import org.junit.Rule;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
 
-public class AbstractTest_for_Floats {
+/**
+ * Base class for testing <code>{@link Floats}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
+ * {@link ComparatorBasedComparisonStrategy}.
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Floats#failures} appropriately.
+ * 
+ * @author Joel Costigliola
+ */
+public class FloatsBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
@@ -21,7 +30,7 @@ public class AbstractTest_for_Floats {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Floats floatsWithAbsValueComparisonStrategy;
 
-  public AbstractTest_for_Floats() {
+  public FloatsBaseTest() {
     super();
   }
 
@@ -34,4 +43,9 @@ public class AbstractTest_for_Floats {
     floatsWithAbsValueComparisonStrategy = new Floats(absValueComparisonStrategy);
     floatsWithAbsValueComparisonStrategy.failures = failures;
   }
+
+  protected Float NaN() {
+    return Floats.instance().NaN();
+  }
+
 }
