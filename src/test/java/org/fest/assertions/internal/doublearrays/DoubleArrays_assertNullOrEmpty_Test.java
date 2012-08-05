@@ -12,38 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.DoubleArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.DoubleArrays;
+import org.fest.assertions.internal.DoubleArraysBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertNullOrEmpty(AssertionInfo, double[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class DoubleArrays_assertNullOrEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private DoubleArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new DoubleArrays();
-    arrays.failures = failures;
-  }
+public class DoubleArrays_assertNullOrEmpty_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_array_is_not_null_and_is_not_empty() {

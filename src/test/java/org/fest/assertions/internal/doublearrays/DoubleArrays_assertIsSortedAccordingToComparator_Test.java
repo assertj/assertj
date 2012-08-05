@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.assertions.test.DoubleArrayFactory.emptyArray;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.DoubleArrays;
+import org.fest.assertions.internal.DoubleArraysBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertIsSortedAccordingToComparator(AssertionInfo, double[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertIsSortedAccordingToComparator_Test {
+public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends DoubleArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private double[] actual;
-  private DoubleArrays arrays;
   private Comparator<Double> doubleDescendingOrderComparator;
   private Comparator<Double> doubleSquareComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new double[] { 4.0, 3.0, 2.0, 2.0, 1.0 };
-    arrays = new DoubleArrays();
-    arrays.failures = failures;
     doubleDescendingOrderComparator = new Comparator<Double>() {
       public int compare(Double double1, Double double2) {
         return -double1.compareTo(double2);

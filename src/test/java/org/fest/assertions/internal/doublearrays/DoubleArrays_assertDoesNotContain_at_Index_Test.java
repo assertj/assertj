@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.DoubleArrays;
+import org.fest.assertions.internal.DoubleArraysBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertDoesNotContain(AssertionInfo, double[], double, Index)}</code>.
@@ -34,7 +36,7 @@ import org.fest.assertions.data.Index;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class DoubleArrays_assertDoesNotContain_at_Index_Test extends AbstractTest_for_DoubleArrays {
+public class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {

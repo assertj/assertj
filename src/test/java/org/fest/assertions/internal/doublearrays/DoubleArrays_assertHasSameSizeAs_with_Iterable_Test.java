@@ -12,54 +12,33 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.assertions.test.DoubleArrayFactory.array;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.DoubleArrays;
+import org.fest.assertions.internal.DoubleArraysBaseTest;
 
 /**
  * Tests for <code>{@link DoubleArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test {
+public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
 
-  private static double[] actual;
-  private final List<String> other = list("Solo", "Leia");
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private DoubleArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array(6d, 8d);
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new DoubleArrays();
-    arrays.failures = failures;
-  }
+  private final List<String> other = list("Solo", "Leia", "Luke");
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -70,7 +49,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test {
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia", "Yoda");
+    List<String> other = list("Solo", "Leia");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
