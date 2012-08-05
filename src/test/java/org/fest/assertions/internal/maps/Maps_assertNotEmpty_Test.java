@@ -12,65 +12,57 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.maps;
 
 import static java.util.Collections.emptyMap;
+
 import static org.fest.assertions.data.MapEntry.entry;
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.MapsBaseTest;
 
 /**
- * Tests for <code>{@link Maps#assertEmpty(AssertionInfo, Map)}</code>.
+ * Tests for <code>{@link Maps#assertNotEmpty(AssertionInfo, Map)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Maps_assertEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Maps maps;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    maps = new Maps();
-    maps.failures = failures;
-  }
+public class Maps_assertNotEmpty_Test extends MapsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_empty() {
-    maps.assertEmpty(someInfo(), emptyMap());
+  public void should_pass_if_actual_is_not_empty() {
+    Map<?, ?> actual = map(entry("name", "Yoda"));
+    maps.assertNotEmpty(someInfo(), actual);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertEmpty(someInfo(), null);
+    maps.assertNotEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_actual_has_elements() {
+  public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    Map<?, ?> actual = map(entry("name", "Yoda"));
     try {
-      maps.assertEmpty(info, actual);
+      maps.assertNotEmpty(info, emptyMap());
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
+      verify(failures).failure(info, shouldNotBeEmpty());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }

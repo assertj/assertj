@@ -12,62 +12,57 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.maps;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Arrays.array;
-import static org.mockito.Mockito.spy;
+import static org.fest.util.Collections.list;
+
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
 import java.util.Map;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.MapsBaseTest;
+
 /**
- * Tests for <code>{@link Maps#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.
+ * Tests for <code>{@link Maps#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class Maps_assertHasSameSizeAs_with_Array_Test {
+public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Maps maps;
-  private Map<?, ?> actual = map(entry("name", "Yoda"), entry("job", "Yedi Master"));
-
+  @SuppressWarnings("unchecked")
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
-    maps = new Maps();
-    maps.failures = failures;
+    super.setUp();
+    actual = (Map<String, String>) map(entry("name", "Yoda"), entry("job", "Yedi Master"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertHasSameSizeAs(someInfo(), null, array("Solo", "Leia"));
+    maps.assertHasSameSizeAs(someInfo(), null, list("Solo", "Leia"));
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    String[] other = array("Solo", "Leia", "Yoda");
+    List<String> other = list("Solo", "Leia", "Yoda");
     try {
       maps.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.size(), other.length));
+      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.size(), other.size()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -75,7 +70,7 @@ public class Maps_assertHasSameSizeAs_with_Array_Test {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-
-    maps.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia"));
+    maps.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia"));
   }
+
 }

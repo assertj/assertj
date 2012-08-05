@@ -1,5 +1,5 @@
 /*
- * Created on Dec 21, 2010
+ * Created on Jun 3, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -10,68 +10,70 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * 
- * Copyright @2010-2011 the original author or authors.
+ * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.maps;
 
-import static java.util.Collections.emptyMap;
 import static org.fest.assertions.data.MapEntry.entry;
-import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldContainKey.shouldContainKey;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.MapsBaseTest;
 
 /**
- * Tests for <code>{@link Maps#assertNotEmpty(AssertionInfo, Map)}</code>.
+ * Tests for <code>{@link Maps#assertContainsKey(AssertionInfo, Map, Object)}</code>.
  * 
- * @author Alex Ruiz
+ * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class Maps_assertNotEmpty_Test {
+public class Maps_assertContainsKey_Test extends MapsBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Maps maps;
-
+  @SuppressWarnings("unchecked")
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
-    maps = new Maps();
-    maps.failures = failures;
+    super.setUp();
+    actual = (Map<String, String>) map(entry("name", "Yoda"), entry("color", "green"), entry(null, null));
   }
 
   @Test
-  public void should_pass_if_actual_is_not_empty() {
-    Map<?, ?> actual = map(entry("name", "Yoda"));
-    maps.assertNotEmpty(someInfo(), actual);
+  public void should_pass_if_actual_contains_given_key() {
+    maps.assertContainsKey(someInfo(), actual, "name");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertNotEmpty(someInfo(), null);
+    maps.assertContainsKey(someInfo(), null, "name");
   }
 
   @Test
-  public void should_fail_if_actual_is_empty() {
+  public void should_success_if_key_is_null() {
+    maps.assertContainsKey(someInfo(), actual, null);
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_contain_key() {
     AssertionInfo info = someInfo();
+    String key = "power";
     try {
-      maps.assertNotEmpty(info, emptyMap());
+      maps.assertContainsKey(info, actual, key);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotBeEmpty());
+      verify(failures).failure(info, shouldContainKey(actual, key));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
 }

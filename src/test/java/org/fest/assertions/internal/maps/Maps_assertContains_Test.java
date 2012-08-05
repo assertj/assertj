@@ -12,53 +12,37 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.maps;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.test.ErrorMessages.entriesToLookForIsEmpty;
+import static org.fest.assertions.test.ErrorMessages.entriesToLookForIsNull;
+import static org.fest.assertions.test.ErrorMessages.entryToLookForIsNull;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.set;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.MapEntry;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.MapsBaseTest;
 
 /**
  * Tests for <code>{@link Maps#assertContains(AssertionInfo, Map, MapEntry[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Maps_assertContains_Test {
-
-  private static Map<?, ?> actual;
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Maps maps;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = map(entry("name", "Yoda"), entry("color", "green"));
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    maps = new Maps();
-    maps.failures = failures;
-  }
+public class Maps_assertContains_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_entries() {

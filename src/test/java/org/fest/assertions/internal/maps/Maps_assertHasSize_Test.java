@@ -12,42 +12,32 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.maps;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
+import org.junit.Test;
+
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Maps;
+import org.fest.assertions.internal.MapsBaseTest;
 
 /**
  * Tests for <code>{@link Maps#assertHasSize(AssertionInfo, Map, int)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Maps_assertHasSize_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Maps maps;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    maps = new Maps();
-    maps.failures = failures;
-  }
+public class Maps_assertHasSize_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
