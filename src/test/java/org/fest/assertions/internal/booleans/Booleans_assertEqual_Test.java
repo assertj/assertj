@@ -12,39 +12,30 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.booleans;
 
 import static java.lang.Boolean.TRUE;
+
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.Booleans;
+import org.fest.assertions.internal.BooleansBaseTest;
 
 /**
  * Tests for <code>{@link Booleans#assertEqual(AssertionInfo, Boolean, boolean)}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class Booleans_assertEqual_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private Booleans booleans;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    booleans = new Booleans();
-    booleans.failures = failures;
-  }
+public class Booleans_assertEqual_Test extends BooleansBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
