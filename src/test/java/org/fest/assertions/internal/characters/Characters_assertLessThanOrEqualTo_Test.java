@@ -12,9 +12,9 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.characters;
 
-import static org.fest.assertions.error.ShouldBeGreaterOrEqual.shouldBeGreaterOrEqual;
+import static org.fest.assertions.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,38 +24,40 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Characters;
+import org.fest.assertions.internal.CharactersBaseTest;
 
 /**
- * Tests for <code>{@link Characters#assertGreaterThanOrEqualTo(AssertionInfo, Character, char)}</code>.
+ * Tests for <code>{@link Characters#assertLessThanOrEqualTo(AssertionInfo, Character, char)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Characters_assertGreaterThanOrEqualTo_Test extends AbstractTest_for_Characters {
+public class Characters_assertLessThanOrEqualTo_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    characters.assertGreaterThanOrEqualTo(someInfo(), null, 'a');
+    characters.assertLessThanOrEqualTo(someInfo(), null, 'a');
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other() {
-    characters.assertGreaterThanOrEqualTo(someInfo(), 'b', 'a');
+  public void should_pass_if_actual_is_less_than_other() {
+    characters.assertLessThanOrEqualTo(someInfo(), 'a', 'b');
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other() {
-    characters.assertGreaterThanOrEqualTo(someInfo(), 'b', 'b');
+    characters.assertLessThanOrEqualTo(someInfo(), 'b', 'b');
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other() {
+  public void should_fail_if_actual_is_greater_than_other() {
     AssertionInfo info = someInfo();
     try {
-      characters.assertGreaterThanOrEqualTo(info, 'a', 'b');
+      characters.assertLessThanOrEqualTo(info, 'b', 'a');
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual('a', 'b'));
+      verify(failures).failure(info, shouldBeLessOrEqual('b', 'a'));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -64,26 +66,26 @@ public class Characters_assertGreaterThanOrEqualTo_Test extends AbstractTest_for
   @Test
   public void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError(actualIsNull());
-    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), null, 'a');
+    charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 'a');
   }
 
   @Test
-  public void should_pass_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
-    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), 'B', 'a');
+  public void should_pass_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+    charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 'a', 'B');
   }
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(someInfo(), 'B', 'b');
+    charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(someInfo(), 'b', 'B');
   }
 
   @Test
-  public void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      charactersWithCaseInsensitiveComparisonStrategy.assertGreaterThanOrEqualTo(info, 'a', 'B');
+      charactersWithCaseInsensitiveComparisonStrategy.assertLessThanOrEqualTo(info, 'B', 'a');
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeGreaterOrEqual('a', 'B', caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldBeLessOrEqual('B', 'a', caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

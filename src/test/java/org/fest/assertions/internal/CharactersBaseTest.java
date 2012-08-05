@@ -12,13 +12,14 @@ import org.fest.assertions.util.CaseInsensitiveCharacterComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
- * 
  * Base class for Characters unit tests
+ * <p>
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Characters#failures} appropriately.
  * 
  * @author Joel Costigliola
  * 
  */
-public class AbstractTest_for_Characters {
+public class CharactersBaseTest {
 
   @Rule
   public ExpectedException thrown = none();

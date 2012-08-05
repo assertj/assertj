@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.characters;
 
 import static org.fest.assertions.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
@@ -24,6 +24,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.Characters;
+import org.fest.assertions.internal.CharactersBaseTest;
 
 /**
  * Tests for <code>{@link Characters#assertUpperCase(AssertionInfo, Character)}</code>.
@@ -31,7 +33,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Characters_assertUpperCase_Test extends AbstractTest_for_Characters {
+public class Characters_assertUpperCase_Test extends CharactersBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
