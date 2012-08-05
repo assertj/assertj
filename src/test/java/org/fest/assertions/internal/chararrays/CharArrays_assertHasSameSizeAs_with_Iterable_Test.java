@@ -12,54 +12,33 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.assertions.test.CharArrayFactory.array;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
-import static org.mockito.Mockito.spy;
+
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
+
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.CharArrays;
+import org.fest.assertions.internal.CharArraysBaseTest;
 
 /**
  * Tests for <code>{@link CharArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class CharArrays_assertHasSameSizeAs_with_Iterable_Test {
+public class CharArrays_assertHasSameSizeAs_with_Iterable_Test extends CharArraysBaseTest {
 
-  private static char[] actual;
-  private final List<String> other = list("Solo", "Leia");
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private CharArrays arrays;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = array('a', 'c');
-  }
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new CharArrays();
-    arrays.failures = failures;
-  }
+  private final List<String> other = list("Solo", "Leia", "Luke");
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -70,7 +49,7 @@ public class CharArrays_assertHasSameSizeAs_with_Iterable_Test {
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia", "Yoda");
+    List<String> other = list("Solo", "Leia");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
