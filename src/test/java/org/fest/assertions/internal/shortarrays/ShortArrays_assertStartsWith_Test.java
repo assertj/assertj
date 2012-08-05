@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.test.ErrorMessages.*;
@@ -26,6 +26,8 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.internal.ShortArrays;
+import org.fest.assertions.internal.ShortArraysBaseTest;
 
 /**
  * Tests for <code>{@link ShortArrays#assertStartsWith(AssertionInfo, short[], short[])}</code>.
@@ -33,7 +35,7 @@ import org.fest.assertions.core.AssertionInfo;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShortArrays_assertStartsWith_Test extends AbstractTest_for_ShortArrays {
+public class ShortArrays_assertStartsWith_Test extends ShortArraysBaseTest {
 
   @Override
   protected void initActualArray() {

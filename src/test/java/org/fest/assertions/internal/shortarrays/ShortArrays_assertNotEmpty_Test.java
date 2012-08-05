@@ -12,61 +12,51 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shortarrays;
 
-import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ShortArrayFactory.array;
 import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.verify;
+
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
-import org.junit.*;
+import org.fest.assertions.internal.ShortArrays;
+import org.fest.assertions.internal.ShortArraysBaseTest;
 
 /**
- * Tests for <code>{@link ShortArrays#assertEmpty(AssertionInfo, short[])}</code>.
+ * Tests for <code>{@link ShortArrays#assertNotEmpty(AssertionInfo, short[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class ShortArrays_assertEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private ShortArrays arrays;
-
-  @Before
-  public void setUp() {
-    failures = spy(new Failures());
-    arrays = new ShortArrays();
-    arrays.failures = failures;
-  }
+public class ShortArrays_assertNotEmpty_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertEmpty(someInfo(), null);
+    arrays.assertNotEmpty(someInfo(), null);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  public void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    short[] actual = { 6, 8 };
     try {
-      arrays.assertEmpty(info, actual);
+      arrays.assertNotEmpty(info, emptyArray());
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEmpty(actual));
+      verify(failures).failure(info, shouldNotBeEmpty());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), emptyArray());
+  public void should_pass_if_actual_is_not_empty() {
+    arrays.assertNotEmpty(someInfo(), array(8));
   }
 }

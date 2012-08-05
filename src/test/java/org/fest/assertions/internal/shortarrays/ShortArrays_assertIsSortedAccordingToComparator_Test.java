@@ -12,46 +12,40 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.ShortArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.ShortArrays;
+import org.fest.assertions.internal.ShortArraysBaseTest;
 
 /**
  * Tests for <code>{@link ShortArrays#assertIsSortedAccordingToComparator(AssertionInfo, short[], Comparator)}</code>
  * 
  * @author Joel Costigliola
  */
-public class ShortArrays_assertIsSortedAccordingToComparator_Test {
+public class ShortArrays_assertIsSortedAccordingToComparator_Test extends ShortArraysBaseTest {
 
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Failures failures;
-  private short[] actual;
-  private ShortArrays arrays;
   private Comparator<Short> shortDescendingOrderComparator;
   private Comparator<Short> shortAscendingOrderComparator;
 
+  @Override
   @Before
   public void setUp() {
-    failures = spy(new Failures());
+    super.setUp();
     actual = new short[] { 4, 3, 2, 2, 1 };
-    arrays = new ShortArrays();
-    arrays.failures = failures;
     shortDescendingOrderComparator = new Comparator<Short>() {
       public int compare(Short short1, Short short2) {
         return -short1.compareTo(short2);

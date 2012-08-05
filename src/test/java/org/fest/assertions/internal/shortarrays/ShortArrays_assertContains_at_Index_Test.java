@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
@@ -27,6 +27,8 @@ import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Index;
+import org.fest.assertions.internal.ShortArrays;
+import org.fest.assertions.internal.ShortArraysBaseTest;
 
 /**
  * Tests for <code>{@link ShortArrays#assertContains(AssertionInfo, short[], short, Index)}</code>.
@@ -34,7 +36,7 @@ import org.fest.assertions.data.Index;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ShortArrays_assertContains_at_Index_Test extends AbstractTest_for_ShortArrays {
+public class ShortArrays_assertContains_at_Index_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
