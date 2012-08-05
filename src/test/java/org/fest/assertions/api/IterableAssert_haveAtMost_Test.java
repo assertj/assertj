@@ -17,15 +17,17 @@ package org.fest.assertions.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 
-import org.fest.assertions.core.Condition;
-import org.fest.assertions.core.TestCondition;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.TestCondition;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#areAtMost(Condition, int)}</code>.
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
 public class IterableAssert_haveAtMost_Test extends AbstractTest_for_IterableAssert {
 
@@ -38,13 +40,13 @@ public class IterableAssert_haveAtMost_Test extends AbstractTest_for_IterableAss
 
   @Test
   public void should_verify_that_elements_have_at_most() {
-    assertions.areAtMost(2, condition);
-    verify(iterables).assertAreAtMost(assertions.info, assertions.actual, 2, condition);
+    assertions.haveAtMost(2, condition);
+    verify(iterables).assertHaveAtMost(assertions.info, assertions.actual, 2, condition);
   }
 
   @Test
   public void should_return_this() {
-    ConcreteIterableAssert<Object> returned = assertions.areAtMost(2, condition);
+    ConcreteIterableAssert<Object> returned = assertions.haveAtMost(2, condition);
     assertSame(assertions, returned);
   }
 
