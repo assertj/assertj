@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.failures;
 
 import static junit.framework.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -20,6 +20,9 @@ import static org.mockito.Mockito.*;
 import org.fest.assertions.core.*;
 import org.fest.assertions.description.Description;
 import org.fest.assertions.error.ErrorMessageFactory;
+import org.fest.assertions.internal.Failures;
+import org.fest.assertions.internal.TestDescription;
+
 import org.junit.*;
 
 /**
