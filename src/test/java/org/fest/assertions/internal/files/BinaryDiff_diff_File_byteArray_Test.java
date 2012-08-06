@@ -20,21 +20,25 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import org.fest.assertions.internal.BinaryDiff;
-import org.fest.assertions.internal.BinaryDiffResult;
-import org.fest.assertions.test.TextFileWriter;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import org.fest.assertions.internal.BinaryDiff;
+import org.fest.assertions.internal.BinaryDiffResult;
+import org.fest.assertions.test.TextFileWriter;
+
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.File, byte[])}</code>.
  * 
  * @author Olivier Michallat
+ * @author Joel Costigliola
  */
 public class BinaryDiff_diff_File_byteArray_Test {
+
+  private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
   @Rule
   public TemporaryFolder folder = new TemporaryFolder();
@@ -59,32 +63,32 @@ public class BinaryDiff_diff_File_byteArray_Test {
   @Test
   public void should_return_no_diff_if_file_and_array_have_equal_content() throws IOException {
     writer.write(actual, "test");
-    // Note: writer inserts a \n after each line so we need it in our expected content
-    expected = "test\n".getBytes();
+    // Note: writer inserts a new line after each line so we need it in our expected content
+    expected = ("test" + LINE_SEPARATOR).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertTrue(result.hasNoDiff());
   }
-  
+
   @Test
   public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     writer.write(actual, "test");
-    expected = "fest\n".getBytes();
+    expected = ("fest" + LINE_SEPARATOR).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertEquals(0, result.offset);
     assertEquals("0x74", result.actual);
     assertEquals("0x66", result.expected);
   }
-  
+
   @Test
   public void should_return_diff_if_actual_is_shorter() throws IOException {
     writer.write(actual, "foo");
-    expected = "foo\nbar".getBytes();
+    expected = ("foo" + LINE_SEPARATOR + "bar").getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertEquals(4, result.offset);
     assertEquals("EOF", result.actual);
     assertEquals("0x62", result.expected);
   }
-  
+
   @Test
   public void should_return_diff_if_expected_is_shorter() throws IOException {
     writer.write(actual, "foobar");
