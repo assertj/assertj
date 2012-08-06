@@ -84,7 +84,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
     writer.write(actual, "foo");
     expected = ("foo" + LINE_SEPARATOR + "bar").getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(4, result.offset);
+    assertEquals(3 + LINE_SEPARATOR.length(), result.offset);
     assertEquals("EOF", result.actual);
     assertEquals("0x62", result.expected);
   }
