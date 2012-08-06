@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.inputstreams;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -24,6 +24,8 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import org.fest.assertions.internal.Diff;
 
 /**
  * Tests for <code>{@link Diff#diff(InputStream, InputStream)}</code>.

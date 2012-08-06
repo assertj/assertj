@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.inputstreams;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,6 +23,9 @@ import java.io.InputStream;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import org.fest.assertions.internal.BinaryDiff;
+import org.fest.assertions.internal.BinaryDiffResult;
 
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.InputStream, java.io.InputStream)}</code>.

@@ -27,6 +27,7 @@ import org.fest.util.VisibleForTesting;
  * 
  * @author Olivier Michallat
  */
+@VisibleForTesting
 public class BinaryDiff {
 
   @VisibleForTesting
@@ -50,7 +51,7 @@ public class BinaryDiff {
   }
 
   @VisibleForTesting
-  BinaryDiffResult diff(InputStream actualStream, InputStream expectedStream) throws IOException {
+  public BinaryDiffResult diff(InputStream actualStream, InputStream expectedStream) throws IOException {
     int index = 0;
     while (true) {
       int actual = actualStream.read();

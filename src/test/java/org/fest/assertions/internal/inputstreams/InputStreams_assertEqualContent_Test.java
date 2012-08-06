@@ -12,64 +12,38 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.fest.assertions.internal;
+package org.fest.assertions.internal.inputstreams;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertSame;
+import static junit.framework.Assert.fail;
 
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
-import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.assertions.internal.InputStreams;
+import org.fest.assertions.internal.InputStreamsBaseTest;
+import org.fest.assertions.internal.InputStreamsException;
 
 /**
  * Tests for <code>{@link InputStreams#assertEqualContent(AssertionInfo, InputStream, InputStream)}</code>.
  * 
  * @author Matthieu Baechler
  */
-public class InputStreams_assertEqualContent_Test {
-
-  private static InputStream actual;
-  private static InputStream expected;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    actual = new ByteArrayInputStream(new byte[0]);
-    expected = new ByteArrayInputStream(new byte[0]);
-  }
-
-  @Rule
-  public ExpectedException thrown = none();
-
-  private Diff diff;
-  private Failures failures;
-  private InputStreams inputStreams;
-
-  @Before
-  public void setUp() {
-    diff = mock(Diff.class);
-    failures = spy(new Failures());
-    inputStreams = new InputStreams();
-    inputStreams.diff = diff;
-    inputStreams.failures = failures;
-  }
+public class InputStreams_assertEqualContent_Test extends InputStreamsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
