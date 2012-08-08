@@ -11,3 +11,10 @@ English, making it easier for non-technical people to read test code.
 For more details please visit :
 
 * [FEST's github wiki](https://github.com/alexruiz/fest-assert-2.x/wiki) for the most up to date documentation.
+
+## Thanks
+
+Thanks to Cloudbees for their FOSS program that allows Fest to have a Jenkins CI !
+
+[[/src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png]]
+
