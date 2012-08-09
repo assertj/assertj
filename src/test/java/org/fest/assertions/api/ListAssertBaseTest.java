@@ -27,6 +27,7 @@ import org.fest.assertions.internal.Lists;
  * @author Olivier Michallat
  */
 public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<String>, List<String>> {
+
   protected Lists lists;
 
   @Override

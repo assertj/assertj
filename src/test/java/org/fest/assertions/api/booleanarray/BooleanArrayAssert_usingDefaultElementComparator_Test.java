@@ -18,12 +18,12 @@ import static org.fest.assertions.test.ExpectedException.none;
 
 import java.util.Comparator;
 
+import org.junit.Rule;
+import org.junit.Test;
+
 import org.fest.assertions.api.BooleanArrayAssert;
 import org.fest.assertions.api.BooleanArrayAssertBaseTest;
 import org.fest.assertions.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
-import org.mockito.Mock;
 
 /**
  * Tests for <code>{@link BooleanArrayAssert#usingElementComparator(Comparator)}</code>.

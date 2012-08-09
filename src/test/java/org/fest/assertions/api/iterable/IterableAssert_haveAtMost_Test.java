@@ -16,12 +16,13 @@ package org.fest.assertions.api.iterable;
 
 import static org.mockito.Mockito.verify;
 
+import org.junit.BeforeClass;
+
 import org.fest.assertions.api.AbstractIterableAssert;
 import org.fest.assertions.api.ConcreteIterableAssert;
 import org.fest.assertions.api.IterableAssertBaseTest;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
-import org.junit.BeforeClass;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#areAtMost(Condition, int)}</code>.
@@ -39,11 +40,11 @@ public class IterableAssert_haveAtMost_Test extends IterableAssertBaseTest {
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-    return assertions.areAtMost(2, condition);
+    return assertions.haveAtMost(2, condition);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(iterables).assertAreAtMost(getInfo(assertions), getActual(assertions), 2, condition);
+    verify(iterables).assertHaveAtMost(getInfo(assertions), getActual(assertions), 2, condition);
   }
 }
