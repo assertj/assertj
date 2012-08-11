@@ -5,7 +5,7 @@ import static org.fest.assertions.api.filter.Filters.filter;
 
 import org.junit.Test;
 
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 
 public class Filter_with_property_equals_to_null_value_Test extends AbstractTest_filter {
 

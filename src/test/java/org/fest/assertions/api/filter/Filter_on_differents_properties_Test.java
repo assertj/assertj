@@ -37,7 +37,7 @@ public class Filter_on_differents_properties_Test extends AbstractTest_filter {
       filter(players).with("reboundsPerGame").equalsTo(5).and("nickname").notEqualsTo("dude");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertEquals("No getter for property 'nickname' in org.fest.assertions.test.Player", e.getMessage());
+      assertEquals("No getter for property 'nickname' in org.fest.test.Player", e.getMessage());
     }
   }
 

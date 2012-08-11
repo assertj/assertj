@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.DoubleArrayFactory.emptyArray;
+import static org.fest.test.DoubleArrayFactory.emptyArray;
 import static org.mockito.Mockito.mock;
 
 import org.fest.assertions.internal.DoubleArrays;

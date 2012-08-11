@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.chararray;
 
-import static org.fest.assertions.test.CharArrayFactory.array;
+import static org.fest.test.CharArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;

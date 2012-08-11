@@ -1,6 +1,6 @@
 package org.fest.assertions.api.date;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.junit.Assert.assertSame;
 
 import java.text.ParseException;
@@ -10,7 +10,7 @@ import java.util.Date;
 import org.fest.assertions.api.DateAssertBaseTest;
 import org.fest.assertions.api.DateAssert;
 import org.fest.assertions.internal.Dates;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

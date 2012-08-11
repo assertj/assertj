@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.comparables;
 
 import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.*;
 
@@ -28,8 +28,8 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Comparables;
 import org.fest.assertions.internal.ComparablesBaseTest;
-import org.fest.assertions.test.Person;
-import org.fest.assertions.test.PersonCaseInsensitiveNameComparator;
+import org.fest.test.Person;
+import org.fest.test.PersonCaseInsensitiveNameComparator;
 
 /**
  * Tests for <code>{@link Comparables#assertNotEqualByComparison(AssertionInfo, Comparable, Comparable)}</code>.

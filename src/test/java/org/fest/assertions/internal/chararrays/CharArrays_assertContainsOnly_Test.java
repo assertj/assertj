@@ -15,11 +15,11 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
-import static org.fest.assertions.test.CharArrayFactory.*;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.test.CharArrayFactory.*;
+import static org.fest.test.ErrorMessages.*;
+import static org.fest.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
 
 import static org.mockito.Mockito.verify;

@@ -1,7 +1,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.MapEntry.entry;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.assertions.test.MapFactory.map;
 
 import static org.mockito.Mockito.spy;
@@ -11,7 +11,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Rule;
 
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 
 /**
  * Base class for {@link Maps} unit tests

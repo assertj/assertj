@@ -28,7 +28,7 @@ import org.junit.rules.TemporaryFolder;
 
 import org.fest.assertions.internal.BinaryDiff;
 import org.fest.assertions.internal.BinaryDiffResult;
-import org.fest.assertions.test.TextFileWriter;
+import org.fest.test.TextFileWriter;
 
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.File, byte[])}</code>.

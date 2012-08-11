@@ -15,11 +15,11 @@
 package org.fest.assertions.internal.intarrays;
 
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.IntArrayFactory.array;
-import static org.fest.assertions.test.IntArrayFactory.emptyArray;
+import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.test.IntArrayFactory.array;
+import static org.fest.test.IntArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

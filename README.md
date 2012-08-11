@@ -24,3 +24,7 @@ Thanks to Cloudbees for their FOSS program that allows Fest to have a Jenkins CI
 
 ![cloudbees](/alexruiz/fest-assert-2.x/raw/master/src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png)
 
+### Current build status:
+
+[![Build Status](https://secure.travis-ci.org/gesellix/fest-assert-2.x.png?branch=master)](http://travis-ci.org/gesellix/fest-assert-2.x)
+

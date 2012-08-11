@@ -23,7 +23,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import org.fest.assertions.internal.Diff;
-import org.fest.assertions.test.TextFileWriter;
+import org.fest.test.TextFileWriter;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;

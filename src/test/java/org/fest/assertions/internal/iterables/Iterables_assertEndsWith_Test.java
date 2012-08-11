@@ -15,11 +15,11 @@
 package org.fest.assertions.internal.iterables;
 
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.ObjectArrayFactory.emptyArray;
+import static org.fest.test.ErrorMessages.*;
+import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.test.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Collections.list;
 

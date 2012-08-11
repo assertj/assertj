@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeInTheFuture.shouldBeInTheFuture;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.test.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Dates.monthOf;
 
 import static org.mockito.Mockito.verify;

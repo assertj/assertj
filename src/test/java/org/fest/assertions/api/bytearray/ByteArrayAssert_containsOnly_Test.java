@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.bytearray;
 
-import static org.fest.assertions.test.ByteArrayFactory.array;
+import static org.fest.test.ByteArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteArrayAssert;

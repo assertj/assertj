@@ -15,10 +15,10 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.assertions.test.ErrorMessages.*;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ErrorMessages.*;
+import static org.fest.test.ExpectedException.none;
 
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

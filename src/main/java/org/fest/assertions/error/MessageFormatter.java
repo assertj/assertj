@@ -16,8 +16,6 @@ package org.fest.assertions.error;
 
 import static org.fest.util.ToString.toStringOf;
 
-import java.awt.image.BufferedImage;
-
 import org.fest.assertions.description.Description;
 import org.fest.util.*;
 
@@ -73,7 +71,7 @@ public class MessageFormatter {
   }
 
   private String asText(Object o) {
-    if (o instanceof BufferedImage) return "image";
+    if (o != null && INSTANCE.getClass().getName().equals("java.awt.image.BufferedImage")) return "image";
     if (o instanceof ComparatorBasedComparisonStrategy) return " according to " + o + " comparator";
     if (o instanceof StandardComparisonStrategy) return "";
     return toStringOf(o);

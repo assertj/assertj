@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import org.fest.assertions.test.Jedi;
+import org.fest.test.Jedi;
 
 /**
  * Base class for {@link ObjectAssert} tests.

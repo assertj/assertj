@@ -16,7 +16,7 @@ package org.fest.assertions.internal.conditions;
 
 import static org.fest.assertions.error.ShouldNotHave.shouldNotHave;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

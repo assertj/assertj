@@ -15,11 +15,11 @@
 package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.LongArrayFactory.array;
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
+import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.test.LongArrayFactory.array;
+import static org.fest.test.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
 
 import static org.mockito.Mockito.verify;

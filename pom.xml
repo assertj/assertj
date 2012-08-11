@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.easytesting</groupId>
   <artifactId>fest-assert-core</artifactId>
-  <version>2.0M8-SNAPSHOT</version>
+  <version>2.0M8-MODULARIZATION-SNAPSHOT</version>
   <name>FEST Fluent Assertions</name>
   <description>'Flexible' or 'fluent' assertions for testing</description>
   <inceptionYear>2007</inceptionYear>
@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.easytesting</groupId>
     <artifactId>fest</artifactId>
-    <version>1.0.14</version>
+    <version>1.0.15-MODULARIZATION-SNAPSHOT</version>
   </parent>
   <mailingLists>
     <mailingList>
@@ -28,32 +28,30 @@
     <url>https://github.com/alexruiz/fest-assert-2.x</url>
   </scm>
   <issueManagement>
-        <system>github</system>
-        <url>https://github.com/alexruiz/fest-assert-2.x/issues</url>
+    <system>github</system>
+    <url>https://github.com/alexruiz/fest-assert-2.x/issues</url>
   </issueManagement>
   <dependencies>
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-util</artifactId>
-      <version>1.2.2</version>
+      <version>1.2.3-MODULARIZATION-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.easytesting</groupId>
       <artifactId>fest-test</artifactId>
-      <version>2.0</version>
+      <version>2.1-MODULARIZATION-SNAPSHOT</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.9.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.10</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

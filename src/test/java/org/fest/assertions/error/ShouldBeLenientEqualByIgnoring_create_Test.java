@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
-import org.fest.assertions.test.Jedi;
+import org.fest.test.Jedi;
 
 /**
  * Tests for <code>{@link ShouldBeLenientEqualByIgnoring#create(Description)}</code>.

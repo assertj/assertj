@@ -14,12 +14,8 @@
  */
 package org.fest.assertions.test;
 
-import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.data.RgbColor.color;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.regex.Pattern;
 
 import org.fest.assertions.core.*;
@@ -32,37 +28,11 @@ import org.fest.assertions.description.*;
  */
 public final class TestData {
 
-  private static final RgbColor BLUE = color(0x0000FF);
-  private static final RgbColor YELLOW = color(0xFFFF00);
   private static final AssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
   private static final TextDescription DESCRIPTION = new TextDescription(
       "who's the more foolish: the fool, or the fool who follows him?");
   private static final Index INDEX = atIndex(0);
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
-
-  public static RgbColor blue() {
-    return BLUE;
-  }
-
-  public static BufferedImage fivePixelBlueImage() {
-    return fivePixelImage(Color.BLUE);
-  }
-
-  public static BufferedImage fivePixelYellowImage() {
-    return fivePixelImage(Color.YELLOW);
-  }
-
-  private static BufferedImage fivePixelImage(Color color) {
-    return newImage(5, 5, color);
-  }
-
-  public static BufferedImage newImage(int width, int height, Color color) {
-    BufferedImage image = new BufferedImage(width, height, TYPE_INT_ARGB);
-    Graphics graphics = image.createGraphics();
-    graphics.setColor(color);
-    graphics.fillRect(0, 0, width, height);
-    return image;
-  }
 
   public static Pattern matchAnything() {
     return MATCH_ANYTHING;
@@ -82,10 +52,6 @@ public final class TestData {
 
   public static String someTextDescription() {
     return "there's always a bigger fish";
-  }
-
-  public static RgbColor yellow() {
-    return YELLOW;
   }
 
   private TestData() {}

@@ -1,6 +1,6 @@
 package org.fest.assertions.internal;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -10,7 +10,7 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Rule;
 
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
