@@ -12,12 +12,14 @@
  * 
  * Copyright @2007-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.fail;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.util.StackTraceUtils.hasStackTraceElementRelatedToFest;
 
 import org.junit.Test;
+
+import org.fest.assertions.api.Fail;
 
 /**
  * Tests for <code>{@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)}</code>.
