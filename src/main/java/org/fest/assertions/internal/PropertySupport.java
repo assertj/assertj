@@ -16,9 +16,11 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.isEmpty;
+import static org.fest.util.Collections.nonNullElements;
 import static org.fest.util.Introspection.descriptorForProperty;
 
 import java.beans.PropertyDescriptor;
@@ -70,7 +72,7 @@ public class PropertySupport {
    */
   public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Collection<?> target) {
     // ignore null elements as we can't extract a property from a null object
-    Collection<?> cleanedUp = nonNullElements(target);
+    Iterable<?> cleanedUp = nonNullElements(target);
     if (isEmpty(cleanedUp)) return emptyList();
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
