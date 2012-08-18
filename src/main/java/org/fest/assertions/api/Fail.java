@@ -14,6 +14,8 @@
  */
 package org.fest.assertions.api;
 
+import static java.lang.String.format;
+
 import org.fest.assertions.internal.Failures;
 
 /**
@@ -55,15 +57,14 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with a message explaining that an expection of given exceptionClass type was expected to be
-   * thrown but had not been.
-   * @param exceptionClass the class exception that was expected to be thrown.
-   * @throws AssertionError with a message explaining that an expection of given exceptionClass type was expected to be thrown but
-   *           had not been.
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
-    String message = String.format("Expected %s to be thrown", exceptionClass.getSimpleName());
-    throw Failures.instance().failure(message);
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    throw Failures.instance().failure(format("Expected %s to be thrown", throwableClass.getSimpleName()));
   }
 
   /**

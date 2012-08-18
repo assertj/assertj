@@ -12,29 +12,32 @@
  * 
  * Copyright @2007-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.fail;
 
-import static org.fest.util.ExpectedException.none;
+import static org.junit.Assert.*;
 
-import org.junit.*;
+import org.junit.Test;
 
-import org.fest.util.ExpectedException;
+import org.fest.assertions.api.Fail;
 
 /**
- * Tests for <code>{@link Fail#fail(String)}</code>.
+ * Tests for <code>{@link Fail#fail(String, Throwable)}</code>.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Fail_fail_withMessage_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
+public class Fail_fail_withMessageAndCause_Test {
 
   @Test
-  public void shouldIncludeMessageWhenFailing() {
-    String message = "Failed :(";
-    thrown.expectAssertionError(message);
-    Fail.fail(message);
+  public void shouldThrowErrorWithGivenMessageAndCause() {
+    String message = "Some Throwable";
+    Throwable cause = new Throwable();
+    try {
+      Fail.fail(message, cause);
+      fail("AssertionError should have been thrown");
+    } catch (AssertionError e) {
+      assertEquals(e.getMessage(), message);
+      assertSame(e.getCause(), cause);
+    }
   }
 }

@@ -12,12 +12,14 @@
  * 
  * Copyright @2007-2011 the original author or authors.
  */
-package org.fest.assertions.api;
+package org.fest.assertions.api.fail;
 
 import static org.fest.util.ExpectedException.none;
 
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
+import org.fest.assertions.api.Fail;
 import org.fest.util.ExpectedException;
 
 /**
@@ -31,8 +33,14 @@ public class Fail_fail_because_exception_was_not_thrown_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void shouldIncludeMessageBuiltWithExceptionNameWhenFailing() {
+  public void should_include_message_built_with_given_exception_name() {
     thrown.expectAssertionError("Expected NullPointerException to be thrown");
     Fail.failBecauseExceptionWasNotThrown(NullPointerException.class);
+  }
+
+  @Test
+  public void should_include_message_built_with_given_throwable_name() {
+    thrown.expectAssertionError("Expected OutOfMemoryError to be thrown");
+    Fail.failBecauseExceptionWasNotThrown(OutOfMemoryError.class);
   }
 }

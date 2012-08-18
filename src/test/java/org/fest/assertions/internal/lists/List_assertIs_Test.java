@@ -3,13 +3,13 @@ package org.fest.assertions.internal.lists;
 import static java.util.Collections.emptyList;
 
 import static org.fest.assertions.data.Index.atIndex;
-import static org.fest.assertions.error.ShouldHaveAtIndex.shouldHaveAtIndex;
-import static org.fest.util.FailureMessages.actualIsEmpty;
-import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.fest.assertions.test.TestData.someIndex;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
+import static org.fest.util.FailureMessages.actualIsEmpty;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
@@ -19,19 +19,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.TestCondition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.internal.Lists;
 import org.fest.assertions.internal.ListsBaseTest;
 
 /**
- * Tests for <code>{@link Lists#assertHas(AssertionInfo, List, Condition, Index)}</code>.
+ * Tests for <code>{@link Lists#assertIs(AssertionInfo, List, org.fest.assertions.core.Condition, Index)}</code> .
  * 
  * @author Bo Gotthardt
  */
-public class Lists_assertHas_Test extends ListsBaseTest {
-
+public class List_assertIs_Test extends ListsBaseTest {
   private static TestCondition<String> condition;
   private static List<String> actual = list("Yoda", "Luke", "Leia");
 
@@ -43,32 +41,32 @@ public class Lists_assertHas_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    lists.assertHas(someInfo(), null, condition, someIndex());
+    lists.assertIs(someInfo(), null, condition, someIndex());
   }
 
   @Test
   public void should_fail_if_actual_is_empty() {
     thrown.expectAssertionError(actualIsEmpty());
     List<String> empty = emptyList();
-    lists.assertHas(someInfo(), empty, condition, someIndex());
+    lists.assertIs(someInfo(), empty, condition, someIndex());
   }
 
   @Test
   public void should_throw_error_if_Index_is_null() {
     thrown.expectNullPointerException("Index should not be null");
-    lists.assertHas(someInfo(), actual, condition, null);
+    lists.assertIs(someInfo(), actual, condition, null);
   }
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds() {
     thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was <6>");
-    lists.assertHas(someInfo(), actual, condition, atIndex(6));
+    lists.assertIs(someInfo(), actual, condition, atIndex(6));
   }
 
   @Test
   public void should_throw_error_if_Condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    lists.assertHas(someInfo(), actual, null, someIndex());
+    lists.assertIs(someInfo(), actual, null, someIndex());
   }
 
   @Test
@@ -77,9 +75,9 @@ public class Lists_assertHas_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     Index index = atIndex(1);
     try {
-      lists.assertHas(info, actual, condition, index);
+      lists.assertIs(info, actual, condition, index);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveAtIndex(actual, condition, index, "Luke"));
+      verify(failures).failure(info, shouldBeAtIndex(actual, condition, index, "Luke"));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -88,6 +86,6 @@ public class Lists_assertHas_Test extends ListsBaseTest {
   @Test
   public void should_pass_if_actual_satisfies_condition_at_index() {
     condition.shouldMatch(true);
-    lists.assertHas(someInfo(), actual, condition, someIndex());
+    lists.assertIs(someInfo(), actual, condition, someIndex());
   }
 }
