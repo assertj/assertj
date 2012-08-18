@@ -16,10 +16,10 @@ package org.fest.assertions.internal.objectarrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.fest.test.FailureMessages.actualIsNull;
-import static org.fest.test.ObjectArrayFactory.emptyArray;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 
 import static org.mockito.Mockito.verify;

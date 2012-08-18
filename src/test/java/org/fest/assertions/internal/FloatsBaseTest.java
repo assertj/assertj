@@ -1,13 +1,13 @@
 package org.fest.assertions.internal;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.util.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
 import org.junit.Before;
 import org.junit.Rule;
 
-import org.fest.test.ExpectedException;
+import org.fest.util.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;

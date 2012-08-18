@@ -16,7 +16,7 @@ package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertFalse;
 import static org.fest.assertions.data.Offset.offset;
-import static org.fest.test.EqualsHashCodeContractAssert.*;
+import static org.fest.util.EqualsHashCodeContractAssert.*;
 
 import org.junit.*;
 

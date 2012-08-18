@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.test.ByteArrayFactory.emptyArray;
+import static org.fest.util.ByteArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

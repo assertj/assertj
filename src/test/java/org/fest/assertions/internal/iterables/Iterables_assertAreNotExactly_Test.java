@@ -16,7 +16,7 @@ package org.fest.assertions.internal.iterables;
 
 import static org.fest.assertions.error.ElementsShouldNotBeExactly.elementsShouldNotBeExactly;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;

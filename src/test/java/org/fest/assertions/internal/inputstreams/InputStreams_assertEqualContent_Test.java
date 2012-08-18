@@ -18,9 +18,9 @@ import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.fail;
 
 import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualContent;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;

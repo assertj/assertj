@@ -18,9 +18,9 @@ import static java.util.Collections.emptyList;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;

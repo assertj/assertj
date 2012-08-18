@@ -15,10 +15,10 @@
 package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
-import static org.fest.test.ErrorMessages.sequenceToLookForIsNull;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.ErrorMessages.sequenceToLookForIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

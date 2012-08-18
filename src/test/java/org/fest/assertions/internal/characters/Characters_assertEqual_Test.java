@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.characters;
 
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

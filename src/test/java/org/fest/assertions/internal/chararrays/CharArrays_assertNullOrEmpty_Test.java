@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.test.CharArrayFactory.emptyArray;
+import static org.fest.util.CharArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

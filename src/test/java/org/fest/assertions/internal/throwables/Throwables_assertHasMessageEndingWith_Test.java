@@ -15,7 +15,7 @@
 package org.fest.assertions.internal.throwables;
 
 import static org.fest.assertions.error.ShouldContainString.shouldContain;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.fail;

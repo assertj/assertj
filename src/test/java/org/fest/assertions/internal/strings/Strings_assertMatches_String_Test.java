@@ -15,10 +15,10 @@
 package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldMatchPattern.shouldMatch;
-import static org.fest.test.ErrorMessages.regexPatternIsNull;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.ErrorMessages.regexPatternIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

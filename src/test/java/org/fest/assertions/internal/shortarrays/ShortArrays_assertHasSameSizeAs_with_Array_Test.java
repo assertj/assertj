@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 
 import static org.mockito.Mockito.verify;
@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.ShortArrays;
 import org.fest.assertions.internal.ShortArraysBaseTest;
-import org.fest.test.ShortArrayFactory;
+import org.fest.util.ShortArrayFactory;
 
 /**
  * Tests for <code>{@link ShortArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.

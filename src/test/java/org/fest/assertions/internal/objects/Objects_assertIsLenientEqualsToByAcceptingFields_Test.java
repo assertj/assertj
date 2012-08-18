@@ -19,7 +19,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.junit.Assert.fail;

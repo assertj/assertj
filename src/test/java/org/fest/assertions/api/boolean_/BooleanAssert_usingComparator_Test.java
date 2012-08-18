@@ -14,14 +14,14 @@
  */
 package org.fest.assertions.api.boolean_;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.util.ExpectedException.none;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
 import org.fest.assertions.api.BooleanAssert;
 import org.fest.assertions.api.BooleanAssertBaseTest;
-import org.fest.test.ExpectedException;
+import org.fest.util.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;

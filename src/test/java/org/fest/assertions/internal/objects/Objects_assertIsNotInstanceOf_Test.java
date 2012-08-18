@@ -15,7 +15,7 @@
 package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldNotBeInstance.shouldNotBeInstance;
-import static org.fest.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 
 import static org.junit.Assert.fail;

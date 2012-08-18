@@ -1,6 +1,6 @@
 package org.fest.assertions.internal;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.util.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
@@ -10,7 +10,7 @@ import java.util.Date;
 import org.junit.Before;
 import org.junit.Rule;
 
-import org.fest.test.ExpectedException;
+import org.fest.util.ExpectedException;
 import org.fest.assertions.util.YearAndMonthComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 

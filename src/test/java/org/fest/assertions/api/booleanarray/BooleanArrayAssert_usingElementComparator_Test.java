@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.api.booleanarray;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.util.ExpectedException.none;
 
 import java.util.Comparator;
 
 import org.fest.assertions.api.BooleanArrayAssert;
 import org.fest.assertions.api.BooleanArrayAssertBaseTest;
-import org.fest.test.ExpectedException;
+import org.fest.util.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;

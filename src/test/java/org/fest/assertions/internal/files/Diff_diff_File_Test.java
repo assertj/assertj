@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import org.fest.assertions.internal.Diff;
-import org.fest.test.TextFileWriter;
+import org.fest.util.TextFileWriter;
 
 /**
  * Tests for <code>{@link Diff#diff(File, File)}</code>.
