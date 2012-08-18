@@ -21,7 +21,7 @@ import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

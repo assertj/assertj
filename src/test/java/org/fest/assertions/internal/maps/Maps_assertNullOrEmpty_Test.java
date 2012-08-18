@@ -20,7 +20,7 @@ import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

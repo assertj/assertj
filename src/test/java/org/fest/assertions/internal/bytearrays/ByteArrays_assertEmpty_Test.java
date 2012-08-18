@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.util.ByteArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

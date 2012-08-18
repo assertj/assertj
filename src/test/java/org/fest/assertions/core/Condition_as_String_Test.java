@@ -14,11 +14,11 @@
  */
 package org.fest.assertions.core;
 
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someTextDescription;
 import static org.junit.Assert.*;
 
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

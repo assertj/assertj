@@ -17,14 +17,14 @@ package org.fest.assertions.internal;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.util.Collections.list;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.fest.test.Employee;
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.fest.test.Name;
 import org.fest.util.IntrospectionError;
 import org.junit.BeforeClass;

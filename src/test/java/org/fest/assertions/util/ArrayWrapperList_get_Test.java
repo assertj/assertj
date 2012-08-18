@@ -14,10 +14,10 @@
  */
 package org.fest.assertions.util;
 
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.junit.Assert.assertEquals;
 
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

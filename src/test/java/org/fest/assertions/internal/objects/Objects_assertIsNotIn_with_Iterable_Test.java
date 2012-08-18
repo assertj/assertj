@@ -16,11 +16,11 @@ package org.fest.assertions.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.fest.util.ErrorMessages.iterableIsEmpty;
-import static org.fest.util.ErrorMessages.iterableIsNull;
+import static org.fest.test.ErrorMessages.iterableIsEmpty;
+import static org.fest.test.ErrorMessages.iterableIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 

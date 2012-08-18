@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.api.fail;
 
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 
 import org.junit.*;
 
 import org.fest.assertions.api.Fail;
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Fail#fail(String)}</code>.

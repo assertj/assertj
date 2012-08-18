@@ -16,17 +16,17 @@ package org.fest.assertions.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
-import static org.fest.util.ErrorMessages.iterableIsNull;
+import static org.fest.test.ErrorMessages.iterableIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.internal.ObjectsBaseTest;
-import org.fest.util.ErrorMessages;
+import org.fest.test.ErrorMessages;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

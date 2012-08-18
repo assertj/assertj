@@ -16,7 +16,7 @@ package org.fest.assertions.api.abstract_;
 
 import static junit.framework.Assert.*;
 
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.ConcreteAssert;

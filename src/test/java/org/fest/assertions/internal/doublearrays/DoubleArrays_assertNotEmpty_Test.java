@@ -19,7 +19,7 @@ import static org.fest.util.DoubleArrayFactory.array;
 import static org.fest.util.DoubleArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

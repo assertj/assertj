@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertFalse;
-import static org.fest.util.EqualsHashCodeContractAssert.*;
+import static org.fest.test.EqualsHashCodeContractAssert.*;
 
 import org.junit.*;
 

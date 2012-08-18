@@ -15,13 +15,13 @@
 package org.fest.assertions.api.abstract_;
 
 import static junit.framework.Assert.*;
-import static org.fest.util.ErrorMessages.descriptionIsNull;
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ErrorMessages.descriptionIsNull;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.someTextDescription;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.ConcreteAssert;
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

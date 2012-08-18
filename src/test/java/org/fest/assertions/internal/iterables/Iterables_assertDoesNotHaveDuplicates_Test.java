@@ -19,7 +19,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.*;
 
 import static org.mockito.Mockito.verify;

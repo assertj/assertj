@@ -17,10 +17,10 @@ package org.fest.assertions.data;
 import static junit.framework.Assert.*;
 import static org.fest.assertions.data.Offset.offset;
 import static org.fest.assertions.data.RgbColor.color;
-import static org.fest.util.ErrorMessages.offsetIsNull;
-import static org.fest.util.ExpectedException.none;
+import static org.fest.test.ErrorMessages.offsetIsNull;
+import static org.fest.test.ExpectedException.none;
 
-import org.fest.util.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

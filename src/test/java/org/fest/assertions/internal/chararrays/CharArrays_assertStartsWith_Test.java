@@ -16,10 +16,10 @@ package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.util.CharArrayFactory.*;
-import static org.fest.util.ErrorMessages.*;
+import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.util.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
