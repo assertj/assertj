@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 import java.beans.PropertyDescriptor;
 import java.util.*;
 
-import org.fest.assertions.test.*;
+import org.fest.test.*;
 import org.fest.util.IntrospectionError;
 import org.junit.*;
 

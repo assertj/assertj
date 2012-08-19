@@ -18,10 +18,10 @@ import static java.util.Collections.emptyMap;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

@@ -17,9 +17,9 @@ package org.fest.assertions.internal.dates;
 import static java.util.Calendar.*;
 
 import static org.fest.assertions.error.ShouldBeWithin.shouldBeWithin;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

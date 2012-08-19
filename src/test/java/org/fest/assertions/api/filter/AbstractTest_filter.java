@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.junit.BeforeClass;
 
-import org.fest.assertions.test.Name;
-import org.fest.assertions.test.Player;
+import org.fest.test.Name;
+import org.fest.test.Player;
 
 public class AbstractTest_filter {
 

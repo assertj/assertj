@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.booleanarray;
 
-import static org.fest.assertions.test.BooleanArrayFactory.array;
+import static org.fest.util.BooleanArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.BooleanArrayAssert;

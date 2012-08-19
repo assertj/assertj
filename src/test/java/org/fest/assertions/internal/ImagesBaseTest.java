@@ -1,7 +1,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.assertions.data.Offset.offset;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.assertions.test.TestData.fivePixelBlueImage;
 
 import static org.mockito.Mockito.spy;
@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Rule;
 
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 
 /**
  * Base class for {@link Images} unit tests

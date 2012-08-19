@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 
 public class Filter_being_condition_Test extends AbstractTest_filter {
 

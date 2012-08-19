@@ -19,9 +19,9 @@ import static junit.framework.Assert.fail;
 
 import static org.fest.assertions.error.ShouldBeFile.shouldBeFile;
 import static org.fest.assertions.error.ShouldHaveContent.shouldHaveContent;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;

@@ -21,14 +21,14 @@ import static org.fest.assertions.data.Point.atPoint;
 import static org.fest.assertions.error.ShouldBeEqualColors.shouldBeEqualColors;
 import static org.fest.assertions.error.ShouldBeEqualImages.shouldBeEqualImages;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.test.ErrorMessages.offsetIsNull;
+import static org.fest.test.ErrorMessages.offsetIsNull;
 import static org.fest.assertions.test.TestData.blue;
 import static org.fest.assertions.test.TestData.fivePixelBlueImage;
 import static org.fest.assertions.test.TestData.fivePixelYellowImage;
 import static org.fest.assertions.test.TestData.newImage;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.assertions.test.TestData.yellow;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

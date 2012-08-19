@@ -15,13 +15,13 @@
 package org.fest.assertions.util;
 
 import static java.awt.Color.RED;
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 import org.junit.*;
 
 /**

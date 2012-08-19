@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectAssert;
 import org.fest.assertions.api.ObjectAssertBaseTest;
-import org.fest.assertions.test.Jedi;
+import org.fest.test.Jedi;
 
 /**
  * Tests for <code>{@link ObjectAssert#isLenientEqualsToByIgnoringFields(Object, String...)}</code>.

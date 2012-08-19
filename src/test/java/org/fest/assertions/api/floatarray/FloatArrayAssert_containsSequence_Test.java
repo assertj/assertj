@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.floatarray;
 
-import static org.fest.assertions.test.FloatArrayFactory.array;
+import static org.fest.util.FloatArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;

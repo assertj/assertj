@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Objects;
 import org.fest.assertions.internal.ObjectsBaseTest;
-import org.fest.assertions.test.Person;
+import org.fest.test.Person;
 
 /**
  * Tests for <code>{@link Objects#assertSame(AssertionInfo, Object, Object)}</code>.

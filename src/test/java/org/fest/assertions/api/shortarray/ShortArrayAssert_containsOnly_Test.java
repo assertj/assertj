@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.shortarray;
 
-import static org.fest.assertions.test.ShortArrayFactory.array;
+import static org.fest.util.ShortArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortArrayAssert;

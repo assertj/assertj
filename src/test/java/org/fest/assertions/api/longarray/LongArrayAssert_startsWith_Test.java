@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.longarray;
 
-import static org.fest.assertions.test.LongArrayFactory.array;
+import static org.fest.util.LongArrayFactory.array;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.LongArrayAssert;

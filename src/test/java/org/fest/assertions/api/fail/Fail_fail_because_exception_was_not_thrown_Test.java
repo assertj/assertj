@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.api.fail;
 
-import static org.fest.assertions.test.ExpectedException.none;
+import static org.fest.test.ExpectedException.none;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 import org.fest.assertions.api.Fail;
-import org.fest.assertions.test.ExpectedException;
+import org.fest.test.ExpectedException;
 
 /**
  * Tests for <code>{@link Fail#failBecauseExceptionWasNotThrown(Class)}</code>.

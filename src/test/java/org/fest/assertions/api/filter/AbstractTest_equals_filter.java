@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 import org.fest.util.IntrospectionError;
 
 public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
@@ -43,7 +43,7 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
       filterIterable(players, "nickname", "dude");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertThat(e).hasMessage("No getter for property 'nickname' in org.fest.assertions.test.Player");
+      assertThat(e).hasMessage("No getter for property 'nickname' in org.fest.test.Player");
     }
   }
 

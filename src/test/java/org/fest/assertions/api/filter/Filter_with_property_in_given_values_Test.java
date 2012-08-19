@@ -9,7 +9,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 import org.fest.util.IntrospectionError;
 
 public class Filter_with_property_in_given_values_Test extends AbstractTest_filter {
@@ -43,7 +43,7 @@ public class Filter_with_property_in_given_values_Test extends AbstractTest_filt
       filter(players).with("nickname").in("dude", "al");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertEquals("No getter for property 'nickname' in org.fest.assertions.test.Player", e.getMessage());
+      assertEquals("No getter for property 'nickname' in org.fest.test.Player", e.getMessage());
     }
   }
 

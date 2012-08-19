@@ -22,7 +22,7 @@ import java.util.Comparator;
 import org.fest.assertions.api.ObjectAssert;
 import org.fest.assertions.api.ObjectAssertBaseTest;
 import org.fest.assertions.internal.Objects;
-import org.fest.assertions.test.Jedi;
+import org.fest.test.Jedi;
 import org.junit.Before;
 import org.mockito.Mock;
 

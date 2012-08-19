@@ -15,10 +15,10 @@
 package org.fest.assertions.internal.floatarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.FloatArrayFactory.*;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.FloatArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.set;
 
 import static org.mockito.Mockito.verify;

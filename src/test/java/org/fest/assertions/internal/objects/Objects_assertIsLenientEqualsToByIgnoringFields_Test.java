@@ -16,7 +16,7 @@ package org.fest.assertions.internal.objects;
 
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;
@@ -29,8 +29,8 @@ import org.junit.Test;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.error.ShouldBeInstance;
 import org.fest.assertions.internal.ObjectsBaseTest;
-import org.fest.assertions.test.Employee;
-import org.fest.assertions.test.Jedi;
+import org.fest.test.Employee;
+import org.fest.test.Jedi;
 
 /**
  * Tests for <code>{@link Objects#assertIsLenientEqualsToByIgnoringFields(AssertionInfo, Object, Object, String...)</code>.

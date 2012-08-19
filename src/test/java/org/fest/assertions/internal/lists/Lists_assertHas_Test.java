@@ -4,11 +4,11 @@ import static java.util.Collections.emptyList;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldHaveAtIndex.shouldHaveAtIndex;
-import static org.fest.assertions.test.FailureMessages.actualIsEmpty;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsEmpty;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someIndex;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 
 import static org.mockito.Mockito.verify;

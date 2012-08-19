@@ -15,16 +15,21 @@
 package org.fest.assertions.test;
 
 import static java.awt.image.BufferedImage.TYPE_INT_ARGB;
+
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.data.RgbColor.color;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.regex.Pattern;
 
-import org.fest.assertions.core.*;
-import org.fest.assertions.data.*;
-import org.fest.assertions.description.*;
+import org.fest.assertions.core.AssertionInfo;
+import org.fest.assertions.core.WritableAssertionInfo;
+import org.fest.assertions.data.Index;
+import org.fest.assertions.data.RgbColor;
+import org.fest.assertions.description.Description;
+import org.fest.assertions.description.TextDescription;
 
 /**
  * @author Alex Ruiz

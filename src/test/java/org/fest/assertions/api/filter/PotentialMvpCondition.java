@@ -15,7 +15,7 @@
 package org.fest.assertions.api.filter;
 
 import org.fest.assertions.core.Condition;
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 
 /**
  * 

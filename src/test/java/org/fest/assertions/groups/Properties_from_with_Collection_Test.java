@@ -22,7 +22,7 @@ import java.util.*;
 
 import org.fest.assertions.groups.Properties;
 import org.fest.assertions.internal.PropertySupport;
-import org.fest.assertions.test.*;
+import org.fest.test.*;
 import org.junit.*;
 
 /**

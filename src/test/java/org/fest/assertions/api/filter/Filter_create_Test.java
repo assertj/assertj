@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.fest.assertions.test.Player;
+import org.fest.test.Player;
 
 public class Filter_create_Test extends AbstractTest_filter {
 

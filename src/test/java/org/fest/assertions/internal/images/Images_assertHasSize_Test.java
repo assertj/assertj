@@ -17,10 +17,10 @@ package org.fest.assertions.internal.images;
 import static java.awt.Color.BLUE;
 
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.newImage;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

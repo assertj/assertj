@@ -16,11 +16,11 @@ package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.fest.assertions.test.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.LongArrayFactory.emptyArray;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someIndex;
 import static org.fest.assertions.test.TestData.someInfo;
-import static org.fest.assertions.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 

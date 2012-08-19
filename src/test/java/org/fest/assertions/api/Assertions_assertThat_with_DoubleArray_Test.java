@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api;
 
-import static org.fest.assertions.test.DoubleArrayFactory.emptyArray;
+import static org.fest.util.DoubleArrayFactory.emptyArray;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
