@@ -22,8 +22,7 @@ import static org.mockito.Mockito.*;
 import java.util.*;
 
 import org.fest.assertions.internal.PropertySupport;
-import org.fest.test.Employee;
-import org.fest.test.Name;
+import org.fest.test.*;
 import org.junit.*;
 
 /**

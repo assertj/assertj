@@ -14,16 +14,21 @@
  */
 package org.fest.assertions.api.abstract_;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
+
+import static org.fest.assertions.test.TestData.someDescription;
 import static org.fest.test.ErrorMessages.descriptionIsNull;
 import static org.fest.test.ExpectedException.none;
-import static org.fest.assertions.test.TestData.someDescription;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.ConcreteAssert;
 import org.fest.assertions.description.Description;
 import org.fest.test.ExpectedException;
-import org.junit.*;
 
 /**
  * Tests for <code>{@link AbstractAssert#as(Description)}</code>

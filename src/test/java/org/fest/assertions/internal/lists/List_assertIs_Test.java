@@ -6,10 +6,10 @@ import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.fest.assertions.test.TestData.someIndex;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Collections.list;
 import static org.fest.util.FailureMessages.actualIsEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
 import static org.mockito.Mockito.verify;
 
