@@ -23,4 +23,3 @@ For more details please visit :
 Thanks to Cloudbees for their FOSS program that allows Fest to have a Jenkins CI !
 
 ![cloudbees](/alexruiz/fest-assert-2.x/raw/master/src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png)
-

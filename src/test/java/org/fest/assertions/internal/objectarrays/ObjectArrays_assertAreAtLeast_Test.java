@@ -29,7 +29,7 @@ import org.fest.assertions.internal.ObjectArrays;
 import org.fest.assertions.internal.ObjectArraysWithConditionBaseTest;
 
 /**
- * Tests for <code>{@link ObjectArrays#assertAreAtLeast(AssertionInfo, Object[], Condition, int)}</code> .
+ * Tests for <code>{@link ObjectArrays#assertAreAtLeast(AssertionInfo, Object[], int, Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
