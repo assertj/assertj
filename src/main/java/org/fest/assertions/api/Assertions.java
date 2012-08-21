@@ -17,6 +17,7 @@ package org.fest.assertions.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,8 @@ import org.fest.assertions.data.Index;
 import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.data.Offset;
 import org.fest.assertions.groups.Properties;
+import org.fest.util.Files;
+import org.fest.util.FilesException;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the type-specific
@@ -644,6 +647,56 @@ public class Assertions {
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
+  }
+
+  // --------------------------------------------------------------------------------------------------
+  // File methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // --------------------------------------------------------------------------------------------------
+
+  /**
+   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative with
+   * {@link #assertThat(File)}.
+   * </p>
+   * @param file the file.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static String contentOf(File file, Charset charset) {
+    return Files.contentOf(file, charset);
+  }
+
+  /**
+   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative with
+   * {@link #assertThat(File)}.
+   * </p>
+   * @param file the file.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws IllegalArgumentException if the given character set is not supported on this platform.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static String contentOf(File file, String charsetName) {
+    return Files.contentOf(file, charsetName);
+  }
+
+  /**
+   * Loads the text content of a file with the default character set, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative with
+   * {@link #assertThat(File)}.
+   * </p>
+   * @param file the file.
+   * @return the content of the file.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static String contentOf(File file) {
+    return Files.contentOf(file, Charset.defaultCharset());
   }
 
   /** Creates a new </code>{@link Assertions}</code>. */
