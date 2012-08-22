@@ -1,6 +1,27 @@
 For the next release
 --------------------
 
+next version release notes (WIP) 
+-------------------
+
+Breaking changes :	
+github#99 : move AWT assertions to a new module 
+
+New features :
+github#79 : String assertions are available on (small) file thanks to contentOf(File) method (Olivier Michallat) 
+github#73 : new assertion ListAssert.has(Condition, Index) (Bo Gotthardt) 
+github#97 : new assertion ListAssert.is(Condition, Index) (Bo Gotthardt) 
+
+Improvement :
+github#87 : Fail.failBecauseExpectedExceptionWasNotThrown now takes a Throwable instead of an Exception
+github#86 : tests : org.fest.assertions.internal contain too much classes
+github#82 : tests : org.fest.assertions.api contain too much classes  (Olivier Michallat)
+github#91 : tests : move fail tests in a "fail" subpackage
+
+Bug :
+github#92 : Fix BinaryDiff_diff_File_byteArray_Test test that was failing on windows
+
+
 2.0M7 release notes 
 -------------------
 
@@ -13,7 +34,8 @@ Improvement :
 github#12 : overridingErrorMessage should be ported in 2.0
 github#54 : ObjectArrayAssert methods should use T parameter instead of Object
 github#70 : Properties.from should use Iterable (Florent Biville)
-github#73 : Maven build should assure that we build a java 5 compatible version 
+github#73 : Maven build should assure that we build a java 5 compatible version
+github#58 : Properties: add ofType() method to improve API fluency 
 
 Bug :
 github#75 : ShouldHaveEqualContent unexpected MissingFormatArgumentException.
