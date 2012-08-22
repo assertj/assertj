@@ -1,23 +1,22 @@
 /*
  * Created on Feb 9, 2008
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
- * Copyright @2008-2011 the original author or authors.
+ * Copyright @2008-2012 the original author or authors.
  */
 package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.unmodifiableList;
-
-import static org.fest.util.Closeables.close;
+import static org.fest.util.Closeables.closeQuietly;
 import static org.fest.util.Objects.areEqual;
 
 import java.io.BufferedReader;
@@ -45,7 +44,6 @@ import org.fest.util.VisibleForTesting;
  */
 @VisibleForTesting
 public class Diff {
-
   private static final String EOF = "EOF";
 
   @VisibleForTesting
@@ -57,8 +55,8 @@ public class Diff {
       reader2 = readerFor(expected);
       return unmodifiableList(diff(reader1, reader2));
     } finally {
-      close(reader1);
-      close(reader2);
+      closeQuietly(reader1);
+      closeQuietly(reader2);
     }
   }
 
@@ -71,11 +69,11 @@ public class Diff {
       reader2 = readerFor(expected);
       return unmodifiableList(diff(reader1, reader2));
     } finally {
-      close(reader1);
-      close(reader2);
+      closeQuietly(reader1);
+      closeQuietly(reader2);
     }
   }
-  
+
   @VisibleForTesting
   public List<String> diff(File actual, String expected, Charset charset) throws IOException {
     BufferedReader reader1 = null;
@@ -84,7 +82,7 @@ public class Diff {
       BufferedReader reader2 = readerFor(expected);
       return unmodifiableList(diff(reader1, reader2));
     } finally {
-      close(reader1);
+      closeQuietly(reader1);
     }
   }
 
@@ -95,7 +93,7 @@ public class Diff {
   private BufferedReader readerFor(InputStream stream, Charset charset) {
     return new BufferedReader(new InputStreamReader(stream, charset));
   }
-  
+
   private BufferedReader readerFor(File file) throws IOException {
     return readerFor(new FileInputStream(file));
   }
@@ -103,24 +101,28 @@ public class Diff {
   private BufferedReader readerFor(File file, Charset charset) throws IOException {
     return readerFor(new FileInputStream(file), charset);
   }
-  
+
   private BufferedReader readerFor(String string) {
     return new BufferedReader(new StringReader(string));
   }
-  
-  // reader1 -> actual, reader2 -> expected
-  private List<String> diff(BufferedReader reader1, BufferedReader reader2) throws IOException {
+
+  private List<String> diff(BufferedReader actual, BufferedReader expected) throws IOException {
     List<String> diffs = new ArrayList<String>();
     int lineNumber = 0;
     while (true) {
-      String line1 = reader1.readLine();
-      String line2 = reader2.readLine();
-      if (line1 == null || line2 == null) {
-        if (line2 != null) diffs.add(output(lineNumber, EOF, line2));
-        if (line1 != null) diffs.add(output(lineNumber, line1, EOF));
+      String actualLine = actual.readLine();
+      String expectedLine = expected.readLine();
+      if (actualLine == null || expectedLine == null) {
+        if (expectedLine != null) {
+          diffs.add(output(lineNumber, EOF, expectedLine));
+        }
+        if (actualLine != null) {
+          diffs.add(output(lineNumber, actualLine, EOF));
+        }
         return diffs;
-      } else if (!areEqual(line1, line2)) diffs.add(output(lineNumber, line1, line2));
-      
+      } else if (!areEqual(actualLine, expectedLine)) {
+        diffs.add(output(lineNumber, actualLine, expectedLine));
+      }
       lineNumber += 1;
     }
   }
