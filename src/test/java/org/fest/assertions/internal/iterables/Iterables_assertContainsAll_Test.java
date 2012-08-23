@@ -15,21 +15,20 @@
 package org.fest.assertions.internal.iterables;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
-import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.*;
-
+import static org.fest.util.Collections.set;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.IterablesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContainsAll(AssertionInfo, Iterable, Iterable)}</code>.
@@ -40,20 +39,20 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values() {
-    iterables.assertContainsAll(someInfo(), actual, list("Luke"));
+    iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke"));
     // order does not matter
-    iterables.assertContainsAll(someInfo(), actual, list("Leia", "Yoda"));
+    iterables.assertContainsAll(someInfo(), actual, newArrayList("Leia", "Yoda"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_more_than_once() {
-    actual.addAll(list("Luke", "Luke"));
-    iterables.assertContainsAll(someInfo(), actual, list("Luke"));
+    actual.addAll(newArrayList("Luke", "Luke"));
+    iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated() {
-    iterables.assertContainsAll(someInfo(), actual, list("Luke", "Luke"));
+    iterables.assertContainsAll(someInfo(), actual, newArrayList("Luke", "Luke"));
   }
 
   @Test
@@ -65,13 +64,13 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    iterables.assertContainsAll(someInfo(), null, list("Yoda"));
+    iterables.assertContainsAll(someInfo(), null, newArrayList("Yoda"));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_values() {
     AssertionInfo info = someInfo();
-    List<String> expected = list("Han", "Luke");
+    List<String> expected = newArrayList("Han", "Luke");
     try {
       iterables.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {
@@ -87,34 +86,34 @@ public class Iterables_assertContainsAll_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUKE"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUKE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, list("LEIA", "yODa"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LEIA", "yODa"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_all_iterable_values_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, list("luke", "YODA"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("luke", "YODA"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual.addAll(list("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUke"));
+    actual.addAll(newArrayList("Luke", "Luke"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUke"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUke", "LuKe"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUke", "LuKe"));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    List<String> expected = list("Han", "LUKE");
+    List<String> expected = newArrayList("Han", "LUKE");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {

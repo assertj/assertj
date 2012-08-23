@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -34,7 +34,7 @@ public class ShouldBeEmpty_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldBeEmpty(list("Luke", "Yoda"));
+    factory = shouldBeEmpty(newArrayList("Luke", "Yoda"));
   }
 
   @Test

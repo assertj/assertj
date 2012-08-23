@@ -17,7 +17,7 @@ package org.fest.assertions.internal.objects;
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -61,9 +61,9 @@ public class Objects_assertIsLenientEqualsToIgnoringNullFields_Test extends Obje
     try {
       objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
-      List<String> emptyList = list();
+      List<String> emptyList = newArrayList();
       verify(failures).failure(info,
-          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Green"), emptyList));
+          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Green"), emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -77,9 +77,9 @@ public class Objects_assertIsLenientEqualsToIgnoringNullFields_Test extends Obje
     try {
       objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
-      List<String> emptyList = list();
+      List<String> emptyList = newArrayList();
       verify(failures).failure(info,
-          shouldBeLenientEqualByIgnoring(actual, list("lightSaberColor"), list((Object) "Blue"), emptyList));
+          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"), emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

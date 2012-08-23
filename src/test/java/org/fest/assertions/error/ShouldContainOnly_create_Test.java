@@ -15,17 +15,16 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
-import static org.fest.util.Collections.*;
-
-import org.junit.Before;
-import org.junit.Test;
+import static org.fest.util.Collections.set;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShouldContainOnly#create(Description)}</code>.
@@ -40,7 +39,7 @@ public class ShouldContainOnly_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldContainOnly(list("Yoda", "Han"), list("Luke", "Yoda"), set("Luke"), set("Han"));
+    factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), set("Luke"), set("Han"));
   }
 
   @Test
@@ -52,7 +51,7 @@ public class ShouldContainOnly_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainOnly(list("Yoda", "Han"), list("Luke", "Yoda"), set("Luke"), set("Han"),
+    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), set("Luke"), set("Han"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:\n" + "<['Yoda', 'Han']>\n" + " to contain only:\n" + "<['Luke', 'Yoda']>\n"

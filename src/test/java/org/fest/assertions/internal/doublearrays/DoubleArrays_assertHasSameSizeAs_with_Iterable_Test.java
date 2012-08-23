@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeA
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -38,7 +38,7 @@ import org.fest.assertions.internal.DoubleArraysBaseTest;
  */
 public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
 
-  private final List<String> other = list("Solo", "Leia", "Luke");
+  private final List<String> other = newArrayList("Solo", "Leia", "Luke");
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -49,7 +49,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia");
+    List<String> other = newArrayList("Solo", "Leia");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {

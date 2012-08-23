@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.objectarray;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
@@ -34,6 +34,6 @@ public class ObjectArrayAssert_containsExactly_Test extends ObjectArrayAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), list("Yoda", "Luke"));
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), newArrayList("Yoda", "Luke"));
   }
 }

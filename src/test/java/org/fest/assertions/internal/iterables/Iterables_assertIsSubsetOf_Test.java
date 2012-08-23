@@ -19,7 +19,7 @@ import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -41,49 +41,49 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_subset_of_set() {
-    actual = list("Yoda", "Luke");
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Luke", "Yoda", "Obi-Wan"));
+    actual = newArrayList("Yoda", "Luke");
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda", "Obi-Wan"));
   }
 
   @Test
   public void should_pass_if_actual_has_the_same_elements_as_set() {
-    actual = list("Yoda", "Luke");
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Luke", "Yoda"));
+    actual = newArrayList("Yoda", "Luke");
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda"));
   }
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    actual = list();
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Luke", "Yoda"));
+    actual = newArrayList();
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Luke", "Yoda"));
   }
 
   @Test
   public void should_pass_if_actual_and_set_are_both_empty() {
-    actual = list();
-    iterables.assertIsSubsetOf(someInfo(), actual, list());
+    actual = newArrayList();
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList());
   }
 
   @Test
   public void should_pass_if_actual_has_duplicates_but_all_elements_are_in_values() {
-    actual = list("Yoda", "Yoda");
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Yoda"));
+    actual = newArrayList("Yoda", "Yoda");
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda"));
   }
 
   @Test
   public void should_pass_if_values_has_duplicates_but_all_elements_are_in_values() {
-    actual = list("Yoda", "C-3PO");
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Yoda", "Yoda", "C-3PO"));
+    actual = newArrayList("Yoda", "C-3PO");
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda", "Yoda", "C-3PO"));
   }
 
   @Test
   public void should_pass_if_both_actual_and_values_have_duplicates_but_all_elements_are_in_values() {
-    actual = list("Yoda", "Yoda", "Yoda", "C-3PO", "Obi-Wan");
-    iterables.assertIsSubsetOf(someInfo(), actual, list("Yoda", "Yoda", "C-3PO", "C-3PO", "Obi-Wan"));
+    actual = newArrayList("Yoda", "Yoda", "Yoda", "C-3PO", "Obi-Wan");
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList("Yoda", "Yoda", "C-3PO", "C-3PO", "Obi-Wan"));
   }
 
   @Test
   public void should_throw_error_if_set_is_null() {
-    actual = list("Yoda", "Luke");
+    actual = newArrayList("Yoda", "Luke");
     thrown.expectNullPointerException(iterableToLookForIsNull());
     iterables.assertIsSubsetOf(someInfo(), actual, null);
   }
@@ -92,15 +92,15 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
   public void should_throw_error_if_actual_is_null() {
     actual = null;
     thrown.expectAssertionError(actualIsNull());
-    iterables.assertIsSubsetOf(someInfo(), actual, list());
+    iterables.assertIsSubsetOf(someInfo(), actual, newArrayList());
   }
 
   @Test
   public void should_fail_if_actual_is_not_subset_of_values() {
     AssertionInfo info = someInfo();
-    actual = list("Yoda");
-    List<String> values = list("C-3PO", "Leila");
-    List<String> extra = list("Yoda");
+    actual = newArrayList("Yoda");
+    List<String> values = newArrayList("C-3PO", "Leila");
+    List<String> extra = newArrayList("Yoda");
     try {
       iterables.assertIsSubsetOf(info, actual, values);
     } catch (AssertionError e) {
@@ -116,28 +116,28 @@ public class Iterables_assertIsSubsetOf_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_subset_of_values_according_to_custom_comparison_strategy() {
-    actual = list("Yoda", "Luke");
-    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, list("yoda", "lUKE"));
+    actual = newArrayList("Yoda", "Luke");
+    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("yoda", "lUKE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
-    actual = list("Luke", "Luke");
-    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, list("LUke", "yoda"));
+    actual = newArrayList("Luke", "Luke");
+    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("LUke", "yoda"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    actual = list("Yoda", "Luke");
-    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, list("LUke", "LuKe", "yoda"));
+    actual = newArrayList("Yoda", "Luke");
+    iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(someInfo(), actual, newArrayList("LUke", "LuKe", "yoda"));
   }
 
   @Test
   public void should_fail_if_actual_is_not_subset_of_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = list("Yoda", "Luke");
-    List<String> values = list("yoda", "C-3PO");
-    List<String> extra = list("Luke");
+    actual = newArrayList("Yoda", "Luke");
+    List<String> values = newArrayList("yoda", "C-3PO");
+    List<String> extra = newArrayList("Luke");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertIsSubsetOf(info, actual, values);
     } catch (AssertionError e) {

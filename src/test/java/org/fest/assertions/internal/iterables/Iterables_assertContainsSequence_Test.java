@@ -21,7 +21,7 @@ import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -46,7 +46,7 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = list("Yoda", "Luke", "Leia", "Obi-Wan");
+    actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");
   }
 
   @Test
@@ -122,7 +122,7 @@ public class Iterables_assertContainsSequence_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_both_partial_and_complete_sequence() {
-    actual = list("Yoda", "Luke", "Yoda", "Obi-Wan");
+    actual = newArrayList("Yoda", "Luke", "Yoda", "Obi-Wan");
     iterables.assertContainsSequence(someInfo(), actual, array("Yoda", "Obi-Wan"));
   }
 

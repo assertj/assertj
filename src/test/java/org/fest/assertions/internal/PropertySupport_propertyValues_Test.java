@@ -18,7 +18,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.test.ExpectedException.none;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import java.util.Collection;
 import java.util.List;
@@ -50,7 +50,7 @@ public class PropertySupport_propertyValues_Test {
   public static void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
     luke = new Employee(8000L, new Name("Luke", "Skywalker"), 26);
-    employees = list(yoda, luke);
+    employees = newArrayList(yoda, luke);
     propertySupport = new PropertySupport();
   }
 
@@ -71,27 +71,27 @@ public class PropertySupport_propertyValues_Test {
 
   @Test
   public void should_return_empty_List_if_given_Iterable_contains_only_nulls() {
-    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, list(null, null));
+    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, newArrayList(null, null));
     assertEquals(emptyList(), ids);
   }
 
   @Test
   public void should_remove_null_values_from_given_Iterable() {
-    List<Employee> anotherList = list(yoda, null, luke, null);
+    List<Employee> anotherList = newArrayList(yoda, null, luke, null);
     Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
-    assertEquals(list(6000L, 8000L), ids);
+    assertEquals(newArrayList(6000L, 8000L), ids);
   }
 
   @Test
   public void should_return_values_of_simple_property() {
     Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
-    assertEquals(list(6000L, 8000L), ids);
+    assertEquals(newArrayList(6000L, 8000L), ids);
   }
 
   @Test
   public void should_return_values_of_nested_property() {
     Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
-    assertEquals(list("Yoda", "Luke"), firstNames);
+    assertEquals(newArrayList("Yoda", "Luke"), firstNames);
   }
 
   @Test

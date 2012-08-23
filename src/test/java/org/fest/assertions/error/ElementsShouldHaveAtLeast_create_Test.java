@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +37,7 @@ public class ElementsShouldHaveAtLeast_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldHaveAtLeast(list("Yoda", "Solo", "Leia"), 2, new TestCondition<String>("Jedi power"));
+    factory = elementsShouldHaveAtLeast(newArrayList("Yoda", "Solo", "Leia"), 2, new TestCondition<String>("Jedi power"));
   }
 
   @Test

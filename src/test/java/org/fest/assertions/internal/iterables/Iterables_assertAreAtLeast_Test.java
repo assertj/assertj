@@ -17,7 +17,7 @@ package org.fest.assertions.internal.iterables;
 import static org.fest.assertions.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -39,14 +39,14 @@ public class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBase
 
   @Test
   public void should_pass_if_satisfies_at_least_times_condition() {
-    actual = list("Yoda", "Luke", "Leia");
+    actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
   public void should_pass_if_all_satisfies_condition_() {
-    actual = list("Yoda", "Luke", "Obiwan");
+    actual = newArrayList("Yoda", "Luke", "Obiwan");
     iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
@@ -54,7 +54,7 @@ public class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBase
   @Test
   public void should_throw_error_if_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = list("Yoda", "Luke");
+    actual = newArrayList("Yoda", "Luke");
     iterables.assertAreAtLeast(someInfo(), actual, 2, null);
     verify(conditions).assertIsNotNull(null);
   }
@@ -64,7 +64,7 @@ public class Iterables_assertAreAtLeast_Test extends IterablesWithConditionsBase
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      actual = list("Yoda", "Solo", "Leia");
+      actual = newArrayList("Yoda", "Solo", "Leia");
       iterables.assertAreAtLeast(someInfo(), actual, 2, jedi);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jedi);

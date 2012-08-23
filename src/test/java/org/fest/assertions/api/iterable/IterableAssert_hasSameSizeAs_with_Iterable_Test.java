@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.iterable;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import org.fest.assertions.api.IterableAssertBaseTest;
  */
 public class IterableAssert_hasSameSizeAs_with_Iterable_Test extends IterableAssertBaseTest {
 
-  List<String> other = list("Solo, Leia");
+  List<String> other = newArrayList("Solo, Leia");
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

@@ -17,7 +17,7 @@ package org.fest.assertions.internal.iterables;
 import static org.fest.assertions.error.ElementsShouldNotBeExactly.elementsShouldNotBeExactly;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -39,7 +39,7 @@ public class Iterables_assertAreNotExactly_Test extends IterablesWithConditionsB
 
   @Test
   public void should_pass_if_not_satisfies_exactly_times_condition() {
-    actual = list("Yoda", "Solo", "Leia");
+    actual = newArrayList("Yoda", "Solo", "Leia");
     iterables.assertAreNotExactly(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
@@ -47,7 +47,7 @@ public class Iterables_assertAreNotExactly_Test extends IterablesWithConditionsB
   @Test
   public void should_throw_error_if_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = list("Yoda", "Luke");
+    actual = newArrayList("Yoda", "Luke");
     iterables.assertAreNotExactly(someInfo(), actual, 2, null);
     verify(conditions).assertIsNotNull(null);
   }
@@ -57,7 +57,7 @@ public class Iterables_assertAreNotExactly_Test extends IterablesWithConditionsB
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      actual = list("Chewbacca", "Solo", "Leia");
+      actual = newArrayList("Chewbacca", "Solo", "Leia");
       iterables.assertAreNotExactly(someInfo(), actual, 2, jedi);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jedi);
@@ -72,7 +72,7 @@ public class Iterables_assertAreNotExactly_Test extends IterablesWithConditionsB
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      actual = list("Yoda", "Luke", "Obiwan");
+      actual = newArrayList("Yoda", "Luke", "Obiwan");
       iterables.assertAreNotExactly(someInfo(), actual, 2, jedi);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jedi);

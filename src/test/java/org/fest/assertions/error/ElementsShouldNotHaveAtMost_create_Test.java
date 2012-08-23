@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotHaveAtMost.elementsShouldNotHaveAtMost;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +37,7 @@ public class ElementsShouldNotHaveAtMost_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldNotHaveAtMost(list("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("Jedi power"));
+    factory = elementsShouldNotHaveAtMost(newArrayList("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("Jedi power"));
   }
 
   @Test

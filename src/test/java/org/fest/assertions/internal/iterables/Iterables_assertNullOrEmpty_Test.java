@@ -19,7 +19,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -52,7 +52,7 @@ public class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterables.assertNullOrEmpty(info, actual);
     } catch (AssertionError e) {
@@ -75,7 +75,7 @@ public class Iterables_assertNullOrEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertNullOrEmpty(info, actual);
     } catch (AssertionError e) {

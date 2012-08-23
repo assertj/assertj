@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotH
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -59,7 +59,7 @@ public class ObjectArrays_assertHaveNot_Test extends ObjectArraysWithConditionBa
       actual = array("Solo", "Leia", "Yoda");
       arrays.assertDoNotHave(someInfo(), actual, jediPower);
     } catch (AssertionError e) {
-      verify(failures).failure(info, elementsShouldNotHave(actual, list("Yoda"), jediPower));
+      verify(failures).failure(info, elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

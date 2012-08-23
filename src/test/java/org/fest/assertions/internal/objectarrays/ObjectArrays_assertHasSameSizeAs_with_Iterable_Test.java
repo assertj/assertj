@@ -19,7 +19,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +42,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertHasSameSizeAs(someInfo(), null, list("Solo", "Leia"));
+    arrays.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia"));
   }
 
   @Test
@@ -57,7 +57,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
   public void should_fail_if_actual_size_is_not_equal_to_other_size() {
     AssertionInfo info = someInfo();
     String[] actual = array("Yoda");
-    List<String> other = list("Solo", "Leia");
+    List<String> other = newArrayList("Solo", "Leia");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
@@ -69,6 +69,6 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
 
   @Test
   public void should_pass_if_actual_has_same_size_as_other() {
-    arrays.assertHasSameSizeAs(someInfo(), array("Solo", "Leia"), list("Solo", "Leia"));
+    arrays.assertHasSameSizeAs(someInfo(), array("Solo", "Leia"), newArrayList("Solo", "Leia"));
   }
 }

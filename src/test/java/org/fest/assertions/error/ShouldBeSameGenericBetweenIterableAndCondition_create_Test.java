@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.util.Collections.*;
 import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
+import static org.fest.util.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 
 import org.fest.assertions.core.TestCondition;
@@ -35,7 +35,7 @@ public class ShouldBeSameGenericBetweenIterableAndCondition_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldBeSameGenericBetweenIterableAndCondition(list("Yoda", "Leia"), new TestCondition<String>("Not a Jedi"));
+    factory = shouldBeSameGenericBetweenIterableAndCondition(newArrayList("Yoda", "Leia"), new TestCondition<String>("Not a Jedi"));
   }
 
   @Test

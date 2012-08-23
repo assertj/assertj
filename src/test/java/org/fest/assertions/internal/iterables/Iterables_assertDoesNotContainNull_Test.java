@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNul
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -38,7 +38,7 @@ import org.fest.assertions.internal.IterablesBaseTest;
  */
 public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
 
-  private List<String> actual = list("Luke", "Yoda");
+  private List<String> actual = newArrayList("Luke", "Yoda");
 
   @Test
   public void should_pass_if_actual_does_not_contain_null() {
@@ -47,7 +47,7 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    actual = list();
+    actual = newArrayList();
     iterables.assertDoesNotContainNull(someInfo(), actual);
   }
 
@@ -60,7 +60,7 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_contains_null() {
     AssertionInfo info = someInfo();
-    actual = list("Luke", "Yoda", null);
+    actual = newArrayList("Luke", "Yoda", null);
     try {
       iterables.assertDoesNotContainNull(info, actual);
     } catch (AssertionError e) {
@@ -77,7 +77,7 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    actual = list();
+    actual = newArrayList();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(someInfo(), actual);
   }
 
@@ -90,7 +90,7 @@ public class Iterables_assertDoesNotContainNull_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_contains_null_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    actual = list("Luke", "Yoda", null);
+    actual = newArrayList("Luke", "Yoda", null);
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainNull(info, actual);
     } catch (AssertionError e) {

@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public class DescriptionFormatter_format_expectingEmptyText_Test {
 
   @Parameters
   public static List<Object[]> parameters() {
-    return list(new Object[][] { { null }, { new TestDescription(null) }, { new TestDescription("") } });
+    return newArrayList(new Object[][] { { null }, { new TestDescription(null) }, { new TestDescription("") } });
   }
 
   public DescriptionFormatter_format_expectingEmptyText_Test(Description description) {

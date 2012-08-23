@@ -18,7 +18,7 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +40,7 @@ public class ShouldNotContainAtIndex_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldNotContainAtIndex(list("Yoda", "Luke"), "Luke", atIndex(1));
+    factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1));
   }
 
   @Test
@@ -52,7 +52,7 @@ public class ShouldNotContainAtIndex_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldNotContainAtIndex(list("Yoda", "Luke"), "Luke", atIndex(1), new ComparatorBasedComparisonStrategy(
+    factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting \n" + "<['Yoda', 'Luke']>\n" + " not to contain \n" + "<'Luke'>\n" + " at index <1>\n"

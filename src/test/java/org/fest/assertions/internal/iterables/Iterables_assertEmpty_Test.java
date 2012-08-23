@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -54,7 +54,7 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_has_elements() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterables.assertEmpty(info, actual);
     } catch (AssertionError e) {
@@ -78,7 +78,7 @@ public class Iterables_assertEmpty_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_actual_has_elements_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertEmpty(info, actual);
     } catch (AssertionError e) {

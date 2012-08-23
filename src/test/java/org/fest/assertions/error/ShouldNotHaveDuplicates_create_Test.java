@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class ShouldNotHaveDuplicates_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldNotHaveDuplicates(list("Yoda", "Yoda", "Luke"), list("Yoda"));
+    factory = shouldNotHaveDuplicates(newArrayList("Yoda", "Yoda", "Luke"), newArrayList("Yoda"));
   }
 
   @Test
@@ -50,7 +50,7 @@ public class ShouldNotHaveDuplicates_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldNotHaveDuplicates(list("Yoda", "Yoda", "Luke"), list("Yoda"), new ComparatorBasedComparisonStrategy(
+    factory = shouldNotHaveDuplicates(newArrayList("Yoda", "Yoda", "Luke"), newArrayList("Yoda"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] found duplicate(s)\n" + "<['Yoda']>\n" + " in\n" + "<['Yoda', 'Yoda', 'Luke']>\n"

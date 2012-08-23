@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.*;
 import org.junit.*;
@@ -32,7 +32,7 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldHaveSameSizeAs(list("Luke", "Yoda"), 2, 8);
+    factory = shouldHaveSameSizeAs(newArrayList("Luke", "Yoda"), 2, 8);
   }
 
   @Test

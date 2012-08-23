@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +36,7 @@ public class ElementsShouldBeAtMost_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldBeAtMost(list("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("a Jedi"));
+    factory = elementsShouldBeAtMost(newArrayList("Yoda", "Luke", "Obiwan"), 2, new TestCondition<String>("a Jedi"));
   }
 
   @Test

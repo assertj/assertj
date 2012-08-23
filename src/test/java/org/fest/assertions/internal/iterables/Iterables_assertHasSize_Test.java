@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +40,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    iterables.assertHasSize(someInfo(), list("Luke", "Yoda"), 2);
+    iterables.assertHasSize(someInfo(), newArrayList("Luke", "Yoda"), 2);
   }
 
   @Test
@@ -52,7 +52,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterables.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
@@ -64,7 +64,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), list("Luke", "Yoda"), 2);
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), newArrayList("Luke", "Yoda"), 2);
   }
 
   @Test
@@ -76,7 +76,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {

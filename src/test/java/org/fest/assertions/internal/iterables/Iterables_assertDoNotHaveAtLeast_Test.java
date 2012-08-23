@@ -17,7 +17,7 @@ package org.fest.assertions.internal.iterables;
 import static org.fest.assertions.error.ElementsShouldNotHaveAtLeast.elementsShouldNotHaveAtLeast;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -39,14 +39,14 @@ public class Iterables_assertDoNotHaveAtLeast_Test extends IterablesWithConditio
 
   @Test
   public void should_pass_if_not_satisfies_at_least_times_condition() {
-    actual = list("Yoda", "Solo", "Leia");
+    actual = newArrayList("Yoda", "Solo", "Leia");
     iterables.assertDoNotHaveAtLeast(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
 
   @Test
   public void should_pass_if_all_not_satisfies_condition_() {
-    actual = list("Leia", "Chewbacca", "Solo");
+    actual = newArrayList("Leia", "Chewbacca", "Solo");
     iterables.assertDoNotHaveAtLeast(someInfo(), actual, 2, jediPower);
     verify(conditions).assertIsNotNull(jediPower);
   }
@@ -54,7 +54,7 @@ public class Iterables_assertDoNotHaveAtLeast_Test extends IterablesWithConditio
   @Test
   public void should_throw_error_if_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = list("Yoda", "Luke");
+    actual = newArrayList("Yoda", "Luke");
     iterables.assertDoNotHaveAtLeast(someInfo(), actual, 2, null);
     verify(conditions).assertIsNotNull(null);
   }
@@ -64,7 +64,7 @@ public class Iterables_assertDoNotHaveAtLeast_Test extends IterablesWithConditio
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      actual = list("Yoda", "Luke", "Obiwan");
+      actual = newArrayList("Yoda", "Luke", "Obiwan");
       iterables.assertDoNotHaveAtLeast(someInfo(), actual, 2, jediPower);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jediPower);

@@ -15,23 +15,22 @@
 package org.fest.assertions.internal.iterables;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.test.ErrorMessages.*;
-import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.test.ErrorMessages.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.*;
-
+import static org.fest.util.Collections.set;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
+import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
-import org.junit.Test;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.IterablesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContains(AssertionInfo, Collection, Object[])}</code>.
@@ -58,7 +57,7 @@ public class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual.addAll(list("Luke", "Luke"));
+    actual.addAll(newArrayList("Luke", "Luke"));
     iterables.assertContains(someInfo(), actual, array("Luke"));
   }
 
@@ -119,7 +118,7 @@ public class Iterables_assertContains_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual.addAll(list("Luke", "Luke"));
+    actual.addAll(newArrayList("Luke", "Luke"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContains(someInfo(), actual, array("LUke"));
   }
 

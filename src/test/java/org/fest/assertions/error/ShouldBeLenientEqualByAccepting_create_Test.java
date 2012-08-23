@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,8 +36,8 @@ public class ShouldBeLenientEqualByAccepting_create_Test {
 
   @Test
   public void should_create_error_message_with_all_fields_differences() {
-    factory = shouldBeLenientEqualByAccepting(new Jedi("Luke", "blue"), list("name", "lightSaberColor"),
-        list((Object) "Yoda", (Object) "green"), list("name", "lightSaberColor"));
+    factory = shouldBeLenientEqualByAccepting(new Jedi("Luke", "blue"), newArrayList("name", "lightSaberColor"),
+        newArrayList((Object) "Yoda", (Object) "green"), newArrayList("name", "lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expected values:\n" + "<['Yoda', 'green']>\n" + " in fields:\n" + "<['name', 'lightSaberColor']>\n"
         + " of <Luke the Jedi>.\n" + "Comparison was performed on fields <['name', 'lightSaberColor']>", message);
@@ -45,8 +45,8 @@ public class ShouldBeLenientEqualByAccepting_create_Test {
 
   @Test
   public void should_create_error_message_with_single_field_difference() {
-    factory = shouldBeLenientEqualByAccepting(new Jedi("Yoda", "green"), list("lightSaberColor"), list((Object) "green"),
-        list("lightSaberColor"));
+    factory = shouldBeLenientEqualByAccepting(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"), newArrayList((Object) "green"),
+        newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>.\n"
         + "Comparison was performed on fields <['lightSaberColor']>", message);

@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +39,7 @@ public class ShouldContainSequence_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldContainSequence(list("Yoda", "Luke"), list("Han", "Leia"));
+    factory = shouldContainSequence(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"));
   }
 
   @Test
@@ -50,7 +50,7 @@ public class ShouldContainSequence_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainSequence(list("Yoda", "Luke"), list("Han", "Leia"),
+    ErrorMessageFactory factory = shouldContainSequence(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:\n" + "<['Yoda', 'Luke']>\n" + " to contain sequence:\n" + "<['Han', 'Leia']>\n"

@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.Systems.LINE_SEPARATOR;
 
 import java.io.ByteArrayInputStream;
@@ -41,7 +41,7 @@ public class ShouldHaveEqualContent_create_Test {
 
   @Before
   public void setUp() {
-    diffs = list("line:<0>, expected:<line0> but was:<line_0>", "line:<1>, expected:<line1> but was:<line_1>",
+    diffs = newArrayList("line:<0>, expected:<line0> but was:<line_0>", "line:<1>, expected:<line1> but was:<line_1>",
         "line:<2>, expected:<line2> but was:<line_%s>");
   }
 

@@ -15,22 +15,21 @@
 package org.fest.assertions.internal.objectarrays;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
-import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.*;
-
+import static org.fest.util.Collections.set;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.ObjectArrays;
 import org.fest.assertions.internal.ObjectArraysBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertContainsAll(AssertionInfo, Object[], Iterable)}</code>.
@@ -41,21 +40,21 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values() {
-    arrays.assertContainsAll(someInfo(), actual, list("Luke", "Yoda", "Leia"));
-    arrays.assertContainsAll(someInfo(), actual, list("Luke", "Yoda"));
+    arrays.assertContainsAll(someInfo(), actual, newArrayList("Luke", "Yoda", "Leia"));
+    arrays.assertContainsAll(someInfo(), actual, newArrayList("Luke", "Yoda"));
     // order is not important
-    arrays.assertContainsAll(someInfo(), actual, list("Yoda", "Luke"));
+    arrays.assertContainsAll(someInfo(), actual, newArrayList("Yoda", "Luke"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_more_than_once() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arrays.assertContainsAll(someInfo(), actual, list("Luke"));
+    arrays.assertContainsAll(someInfo(), actual, newArrayList("Luke"));
   }
 
   @Test
   public void should_pass_if_iterable_is_empty() {
-    arrays.assertContainsAll(someInfo(), actual, list());
+    arrays.assertContainsAll(someInfo(), actual, newArrayList());
   }
 
   @Test
@@ -67,13 +66,13 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsAll(someInfo(), null, list("Yoda"));
+    arrays.assertContainsAll(someInfo(), null, newArrayList("Yoda"));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_all_iterable_values() {
     AssertionInfo info = someInfo();
-    List<String> expected = list("Han", "Luke");
+    List<String> expected = newArrayList("Han", "Luke");
     try {
       arrays.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {
@@ -89,33 +88,33 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUKE"));
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUKE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list("LEIa", "YodA"));
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LEIa", "YodA"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_all_iterable_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list("LukE", "YodA", "LeiA"));
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LukE", "YodA", "LeiA"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_more_than_once_according_to_custom_comparison_strategy() {
     actual = array("Luke", "Yoda", "Leia", "Luke", "Luke");
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUKE"));
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUKE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_iterable_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list("LUKE", "LUKE"));
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList("LUKE", "LUKE"));
   }
 
   @Test
   public void should_pass_if_iterable_to_look_for_is_empty_whatever_custom_comparison_strategy_is() {
-    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, list());
+    arraysWithCustomComparisonStrategy.assertContainsAll(someInfo(), actual, newArrayList());
   }
 
   @Test
@@ -127,7 +126,7 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    List<String> expected = list("Han", "LUKE");
+    List<String> expected = newArrayList("Han", "LUKE");
     try {
       arraysWithCustomComparisonStrategy.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {

@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotBe.elementsShouldNotBe;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +37,7 @@ public class ElementsShouldNotBe_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldNotBe(list("Darth Vader", "Leia", "Yoda"), list("Yoda"), new TestCondition<String>("not a Jedi"));
+    factory = elementsShouldNotBe(newArrayList("Darth Vader", "Leia", "Yoda"), newArrayList("Yoda"), new TestCondition<String>("not a Jedi"));
   }
 
   @Test

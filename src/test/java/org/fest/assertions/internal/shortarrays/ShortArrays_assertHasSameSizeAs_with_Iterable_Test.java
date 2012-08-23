@@ -19,7 +19,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.ShortArrayFactory.array;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -40,7 +40,7 @@ import org.fest.assertions.internal.ShortArraysBaseTest;
 public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArraysBaseTest {
 
   private static short[] actual;
-  private final List<String> other = list("Solo", "Leia");
+  private final List<String> other = newArrayList("Solo", "Leia");
 
   @BeforeClass
   public static void setUpOnce() {
@@ -56,7 +56,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia", "Yoda");
+    List<String> other = newArrayList("Solo", "Leia", "Yoda");
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {

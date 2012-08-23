@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldNotHave.elementsShouldNotHave;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -37,7 +37,7 @@ public class ElementsShouldNotHave_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldNotHave(list("Yoda", "Luke", "Leia"), list("Leia"), new TestCondition<String>("jedi power"));
+    factory = elementsShouldNotHave(newArrayList("Yoda", "Luke", "Leia"), newArrayList("Leia"), new TestCondition<String>("jedi power"));
   }
 
   @Test

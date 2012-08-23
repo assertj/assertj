@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Test;
 
@@ -38,14 +38,14 @@ public class ShouldEndWith_create_Test {
 
   @Test
   public void should_create_error_message() {
-    factory = shouldEndWith(list("Yoda", "Luke"), list("Han", "Leia"));
+    factory = shouldEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting\n" + "<['Yoda', 'Luke']>\n" + " to end with\n" + "<['Han', 'Leia']>\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldEndWith(list("Yoda", "Luke"), list("Han", "Leia"), new ComparatorBasedComparisonStrategy(
+    factory = shouldEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting\n" + "<['Yoda', 'Luke']>\n" + " to end with\n" + "<['Han', 'Leia']>\n"

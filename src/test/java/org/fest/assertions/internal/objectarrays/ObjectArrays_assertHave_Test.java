@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ElementsShouldHave.elementsShouldHave;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -61,8 +61,8 @@ public class ObjectArrays_assertHave_Test extends ObjectArraysWithConditionBaseT
       arrays.assertHave(someInfo(), actual, jediPower);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jediPower);
-      verify(failures).failure(info, elementsShouldHave(actual, list("Leia"), jediPower));
-      verify(failures).failure(info, elementsShouldHave(actual, list("Leia"), jediPower));
+      verify(failures).failure(info, elementsShouldHave(actual, newArrayList("Leia"), jediPower));
+      verify(failures).failure(info, elementsShouldHave(actual, newArrayList("Leia"), jediPower));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

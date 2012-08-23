@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.internal.TestDescription;
@@ -34,7 +34,7 @@ public class ShouldNotBeOfClassIn_Test {
 
   @Before
   public void setUp() {
-    factory = shouldNotBeOfClassIn("Yoda", list(Long.class, String.class));
+    factory = shouldNotBeOfClassIn("Yoda", newArrayList(Long.class, String.class));
   }
 
   @Test

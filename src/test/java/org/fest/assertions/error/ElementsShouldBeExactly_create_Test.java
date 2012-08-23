@@ -15,7 +15,7 @@
 package org.fest.assertions.error;
 
 import static org.fest.assertions.error.ElementsShouldBeExactly.elementsShouldBeExactly;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -38,7 +38,7 @@ public class ElementsShouldBeExactly_create_Test {
 
   @Before
   public void setUp() {
-    factory = elementsShouldBeExactly(list("Yoda", "Solo", "Leia"), 2, new TestCondition<String>("a Jedi"));
+    factory = elementsShouldBeExactly(newArrayList("Yoda", "Solo", "Leia"), 2, new TestCondition<String>("a Jedi"));
   }
 
   @Test

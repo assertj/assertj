@@ -17,7 +17,7 @@ package org.fest.assertions.condition;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.test.ExpectedException.none;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.core.*;
 import org.fest.test.ExpectedException;
@@ -53,6 +53,6 @@ public class Join_constructor_with_array_Test {
   public void should_create_new_Join_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());
     Join<Object> join = new ConcreteJoin(conditions);
-    assertEquals(list(conditions), join.conditions);
+    assertEquals(newArrayList(conditions), join.conditions);
   }
 }

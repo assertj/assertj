@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -37,7 +37,7 @@ import org.fest.assertions.internal.ListsBaseTest;
  */
 public class Lists_assertIsSorted_Test extends ListsBaseTest {
 
-  private List<String> actual = list("Leia", "Luke", "Luke", "Vador", "Yoda");
+  private List<String> actual = newArrayList("Leia", "Luke", "Luke", "Vador", "Yoda");
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order() {
@@ -46,18 +46,18 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
-    actual = list("leia", "LUKE", "luke", "Vador", "Yoda");
+    actual = newArrayList("leia", "LUKE", "luke", "Vador", "Yoda");
     listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
   @Test
   public void should_pass_if_actual_is_empty() {
-    lists.assertIsSorted(someInfo(), list());
+    lists.assertIsSorted(someInfo(), newArrayList());
   }
 
   @Test
   public void should_pass_if_actual_contains_only_one_comparable_element() {
-    lists.assertIsSorted(someInfo(), list("Obiwan"));
+    lists.assertIsSorted(someInfo(), newArrayList("Obiwan"));
   }
 
   @Test
@@ -69,7 +69,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = list("Luke", "Yoda", "Leia");
+    actual = newArrayList("Luke", "Yoda", "Leia");
     try {
       lists.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -82,7 +82,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = list("Luke", "Yoda", "Leia");
+    actual = newArrayList("Luke", "Yoda", "Leia");
     try {
       listsWithCaseInsensitiveComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -95,7 +95,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_has_only_one_non_comparable_element() {
     AssertionInfo info = someInfo();
-    List<Object> actual = list(new Object());
+    List<Object> actual = newArrayList(new Object());
     try {
       lists.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -108,7 +108,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_has_some_non_comparable_elements() {
     AssertionInfo info = someInfo();
-    List<Object> actual = list("bar", new Object(), "foo");
+    List<Object> actual = newArrayList("bar", new Object(), "foo");
     try {
       lists.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -121,7 +121,7 @@ public class Lists_assertIsSorted_Test extends ListsBaseTest {
   @Test
   public void should_fail_if_actual_has_some_not_mutually_comparable_elements() {
     AssertionInfo info = someInfo();
-    List<Object> actual = list();
+    List<Object> actual = newArrayList();
     actual.add("bar");
     actual.add(new Integer(5));
     actual.add("foo");

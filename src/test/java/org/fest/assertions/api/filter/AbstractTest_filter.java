@@ -1,6 +1,6 @@
 package org.fest.assertions.api.filter;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import java.util.List;
 
@@ -35,7 +35,7 @@ public class AbstractTest_filter {
     noah.setAssistsPerGame(4);
     noah.setPointsPerGame(10);
     noah.setReboundsPerGame(11);
-    players = list(rose, james, durant, noah);
+    players = newArrayList(rose, james, durant, noah);
   }
 
 }

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.objectarray;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import org.fest.assertions.api.ObjectArrayAssertBaseTest;
  */
 public class ObjectArrayAssert_hasSameSizeAs_with_Iterable_Test extends ObjectArrayAssertBaseTest {
 
-  private final List<String> other = list("Yoda");
+  private final List<String> other = newArrayList("Yoda");
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

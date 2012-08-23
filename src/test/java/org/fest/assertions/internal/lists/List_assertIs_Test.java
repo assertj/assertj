@@ -7,7 +7,7 @@ import static org.fest.assertions.error.ShouldBeAtIndex.shouldBeAtIndex;
 import static org.fest.assertions.test.TestData.someIndex;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.FailureMessages.actualIsEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
 
@@ -31,7 +31,7 @@ import org.fest.assertions.internal.ListsBaseTest;
  */
 public class List_assertIs_Test extends ListsBaseTest {
   private static TestCondition<String> condition;
-  private static List<String> actual = list("Yoda", "Luke", "Leia");
+  private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
   @BeforeClass
   public static void setUpOnce() {

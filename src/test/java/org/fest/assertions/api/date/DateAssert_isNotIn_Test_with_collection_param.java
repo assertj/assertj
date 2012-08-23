@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.date;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -30,17 +30,17 @@ public class DateAssert_isNotIn_Test_with_collection_param extends AbstractDateA
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isNotIn(list(otherDate));
+    return assertions.isNotIn(newArrayList(otherDate));
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
-    return assertions.isNotInWithStringDateCollection(list(dateAsString));
+    return assertions.isNotInWithStringDateCollection(newArrayList(dateAsString));
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), list(date));
+    verify(objects).assertIsNotIn(getInfo(assertions), getActual(assertions), newArrayList(date));
   }
 
 }

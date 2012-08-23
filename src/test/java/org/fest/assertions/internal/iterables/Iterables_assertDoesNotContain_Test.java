@@ -15,26 +15,24 @@
 package org.fest.assertions.internal.iterables;
 
 import static java.util.Collections.emptyList;
-
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.test.ErrorMessages.*;
-import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
+import static org.fest.test.ErrorMessages.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.*;
-
+import static org.fest.util.Collections.set;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
+import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.IterablesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertDoesNotContain(AssertionInfo, Collection, Object[])}</code>.
@@ -44,7 +42,7 @@ import org.fest.assertions.internal.IterablesBaseTest;
  */
 public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
-  private static List<String> actual = list("Luke", "Yoda", "Leia");;
+  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");;
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {

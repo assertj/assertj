@@ -15,7 +15,7 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.*;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.Introspection.descriptorForProperty;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
@@ -41,7 +41,7 @@ public class PropertySupport_propertyValues_with_mocks_Test {
   @BeforeClass
   public static void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
-    employees = list(yoda);
+    employees = newArrayList(yoda);
   }
 
   private JavaBeanDescriptor descriptor;

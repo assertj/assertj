@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.*;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class ShouldBeEqual_newAssertionError_Test {
 
   @Parameters
   public static List<Object[]> parameters() {
-    return list(new Object[][] { { "[Jedi]" }, { "[Jedi]  " } });
+    return newArrayList(new Object[][] { { "[Jedi]" }, { "[Jedi]  " } });
   }
 
   public ShouldBeEqual_newAssertionError_Test(String formattedDescription) {

@@ -15,7 +15,7 @@
 package org.fest.assertions.groups;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
@@ -39,7 +39,7 @@ public class Properties_from_with_Collection_Test {
   @BeforeClass
   public static void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
-    employees = list(yoda);
+    employees = newArrayList(yoda);
   }
 
   private PropertySupport propertySupport;

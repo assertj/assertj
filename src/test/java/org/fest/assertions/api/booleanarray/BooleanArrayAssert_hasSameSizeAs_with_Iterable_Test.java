@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.booleanarray;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import org.fest.assertions.api.BooleanArrayAssertBaseTest;
  */
 public class BooleanArrayAssert_hasSameSizeAs_with_Iterable_Test extends BooleanArrayAssertBaseTest {
 
-  private final List<String> other = list("Yoda", "Luke");
+  private final List<String> other = newArrayList("Yoda", "Luke");
 
   @Override
   protected BooleanArrayAssert invoke_api_method() {

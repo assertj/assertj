@@ -21,7 +21,7 @@ import static org.fest.assertions.error.ShouldHaveEqualContent.shouldHaveEqualCo
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -77,7 +77,7 @@ public class InputStreams_assertEqualContent_Test extends InputStreamsBaseTest {
 
   @Test
   public void should_fail_if_inputstreams_do_not_have_equal_content() throws IOException {
-    List<String> diffs = list("line:1, expected:<line1> but was:<EOF>");
+    List<String> diffs = newArrayList("line:1, expected:<line1> but was:<EOF>");
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {

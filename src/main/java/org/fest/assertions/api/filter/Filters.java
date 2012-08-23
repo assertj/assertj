@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.filter;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.Objects.areEqual;
 
 import java.util.ArrayList;
@@ -152,7 +152,7 @@ public class Filters<E> {
   Filters(Iterable<E> iterable) {
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
-    this.filteredIterable = list(iterable);
+    this.filteredIterable = newArrayList(iterable);
   }
 
   @VisibleForTesting
@@ -163,7 +163,7 @@ public class Filters<E> {
     }
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
-    this.filteredIterable = list(iterable);
+    this.filteredIterable = newArrayList(iterable);
   }
 
   /**

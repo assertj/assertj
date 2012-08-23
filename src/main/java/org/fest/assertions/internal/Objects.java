@@ -33,7 +33,8 @@ import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.set;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -103,9 +104,13 @@ public class Objects {
    * @throws AssertionError if the given object is not an instance of the given type.
    */
   public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
+    if (type == null) {
+      throw new NullPointerException("The given type should not be null");
+    }
     assertNotNull(info, actual);
-    if (type.isInstance(actual)) return;
+    if (type.isInstance(actual)) {
+      return;
+    }
     throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
@@ -134,7 +139,9 @@ public class Objects {
         break;
       }
     }
-    if (found) return;
+    if (found) {
+      return;
+    }
     throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
 
@@ -148,9 +155,13 @@ public class Objects {
    * @throws AssertionError if the given object is an instance of the given type.
    */
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
+    if (type == null) {
+      throw new NullPointerException("The given type should not be null");
+    }
     assertNotNull(info, actual);
-    if (!type.isInstance(actual)) return;
+    if (!type.isInstance(actual)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
@@ -179,7 +190,9 @@ public class Objects {
         break;
       }
     }
-    if (!found) return;
+    if (!found) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
@@ -193,10 +206,14 @@ public class Objects {
    */
   public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
     assertNotNull(info, actual);
-    if (other == null) throw new NullPointerException("The given object should not be null");
+    if (other == null) {
+      throw new NullPointerException("The given object should not be null");
+    }
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
-    if (actualClass.equals(otherClass)) return;
+    if (actualClass.equals(otherClass)) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
 
@@ -211,10 +228,14 @@ public class Objects {
    */
   public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
     assertNotNull(info, actual);
-    if (other == null) throw new NullPointerException("The given object should not be null");
+    if (other == null) {
+      throw new NullPointerException("The given object should not be null");
+    }
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
-    if (!actualClass.equals(otherClass)) return;
+    if (!actualClass.equals(otherClass)) {
+      return;
+    }
     throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
@@ -229,9 +250,13 @@ public class Objects {
    */
   public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     assertNotNull(info, actual);
-    if (type == null) throw new NullPointerException("The given type should not be null");
+    if (type == null) {
+      throw new NullPointerException("The given type should not be null");
+    }
     Class<?> current = actual.getClass();
-    if (type.equals(current)) return;
+    if (type.equals(current)) {
+      return;
+    }
     throw failures.failure(info, shouldBeExactlyInstance(actual, type));
   }
 
@@ -246,9 +271,13 @@ public class Objects {
    */
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
     assertNotNull(info, actual);
-    if (type == null) throw new NullPointerException("The given type should not be null");
+    if (type == null) {
+      throw new NullPointerException("The given type should not be null");
+    }
     Class<?> current = actual.getClass();
-    if (!type.equals(current)) return;
+    if (!type.equals(current)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
 
@@ -263,8 +292,12 @@ public class Objects {
    */
   public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
-    if (types == null) throw new NullPointerException("The given types should not be null");
-    if (isItemInArray(actual.getClass(), types)) return;
+    if (types == null) {
+      throw new NullPointerException("The given types should not be null");
+    }
+    if (isItemInArray(actual.getClass(), types)) {
+      return;
+    }
     throw failures.failure(info, shouldBeOfClassIn(actual, types));
   }
 
@@ -279,14 +312,22 @@ public class Objects {
    */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
     assertNotNull(info, actual);
-    if (types == null) throw new NullPointerException("The given types should not be null");
-    if (!isItemInArray(actual.getClass(), types)) return;
+    if (types == null) {
+      throw new NullPointerException("The given types should not be null");
+    }
+    if (!isItemInArray(actual.getClass(), types)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
-    if (types == null) throw new NullPointerException("The given array of types should not be null");
-    if (types.length == 0) throw new IllegalArgumentException("The given array of types should not be empty");
+    if (types == null) {
+      throw new NullPointerException("The given array of types should not be null");
+    }
+    if (types.length == 0) {
+      throw new IllegalArgumentException("The given array of types should not be empty");
+    }
   }
 
   /**
@@ -298,7 +339,9 @@ public class Objects {
    *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
-    if (areEqual(actual, expected)) return;
+    if (areEqual(actual, expected)) {
+      return;
+    }
     throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
   }
 
@@ -310,7 +353,9 @@ public class Objects {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-    if (!areEqual(actual, other)) return;
+    if (!areEqual(actual, other)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
@@ -331,7 +376,9 @@ public class Objects {
    * @throws AssertionError if the given object is not {@code null}.
    */
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual == null) return;
+    if (actual == null) {
+      return;
+    }
     throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy));
   }
 
@@ -342,7 +389,9 @@ public class Objects {
    * @throws AssertionError if the given object is {@code null}.
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
-    if (actual != null) return;
+    if (actual != null) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeNull());
   }
 
@@ -354,7 +403,9 @@ public class Objects {
    * @throws AssertionError if the given objects do not refer to the same object.
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
-    if (actual == expected) return;
+    if (actual == expected) {
+      return;
+    }
     throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
@@ -366,7 +417,9 @@ public class Objects {
    * @throws AssertionError if the given objects refer to the same object.
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
-    if (actual != other) return;
+    if (actual != other) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeSame(actual));
   }
 
@@ -382,7 +435,9 @@ public class Objects {
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (isItemInArray(actual, values)) return;
+    if (isItemInArray(actual, values)) {
+      return;
+    }
     throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
@@ -398,13 +453,19 @@ public class Objects {
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (!isItemInArray(actual, values)) return;
+    if (!isItemInArray(actual, values)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) throw new NullPointerException("The given array should not be null");
-    if (values.length == 0) throw new IllegalArgumentException("The given array should not be empty");
+    if (values == null) {
+      throw new NullPointerException("The given array should not be null");
+    }
+    if (values.length == 0) {
+      throw new IllegalArgumentException("The given array should not be empty");
+    }
   }
 
   /**
@@ -414,8 +475,11 @@ public class Objects {
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
    */
   private boolean isItemInArray(Object item, Object[] arrayOfValues) {
-    for (Object value : arrayOfValues)
-      if (areEqual(value, item)) return true;
+    for (Object value : arrayOfValues) {
+      if (areEqual(value, item)) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -431,7 +495,9 @@ public class Objects {
   public <A> void assertIsIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (isActualIn(actual, values)) return;
+    if (isActualIn(actual, values)) {
+      return;
+    }
     throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
@@ -447,18 +513,27 @@ public class Objects {
   public <A> void assertIsNotIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    if (!isActualIn(actual, values)) return;
+    if (!isActualIn(actual, values)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
-    if (values == null) throw new NullPointerException("The given iterable should not be null");
-    if (!values.iterator().hasNext()) throw new IllegalArgumentException("The given iterable should not be empty");
+    if (values == null) {
+      throw new NullPointerException("The given iterable should not be null");
+    }
+    if (!values.iterator().hasNext()) {
+      throw new IllegalArgumentException("The given iterable should not be empty");
+    }
   }
 
   private <A> boolean isActualIn(A actual, Iterable<? extends A> values) {
-    for (A value : values)
-      if (areEqual(value, actual)) return true;
+    for (A value : values) {
+      if (areEqual(value, actual)) {
+        return true;
+      }
+    }
     return false;
   }
 
@@ -493,7 +568,9 @@ public class Objects {
         // Not readeable field, skip.
       }
     }
-    if (fieldsNames.isEmpty()) return;
+    if (fieldsNames.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, nullFields));
   }
 
@@ -521,8 +598,10 @@ public class Objects {
         expectedValues.add(otherFieldValue);
       }
     }
-    if (rejectedFieldsNames.isEmpty()) return;
-    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, list(fields)));
+    if (rejectedFieldsNames.isEmpty()) {
+      return;
+    }
+    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
   }
 
   /**
@@ -556,8 +635,10 @@ public class Objects {
         // Not readeable field, skip.
       }
     }
-    if (fieldsNames.isEmpty()) return;
-    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, list(fields)));
+    if (fieldsNames.isEmpty()) {
+      return;
+    }
+    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, newArrayList(fields)));
   }
 
 }

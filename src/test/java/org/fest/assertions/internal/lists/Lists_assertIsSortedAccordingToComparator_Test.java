@@ -18,7 +18,7 @@ import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -52,25 +52,25 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
 
   @Test
   public void should_pass_if_actual_is_sorted_according_to_given_comparator() {
-    lists.assertIsSortedAccordingToComparator(someInfo(), list("Yoda", "Vador", "Luke", "Leia", "Leia"),
+    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList("Yoda", "Vador", "Luke", "Leia", "Leia"),
         stringDescendingOrderComparator);
   }
 
   @Test
   public void should_pass_if_actual_is_sorted_according_to_given_comparator_whatever_custom_comparison_strategy_is() {
     listsWithCaseInsensitiveComparisonStrategy.assertIsSortedAccordingToComparator(someInfo(),
-        list("Yoda", "Vador", "Luke", "Leia", "Leia"), stringDescendingOrderComparator);
+        newArrayList("Yoda", "Vador", "Luke", "Leia", "Leia"), stringDescendingOrderComparator);
   }
 
   @Test
   public void should_pass_if_actual_is_empty_whatever_given_comparator_is() {
-    lists.assertIsSortedAccordingToComparator(someInfo(), list(), stringDescendingOrderComparator);
-    lists.assertIsSortedAccordingToComparator(someInfo(), list(), comparator);
+    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), stringDescendingOrderComparator);
+    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), comparator);
   }
 
   @Test
   public void should_pass_if_actual_contains_only_one_comparable_element() {
-    lists.assertIsSortedAccordingToComparator(someInfo(), list("Obiwan"), comparator);
+    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList("Obiwan"), comparator);
   }
 
   @Test
@@ -82,13 +82,13 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
   @Test
   public void should_fail_if_comparator_is_null() {
     thrown.expect(NullPointerException.class);
-    lists.assertIsSortedAccordingToComparator(someInfo(), list(), null);
+    lists.assertIsSortedAccordingToComparator(someInfo(), newArrayList(), null);
   }
 
   @Test
   public void should_fail_if_actual_is_not_sorted_according_to_given_comparator() {
     AssertionInfo info = someInfo();
-    List<String> actual = list("Yoda", "Vador", "Leia", "Leia", "Luke");
+    List<String> actual = newArrayList("Yoda", "Vador", "Leia", "Leia", "Luke");
     try {
       lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {
@@ -101,7 +101,7 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
   @Test
   public void should_fail_if_actual_has_some_not_mutually_comparable_elements_according_to_given_comparator() {
     AssertionInfo info = someInfo();
-    List<Object> actual = list();
+    List<Object> actual = newArrayList();
     actual.add("bar");
     actual.add(new Integer(5));
     actual.add("foo");
@@ -118,7 +118,7 @@ public class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTes
   @Test
   public void should_fail_if_actual_has_one_element_only_not_comparable_according_to_given_comparator() {
     AssertionInfo info = someInfo();
-    List<Object> actual = list(new Object());
+    List<Object> actual = newArrayList(new Object());
     try {
       lists.assertIsSortedAccordingToComparator(info, actual, stringDescendingOrderComparator);
     } catch (AssertionError e) {

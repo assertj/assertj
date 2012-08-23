@@ -19,7 +19,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
@@ -39,26 +39,26 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    iterables.assertHasSameSizeAs(someInfo(), list("Yoda", "Luke"), array("Solo", "Leia"));
+    iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), array("Solo", "Leia"));
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    iterables.assertHasSameSizeAs(someInfo(), null, list("Solo", "Leia"));
+    iterables.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia"));
   }
 
   @Test
   public void should_fail_if_other_is_null() {
     thrown.expectNullPointerException("The iterable to look for should not be null");
     Iterable<?> other = null;
-    iterables.assertHasSameSizeAs(someInfo(), list("Yoda", "Luke"), other);
+    iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
   }
 
   @Test
   public void should_fail_if_actual_size_is_not_equal_to_other_size() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
     try {
       iterables.assertHasSameSizeAs(info, actual, other);
@@ -71,7 +71,7 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
 
   @Test
   public void should_pass_if_actual_has_same_size_as_other_whatever_custom_comparison_strategy_is() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), list("Luke", "Yoda"), array("Solo", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(someInfo(), newArrayList("Luke", "Yoda"), array("Solo", "Leia"));
   }
 
   @Test
@@ -84,13 +84,13 @@ public class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBase
   public void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectNullPointerException("The iterable to look for should not be null");
     Iterable<?> other = null;
-    iterables.assertHasSameSizeAs(someInfo(), list("Yoda", "Luke"), other);
+    iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
   }
 
   @Test
   public void should_fail_if_actual_size_is_not_equal_to_other_size_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    Collection<String> actual = list("Yoda");
+    Collection<String> actual = newArrayList("Yoda");
     String[] other = array("Solo", "Luke", "Leia");
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);

@@ -17,7 +17,7 @@ package org.fest.assertions.internal.iterables;
 import static org.fest.assertions.error.ElementsShouldNotBeAtMost.elementsShouldNotBeAtMost;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -39,14 +39,14 @@ public class Iterables_assertAreAtMost_Test extends IterablesWithConditionsBaseT
 
   @Test
   public void should_pass_if_satisfies_at_most_times_condition() {
-    actual = list("Yoda", "Luke", "Leia");
+    actual = newArrayList("Yoda", "Luke", "Leia");
     iterables.assertAreAtMost(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
 
   @Test
   public void should_pass_if_never_satisfies_condition_() {
-    actual = list("Chewbacca", "Leia", "Obiwan");
+    actual = newArrayList("Chewbacca", "Leia", "Obiwan");
     iterables.assertAreAtMost(someInfo(), actual, 2, jedi);
     verify(conditions).assertIsNotNull(jedi);
   }
@@ -54,7 +54,7 @@ public class Iterables_assertAreAtMost_Test extends IterablesWithConditionsBaseT
   @Test
   public void should_throw_error_if_condition_is_null() {
     thrown.expectNullPointerException("The condition to evaluate should not be null");
-    actual = list("Yoda", "Luke");
+    actual = newArrayList("Yoda", "Luke");
     iterables.assertAreAtMost(someInfo(), actual, 2, null);
     verify(conditions).assertIsNotNull(null);
   }
@@ -64,7 +64,7 @@ public class Iterables_assertAreAtMost_Test extends IterablesWithConditionsBaseT
     testCondition.shouldMatch(false);
     AssertionInfo info = someInfo();
     try {
-      actual = list("Yoda", "Luke", "Obiwan");
+      actual = newArrayList("Yoda", "Luke", "Obiwan");
       iterables.assertAreAtMost(someInfo(), actual, 2, jedi);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jedi);

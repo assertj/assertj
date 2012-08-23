@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.string;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertB
   
   @BeforeClass
   public static void setUpOnce() {
-    other = list("Luke");
+    other = newArrayList("Luke");
   }
 
   @Override

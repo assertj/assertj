@@ -493,7 +493,7 @@ public class Assertions {
    * Typical usage :
    * 
    * <pre>
-   * List<Ring> elvesRings = list(vilya, nenya, narya);
+   * List<Ring> elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
    * </pre>
    */

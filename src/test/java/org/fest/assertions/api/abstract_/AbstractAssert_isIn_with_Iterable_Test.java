@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.abstract_;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.AbstractAssertBaseTest;
@@ -34,7 +34,7 @@ public class AbstractAssert_isIn_with_Iterable_Test extends AbstractAssertBaseTe
 
   @BeforeClass
   public static void setUpOnce() {
-    values = list("Yoda", "Luke");
+    values = newArrayList("Yoda", "Luke");
   }
 
   @Override

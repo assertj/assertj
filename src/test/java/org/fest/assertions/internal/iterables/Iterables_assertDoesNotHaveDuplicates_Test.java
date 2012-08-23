@@ -15,23 +15,21 @@
 package org.fest.assertions.internal.iterables;
 
 import static java.util.Collections.emptyList;
-
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.*;
-
+import static org.fest.util.Collections.set;
+import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.internal.Iterables;
 import org.fest.assertions.internal.IterablesBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertDoesNotHaveDuplicates(AssertionInfo, Collection)}</code>.
@@ -41,7 +39,7 @@ import org.fest.assertions.internal.IterablesBaseTest;
  */
 public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
 
-  private List<String> actual = list("Luke", "Yoda", "Leia");
+  private final List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
   public void should_pass_if_actual_does_not_have_duplicates() {

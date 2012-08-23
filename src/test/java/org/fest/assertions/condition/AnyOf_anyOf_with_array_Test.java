@@ -17,7 +17,7 @@ package org.fest.assertions.condition;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.test.ExpectedException.none;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.core.*;
 import org.fest.test.ExpectedException;
@@ -40,6 +40,6 @@ public class AnyOf_anyOf_with_array_Test {
     Condition<Object> created = AnyOf.anyOf(conditions);
     assertEquals(AnyOf.class, created.getClass());
     AnyOf<Object> anyOf = (AnyOf<Object>) created;
-    assertEquals(list(conditions), anyOf.conditions);
+    assertEquals(newArrayList(conditions), anyOf.conditions);
   }
 }

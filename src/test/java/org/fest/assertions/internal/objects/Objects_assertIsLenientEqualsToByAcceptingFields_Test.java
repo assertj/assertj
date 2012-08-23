@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
@@ -73,8 +73,8 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
       verify(failures)
           .failure(
               info,
-              shouldBeLenientEqualByAccepting(actual, list("lightSaberColor"), list((Object) "Blue"),
-                  list("name", "lightSaberColor")));
+              shouldBeLenientEqualByAccepting(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
+                  newArrayList("name", "lightSaberColor")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

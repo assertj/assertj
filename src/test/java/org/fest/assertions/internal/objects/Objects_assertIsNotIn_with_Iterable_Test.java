@@ -21,7 +21,7 @@ import static org.fest.test.ErrorMessages.iterableIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.core.AssertionInfo;
@@ -45,7 +45,7 @@ public class Objects_assertIsNotIn_with_Iterable_Test extends ObjectsBaseTest {
 
   @BeforeClass
   public static void setUpOnce() {
-    values = list("Yoda", "Leia");
+    values = newArrayList("Yoda", "Leia");
   }
 
   @Test

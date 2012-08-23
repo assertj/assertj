@@ -21,7 +21,7 @@ import static org.fest.assertions.error.ShouldNotContainAtIndex.shouldNotContain
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +42,7 @@ import org.fest.assertions.internal.ListsBaseTest;
  */
 public class Lists_assertDoesNotContain_Test extends ListsBaseTest {
 
-  private static List<String> actual = list("Yoda", "Luke", "Leia");
+  private static List<String> actual = newArrayList("Yoda", "Luke", "Leia");
 
   @Test
   public void should_fail_if_actual_is_null() {

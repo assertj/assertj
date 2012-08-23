@@ -20,7 +20,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.MapFactory.map;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -52,13 +52,13 @@ public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertHasSameSizeAs(someInfo(), null, list("Solo", "Leia"));
+    maps.assertHasSameSizeAs(someInfo(), null, newArrayList("Solo", "Leia"));
   }
 
   @Test
   public void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     AssertionInfo info = someInfo();
-    List<String> other = list("Solo", "Leia", "Yoda");
+    List<String> other = newArrayList("Solo", "Leia", "Yoda");
     try {
       maps.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
@@ -70,7 +70,7 @@ public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-    maps.assertHasSameSizeAs(someInfo(), actual, list("Solo", "Leia"));
+    maps.assertHasSameSizeAs(someInfo(), actual, newArrayList("Solo", "Leia"));
   }
 
 }

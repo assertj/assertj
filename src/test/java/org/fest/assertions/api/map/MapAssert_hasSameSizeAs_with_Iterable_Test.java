@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.map;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -29,7 +29,7 @@ import org.fest.assertions.api.MapAssertBaseTest;
  */
 public class MapAssert_hasSameSizeAs_with_Iterable_Test extends MapAssertBaseTest {
 
-  private final List<String> other = list("Yoda", "Luke");
+  private final List<String> other = newArrayList("Yoda", "Luke");
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

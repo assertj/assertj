@@ -1,7 +1,7 @@
 package org.fest.assertions.internal;
 
 import static org.fest.test.ExpectedException.none;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.spy;
 
@@ -38,7 +38,7 @@ public class IterablesBaseTest {
 
   @Before
   public void setUp() {
-    actual = list("Luke", "Yoda", "Leia");
+    actual = newArrayList("Luke", "Yoda", "Leia");
     failures = spy(new Failures());
     iterables = new Iterables();
     iterables.failures = failures;

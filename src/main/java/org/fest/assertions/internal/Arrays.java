@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import static java.lang.reflect.Array.getLength;
-
 import static org.fest.assertions.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.fest.assertions.error.ElementsShouldBe.elementsShouldBe;
 import static org.fest.assertions.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -53,7 +52,8 @@ import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Collections.isEmpty;
+import static org.fest.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -112,38 +112,52 @@ class Arrays {
   }
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
-    if (array == null || isArrayEmpty(array)) return;
+    if (array == null || isArrayEmpty(array)) {
+      return;
+    }
     throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
 
   void assertEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (isArrayEmpty(array)) return;
+    if (isArrayEmpty(array)) {
+      return;
+    }
     throw failures.failure(info, shouldBeEmpty(array));
   }
 
   void assertHasSize(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
-    if (sizeOfActual == expectedSize) return;
+    if (sizeOfActual == expectedSize) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSize(array, sizeOfActual, expectedSize));
   }
 
   void assertHasSameSizeAs(AssertionInfo info, Failures failures, Object array, Iterable<?> other) {
     assertNotNull(info, array);
-    if (other == null) throw new NullPointerException("The iterable to look for should not be null");
+    if (other == null) {
+      throw new NullPointerException("The iterable to look for should not be null");
+    }
     int sizeOfActual = sizeOf(array);
     int sizeOfOther = Collections.sizeOf(other);
-    if (sizeOfActual == sizeOfOther) return;
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(array, sizeOfActual, sizeOfOther));
   }
 
   void assertHasSameSizeAs(AssertionInfo info, Failures failures, Object array, Object other) {
     assertNotNull(info, array);
-    if (other == null) throw arrayOfValuesToLookForIsNull();
+    if (other == null) {
+      throw arrayOfValuesToLookForIsNull();
+    }
     int sizeOfActual = sizeOf(array);
     int sizeOfOther = sizeOf(other);
-    if (sizeOfActual == sizeOfOther) return;
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(array, sizeOfActual, sizeOfOther));
   }
 
@@ -154,20 +168,31 @@ class Arrays {
     int valueCount = sizeOf(values);
     for (int i = 0; i < valueCount; i++) {
       Object value = Array.get(values, i);
-      if (!arrayContains(array, value)) notFound.add(value);
+      if (!arrayContains(array, value)) {
+        notFound.add(value);
+      }
     }
-    if (notFound.isEmpty()) return;
+    if (notFound.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
 
   void assertcontainsAll(AssertionInfo info, Failures failures, Object array, Iterable<?> iterable) {
-    if (iterable == null) throw iterableToLookForIsNull();
+    if (iterable == null) {
+      throw iterableToLookForIsNull();
+    }
     assertNotNull(info, array);
-    Object[] values = list(iterable).toArray();
+    Object[] values = newArrayList(iterable).toArray();
     Set<Object> notFound = new LinkedHashSet<Object>();
-    for (Object value : values)
-      if (!arrayContains(array, value)) notFound.add(value);
-    if (notFound.isEmpty()) return;
+    for (Object value : values) {
+      if (!arrayContains(array, value)) {
+        notFound.add(value);
+      }
+    }
+    if (notFound.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldContain(array, values, notFound, comparisonStrategy));
   }
 
@@ -176,13 +201,17 @@ class Arrays {
     assertNotEmpty(info, failures, array);
     checkIndexValueIsValid(index, sizeOf(array) - 1);
     Object actualElement = Array.get(array, index.value);
-    if (areEqual(actualElement, value)) return;
+    if (areEqual(actualElement, value)) {
+      return;
+    }
     throw failures.failure(info, shouldContainAtIndex(array, value, index, Array.get(array, index.value), comparisonStrategy));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (!isArrayEmpty(array)) return;
+    if (!isArrayEmpty(array)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeEmpty());
   }
 
@@ -190,9 +219,13 @@ class Arrays {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);
     int indexValue = index.value;
-    if (indexValue >= sizeOf(array)) return;
+    if (indexValue >= sizeOf(array)) {
+      return;
+    }
     Object actualElement = Array.get(array, index.value);
-    if (!areEqual(actualElement, value)) return;
+    if (!areEqual(actualElement, value)) {
+      return;
+    }
     throw failures.failure(info, shouldNotContainAtIndex(array, value, index, comparisonStrategy));
   }
 
@@ -201,15 +234,20 @@ class Arrays {
     assertNotNull(info, array);
     Set<Object> notExpected = asSetWithoutDuplicatesAccordingToComparisonStrategy(array);
     Set<Object> notFound = containsOnly(notExpected, values);
-    if (notExpected.isEmpty() && notFound.isEmpty()) return;
+    if (notExpected.isEmpty() && notFound.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldContainOnly(array, values, notFound, notExpected, comparisonStrategy));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object o : asSetWithoutDuplicatesAccordingToComparisonStrategy(values)) {
-      if (collectionContains(actual, o)) collectionRemoves(actual, o);
-      else notFound.add(o);
+      if (collectionContains(actual, o)) {
+        collectionRemoves(actual, o);
+      } else {
+        notFound.add(o);
+      }
     }
     return notFound;
   }
@@ -224,7 +262,9 @@ class Arrays {
     int size = sizeOf(array);
     for (int i = 0; i < size; i++) {
       Object element = Array.get(array, i);
-      if (!collectionContains(set, element)) set.add(element);
+      if (!collectionContains(set, element)) {
+        set.add(element);
+      }
     }
     return set;
   }
@@ -252,17 +292,25 @@ class Arrays {
     int sizeOfActual = sizeOf(array);
     for (int j = 0; j < sizeOfActual; j++) {
       Object o = Array.get(array, j);
-      if (i >= sequenceSize) break;
+      if (i >= sequenceSize) {
+        break;
+      }
       if (!firstAlreadyFound) {
-        if (!areEqual(o, Array.get(sequence, i))) continue;
+        if (!areEqual(o, Array.get(sequence, i))) {
+          continue;
+        }
         firstAlreadyFound = true;
         i++;
         continue;
       }
-      if (areEqual(o, Array.get(sequence, i++))) continue;
+      if (areEqual(o, Array.get(sequence, i++))) {
+        continue;
+      }
       throw arrayDoesNotContainSequence(info, failures, array, sequence);
     }
-    if (!firstAlreadyFound || i < sequenceSize) throw arrayDoesNotContainSequence(info, failures, array, sequence);
+    if (!firstAlreadyFound || i < sequenceSize) {
+      throw arrayDoesNotContainSequence(info, failures, array, sequence);
+    }
   }
 
   /**
@@ -282,9 +330,13 @@ class Arrays {
     Set<Object> found = new LinkedHashSet<Object>();
     for (int i = 0; i < sizeOf(values); i++) {
       Object value = Array.get(values, i);
-      if (arrayContains(array, value)) found.add(value);
+      if (arrayContains(array, value)) {
+        found.add(value);
+      }
     }
-    if (found.isEmpty()) return;
+    if (found.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldNotContain(array, values, found, comparisonStrategy));
   }
 
@@ -299,7 +351,9 @@ class Arrays {
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
-    if (isEmpty(duplicates)) return;
+    if (isEmpty(duplicates)) {
+      return;
+    }
     throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));
   }
 
@@ -308,9 +362,13 @@ class Arrays {
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(array);
-    if (arraySize < sequenceSize) throw arrayDoesNotStartWithSequence(info, failures, array, sequence);
+    if (arraySize < sequenceSize) {
+      throw arrayDoesNotStartWithSequence(info, failures, array, sequence);
+    }
     for (int i = 0; i < sequenceSize; i++) {
-      if (areEqual(Array.get(sequence, i), Array.get(array, i))) continue;
+      if (areEqual(Array.get(sequence, i), Array.get(array, i))) {
+        continue;
+      }
       throw arrayDoesNotStartWithSequence(info, failures, array, sequence);
     }
   }
@@ -324,23 +382,31 @@ class Arrays {
     assertNotNull(info, array);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(array);
-    if (arraySize < sequenceSize) throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
+    if (arraySize < sequenceSize) {
+      throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
+    }
     for (int i = 0; i < sequenceSize; i++) {
       int sequenceIndex = sequenceSize - (i + 1);
       int arrayIndex = arraySize - (i + 1);
-      if (areEqual(Array.get(sequence, sequenceIndex), Array.get(array, arrayIndex))) continue;
+      if (areEqual(Array.get(sequence, sequenceIndex), Array.get(array, arrayIndex))) {
+        continue;
+      }
       throw arrayDoesNotEndWithSequence(info, failures, array, sequence);
     }
   }
 
   void assertContainsNull(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (!arrayContains(array, null)) throw failures.failure(info, shouldContainNull(array));
+    if (!arrayContains(array, null)) {
+      throw failures.failure(info, shouldContainNull(array));
+    }
   }
 
   void assertDoesNotContainNull(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (arrayContains(array, null)) throw failures.failure(info, shouldNotContainNull(array));
+    if (arrayContains(array, null)) {
+      throw failures.failure(info, shouldNotContainNull(array));
+    }
   }
 
   public <E> void assertAre(AssertionInfo info, Failures failures, Conditions conditions, Object array, Condition<E> condition) {
@@ -348,7 +414,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.isEmpty()) return;
+      if (notSatisfiesCondition.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, elementsShouldBe(array, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -360,7 +428,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.isEmpty()) return;
+      if (satisfiesCondition.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotBe(array, satisfiesCondition, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -372,7 +442,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.isEmpty()) return;
+      if (notSatisfiesCondition.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, elementsShouldHave(array, notSatisfiesCondition, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -384,7 +456,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.isEmpty()) return;
+      if (satisfiesCondition.isEmpty()) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotHave(array, satisfiesCondition, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -397,7 +471,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() >= times) return;
+      if (satisfiesCondition.size() >= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldBeAtLeast(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -410,7 +486,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() >= times) return;
+      if (notSatisfiesCondition.size() >= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotBeAtLeast(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -423,7 +501,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() <= times) return;
+      if (satisfiesCondition.size() <= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -436,7 +516,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() <= times) return;
+      if (notSatisfiesCondition.size() <= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotBeAtMost(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -449,7 +531,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() == times) return;
+      if (satisfiesCondition.size() == times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldBeExactly(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -462,7 +546,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() == times) return;
+      if (notSatisfiesCondition.size() == times) {
+        return;
+      }
       throw failures.failure(info, ElementsShouldNotBeExactly.elementsShouldNotBeExactly(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -475,7 +561,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() >= times) return;
+      if (satisfiesCondition.size() >= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -488,7 +576,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() >= times) return;
+      if (notSatisfiesCondition.size() >= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotHaveAtLeast(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -501,7 +591,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() <= times) return;
+      if (satisfiesCondition.size() <= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -514,7 +606,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() <= times) return;
+      if (notSatisfiesCondition.size() <= times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotHaveAtMost(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -527,7 +621,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> satisfiesCondition = satisfiesCondition(array, condition);
-      if (satisfiesCondition.size() == times) return;
+      if (satisfiesCondition.size() == times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -540,7 +636,9 @@ class Arrays {
     conditions.assertIsNotNull(condition);
     try {
       List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() == times) return;
+      if (notSatisfiesCondition.size() == times) {
+        return;
+      }
       throw failures.failure(info, elementsShouldNotHaveExactly(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
@@ -582,17 +680,23 @@ class Arrays {
       return;
     }
     // empty arrays are considered sorted even if component type is not sortable.
-    if (sizeOf(array) == 0) return;
+    if (sizeOf(array) == 0) {
+      return;
+    }
     assertThatArrayComponentTypeIsSortable(info, failures, array);
     try {
       // sorted assertion is only relevant if array elements are Comparable
       // => we should be able to build a Comparable array
       Comparable<Object>[] comparableArray = arrayOfComparableItems(array);
       // array with 0 or 1 element are considered sorted.
-      if (comparableArray.length <= 1) return;
+      if (comparableArray.length <= 1) {
+        return;
+      }
       for (int i = 0; i < comparableArray.length - 1; i++) {
         // array is sorted in ascending order iif element i is less or equal than element i+1
-        if (comparableArray[i].compareTo(comparableArray[i + 1]) > 0) throw failures.failure(info, shouldBeSorted(i, array));
+        if (comparableArray[i].compareTo(comparableArray[i + 1]) > 0) {
+          throw failures.failure(info, shouldBeSorted(i, array));
+        }
       }
     } catch (ClassCastException e) {
       // elements are either not Comparable or not mutually Comparable (e.g. array with String and Integer)
@@ -604,11 +708,15 @@ class Arrays {
   static <T> void assertIsSortedAccordingToComparator(AssertionInfo info, Failures failures, Object array,
       Comparator<T> comparator) {
     assertNotNull(info, array);
-    if (comparator == null) throw new NullPointerException("The given comparator should not be null");
+    if (comparator == null) {
+      throw new NullPointerException("The given comparator should not be null");
+    }
     try {
       List<T> arrayAsList = asList(array);
       // empty arrays are considered sorted even if comparator can't be applied to <T>.
-      if (arrayAsList.size() == 0) return;
+      if (arrayAsList.size() == 0) {
+        return;
+      }
       if (arrayAsList.size() == 1) {
         // call compare to see if unique element is compatible with comparator.
         comparator.compare(arrayAsList.get(0), arrayAsList.get(0));
@@ -616,8 +724,9 @@ class Arrays {
       }
       for (int i = 0; i < arrayAsList.size() - 1; i++) {
         // array is sorted in comparator defined order iif element i is less or equal than element i+1
-        if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0)
+        if (comparator.compare(arrayAsList.get(i), arrayAsList.get(i + 1)) > 0) {
           throw failures.failure(info, shouldBeSortedAccordingToGivenComparator(i, array, comparator));
+        }
       }
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldHaveComparableElementsAccordingToGivenComparator(array, comparator));
@@ -626,8 +735,12 @@ class Arrays {
 
   @SuppressWarnings("unchecked")
   private static <T> List<T> asList(Object array) {
-    if (array == null) return null;
-    if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
+    if (array == null) {
+      return null;
+    }
+    if (!isArray(array)) {
+      throw new IllegalArgumentException("The object should be an array");
+    }
     int length = getLength(array);
     List<T> list = new ArrayList<T>(length);
     for (int i = 0; i < length; i++) {
@@ -649,14 +762,21 @@ class Arrays {
   private static void assertThatArrayComponentTypeIsSortable(AssertionInfo info, Failures failures, Object array) {
     ArrayWrapperList arrayAsList = wrap(array);
     Class<?> arrayComponentType = arrayAsList.getComponentType();
-    if (arrayComponentType.isPrimitive()) return;
-    if (!Comparable.class.isAssignableFrom(arrayComponentType))
+    if (arrayComponentType.isPrimitive()) {
+      return;
+    }
+    if (!Comparable.class.isAssignableFrom(arrayComponentType)) {
       throw failures.failure(info, shouldHaveMutuallyComparableElements(array));
+    }
   }
 
   private void checkIsNotNullAndNotEmpty(Object values) {
-    if (values == null) throw arrayOfValuesToLookForIsNull();
-    if (isArrayEmpty(values)) throw arrayOfValuesToLookForIsEmpty();
+    if (values == null) {
+      throw arrayOfValuesToLookForIsNull();
+    }
+    if (isArrayEmpty(values)) {
+      throw arrayOfValuesToLookForIsEmpty();
+    }
   }
 
   private boolean isArrayEmpty(Object array) {

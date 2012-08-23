@@ -20,7 +20,7 @@ import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
 
@@ -42,7 +42,7 @@ public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_not_empty() {
-    iterables.assertNotEmpty(someInfo(), list("Luke"));
+    iterables.assertNotEmpty(someInfo(), newArrayList("Luke"));
   }
 
   @Test
@@ -65,7 +65,7 @@ public class Iterables_assertNotEmpty_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), list("Luke"));
+    iterablesWithCaseInsensitiveComparisonStrategy.assertNotEmpty(someInfo(), newArrayList("Luke"));
   }
 
   @Test

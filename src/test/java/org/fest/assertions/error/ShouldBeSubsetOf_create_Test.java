@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.error.ShouldBeSubsetOf.shouldBeSubsetOf;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class ShouldBeSubsetOf_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"));
+    factory = shouldBeSubsetOf(newArrayList("Yoda", "Luke"), newArrayList("Han", "Luke"), newArrayList("Yoda"));
   }
 
   @Test
@@ -50,7 +50,7 @@ public class ShouldBeSubsetOf_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldBeSubsetOf(list("Yoda", "Luke"), list("Han", "Luke"), list("Yoda"),
+    ErrorMessageFactory factory = shouldBeSubsetOf(newArrayList("Yoda", "Luke"), newArrayList("Han", "Luke"), newArrayList("Yoda"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting according to 'CaseInsensitiveStringComparator' comparator:\n" + "<['Yoda', 'Luke']>\n"

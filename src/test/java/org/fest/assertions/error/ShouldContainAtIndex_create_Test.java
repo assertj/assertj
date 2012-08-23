@@ -18,7 +18,7 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import org.junit.Test;
 
@@ -37,14 +37,14 @@ public class ShouldContainAtIndex_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
+    ErrorMessageFactory factory = shouldContainAtIndex(newArrayList("Yoda", "Luke"), "Leia", atIndex(1), "Luke");
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:<'Leia'> at index <1> but found <'Luke'> in:\n" + " <['Yoda', 'Luke']>\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainAtIndex(list("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
+    ErrorMessageFactory factory = shouldContainAtIndex(newArrayList("Yoda", "Luke"), "Leia", atIndex(1), "Luke",
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:<'Leia'> at index <1> but found <'Luke'> in:\n" + " <['Yoda', 'Luke']>\n"

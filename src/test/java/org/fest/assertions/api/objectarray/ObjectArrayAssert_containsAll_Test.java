@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.objectarray;
 
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ObjectArrayAssert;
@@ -29,11 +29,11 @@ public class ObjectArrayAssert_containsAll_Test extends ObjectArrayAssertBaseTes
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.containsAll(list("Yoda", "Luke"));
+    return assertions.containsAll(newArrayList("Yoda", "Luke"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsAll(getInfo(assertions), getActual(assertions), list("Yoda", "Luke"));
+    verify(arrays).assertContainsAll(getInfo(assertions), getActual(assertions), newArrayList("Yoda", "Luke"));
   }
 }

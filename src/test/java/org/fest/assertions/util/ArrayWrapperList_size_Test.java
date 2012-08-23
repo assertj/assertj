@@ -15,7 +15,7 @@
 package org.fest.assertions.util;
 
 import static org.fest.util.IntArrayFactory.emptyArray;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Collection;
@@ -35,7 +35,7 @@ public class ArrayWrapperList_size_Test {
 
   @Parameters
   public static Collection<Object[]> parameters() {
-    return list(new Object[][] { { new int[] { 0, 1, 2 } }, { new int[] { 0 } }, { emptyArray() } });
+    return newArrayList(new Object[][] { { new int[] { 0, 1, 2 } }, { new int[] { 0 } }, { emptyArray() } });
   }
 
   private final int[] array;

@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldBeOfClassIn.shouldBeOfClassIn;
-import static org.fest.util.Collections.list;
+import static org.fest.util.Lists.newArrayList;
 
 import java.io.File;
 
@@ -36,7 +36,7 @@ public class ShouldBeOfClassIn_Test {
 
   @Before
   public void setUp() {
-    factory = shouldBeOfClassIn("Yoda", list(Long.class, File.class));
+    factory = shouldBeOfClassIn("Yoda", newArrayList(Long.class, File.class));
   }
 
   @Test
