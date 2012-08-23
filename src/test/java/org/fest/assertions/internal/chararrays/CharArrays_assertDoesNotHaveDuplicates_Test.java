@@ -19,7 +19,7 @@ import static org.fest.util.CharArrayFactory.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +65,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set('a', 'b')));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet('a', 'b')));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -94,7 +94,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set('A', 'b'), caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet('A', 'b'), caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

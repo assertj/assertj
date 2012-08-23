@@ -20,7 +20,7 @@ import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +65,7 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysB
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set("Luke", "Yoda")));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -95,7 +95,7 @@ public class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysB
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldNotHaveDuplicates(actual, set("Luke", "Yoda"), caseInsensitiveStringComparisonStrategy));
+          shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"), caseInsensitiveStringComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

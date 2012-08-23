@@ -20,7 +20,7 @@ import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -84,7 +84,7 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set('d'), set('c')));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet('d'), newLinkedHashSet('c')));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -136,7 +136,7 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set('d'), set('c'), caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet('d'), newLinkedHashSet('c'), caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

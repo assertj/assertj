@@ -19,7 +19,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.IntArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +65,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test extends IntArraysBaseTes
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6, 8)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6, 8)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -94,7 +94,7 @@ public class IntArrays_assertDoesNotHaveDuplicates_Test extends IntArraysBaseTes
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6, 8), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6, 8), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

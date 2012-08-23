@@ -20,7 +20,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.ShortArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -73,7 +73,7 @@ public class ShortArrays_assertDoesNotContain_Test extends ShortArraysBaseTest {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set((short) 6, (short) 8)));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) 8)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -114,7 +114,7 @@ public class ShortArrays_assertDoesNotContain_Test extends ShortArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set((short) 6, (short) -8), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet((short) 6, (short) -8), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

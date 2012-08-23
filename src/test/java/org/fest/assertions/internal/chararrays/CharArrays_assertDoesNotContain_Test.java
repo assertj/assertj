@@ -20,7 +20,7 @@ import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -73,7 +73,7 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set('a', 'b')));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet('a', 'b')));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -114,7 +114,7 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set('A', 'b'), caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet('A', 'b'), caseInsensitiveComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

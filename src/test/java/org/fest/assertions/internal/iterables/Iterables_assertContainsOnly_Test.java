@@ -20,7 +20,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.ObjectArrayFactory.emptyArray;
@@ -95,7 +95,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set("Han"), set("Leia")));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -135,7 +135,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set("Han"), set("Leia"), comparisonStrategy));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"), comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

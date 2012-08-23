@@ -21,7 +21,7 @@ import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -74,7 +74,7 @@ public class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set("Luke", "Yoda")));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet("Luke", "Yoda")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -104,7 +104,7 @@ public class ObjectArrays_assertDoesNotContain_Test extends ObjectArraysBaseTest
       arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldNotContain(actual, expected, set("LUKE", "Yoda"), caseInsensitiveStringComparisonStrategy));
+          shouldNotContain(actual, expected, newLinkedHashSet("LUKE", "Yoda"), caseInsensitiveStringComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

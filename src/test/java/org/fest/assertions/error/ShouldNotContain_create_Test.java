@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.Description;
@@ -36,7 +36,7 @@ public class ShouldNotContain_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), set("Yoda"));
+    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Yoda"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting\n" + "<['Yoda']>\n" + " not to contain\n" + "<['Luke', 'Yoda']>\n" + " but found\n"
         + "<['Yoda']>\n", message);
@@ -44,7 +44,7 @@ public class ShouldNotContain_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), set("Yoda"),
+    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Yoda"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting\n" + "<['Yoda']>\n" + " not to contain\n" + "<['Luke', 'Yoda']>\n" + " but found\n"

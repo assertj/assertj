@@ -20,7 +20,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.IntArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -84,7 +84,7 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set(20), set(10)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20), newLinkedHashSet(10)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -136,7 +136,7 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, set(20), set(10), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20), newLinkedHashSet(10), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

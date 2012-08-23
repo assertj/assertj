@@ -19,7 +19,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.FloatArrayFactory.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -65,7 +65,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6f, 8f)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, 8f)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -94,7 +94,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6f, -8f), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6f, -8f), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

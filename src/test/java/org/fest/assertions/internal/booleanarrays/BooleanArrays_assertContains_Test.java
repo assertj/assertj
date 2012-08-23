@@ -22,7 +22,7 @@ import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -92,7 +92,7 @@ public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
     try {
       arrays.assertContains(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, set(false)));
+      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(false)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

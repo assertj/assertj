@@ -20,7 +20,7 @@ import static org.fest.util.LongArrayFactory.array;
 import static org.fest.util.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -66,7 +66,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test extends LongArraysBaseT
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6L, 8L)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6L, 8L)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -95,7 +95,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test extends LongArraysBaseT
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(6L, -8L), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6L, -8L), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

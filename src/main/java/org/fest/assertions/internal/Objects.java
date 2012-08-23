@@ -33,7 +33,7 @@ import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.ToString.toStringOf;
 
@@ -619,7 +619,7 @@ public class Objects {
     assertIsInstanceOf(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
-    Set<String> ignoredFields = set(fields);
+    Set<String> ignoredFields = newLinkedHashSet(fields);
     for (Field field : actual.getClass().getDeclaredFields()) {
       try {
         if (!ignoredFields.contains(field.getName())) {

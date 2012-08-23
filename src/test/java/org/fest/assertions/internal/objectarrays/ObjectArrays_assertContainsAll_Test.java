@@ -19,7 +19,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.ErrorMessages.iterableToLookForIsNull;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -76,7 +76,7 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
     try {
       arrays.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected.toArray(), set("Han")));
+      verify(failures).failure(info, shouldContain(actual, expected.toArray(), newLinkedHashSet("Han")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -131,7 +131,7 @@ public class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
       arraysWithCustomComparisonStrategy.assertContainsAll(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContain(actual, expected.toArray(), set("Han"), caseInsensitiveStringComparisonStrategy));
+          shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"), caseInsensitiveStringComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

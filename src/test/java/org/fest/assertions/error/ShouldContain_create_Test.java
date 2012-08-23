@@ -16,7 +16,7 @@ package org.fest.assertions.error;
 
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.description.Description;
@@ -39,7 +39,7 @@ public class ShouldContain_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), set("Luke"));
+    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"));
   }
 
   @Test
@@ -51,7 +51,7 @@ public class ShouldContain_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), set("Luke"), new ComparatorBasedComparisonStrategy(
+    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:\n" + "<['Yoda']>\n" + " to contain:\n" + "<['Luke', 'Yoda']>\n" + " but could not find:\n"
@@ -60,7 +60,7 @@ public class ShouldContain_create_Test {
 
   @Test
   public void should_create_error_message_differentiating_long_from_integer() {
-    factory = shouldContain(newArrayList(5L, 7L), newArrayList(5, 7), set(5, 7));
+    factory = shouldContain(newArrayList(5L, 7L), newArrayList(5, 7), newLinkedHashSet(5, 7));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:\n" + "<[5L, 7L]>\n" + " to contain:\n" + "<[5, 7]>\n" + " but could not find:\n"
         + "<[5, 7]>\n", message);

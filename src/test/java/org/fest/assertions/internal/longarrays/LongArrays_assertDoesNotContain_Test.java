@@ -22,7 +22,7 @@ import static org.fest.util.LongArrayFactory.array;
 import static org.fest.util.LongArrayFactory.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -75,7 +75,7 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
     try {
       arrays.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set(6L, 8L)));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6L, 8L)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -116,7 +116,7 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected, set(6L, -8L), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(6L, -8L), absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -23,7 +23,7 @@ import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -91,7 +91,7 @@ public class Maps_assertContains_Test extends MapsBaseTest {
     try {
       maps.assertContains(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, set(entry("job", "Jedi"))));
+      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet(entry("job", "Jedi"))));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

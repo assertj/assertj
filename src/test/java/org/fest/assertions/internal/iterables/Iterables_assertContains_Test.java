@@ -19,7 +19,7 @@ import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.ObjectArrayFactory.emptyArray;
@@ -91,7 +91,7 @@ public class Iterables_assertContains_Test extends IterablesBaseTest {
     try {
       iterables.assertContains(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, set("Han")));
+      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -134,7 +134,7 @@ public class Iterables_assertContains_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContains(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain(actual, expected, set("Han"), comparisonStrategy));
+      verify(failures).failure(info, shouldContain(actual, expected, newLinkedHashSet("Han"), comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

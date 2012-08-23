@@ -18,7 +18,7 @@ import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -60,7 +60,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
-    Collection<String> duplicates = set("Luke", "Yoda");
+    Collection<String> duplicates = newLinkedHashSet("Luke", "Yoda");
     actual.addAll(duplicates);
     try {
       iterables.assertDoesNotHaveDuplicates(info, actual);
@@ -83,7 +83,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    Collection<String> duplicates = set("LUKE", "yoda");
+    Collection<String> duplicates = newLinkedHashSet("LUKE", "yoda");
     actual.addAll(duplicates);
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);

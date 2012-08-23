@@ -20,7 +20,7 @@ import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.fest.util.Collections.set;
+import static org.fest.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
@@ -61,7 +61,7 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArray
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotHaveDuplicates(actual, set(true)));
+      verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(true)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
