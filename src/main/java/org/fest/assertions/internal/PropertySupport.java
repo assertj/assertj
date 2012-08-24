@@ -15,11 +15,10 @@
 package org.fest.assertions.internal;
 
 import static java.lang.String.format;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.unmodifiableList;
-import static org.fest.util.Collections.isEmpty;
-import static org.fest.util.Collections.nonNullElements;
+import static java.util.Collections.*;
+import static org.fest.util.Iterables.isEmpty;
 import static org.fest.util.Introspection.descriptorForProperty;
+import static org.fest.util.Iterables.nonNullElementsIn;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
@@ -68,8 +67,10 @@ public class PropertySupport {
    */
   public <T> Iterable<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     // ignore null elements as we can't extract a property from a null object
-    Iterable<?> cleanedUp = nonNullElements(target);
-    if (isEmpty(cleanedUp)) return emptyList();
+    Iterable<?> cleanedUp = nonNullElementsIn(target);
+    if (isEmpty(cleanedUp)) {
+      return emptyList();
+    }
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
       Iterable<Object> propertyValues = propertyValues(firstPropertyName, Object.class, cleanedUp);
@@ -95,31 +96,36 @@ public class PropertySupport {
 
   private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     List<T> propertyValues = new ArrayList<T>();
-    for (Object e : target)
+    for (Object e : target) {
       propertyValues.add(propertyValue(propertyName, clazz, e));
+    }
     return unmodifiableList(propertyValues);
   }
 
   private String popPropertyNameFrom(String propertyNameChain) {
-    if (!isNestedProperty(propertyNameChain)) return propertyNameChain;
+    if (!isNestedProperty(propertyNameChain)) {
+      return propertyNameChain;
+    }
     return propertyNameChain.substring(0, propertyNameChain.indexOf(SEPARATOR));
   }
 
   private String nextPropertyNameFrom(String propertyNameChain) {
-    if (!isNestedProperty(propertyNameChain)) return "";
+    if (!isNestedProperty(propertyNameChain)) {
+      return "";
+    }
     return propertyNameChain.substring(propertyNameChain.indexOf(SEPARATOR) + 1);
   }
 
   /**
    * <pre>
-   * isNestedProperty("address.street"); // true 
+   * isNestedProperty("address.street"); // true
    * isNestedProperty("address.street.name"); // true
-   * isNestedProperty("person"); // false 
-   * isNestedProperty(".name"); // false 
+   * isNestedProperty("person"); // false
+   * isNestedProperty(".name"); // false
    * isNestedProperty("person."); // false
-   * isNestedProperty("person.name."); // false 
-   * isNestedProperty(".person.name"); // false 
-   * isNestedProperty("."); // false 
+   * isNestedProperty("person.name."); // false
+   * isNestedProperty(".person.name"); // false
+   * isNestedProperty("."); // false
    * isNestedProperty(""); // false
    * </pre>
    */
@@ -162,7 +168,9 @@ public class PropertySupport {
    */
   public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
     // returns null if target is null as we can't extract a property from a null object
-    if (target == null) return null;
+    if (target == null) {
+      return null;
+    }
 
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);

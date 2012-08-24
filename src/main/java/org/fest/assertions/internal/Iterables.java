@@ -46,7 +46,8 @@ import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNul
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
-import static org.fest.util.Collections.*;
+import static org.fest.util.Iterables.isEmpty;
+import static org.fest.util.Iterables.sizeOf;
 import static org.fest.util.Lists.newArrayList;
 
 import java.util.Comparator;

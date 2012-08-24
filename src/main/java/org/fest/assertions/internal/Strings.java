@@ -17,8 +17,7 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldContainString.shouldContain;
-import static org.fest.assertions.error.ShouldContainString.shouldContainIgnoringCase;
+import static org.fest.assertions.error.ShouldContainString.*;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
@@ -28,6 +27,7 @@ import static org.fest.assertions.error.ShouldNotContainString.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.fest.util.Iterables.sizeOf;
 
 import java.lang.reflect.Array;
 import java.util.Comparator;
@@ -35,7 +35,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -68,7 +67,7 @@ public class Strings {
     this(StandardComparisonStrategy.instance());
   }
 
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   public Strings(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
@@ -88,7 +87,9 @@ public class Strings {
    * @throws AssertionError if the given {@code String} is not {@code null} *and* it is not empty.
    */
   public void assertNullOrEmpty(AssertionInfo info, String actual) {
-    if (actual == null || !hasContents(actual)) return;
+    if (actual == null || !hasContents(actual)) {
+      return;
+    }
     throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
@@ -101,7 +102,9 @@ public class Strings {
    */
   public void assertEmpty(AssertionInfo info, String actual) {
     assertNotNull(info, actual);
-    if (!hasContents(actual)) return;
+    if (!hasContents(actual)) {
+      return;
+    }
     throw failures.failure(info, shouldBeEmpty(actual));
   }
 
@@ -114,7 +117,9 @@ public class Strings {
    */
   public void assertNotEmpty(AssertionInfo info, String actual) {
     assertNotNull(info, actual);
-    if (hasContents(actual)) return;
+    if (hasContents(actual)) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeEmpty());
   }
 
@@ -133,7 +138,9 @@ public class Strings {
   public void assertHasSize(AssertionInfo info, String actual, int expectedSize) {
     assertNotNull(info, actual);
     int sizeOfActual = actual.length();
-    if (sizeOfActual == expectedSize) return;
+    if (sizeOfActual == expectedSize) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
@@ -148,10 +155,14 @@ public class Strings {
    */
   public void assertHasSameSizeAs(AssertionInfo info, String actual, Iterable<?> other) {
     assertNotNull(info, actual);
-    if (other == null) throw new NullPointerException("The iterable to look for should not be null");
+    if (other == null) {
+      throw new NullPointerException("The iterable to look for should not be null");
+    }
     int sizeOfActual = actual.length();
-    int sizeOfOther = Collections.sizeOf(other);
-    if (sizeOfActual == sizeOfOther) return;
+    int sizeOfOther = sizeOf(other);
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
   }
 
@@ -166,10 +177,14 @@ public class Strings {
    */
   public void assertHasSameSizeAs(AssertionInfo info, String actual, Object[] other) {
     assertNotNull(info, actual);
-    if (other == null) throw arrayOfValuesToLookForIsNull();
+    if (other == null) {
+      throw arrayOfValuesToLookForIsNull();
+    }
     int sizeOfActual = actual.length();
     int sizeOfOther = Array.getLength(other);
-    if (sizeOfActual == sizeOfOther) return;
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
   }
 
@@ -185,7 +200,9 @@ public class Strings {
   public void assertContains(AssertionInfo info, String actual, String sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (stringContains(actual, sequence)) return;
+    if (stringContains(actual, sequence)) {
+      return;
+    }
     throw failures.failure(info, shouldContain(actual, sequence, comparisonStrategy));
   }
 
@@ -208,7 +225,9 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, String actual, String sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (actual.toLowerCase().contains(sequence.toLowerCase())) return;
+    if (actual.toLowerCase().contains(sequence.toLowerCase())) {
+      return;
+    }
     throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
@@ -224,12 +243,16 @@ public class Strings {
   public void assertDoesNotContain(AssertionInfo info, String actual, String sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!stringContains(actual, sequence)) return;
+    if (!stringContains(actual, sequence)) {
+      return;
+    }
     throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
   }
 
   private void checkSequenceIsNotNull(String sequence) {
-    if (sequence == null) throw new NullPointerException("The sequence to look for should not be null");
+    if (sequence == null) {
+      throw new NullPointerException("The sequence to look for should not be null");
+    }
   }
 
   /**
@@ -240,12 +263,16 @@ public class Strings {
    * @throws AssertionError if the given {@code String}s are not equal.
    */
   public void assertEqualsIgnoringCase(AssertionInfo info, String actual, String expected) {
-    if (areEqualIgnoringCase(actual, expected)) return;
+    if (areEqualIgnoringCase(actual, expected)) {
+      return;
+    }
     throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   private boolean areEqualIgnoringCase(String actual, String expected) {
-    if (actual == null) return expected == null;
+    if (actual == null) {
+      return expected == null;
+    }
     return actual.equalsIgnoreCase(expected);
   }
 
@@ -259,9 +286,13 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not start with the given prefix.
    */
   public void assertStartsWith(AssertionInfo info, String actual, String prefix) {
-    if (prefix == null) throw new NullPointerException("The given prefix should not be null");
+    if (prefix == null) {
+      throw new NullPointerException("The given prefix should not be null");
+    }
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringStartsWith(actual, prefix)) return;
+    if (comparisonStrategy.stringStartsWith(actual, prefix)) {
+      return;
+    }
     throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
 
@@ -275,9 +306,13 @@ public class Strings {
    * @throws AssertionError if the actual {@code String} does not end with the given suffix.
    */
   public void assertEndsWith(AssertionInfo info, String actual, String suffix) {
-    if (suffix == null) throw new NullPointerException("The given suffix should not be null");
+    if (suffix == null) {
+      throw new NullPointerException("The given suffix should not be null");
+    }
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringEndsWith(actual, suffix)) return;
+    if (comparisonStrategy.stringEndsWith(actual, suffix)) {
+      return;
+    }
     throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
   }
 
@@ -294,7 +329,9 @@ public class Strings {
   public void assertMatches(AssertionInfo info, String actual, String regex) {
     checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
-    if (Pattern.matches(regex, actual)) return;
+    if (Pattern.matches(regex, actual)) {
+      return;
+    }
     throw failures.failure(info, shouldMatch(actual, regex));
   }
 
@@ -309,12 +346,16 @@ public class Strings {
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
     checkRegexIsNotNull(regex);
-    if (actual == null || !Pattern.matches(regex, actual)) return;
+    if (actual == null || !Pattern.matches(regex, actual)) {
+      return;
+    }
     throw failures.failure(info, shouldNotMatch(actual, regex));
   }
 
   private void checkRegexIsNotNull(String regex) {
-    if (regex == null) throw patternToMatchIsNull();
+    if (regex == null) {
+      throw patternToMatchIsNull();
+    }
   }
 
   /**
@@ -329,7 +370,9 @@ public class Strings {
   public void assertMatches(AssertionInfo info, String actual, Pattern pattern) {
     checkIsNotNull(pattern);
     assertNotNull(info, actual);
-    if (pattern.matcher(actual).matches()) return;
+    if (pattern.matcher(actual).matches()) {
+      return;
+    }
     throw failures.failure(info, shouldMatch(actual, pattern.pattern()));
   }
 
@@ -343,12 +386,16 @@ public class Strings {
    */
   public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
     checkIsNotNull(pattern);
-    if (actual == null || !pattern.matcher(actual).matches()) return;
+    if (actual == null || !pattern.matcher(actual).matches()) {
+      return;
+    }
     throw failures.failure(info, shouldNotMatch(actual, pattern.pattern()));
   }
 
   private void checkIsNotNull(Pattern pattern) {
-    if (pattern == null) throw patternToMatchIsNull();
+    if (pattern == null) {
+      throw patternToMatchIsNull();
+    }
   }
 
   private NullPointerException patternToMatchIsNull() {

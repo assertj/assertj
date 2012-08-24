@@ -52,7 +52,7 @@ import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
-import static org.fest.util.Collections.isEmpty;
+import static org.fest.util.Iterables.isEmpty;
 import static org.fest.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
@@ -69,7 +69,6 @@ import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.error.ElementsShouldNotBeExactly;
 import org.fest.assertions.util.ArrayWrapperList;
-import org.fest.util.Collections;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.ComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;
@@ -141,7 +140,7 @@ class Arrays {
       throw new NullPointerException("The iterable to look for should not be null");
     }
     int sizeOfActual = sizeOf(array);
-    int sizeOfOther = Collections.sizeOf(other);
+    int sizeOfOther = sizeOf(other);
     if (sizeOfActual == sizeOfOther) {
       return;
     }

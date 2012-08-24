@@ -26,6 +26,7 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.fest.assertions.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.fest.util.Iterables.sizeOf;
 import static org.fest.util.Objects.areEqual;
 
 import java.lang.reflect.Array;
@@ -35,7 +36,6 @@ import java.util.Set;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.MapEntry;
-import org.fest.util.Collections;
 import org.fest.util.VisibleForTesting;
 
 /**
@@ -69,7 +69,9 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is not {@code null} *and* contains one or more entries.
    */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
-    if (actual == null || actual.isEmpty()) return;
+    if (actual == null || actual.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
@@ -82,7 +84,9 @@ public class Maps {
    */
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (actual.isEmpty()) return;
+    if (actual.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldBeEmpty(actual));
   }
 
@@ -95,7 +99,9 @@ public class Maps {
    */
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (!actual.isEmpty()) return;
+    if (!actual.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldNotBeEmpty());
   }
 
@@ -110,7 +116,9 @@ public class Maps {
   public void assertHasSize(AssertionInfo info, Map<?, ?> actual, int expectedSize) {
     assertNotNull(info, actual);
     int sizeOfActual = actual.size();
-    if (sizeOfActual == expectedSize) return;
+    if (sizeOfActual == expectedSize) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
@@ -125,10 +133,14 @@ public class Maps {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Iterable<?> other) {
     assertNotNull(info, map);
-    if (other == null) throw new NullPointerException("The iterable to look for should not be null");
+    if (other == null) {
+      throw new NullPointerException("The iterable to look for should not be null");
+    }
     int sizeOfActual = map.size();
-    int sizeOfOther = Collections.sizeOf(other);
-    if (sizeOfActual == sizeOfOther) return;
+    int sizeOfOther = sizeOf(other);
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(map, sizeOfActual, sizeOfOther));
   }
 
@@ -143,10 +155,14 @@ public class Maps {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Object[] other) {
     assertNotNull(info, map);
-    if (other == null) throw arrayOfValuesToLookForIsNull();
+    if (other == null) {
+      throw arrayOfValuesToLookForIsNull();
+    }
     int sizeOfActual = map.size();
     int sizeOfOther = Array.getLength(other);
-    if (sizeOfActual == sizeOfOther) return;
+    if (sizeOfActual == sizeOfOther) {
+      return;
+    }
     throw failures.failure(info, shouldHaveSameSizeAs(map, sizeOfActual, sizeOfOther));
   }
 
@@ -165,9 +181,14 @@ public class Maps {
     isNotEmptyOrNull(entries);
     assertNotNull(info, actual);
     Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
-    for (MapEntry entry : entries)
-      if (!containsEntry(actual, entry)) notFound.add(entry);
-    if (notFound.isEmpty()) return;
+    for (MapEntry entry : entries) {
+      if (!containsEntry(actual, entry)) {
+        notFound.add(entry);
+      }
+    }
+    if (notFound.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldContain(actual, entries, notFound));
   }
 
@@ -186,9 +207,14 @@ public class Maps {
     isNotEmptyOrNull(entries);
     assertNotNull(info, actual);
     Set<MapEntry> found = new LinkedHashSet<MapEntry>();
-    for (MapEntry entry : entries)
-      if (containsEntry(actual, entry)) found.add(entry);
-    if (found.isEmpty()) return;
+    for (MapEntry entry : entries) {
+      if (containsEntry(actual, entry)) {
+        found.add(entry);
+      }
+    }
+    if (found.isEmpty()) {
+      return;
+    }
     throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
@@ -202,7 +228,9 @@ public class Maps {
    */
   public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
-    if (actual.containsKey(key)) return;
+    if (actual.containsKey(key)) {
+      return;
+    }
     throw failures.failure(info, shouldContainKey(actual, key));
   }
 
@@ -216,7 +244,9 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
-    if (!actual.containsKey(key)) return;
+    if (!actual.containsKey(key)) {
+      return;
+    }
     throw failures.failure(info, shouldNotContainKey(actual, key));
   }
 
@@ -230,7 +260,9 @@ public class Maps {
    */
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (actual.containsValue(value)) return;
+    if (actual.containsValue(value)) {
+      return;
+    }
     throw failures.failure(info, shouldContainValue(actual, value));
   }
 
@@ -244,18 +276,28 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (!actual.containsValue(value)) return;
+    if (!actual.containsValue(value)) {
+      return;
+    }
     throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
   private void isNotEmptyOrNull(MapEntry[] entries) {
-    if (entries == null) throw new NullPointerException("The array of entries to look for should not be null");
-    if (entries.length == 0) throw new IllegalArgumentException("The array of entries to look for should not be empty");
+    if (entries == null) {
+      throw new NullPointerException("The array of entries to look for should not be null");
+    }
+    if (entries.length == 0) {
+      throw new IllegalArgumentException("The array of entries to look for should not be empty");
+    }
   }
 
   private boolean containsEntry(Map<?, ?> actual, MapEntry entry) {
-    if (entry == null) throw new NullPointerException("Entries to look for should not be null");
-    if (!actual.containsKey(entry.key)) return false;
+    if (entry == null) {
+      throw new NullPointerException("Entries to look for should not be null");
+    }
+    if (!actual.containsKey(entry.key)) {
+      return false;
+    }
     return areEqual(actual.get(entry.key), entry.value);
   }
 
