@@ -1,16 +1,16 @@
 /*
  * Created on Oct 23, 2010
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
- * 
- * Copyright @2010-2011 the original author or authors.
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * Copyright @2010-2012 the original author or authors.
  */
 package org.fest.assertions.data;
 
@@ -18,18 +18,18 @@ import static org.fest.util.Objects.*;
 
 /**
  * A positive offset.
+ *
  * @param <T> the type of the offset value.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
 public class Offset<T extends Number> {
-
-  /** The value of this offset. */
   public final T value;
 
   /**
-   * Creates a new double </code>{@link Offset}</code>.
+   * Creates a new {@link Offset}.
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -37,12 +37,15 @@ public class Offset<T extends Number> {
    */
   public static Offset<Double> offset(Double value) {
     checkIsNotNull(value);
-    if (value.doubleValue() < 0d) throw valueNotPositive();
+    if (value.doubleValue() < 0d) {
+      throw valueNotPositive();
+    }
     return new Offset<Double>(value);
   }
 
   /**
-   * Creates a new float </code>{@link Offset}</code>.
+   * Creates a new {@link Offset}.
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -50,12 +53,15 @@ public class Offset<T extends Number> {
    */
   public static Offset<Float> offset(Float value) {
     checkIsNotNull(value);
-    if (value.floatValue() < 0f) throw valueNotPositive();
+    if (value.floatValue() < 0f) {
+      throw valueNotPositive();
+    }
     return new Offset<Float>(value);
   }
 
   /**
-   * Creates a new integer </code>{@link Offset}</code>.
+   * Creates a new {@link Offset}.
+   *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.
@@ -63,12 +69,16 @@ public class Offset<T extends Number> {
    */
   public static Offset<Integer> offset(Integer value) {
     checkIsNotNull(value);
-    if (value.intValue() < 0) throw valueNotPositive();
+    if (value.intValue() < 0) {
+      throw valueNotPositive();
+    }
     return new Offset<Integer>(value);
   }
 
   private static <T extends Number> void checkIsNotNull(T value) {
-    if (value == null) throw new NullPointerException("The value of the offset to create should not be null");
+    if (value == null) {
+      throw new NullPointerException("The value of the offset to create should not be null");
+    }
   }
 
   private static IllegalArgumentException valueNotPositive() {
@@ -81,11 +91,17 @@ public class Offset<T extends Number> {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
     Offset<?> other = (Offset<?>) obj;
-    return (areEqual(value, other.value));
+    return areEqual(value, other.value);
   }
 
   @Override
