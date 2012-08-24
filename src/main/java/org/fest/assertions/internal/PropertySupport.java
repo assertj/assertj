@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.*;
-import static org.fest.util.Iterables.isEmpty;
+import static org.fest.util.Iterables.isNullOrEmpty;
 import static org.fest.util.Introspection.descriptorForProperty;
 import static org.fest.util.Iterables.nonNullElementsIn;
 
@@ -68,7 +68,7 @@ public class PropertySupport {
   public <T> Iterable<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     // ignore null elements as we can't extract a property from a null object
     Iterable<?> cleanedUp = nonNullElementsIn(target);
-    if (isEmpty(cleanedUp)) {
+    if (isNullOrEmpty(cleanedUp)) {
       return emptyList();
     }
     if (isNestedProperty(propertyName)) {

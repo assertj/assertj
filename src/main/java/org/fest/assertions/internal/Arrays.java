@@ -52,7 +52,7 @@ import static org.fest.assertions.internal.CommonErrors.*;
 import static org.fest.assertions.internal.CommonValidations.checkIndexValueIsValid;
 import static org.fest.assertions.util.ArrayWrapperList.wrap;
 import static org.fest.util.Arrays.isArray;
-import static org.fest.util.Iterables.isEmpty;
+import static org.fest.util.Iterables.isNullOrEmpty;
 import static org.fest.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
@@ -350,7 +350,7 @@ class Arrays {
     assertNotNull(info, array);
     ArrayWrapperList wrapped = wrap(array);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(wrapped);
-    if (isEmpty(duplicates)) {
+    if (isNullOrEmpty(duplicates)) {
       return;
     }
     throw failures.failure(info, shouldNotHaveDuplicates(array, duplicates, comparisonStrategy));

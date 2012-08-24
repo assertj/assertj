@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.util.Strings.isEmpty;
+import static org.fest.util.Strings.isNullOrEmpty;
 
 import org.fest.assertions.description.Description;
 import org.fest.util.VisibleForTesting;
@@ -47,7 +47,7 @@ public class DescriptionFormatter {
    */
   public String format(Description d) {
     String s = (d != null) ? d.value() : null;
-    if (isEmpty(s)) return "";
+    if (isNullOrEmpty(s)) return "";
     return String.format("[%s] ", s);
   }
 

@@ -46,7 +46,7 @@ import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNul
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.assertions.internal.CommonErrors.*;
-import static org.fest.util.Iterables.isEmpty;
+import static org.fest.util.Iterables.isNullOrEmpty;
 import static org.fest.util.Iterables.sizeOf;
 import static org.fest.util.Lists.newArrayList;
 
@@ -116,7 +116,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, Iterable<?> actual) {
-    if (actual == null || isEmpty(actual)) {
+    if (actual == null || isNullOrEmpty(actual)) {
       return;
     }
     throw failures.failure(info, shouldBeNullOrEmpty(actual));
@@ -131,7 +131,7 @@ public class Iterables {
    */
   public void assertEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (isEmpty(actual)) {
+    if (isNullOrEmpty(actual)) {
       return;
     }
     throw failures.failure(info, shouldBeEmpty(actual));
@@ -146,7 +146,7 @@ public class Iterables {
    */
   public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (!isEmpty(actual)) {
+    if (!isNullOrEmpty(actual)) {
       return;
     }
     throw failures.failure(info, shouldNotBeEmpty());
@@ -448,7 +448,7 @@ public class Iterables {
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
-    if (isEmpty(duplicates)) {
+    if (isNullOrEmpty(duplicates)) {
       return;
     }
     throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
