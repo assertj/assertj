@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.fest.util.Lists.newArrayList;
-import static org.fest.util.Systems.LINE_SEPARATOR;
+import static org.fest.util.SystemProperties.LINE_SEPARATOR;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;

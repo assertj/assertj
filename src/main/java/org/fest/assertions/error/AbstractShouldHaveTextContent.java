@@ -1,6 +1,6 @@
 package org.fest.assertions.error;
 
-import static org.fest.util.Systems.LINE_SEPARATOR;
+import static org.fest.util.SystemProperties.LINE_SEPARATOR;
 
 import java.util.List;
 
