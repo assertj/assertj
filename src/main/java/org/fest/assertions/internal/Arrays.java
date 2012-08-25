@@ -56,23 +56,13 @@ import static org.fest.util.Iterables.isNullOrEmpty;
 import static org.fest.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.core.Condition;
+import org.fest.assertions.core.*;
 import org.fest.assertions.data.Index;
 import org.fest.assertions.error.ElementsShouldNotBeExactly;
 import org.fest.assertions.util.ArrayWrapperList;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
-import org.fest.util.VisibleForTesting;
+import org.fest.util.*;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -140,7 +130,7 @@ class Arrays {
       throw new NullPointerException("The iterable to look for should not be null");
     }
     int sizeOfActual = sizeOf(array);
-    int sizeOfOther = sizeOf(other);
+    int sizeOfOther = org.fest.util.Iterables.sizeOf(other);
     if (sizeOfActual == sizeOfOther) {
       return;
     }
