@@ -17,7 +17,10 @@ package org.fest.assertions.error;
 import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
-import org.fest.util.*;
+import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.util.StandardComparisonStrategy;
+import org.fest.util.ToString;
+import org.fest.util.VisibleForTesting;
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -71,6 +74,7 @@ public class MessageFormatter {
   }
 
   private String asText(Object o) {
+    // TODO remove since AWT assertions have been removed
     if (o != null && INSTANCE.getClass().getName().equals("java.awt.image.BufferedImage")) return "image";
     if (o instanceof ComparatorBasedComparisonStrategy) return " according to " + o + " comparator";
     if (o instanceof StandardComparisonStrategy) return "";

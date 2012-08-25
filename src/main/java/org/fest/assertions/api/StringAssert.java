@@ -34,7 +34,7 @@ import org.fest.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
- * @author Nicolas François
+ * @author Nicolas Francois
  */
 public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert, String> {
 
@@ -91,7 +91,20 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
   }
 
   /**
+   * Verifies that the actual {@code String} contains only once the given sequence.
+   * 
+   * @param sequence the sequence to search for.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code String} does not contain the given one, or contain it multiple times.
+   */
+  public StringAssert containsOnlyOnce(String sequence) {
+    strings.assertContainsOnlyOnce(info, actual, sequence);
+    return this;
+  }
+
+  /**
    * Verifies that the actual {@code String} contains the given sequence.
+   * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -207,7 +220,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     strings.assertDoesNotMatch(info, actual, pattern);
     return this;
   }
-
+  
   /** {@inheritDoc} */
   public StringAssert usingElementComparator(Comparator<? super String> customComparator) {
     // TODO maybe use Comparator<? super Character>
