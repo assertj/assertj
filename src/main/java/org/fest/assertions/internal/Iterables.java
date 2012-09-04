@@ -1,14 +1,14 @@
 /*
  * Created on Sep 17, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -34,6 +34,7 @@ import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.fest.assertions.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
+import static org.fest.assertions.error.ShouldContainExactly.shouldContainExactly;
 import static org.fest.assertions.error.ShouldContainNull.shouldContainNull;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
@@ -45,7 +46,8 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.assertions.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.assertions.internal.CommonErrors.*;
+import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.fest.assertions.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.fest.util.Iterables.isNullOrEmpty;
 import static org.fest.util.Iterables.sizeOf;
 import static org.fest.util.Lists.newArrayList;
@@ -79,6 +81,7 @@ public class Iterables {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Iterables instance() {
@@ -104,13 +107,15 @@ public class Iterables {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-        .getComparator(); }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    }
     return null;
   }
 
   /**
    * Asserts that the given <code>{@link Iterable}</code> is {@code null} or empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is not {@code null} *and* contains one or more elements.
@@ -124,6 +129,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} is empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
@@ -139,6 +145,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} is not empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
@@ -154,6 +161,7 @@ public class Iterables {
 
   /**
    * Asserts that the number of elements in the given {@code Iterable} is equal to the expected one.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param expectedSize the expected size of {@code actual}.
@@ -171,6 +179,7 @@ public class Iterables {
 
   /**
    * Assert that the actual {@code Iterable} has the same size as the other array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param other the given array to compare.
@@ -193,6 +202,7 @@ public class Iterables {
 
   /**
    * Assert that the actual {@code Iterable} has the same size as the other {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param other the given {@code Iterable}.
@@ -213,6 +223,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} contains the given values, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param values the values that are expected to be in the given {@code Iterable}.
@@ -252,14 +263,15 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} contains only the given values and nothing else, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param values the values that are expected to be in the given {@code Iterable}.
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given {@code Iterable}
-   *           contains values that are not in the given array.
+   * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given
+   *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
@@ -286,6 +298,7 @@ public class Iterables {
 
   /**
    * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
+   * 
    * @param elements to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
@@ -305,6 +318,7 @@ public class Iterables {
 
   /**
    * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
+   * 
    * @param iterable to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
@@ -323,8 +337,9 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the given <code>{@link Iterable}</code> contains the given sequence of objects, without any other objects
-   * between them.
+   * Verifies that the given <code>{@link Iterable}</code> contains the given sequence of objects, without any other
+   * objects between them.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param sequence the sequence of objects to look for.
@@ -349,6 +364,7 @@ public class Iterables {
   /**
    * Verifies that the actual <code>Iterable</code> is a subset of values <code>Iterable</code>. <br/>
    * Both actual and given iterable are treated as sets, therefore duplicates on either of them are ignored.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code Iterable}.
    * @param values the {@code Iterable} that should contain all actual elements.
@@ -382,6 +398,7 @@ public class Iterables {
 
   /**
    * Return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
+   * 
    * @param actualAsList the list to look sequance in
    * @param sequence the sequence to look for
    * @param startingIndex the index of actual list at which we start looking for sequence.
@@ -413,6 +430,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} does not contain the given values.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param values the values that are expected not to be in the given {@code Iterable}.
@@ -438,6 +456,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} does not have duplicate values.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws NullPointerException if the array of values is {@code null}.
@@ -455,9 +474,10 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the given {@code Iterable} starts with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it also verifies that the
-   * first element in the sequence is also the first element of the given {@code Iterable}.
+   * Verifies that the given {@code Iterable} starts with the given sequence of objects, without any other objects
+   * between them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it
+   * also verifies that the first element in the sequence is also the first element of the given {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param sequence the sequence of objects to look for.
@@ -490,9 +510,10 @@ public class Iterables {
   }
 
   /**
-   * Verifies that the given {@code Iterable} ends with the given sequence of objects, without any other objects between them.
-   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it also verifies that the
-   * last element in the sequence is also the last element of the given {@code Iterable}.
+   * Verifies that the given {@code Iterable} ends with the given sequence of objects, without any other objects between
+   * them. Similar to <code>{@link #assertContainsSequence(AssertionInfo, Iterable, Object[])}</code>, but it also
+   * verifies that the last element in the sequence is also the last element of the given {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param sequence the sequence of objects to look for.
@@ -524,6 +545,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} contains at least a null element.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
@@ -538,6 +560,7 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} does not contain null elements.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
@@ -552,6 +575,7 @@ public class Iterables {
 
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -575,6 +599,7 @@ public class Iterables {
 
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -598,6 +623,7 @@ public class Iterables {
 
   /**
    * Assert that each element of given {@code Iterable} satisfies the given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -621,6 +647,7 @@ public class Iterables {
 
   /**
    * Assert that each element of given {@code Iterable} not satisfies the given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param condition the given {@code Condition}.
@@ -643,7 +670,9 @@ public class Iterables {
   }
 
   /**
-   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given condition.
+   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the minimum number of times the condition should be verified.
@@ -652,7 +681,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -667,8 +697,9 @@ public class Iterables {
   }
 
   /**
-   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the given
-   * condition.
+   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
+   * given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the number of times the condition should not be verified at least.
@@ -677,7 +708,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
    */
-  public <E> void assertAreNotAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreNotAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -692,7 +724,9 @@ public class Iterables {
   }
 
   /**
-   * Assert that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given condition.
+   * Assert that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the number of times the condition should be at most verified.
@@ -701,7 +735,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
-  public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -716,8 +751,9 @@ public class Iterables {
   }
 
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the given
-   * condition.
+   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
+   * given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the number of times the condition should not be verified at most.
@@ -726,7 +762,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
    */
-  public <E> void assertAreNotAtMost(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreNotAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -741,7 +778,9 @@ public class Iterables {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given condition.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} satisfying the given
+   * condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the exact number of times the condition should be verified.
@@ -750,7 +789,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -765,8 +805,9 @@ public class Iterables {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the given
-   * condition.
+   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
+   * given condition.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param n the exact number of times the condition should not be verified.
@@ -775,7 +816,8 @@ public class Iterables {
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
    */
-  public <E> void assertAreNotExactly(AssertionInfo info, Iterable<? extends E> actual, int n, Condition<? super E> condition) {
+  public <E> void assertAreNotExactly(AssertionInfo info, Iterable<? extends E> actual, int n,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -790,10 +832,11 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
-  public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times, Condition<? super E> condition) {
+  public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -808,8 +851,8 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
   public <E> void assertDoNotHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
       Condition<? super E> condition) {
@@ -827,10 +870,11 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api
+   * (same logic, only error message differs).
    */
-  public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times, Condition<? super E> condition) {
+  public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -845,8 +889,8 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
   public <E> void assertDoNotHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
       Condition<? super E> condition) {
@@ -864,10 +908,11 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
-  public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times, Condition<? super E> condition) {
+  public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
+      Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -882,8 +927,8 @@ public class Iterables {
   }
 
   /**
-   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent api (same
-   * logic, only error message differs).
+   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
+   * api (same logic, only error message differs).
    */
   public <E> void assertDoNotHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
       Condition<? super E> condition) {
@@ -902,13 +947,14 @@ public class Iterables {
 
   /**
    * Asserts that the given {@code Iterable} contains all the elements of the other {@code Iterable}, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
    * @param other the other {@code Iterable}.
    * @throws NullPointerException if {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other {@code Iterable}, in any
-   *           order.
+   * @throws AssertionError if the given {@code Iterable} does not contain all the elements of the other
+   *           {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
     if (other == null) {
@@ -926,6 +972,37 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  /**
+   * Asserts that the given {@code Iterable} contains exactly the given values and nothing else, <b>in order</b>.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param values the values that are expected to be in the given {@code Iterable} in order.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given
+   *           {@code Iterable} contains values that are not in the given array, in order.
+   */
+  public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    Set<Object> notExpected = setFromIterable(actual);
+    Set<Object> notFound = containsOnly(notExpected, values);
+    if (notExpected.isEmpty() && notFound.isEmpty()) {
+      // actual and values have the same elements but are they in the same order.
+      int i = 0;
+      for (Object elementFromActual : actual) {
+        if (!areEqual(elementFromActual, values[i])) {
+          throw failures.failure(info, shouldContainExactly(elementFromActual, values[i], i, comparisonStrategy));
+        }
+        i++;
+      }
+      return;
+    }
+    throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {

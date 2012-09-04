@@ -1,14 +1,14 @@
 /*
  * Created on Dec 22, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -17,7 +17,9 @@ package org.fest.assertions.internal;
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.fest.assertions.error.ShouldContainString.*;
+import static org.fest.assertions.error.ShouldContainString.shouldContain;
+import static org.fest.assertions.error.ShouldContainString.shouldContainIgnoringCase;
+import static org.fest.assertions.error.ShouldContainStringOnlyOnce.shouldContainOnlyOnce;
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
@@ -53,6 +55,7 @@ public class Strings {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Strings instance() {
@@ -75,13 +78,15 @@ public class Strings {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-        .getComparator(); }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    }
     return null;
   }
 
   /**
    * Asserts that the given {@code String} is {@code null} or empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @throws AssertionError if the given {@code String} is not {@code null} *and* it is not empty.
@@ -95,6 +100,7 @@ public class Strings {
 
   /**
    * Asserts that the given {@code String} is empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @throws AssertionError if the given {@code String} is {@code null}.
@@ -110,6 +116,7 @@ public class Strings {
 
   /**
    * Asserts that the given {@code String} is not empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @throws AssertionError if the given {@code String} is {@code null}.
@@ -129,6 +136,7 @@ public class Strings {
 
   /**
    * Asserts that the size of the given {@code String} is equal to the expected one.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param expectedSize the expected size of {@code actual}.
@@ -146,6 +154,7 @@ public class Strings {
 
   /**
    * Asserts that the number of entries in the given {@code String} has the same size as the other {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param other the group to compare
@@ -168,6 +177,7 @@ public class Strings {
 
   /**
    * Asserts that the number of entries in the given {@code String} has the same size as the other array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param other the group to compare
@@ -190,6 +200,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} contains the given sequence.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param sequence the sequence to search for.
@@ -215,6 +226,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} contains the given sequence, ignoring case considerations.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param sequence the sequence to search for.
@@ -233,6 +245,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} does not contain the given sequence.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param sequence the sequence to search for.
@@ -257,6 +270,7 @@ public class Strings {
 
   /**
    * Verifies that two {@code String}s are equal, ignoring case considerations.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param expected the expected {@code String}.
@@ -277,7 +291,45 @@ public class Strings {
   }
 
   /**
+   * Verifies that actual {@code String}s contains only once the given sequence.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code String}.
+   * @param sequence the given {@code String}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contains <b>only once</b> the given {@code String}.
+   */
+  public void assertContainsOnlyOnce(AssertionInfo info, String actual, String sequence) {
+    checkSequenceIsNotNull(sequence);
+    assertNotNull(info, actual);
+    int sequenceOccurencesInActual = countOccurences(sequence, actual);
+    if (sequenceOccurencesInActual == 1)
+      return;
+    throw failures.failure(info,
+        shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+  }
+
+  /**
+   * Count occurences of sequenceToSearch in actual {@link String}.
+   * 
+   * @param sequenceToSearch the sequence to search in in actual {@link String}.
+   * @param actual the {@link String} to search occurences in.
+   * @return the number of occurences of sequenceToSearch in actual {@link String}.
+   */
+  private int countOccurences(String sequenceToSearch, String actual) {
+    int occurences = 0;
+    for (int i = 0; i <= (actual.length() - sequenceToSearch.length()); i++) {
+      if (comparisonStrategy.areEqual(actual.substring(i, i + sequenceToSearch.length()), sequenceToSearch)) {
+        occurences++;
+      }
+    }
+    return occurences;
+  }
+
+  /**
    * Verifies that the given {@code String} starts with the given prefix.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param prefix the given prefix.
@@ -298,6 +350,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} ends with the given suffix.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
    * @param suffix the given suffix.
@@ -318,6 +371,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} matches the given regular expression.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param regex the regular expression to which the actual {@code String} is to be matched.
@@ -337,6 +391,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} does not match the given regular expression.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param regex the regular expression to which the actual {@code String} is to be matched.
@@ -360,6 +415,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} matches the given regular expression.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param pattern the regular expression to which the actual {@code String} is to be matched.
@@ -378,6 +434,7 @@ public class Strings {
 
   /**
    * Verifies that the given {@code String} does not match the given regular expression.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code String}.
    * @param pattern the regular expression to which the actual {@code String} is to be matched.

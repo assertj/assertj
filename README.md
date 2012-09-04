@@ -20,6 +20,6 @@ For more details please visit :
 
 ### Thanks
 
-Thanks to Cloudbees for their FOSS program that allows Fest to have a Jenkins CI !
+Thanks to Cloudbees for their FOSS program that allows Fest to have a **[Jenkins CI server](https://fest.ci.cloudbees.com/#)** !
 
 ![cloudbees](/alexruiz/fest-assert-2.x/raw/master/src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png)
