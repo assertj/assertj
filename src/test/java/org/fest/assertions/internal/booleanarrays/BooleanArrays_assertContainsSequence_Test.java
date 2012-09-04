@@ -15,11 +15,10 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -44,13 +43,13 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   @Before
   public void setUp() {
     super.setUp();
-    actual = array(true, false, false, true);
+    actual = arrayOf(true, false, false, true);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsSequence(someInfo(), null, array(true));
+    arrays.assertContainsSequence(someInfo(), null, arrayOf(true));
   }
 
   @Test
@@ -110,11 +109,11 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
 
   @Test
   public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(someInfo(), actual, array(true, false));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(someInfo(), actual, array(true, false, false, true));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(true, false, false, true));
   }
 }

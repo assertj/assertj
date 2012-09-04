@@ -16,6 +16,7 @@ package org.fest.assertions.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
+import static org.fest.assertions.test.ObjectArrays.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -23,7 +24,6 @@ import static org.fest.util.Arrays.array;
 import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
-import static org.fest.util.ObjectArrayFactory.emptyArray;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;

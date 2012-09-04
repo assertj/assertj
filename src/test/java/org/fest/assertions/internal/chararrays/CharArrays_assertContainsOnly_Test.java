@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
-import static org.fest.util.CharArrayFactory.*;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.CharArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,23 +40,23 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c'));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf('a', 'b', 'c'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(someInfo(), actual, array('c', 'b', 'a'));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf('c', 'b', 'a'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once() {
-    actual = array('a', 'b', 'c', 'c', 'c');
-    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c'));
+    actual = arrayOf('a', 'b', 'c', 'c', 'c');
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf('a', 'b', 'c'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(someInfo(), actual, array('a', 'b', 'c', 'a', 'b', 'c'));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf('a', 'b', 'c', 'a', 'b', 'c'));
   }
 
   @Test
@@ -74,7 +74,7 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, array('a'));
+    arrays.assertContainsOnly(someInfo(), null, arrayOf('a'));
   }
 
   @Test
@@ -92,23 +92,23 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array('A', 'b', 'c'));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf('A', 'b', 'c'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array('c', 'b', 'A'));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf('c', 'b', 'A'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array('A', 'b', 'c', 'c', 'c');
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array('A', 'b', 'c'));
+    actual = arrayOf('A', 'b', 'c', 'c', 'c');
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf('A', 'b', 'c'));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array('A', 'b', 'c', 'A', 'b', 'c'));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf('A', 'b', 'c', 'A', 'b', 'c'));
   }
 
   @Test
@@ -126,7 +126,7 @@ public class CharArrays_assertContainsOnly_Test extends CharArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, array('A'));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf('A'));
   }
 
   @Test

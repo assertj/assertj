@@ -15,11 +15,10 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -42,28 +41,28 @@ public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(someInfo(), actual, array(true));
+    arrays.assertContains(someInfo(), actual, arrayOf(true));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(someInfo(), actual, array(false, true));
+    arrays.assertContains(someInfo(), actual, arrayOf(false, true));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(someInfo(), actual, array(true, false));
+    arrays.assertContains(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = array(true, true, false, false);
-    arrays.assertContains(someInfo(), actual, array(true));
+    actual = arrayOf(true, true, false, false);
+    arrays.assertContains(someInfo(), actual, arrayOf(true));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(someInfo(), actual, array(true, true));
+    arrays.assertContains(someInfo(), actual, arrayOf(true, true));
   }
 
   @Test
@@ -81,13 +80,13 @@ public class BooleanArrays_assertContains_Test extends BooleanArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, array(true));
+    arrays.assertContains(someInfo(), null, arrayOf(true));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_values() {
     AssertionInfo info = someInfo();
-    actual = array(true);
+    actual = arrayOf(true);
     boolean[] expected = { false };
     try {
       arrays.assertContains(info, actual, expected);

@@ -16,8 +16,7 @@ package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -57,6 +56,6 @@ public class LongArrays_assertNotEmpty_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(someInfo(), array(8L));
+    arrays.assertNotEmpty(someInfo(), arrayOf(8L));
   }
 }

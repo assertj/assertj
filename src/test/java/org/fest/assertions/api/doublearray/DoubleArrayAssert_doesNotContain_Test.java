@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.doublearray;
 
-import static org.fest.util.DoubleArrayFactory.array;
+import static org.fest.assertions.test.DoubleArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.DoubleArrayAssert;
@@ -34,6 +34,6 @@ public class DoubleArrayAssert_doesNotContain_Test extends DoubleArrayAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), array(6d, 8d));
+    verify(arrays).assertDoesNotContain(getInfo(assertions), getActual(assertions), arrayOf(6d, 8d));
   }
 }

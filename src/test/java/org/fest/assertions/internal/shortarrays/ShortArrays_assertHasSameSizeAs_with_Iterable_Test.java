@@ -16,7 +16,7 @@ package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ShortArrayFactory.array;
+import static org.fest.assertions.test.ShortArrays.arrayOf;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Lists.newArrayList;
@@ -44,7 +44,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
 
   @BeforeClass
   public static void setUpOnce() {
-    actual = array(6, 8);
+    actual = arrayOf(6, 8);
   }
 
   @Test

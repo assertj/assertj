@@ -19,7 +19,7 @@ import static java.util.Collections.emptyMap;
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.Maps.mapOf;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -43,7 +43,7 @@ public class Maps_assertNotEmpty_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_actual_is_not_empty() {
-    Map<?, ?> actual = map(entry("name", "Yoda"));
+    Map<?, ?> actual = mapOf(entry("name", "Yoda"));
     maps.assertNotEmpty(someInfo(), actual);
   }
 

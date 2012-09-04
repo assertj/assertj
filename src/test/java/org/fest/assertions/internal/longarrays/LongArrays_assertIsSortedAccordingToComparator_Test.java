@@ -16,7 +16,7 @@ package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 

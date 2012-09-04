@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
-import static org.fest.util.DoubleArrayFactory.*;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.DoubleArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,23 +40,23 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(someInfo(), actual, array(6d, 8d, 10d));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6d, 8d, 10d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(someInfo(), actual, array(10d, 8d, 6d));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(10d, 8d, 6d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once() {
-    actual = array(6d, 8d, 10d, 8d, 8d, 8d);
-    arrays.assertContainsOnly(someInfo(), actual, array(6d, 8d, 10d));
+    actual = arrayOf(6d, 8d, 10d, 8d, 8d, 8d);
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6d, 8d, 10d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(someInfo(), actual, array(6d, 8d, 10d, 6d, 8d, 10d));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6d, 8d, 10d, 6d, 8d, 10d));
   }
 
   @Test
@@ -74,7 +74,7 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, array(8d));
+    arrays.assertContainsOnly(someInfo(), null, arrayOf(8d));
   }
 
   @Test
@@ -92,23 +92,23 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6d, -8d, 10d));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6d, -8d, 10d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(10d, -8d, 6d));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(10d, -8d, 6d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array(6d, -8d, 10d, -8d, -8d, -8d);
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6d, -8d, 10d));
+    actual = arrayOf(6d, -8d, 10d, -8d, -8d, -8d);
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6d, -8d, 10d));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6d, -8d, 10d, 6d, -8d, 10d));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6d, -8d, 10d, 6d, -8d, 10d));
   }
 
   @Test
@@ -126,7 +126,7 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, array(-8d));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8d));
   }
 
   @Test

@@ -17,7 +17,7 @@ package org.fest.assertions.internal.floatarrays;
 import static org.fest.assertions.data.Index.atIndex;
 import static org.fest.assertions.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.fest.util.FailureMessages.*;
-import static org.fest.util.FloatArrayFactory.emptyArray;
+import static org.fest.assertions.test.FloatArrays.emptyArray;
 import static org.fest.assertions.test.TestData.*;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 

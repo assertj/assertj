@@ -15,8 +15,8 @@
 package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
-import static org.fest.util.DoubleArrayFactory.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.DoubleArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -37,7 +37,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(1.0, 2.0, 3.0, 4.0, 4.0);
+    actual = arrayOf(1.0, 2.0, 3.0, 4.0, 4.0);
   }
 
   @Test
@@ -52,7 +52,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element() {
-    arrays.assertIsSorted(someInfo(), array(1.0));
+    arrays.assertIsSorted(someInfo(), arrayOf(1.0));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(1.0, 3.0, 2.0);
+    actual = arrayOf(1.0, 3.0, 2.0);
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -76,7 +76,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
-    actual = array(1.0, -2.0, 3.0, -4.0, 4.0);
+    actual = arrayOf(1.0, -2.0, 3.0, -4.0, 4.0);
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
@@ -87,7 +87,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1.0));
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1.0));
   }
 
   @Test
@@ -99,7 +99,7 @@ public class DoubleArrays_assertIsSorted_Test extends DoubleArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(1.0, 3.0, 2.0);
+    actual = arrayOf(1.0, 3.0, 2.0);
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {

@@ -18,8 +18,7 @@ import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -42,28 +41,28 @@ public class LongArrays_assertContains_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(someInfo(), actual, array(6L));
+    arrays.assertContains(someInfo(), actual, arrayOf(6L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(someInfo(), actual, array(8L, 10L));
+    arrays.assertContains(someInfo(), actual, arrayOf(8L, 10L));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(someInfo(), actual, array(6L, 8L, 10L));
+    arrays.assertContains(someInfo(), actual, arrayOf(6L, 8L, 10L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = array(6L, 8L, 10L, 10L, 8L);
-    arrays.assertContains(someInfo(), actual, array(8L));
+    actual = arrayOf(6L, 8L, 10L, 10L, 8L);
+    arrays.assertContains(someInfo(), actual, arrayOf(8L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(someInfo(), actual, array(6L, 6L));
+    arrays.assertContains(someInfo(), actual, arrayOf(6L, 6L));
   }
 
   @Test
@@ -81,7 +80,7 @@ public class LongArrays_assertContains_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, array(8L));
+    arrays.assertContains(someInfo(), null, arrayOf(8L));
   }
 
   @Test
@@ -99,28 +98,28 @@ public class LongArrays_assertContains_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6L));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-8L, 10L));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-8L, 10L));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6L, -8L, 10L));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6L, -8L, 10L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array(6L, -8L, 10L, 10L, -8L);
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-8L));
+    actual = arrayOf(6L, -8L, 10L, 10L, -8L);
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-8L));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6L, 6L));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6L, 6L));
   }
 
   @Test
@@ -138,7 +137,7 @@ public class LongArrays_assertContains_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, array(-8L));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, arrayOf(-8L));
   }
 
   @Test

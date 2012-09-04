@@ -17,7 +17,7 @@ package org.fest.assertions.internal.intarrays;
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.IntArrayFactory.*;
+import static org.fest.assertions.test.IntArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,23 +40,23 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(someInfo(), actual, array(10, 8, 6));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(10, 8, 6));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once() {
-    actual = array(6, 8, 10, 8, 8, 8);
-    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10));
+    actual = arrayOf(6, 8, 10, 8, 8, 8);
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(someInfo(), actual, array(6, 8, 10, 6, 8, 10));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(6, 8, 10, 6, 8, 10));
   }
 
   @Test
@@ -74,7 +74,7 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, array(8));
+    arrays.assertContainsOnly(someInfo(), null, arrayOf(8));
   }
 
   @Test
@@ -92,23 +92,23 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(10, -8, 6));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(10, -8, 6));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array(6, -8, 10, -8, -8, -8);
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6, -8, 10));
+    actual = arrayOf(6, -8, 10, -8, -8, -8);
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, array(6, -8, 10, 6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), actual, arrayOf(6, -8, 10, 6, -8, 10));
   }
 
   @Test
@@ -126,7 +126,7 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, array(-8));
+    arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(), null, arrayOf(-8));
   }
 
   @Test

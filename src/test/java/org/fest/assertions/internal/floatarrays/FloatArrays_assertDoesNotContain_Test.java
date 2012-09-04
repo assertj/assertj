@@ -17,7 +17,7 @@ package org.fest.assertions.internal.floatarrays;
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.FloatArrayFactory.*;
+import static org.fest.assertions.test.FloatArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,12 +40,12 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12f));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12f));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12f, 12f, 20f));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12f, 12f, 20f));
   }
 
   @Test
@@ -63,7 +63,7 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, array(8f));
+    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8f));
   }
 
   @Test
@@ -81,12 +81,12 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12f));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12f));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12f, 12f, 20f));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12f, 12f, 20f));
   }
 
   @Test
@@ -104,7 +104,7 @@ public class FloatArrays_assertDoesNotContain_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, array(-8f));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8f));
   }
 
   @Test

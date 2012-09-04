@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.shortarray;
 
-import static org.fest.util.ShortArrayFactory.array;
+import static org.fest.assertions.test.ShortArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ShortArrayAssert;
@@ -34,6 +34,6 @@ public class ShortArrayAssert_containsSequence_Test extends ShortArrayAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), array(6, 8));
+    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf(6, 8));
   }
 }

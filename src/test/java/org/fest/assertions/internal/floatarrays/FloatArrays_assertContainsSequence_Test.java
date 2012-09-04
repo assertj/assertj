@@ -17,7 +17,7 @@ package org.fest.assertions.internal.floatarrays;
 import static org.fest.assertions.error.ShouldContainSequence.shouldContainSequence;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.FloatArrayFactory.*;
+import static org.fest.assertions.test.FloatArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -39,13 +39,13 @@ public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest
 
   @Override
   protected void initActualArray() {
-    actual = array(6f, 8f, 10f, 12f);
+    actual = arrayOf(6f, 8f, 10f, 12f);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsSequence(someInfo(), null, array(8f));
+    arrays.assertContainsSequence(someInfo(), null, arrayOf(8f));
   }
 
   @Test
@@ -101,18 +101,18 @@ public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest
 
   @Test
   public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(someInfo(), actual, array(6f, 8f));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(6f, 8f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(someInfo(), actual, array(6f, 8f, 10f, 12f));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(6f, 8f, 10f, 12f));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, array(-8f));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, arrayOf(-8f));
   }
 
   @Test
@@ -168,11 +168,11 @@ public class FloatArrays_assertContainsSequence_Test extends FloatArraysBaseTest
 
   @Test
   public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6f, -8f));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6f, -8f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6f, -8f, 10f, 12f));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6f, -8f, 10f, 12f));
   }
 }

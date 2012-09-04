@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.chararray;
 
-import static org.fest.util.CharArrayFactory.array;
+import static org.fest.assertions.test.CharArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
@@ -34,6 +34,6 @@ public class CharArrayAssert_startsWith_Test extends CharArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array('a', 'b'));
+    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
   }
 }

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.floatarray;
 
-import static org.fest.util.FloatArrayFactory.array;
+import static org.fest.assertions.test.FloatArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.FloatArrayAssert;
@@ -34,6 +34,6 @@ public class FloatArrayAssert_containsSequence_Test extends FloatArrayAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), array(6f, 8f));
+    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf(6f, 8f));
   }
 }

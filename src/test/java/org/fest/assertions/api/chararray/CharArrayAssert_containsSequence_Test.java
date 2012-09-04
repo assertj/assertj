@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.chararray;
 
-import static org.fest.util.CharArrayFactory.array;
+import static org.fest.assertions.test.CharArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.CharArrayAssert;
@@ -34,6 +34,6 @@ public class CharArrayAssert_containsSequence_Test extends CharArrayAssertBaseTe
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), array('a', 'b'));
+    verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf('a', 'b'));
   }
 }

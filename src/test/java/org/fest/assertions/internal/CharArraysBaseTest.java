@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.util.CharArrayFactory.array;
+import static org.fest.assertions.test.CharArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
@@ -66,7 +66,7 @@ public class CharArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = array('a', 'b', 'c');
+    actual = arrayOf('a', 'b', 'c');
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

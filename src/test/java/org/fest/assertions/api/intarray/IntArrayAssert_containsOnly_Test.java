@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.intarray;
 
-import static org.fest.util.IntArrayFactory.array;
+import static org.fest.assertions.test.IntArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.IntArrayAssert;
@@ -34,6 +34,6 @@ public class IntArrayAssert_containsOnly_Test extends IntArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), array(6, 8));
+    verify(arrays).assertContainsOnly(getInfo(assertions), getActual(assertions), arrayOf(6, 8));
   }
 }

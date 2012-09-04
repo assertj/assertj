@@ -17,7 +17,7 @@ package org.fest.assertions.internal.shortarrays;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ShortArrayFactory.*;
+import static org.fest.assertions.test.ShortArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,28 +40,28 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values() {
-    arrays.assertContains(someInfo(), actual, array(6));
+    arrays.assertContains(someInfo(), actual, arrayOf(6));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_in_different_order() {
-    arrays.assertContains(someInfo(), actual, array(8, 10));
+    arrays.assertContains(someInfo(), actual, arrayOf(8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_values() {
-    arrays.assertContains(someInfo(), actual, array(6, 8, 10));
+    arrays.assertContains(someInfo(), actual, arrayOf(6, 8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once() {
-    actual = array(6, 8, 10, 10, 8);
-    arrays.assertContains(someInfo(), actual, array(8));
+    actual = arrayOf(6, 8, 10, 10, 8);
+    arrays.assertContains(someInfo(), actual, arrayOf(8));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated() {
-    arrays.assertContains(someInfo(), actual, array(6, 6));
+    arrays.assertContains(someInfo(), actual, arrayOf(6, 6));
   }
 
   @Test
@@ -79,7 +79,7 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContains(someInfo(), null, array(8));
+    arrays.assertContains(someInfo(), null, arrayOf(8));
   }
 
   @Test
@@ -97,28 +97,28 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-6));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-6));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_in_different_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(-8, 10));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(-8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_all_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6, -8, 10));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6, -8, 10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
-    actual = array(6, 8, 10, -10, 8);
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(10));
+    actual = arrayOf(6, 8, 10, -10, 8);
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(10));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, array(6, 6, -6));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, arrayOf(6, 6, -6));
   }
 
   @Test
@@ -136,7 +136,7 @@ public class ShortArrays_assertContains_Test extends ShortArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, array(8));
+    arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, arrayOf(8));
   }
 
   @Test

@@ -16,8 +16,7 @@ package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,7 +39,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test extends LongArraysBaseT
 
   @Override
   protected void initActualArray() {
-    actual = array(6L, 8L);
+    actual = arrayOf(6L, 8L);
   }
 
   @Test
@@ -62,7 +61,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test extends LongArraysBaseT
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
-    actual = array(6L, 8L, 6L, 8L);
+    actual = arrayOf(6L, 8L, 6L, 8L);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
@@ -91,7 +90,7 @@ public class LongArrays_assertDoesNotHaveDuplicates_Test extends LongArraysBaseT
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(6L, -8L, 6L, -8L);
+    actual = arrayOf(6L, -8L, 6L, -8L);
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {

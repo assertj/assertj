@@ -18,8 +18,7 @@ import static org.fest.assertions.error.ShouldContainSequence.shouldContainSeque
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -41,13 +40,13 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(6L, 8L, 10L, 12L);
+    actual = arrayOf(6L, 8L, 10L, 12L);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsSequence(someInfo(), null, array(8L));
+    arrays.assertContainsSequence(someInfo(), null, arrayOf(8L));
   }
 
   @Test
@@ -107,18 +106,18 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(someInfo(), actual, array(6L, 8L));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(6L, 8L));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(someInfo(), actual, array(6L, 8L, 10L, 12L));
+    arrays.assertContainsSequence(someInfo(), actual, arrayOf(6L, 8L, 10L, 12L));
   }
 
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, array(-8L));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, arrayOf(-8L));
   }
 
   @Test
@@ -174,11 +173,11 @@ public class LongArrays_assertContainsSequence_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6L, -8L));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6L, -8L));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, array(6L, -8L, 10L, 12L));
+    arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, arrayOf(6L, -8L, 10L, 12L));
   }
 }

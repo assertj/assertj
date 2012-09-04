@@ -1,6 +1,6 @@
 package org.fest.assertions.internal;
 
-import static org.fest.util.BooleanArrayFactory.array;
+import static org.fest.assertions.test.BooleanArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
@@ -31,7 +31,7 @@ public class BooleanArraysBaseTest {
 
   @Before
   public void setUp() {
-    actual = array(true, false);
+    actual = arrayOf(true, false);
     failures = spy(new Failures());
     arrays = new BooleanArrays();
     arrays.failures = failures;

@@ -15,8 +15,8 @@
 package org.fest.assertions.internal.bytearrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.fest.util.ByteArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ByteArrays.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 

@@ -16,7 +16,7 @@ package org.fest.assertions.internal.floatarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.FloatArrayFactory.*;
+import static org.fest.assertions.test.FloatArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -39,7 +39,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
 
   @Override
   protected void initActualArray() {
-    actual = array(6f, 8f);
+    actual = arrayOf(6f, 8f);
   }
 
   @Test
@@ -61,7 +61,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
-    actual = array(6f, 8f, 6f, 8f);
+    actual = arrayOf(6f, 8f, 6f, 8f);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
@@ -90,7 +90,7 @@ public class FloatArrays_assertDoesNotHaveDuplicates_Test extends FloatArraysBas
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(6f, -8f, 6f, -8f);
+    actual = arrayOf(6f, -8f, 6f, -8f);
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {

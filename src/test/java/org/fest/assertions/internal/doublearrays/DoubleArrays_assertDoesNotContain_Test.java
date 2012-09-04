@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.doublearrays;
 
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.util.DoubleArrayFactory.*;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.DoubleArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,17 +40,17 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Override
   protected void initActualArray() {
-    actual = array(6d, 8d, 10d);
+    actual = arrayOf(6d, 8d, 10d);
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12d));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12d));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12d, 12d, 20d));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12d, 12d, 20d));
   }
 
   @Test
@@ -68,7 +68,7 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, array(8d));
+    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8d));
   }
 
   @Test
@@ -86,12 +86,12 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12d));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12d));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12d, 12d, 20d));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12d, 12d, 20d));
   }
 
   @Test
@@ -109,7 +109,7 @@ public class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, array(-8d));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8d));
   }
 
   @Test

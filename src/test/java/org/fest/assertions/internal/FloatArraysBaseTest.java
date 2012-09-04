@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.test.FloatArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
-import static org.fest.util.FloatArrayFactory.array;
 
 import static org.mockito.Mockito.spy;
 
@@ -66,7 +66,7 @@ public class FloatArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = array(6.0f, 8.0f, 10.0f);
+    actual = arrayOf(6.0f, 8.0f, 10.0f);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

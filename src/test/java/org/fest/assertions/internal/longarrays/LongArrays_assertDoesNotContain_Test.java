@@ -18,8 +18,7 @@ import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -42,12 +41,12 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12L));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12L));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(someInfo(), actual, array(12L, 12L, 20L));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf(12L, 12L, 20L));
   }
 
   @Test
@@ -65,7 +64,7 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, array(8L));
+    arrays.assertDoesNotContain(someInfo(), null, arrayOf(8L));
   }
 
   @Test
@@ -83,12 +82,12 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12L));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12L));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array(12L, 12L, 20L));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf(12L, 12L, 20L));
   }
 
   @Test
@@ -106,7 +105,7 @@ public class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, array(-8L));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8L));
   }
 
   @Test

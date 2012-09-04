@@ -15,9 +15,8 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -56,7 +55,7 @@ public class BooleanArrays_assertDoesNotHaveDuplicates_Test extends BooleanArray
 
   @Test
   public void should_fail_if_actual_contains_duplicates() {
-    actual = array(true, true, false);
+    actual = arrayOf(true, true, false);
     AssertionInfo info = someInfo();
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);

@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.util.DoubleArrayFactory.array;
+import static org.fest.assertions.test.DoubleArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
@@ -66,7 +66,7 @@ public class DoubleArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = array(6.0, 8.0, 10.0);
+    actual = arrayOf(6.0, 8.0, 10.0);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

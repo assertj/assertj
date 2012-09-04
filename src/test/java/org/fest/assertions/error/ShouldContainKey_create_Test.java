@@ -17,7 +17,7 @@ package org.fest.assertions.error;
 import static junit.framework.Assert.assertEquals;
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldContainKey.shouldContainKey;
-import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.Maps.mapOf;
 
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public class ShouldContainKey_create_Test {
 
   @Test
   public void should_create_error_message() {
-    Map<?, ?> map = map(entry("name", "Yoda"), entry("color", "green"));
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, "name");
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] expecting:\n" + "<{'name'='Yoda', 'color'='green'}>\n" + " to contain key:\n" + "<'name'>", message);

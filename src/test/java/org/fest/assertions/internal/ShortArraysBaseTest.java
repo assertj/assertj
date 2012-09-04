@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.test.ShortArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
-import static org.fest.util.ShortArrayFactory.array;
 
 import static org.mockito.Mockito.spy;
 
@@ -66,7 +66,7 @@ public class ShortArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = array(6, 8, 10);
+    actual = arrayOf(6, 8, 10);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

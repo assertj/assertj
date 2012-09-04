@@ -15,11 +15,10 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldContainOnly.shouldContainOnly;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -42,23 +41,23 @@ public class BooleanArrays_assertContainsOnly_Test extends BooleanArraysBaseTest
 
   @Test
   public void should_pass_if_actual_contains_given_values_only() {
-    arrays.assertContainsOnly(someInfo(), actual, array(true, false));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order() {
-    arrays.assertContainsOnly(someInfo(), actual, array(false, true));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(false, true));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once() {
-    actual = array(true, false, true, false);
-    arrays.assertContainsOnly(someInfo(), actual, array(true, false));
+    actual = arrayOf(true, false, true, false);
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
-    arrays.assertContainsOnly(someInfo(), actual, array(true, false, true, false));
+    arrays.assertContainsOnly(someInfo(), actual, arrayOf(true, false, true, false));
   }
 
   @Test
@@ -76,13 +75,13 @@ public class BooleanArrays_assertContainsOnly_Test extends BooleanArraysBaseTest
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertContainsOnly(someInfo(), null, array(true));
+    arrays.assertContainsOnly(someInfo(), null, arrayOf(true));
   }
 
   @Test
   public void should_fail_if_actual_does_not_contain_given_values_only() {
     AssertionInfo info = someInfo();
-    actual = array(true);
+    actual = arrayOf(true);
     boolean[] expected = { false };
     try {
       arrays.assertContainsOnly(info, actual, expected);

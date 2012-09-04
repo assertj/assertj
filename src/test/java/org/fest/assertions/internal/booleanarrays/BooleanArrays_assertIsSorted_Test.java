@@ -15,9 +15,8 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -56,7 +55,7 @@ public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element() {
-    arrays.assertIsSorted(someInfo(), array(true));
+    arrays.assertIsSorted(someInfo(), arrayOf(true));
   }
 
   @Test
@@ -68,7 +67,7 @@ public class BooleanArrays_assertIsSorted_Test extends BooleanArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(false, true, false);
+    actual = arrayOf(false, true, false);
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {

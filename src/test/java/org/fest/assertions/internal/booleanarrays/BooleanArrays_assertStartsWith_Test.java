@@ -15,11 +15,10 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -54,7 +53,7 @@ public class BooleanArrays_assertStartsWith_Test extends BooleanArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, array(true));
+    arrays.assertStartsWith(someInfo(), null, arrayOf(true));
   }
 
   @Test
@@ -102,12 +101,12 @@ public class BooleanArrays_assertStartsWith_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(someInfo(), actual, array(true, false));
+    arrays.assertStartsWith(someInfo(), actual, arrayOf(true, false));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    actual = array(true, false, false, true);
-    arrays.assertStartsWith(someInfo(), actual, array(true, false, false, true));
+    actual = arrayOf(true, false, false, true);
+    arrays.assertStartsWith(someInfo(), actual, arrayOf(true, false, false, true));
   }
 }

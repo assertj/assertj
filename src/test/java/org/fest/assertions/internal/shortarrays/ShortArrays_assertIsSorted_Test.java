@@ -16,7 +16,7 @@ package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ShortArrayFactory.*;
+import static org.fest.assertions.test.ShortArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -52,7 +52,7 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element() {
-    arrays.assertIsSorted(someInfo(), array(1));
+    arrays.assertIsSorted(someInfo(), arrayOf(1));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(1, 3, 2);
+    actual = arrayOf(1, 3, 2);
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -87,7 +87,7 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element_whatever_custom_comparison_strategy_is() {
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1));
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1));
   }
 
   @Test
@@ -99,7 +99,7 @@ public class ShortArrays_assertIsSorted_Test extends ShortArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(1, 3, 2);
+    actual = arrayOf(1, 3, 2);
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {

@@ -16,7 +16,7 @@ package org.fest.assertions.internal.floatarrays;
 
 import static org.fest.assertions.error.ShouldBeSorted.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.FloatArrayFactory.*;
+import static org.fest.assertions.test.FloatArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -37,7 +37,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(1.0f, 2.0f, 3.0f, 4.0f, 4.0f);
+    actual = arrayOf(1.0f, 2.0f, 3.0f, 4.0f, 4.0f);
   }
 
   @Test
@@ -52,7 +52,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element() {
-    arrays.assertIsSorted(someInfo(), array(1.0f));
+    arrays.assertIsSorted(someInfo(), arrayOf(1.0f));
   }
 
   @Test
@@ -64,7 +64,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(1.0f, 3.0f, 2.0f);
+    actual = arrayOf(1.0f, 3.0f, 2.0f);
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -76,7 +76,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
-    actual = array(-1.0f, 2.0f, -3.0f, 4.0f, -4.0f);
+    actual = arrayOf(-1.0f, 2.0f, -3.0f, 4.0f, -4.0f);
     arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), actual);
   }
 
@@ -87,7 +87,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1.0f));
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1.0f));
   }
 
   @Test
@@ -99,7 +99,7 @@ public class FloatArrays_assertIsSorted_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(1.0f, 3.0f, 2.0f);
+    actual = arrayOf(1.0f, 3.0f, 2.0f);
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {

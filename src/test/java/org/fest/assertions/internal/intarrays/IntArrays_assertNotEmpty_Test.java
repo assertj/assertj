@@ -16,8 +16,7 @@ package org.fest.assertions.internal.intarrays;
 
 import static org.fest.assertions.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.IntArrayFactory.array;
-import static org.fest.util.IntArrayFactory.emptyArray;
+import static org.fest.assertions.test.IntArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -57,6 +56,6 @@ public class IntArrays_assertNotEmpty_Test extends IntArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_is_not_empty() {
-    arrays.assertNotEmpty(someInfo(), array(8));
+    arrays.assertNotEmpty(someInfo(), arrayOf(8));
   }
 }

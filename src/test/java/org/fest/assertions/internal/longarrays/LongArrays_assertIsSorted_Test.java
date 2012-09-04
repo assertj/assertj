@@ -17,8 +17,7 @@ package org.fest.assertions.internal.longarrays;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSorted;
 import static org.fest.assertions.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.LongArrayFactory.array;
-import static org.fest.util.LongArrayFactory.emptyArray;
+import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -39,7 +38,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(1L, 2L, 3L, 4L, 4L);
+    actual = arrayOf(1L, 2L, 3L, 4L, 4L);
   }
 
   @Test
@@ -54,7 +53,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element() {
-    arrays.assertIsSorted(someInfo(), array(1L));
+    arrays.assertIsSorted(someInfo(), arrayOf(1L));
   }
 
   @Test
@@ -66,7 +65,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order() {
     AssertionInfo info = someInfo();
-    actual = array(1L, 3L, 2L);
+    actual = arrayOf(1L, 3L, 2L);
     try {
       arrays.assertIsSorted(info, actual);
     } catch (AssertionError e) {
@@ -78,7 +77,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_is_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1L, -2L, 3L, -4L, 4L));
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1L, -2L, 3L, -4L, 4L));
   }
 
   @Test
@@ -88,7 +87,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_only_one_element_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), array(1L));
+    arraysWithCustomComparisonStrategy.assertIsSorted(someInfo(), arrayOf(1L));
   }
 
   @Test
@@ -100,7 +99,7 @@ public class LongArrays_assertIsSorted_Test extends LongArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_not_sorted_in_ascending_order_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(1L, 3L, 2L);
+    actual = arrayOf(1L, 3L, 2L);
     try {
       arraysWithCustomComparisonStrategy.assertIsSorted(info, actual);
     } catch (AssertionError e) {

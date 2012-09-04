@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.util;
 
-import static org.fest.util.IntArrayFactory.emptyArray;
+import static org.fest.assertions.test.IntArrays.emptyArray;
 import static org.fest.util.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 

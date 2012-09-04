@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.internal;
 
-import static org.fest.util.ByteArrayFactory.array;
+import static org.fest.assertions.test.ByteArrays.arrayOf;
 import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
@@ -66,7 +66,7 @@ public class ByteArraysBaseTest {
   }
 
   protected void initActualArray() {
-    actual = array(6, 8, 10);
+    actual = arrayOf(6, 8, 10);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

@@ -15,11 +15,10 @@
 package org.fest.assertions.internal.booleanarrays;
 
 import static org.fest.assertions.error.ShouldEndWith.shouldEndWith;
-import static org.fest.util.BooleanArrayFactory.array;
-import static org.fest.util.BooleanArrayFactory.emptyArray;
 import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
 import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.BooleanArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -44,7 +43,7 @@ public class BooleanArrays_assertEndsWith_Test extends BooleanArraysBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = array(true, false, false, true);
+    actual = arrayOf(true, false, false, true);
   }
 
   @Test
@@ -62,7 +61,7 @@ public class BooleanArrays_assertEndsWith_Test extends BooleanArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertEndsWith(someInfo(), null, array(true));
+    arrays.assertEndsWith(someInfo(), null, arrayOf(true));
   }
 
   @Test
@@ -110,11 +109,11 @@ public class BooleanArrays_assertEndsWith_Test extends BooleanArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_ends_with_sequence() {
-    arrays.assertEndsWith(someInfo(), actual, array(false, true));
+    arrays.assertEndsWith(someInfo(), actual, arrayOf(false, true));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertEndsWith(someInfo(), actual, array(true, false, false, true));
+    arrays.assertEndsWith(someInfo(), actual, arrayOf(true, false, false, true));
   }
 }

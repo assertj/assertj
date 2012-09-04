@@ -15,8 +15,8 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.fest.util.CharArrayFactory.emptyArray;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.CharArrays.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 

@@ -15,8 +15,8 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.fest.util.CharArrayFactory.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.CharArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -39,7 +39,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
 
   @Override
   protected void initActualArray() {
-    actual = array('a', 'b');
+    actual = arrayOf('a', 'b');
   }
 
   @Test
@@ -61,7 +61,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
-    actual = array('a', 'b', 'a', 'b');
+    actual = arrayOf('a', 'b', 'a', 'b');
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
@@ -90,7 +90,7 @@ public class CharArrays_assertDoesNotHaveDuplicates_Test extends CharArraysBaseT
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array('A', 'b', 'A', 'b');
+    actual = arrayOf('A', 'b', 'A', 'b');
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {

@@ -16,7 +16,7 @@ package org.fest.assertions.internal.maps;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldNotContainValue.shouldNotContainValue;
-import static org.fest.assertions.test.MapFactory.map;
+import static org.fest.assertions.test.Maps.mapOf;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.FailureMessages.actualIsNull;
@@ -45,7 +45,7 @@ public class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) map(entry("name", "Yoda"), entry("color", "green"));
+    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("color", "green"));
   }
 
   @Test

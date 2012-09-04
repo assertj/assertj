@@ -16,7 +16,7 @@ package org.fest.assertions.internal.shortarrays;
 
 import static org.fest.assertions.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.ShortArrayFactory.*;
+import static org.fest.assertions.test.ShortArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -39,7 +39,7 @@ public class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBas
 
   @Override
   protected void initActualArray() {
-    actual = array(6, 8);
+    actual = arrayOf(6, 8);
   }
 
   @Test
@@ -61,7 +61,7 @@ public class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBas
   @Test
   public void should_fail_if_actual_contains_duplicates() {
     AssertionInfo info = someInfo();
-    actual = array(6, 8, 6, 8);
+    actual = arrayOf(6, 8, 6, 8);
     try {
       arrays.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {
@@ -90,7 +90,7 @@ public class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBas
   @Test
   public void should_fail_if_actual_contains_duplicates_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
-    actual = array(6, -8, 6, 8);
+    actual = arrayOf(6, -8, 6, 8);
     try {
       arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual);
     } catch (AssertionError e) {

@@ -17,7 +17,7 @@ package org.fest.assertions.internal.floatarrays;
 import static org.fest.assertions.error.ShouldStartWith.shouldStartWith;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
-import static org.fest.util.FloatArrayFactory.*;
+import static org.fest.assertions.test.FloatArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -39,7 +39,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
 
   @Override
   protected void initActualArray() {
-    actual = array(6f, 8f, 10f, 12f);
+    actual = arrayOf(6f, 8f, 10f, 12f);
   }
 
   @Test
@@ -57,7 +57,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertStartsWith(someInfo(), null, array(6f));
+    arrays.assertStartsWith(someInfo(), null, arrayOf(6f));
   }
 
   @Test
@@ -101,12 +101,12 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_starts_with_sequence() {
-    arrays.assertStartsWith(someInfo(), actual, array(6f, 8f, 10f));
+    arrays.assertStartsWith(someInfo(), actual, arrayOf(6f, 8f, 10f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertStartsWith(someInfo(), actual, array(6f, 8f, 10f, 12f));
+    arrays.assertStartsWith(someInfo(), actual, arrayOf(6f, 8f, 10f, 12f));
   }
 
   @Test
@@ -124,7 +124,7 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, array(6f));
+    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), null, arrayOf(6f));
   }
 
   @Test
@@ -168,11 +168,11 @@ public class FloatArrays_assertStartsWith_Test extends FloatArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_starts_with_sequence_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, array(6f, -8f, 10f));
+    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, arrayOf(6f, -8f, 10f));
   }
 
   @Test
   public void should_pass_if_actual_and_sequence_are_equal_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, array(6f, -8f, 10f, 12f));
+    arraysWithCustomComparisonStrategy.assertStartsWith(someInfo(), actual, arrayOf(6f, -8f, 10f, 12f));
   }
 }

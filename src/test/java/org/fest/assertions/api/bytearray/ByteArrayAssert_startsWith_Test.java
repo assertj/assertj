@@ -14,7 +14,7 @@
  */
 package org.fest.assertions.api.bytearray;
 
-import static org.fest.util.ByteArrayFactory.array;
+import static org.fest.assertions.test.ByteArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.fest.assertions.api.ByteArrayAssert;
@@ -34,6 +34,6 @@ public class ByteArrayAssert_startsWith_Test extends ByteArrayAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), array(6, 8));
+    verify(arrays).assertStartsWith(getInfo(assertions), getActual(assertions), arrayOf(6, 8));
   }
 }

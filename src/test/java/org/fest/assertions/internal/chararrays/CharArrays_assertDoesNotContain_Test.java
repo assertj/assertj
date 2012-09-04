@@ -15,9 +15,9 @@
 package org.fest.assertions.internal.chararrays;
 
 import static org.fest.assertions.error.ShouldNotContain.shouldNotContain;
-import static org.fest.util.CharArrayFactory.*;
 import static org.fest.test.ErrorMessages.*;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.CharArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Sets.newLinkedHashSet;
@@ -40,12 +40,12 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {
-    arrays.assertDoesNotContain(someInfo(), actual, array('d'));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf('d'));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
-    arrays.assertDoesNotContain(someInfo(), actual, array('d', 'd', 'e'));
+    arrays.assertDoesNotContain(someInfo(), actual, arrayOf('d', 'd', 'e'));
   }
 
   @Test
@@ -63,7 +63,7 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    arrays.assertDoesNotContain(someInfo(), null, array('a'));
+    arrays.assertDoesNotContain(someInfo(), null, arrayOf('a'));
   }
 
   @Test
@@ -81,12 +81,12 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array('d'));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf('d'));
   }
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, array('d', 'd', 'e'));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, arrayOf('d', 'd', 'e'));
   }
 
   @Test
@@ -104,7 +104,7 @@ public class CharArrays_assertDoesNotContain_Test extends CharArraysBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, array('A'));
+    arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf('A'));
   }
 
   @Test

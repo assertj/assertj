@@ -15,7 +15,7 @@
 package org.fest.assertions.internal.strings;
 
 import static org.fest.assertions.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
-import static org.fest.util.CharArrayFactory.array;
+import static org.fest.assertions.test.CharArrays.arrayOf;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -76,7 +76,7 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   public void should_pass_if_both_Strings_are_equal_but_not_same() {
-    strings.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(array('Y', 'o', 'd', 'a')));
+    strings.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(arrayOf('Y', 'o', 'd', 'a')));
   }
 
   @Test
@@ -122,7 +122,7 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
   @Test
   public void should_pass_if_both_Strings_are_equal_but_not_same_whatever_custom_comparison_strategy_is() {
     stringsWithCaseInsensitiveComparisonStrategy.assertEqualsIgnoringCase(someInfo(), "Yoda", new String(
-        array('Y', 'o', 'd', 'a')));
+        arrayOf('Y', 'o', 'd', 'a')));
   }
 
   @Test
