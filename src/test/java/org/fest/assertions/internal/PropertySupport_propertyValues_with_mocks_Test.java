@@ -16,7 +16,7 @@ package org.fest.assertions.internal;
 
 import static junit.framework.Assert.*;
 import static org.fest.util.Lists.newArrayList;
-import static org.fest.util.Introspection.descriptorForProperty;
+import static org.fest.util.Introspection.getProperty;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -57,7 +57,7 @@ public class PropertySupport_propertyValues_with_mocks_Test {
   @Test
   public void should_throw_error_if_PropertyDescriptor_cannot_invoke_read_method() throws Exception {
     RuntimeException thrownOnPurpose = new RuntimeException("Thrown on purpose");
-    PropertyDescriptor real = descriptorForProperty("id", yoda);
+    PropertyDescriptor real = getProperty("id", yoda);
     when(descriptor.invokeReadMethod(real, yoda)).thenThrow(thrownOnPurpose);
     try {
       propertySupport.propertyValues("id", Long.class, employees);

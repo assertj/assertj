@@ -17,7 +17,7 @@ package org.fest.assertions.internal;
 import static java.lang.String.format;
 import static java.util.Collections.*;
 import static org.fest.util.Iterables.isNullOrEmpty;
-import static org.fest.util.Introspection.descriptorForProperty;
+import static org.fest.util.Introspection.getProperty;
 import static org.fest.util.Iterables.nonNullElementsIn;
 
 import java.beans.PropertyDescriptor;
@@ -143,7 +143,7 @@ public class PropertySupport {
    * @throws IntrospectionError if the given target does not have a property with a matching name.
    */
   public <T> T propertyValue(String propertyName, Class<T> clazz, Object target) {
-    PropertyDescriptor descriptor = descriptorForProperty(propertyName, target);
+    PropertyDescriptor descriptor = getProperty(propertyName, target);
     try {
       return clazz.cast(javaBeanDescriptor.invokeReadMethod(descriptor, target));
     } catch (ClassCastException e) {
