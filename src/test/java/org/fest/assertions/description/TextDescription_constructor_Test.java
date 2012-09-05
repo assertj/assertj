@@ -46,7 +46,6 @@ public class TextDescription_constructor_Test {
   @Test
   public void should_throw_error_if_value_is_null() {
     thrown.expect(NullPointerException.class);
-    thrown.expectMessage("The value of the description should not be null");
     new TextDescription(null);
   }
 }
