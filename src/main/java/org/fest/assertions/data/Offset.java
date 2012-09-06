@@ -15,6 +15,7 @@
 package org.fest.assertions.data;
 
 import static org.fest.util.Objects.*;
+import static org.fest.util.Preconditions.checkNotNull;
 
 /**
  * A positive offset.
@@ -36,7 +37,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Double> offset(Double value) {
-    checkIsNotNull(value);
+    checkNotNull(value);
     if (value.doubleValue() < 0d) {
       throw valueNotPositive();
     }
@@ -52,7 +53,7 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Float> offset(Float value) {
-    checkIsNotNull(value);
+    checkNotNull(value);
     if (value.floatValue() < 0f) {
       throw valueNotPositive();
     }
@@ -68,17 +69,11 @@ public class Offset<T extends Number> {
    * @throws IllegalArgumentException if the given value is negative.
    */
   public static Offset<Integer> offset(Integer value) {
-    checkIsNotNull(value);
+    checkNotNull(value);
     if (value.intValue() < 0) {
       throw valueNotPositive();
     }
     return new Offset<Integer>(value);
-  }
-
-  private static <T extends Number> void checkIsNotNull(T value) {
-    if (value == null) {
-      throw new NullPointerException("The value of the offset to create should not be null");
-    }
   }
 
   private static IllegalArgumentException valueNotPositive() {
