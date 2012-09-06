@@ -16,9 +16,8 @@ package org.fest.assertions.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldNotBeIn.shouldNotBeIn;
-import static org.fest.test.ErrorMessages.iterableIsEmpty;
-import static org.fest.test.ErrorMessages.iterableIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Lists.newArrayList;

@@ -15,12 +15,12 @@
 package org.fest.assertions.condition;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.test.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.Lists.newArrayList;
 
 import org.fest.assertions.core.*;
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**

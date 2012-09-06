@@ -15,8 +15,8 @@
 package org.fest.assertions.internal.dates;
 
 import static org.fest.assertions.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.fest.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ErrorMessages.dateToCompareActualWithIsNull;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 

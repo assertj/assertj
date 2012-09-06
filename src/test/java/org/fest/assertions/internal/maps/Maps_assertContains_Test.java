@@ -16,10 +16,8 @@ package org.fest.assertions.internal.maps;
 
 import static org.fest.assertions.data.MapEntry.entry;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.test.ErrorMessages.entriesToLookForIsEmpty;
-import static org.fest.test.ErrorMessages.entriesToLookForIsNull;
-import static org.fest.test.ErrorMessages.entryToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;

@@ -14,13 +14,13 @@
  */
 package org.fest.assertions.api.file;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 
 import java.nio.charset.Charset;
 
 import org.fest.assertions.api.FileAssert;
 import org.fest.assertions.api.FileAssertBaseTest;
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 

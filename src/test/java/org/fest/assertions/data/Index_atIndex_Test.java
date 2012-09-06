@@ -15,9 +15,9 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertEquals;
-import static org.fest.test.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**

@@ -14,8 +14,8 @@
  */
 package org.fest.assertions.internal;
 
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.fest.assertions.test.LongArrays.arrayOf;
-import static org.fest.test.ExpectedException.none;
 
 import static org.mockito.Mockito.spy;
 
@@ -26,7 +26,7 @@ import org.junit.Rule;
 
 import org.fest.assertions.internal.Failures;
 import org.fest.assertions.internal.LongArrays;
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.util.ComparatorBasedComparisonStrategy;
 import org.fest.util.StandardComparisonStrategy;

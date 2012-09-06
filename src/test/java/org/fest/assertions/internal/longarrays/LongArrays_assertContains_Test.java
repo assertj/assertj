@@ -15,9 +15,8 @@
 package org.fest.assertions.internal.longarrays;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
-import static org.fest.test.ErrorMessages.valuesToLookForIsEmpty;
-import static org.fest.test.ErrorMessages.valuesToLookForIsNull;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.LongArrays.*;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

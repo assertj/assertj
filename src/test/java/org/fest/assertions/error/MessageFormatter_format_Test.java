@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.error;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 import org.fest.assertions.description.*;
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.*;
 
 /**

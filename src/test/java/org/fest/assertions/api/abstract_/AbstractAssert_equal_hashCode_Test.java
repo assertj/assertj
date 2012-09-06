@@ -14,12 +14,12 @@
  */
 package org.fest.assertions.api.abstract_;
 
-import static org.fest.test.ExpectedException.none;
+import static org.fest.assertions.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
 import org.fest.assertions.api.AbstractAssert;
 import org.fest.assertions.api.ConcreteAssert;
-import org.fest.test.ExpectedException;
+import org.fest.assertions.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
