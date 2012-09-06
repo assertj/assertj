@@ -44,13 +44,13 @@ public class MessageFormatter_format_Test {
 
   @Test
   public void should_throw_error_if_format_string_is_null() {
-    thrown.expectNullPointerException("The format string should not be null");
+    thrown.expect(NullPointerException.class);
     messageFormatter.format(null, null);
   }
 
   @Test
   public void should_throw_error_if_args_array_is_null() {
-    thrown.expectNullPointerException("The array of arguments should not be null");
+    thrown.expect(NullPointerException.class);
     Object[] args = null;
     messageFormatter.format(null, "", args);
   }

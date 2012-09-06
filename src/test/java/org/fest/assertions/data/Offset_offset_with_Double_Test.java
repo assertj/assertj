@@ -15,7 +15,7 @@
 package org.fest.assertions.data;
 
 import static junit.framework.Assert.assertSame;
-import static org.fest.test.ErrorMessages.*;
+import static org.fest.test.ErrorMessages.offsetValueIsNotPositive;
 import static org.fest.test.ExpectedException.none;
 
 import org.fest.test.ExpectedException;
@@ -32,7 +32,7 @@ public class Offset_offset_with_Double_Test {
 
   @Test
   public void should_throw_error_if_value_is_null() {
-    thrown.expectNullPointerException(offsetValueIsNull());
+    thrown.expect(NullPointerException.class);
     Double value = null;
     Offset.offset(value);
   }
