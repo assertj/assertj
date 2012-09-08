@@ -14,14 +14,16 @@
  */
 package org.fest.assertions.api.abstract_;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
 
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-import org.fest.assertions.api.AbstractAssert;
-import org.fest.assertions.api.ConcreteAssert;
 import org.junit.Before;
 import org.junit.Test;
+
+import org.fest.assertions.api.AbstractAssert;
+import org.fest.assertions.api.ConcreteAssert;
 
 /**
  * Tests for <code>{@link AbstractAssert#overridingErrorMessage(String, Object...)}</code>.
@@ -66,7 +68,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_failwith__description_and_overriden_error_message_using_string_format_feature() {
+  public void should_fail_with_description_and_overriden_error_message_using_string_format_feature() {
     try {
       long expected = 8L;
       assertions.as("test").overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
