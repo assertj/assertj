@@ -1,14 +1,14 @@
 /*
  * Created on Aug 4, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -18,6 +18,7 @@ import static org.fest.assertions.error.ShouldBeEqual.shouldBeEqual;
 import static org.fest.assertions.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.fest.assertions.error.ShouldBeIn.shouldBeIn;
 import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
+import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.fest.assertions.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.fest.assertions.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
@@ -33,8 +34,8 @@ import static org.fest.assertions.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.fest.assertions.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.fest.assertions.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.fest.assertions.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.Lists.newArrayList;
+import static org.fest.util.Sets.newLinkedHashSet;
 import static org.fest.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -64,6 +65,7 @@ public class Objects {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Objects instance() {
@@ -89,13 +91,15 @@ public class Objects {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) { return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-        .getComparator(); }
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    }
     return null;
   }
 
   /**
    * Verifies that the given object is an instance of the given type.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the given object against.
@@ -116,6 +120,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is an instance of any of the given types.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the given object against.
@@ -147,6 +152,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is not an instance of the given type.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the given object against.
@@ -167,6 +173,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is not an instance of any of the given types.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the given object against.
@@ -198,6 +205,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value has the same class as the given object.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the actual has not the same type has the given object.
@@ -219,6 +227,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value does not have the same class as the given object.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to check type against.
@@ -241,6 +250,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value is exactly a instance of given type.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
@@ -262,6 +272,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value is not exactly a instance of given type.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
@@ -283,6 +294,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value type is in given types.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the actual value against.
@@ -303,6 +315,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value type is not in given types.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the actual value against.
@@ -332,11 +345,13 @@ public class Objects {
 
   /**
    * Asserts that two objects are equal.
+   * 
    * @param info contains information about the assertion.
    * @param actual the "actual" object.
    * @param expected the "expected" object.
    * @throws AssertionError if {@code actual} is not equal to {@code expected}. This method will throw a
-   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not equal.
+   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the given objects are not
+   *           equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
     if (areEqual(actual, expected)) {
@@ -347,6 +362,7 @@ public class Objects {
 
   /**
    * Asserts that two objects are not equal.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -361,6 +377,7 @@ public class Objects {
 
   /**
    * Compares actual and other with standard strategy (null safe equals check).
+   * 
    * @param actual the object to compare to other
    * @param other the object to compare to actual
    * @return true if actual and other are equal (null safe equals check), false otherwise.
@@ -371,6 +388,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is {@code null}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the given object is not {@code null}.
@@ -384,6 +402,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is not {@code null}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the given object is {@code null}.
@@ -397,6 +416,7 @@ public class Objects {
 
   /**
    * Asserts that two objects refer to the same object.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param expected the expected object.
@@ -411,6 +431,7 @@ public class Objects {
 
   /**
    * Asserts that two objects do not refer to the same object.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -425,6 +446,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is present in the given array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given array.
@@ -443,6 +465,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is not present in the given array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given array.
@@ -470,6 +493,7 @@ public class Objects {
 
   /**
    * Returns <code>true</code> if given item is in given array, <code>false</code> otherwise.
+   * 
    * @param item the object to look for in arrayOfValues
    * @param arrayOfValues the array of values
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
@@ -485,6 +509,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is present in the given collection.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given iterable.
@@ -503,6 +528,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is not present in the given collection.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given collection.
@@ -538,7 +564,9 @@ public class Objects {
   }
 
   /**
-   * Assert that the given object is lenient equals by ignoring null fields value on other object.
+   * Assert that the given object is lenient equals by ignoring null fields value on other object (including inherited
+   * fields).
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -548,11 +576,12 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public <A> void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, A actual, A other) {
-    assertIsInstanceOf(info, other, actual.getClass());
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
     List<Object> values = new LinkedList<Object>();
     List<String> nullFields = new LinkedList<String>();
-    for (Field field : actual.getClass().getDeclaredFields()) {
+    for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
         Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
         if (otherFieldValue != null) {
@@ -576,24 +605,27 @@ public class Objects {
 
   /**
    * Assert that the given object is lenient equals to other object by comparing given fields value only.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
    * @param fields accepted fields
-   * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
   public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields) {
-    assertIsInstanceOf(info, other, actual.getClass());
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> rejectedFieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
     for (String fieldName : fields) {
       Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
       Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+      if (!(actualFieldValue == otherFieldValue || (actualFieldValue != null && actualFieldValue
+          .equals(otherFieldValue)))) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
       }
@@ -601,26 +633,30 @@ public class Objects {
     if (rejectedFieldsNames.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
+    throw failures.failure(info,
+        shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
   }
 
   /**
-   * Assert that the given object is lenient equals by ignoring fields.
+   * Assert that the given object is lenient equals to the other by comparing all fields (including inherited fields)
+   * unless given ignored ones.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
    * @param fields the fields to ignore in comparison
-   * @throws NullPointerException if the actual type is {@code null}.
    * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
-    assertIsInstanceOf(info, other, actual.getClass());
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
     Set<String> ignoredFields = newLinkedHashSet(fields);
-    for (Field field : actual.getClass().getDeclaredFields()) {
+    for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
         if (!ignoredFields.contains(field.getName())) {
           String fieldName = field.getName();
@@ -638,7 +674,49 @@ public class Objects {
     if (fieldsNames.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, newArrayList(fields)));
+    throw failures.failure(info,
+        shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, newArrayList(fields)));
+  }
+
+  /**
+   * Returns the declared fields of given class and its superclasses stopping at superclass in <code>java.lang</code>
+   * package whose fields are not included.
+   * 
+   * @param clazz the class we want the declared fields.
+   * @return the declared fields of given class and its superclasses.
+   */
+  private static <A> Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
+    if (clazz == null) {
+      throw new NullPointerException("expecting parameter not to be null");
+    }
+    Set<Field> declaredFields = newLinkedHashSet(clazz.getDeclaredFields());
+    // get fields declared in superclass
+    Class<?> superclazz = clazz.getSuperclass();
+    while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
+      declaredFields.addAll(newLinkedHashSet(superclazz.getDeclaredFields()));
+      superclazz = superclazz.getSuperclass();
+    }
+    return declaredFields;
+  }
+
+  /**
+   * Verifies that other object is an instance of the given type.
+   * 
+   * @param info contains information about the assertion.
+   * @param other the object to check type against given class.
+   * @param type the type to check the given object against.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if other is {@code null}.
+   * @throws AssertionError if other is not an instance of the given type.
+   */
+  private void assertOtherTypeIsCompatibleWithActualClass(AssertionInfo info, Object other, Class<?> clazz) {
+    if (other == null) {
+      throw failures.failure(info, shouldBeInstanceButWasNull("other", clazz));
+    }
+    if (clazz.isInstance(other)) {
+      return;
+    }
+    throw failures.failure(info, shouldBeInstance(other, clazz));
   }
 
 }

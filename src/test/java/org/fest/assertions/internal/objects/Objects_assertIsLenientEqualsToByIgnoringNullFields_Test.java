@@ -17,6 +17,7 @@ package org.fest.assertions.internal.objects;
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.util.FailureMessages.actualIsNull;
 import static org.fest.util.Lists.newArrayList;
 
 import static org.mockito.Mockito.verify;
@@ -37,24 +38,31 @@ import org.fest.test.Jedi;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertIsLenientEqualsToIgnoringNullFields_Test extends ObjectsBaseTest {
+public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends ObjectsBaseTest {
 
   @Test
-  public void should_pass_when_same_fields() {
+  public void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
     objects.assertIsLenientEqualsToByIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
-  public void should_pass_when_same_fields_with_null_in_actual() {
+  public void should_pass_when_some_other_field_is_null_but_not_actual() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", null);
     objects.assertIsLenientEqualsToByIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
-  public void should_fail_when_same_fields_with_null_in_actual() {
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsLenientEqualsToByIgnoringNullFields(someInfo(), null, other);
+  }
+
+  @Test
+  public void should_fail_when_some_actual_field_is_null_but_not_other() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
@@ -70,23 +78,23 @@ public class Objects_assertIsLenientEqualsToIgnoringNullFields_Test extends Obje
   }
 
   @Test
-  public void should_fail_when_a_field_is_not_same() {
+  public void should_fail_when_a_field_differ() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Blue");
+    Jedi other = new Jedi("Soda", "Green");
     try {
       objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
       List<String> emptyList = newArrayList();
       verify(failures).failure(info,
-          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"), emptyList));
+          shouldBeLenientEqualByIgnoring(actual, newArrayList("name"), newArrayList((Object) "Soda"), emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_when_different_type() {
+  public void should_fail_when_objects_to_compare_are_of_different_types() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
