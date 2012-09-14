@@ -20,8 +20,7 @@ import java.util.List;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.Lists;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

@@ -34,9 +34,6 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

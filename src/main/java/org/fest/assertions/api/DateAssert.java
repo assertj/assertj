@@ -12,9 +12,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.fest.assertions.core.Assert;
-import org.fest.assertions.internal.Dates;
-import org.fest.assertions.internal.Failures;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

@@ -15,7 +15,6 @@
 package org.fest.assertions.internal;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.ComparisonStrategy;
 
 /**
  * Base class of reusable assertions for numbers.

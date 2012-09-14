@@ -11,7 +11,6 @@ import org.fest.assertions.internal.Failures;
 import org.fest.assertions.internal.Shorts;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * 

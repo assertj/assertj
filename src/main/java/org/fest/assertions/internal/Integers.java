@@ -14,8 +14,6 @@
  */
 package org.fest.assertions.internal;
 
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

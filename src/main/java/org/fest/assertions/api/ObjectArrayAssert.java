@@ -22,8 +22,7 @@ import org.fest.assertions.core.ArraySortedAssert;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.IndexedObjectEnumerableAssert;
 import org.fest.assertions.data.Index;
-import org.fest.assertions.internal.ObjectArrays;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

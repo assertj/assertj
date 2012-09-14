@@ -18,6 +18,7 @@ import static org.fest.util.Preconditions.checkNotNull;
 import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
+import org.fest.assertions.internal.*;
 import org.fest.util.*;
 
 /**

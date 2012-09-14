@@ -19,8 +19,7 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.ObjectEnumerableAssert;
-import org.fest.assertions.internal.Iterables;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

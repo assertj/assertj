@@ -20,8 +20,6 @@ import org.fest.assertions.core.ArraySortedAssert;
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.data.Index;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

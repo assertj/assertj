@@ -28,9 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.TestDescription;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.ComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.

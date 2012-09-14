@@ -19,8 +19,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.fest.assertions.core.EnumerableAssert;
-import org.fest.assertions.internal.Strings;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

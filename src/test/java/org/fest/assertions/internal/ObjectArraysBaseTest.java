@@ -26,8 +26,6 @@ import org.junit.Rule;
 
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
 
 /**
  * Base class for testing <code>{@link ObjectArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and

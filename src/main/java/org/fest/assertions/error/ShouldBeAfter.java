@@ -18,8 +18,7 @@ import static org.fest.util.Dates.parse;
 
 import java.util.Date;
 
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is after another one failed.

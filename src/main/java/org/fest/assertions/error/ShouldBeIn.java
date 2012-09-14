@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is in a group of values (e.g. an array or

@@ -16,8 +16,7 @@ package org.fest.assertions.api;
 
 import java.util.Comparator;
 
-import org.fest.assertions.internal.Characters;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

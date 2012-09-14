@@ -18,8 +18,7 @@ import java.util.Comparator;
 
 import org.fest.assertions.core.FloatingPointNumberAssert;
 import org.fest.assertions.data.Offset;
-import org.fest.assertions.internal.Floats;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

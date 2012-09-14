@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies that an <code>Iterable</code> is a subset of an other set

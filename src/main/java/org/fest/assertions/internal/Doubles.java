@@ -21,9 +21,7 @@ import static org.fest.assertions.internal.CommonValidations.*;
 
 import org.fest.assertions.core.AssertionInfo;
 import org.fest.assertions.data.Offset;
-import org.fest.util.ComparisonStrategy;
 import org.fest.util.Objects;
-import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

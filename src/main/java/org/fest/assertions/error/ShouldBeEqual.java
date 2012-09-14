@@ -21,10 +21,7 @@ import static org.fest.util.Objects.*;
 import static org.fest.util.ToString.toStringOf;
 
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.Failures;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

@@ -20,7 +20,6 @@ import static org.fest.assertions.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.fest.assertions.error.ShouldBeUpperCase.shouldBeUpperCase;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.ComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

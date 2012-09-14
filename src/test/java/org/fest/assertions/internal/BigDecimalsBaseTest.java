@@ -13,7 +13,6 @@ import org.junit.Rule;
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.AbsValueComparator;
 import org.fest.assertions.util.BigDecimalComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for {@link BigDecimals} unit tests

@@ -8,9 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.fest.assertions.description.TextDescription;
-import org.fest.assertions.internal.TestDescription;
+import org.fest.assertions.internal.*;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 public class ShouldContainOnlyOnce_Test {
 

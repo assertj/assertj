@@ -24,8 +24,8 @@ import org.junit.Test;
 
 import org.fest.assertions.description.Description;
 import org.fest.assertions.description.TextDescription;
+import org.fest.assertions.internal.ComparatorBasedComparisonStrategy;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * Tests for <code>{@link ShouldContainAtIndex#create(Description)}</code>.

@@ -24,9 +24,6 @@ import static org.fest.assertions.error.ShouldNotBeEqual.shouldNotBeEqual;
 import java.util.Comparator;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.util.ComparatorBasedComparisonStrategy;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
 import org.fest.util.VisibleForTesting;
 
 /**

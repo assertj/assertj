@@ -14,8 +14,7 @@
  */
 package org.fest.assertions.error;
 
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains a given set of values failed.

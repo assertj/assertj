@@ -9,7 +9,6 @@ import org.junit.Rule;
 
 import org.fest.assertions.test.ExpectedException;
 import org.fest.assertions.util.CaseInsensitiveStringComparator;
-import org.fest.util.ComparatorBasedComparisonStrategy;
 
 /**
  * 

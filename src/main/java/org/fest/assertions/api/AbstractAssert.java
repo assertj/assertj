@@ -22,9 +22,7 @@ import org.fest.assertions.core.Assert;
 import org.fest.assertions.core.Condition;
 import org.fest.assertions.core.WritableAssertionInfo;
 import org.fest.assertions.description.Description;
-import org.fest.assertions.internal.Conditions;
-import org.fest.assertions.internal.Objects;
-import org.fest.util.ComparatorBasedComparisonStrategy;
+import org.fest.assertions.internal.*;
 import org.fest.util.VisibleForTesting;
 
 /**

@@ -15,8 +15,7 @@
 package org.fest.assertions.error;
 
 import org.fest.assertions.data.Index;
-import org.fest.util.ComparisonStrategy;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements does not contain a value at a given

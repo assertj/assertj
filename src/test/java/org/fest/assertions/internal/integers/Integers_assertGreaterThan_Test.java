@@ -24,9 +24,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.internal.Integers;
-import org.fest.assertions.internal.IntegersBaseTest;
-import org.fest.util.StandardComparisonStrategy;
+import org.fest.assertions.internal.*;
 
 /**
  * Tests for <code>{@link Integers#assertGreaterThan(AssertionInfo, Integer, int)}</code>.
