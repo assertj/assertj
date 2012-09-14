@@ -1,14 +1,14 @@
 /*
  * Created on Dec 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -34,10 +34,11 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and <b>not null</b> other fields.
+   * Assert that the actual object is lenient equals to given one by comparing only actual and <b>not null</b> other
+   * fields (including inherited fields).
    * <p>
-   * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by lenient
-   * comparison, but the inverse will make assertion fail (null field in actual, not null in other).
+   * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by
+   * lenient comparison, but the inverse will make assertion fail (null field in actual, not null in other).
    * 
    * <pre>
    * Example: 
@@ -65,20 +66,20 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given "accepted"
-   * fields only.
+   * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given
+   * "accepted" fields only ("accepted" fields can be inherited fields).
+   * <p>
+   * Example:
    * 
    * <pre>
-   * Example: 
-   * 
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT); 
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT); 
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
    * 
    * // frodo and sam both are hobbits, so they are lenient equals on race
-   * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, "race"); //=> OK
+   * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, &quot;race&quot;); // =&gt; OK
    * 
    * // ... but not when accepting name and race
-   * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, "name", "race"); //=> FAIL
+   * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, &quot;name&quot;, &quot;race&quot;); // =&gt; FAIL
    * 
    * </pre>
    * 
@@ -96,8 +97,8 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is lenient equals to given one by comparing actual and other fields except the given "ignored"
-   * fields.
+   * Assert that the actual object is lenient equals to given one by comparing actual and other fields (including
+   * inherited fields) except the given "ignored" fields.
    * 
    * <pre>
    * Example: 
@@ -126,7 +127,10 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
   }
 
   /**
-   * Assert that the actual object is equals fields by fields to another object.
+   * Assert that the actual object is equals fields by fields to another object, inherited fields are taken into
+   * account.
+   * <p>
+   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
    * 
    * <pre>
    * Example: 
@@ -134,8 +138,11 @@ public class ObjectAssert<T> extends AbstractAssert<ObjectAssert<T>, T> {
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT); 
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT); 
    * 
+   * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references 
+   * assertThat(frodo).isEqualsTo(frodoClone); // Fail if equals has not been overriden in TolkienCharacter 
+   * 
    * // frodo and frodoClone are equals by comparing fields
-   * assertThat(frodo).isLenientEqualsToByIgnoringFields(frodoClone); //=> OK
+   * assertThat(frodo).isEqualsToByComparingFields(frodoClone); // OK
    * 
    * </pre>
    * 

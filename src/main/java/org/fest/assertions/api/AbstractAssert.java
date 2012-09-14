@@ -1,14 +1,14 @@
 /*
  * Created on Nov 18, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -27,8 +27,10 @@ import org.fest.util.VisibleForTesting;
 
 /**
  * Base class for all assertions.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
- *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
  * @param <A> the type of the "actual" value.
  * 
  * @author Alex Ruiz
@@ -60,6 +62,17 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     myself = (S) selfType.cast(this);
     this.actual = actual;
     info = new WritableAssertionInfo();
+  }
+
+  /**
+   * Exposes the {@link WritableAssertionInfo} used in the current assertion for better extensibility.</br> When writing
+   * your own assertion class, you can use the returned {@link WritableAssertionInfo} to change the error message and
+   * still keep the description set by the assertion user.
+   * 
+   * @return the {@link WritableAssertionInfo} used in the current assertion
+   */
+  protected WritableAssertionInfo getWritableAssertionInfo() {
+    return info;
   }
 
   /** {@inheritDoc} */
@@ -229,6 +242,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
+   * 
    * @return the description String representation of this assertion.
    */
   public String descriptionText() {
@@ -241,9 +255,11 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p>
    * Example :
    * 
-   * <pre>assertThat(player.isRookie()).
-           overridingErrorMessage("Expecting Player <%s> to be a rookie but was not.", player).
-           isTrue();</pre>
+   * <pre>
+   * assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
+   *     .isTrue();
+   * </pre>
+   * 
    * @param newErrorMessage the error message that will replace the default one provided by Fest.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
@@ -276,6 +292,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * Always returns 1.
+   * 
    * @return 1.
    */
   @Override
