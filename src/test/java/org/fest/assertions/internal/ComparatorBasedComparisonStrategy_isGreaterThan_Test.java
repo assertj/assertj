@@ -20,7 +20,6 @@ import static org.mockito.Mockito.*;
 import java.awt.Rectangle;
 
 import org.fest.assertions.internal.ComparatorBasedComparisonStrategy;
-import org.fest.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 /**

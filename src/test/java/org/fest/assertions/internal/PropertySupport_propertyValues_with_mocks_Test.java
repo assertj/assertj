@@ -15,8 +15,8 @@
 package org.fest.assertions.internal;
 
 import static junit.framework.Assert.*;
-import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.Introspection.getProperty;
+import static org.fest.util.Lists.newArrayList;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -24,6 +24,7 @@ import java.beans.PropertyDescriptor;
 import java.util.*;
 
 import org.fest.test.*;
+import org.fest.test.Employee;
 import org.fest.util.IntrospectionError;
 import org.junit.*;
 

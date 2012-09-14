@@ -19,8 +19,6 @@ import static org.mockito.Mockito.*;
 
 import java.awt.Rectangle;
 
-import org.fest.assertions.internal.StandardComparisonStrategy;
-import org.fest.util.Employee;
 import org.junit.Test;
 
 /**
@@ -52,11 +50,4 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
     thrown.expect(IllegalArgumentException.class);
     standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo");
   }
-
-  @Test
-  public void should_fail_if_second_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
-    standardComparisonStrategy.isGreaterThan("foo", new Rectangle());
-  }
-
 }

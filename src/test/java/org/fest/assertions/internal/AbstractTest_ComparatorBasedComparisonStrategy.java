@@ -5,7 +5,6 @@ import static org.junit.rules.ExpectedException.none;
 import java.util.Comparator;
 
 import org.fest.assertions.internal.ComparatorBasedComparisonStrategy;
-import org.fest.util.CaseInsensitiveStringComparator;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 

@@ -18,8 +18,6 @@ import static org.junit.Assert.*;
 
 import java.awt.Rectangle;
 
-import org.fest.assertions.internal.StandardComparisonStrategy;
-import org.fest.util.Employee;
 import org.junit.Test;
 
 /**
