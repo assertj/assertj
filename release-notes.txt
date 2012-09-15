@@ -4,22 +4,30 @@ For the next release
 next version release notes (WIP) 
 -------------------
 
+2.0M8 release notes 
+-------------------
+
 Breaking changes :	
-github#99 : move AWT assertions to a new module 
+Remove dependency on AWT : AWT assertions moved to a new module 
+Use java 6 instead of java 5 
 
 New features :
-github#79 : String assertions are available on (small) file thanks to contentOf(File) method (Olivier Michallat) 
+github#79 : String assertions are available on (small) file by calling contentOf(File) method (Olivier Michallat) 
 github#73 : new assertion ListAssert.has(Condition, Index) (Bo Gotthardt) 
 github#97 : new assertion ListAssert.is(Condition, Index) (Bo Gotthardt) 
+github#50 : new assertion StringAssert.containsOnlyOnce (Pauline Iogna) 
 
 Improvement :
 github#87 : Fail.failBecauseExpectedExceptionWasNotThrown now takes a Throwable instead of an Exception
 github#86 : tests : org.fest.assertions.internal contain too much classes
 github#82 : tests : org.fest.assertions.api contain too much classes  (Olivier Michallat)
 github#91 : tests : move fail tests in a "fail" subpackage
+github#106 : provide better extensibility by exposing assertion WritableAssertionInfo
+github#74 : ObjectAssert lenient equals assertions now takes inherited fields into account
 
 Bug :
 github#92 : Fix BinaryDiff_diff_File_byteArray_Test test that was failing on windows
+github#104 : containsExactly does not work with SortedSet
 
 
 2.0M7 release notes 
