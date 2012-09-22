@@ -29,6 +29,13 @@ Bug :
 github#92 : Fix BinaryDiff_diff_File_byteArray_Test test that was failing on windows
 github#104 : containsExactly does not work with SortedSet
 
+Refactoring 
+Move creation of ArrayLists into a Lists class 
+Move creation of Sets to Sets class 
+Move Iterable-related methods out of the Collections
+Iterables : Rename 'isEmpty' to 'isNullOrEmpty' 
+Move back factory of primitive arrays from fest-util back to fest-assert 
+
 
 2.0M7 release notes 
 -------------------
