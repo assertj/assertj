@@ -46,7 +46,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInstance(Object object, Class<?> type) {
-    super("expected <%s> to be an instance of:<%s> but was instance of:<%s>", object, type, object.getClass());
+    super("expected <%s> to be an instance of:\n<%s>\nbut was instance of:\n<%s>", object, type, object.getClass());
   }
 
   private ShouldBeInstance(String objectDescription, Class<?> type) {

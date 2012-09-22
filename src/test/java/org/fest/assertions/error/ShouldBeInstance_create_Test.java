@@ -45,7 +45,8 @@ public class ShouldBeInstance_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected <'Yoda'> to be an instance of:<java.io.File> but was instance of:<java.lang.String>",
+    assertEquals(
+        "[Test] expected <'Yoda'> to be an instance of:\n<java.io.File>\nbut was instance of:\n<java.lang.String>",
         message);
   }
 

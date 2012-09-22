@@ -14,6 +14,7 @@
  */
 package org.fest.assertions.internal.objects;
 
+import static org.fest.assertions.error.ShouldBeInstance.shouldBeInstance;
 import static org.fest.assertions.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -27,7 +28,6 @@ import java.util.List;
 import org.junit.Test;
 
 import org.fest.assertions.core.AssertionInfo;
-import org.fest.assertions.error.ShouldBeInstance;
 import org.fest.assertions.internal.ObjectsBaseTest;
 import org.fest.test.Employee;
 import org.fest.test.Jedi;
@@ -101,7 +101,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
     try {
       objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
     } catch (AssertionError err) {
-      verify(failures).failure(info, ShouldBeInstance.shouldBeInstance(other, actual.getClass()));
+      verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
