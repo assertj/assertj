@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.easytesting</groupId>
+  <artifactId>fest-guava-assert</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <name>FEST Fluent Assertions for Guava</name>
+  <url>https://github.com/joel-costigliola/fest-guava-assert</url>
+  <parent>
+    <groupId>org.easytesting</groupId>
+    <artifactId>fest</artifactId>
+    <version>1.0.15</version>
+  </parent>
+  <scm>
+    <developerConnection>scm:git:git@github.com:joel-costigliola/fest-guava-assert.git</developerConnection>
+    <connection>scm:git:git://github.com/joel-costigliola/fest-guava-assert.git</connection>
+    <url>https://github.com/joel-costigliola/fest-guava-assert</url>
+  </scm>
+  <issueManagement>
+    <system>github</system>
+    <url>https://github.com/joel-costigliola/fest-guava-assert/issues</url>
+  </issueManagement>
+  <dependencies>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-util</artifactId>
+      <version>1.2.3</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.easytesting</groupId>
+      <artifactId>fest-test</artifactId>
+      <version>2.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-all</artifactId>
+      <version>1.9.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.10</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>
