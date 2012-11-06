@@ -2,6 +2,21 @@
 
 This project provides a fluent interface for assertions.
 
+Here is an example:
+
+```
+int removed = employees.removeFired();
+assertThat(removed).isZero();
+ 
+List<Employee> newEmployees = employees.hired(TODAY);
+assertThat(newEmployees).hasSize(6)
+                        .contains(frodo, sam);
+ 
+assertThat(yoda).isInstanceOf(Jedi.class)
+                .isEqualTo(foundJedi)
+                .isNotEqualTo(foundSith);
+```
+
 This is an attempt to improve our codebase from the previous 1.x releases in terms of extensibility, code reuse,
 and code organization.
 
