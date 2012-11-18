@@ -9,7 +9,7 @@ import com.google.common.collect.Multimap;
  * @author @miralak
  * @author Joel Costigliola
  */
-public class GUAVA extends Assertions {
+public class GUAVA {
 
   public static <K, V> MultimapAssert<K, V> assertThat(Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
