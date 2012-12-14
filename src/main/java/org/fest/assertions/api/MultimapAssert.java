@@ -3,6 +3,7 @@ package org.fest.assertions.api;
 import static com.google.common.collect.Lists.newArrayList;
 
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
+import static org.fest.assertions.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);
    * </pre>
    * 
-   * If the arguments keys is empty an {@link IllegalArgumentException} is thrown.
+   * If the arguments keys is null or empty an {@link IllegalArgumentException} is thrown.
    * <p>
    * 
    * @param keys the keys to look for in actual {@link Multimap}.
@@ -53,12 +54,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    */
   public MultimapAssert<K, V> containsKeys(K... keys) {
     Objects.instance().assertNotNull(info, actual);
-    if (keys == null) {
-      throw new IllegalArgumentException("The keys to look for should not be null");
-    }
-    if (keys.length == 0) {
-      throw new IllegalArgumentException("The keys to look for should not be empty");
-    }
+    throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
     List<K> keysNotFound = newArrayList();
     for (K key : keys) {
