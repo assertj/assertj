@@ -8,7 +8,6 @@ import java.util.List;
 
 import com.google.common.collect.Multimap;
 
-import org.fest.assertions.error.ErrorMessageFactory;
 import org.fest.assertions.internal.Failures;
 import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
@@ -30,26 +29,36 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   }
 
   /**
-   * Verifies that the actual {@link MultimapAssert} contains the given keys, if the given keys array is empty the
-   * assertion succeeds.
+   * Verifies that the actual {@link Multimap} contains the given keys.<br>
    * <p>
    * Example :
    * 
    * <pre>
-   * Multimap&lt;String, List&lt;String&gt;&gt; actual = HashMultimap.create();
-   * actual.put(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.put(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   * actual.put(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
+   * actual = ArrayListMultimap.create();
+   * // add several values for each keys
+   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
+   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
+   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
    * 
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);
    * </pre>
    * 
-   * @param keys the given keys
+   * If the arguments keys is empty an {@link IllegalArgumentException} is thrown.
+   * <p>
+   * 
+   * @param keys the keys to look for in actual {@link Multimap}.
+   * @throws IllegalArgumentException if no param keys have been set.
    * @throws AssertionError if the actual {@link MultimapAssert} is {@code null}.
    * @throws AssertionError if the actual {@link MultimapAssert} does not contain the given keys.
    */
   public MultimapAssert<K, V> containsKeys(K... keys) {
     Objects.instance().assertNotNull(info, actual);
+    if (keys == null) {
+      throw new IllegalArgumentException("The keys to look for should not be null");
+    }
+    if (keys.length == 0) {
+      throw new IllegalArgumentException("The keys to look for should not be empty");
+    }
 
     List<K> keysNotFound = newArrayList();
     for (K key : keys) {
