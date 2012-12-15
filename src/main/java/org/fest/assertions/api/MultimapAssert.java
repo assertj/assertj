@@ -141,13 +141,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
    */
-  public MultimapAssert<K, V> containsValues(K... values) {
+  public MultimapAssert<K, V> containsValues(V... values) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
-    Set<K> valuesNotFound = newLinkedHashSet();
-    for (K value : values) {
+    Set<V> valuesNotFound = newLinkedHashSet();
+    for (V value : values) {
       if (!actual.containsValue(value)) {
         valuesNotFound.add(value);
       }
