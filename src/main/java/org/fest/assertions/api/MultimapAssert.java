@@ -5,6 +5,7 @@ import static com.google.common.collect.Sets.newLinkedHashSet;
 
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
+import static org.fest.assertions.error.ShouldContainValues.shouldContainValues;
 import static org.fest.assertions.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
 import java.util.List;
@@ -112,6 +113,47 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     }
     if (!entriesNotFound.isEmpty()) {
       throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Multimap} contains the given values for any key.<br>
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * // add several values for each value.
+   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
+   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
+   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
+   * 
+   * // note that given values are not linked to same key
+   * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);
+   * </pre>
+   * 
+   * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
+   * <p>
+   * 
+   * @param values the values to look for in actual {@link Multimap}.
+   * @throws IllegalArgumentException if no param values have been set.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
+   */
+  public MultimapAssert<K, V> containsValues(K... values) {
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
+
+    Set<K> valuesNotFound = newLinkedHashSet();
+    for (K value : values) {
+      if (!actual.containsValue(value)) {
+        valuesNotFound.add(value);
+      }
+    }
+    if (!valuesNotFound.isEmpty()) {
+      throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
     }
     return myself;
   }

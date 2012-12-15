@@ -17,29 +17,29 @@ package org.fest.assertions.error;
 import java.util.Set;
 
 /**
- * Creates an error message indicating that an assertion that verifies a map contains some keys failed. TODO : move to
- * fest-assert-core to replace {@link ShouldContainKey}.
+ * Creates an error message indicating that an assertion that verifies a map contains some values failed. TODO : move to
+ * fest-assert-core to replace {@link ShouldContainValue}
  * 
  * @author Joel Costigliola
  */
-public class ShouldContainKeys extends BasicErrorMessageFactory {
+public class ShouldContainValues extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainKeys}</code>.
+   * Creates a new </code>{@link ShouldContainValues}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
-    return keys.length == 1 ? new ShouldContainKeys(actual, keys[0])
-        : new ShouldContainKeys(actual, keys, keysNotFound);
+  public static ErrorMessageFactory shouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
+    return values.length == 1 ? new ShouldContainValues(actual, values[0]) : new ShouldContainValues(actual, values,
+        valuesNotFound);
   }
 
-  private ShouldContainKeys(Object actual, Object key) {
-    super("expecting:\n<%s>\n to contain key:\n<%s>", actual, key);
+  private ShouldContainValues(Object actual, Object value) {
+    super("expecting:\n<%s>\n to contain value:\n<%s>", actual, value);
   }
 
-  private ShouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
-    super("expecting:\n<%s>\n to contain keys:\n<%s>\n but could not find:\n<%s>", actual, keys, keysNotFound);
+  private ShouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
+    super("expecting:\n<%s>\n to contain values:\n<%s>\n but could not find:\n<%s>", actual, values, valuesNotFound);
   }
 }
