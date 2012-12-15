@@ -15,4 +15,11 @@ public class GUAVA {
     return new MultimapAssert<K, V>(actual);
   }
 
+  /**
+   * protected to avoid direct instanciation but allowing subclassing.
+   */
+  protected GUAVA() {
+    // empty
+  }
+
 }
