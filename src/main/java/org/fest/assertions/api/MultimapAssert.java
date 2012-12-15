@@ -7,6 +7,7 @@ import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
 import static org.fest.assertions.error.ShouldContainValues.shouldContainValues;
+import static org.fest.assertions.error.ShouldHaveSize.shouldHaveSize;
 import static org.fest.assertions.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
 import java.util.List;
@@ -176,6 +177,23 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     if (!actual.isEmpty()) {
       throw failures.failure(info, shouldBeEmpty(actual));
     }
+  }
+
+  /**
+   * Verifies that the number of values in the actual {@link Multimap} is equal to the given one.
+   * 
+   * @param expectedSize the expected size of actual {@link Multimap}.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the number of values of the actual {@link Multimap} is not equal to the given one.
+   */
+  public MultimapAssert<K, V> hasSize(int expectedSize) {
+    Objects.instance().assertNotNull(info, actual);
+    int sizeOfActual = actual.size();
+    if (sizeOfActual == expectedSize) {
+      return this;
+    }
+    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
   }
 
 }
