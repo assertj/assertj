@@ -3,6 +3,7 @@ package org.fest.assertions.api;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
+import static org.fest.assertions.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
 import static org.fest.assertions.error.ShouldContainValues.shouldContainValues;
@@ -55,6 +56,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * 
    * @param keys the keys to look for in actual {@link Multimap}.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * 
    * @throws IllegalArgumentException if no param keys have been set.
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} does not contain the given keys.
@@ -96,6 +99,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * 
    * @param entries the entries to look for in actual {@link Multimap}.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * 
    * @throws IllegalArgumentException if no param entries have been set.
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} does not contain the given entries.
@@ -137,6 +142,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * 
    * @param values the values to look for in actual {@link Multimap}.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * 
    * @throws IllegalArgumentException if no param values have been set.
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
@@ -156,6 +163,19 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Multimap} is empty.
+   * 
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} is not empty.
+   */
+  public void isEmpty() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isEmpty()) {
+      throw failures.failure(info, shouldBeEmpty(actual));
+    }
   }
 
 }
