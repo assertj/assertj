@@ -1,14 +1,18 @@
 package org.fest.assertions.api;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 
+import static org.fest.assertions.error.ShouldContain.shouldContain;
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
 import static org.fest.assertions.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
+import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Multimap;
 
+import org.fest.assertions.data.MapEntry;
 import org.fest.assertions.internal.Failures;
 import org.fest.assertions.internal.Objects;
 import org.fest.util.VisibleForTesting;
@@ -67,6 +71,47 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     }
     if (!keysNotFound.isEmpty()) {
       throw failures.failure(info, shouldContainKeys(actual, keysNotFound));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link Multimap} contains the given entries.<br>
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Multimap actual = ArrayListMultimap.create();
+   * // add several values for each entrie.
+   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
+   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
+   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
+   * 
+   * // entry -&gt; import static org.fest.assertions.api.Assertions.entry
+   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;));
+   * </pre>
+   * 
+   * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
+   * <p>
+   * 
+   * @param entries the entries to look for in actual {@link Multimap}.
+   * @throws IllegalArgumentException if no param entries have been set.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} does not contain the given entries.
+   */
+  public MultimapAssert<K, V> contains(MapEntry... entries) {
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
+
+    List<MapEntry> entriesNotFound = newArrayList();
+    for (MapEntry entry : entries) {
+      if (!actual.containsEntry(entry.key, entry.value)) {
+        entriesNotFound.add(entry);
+      }
+    }
+    if (!entriesNotFound.isEmpty()) {
+      throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
     }
     return myself;
   }
