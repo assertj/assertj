@@ -30,16 +30,16 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainKeys(Object actual, Set<?> keys) {
-    return keys.size() == 1 ? new ShouldContainKeys(actual, keys.iterator().next()) : new ShouldContainKeys(actual,
-        keys);
+  public static ErrorMessageFactory shouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
+    return keys.length == 1 ? new ShouldContainKeys(actual, keys[0])
+        : new ShouldContainKeys(actual, keys, keysNotFound);
   }
 
   private ShouldContainKeys(Object actual, Object key) {
     super("expecting:\n<%s>\n to contain key:\n<%s>", actual, key);
   }
 
-  private ShouldContainKeys(Object actual, Set<?> keys) {
-    super("expecting:\n<%s>\n to contain keys:\n<%s>", actual, keys);
+  private ShouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
+    super("expecting:\n<%s>\n to contain keys:\n<%s>\n but could not find:\n<%s>", actual, keys, keysNotFound);
   }
 }

@@ -41,7 +41,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * Example :
    * 
    * <pre>
-   * Multimap actual = ArrayListMultimap.create();
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * // add several values for each key.
    * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
    * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
@@ -70,7 +70,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       }
     }
     if (!keysNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainKeys(actual, keysNotFound));
+      throw failures.failure(info, shouldContainKeys(actual, keys, keysNotFound));
     }
     return myself;
   }
@@ -81,7 +81,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * Example :
    * 
    * <pre>
-   * Multimap actual = ArrayListMultimap.create();
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * // add several values for each entrie.
    * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
    * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
