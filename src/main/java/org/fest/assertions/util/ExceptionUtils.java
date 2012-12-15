@@ -30,4 +30,11 @@ public class ExceptionUtils {
     }
   }
 
+  /**
+   * protected to avoid direct instanciation but allowing subclassing.
+   */
+  protected ExceptionUtils() {
+    // empty
+  }
+
 }
