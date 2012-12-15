@@ -4,18 +4,19 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.api.GUAVA.assertThat;
-import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.fest.test.ExpectedException.none;
 import static org.fest.util.FailureMessages.actualIsNull;
 
-import static org.junit.rules.ExpectedException.none;
+import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+
+import org.fest.test.ExpectedException;
 
 public class MultiMapAssertTest {
 
@@ -38,26 +39,20 @@ public class MultiMapAssertTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    // TODO : use ExpectedException.expectAssertionError from Fest when moved to fest test.
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage(actualIsNull());
+    thrown.expect(AssertionError.class, actualIsNull());
     actual = null;
     assertThat(actual).containsKeys("Nets", "Bulls", "Knicks");
   }
 
   @Test
   public void should_fail_if_keys_to_look_for_are_null() {
-    // TODO : use ExpectedException.expectIllegalArgumentException from Fest when moved to fest test.
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("The keys to look for should not be null");
+    thrown.expect(IllegalArgumentException.class, "The keys to look for should not be null");
     assertThat(actual).containsKeys((String[]) null);
   }
 
   @Test
   public void should_fail_if_keys_to_look_for_are_empty() {
-    // TODO : use ExpectedException.expectIllegalArgumentException from Fest when moved to fest test.
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("The keys to look for should not be empty");
+    thrown.expect(IllegalArgumentException.class, "The keys to look for should not be empty");
     assertThat(actual).containsKeys();
   }
 
@@ -73,7 +68,7 @@ public class MultiMapAssertTest {
                   + " to contain keys:\n<['Nets', 'Knicks']>");
       return;
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    fail("Assertion error expected");
   }
 
   @Test
@@ -81,7 +76,7 @@ public class MultiMapAssertTest {
     try {
       assertThat(actual).containsKeys("Nets");
     } catch (AssertionError e) {
-      // error message shows that we were looking for a unique key
+      // error message shows that we were looking for a unique key (not many)
       assertThat(e)
           .hasMessage(
               "expecting:\n"
@@ -89,7 +84,7 @@ public class MultiMapAssertTest {
                   + " to contain key:\n<'Nets'>");
       return;
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    fail("Assertion error expected");
   }
 
 }
