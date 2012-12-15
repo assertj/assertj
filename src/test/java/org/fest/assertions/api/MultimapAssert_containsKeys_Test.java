@@ -18,7 +18,7 @@ import com.google.common.collect.Multimap;
 
 import org.fest.test.ExpectedException;
 
-public class MultiMapAssertTest {
+public class MultimapAssert_containsKeys_Test {
 
   @Rule
   public ExpectedException thrown = none();

@@ -1,11 +1,11 @@
 package org.fest.assertions.api;
 
-import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.newLinkedHashSet;
 
 import static org.fest.assertions.error.ShouldContainKeys.shouldContainKeys;
 import static org.fest.assertions.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
-import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Multimap;
 
@@ -59,14 +59,14 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
-    List<K> keysNotFound = newArrayList();
+    Set<K> keysNotFound = newLinkedHashSet();
     for (K key : keys) {
       if (!actual.containsKey(key)) {
         keysNotFound.add(key);
       }
     }
     if (!keysNotFound.isEmpty()) {
-      throw failures.failure(info, shouldContainKeys(actual, keysNotFound.toArray()));
+      throw failures.failure(info, shouldContainKeys(actual, keysNotFound));
     }
     return myself;
   }

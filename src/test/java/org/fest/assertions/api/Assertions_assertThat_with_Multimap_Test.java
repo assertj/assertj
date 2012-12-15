@@ -18,8 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import com.google.common.collect.HashMultimap;
@@ -34,14 +32,14 @@ public class Assertions_assertThat_with_Multimap_Test {
 
   @Test
   public void should_create_Assert() {
-    Multimap<String, List<String>> actual = HashMultimap.create();
+    Multimap<String, String> actual = HashMultimap.create();
     assertNotNull(GUAVA.assertThat(actual));
     assertEquals(MultimapAssert.class, GUAVA.assertThat(actual).getClass());
   }
 
   @Test
   public void should_pass_actual() {
-    Multimap<String, List<String>> actual = HashMultimap.create();
+    Multimap<String, String> actual = HashMultimap.create();
     assertSame(actual, GUAVA.assertThat(actual).actual);
   }
 }
