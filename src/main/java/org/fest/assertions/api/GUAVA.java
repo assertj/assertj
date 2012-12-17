@@ -12,6 +12,8 @@ package org.fest.assertions.api;
 
 import com.google.common.collect.Multimap;
 
+import org.fest.assertions.data.MapEntry;
+
 /**
  * The entry point for all Guava assertions.
  * 
@@ -23,6 +25,24 @@ public class GUAVA {
 
   public static <K, V> MultimapAssert<K, V> assertThat(Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
+  }
+
+  // ------------------------------------------------------------------------------------------------------
+  // Data utility methods : not assertions but here to have a single entry point to all Guava Assert features.
+  // ------------------------------------------------------------------------------------------------------
+
+  /**
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
+   * Fest Assert features (but you can use {@link MapEntry} if you prefer).
+   * <p>
+   * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
+   * 
+   * <pre>
+   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
+   * </pre>
+   */
+  public static MapEntry entry(Object key, Object value) {
+    return MapEntry.entry(key, value);
   }
 
   /**
