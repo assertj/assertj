@@ -11,16 +11,14 @@
 package org.fest.assertions.api;
 
 import static com.google.common.collect.Lists.newArrayList;
-
-import static org.fest.test.ExpectedException.none;
+import static org.junit.rules.ExpectedException.none;
 
 import org.junit.Before;
 import org.junit.Rule;
+import org.junit.rules.ExpectedException;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
-
-import org.fest.test.ExpectedException;
 
 public class MultimapAssertBaseTest {
 
@@ -38,6 +36,12 @@ public class MultimapAssertBaseTest {
     actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
     actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+  }
+
+  // TODO : use ExpectedException from fest-test once stable.
+  protected void expectException(Class<? extends Throwable> type, String message) {
+    thrown.expect(type);
+    thrown.expectMessage(message);
   }
 
 }

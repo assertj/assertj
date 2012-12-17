@@ -31,20 +31,20 @@ public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expect(AssertionError.class, actualIsNull());
+    expectException(AssertionError.class, actualIsNull());
     actual = null;
     assertThat(actual).contains(entry("Lakers", "Kobe Bryant"));
   }
 
   @Test
   public void should_fail_if_entries_to_look_for_are_null() {
-    thrown.expect(IllegalArgumentException.class, "The entries to look for should not be null");
+    expectException(IllegalArgumentException.class, "The entries to look for should not be null");
     assertThat(actual).contains((MapEntry[]) null);
   }
 
   @Test
   public void should_fail_if_entries_to_look_for_are_empty() {
-    thrown.expect(IllegalArgumentException.class, "The entries to look for should not be empty");
+    expectException(IllegalArgumentException.class, "The entries to look for should not be empty");
     assertThat(actual).contains();
   }
 

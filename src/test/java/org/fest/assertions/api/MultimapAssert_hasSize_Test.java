@@ -32,7 +32,7 @@ public class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    thrown.expect(AssertionError.class, actualIsNull());
+    expectException(AssertionError.class, actualIsNull());
     actual = null;
     assertThat(actual).hasSize(2);
   }
