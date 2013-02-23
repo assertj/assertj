@@ -4,6 +4,14 @@ For the next release
 next version release notes (WIP) 
 -------------------
 
+2.0M9 release notes 
+-------------------
+
+bugfix release, 
+fix incompatibility with fest-reflect, you can use 2.0M9 along with fest-reflect 1.4.1 both depending on fest-util 1.2.4
+github #138 : containsExactly() throws ArrayIndexOutOfBoundsException
+github #131 : ObjectArrayAssert.containsExactly() works wrong
+
 2.0M8 release notes 
 -------------------
 
