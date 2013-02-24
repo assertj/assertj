@@ -16,12 +16,14 @@ package org.fest.assertions.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.fest.assertions.error.ShouldContainExactly.shouldContainExactly;
+import static org.fest.assertions.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.fest.assertions.test.ErrorMessages.*;
 import static org.fest.assertions.test.ObjectArrays.emptyArray;
 import static org.fest.assertions.test.TestData.someInfo;
 import static org.fest.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.fest.util.Arrays.array;
 import static org.fest.util.FailureMessages.actualIsNull;
+import static org.fest.util.Lists.newArrayList;
 import static org.fest.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
@@ -93,6 +95,20 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    AssertionInfo info = someInfo();
+    actual = newArrayList("Luke", "Leia", "Luke");
+    Object[] expected = { "Luke", "Leia" };
+    try {
+      iterables.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldHaveSameSizeAs(actual, 3, 2));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------

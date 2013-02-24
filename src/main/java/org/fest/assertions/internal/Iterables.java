@@ -985,7 +985,7 @@ public class Iterables {
    */
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
-    assertNotNull(info, actual);
+    assertHasSameSizeAs(info, actual, values); // include chack that actual is not null
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) {
