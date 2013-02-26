@@ -10,6 +10,7 @@
  */
 package org.fest.assertions.api;
 
+import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
 
 import org.fest.assertions.data.MapEntry;
@@ -19,12 +20,17 @@ import org.fest.assertions.data.MapEntry;
  * 
  * @author @marcelfalliere
  * @author @miralak
- * @author Joel Costigliola
+ * @author Kornel
+ * @author Joel Costigliola 
  */
 public class GUAVA {
 
   public static <K, V> MultimapAssert<K, V> assertThat(Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
+  }
+  
+  public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
+      return new OptionalAssert<T>(actual);
   }
 
   // ------------------------------------------------------------------------------------------------------
