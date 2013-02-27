@@ -12,23 +12,10 @@ import com.google.common.base.Optional;
 /**
  * @author Kornel
  */
-public class OptionalAssertTest {
+public class OptionalAssert_hasValue_Test {
 
   @Rule
   public ExpectedException thrown = none();
-
-  @Test
-  public void should_fail_when_expected_present_optional_is_abset() {
-    // given
-    final Optional<String> testedOptional = Optional.of("X");
-
-    // expect
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage("Expecting <Optional.of(X)> to be absent");
-
-    // when
-    GUAVA.assertThat(testedOptional).isAbsent();
-  }
 
   @Test
   public void should_fail_when_expected_values_differ() {
@@ -40,19 +27,6 @@ public class OptionalAssertTest {
 
     // when
     GUAVA.assertThat(testedOptional).hasValue("Test 2");
-  }
-
-  @Test
-  public void should_fail_when_expecting_absent_optional_to_be_present() {
-    // given
-    final Optional<Object> testedOptional = Optional.absent();
-
-    // expect
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage("Expecting <Optional.absent()> to be present");
-
-    // when
-    GUAVA.assertThat(testedOptional).isPresent();
   }
 
   @Test
