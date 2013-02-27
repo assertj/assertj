@@ -3,6 +3,9 @@ package org.fest.assertions.error;
 import com.google.common.base.Optional;
 
 /**
+ * 
+ * Creates an error message indicating that an Optional should contain an expected value
+ * 
  * @author Kornel Kiełczewski
  */
 public final class OptionalShouldBePresentWithValue extends BasicErrorMessageFactory {

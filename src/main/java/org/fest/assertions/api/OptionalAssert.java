@@ -11,7 +11,15 @@ import org.fest.util.VisibleForTesting;
 import com.google.common.base.Optional;
 
 /**
- * @author Kornel
+ * 
+ * Assertions for guava {@link Optional}.
+ * <p>
+ * To create an instance of this class, invoke <code>{@link GUAVA#assertThat(Optional)}</code>
+ * <p>
+ * 
+ * @param <T> the type of elements of the tested Optional value
+ * 
+ * @author Kornel Kiełczewski
  */
 public final class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
 
