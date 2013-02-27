@@ -10,10 +10,10 @@
  */
 package org.fest.assertions.api;
 
+import org.fest.assertions.data.MapEntry;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
-
-import org.fest.assertions.data.MapEntry;
 
 /**
  * The entry point for all Guava assertions.
@@ -21,16 +21,16 @@ import org.fest.assertions.data.MapEntry;
  * @author @marcelfalliere
  * @author @miralak
  * @author Kornel
- * @author Joel Costigliola 
+ * @author Joel Costigliola
  */
 public class GUAVA {
 
-  public static <K, V> MultimapAssert<K, V> assertThat(Multimap<K, V> actual) {
+  public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
   }
-  
+
   public static <T> OptionalAssert<T> assertThat(final Optional<T> actual) {
-      return new OptionalAssert<T>(actual);
+    return new OptionalAssert<T>(actual);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ public class GUAVA {
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </pre>
    */
-  public static MapEntry entry(Object key, Object value) {
+  public static MapEntry entry(final Object key, final Object value) {
     return MapEntry.entry(key, value);
   }
 
