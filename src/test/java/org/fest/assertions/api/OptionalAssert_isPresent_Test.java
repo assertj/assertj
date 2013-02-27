@@ -29,4 +29,16 @@ public class OptionalAssert_isPresent_Test {
     GUAVA.assertThat(testedOptional).isPresent();
   }
 
+  @Test
+  public void should_pass_when_optional_is_present() {
+    // given
+    final Optional<Object> testedOptional = Optional.of(new Object());
+
+    // when
+    GUAVA.assertThat(testedOptional).isPresent();
+
+    // then
+    // pass
+  }
+
 }

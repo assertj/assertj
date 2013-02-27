@@ -17,7 +17,7 @@ public class OptionalAssert_isAbsent_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_fail_when_expected_present_optional_is_abset() {
+  public void should_fail_when_expected_present_optional_is_absent() {
     // given
     final Optional<String> testedOptional = Optional.of("X");
 
@@ -27,6 +27,18 @@ public class OptionalAssert_isAbsent_Test {
 
     // when
     GUAVA.assertThat(testedOptional).isAbsent();
+  }
+
+  @Test
+  public void should_pass_when_optional_is_absent() {
+    // given
+    final Optional<String> testedOptional = Optional.absent();
+
+    // when
+    GUAVA.assertThat(testedOptional).isAbsent();
+
+    // then
+    // pass
   }
 
 }

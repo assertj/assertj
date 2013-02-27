@@ -41,4 +41,16 @@ public class OptionalAssert_hasValue_Test {
     // when
     GUAVA.assertThat(testedOptional).hasValue("Test");
   }
+
+  @Test
+  public void should_pass_when_expected_value_is_equal_to_actual() {
+    // given
+    final Optional<String> testedOptional = Optional.of("Test");
+
+    // when
+    GUAVA.assertThat(testedOptional).hasValue("Test");
+
+    // then
+    // pass
+  }
 }
