@@ -18,7 +18,7 @@ public class OptionalAssertTest {
   public ExpectedException thrown = none();
 
   @Test
-  public void shouldFailWhenExpectedPresentOptionalIsAbset() {
+  public void should_fail_when_expected_present_optional_is_abset() {
     // given
     final Optional<String> testedOptional = Optional.of("X");
 
@@ -31,7 +31,7 @@ public class OptionalAssertTest {
   }
 
   @Test
-  public void shouldFailWhenExpectedValuesDiffer() {
+  public void should_fail_when_expected_values_differ() {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
 
@@ -43,7 +43,7 @@ public class OptionalAssertTest {
   }
 
   @Test
-  public void shouldFailWhenExpectingAbsentOptionalToBePresent() {
+  public void should_fail_when_expecting_absent_optional_to_be_present() {
     // given
     final Optional<Object> testedOptional = Optional.absent();
 
@@ -56,7 +56,7 @@ public class OptionalAssertTest {
   }
 
   @Test
-  public void shouldFailWhenExpectingValueFromAnAbsentOptional() {
+  public void should_fail_when_expecting_value_from_an_absent_optional() {
     // given
     final Optional<String> testedOptional = Optional.absent();
 
