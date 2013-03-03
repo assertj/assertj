@@ -1,8 +1,9 @@
 package org.fest.assertions.api;
 
+import static org.fest.assertions.api.GUAVA.assertThat;
+
 import static org.junit.rules.ExpectedException.none;
 
-import org.junit.ComparisonFailure;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -11,6 +12,7 @@ import com.google.common.base.Optional;
 
 /**
  * @author Kornel
+ * @author Joel Costigliola
  */
 public class OptionalAssert_hasValue_Test {
 
@@ -23,10 +25,10 @@ public class OptionalAssert_hasValue_Test {
     final Optional<String> testedOptional = Optional.of("Test");
 
     // expect
-    thrown.expect(ComparisonFailure.class);
+    thrown.expect(AssertionError.class);
 
     // when
-    GUAVA.assertThat(testedOptional).hasValue("Test 2");
+    assertThat(testedOptional).hasValue("Test 2");
   }
 
   @Test
@@ -39,16 +41,16 @@ public class OptionalAssert_hasValue_Test {
     thrown.expectMessage("Expecting <Optional.absent()> to have value <'Test'>");
 
     // when
-    GUAVA.assertThat(testedOptional).hasValue("Test");
+    assertThat(testedOptional).hasValue("Test");
   }
 
   @Test
-  public void should_pass_when_expected_value_is_equal_to_actual() {
+  public void should_pass_when_actual_has_expected_value() {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
 
     // when
-    GUAVA.assertThat(testedOptional).hasValue("Test");
+    assertThat(testedOptional).hasValue("Test");
 
     // then
     // pass
