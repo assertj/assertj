@@ -20,7 +20,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * Tests for <code>{@link GUAVA#assertThat(com.google.common.collect.Multimap)}</code>.
+ * Tests for <code>{@link GUAVA#assertThat(Multimap)}</code>.
  * 
  * @author Joel Costigliola
  */

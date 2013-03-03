@@ -1,20 +1,13 @@
 package org.fest.assertions.api;
 
-import static org.junit.rules.ExpectedException.none;
-
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
 import com.google.common.base.Optional;
 
 /**
  * @author Kornel
  */
-public class OptionalAssert_isAbsent_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
+public class OptionalAssert_isAbsent_Test extends BaseTest {
 
   @Test
   public void should_fail_when_expected_present_optional_is_absent() {
@@ -22,8 +15,7 @@ public class OptionalAssert_isAbsent_Test {
     final Optional<String> testedOptional = Optional.of("X");
 
     // expect
-    thrown.expect(AssertionError.class);
-    thrown.expectMessage("Expecting <Optional.of(X)> to be absent");
+    expectException(AssertionError.class, "Expecting <Optional.of(X)> to be absent");
 
     // when
     GUAVA.assertThat(testedOptional).isAbsent();
