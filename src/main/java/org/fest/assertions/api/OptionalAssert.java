@@ -1,6 +1,5 @@
 package org.fest.assertions.api;
 
-import static org.fest.assertions.api.Assertions.assertThat;
 import static org.fest.assertions.error.OptionalShouldBeAbsent.shouldBeAbsent;
 import static org.fest.assertions.error.OptionalShouldBePresent.shouldBePresent;
 import static org.fest.assertions.error.OptionalShouldBePresentWithValue.shouldBePresentWithValue;
@@ -47,12 +46,14 @@ public final class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, O
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
-  public OptionalAssert<T> hasValue(final T value) { // TODO rename to contains
+  public OptionalAssert<T> contains(final Object value) { 
     Objects.instance().assertNotNull(info, actual);
     if (!actual.isPresent()) {
       throw failures.failure(info, shouldBePresentWithValue(actual, value));
     }
-    assertThat(actual.get()).isEqualTo(value);
+    if (!actual.get().equals(value)) {
+      throw failures.failure(info, shouldBePresentWithValue(actual, value));
+    }
     return this;
   }
 

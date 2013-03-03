@@ -20,7 +20,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
     // expect
     expectException(AssertionError.class, actualIsNull());
     // when
-    assertThat(actual).hasValue("Test 2");
+    assertThat(actual).contains("Test 2");
   }
 
   @Test
@@ -30,7 +30,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
     // expect
     thrown.expect(AssertionError.class);
     // when
-    assertThat(testedOptional).hasValue("Test 2");
+    assertThat(testedOptional).contains("Test 2");
   }
 
   @Test
@@ -40,7 +40,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
     // expect
     expectException(AssertionError.class, "Expecting <Optional.absent()> to have value <'Test'>");
     // when
-    assertThat(testedOptional).hasValue("Test");
+    assertThat(testedOptional).contains("Test");
   }
 
   @Test
@@ -48,7 +48,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
     // when
-    assertThat(testedOptional).hasValue("Test");
+    assertThat(testedOptional).contains("Test");
     // then
     // pass
   }
