@@ -11,7 +11,7 @@ import com.google.common.base.Optional;
  * @author Kornel
  * @author Joel Costigliola
  */
-public class OptionalAssert_hasValue_Test extends BaseTest {
+public class OptionalAssert_contains_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
@@ -24,7 +24,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_when_expected_values_differ() {
+  public void should_fail_when_option_does_not_contain_expected_value() {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
     // expect
@@ -35,7 +35,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_when_optional_contain_nothing() {
+  public void should_fail_when_optional_contains_nothing() {
     // given
     final Optional<String> testedOptional = Optional.absent();
     // expect
@@ -46,7 +46,7 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
   }
 
   @Test
-  public void should_pass_when_actual_has_expected_value() {
+  public void should_pass_when_actual_contains_expected_value() {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
     // when
