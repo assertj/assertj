@@ -1,11 +1,12 @@
 Fest Assertions for Guava
 =========================
 
-Fest assertions for [Guava](http://code.google.com/p/guava-libraries/) provides assertions for Guava types like `Multimap` or `Optional`.
+Fest assertions for [Guava](http://code.google.com/p/guava-libraries/) provides assertions for Guava types like `Multimap` or `Optional`.  
+IMPORTANT : It requires FEST Assert 2.x so it won't work if you are using FEST Assert 1.x.
 
 ## Quick start
 
-To start using Guava assertions, you just have to statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.` !
+To start using Guava assertions, you just have to statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.`.
 
 Example : 
 
