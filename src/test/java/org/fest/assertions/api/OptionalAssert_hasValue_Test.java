@@ -28,17 +28,19 @@ public class OptionalAssert_hasValue_Test extends BaseTest {
     // given
     final Optional<String> testedOptional = Optional.of("Test");
     // expect
-    thrown.expect(AssertionError.class);
+    expectException(AssertionError.class,
+        "\nExpecting Optional to contain value \n<'Test 2'>\n but contained \n<'Test'>");
     // when
     assertThat(testedOptional).contains("Test 2");
   }
 
   @Test
-  public void should_fail_when_expecting_value_from_an_absent_optional() {
+  public void should_fail_when_optional_contain_nothing() {
     // given
     final Optional<String> testedOptional = Optional.absent();
     // expect
-    expectException(AssertionError.class, "Expecting <Optional.absent()> to have value <'Test'>");
+    expectException(AssertionError.class,
+        "Expecting Optional to contain <'Test'> but contained nothing (absent Optional)");
     // when
     assertThat(testedOptional).contains("Test");
   }

@@ -49,7 +49,7 @@ public final class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, O
   public OptionalAssert<T> contains(final Object value) { 
     Objects.instance().assertNotNull(info, actual);
     if (!actual.isPresent()) {
-      throw failures.failure(info, shouldBePresentWithValue(actual, value));
+      throw failures.failure(info, shouldBePresentWithValue(value));
     }
     if (!actual.get().equals(value)) {
       throw failures.failure(info, shouldBePresentWithValue(actual, value));

@@ -28,7 +28,8 @@ public class OptionalAssert_isPresent_Test extends BaseTest {
     // given
     final Optional<Object> testedOptional = Optional.absent();
     // expect
-    expectException(AssertionError.class, "Expecting <Optional.absent()> to be present");
+    expectException(AssertionError.class,
+        "Expecting Optional to contain a non-null instance but contained nothing (absent Optional)");
     // when
     assertThat(testedOptional).isPresent();
   }
