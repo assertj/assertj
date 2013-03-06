@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>fest-guava-assert</artifactId>
   <version>1.2-SNAPSHOT</version>
   <name>FEST Fluent Assertions for Guava</name>
   <url>https://github.com/joel-costigliola/fest-guava-assert</url>
-  
+
   <parent>
     <groupId>org.easytesting</groupId>
     <artifactId>fest</artifactId>
     <version>1.0.15</version>
   </parent>
-  
+
   <scm>
     <developerConnection>scm:git:git@github.com:joel-costigliola/fest-guava-assert.git</developerConnection>
     <connection>scm:git:git://github.com/joel-costigliola/fest-guava-assert.git</connection>
     <url>https://github.com/joel-costigliola/fest-guava-assert</url>
   </scm>
-  
+
   <issueManagement>
     <system>github</system>
     <url>https://github.com/joel-costigliola/fest-guava-assert/issues</url>
@@ -42,4 +43,36 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <version>1.9.0</version>
+        <configuration>
+          <!-- Template location -->
+          <header>licence-header.txt</header>
+          <properties>
+            <!-- Values to be substituted in template -->
+            <inceptionYear>2012</inceptionYear>
+            <currentYear>2013</currentYear>
+          </properties>
+          <strictCheck>true</strictCheck>
+          <includes>
+            <include>src/**</include>
+          </includes>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>format</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  
 </project>
