@@ -2,12 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>fest-assert-core</artifactId>
-  <version>2.0M11-SNAPSHOT</version>
-  <name>FEST Fluent Assertions (Core)</name>
+  <artifactId>assert4j</artifactId>
+  <version>1.0M1-SNAPSHOT</version>
+  <name>Assert4j fluent Assertions</name>
   <description>'Flexible' or 'fluent' assertions for testing</description>
-  <inceptionYear>2007</inceptionYear>
-  <url>http://fest.easytesting.org/assert</url>
+  <inceptionYear>2013</inceptionYear>
   <parent>
     <groupId>org.easytesting</groupId>
     <artifactId>fest</artifactId>
@@ -15,20 +14,20 @@
   </parent>
   <mailingLists>
     <mailingList>
-      <name>Easy Testing Group</name>
-      <post>http://groups.google.com/group/easytesting</post>
-      <subscribe>http://groups.google.com/group/easytesting</subscribe>
-      <unsubscribe>http://groups.google.com/group/easytesting</unsubscribe>
+      <name>Assert4j Group</name>
+      <post>http://groups.google.com/group/assert4j</post>
+      <subscribe>http://groups.google.com/group/assert4j</subscribe>
+      <unsubscribe>http://groups.google.com/group/assert4j</unsubscribe>
     </mailingList>
   </mailingLists>
   <scm>
-    <developerConnection>scm:git:git@github.com:alexruiz/fest-assert-2.x.git</developerConnection>
-    <connection>scm:git:git://github.com/alexruiz/fest-assert-2.x.git</connection>
-    <url>https://github.com/alexruiz/fest-assert-2.x</url>
+    <developerConnection>scm:git@github.com:joel-costigliola/assert4j.git</developerConnection>
+    <connection>scm:git:git://github.com/joel-costigliola/assert4j.git</connection>
+    <url>https://github.com/joel-costigliola/assert4j</url>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/alexruiz/fest-assert-2.x/issues</url>
+    <url>https://github.com/joel-costigliola/assert4j/issues</url>
   </issueManagement>
   <dependencies>
     <dependency>
