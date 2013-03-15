@@ -1,31 +1,74 @@
-FEST-Assert provides a fluent interface for assertions.
+## Assert4j's goal
 
-Example:
+Assert4j's goal is to provide a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).  
+The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
 
-```
-int removed = employees.removeFired();
-assertThat(removed).isZero();
- 
-List<Employee> newEmployees = employees.hired(TODAY);
-assertThat(newEmployees).hasSize(6)
-                        .contains(frodo, sam);
- 
-assertThat(yoda).isInstanceOf(Jedi.class)
-                .isEqualTo(foundJedi)
-                .isNotEqualTo(foundSith);
-```
+Assert4j is composed of several modules :
+* Core module : provide assertions for JDK types. 
+* Guava module provides assertions for Guava types. 
+* Joda Time module provides assertions for Joda Time types. 
 
-The 2.x branch is an attempt to learn from mistakes made in the the 1.x release, in terms of readability and extensibility.
+Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assert4j-core/issues) ! 
 
-FEST's assertions are incredibly easy to write: just type **```assertThat```** followed the actual value and a dot, and any Java 
+What about my custom types ?   
+Assert4j is easily extensible so it's simple to write assertions for your custom types, moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions (you can use the assertion generator from eclipse or maven - WIP).  
+check here : _TO COMPLETE_
+
+Assert4j's assertions are super easy to write: just type **```assertThat```** followed the actual value and a dot, and any Java 
 IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
 order of the "expected" and "actual" values. Our assertions are very readable as well: they read very close to plain 
-English, making it easier for non-technical people to read test code.
+English, making it easier for non-technical people to read test code.  
+A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
+
+### Example
+
+```java
+import static org.assert4j.core.api.Assertions.*;
+
+// some of the assertions available for all types
+assertThat(yoda).isInstanceOf(Jedi.class);
+assertThat(frodo.getName()).isEqualTo("Frodo");
+assertThat(frodo).isNotEqualTo(sauron);
+assertThat(frodo).isIn(fellowshipOfTheRing);
+assertThat(sauron).isNotIn(fellowshipOfTheRing);
+
+// String specific assertions
+assertThat(frodo.getName()).startsWith("Fro").endsWith("do")
+                           .isEqualToIgnoringCase("frodo");
+
+// collection specific assertions
+assertThat(fellowshipOfTheRing).hasSize(9)
+                               .contains(frodo, sam)
+                               .doesNotContain(sauron);
+// Exception/Throwable specific assertions
+try {
+  fellowshipOfTheRing.get(9); 
+  // argggl ! fellowshipOfTheRing size is 9 and get(9) asks for the 10th element !
+} catch (Exception e) {
+  assertThat(e).isInstanceOf(IndexOutOfBoundsException.class)
+               .hasMessage("Index: 9, Size: 9")
+               .hasNoCause();
+}
+
+// Map specific assertions, ringBearers is a Map of Ring -> TolkienCharacter
+assertThat(ringBearers).hasSize(4)
+                       .includes(entry(Ring.oneRing, frodo), entry(Ring.nenya, galadriel))
+                       .excludes(entry(Ring.oneRing, aragorn));
+```
+
+## History
+
+Assert4j is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  
+Well the main reason is that FEST 2.0 will only provide a limited set of assertions (even less than FEST 1.x), and I felt on the contrary that it should have provided more assertions.  
+This is why I forked FEST and created **assert4j : to provide a rich set of assertions, simple and easy to use.** 
+
+Another difference is that assert4j will be more open than FEST regarding users demands and contributions, any resonable requests to enrich assert4j assertions is welcome since we know it will be useful to someone.  
+Said otherwise, assert4j is **community driven**, we listen to our users because assert4j is built for them. 
+
+_Joel Costigliola  (assert4j creator)_
+
+## Documentation
 
 For more details please visit :
 
-* **[FEST-Assert's wiki](https://github.com/alexruiz/fest-assert-2.x/wiki)** for the most up to date documentation.
-
-Many thanks to Cloudbees for their FOSS program that allows FEST to have a **[Jenkins CI server](https://fest.ci.cloudbees.com/#)**!
-
-![cloudbees](/alexruiz/fest-assert-2.x/raw/master/src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png)
+* **[assert4j wiki](https://github.com/joel-costigliola/assert4j-core/wiki)** for the most up to date documentation.
