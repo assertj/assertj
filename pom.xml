@@ -8,9 +8,9 @@
   <description>'Flexible' or 'fluent' assertions for testing</description>
   <inceptionYear>2013</inceptionYear>
   <parent>
-    <groupId>org.easytesting</groupId>
-    <artifactId>fest</artifactId>
-    <version>1.0.15</version>
+    <groupId>org.assert4j</groupId>
+    <artifactId>assert4j-parent-pom</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <mailingLists>
     <mailingList>
@@ -31,21 +31,9 @@
   </issueManagement>
   <dependencies>
     <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-util</artifactId>
-      <version>1.2.5</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easytesting</groupId>
-      <artifactId>fest-test</artifactId>
-      <version>2.1.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.9.0</version>
+      <version>1.9.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
