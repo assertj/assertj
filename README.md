@@ -71,3 +71,7 @@ _Joel Costigliola  (AssertJ creator)_
 For more details please visit :
 
 * **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)** for the most up to date documentation.
+
+## Want to contribute ?
+
+You are very welcome to contribute any missing useful assertions, please check the [contributor guide](CONTRIBUTING.md).
