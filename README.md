@@ -1,20 +1,19 @@
-## Assert4j's goal
+## AssertJ's goal
 
-Assert4j's goal is to provide a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).  
-The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
+AssertJ's ambition is to provide a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG). The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
 
-Assert4j is composed of several modules :
-* Core module : provide assertions for JDK types. 
+AssertJ is composed of several modules :
+* Core module : provide assertions for JDK types (String, Collections, File, Map ...). 
 * Guava module provides assertions for Guava types. 
 * Joda Time module provides assertions for Joda Time types. 
 
-Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assert4j-core/issues) ! 
+Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assertj-core/issues) ! 
 
 What about my custom types ?   
-Assert4j is easily extensible so it's simple to write assertions for your custom types, moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions (you can use the assertion generator from eclipse or maven - WIP).  
+AssertJ is easily extensible so it's simple to write assertions for your custom types, moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions (you can use the assertion generator from eclipse or maven - WIP).  
 check here : _TO COMPLETE_
 
-Assert4j's assertions are super easy to write: just type **```assertThat```** followed the actual value and a dot, and any Java 
+AssertJ's assertions are super easy to write: just type **```assertThat```** followed the actual value and a dot, and any Java 
 IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
 order of the "expected" and "actual" values. Our assertions are very readable as well: they read very close to plain 
 English, making it easier for non-technical people to read test code.  
@@ -23,7 +22,7 @@ A lot of efforts have to provide intuitive error messages showing as clearly as 
 ### Example
 
 ```java
-import static org.assert4j.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 
 // some of the assertions available for all types
 assertThat(yoda).isInstanceOf(Jedi.class);
@@ -58,17 +57,17 @@ assertThat(ringBearers).hasSize(4)
 
 ## History
 
-Assert4j is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  
+AssertJ is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  
 Well the main reason is that FEST 2.0 will only provide a limited set of assertions (even less than FEST 1.x), and I felt on the contrary that it should have provided more assertions.  
-This is why I forked FEST and created **assert4j : to provide a rich set of assertions, simple and easy to use.** 
+This is why I forked FEST and created **AssertJ : to provide a rich set of assertions, simple and easy to use.** 
 
-Another difference is that assert4j will be more open than FEST regarding users demands and contributions, any resonable requests to enrich assert4j assertions is welcome since we know it will be useful to someone.  
-Said otherwise, assert4j is **community driven**, we listen to our users because assert4j is built for them. 
+Another difference is that AssertJ will be more open than FEST regarding users demands and contributions, any resonable requests to enrich AssertJ assertions is welcome since we know it will be useful to someone.  
+Said otherwise, AssertJ is **community driven**, we listen to our users because AssertJ is built for them. 
 
-_Joel Costigliola  (assert4j creator)_
+_Joel Costigliola  (AssertJ creator)_
 
 ## Documentation
 
 For more details please visit :
 
-* **[assert4j wiki](https://github.com/joel-costigliola/assert4j-core/wiki)** for the most up to date documentation.
+* **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)** for the most up to date documentation.

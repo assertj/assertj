@@ -2,38 +2,37 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>assert4j</artifactId>
+  <artifactId>assertj</artifactId>
   <version>1.0M1-SNAPSHOT</version>
-  <name>Assert4j fluent Assertions</name>
+  <name>AssertJ fluent assertions</name>
   <description>'Flexible' or 'fluent' assertions for testing</description>
   <inceptionYear>2013</inceptionYear>
   <parent>
-    <groupId>org.assert4j</groupId>
-    <artifactId>assert4j-parent-pom</artifactId>
+    <groupId>org.assertj</groupId>
+    <artifactId>assertj-parent-pom</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <mailingLists>
     <mailingList>
-      <name>Assert4j Group</name>
-      <post>http://groups.google.com/group/assert4j</post>
-      <subscribe>http://groups.google.com/group/assert4j</subscribe>
-      <unsubscribe>http://groups.google.com/group/assert4j</unsubscribe>
+      <name>AssertJ Group</name>
+      <post>http://groups.google.com/group/assertj</post>
+      <subscribe>http://groups.google.com/group/assertj</subscribe>
+      <unsubscribe>http://groups.google.com/group/assertj</unsubscribe>
     </mailingList>
   </mailingLists>
   <scm>
-    <developerConnection>scm:git@github.com:joel-costigliola/assert4j.git</developerConnection>
-    <connection>scm:git:git://github.com/joel-costigliola/assert4j.git</connection>
-    <url>https://github.com/joel-costigliola/assert4j</url>
+    <developerConnection>scm:git@github.com:joel-costigliola/assertj.git</developerConnection>
+    <connection>scm:git:git://github.com/joel-costigliola/assertj.git</connection>
+    <url>https://github.com/joel-costigliola/assertj</url>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assert4j/issues</url>
+    <url>https://github.com/joel-costigliola/assertj/issues</url>
   </issueManagement>
   <dependencies>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
-      <version>1.9.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
