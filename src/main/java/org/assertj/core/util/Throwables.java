@@ -63,13 +63,13 @@ public final class Throwables {
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
    *   at java.lang.reflect.Constructor.newInstance(Constructor.java:501)
-   *   at org.fest.assertions.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34)
-   *   at org.fest.assertions.error.ShouldBeEqual.newComparisonFailure(ShouldBeEqual.java:111)
-   *   at org.fest.assertions.error.ShouldBeEqual.comparisonFailure(ShouldBeEqual.java:103)
-   *   at org.fest.assertions.error.ShouldBeEqual.newAssertionError(ShouldBeEqual.java:81)
-   *   at org.fest.assertions.internal.Failures.failure(Failures.java:76)
-   *   at org.fest.assertions.internal.Objects.assertEqual(Objects.java:116)
-   *   at org.fest.assertions.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
+   *   at org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34)
+   *   at org.assertj.core.error.ShouldBeEqual.newComparisonFailure(ShouldBeEqual.java:111)
+   *   at org.assertj.core.error.ShouldBeEqual.comparisonFailure(ShouldBeEqual.java:103)
+   *   at org.assertj.core.error.ShouldBeEqual.newAssertionError(ShouldBeEqual.java:81)
+   *   at org.assertj.core.internal.Failures.failure(Failures.java:76)
+   *   at org.assertj.core.internal.Objects.assertEqual(Objects.java:116)
+   *   at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
    *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
    * </pre>
    *
@@ -84,7 +84,7 @@ public final class Throwables {
    * </pre>
    * @param throwable the {@code Throwable} to filter stack trace.
    */
-  public static void removeFestRelatedElementsFromStackTrace(Throwable throwable) {
+  public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
     List<StackTraceElement> filtered = newArrayList(throwable.getStackTrace());
     StackTraceElement previous = null;
     for (StackTraceElement element : throwable.getStackTrace()) {
@@ -94,11 +94,11 @@ public final class Throwables {
         // method), the stack trace looks like:
         //
         // java.lang.reflect.Constructor.newInstance(Constructor.java:501),
-        // org.fest.assertions.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
+        // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
         //
         // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to FEST.
         if (previous != null && previous.getClassName().equals("java.lang.reflect.Constructor")
-            && element.getClassName().contains("org.fest.assertions.error.ConstructorInvoker")) {
+            && element.getClassName().contains("org.assertj.core.error.ConstructorInvoker")) {
           filtered.remove(previous);
         }
       }

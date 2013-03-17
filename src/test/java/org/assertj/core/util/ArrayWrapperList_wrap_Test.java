@@ -14,11 +14,11 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.assertions.test.ExpectedException.none;
+import static org.assertj.core.test.ExpectedException.none;
 import static org.junit.Assert.*;
 
 
-import org.assertj.core.assertions.test.ExpectedException;
+import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.ArrayWrapperList;
 import org.junit.*;
 

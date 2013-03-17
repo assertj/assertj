@@ -14,7 +14,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.assertions.test.IntArrays.emptyArray;
+import static org.assertj.core.test.IntArrays.emptyArray;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import static org.junit.Assert.assertEquals;
