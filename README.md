@@ -5,6 +5,7 @@ AssertJ assertions for [Guava](http://code.google.com/p/guava-libraries/) provid
 
 * [Quick start](#quickstart)
 * [Latest news](#news)
+* [Migrating from Fest Guava assertions](#migrating-from-fest)
 * [Using both AssertJ Core assertions and Guava assertions](#core-and-guava-assertions)
 * [Contributing](#contributing)
 
@@ -48,10 +49,26 @@ Note that you can find working examples in [assertj-examples](https://github.com
 ## <a name="news"/>Latest News
 
 AssertJ Assertions for Guava is a fork form FEST Guava assertions and is part of AssertJ assertions portfolio.
-The main reason for this fork is that FEST will only provide a small core of assertions in the future whereas and I felt on the contrary that it should have provided more assertions.
-Another reason is that Assert projects are also more opened to community contributions then FEST ones.
+The main reason for this fork is that FEST will only provide a small core of assertions in the future whereas I felt on the contrary that it should have provided more assertions.
+Another reason is that AssertJ projects are also more opened to community contributions than FEST ones.
 
-See [release-notes.txt](release-notes.txt) for full releases history.
+See [release-notes.txt](release-notes.txt) for releases history.
+
+## <a name="migrating-from-fest"/>Migrating from Fest Guava assertions
+
+Migrating from Fest Guava to AssertJ Guava Assertions is super easy, you only have to change your static import.  
+
+Just replace :
+
+```java 
+import static org.fest.assertions.api.GUAVA
+``` 
+
+by :
+
+```java 
+import static org.assertj.guava.api.Assertions
+```
 
 ## <a name="core-and-guava-assertions"/>Using both AssertJ [Core assertions](https://github.com/joel-costigliola/assertj-core) and Guava assertions
 
