@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
-import org.assertj.guava.api.GUAVA;
+import org.assertj.guava.api.Assertions;
 import org.assertj.guava.api.MultimapAssert;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 /**
- * Tests for <code>{@link GUAVA#assertThat(Multimap)}</code>.
+ * Tests for <code>{@link Assertions#assertThat(Multimap)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -33,13 +33,13 @@ public class Assertions_assertThat_with_Multimap_Test {
   @Test
   public void should_create_Assert() {
     Multimap<String, String> actual = HashMultimap.create();
-    assertNotNull(GUAVA.assertThat(actual));
-    assertEquals(MultimapAssert.class, GUAVA.assertThat(actual).getClass());
+    assertNotNull(Assertions.assertThat(actual));
+    assertEquals(MultimapAssert.class, Assertions.assertThat(actual).getClass());
   }
 
   @Test
   public void should_pass_actual() {
     Multimap<String, String> actual = HashMultimap.create();
-    assertSame(actual, GUAVA.assertThat(actual).getActual());
+    assertSame(actual, Assertions.assertThat(actual).getActual());
   }
 }

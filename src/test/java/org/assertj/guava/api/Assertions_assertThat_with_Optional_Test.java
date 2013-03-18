@@ -12,20 +12,20 @@
  */
 package org.assertj.guava.api;
 
-import static org.assertj.guava.api.GUAVA.assertThat;
+import static org.assertj.guava.api.Assertions.assertThat;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
-import org.assertj.guava.api.GUAVA;
+import org.assertj.guava.api.Assertions;
 import org.assertj.guava.api.OptionalAssert;
 import org.junit.Test;
 
 import com.google.common.base.Optional;
 
 /**
- * Tests for <code>{@link GUAVA#assertThat(Optional)}</code>.
+ * Tests for <code>{@link Assertions#assertThat(Optional)}</code>.
  * 
  * @author Joel Costigliola
  */

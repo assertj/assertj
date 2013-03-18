@@ -27,7 +27,7 @@ import com.google.common.base.Optional;
  * 
  * Assertions for guava {@link Optional}.
  * <p>
- * To create an instance of this class, invoke <code>{@link GUAVA#assertThat(Optional)}</code>
+ * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Optional)}</code>
  * <p>
  * 
  * @param <T> the type of elements of the tested Optional value

@@ -27,7 +27,7 @@ import com.google.common.collect.Table;
  * @author Jan Gorman
  * @author Joel Costigliola
  */
-public class GUAVA {
+public class Assertions {
 
   public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
@@ -46,7 +46,7 @@ public class GUAVA {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that GUAVA offers a fully featured entry point to all
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a fully featured entry point to all
    * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
@@ -66,7 +66,7 @@ public class GUAVA {
   /**
    * protected to avoid direct instanciation but allowing subclassing.
    */
-  protected GUAVA() {
+  protected Assertions() {
     // empty
   }
 
