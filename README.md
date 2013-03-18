@@ -1,18 +1,22 @@
-Fest Assertions for Guava
+AssertJ Assertions for Guava
 =========================
 
-Fest assertions for [Guava](http://code.google.com/p/guava-libraries/) provides assertions for Guava types like `Multimap` or `Optional`.  
-IMPORTANT : It requires FEST Assert 2.x so it won't work if you are using FEST Assert 1.x.
+AssertJ assertions for [Guava](http://code.google.com/p/guava-libraries/) provides assertions for Guava types like `Multimap`, `Table` or `Optional`.  
 
-## Quick start
+* [Quick start](#quickstart)
+* [Latest news](#news)
+* [Using both AssertJ Core assertions and Guava assertions](#core-and-guava-assertions)
+* [Contributing](#contributing)
+
+## <a name="quickstart"/>Quick start
 
 To start using Guava assertions, you just have to statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.`.
 
 Example : 
 
 ```java
-import static org.fest.assertions.api.GUAVA.assertThat;
-import static org.fest.assertions.api.GUAVA.entry;
+import static org.assertj.guava.api.GUAVA.assertThat;
+import static org.assertj.guava.api.GUAVA.entry;
 
 // Multimap assertions
 Multimap<String, String> actual = ArrayListMultimap.create();
@@ -27,41 +31,48 @@ Optional<String> optional = Optional.of("Test");
 assertThat(optional).isPresent().contains("Test");
 ```
 
-`assertThat` and `entry` are static import from `GUAVA` class (the equivalent of `Assertions` class in [Fest Assert Core](https://github.com/alexruiz/fest-assert-2.x/wiki)).
+`assertThat` and `entry` are static import from `GUAVA` class (the equivalent of `Assertions` class in [AssertJ Core](https://github.com/joel-costigliola/assertj-core)).
 
-Fest assertions for Guava is available in Maven Central
+AssertJ assertions for Guava is available in Maven Central (or will be soon)
 
 ```xml
  <dependency>
-   <groupId>org.easytesting</groupId>
-   <artifactId>fest-guava-assert</artifactId>
-   <version>1.1</version>
+   <groupId>org.assertj</groupId>
+   <artifactId>assertj-guava</artifactId>
+   <version>1.0</version>
  </dependency>
 ```
 
-Note that you can find working example in [fest-examples](https://github.com/joel-costigliola/fest-examples/tree/master/src/test/java/org/fest/assertions/examples/guava) guava package.
+Note that you can find working examples in [assertj-examples](https://github.com/joel-costigliola/assertj-examples/blob/master/src/test/java/org/assertj/examples/guava) guava package.
 
-## Using both FEST [Core assertions](https://github.com/alexruiz/fest-assert-2.x/wiki) and Guava assertions
+## <a name="news"/>Latest News
+
+AssertJ Assertions for Guava is a fork form FEST Guava assertions and is part of AssertJ assertions portfolio.
+
+See [release-notes.txt](release-notes.txt) for full releases history.
+
+
+## <a name="core-and-guava-assertions"/>Using both AssertJ [Core assertions](https://github.com/joel-costigliola/assertj-core) and Guava assertions
 
 You will have to make two static import : one for `Assertions.assertThat` to get **core** assertions and one `GUAVA.assertThat` for **Guava** assertions.
 
 ```java
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.fest.assertions.api.GUAVA.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.guava.api.GUAVA.assertThat;
 ...
-// assertThat comes from org.fest.assertions.api.GUAVA.assertThat static import
+// assertThat comes from org.assertj.guava.api.GUAVA.assertThat static import
+Multimap<String, String> actual = ArrayListMultimap.create();
+actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+
 assertThat(actual).hasSize(6);
 assertThat(actual).containsKeys("Lakers", "Spurs");
 
-// assertThat comes from org.fest.assertions.api.Assertions.assertThat static import
+// assertThat comes from org.assertj.core.api.Assertions.assertThat static import
 assertThat("hello world").startsWith("hello");
 ```
 
-## Release notes history
- 
-2013-03-04 : 1.1 release 
-* github #5 - add assertions for `Optional` (kornel).
+## <a name="contributing"/>Contributing
 
-2012-12-17 : 1.0 release
-* only provides `Multimap` assertions but more will come in the future (contributions would be appreciated !).
+Thanks for your interest ! Please check our [contributor's guidelines](CONTRIBUTING.md).
 

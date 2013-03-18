@@ -1,15 +1,16 @@
 Contributing
 ============
 
-Thank you for your interest in contributing to FEST Guava assertions !  
-We appreciate your effort, but to make sure that the inclusion of your patch is a smooth process, we ask that you make note of the following guidelines.
+Thank you for your interest in contributing to AssertJ assertions !  
+We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines :
 
-* Use **[FEST code formatting preferences](https://raw.github.com/alexruiz/fest-eclipse-preferences/master/formatter.xml)** (Eclipse)
-* Write complete Javadocs on each assertion method including a code example.
-* Write one JUnit test class for each assertion method. 
-* Use FEST unit tests naming convention** that is underscore based and not camel case like the rest of the code.
-* Successfull assertion unit test name should start with : `should_pass_...`.
-* Failing assertion unit test name should start with : `should_fail_...`.
+* Use **[AssertJ code Eclipse formatting preferences](https://github.com/joel-costigliola/assertj-core/tree/master/src/formatters/assertj-eclipse-formatter.xml)** (for Idea users, it is possible to import it)
+* Write complete Javadocs on each assertion methods including a code example.
+* Write one JUnit test class for each assertion method with the following naming convention : `<AssertClass>_<assertion>_Test`. 
+* Unit tests method naming convention is underscore based (like python) and not camel case, we find it is much readable for long test names !
+* Successfull assertion unit test method name must start with : `should_pass_...`.
+* Failing assertion unit test method name must start with : `should_fail_...`.
+* If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc. 
 
 Example : 
 
