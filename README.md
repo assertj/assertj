@@ -15,8 +15,8 @@ To start using Guava assertions, you just have to statically import `GUAVA.asser
 Example : 
 
 ```java
-import static org.assertj.guava.api.GUAVA.assertThat;
-import static org.assertj.guava.api.GUAVA.entry;
+import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.api.Assertions.entry;
 
 // Multimap assertions
 Multimap<String, String> actual = ArrayListMultimap.create();
@@ -31,7 +31,7 @@ Optional<String> optional = Optional.of("Test");
 assertThat(optional).isPresent().contains("Test");
 ```
 
-`assertThat` and `entry` are static import from `GUAVA` class (the equivalent of `Assertions` class in [AssertJ Core](https://github.com/joel-costigliola/assertj-core)).
+`assertThat` and `entry` are static import from `Assertions` class.
 
 AssertJ assertions for Guava is available in Maven Central (or will be soon)
 
@@ -48,9 +48,10 @@ Note that you can find working examples in [assertj-examples](https://github.com
 ## <a name="news"/>Latest News
 
 AssertJ Assertions for Guava is a fork form FEST Guava assertions and is part of AssertJ assertions portfolio.
+The main reason for this fork is that FEST will only provide a small core of assertions in the future whereas and I felt on the contrary that it should have provided more assertions.
+Another reason is that Assert projects are also more opened to community contributions then FEST ones.
 
 See [release-notes.txt](release-notes.txt) for full releases history.
-
 
 ## <a name="core-and-guava-assertions"/>Using both AssertJ [Core assertions](https://github.com/joel-costigliola/assertj-core) and Guava assertions
 
@@ -58,9 +59,9 @@ You will have to make two static import : one for `Assertions.assertThat` to get
 
 ```java
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.guava.api.GUAVA.assertThat;
+import static org.assertj.guava.api.Assertions.assertThat;
 ...
-// assertThat comes from org.assertj.guava.api.GUAVA.assertThat static import
+// assertThat comes from org.assertj.guava.api.Assertions.assertThat static import
 Multimap<String, String> actual = ArrayListMultimap.create();
 actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
 actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
