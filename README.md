@@ -11,7 +11,7 @@ AssertJ is composed of several modules :
 
 Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assertj-core/issues) ! 
 
-What about my custom types ?   
+**What about my custom types ?**  
 AssertJ is easily extensible so it's simple to write assertions for your custom types, moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions (you can use the assertion generator from eclipse or maven - WIP).  
 check here : _TO COMPLETE_
 
@@ -21,7 +21,55 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.  
 A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
 
-### Example
+
+## Quickstart
+
+It is easy to start using AssertJ, it should take you less than a minute !
+
+#### 1 - Get AssertJ core 
+
+AssertJ core will be available in Maven central repository at the end of March.
+
+```xml
+<dependency>
+   <groupId>org.assertj</groupId>
+   <artifactId>assertj-core</artifactId>
+   <version>1.0.0M1</version>
+   <scope>test</scope>
+</dependency>
+```
+
+### 2 - Add Assertions.* static import
+
+```java
+import static org.assertj.core.api.Assertions.*;
+
+```
+or the complete list
+```java
+import static org.assertj.core.api.Assertions.assertThat;  // main one
+import static org.assertj.core.api.Assertions.atIndex; // for List assertions
+import static org.assertj.core.api.Assertions.entry;  // for Map assertions
+import static org.assertj.core.api.Assertions.extractProperty; // for Iterable/Array assertions
+import static org.assertj.core.api.Assertions.fail; // use when making exception tests
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown; // idem
+import static org.assertj.core.api.Assertions.filter; // for Iterable/Array assertions
+import static org.assertj.core.api.Assertions.offset; // for floating number assertions
+import static org.assertj.core.api.Assertions.anyOf; // use with Condition
+import static org.assertj.core.api.Assertions.contentOf; // use with File assertions
+```
+
+You can even configure your IDE, so that when you type `asse` and trigger code completion, it will suggest `assertThat`.
+
+### 3 - Type **assertThat** followed by the actual value and a dot ... 
+
+... and any Java IDE code completion will show you all the assertions available.
+
+That's all !
+
+
+
+### Some assertions examples
 
 ```java
 import static org.assertj.core.api.Assertions.*;
