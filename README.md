@@ -3,9 +3,11 @@
 AssertJ's ambition is to provide a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG). The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
 
 AssertJ is composed of several modules :
-* Core module : provide assertions for JDK types (String, Collections, File, Map ...). 
-* Guava module provides assertions for Guava types. 
-* Joda Time module provides assertions for Joda Time types. 
+* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...). 
+* A **[Guava module](https://github.com/joel-costigliola/assertj-guava)** to provide assertions for Guava types (Multimap,Optional, ...).
+* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time)** to provide assertions for Joda Time types (DateTime, LocalDateTime).
+
+**The first releases of AssertJ Core, Guava and Joda Time modules are planned at the end of March !**
 
 Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assertj-core/issues) ! 
 
