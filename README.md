@@ -34,13 +34,13 @@ assertThat(optional).isPresent().contains("Test");
 
 `assertThat` and `entry` are static import from `Assertions` class.
 
-AssertJ assertions for Guava is available in Maven Central (or will be soon)
+AssertJ assertions for Guava will be available in Maven Central at the end of March.
 
 ```xml
  <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-guava</artifactId>
-   <version>1.0</version>
+   <version>1.0.0</version>
  </dependency>
 ```
 
