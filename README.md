@@ -1,19 +1,28 @@
-## AssertJ's goal
+# AssertJ
 
-AssertJ's ambition is to provide a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG). The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
+AssertJ provides a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).
+
+* [AssertJ's goals](#goals)
+* [Latest News](#news)
+* [Quick start](#quickstart)
+* [Assertions for your own custom types](#custom types-assertions)
+* [Fest and AssertJ](#fest-assertj)
+* [Migrating from Fest assertions](#migrating-from-fest)
+* [Contributing](#contributing)
+
+You can ask questions and make suggestions on [AssertJ google group](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
+
+## <a name="goals"/>AssertJ's goals
+
+AssertJ's ambition is to provide a rich and intuitive set of strongly typed assertions to use for unit testing.  
+The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  
 
 AssertJ is composed of several modules :
 * A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...). 
 * A **[Guava module](https://github.com/joel-costigliola/assertj-guava)** to provide assertions for Guava types (Multimap,Optional, ...).
 * A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time)** to provide assertions for Joda Time types (DateTime, LocalDateTime).
 
-**The first releases of AssertJ Core, Guava and Joda Time modules are planned at the end of March !**
-
 Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assertj-core/issues) ! 
-
-**What about my custom types ?**  
-AssertJ is easily extensible so it's simple to write assertions for your custom types, moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions (you can use the assertion generator from eclipse or maven - WIP).  
-check here : _TO COMPLETE_
 
 AssertJ's assertions are super easy to write: just type **```assertThat```** followed the actual value and a dot, and any Java 
 IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
@@ -21,8 +30,15 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.  
 A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
 
+For more details check **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
 
-## Quickstart
+## <a name="news"/>Latest News
+
+**The first releases of AssertJ Core, Guava and Joda Time modules are planned at the end of March !**
+
+Stay tuned !
+
+## <a name="quickstart"/>Quickstart
 
 It is easy to start using AssertJ, it should take you less than a minute !
 
@@ -105,7 +121,19 @@ assertThat(ringBearers).hasSize(4)
                        .excludes(entry(Ring.oneRing, aragorn));
 ```
 
-## History
+## <a name="custom types-assertions"/>Assertions for your own custom types 
+
+Having assertions for common types like List is great but it would so nice to have some for your own types !  
+
+Well this is possible with AssertJ because it is easily extensible so it's simple to write assertions for your custom types.  
+Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : 
+* a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** (available end of March)
+* A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  (available end of March)
+* An Eclipe plugin assertions generator   (available end of March/ start of April)
+
+TODO : add link to wiki doc
+
+## <a name="fest-assertj"/>FEST and AssertJ
 
 AssertJ is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  
 Well the main reason is that FEST 2.0 will only provide a limited set of assertions (even less than FEST 1.x), and I felt on the contrary that it should have provided more assertions.  
@@ -116,12 +144,24 @@ Said otherwise, AssertJ is **community driven**, we listen to our users because 
 
 _Joel Costigliola  (AssertJ creator)_
 
-## Documentation
+## <a name="migrating-from-fest"/>Migrating from Fest assertions
 
-For more details please visit :
+As AssertJ starts where Fest 2.0M10 has left, migrating from Fest to AssertJ Assertions is easy, you only have to change your static import, just replace :
 
-* **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)** for the most up to date documentation.
+```java 
+import static org.fest.assertions.api.Assertions
+``` 
 
-## Want to contribute ?
+by :
+
+```java 
+import static org.assertj.core.api.Assertions
+```
+
+This should be all, of not please fill a ticket so that I can update this section.
+
+If you are using Fest Assert 1.x, please read this migration guide. TODO : put link when ready
+
+## <a name="contributing"/>Want to contribute ?
 
 You are very welcome to contribute any missing useful assertions, please check the [contributor guide](CONTRIBUTING.md).
