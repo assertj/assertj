@@ -6,6 +6,7 @@ AssertJ provides a rich and intuitive set of strongly typed assertions to use fo
 * [Latest News](#news)
 * [Quick start](#quickstart)
 * [Assertions for your own custom types](#custom types-assertions)
+* [Replacing JUnit assertions by AssertJ Assertions](#junit-to-assertj-assertions)
 * [Fest and AssertJ](#fest-assertj)
 * [Migrating from Fest assertions](#migrating-from-fest)
 * [Contributing](#contributing)
@@ -50,7 +51,7 @@ AssertJ core will be available in Maven central repository at the end of March.
 <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-core</artifactId>
-   <version>1.0.0M1</version>
+   <version>1.0.0</version>
    <scope>test</scope>
 </dependency>
 ```
@@ -129,9 +130,11 @@ Well this is possible with AssertJ because it is easily extensible so it's simpl
 Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : 
 * a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** (available end of March)
 * A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  (available end of March)
-* An Eclipe plugin assertions generator   (available end of March/ start of April)
+* An Eclipe plugin assertions generator (available soon)
 
-TODO : add link to wiki doc
+## <a name="junit-to-assertj-assertions"/>Replacing JUnit assertions by AssertJ Assertions
+
+To help you replace JUnit assertions by AssertJ ones, follow the steps described [**here**](https://github.com/joel-costigliola/assertj-core/wiki/Converting-JUnit-assertions-to-AssertJ-Assertions), they are based on regex search and replace.
 
 ## <a name="fest-assertj"/>FEST and AssertJ
 
@@ -160,8 +163,8 @@ import static org.assertj.core.api.Assertions
 
 This should be all, of not please fill a ticket so that I can update this section.
 
-If you are using Fest Assert 1.x, please read this migration guide. TODO : put link when ready
+If you are using Fest Assert 1.x, please read this [migration guide](https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4).
 
 ## <a name="contributing"/>Want to contribute ?
 
-You are very welcome to contribute any missing useful assertions, please check the [contributor guide](CONTRIBUTING.md).
+You are very welcome to contribute any missing useful assertions, please check the [contributor guidelines](CONTRIBUTING.md).
