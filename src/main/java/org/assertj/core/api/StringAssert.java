@@ -1,14 +1,14 @@
 /*
  * Created on Dec 22, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -18,9 +18,9 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Strings;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Assertion methods for {@code String}s.
@@ -35,7 +35,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  */
-public class StringAssert extends AbstractAssert<StringAssert, String> implements EnumerableAssert<StringAssert, String> {
+public class StringAssert extends AbstractAssert<StringAssert, String> implements
+    EnumerableAssert<StringAssert, String> {
 
   @VisibleForTesting
   Strings strings = Strings.instance();
@@ -80,6 +81,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} is equal to the given one, ignoring case considerations.
+   * 
    * @param expected the given {@code String} to compare the actual {@code String} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code String} is not equal to the given one.
@@ -102,16 +104,21 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
   }
 
   /**
-   * Verifies that the actual {@code String} contains the given strings.
+   * Verifies that the actual {@code String} contains all the given strings.
+   * <p>
+   * You can use one or several strings as in the example below
    * 
-   * TODO add code example 
+   * <pre>
+   * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);
+   * </pre>
    * 
    * @param values the Strings to look for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contain the given strings.
+   * @throws AssertionError if the actual {@code String} does not contain all the given strings.
    */
   public StringAssert contains(String... values) {
     strings.assertContains(info, actual, values);
@@ -120,6 +127,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} contains the given sequence, ignoring case considerations.
+   * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -133,6 +141,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} does not contain the given sequence.
+   * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -146,6 +155,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} starts with the given prefix.
+   * 
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
@@ -159,6 +169,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} ends with the given suffix.
+   * 
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
@@ -172,6 +183,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} matches the given regular expression.
+   * 
    * @param regex the regular expression to which the actual {@code String} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -186,6 +198,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} does not match the given regular expression.
+   * 
    * @param regex the regular expression to which the actual {@code String} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -200,6 +213,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} matches the given regular expression.
+   * 
    * @param pattern the regular expression to which the actual {@code String} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -213,6 +227,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Verifies that the actual {@code String} does not match the given regular expression.
+   * 
    * @param pattern the regular expression to which the actual {@code String} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -222,7 +237,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     strings.assertDoesNotMatch(info, actual, pattern);
     return this;
   }
-  
+
   /** {@inheritDoc} */
   public StringAssert usingElementComparator(Comparator<? super String> customComparator) {
     // TODO maybe use Comparator<? super Character>
