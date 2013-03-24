@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,7 @@ import org.assertj.core.util.FilesException;
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author Julien Meddah 
  */
 public class Assertions {
 
@@ -157,6 +159,17 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> IterableAssert<T> assertThat(Iterable<T> actual) {
+    return new IterableAssert<T>(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first converted
+   * into an <code>{@link Iterable}</code>
+   * 
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T> IterableAssert<T> assertThat(Iterator<T> actual) {
     return new IterableAssert<T>(actual);
   }
 
