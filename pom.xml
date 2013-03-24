@@ -21,13 +21,13 @@
     </mailingList>
   </mailingLists>
   <scm>
-    <developerConnection>scm:git@github.com:joel-costigliola/assertj.git</developerConnection>
-    <connection>scm:git:git://github.com/joel-costigliola/assertj.git</connection>
-    <url>https://github.com/joel-costigliola/assertj</url>
+    <developerConnection>scm:git@github.com:joel-costigliola/assertj-core.git</developerConnection>
+    <connection>scm:git:git://github.com/joel-costigliola/assertj-core.git</connection>
+    <url>https://github.com/joel-costigliola/assertj-core</url>
   </scm>
   <issueManagement>
     <system>github</system>
-    <url>https://github.com/joel-costigliola/assertj/issues</url>
+    <url>https://github.com/joel-costigliola/assertj-core/issues</url>
   </issueManagement>
   <dependencies>
     <dependency>
