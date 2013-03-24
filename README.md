@@ -11,7 +11,8 @@ AssertJ provides a rich and intuitive set of strongly typed assertions to use fo
 * [Migrating from Fest assertions](#migrating-from-fest)
 * [Contributing](#contributing)
 
-You can ask questions and make suggestions on [AssertJ google group](https://groups.google.com/forum/?fromgroups=#!forum/assertj).
+You can ask questions and make suggestions on [AssertJ google group](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
+To directly jump to a more complete documentation please got to **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
 
 ## <a name="goals"/>AssertJ's goals
 
@@ -31,7 +32,7 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.  
 A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
 
-For more details check **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
+For more details check **[AssertJ wiki](https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions)**.
 
 ## <a name="news"/>Latest News
 
@@ -126,7 +127,7 @@ assertThat(ringBearers).hasSize(4)
 
 Having assertions for common types like List is great but it would so nice to have some for your own types !  
 
-Well this is possible with AssertJ because it is easily extensible so it's simple to write assertions for your custom types.  
+Well this is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions).  
 Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : 
 * a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** (available end of March)
 * A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  (available end of March)
