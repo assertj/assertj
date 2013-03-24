@@ -15,13 +15,13 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-
-import static org.assertj.core.error.ShouldContainString.*;
+import static org.assertj.core.error.ShouldContainString.shouldContain;
+import static org.assertj.core.error.ShouldContainString.shouldContainIgnoringCase;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldContainString;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
@@ -42,14 +42,14 @@ public class ShouldContainString_create_Test {
   public void should_create_error_message() {
     factory = shouldContain("Yoda", "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'>", message);
+    assertEquals("[Test] \nexpecting:\n<'Yoda'>\n to contain:\n<'Luke'>", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldContain("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'> " + "according to 'CaseInsensitiveStringComparator' comparator",
+    assertEquals("[Test] \nexpecting:\n<'Yoda'>\n to contain:\n<'Luke'> " + "according to 'CaseInsensitiveStringComparator' comparator",
         message);
   }
 
@@ -57,6 +57,14 @@ public class ShouldContainString_create_Test {
   public void should_create_error_message_when_ignoring_case() {
     factory = shouldContainIgnoringCase("Yoda", "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> to contain:<'Luke'> (ignoring case)", message);
+    assertEquals("[Test] \nexpecting:\n<'Yoda'>\n to contain:\n<'Luke'>\n (ignoring case)", message);
   }
+
+  @Test
+  public void should_create_error_message_with_several_string_values() {
+    factory = shouldContain("Yoda, Luke", array("Luke", "Vador", "Solo"), newSet("Vador", "Solo"));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] \nexpecting:\n<'Yoda, Luke'>\n to contain:\n<['Luke', 'Vador', 'Solo']>\n but could not find:\n<['Vador', 'Solo']>\n", message);
+  }
+
 }

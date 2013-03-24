@@ -28,17 +28,19 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContainString.shouldNotContain;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.util.Iterables.sizeOf;
 
 import java.lang.reflect.Array;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for <code>{@link String}</code>s.
@@ -197,22 +199,44 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code String} contains the given sequence.
+   * Verifies that the given {@code String} contains the given strings.
    * 
    * @param info contains information about the assertion.
    * @param actual the actual {@code String}.
-   * @param sequence the sequence to search for.
+   * @param values the values to look for.
    * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the given {@code String} is {@code null}.
    * @throws AssertionError if the actual {@code String} does not contain the given sequence.
    */
-  public void assertContains(AssertionInfo info, String actual, String sequence) {
-    checkSequenceIsNotNull(sequence);
+  public void assertContains(AssertionInfo info, String actual, String... values) {
     assertNotNull(info, actual);
-    if (stringContains(actual, sequence)) {
-      return;
+    checkIsNotNull(values);
+    checkIsNotEmpty(values);
+    checkSequenceIsNotNull(values[0]);
+    Set<String> notFound = new LinkedHashSet<String>();
+    for (String value : values) {
+      if (!stringContains(actual, value)) {
+        notFound.add(value);
+      }
     }
-    throw failures.failure(info, shouldContain(actual, sequence, comparisonStrategy));
+    if (notFound.isEmpty()) return;
+    if (notFound.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  private void checkIsNotNull(String... values) {
+    if (values == null) {
+      throw arrayOfValuesToLookForIsNull();
+    }
+  }
+
+  private void checkIsNotEmpty(String... values) {
+    if (values.length == 0) {
+      throw arrayOfValuesToLookForIsEmpty();
+    }
   }
 
   /**
@@ -305,7 +329,7 @@ public class Strings {
     if (sequenceOccurencesInActual == 1)
       return;
     throw failures.failure(info,
-        shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
   }
 
   /**

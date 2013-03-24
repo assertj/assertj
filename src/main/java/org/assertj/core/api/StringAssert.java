@@ -102,16 +102,19 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
   }
 
   /**
-   * Verifies that the actual {@code String} contains the given sequence.
+   * Verifies that the actual {@code String} contains the given strings.
    * 
-   * @param sequence the sequence to search for.
+   * TODO add code example 
+   * 
+   * @param values the Strings to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contain the given one.
+   * @throws AssertionError if the actual {@code String} does not contain the given strings.
    */
-  public StringAssert contains(String sequence) {
-    strings.assertContains(info, actual, sequence);
+  public StringAssert contains(String... values) {
+    strings.assertContains(info, actual, values);
     return this;
   }
 
