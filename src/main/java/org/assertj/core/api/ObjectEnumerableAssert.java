@@ -16,7 +16,6 @@ package org.assertj.core.api;
 
 import java.util.HashSet;
 
-
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * 
@@ -222,8 +221,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtLeast(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * @deprecated
+   * 
+   *             Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
+   *             given condition.
    * 
    * @param n the number of times the condition should not be verified at least.
    * @param condition the given condition.
@@ -247,8 +248,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtMost(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * @deprecated
+   * 
+   *             Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
+   *             given condition.
    * 
    * @param n the number of times the condition should not be verified at most.
    * @param condition the given condition.
@@ -272,8 +275,11 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areExactly(int n, Condition<? super T> condition);
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the given
-   * condition.
+   * 
+   * @deprecated
+   * 
+   *             Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
+   *             given condition.
    * 
    * @param n the exact number of times the condition should not be verified.
    * @param condition the given condition.
@@ -290,7 +296,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S haveAtLeast(int n, Condition<? super T> condition);
 
   /**
-   * This method is an alias {@link #areNotAtLeast(int, Condition)}.
+   * @deprecated
+   * 
+   *             This method is an alias {@link #areNotAtLeast(int, Condition)}.
    */
   S doNotHaveAtLeast(int n, Condition<? super T> condition);
 
@@ -300,7 +308,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S haveAtMost(int n, Condition<? super T> condition);
 
   /**
-   * This method is an alias {@link #areNotAtMost(int, Condition)}.
+   * @deprecated This method is an alias {@link #areNotAtMost(int, Condition)}.
    */
   S doNotHaveAtMost(int n, Condition<? super T> condition);
 
@@ -310,7 +318,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S haveExactly(int n, Condition<? super T> condition);
 
   /**
-   * This method is an alias {@link #areNotExactly(int, Condition)}.
+   * @deprecated This method is an alias {@link #areNotExactly(int, Condition)}.
    */
   S doNotHaveExactly(int n, Condition<? super T> condition);
 
