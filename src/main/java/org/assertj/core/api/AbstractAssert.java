@@ -19,9 +19,12 @@ import static java.lang.String.format;
 import java.util.Comparator;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.*;
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Conditions;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Base class for all assertions.
@@ -71,6 +74,36 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   protected WritableAssertionInfo getWritableAssertionInfo() {
     return info;
+  }
+
+  /**
+   * Utility method to ease write write custom assertions classes, you can use format specifiers in error message, they
+   * will be replaced by the given arguments.
+   * <p>
+   * Moreover, this method honors any description ({@link #as(String)} or overridden error message defined by the user ({@link #overridingErrorMessage(String, Object...)}.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * public TolkienCharacterAssert hasName(String name) {
+   *   // check that actual TolkienCharacter we want to make assertions on is not null.
+   *   isNotNull();
+   * 
+   *   // check condition
+   *   if (!actual.getName().equals(name)) {
+   *     failWithMessage(&quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
+   *   }
+   * 
+   *   // return the current assertion for method chaining
+   *   return this;
+   * }
+   * </pre>
+   * 
+   * @param errorMessage the error message to format
+   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   */
+  protected void failWithMessage(String errorMessage, Object... arguments) {
+    throw Failures.instance().failure(info, new BasicErrorMessageFactory(errorMessage, arguments));
   }
 
   /** {@inheritDoc} */
@@ -255,7 +288,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * 
    * <pre>
    * assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
-   *     .isTrue();
+   *                              .isTrue();
    * </pre>
    * 
    * @param newErrorMessage the error message that will replace the default one provided by Fest.

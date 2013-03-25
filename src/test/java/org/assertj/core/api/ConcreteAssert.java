@@ -39,5 +39,20 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
     // return the current assertion for method chaining
     return this;
   }
+  
+  public ConcreteAssert failIfTrue(boolean fail) {
+    // set a specific error message
+    if (fail) {
+      failWithMessage("%s error message", "predefined");
+    }
+    // return the current assertion for method chaining
+    return this;
+  }
+  
+  // relax visibility for test
+  @Override
+  public void failWithMessage(String errorMessage, Object... arguments) {
+    super.failWithMessage(errorMessage, arguments);
+  }
 
 }
