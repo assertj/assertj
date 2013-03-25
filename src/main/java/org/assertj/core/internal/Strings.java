@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainString.shouldContain;
 import static org.assertj.core.error.ShouldContainString.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainStringOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainStringSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -483,5 +484,34 @@ public class Strings {
 
   private void assertNotNull(AssertionInfo info, String actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  public void assertContainsSequence(AssertionInfo info, String actual, String[] values) {
+    assertNotNull(info, actual);
+    checkIsNotNull(values);
+    checkIsNotEmpty(values);
+    checkSequenceIsNotNull(values[0]);
+    Set<String> notFound = new LinkedHashSet<String>();
+    for (String value : values) {
+      if (!stringContains(actual, value)) notFound.add(value);
+    }
+    if (notFound.isEmpty()) {
+      if (values.length == 1) {
+        // nothing to check, assertion succeeded.
+        return;
+      }
+      // we have found all the given values but were they in the correct order ?
+      for (int i = 1; i < values.length; i++) {
+        if (actual.indexOf(values[i - 1]) > actual.indexOf(values[i])) {
+          throw failures.failure(info, shouldContainSequence(actual, values, i - 1, comparisonStrategy));
+        }
+      }
+      // assertion succeeded
+      return;
+    }
+    if (notFound.size() == 1 && values.length == 1) {
+      throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
+    }
+    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 }

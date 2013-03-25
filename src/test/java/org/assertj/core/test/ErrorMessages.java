@@ -95,6 +95,14 @@ public final class ErrorMessages {
   public static String endDateToCompareActualWithIsNull() {
     return "The end date of period to compare actual with should not be null";
   }
+  
+  public static String  arrayOfValuesToLookForIsNull() {
+    return "The array of values to look for should not be null";
+  }
+
+  public static String  arrayOfValuesToLookForIsEmpty() {
+    return "The array of values to look for should not be empty";
+  }
 
   private ErrorMessages() {}
 }

@@ -1,14 +1,14 @@
 /*
  * Created on Dec 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -25,7 +25,6 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ShouldContainString#create(Description)}</code>.
@@ -47,10 +46,11 @@ public class ShouldContainString_create_Test {
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldContain("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    factory = shouldContain("Yoda", "Luke",
+                            new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nexpecting:\n<'Yoda'>\n to contain:\n<'Luke'> " + "according to 'CaseInsensitiveStringComparator' comparator",
-        message);
+    assertEquals("[Test] \nexpecting:\n<'Yoda'>\n to contain:\n<'Luke'> according to 'CaseInsensitiveStringComparator' comparator",
+                 message);
   }
 
   @Test
@@ -64,7 +64,8 @@ public class ShouldContainString_create_Test {
   public void should_create_error_message_with_several_string_values() {
     factory = shouldContain("Yoda, Luke", array("Luke", "Vador", "Solo"), newSet("Vador", "Solo"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nexpecting:\n<'Yoda, Luke'>\n to contain:\n<['Luke', 'Vador', 'Solo']>\n but could not find:\n<['Vador', 'Solo']>\n", message);
+    assertEquals("[Test] \nexpecting:\n<'Yoda, Luke'>\n to contain:\n<['Luke', 'Vador', 'Solo']>\n but could not find:\n<['Vador', 'Solo']>\n",
+                 message);
   }
 
 }

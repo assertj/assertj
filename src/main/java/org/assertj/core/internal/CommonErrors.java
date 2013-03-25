@@ -16,8 +16,9 @@ package org.assertj.core.internal;
 
 /**
  * @author Alex Ruiz
+ * TODO : merge/use with ErrorMessages !
  */
-final class CommonErrors {
+public final class CommonErrors {
 
   static NullPointerException arrayOfValuesToLookForIsNull() {
     return new NullPointerException("The array of values to look for should not be null");

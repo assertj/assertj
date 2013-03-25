@@ -126,6 +126,33 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
   }
 
   /**
+   * Verifies that the actual {@code String} contains all the given strings <b>in the given order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   * 
+   * // this assertion succeeds ... 
+   * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
+   * 
+   * // ... but this one fails as "author" must come after "A Game of Thrones"
+   * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
+   * </pre>
+   * 
+   * @param values the Strings to look for in order.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the actual {@code String} is {@code null}.
+   * @throws AssertionError if the actual {@code String} does not contain all the given strings <b>in the given order</b>.
+   */
+  public StringAssert containsSequence(String... values) {
+    strings.assertContainsSequence(info, actual, values);
+    return this;
+  }
+
+  /**
    * Verifies that the actual {@code String} contains the given sequence, ignoring case considerations.
    * 
    * @param sequence the sequence to search for.
