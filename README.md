@@ -11,7 +11,20 @@ AssertJ assertions for [Guava](http://code.google.com/p/guava-libraries/) provid
 
 ## <a name="quickstart"/>Quick start
 
-To start using Guava assertions, you just have to statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.`.
+To start using Guava assertions
+
+1 - Add this dependency snippet to your project
+
+```xml
+ <dependency>
+   <groupId>org.assertj</groupId>
+   <artifactId>assertj-guava</artifactId>
+   <version>1.0.0</version>
+   <scope>test</scope>
+ </dependency>
+```
+
+2 - statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.`.
 
 Example : 
 
@@ -34,27 +47,21 @@ assertThat(optional).isPresent().contains("Test");
 
 `assertThat` and `entry` are static import from `Assertions` class.
 
-AssertJ assertions for Guava will be available in Maven Central at the end of March.
-
-```xml
- <dependency>
-   <groupId>org.assertj</groupId>
-   <artifactId>assertj-guava</artifactId>
-   <version>1.0.0</version>
- </dependency>
-```
-
 Note that you can find working examples in [assertj-examples](https://github.com/joel-costigliola/assertj-examples/blob/master/src/test/java/org/assertj/examples/guava) guava package.
 
 ## <a name="news"/>Latest News
 
+**2013-03-26 : 1.0.0 release : the first release after Fest fork.**
+
+New features since Fest fork : 
+* Guava Table assertions 
+
+
+## <a name="migrating-from-fest"/>Migrating from Fest Guava assertions
+
 AssertJ Assertions for Guava is a fork form FEST Guava assertions and is part of AssertJ assertions portfolio.
 The main reason for this fork is that FEST will only provide a small core of assertions in the future whereas I felt on the contrary that it should have provided more assertions.
 Another reason is that AssertJ projects are also more opened to community contributions than FEST ones.
-
-See [release-notes.txt](release-notes.txt) for releases history.
-
-## <a name="migrating-from-fest"/>Migrating from Fest Guava assertions
 
 Migrating from Fest Guava to AssertJ Guava Assertions is super easy, you only have to change your static import.  
 
