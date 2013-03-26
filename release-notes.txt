@@ -1,15 +1,11 @@
-For the next release
---------------------
-
-preparing 1.0M1 release ... 
-
-1.0M1 release notes 
+1.0.0 release notes 
 -------------------
 
-New features :
+**New features**
+- github #5 Add StringAssert.containsSequence 
 
-Improvement :
-
-Bug :
-
-Refactoring 
+**Improvements**
+- github #2 Make custom assertions easier to write
+- github #6 Varargs for StringAssert::contains() to avoid repeating contains several times
+- github #10 Add osgi metadata to MANIFEST 
+- github #16 assertThat() should accept an Iterator

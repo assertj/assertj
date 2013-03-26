@@ -32,13 +32,19 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.  
 A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
 
-For more details check **[AssertJ wiki](https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions)**.
+For more details check **[AssertJ wiki](https://github.com/joel-costigliola/assertj-core/wiki/)**.
 
 ## <a name="news"/>Latest News
 
-**The first releases of AssertJ Core, Guava and Joda Time modules are planned at the end of March !**
+**2013-03-26 - AssertJ train releases :**  
+* **assertj-core 1.0.0**
+* **assertj-guava 1.0.0**
+* **assertj-joda-time 1.0.0**
+* **assertj-assertions-generator 1.0.0**
+* **assertj-assertions-generator-maven-plugin 1.0.0**
 
-Stay tuned !
+See [**what's new**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) in assertj-core compared to Fest. 
+
 
 ## <a name="quickstart"/>Quickstart
 
@@ -46,7 +52,7 @@ It is easy to start using AssertJ, it should take you less than a minute !
 
 #### 1 - Get AssertJ core 
 
-AssertJ core will be available in Maven central repository at the end of March.
+AssertJ core is available in Maven central repository.
 
 ```xml
 <dependency>
@@ -61,7 +67,6 @@ AssertJ core will be available in Maven central repository at the end of March.
 
 ```java
 import static org.assertj.core.api.Assertions.*;
-
 ```
 or the complete list
 ```java
@@ -129,8 +134,8 @@ Having assertions for common types like List is great but it would so nice to ha
 
 Well this is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions).  
 Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : 
-* a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** (available end of March)
-* A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  (available end of March)
+* a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** 
+* A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  
 * An Eclipe plugin assertions generator (available soon)
 
 ## <a name="junit-to-assertj-assertions"/>Replacing JUnit assertions by AssertJ Assertions
