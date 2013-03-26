@@ -21,8 +21,8 @@ The idea is that, when writing unit tests, we should have at our disposal assert
 
 AssertJ is composed of several modules :
 * A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...). 
-* A **[Guava module](https://github.com/joel-costigliola/assertj-guava)** to provide assertions for Guava types (Multimap,Optional, ...).
-* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time)** to provide assertions for Joda Time types (DateTime, LocalDateTime).
+* A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...).
+* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime).
 
 Assertion missing ? Please [fill a ticket](https://github.com/joel-costigliola/assertj-core/issues) ! 
 
@@ -134,8 +134,8 @@ Having assertions for common types like List is great but it would so nice to ha
 
 Well this is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions).  
 Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : 
-* a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator)** 
-* A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin)**  
+* a **[CLI assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator#readme)** 
+* A **[Maven plugin assertions generator](https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin#readme)**  
 * An Eclipe plugin assertions generator (available soon)
 
 ## <a name="junit-to-assertj-assertions"/>Replacing JUnit assertions by AssertJ Assertions
