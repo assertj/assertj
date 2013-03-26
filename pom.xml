@@ -16,8 +16,8 @@
 
   <scm>
     <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-guava.git</developerConnection>
-    <connection>scm:git:git://github.com/joel-costigliola/assertj-guava.git</connection>
-    <url>https://github.com/joel-costigliola/assertj-guava</url>
+    <connection>scm:git:git@github.com:joel-costigliola/assertj-guava.git</connection>
+    <url>git@github.com:joel-costigliola/assertj-guava</url>
   </scm>
 
   <issueManagement>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
+      <version>1.0.0</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>
