@@ -167,7 +167,7 @@ by :
 import static org.assertj.core.api.Assertions
 ```
 
-This should be all, of not please fill a ticket so that I can update this section.
+This should be all, if not please fill a ticket so that I can update this section.
 
 If you are using Fest Assert 1.x, please read this [migration guide](https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4).
 
