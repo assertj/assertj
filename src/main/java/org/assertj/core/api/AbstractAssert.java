@@ -1,15 +1,15 @@
 /*
  * Created on Nov 18, 2010
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
+ *
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.api;
@@ -28,18 +28,18 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all assertions.
- * 
+ *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implements Assert<S, A> {
+public abstract class AbstractAssert<S extends AbstractAssert<?,?>, A> implements Assert<S, A> {
 
   @VisibleForTesting
   Objects objects = Objects.instance();
@@ -69,7 +69,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Exposes the {@link WritableAssertionInfo} used in the current assertion for better extensibility.</br> When writing
    * your own assertion class, you can use the returned {@link WritableAssertionInfo} to change the error message and
    * still keep the description set by the assertion user.
-   * 
+   *
    * @return the {@link WritableAssertionInfo} used in the current assertion
    */
   protected WritableAssertionInfo getWritableAssertionInfo() {
@@ -83,22 +83,22 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Moreover, this method honors any description ({@link #as(String)} or overridden error message defined by the user ({@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
-   * 
+   *
    *   // check condition
    *   if (!actual.getName().equals(name)) {
    *     failWithMessage(&quot;Expected character's name to be &lt;%s&gt; but was &lt;%s&gt;&quot;, name, actual.getName());
    *   }
-   * 
+   *
    *   // return the current assertion for method chaining
    *   return this;
    * }
    * </pre>
-   * 
+   *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
    */
@@ -273,7 +273,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
-   * 
+   *
    * @return the description String representation of this assertion.
    */
   public String descriptionText() {
@@ -285,12 +285,12 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * {@link String#format(String, Object...)}, hence the presence of args parameter.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
    *                              .isTrue();
    * </pre>
-   * 
+   *
    * @param newErrorMessage the error message that will replace the default one provided by Fest.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
@@ -323,7 +323,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * Always returns 1.
-   * 
+   *
    * @return 1.
    */
   @Override
