@@ -1,15 +1,15 @@
 /*
  * Created on Sep 30, 2010
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
- * 
+ *
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.api;
@@ -41,7 +41,7 @@ import org.assertj.core.util.FilesException;
  * assertion objects. The purpose of this class is to make test code more readable.
  * <p>
  * For example:
- * 
+ *
  * <pre>
  * int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
@@ -50,7 +50,7 @@ import org.assertj.core.util.FilesException;
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
  * </pre>
  * </p>
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author David DIDIER
@@ -59,7 +59,7 @@ import org.assertj.core.util.FilesException;
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  * @author Nicolas François
- * @author Julien Meddah 
+ * @author Julien Meddah
  */
 public class Assertions {
 
@@ -77,17 +77,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert assertThat(boolean actual) {
-    return new BooleanAssert(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link BooleanAssert}</code>.
-   * @param actual the actual value.
-   * @return the created assertion object.
-   */
-  public static BooleanAssert assertThat(Boolean actual) {
-    return new BooleanAssert(actual);
+  public static BooleanAssert<BooleanAssert<?,Boolean>,Boolean> assertThat(Boolean actual) {
+      return new BooleanAssert<BooleanAssert<?,Boolean>,Boolean>(actual);
   }
 
   /**
@@ -165,7 +156,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first converted
    * into an <code>{@link Iterable}</code>
-   * 
+   *
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -331,8 +322,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
-    return new MapAssert<K, V>(actual);
+  public static <K, V> MapAssert<K, V, MapAssert<K,V,?,?>, Map<K,V>> assertThat(Map<K, V> actual) {
+    return new MapAssert<K, V,MapAssert<K,V,?,?>, Map<K,V>>(actual);
   }
 
   /**
@@ -434,18 +425,18 @@ public class Assertions {
    * Assert features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * 
+   *
    * <pre>
    * // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty("name", String.class).from(fellowshipOfTheRing))
    *           .contains("Boromir", "Gandalf", "Frodo", "Legolas")
    *           .doesNotContain("Sauron", "Elrond");
-   *                                                              
+   *
    * // extracting property works also with user's types (here Race)
    * assertThat(extractProperty("race", String.class).from(fellowshipOfTheRing))
    *           .contains(HOBBIT, ELF)
    *           .doesNotContain(ORC);
-   * 
+   *
    * // extract nested property on Race
    * assertThat(extractProperty("race.name", String.class).from(fellowshipOfTheRing))
    *           .contains("Hobbit", "Elf")
@@ -461,18 +452,18 @@ public class Assertions {
    * Assert features (but you can use {@link Properties} if you prefer).
    * <p>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * 
+   *
    * <pre>
-   * // extract simple property values, as no type has been defined the extracted property will be considered as Object 
-   * // to define the real property type (here String) use extractProperty("name", String.class) instead. 
+   * // extract simple property values, as no type has been defined the extracted property will be considered as Object
+   * // to define the real property type (here String) use extractProperty("name", String.class) instead.
    * assertThat(extractProperty("name").from(fellowshipOfTheRing))
    *           .contains("Boromir", "Gandalf", "Frodo", "Legolas")
    *           .doesNotContain("Sauron", "Elrond");
-   *                                                              
+   *
    * // extracting property works also with user's types (here Race), even though it will be considered as Object
-   * // to define the real property type (here String) use extractProperty("name", Race.class) instead. 
+   * // to define the real property type (here String) use extractProperty("name", Race.class) instead.
    * assertThat(extractProperty("race").from(fellowshipOfTheRing)).contains(HOBBIT, ELF).doesNotContain(ORC);
-   * 
+   *
    * // extract nested property on Race
    * assertThat(extractProperty("race.name").from(fellowshipOfTheRing)).contains("Hobbit", "Elf").doesNotContain("Orc");
    * </pre>
@@ -490,7 +481,7 @@ public class Assertions {
    * Assert features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * 
+   *
    * <pre>
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </pre>
@@ -504,7 +495,7 @@ public class Assertions {
    * (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre>
    * List<Ring> elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
@@ -519,7 +510,7 @@ public class Assertions {
    * features (but you can use {@link Offset} if you prefer).
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * </pre>
@@ -533,7 +524,7 @@ public class Assertions {
    * features (but you can use {@link Offset} if you prefer).
    * <p>
    * Typical usage :
-   * 
+   *
    * <pre>
    * assertThat(8.2f).isEqualTo(8.0f, offset(0.2f));
    * </pre>
@@ -575,7 +566,7 @@ public class Assertions {
    * features (but you can use {@link AnyOf} if you prefer).
    * <p>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
-   * 
+   *
    * <pre>
    * assertThat("Vader").is(anyOf(jedi, sith));
    * </pre>
@@ -598,7 +589,7 @@ public class Assertions {
 
   /**
    * Creates a new </code>{@link DoesNotHave}</code>.
-   * 
+   *
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -608,7 +599,7 @@ public class Assertions {
 
   /**
    * Creates a new </code>{@link Not}</code>.
-   * 
+   *
    * @param condition the condition to inverse.
    * @return The Not condition created.
    */
@@ -627,11 +618,11 @@ public class Assertions {
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p>
    * Typical usage with {@link Condition} :
-   * 
+   *
    * <pre>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
    * and with filter language based on java bean property :
-   * 
+   *
    * <pre>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
@@ -648,11 +639,11 @@ public class Assertions {
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p>
    * Typical usage with {@link Condition} :
-   * 
+   *
    * <pre>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
    * and with filter language based on java bean property :
-   * 
+   *
    * <pre>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
