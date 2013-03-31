@@ -1,4 +1,4 @@
-# AssertJ
+# AssertJ - a rich assertions library for java 
 
 AssertJ provides a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).
 
@@ -7,12 +7,13 @@ AssertJ provides a rich and intuitive set of strongly typed assertions to use fo
 * [Quick start](#quickstart)
 * [Assertions for your own custom types](#custom types-assertions)
 * [Replacing JUnit assertions by AssertJ Assertions](#junit-to-assertj-assertions)
-* [Fest and AssertJ](#fest-assertj)
+* [Why having forked Fest Assert ?](#fest-assertj)
 * [Migrating from Fest assertions](#migrating-from-fest)
+* [Documentation & Mailing list](#doc)
 * [Contributing](#contributing)
 
 You can ask questions and make suggestions on [AssertJ google group](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
-To directly jump to a more complete documentation please got to **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
+To directly jump to a more complete documentation please go to **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
 
 ## <a name="goals"/>AssertJ's goals
 
@@ -142,14 +143,17 @@ Moreover, to ease your work, we provide assertions generator that can take a bun
 
 To help you replace JUnit assertions by AssertJ ones, follow the steps described [**here**](https://github.com/joel-costigliola/assertj-core/wiki/Converting-JUnit-assertions-to-AssertJ-Assertions), they are based on regex search and replace.
 
-## <a name="fest-assertj"/>FEST and AssertJ
+## <a name="fest-assertj"/>Why having forked Fest Assert ?
 
 AssertJ is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  
-Well the main reason is that FEST 2.0 will only provide a limited set of assertions (even less than FEST 1.x), and I felt on the contrary that it should have provided more assertions.  
-This is why I forked FEST and created **AssertJ : to provide a rich set of assertions, simple and easy to use.** 
 
-Another difference is that AssertJ will be more open than FEST regarding users demands and contributions, any resonable requests to enrich AssertJ assertions is welcome since we know it will be useful to someone.  
-Said otherwise, AssertJ is **community driven**, we listen to our users because AssertJ is built for them. 
+Well there are two main reasons : 
+* FEST 2.0 will only provide a limited set of assertions, far less than Fest 2.0M10 and even less than FEST 1.x.  
+* FEST is not enough open to users demands and contributions.
+
+On the contrary **AssertJ goal is to provide a rich set of assertions** and any resonable requests to enrich AssertJ assertions is welcome as we know it will be useful to someone. Said otherwise, AssertJ is **community driven**, we listen to our users because AssertJ is built for them. 
+
+If you feel that some assertion is missing, please [**fill a ticket**](https://github.com/joel-costigliola/assertj-core/issues) or even better make a contribution ! 
 
 _Joel Costigliola  (AssertJ creator)_
 
@@ -170,6 +174,11 @@ import static org.assertj.core.api.Assertions
 This should be all, if not please fill a ticket so that I can update this section.
 
 If you are using Fest Assert 1.x, please read this [migration guide](https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4).
+
+## <a name="doc"/>Documentation & Mailing list
+
+You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
+To directly jump to a more complete documentation please go to **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
 
 ## <a name="contributing"/>Want to contribute ?
 
