@@ -16,6 +16,8 @@ package org.assertj.core.groups;
 
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 
+import java.util.List;
+
 import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.util.IntrospectionError;
 import org.assertj.core.util.VisibleForTesting;
@@ -103,7 +105,7 @@ public class Properties<T> {
    * @return the values of the previously specified property extracted from the given {@code Iterable}.
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
    */
-  public Iterable<T> from(Iterable<?> c) {
+  public List<T> from(Iterable<?> c) {
     return propertySupport.propertyValues(propertyName, propertyType, c);
   }
 
@@ -114,7 +116,7 @@ public class Properties<T> {
    * @return the values of the previously specified property extracted from the given array.
    * @throws IntrospectionError if an element in the given array does not have a property with a matching name.
    */
-  public Iterable<T> from(Object[] array) {
+  public List<T> from(Object[] array) {
     return propertySupport.propertyValues(propertyName, propertyType, wrap(array));
   }
 }

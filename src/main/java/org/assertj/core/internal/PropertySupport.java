@@ -66,7 +66,7 @@ public class PropertySupport {
    * @return an {@code Iterable} containing the values of the given property name, from the elements of the given {@code Iterable}.
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
    */
-  public <T> Iterable<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
+  public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     // ignore null elements as we can't extract a property from a null object
     Iterable<?> cleanedUp = nonNullElementsIn(target);
     if (isNullOrEmpty(cleanedUp)) {
