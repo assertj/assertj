@@ -1,3 +1,10 @@
+1.1.0 release notes (to be released) 
+-------------------
+
+**New features**
+- github #29 reintroduce "onProperty" feature but named it "extracting" 
+
+
 1.0.0 release notes 
 -------------------
 
