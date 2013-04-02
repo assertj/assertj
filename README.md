@@ -51,7 +51,7 @@ Note that you can find working examples in [assertj-examples](https://github.com
 
 ## <a name="news"/>Latest News
 
-**2013-03-26 : 1.0.0 release : the first release after Fest fork.**
+**2013-03-26 : 1.0.0 release, the first release after Fest fork.**
 
 New features since Fest fork : 
 * Guava Table assertions 
