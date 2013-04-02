@@ -1,6 +1,6 @@
 # AssertJ - a rich assertions library for java 
 
-AssertJ provides a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).
+AssertJ provides a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).  
 
 * [AssertJ's goals](#goals)
 * [Latest News](#news)
@@ -33,9 +33,13 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.  
 A lot of efforts have to provide intuitive error messages showing as clearly as possible what the problem is.
 
+Note that AssertJ requires at least Java 6.
+
 For more details check **[AssertJ wiki](https://github.com/joel-costigliola/assertj-core/wiki/)**.
 
 ## <a name="news"/>Latest News
+
+**2013-03-28 : AssertJ quickie presentation at Devoxx France !**
 
 **2013-03-26 - AssertJ train releases :**  
 * **assertj-core 1.0.0**
