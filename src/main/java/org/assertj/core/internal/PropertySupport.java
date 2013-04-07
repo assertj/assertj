@@ -16,16 +16,16 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Collections.*;
-import static org.assertj.core.util.Introspection.getProperty;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.nonNullElementsIn;
+import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.IntrospectionError;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 
 /**
@@ -180,6 +180,13 @@ public class PropertySupport {
       return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
     }
     return propertyValue(propertyName, clazz, target);
+  }
+
+  /**
+   * just delegates to {@link #propertyValues(String, Class, Iterable)} with Class being Object.class
+   */
+  public List<Object> propertyValues(String fieldOrPropertyName, Iterable<?> objects) {
+    return propertyValues(fieldOrPropertyName, Object.class, objects);
   }
 
 }

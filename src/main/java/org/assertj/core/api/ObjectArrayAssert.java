@@ -1,14 +1,14 @@
 /*
  * Created on Jul 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -17,15 +17,18 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.*;
+import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.util.VisibleForTesting;
-
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Assertion methods for arrays of objects.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(T[])}</code>.
  * </p>
+ * 
  * @param <T> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
@@ -274,4 +277,56 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
     return myself;
   }
 
+  /**
+   * Extract the values of given field or property from the array's elements under test into a new array, this new array
+   * becoming the array under test.
+   * <p>
+   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, it can
+   * be sometimes much less work !
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
+   * // they can be public field or properties, both works when extracting their values.
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
+   * 
+   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;)
+   *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
+   *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
+   *         
+   * // you can also extract nested field/property like the name of Race :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
+   *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
+   *           .doesNotContain(&quot;Orc&quot;);
+   * </pre>
+   * 
+   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public)
+   * then a property with the given name is looked for.
+   * <p>
+   * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
+   * work if half of the objects have the field and the other the property.
+   * <p>
+   * Note that the order of extracted field/property values is consistent with the array order.
+   * 
+   * @param fieldOrProperty the field/property to extract from the array under test
+   * @return a new assertion object whose object under test is the array of extracted field/property values.
+   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
+   */
+  public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
+    Object[] values = FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
+    return new ObjectArrayAssert<Object>(values);
+  }
 }

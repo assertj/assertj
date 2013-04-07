@@ -19,8 +19,8 @@ import static org.assertj.core.util.ArrayWrapperList.wrap;
 import java.util.List;
 
 import org.assertj.core.internal.PropertySupport;
-import org.assertj.core.util.IntrospectionError;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 
 

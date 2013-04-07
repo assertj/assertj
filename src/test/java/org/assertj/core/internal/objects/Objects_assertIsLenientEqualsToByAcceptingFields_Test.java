@@ -33,7 +33,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
-import org.assertj.core.util.IntrospectionError;
+import org.assertj.core.util.introspection.IntrospectionError;
+
 import org.junit.Test;
 
 

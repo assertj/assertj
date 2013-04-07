@@ -18,11 +18,15 @@ import static java.lang.String.format;
 
 /**
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class Employee {
 
-  private long id;
-  private Name name;
+  // intentionnaly public to test field retrieval
+  // getter have been created to test property retrieval
+  public long id;
+  public Name name;
+  // keep private to test we are able to read property but not field
   private int age;
 
   public Employee() {}

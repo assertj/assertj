@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
@@ -22,6 +22,7 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.beans.*;
 import java.lang.reflect.Method;
+
 
 /**
  * Utility methods related to <a

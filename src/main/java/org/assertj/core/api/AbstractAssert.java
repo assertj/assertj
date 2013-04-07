@@ -297,7 +297,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @throws exception see {@link String#format(String, Object...)} exception clause.
    */
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
-    info.overridingErrorMessage(format(newErrorMessage, args));
+    String format = format(newErrorMessage, args);
+    info.overridingErrorMessage(format);
     return myself;
   }
 

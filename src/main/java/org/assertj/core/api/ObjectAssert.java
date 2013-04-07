@@ -14,7 +14,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.IntrospectionError;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Assertion methods for {@code Object}s.

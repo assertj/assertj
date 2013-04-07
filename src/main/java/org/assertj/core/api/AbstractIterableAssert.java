@@ -19,10 +19,11 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import org.assertj.core.groups.Properties;
+import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -276,15 +277,17 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Extract the values of given property from the Iterable under test into a new Iterable, this new Iterable is now the
-   * Iterable under test.
+   * Extract the values of given field or property from the Iterable's elements under test into a new Iterable, this new
+   * Iterable becoming the Iterable under test.
    * <p>
-   * It allows you to test a property of a collection instead of testing the collection elements.
+   * It allows you to test a field/property of the the Iterable's elements instead of testing the elements themselves,
+   * it can be sometimes much less work !
    * <p>
-   * Let's take an example to make things clearer.
+   * Let's take an example to make things clearer :
    * 
    * <pre>
-   * // Create a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // they can be public field or properties, both works when extracting their values.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
    * 
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
@@ -294,29 +297,37 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
    * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
    * 
-   * // let's verify the names of TolkienCharacter's name in fellowshipOfTheRing :
+   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
    * 
    * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;)
    *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
    *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    *         
-   * // you can extract nested property like the name of Race :
+   * // you can extract nested field/property like the name of Race :
    * 
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);
    * </pre>
    * 
-   * Note that the order of extracted property values is consistent with the iteration order of the Iterable under test,
-   * for example if it's a {@link HashSet}, you can't make any assumptions of the extracted values order.
+   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public),
+   * then a property with the given name is looked for.
+   * <p>
+   * It only works if all objects have the field or all objects have the property with the given name, i.e. it won't
+   * work if half of the objects have the field and the other the property.
+   * <p>
+   * Note that the order of extracted field/property values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions of the extracted values
+   * order.
    * 
-   * @param property the property to extract from the Iterable under test
-   * @return a new assertion object whose object under test is the list of extracted property values.
+   * @param fieldOrProperty the field/property to extract from the Iterable under test
+   * @return a new assertion object whose object under test is the list of extracted field/property values.
+   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    */
-  public ListAssert<Object> extracting(String property) {
-    List<Object> values = Properties.extractProperty(property).from(actual);
+  public ListAssert<Object> extracting(String fieldOrProperty) {
+    List<Object> values = FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
     return new ListAssert<Object>(values);
   }
 

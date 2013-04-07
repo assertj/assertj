@@ -17,10 +17,14 @@ package org.assertj.core.test;
 
 /**
  * @author Yvonne Wang
+ * @author Joel Costigliola
  */
 public class Name {
 
-  private String first;
+  // intentionnaly public to test field retrieval
+  // getter have been created to test property retrieval
+  public String first;
+  // keep private to test we are able to read property but not field
   private String last;
 
   public Name() {}

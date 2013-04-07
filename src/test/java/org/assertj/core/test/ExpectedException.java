@@ -57,7 +57,7 @@ public class ExpectedException implements TestRule {
     expect(UnsupportedOperationException.class, message);
   }
 
-  private void expect(Class<? extends Throwable> type, String message) {
+  public void expect(Class<? extends Throwable> type, String message) {
     expect(type);
     expectMessage(message);
   }

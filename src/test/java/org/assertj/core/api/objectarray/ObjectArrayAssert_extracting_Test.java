@@ -12,11 +12,11 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.iterable;
+package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Arrays.array;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -34,22 +34,21 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * 
  * @author Joel Costigliola
  */
-public class IterableAssert_extracting_Test {
+public class ObjectArrayAssert_extracting_Test {
 
   private static Employee yoda;
   private static Employee luke;
-  private static Iterable<Employee> employees;
+  private static Employee[] employees;
 
+  @Rule
+  public ExpectedException thrown = none();
+  
   @BeforeClass
   public static void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-    employees = newArrayList(yoda, luke);
+    employees = array(yoda, luke);
   }
-
-  @Rule
-  public ExpectedException thrown = none();
-
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() throws Exception {

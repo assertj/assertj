@@ -8,7 +8,8 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.junit.Assert.fail;
 
 import org.assertj.core.test.Player;
-import org.assertj.core.util.IntrospectionError;
+import org.assertj.core.util.introspection.IntrospectionError;
+
 import org.junit.Test;
 
 

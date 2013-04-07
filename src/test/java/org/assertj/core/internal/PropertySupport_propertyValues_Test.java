@@ -17,22 +17,21 @@ package org.assertj.core.internal;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
+
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
-
 
 import java.util.Collection;
 import java.util.List;
 
-
-import org.assertj.core.internal.PropertySupport;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.ExpectedException;
-import org.assertj.core.test.Name;
-import org.assertj.core.util.IntrospectionError;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
+
+import org.assertj.core.test.Employee;
+import org.assertj.core.test.ExpectedException;
+import org.assertj.core.test.Name;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
@@ -91,6 +90,16 @@ public class PropertySupport_propertyValues_Test {
     assertEquals(newArrayList(6000L, 8000L), ids);
   }
 
+  @Test
+  public void should_return_values_of_simple_property_as_objects() {
+    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
+    Iterable<Object> idsAsObjects = propertySupport.propertyValues("id", employees);
+    assertEquals(idsAsObjects, ids);
+    Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
+    Iterable<Object> firstNamesAsObjects = propertySupport.propertyValues("name.first", employees);
+    assertEquals(firstNamesAsObjects, firstNames);
+  }
+  
   @Test
   public void should_return_values_of_nested_property() {
     Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);

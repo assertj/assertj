@@ -15,8 +15,9 @@
 package org.assertj.core.internal;
 
 import static junit.framework.Assert.*;
-import static org.assertj.core.util.Introspection.getProperty;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.introspection.Introspection.getProperty;
+
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
@@ -27,7 +28,8 @@ import java.util.*;
 import org.assertj.core.internal.JavaBeanDescriptor;
 import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.Name;
-import org.assertj.core.util.IntrospectionError;
+import org.assertj.core.util.introspection.IntrospectionError;
+
 import org.junit.*;
 
 /**
