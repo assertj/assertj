@@ -14,7 +14,7 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
+import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;
 
@@ -80,7 +80,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Utility method to ease write write custom assertions classes, you can use format specifiers in error message, they
    * will be replaced by the given arguments.
    * <p>
-   * Moreover, this method honors any description ({@link #as(String)} or overridden error message defined by the user ({@link #overridingErrorMessage(String, Object...)}.
+   * Moreover, this method honors any description ({@link #as(String)} or overridden error message defined by the user (
+   * {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
    * 
@@ -281,8 +282,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Overrides Fest default error message by the given one, the new error message can be built using
-   * {@link String#format(String, Object...)}, hence the presence of args parameter.
+   * Overrides Fest default error message by the given one.
+   * <p>
+   * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
+   * don't, the error message is taken as it is).
    * <p>
    * Example :
    * 
@@ -297,8 +300,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @throws exception see {@link String#format(String, Object...)} exception clause.
    */
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
-    String format = format(newErrorMessage, args);
-    info.overridingErrorMessage(format);
+    info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));
     return myself;
   }
 

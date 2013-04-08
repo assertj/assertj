@@ -15,11 +15,14 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Strings.formatIfArgs;
 import static org.assertj.core.util.ToString.toStringOf;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.*;
-import org.assertj.core.util.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.util.ToString;
+import org.assertj.core.util.VisibleForTesting;
 
 
 /**
@@ -59,7 +62,7 @@ public class MessageFormatter {
   public String format(Description d, String format, Object... args) {
     checkNotNull(format);
     checkNotNull(args);
-    return descriptionFormatter.format(d) + String.format(format, format(args));
+    return descriptionFormatter.format(d) + formatIfArgs(format, format(args));
   }
 
   private Object[] format(Object[] args) {

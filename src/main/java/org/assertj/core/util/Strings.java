@@ -14,6 +14,8 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.String.format;
+
 /**
  * Utility methods related to {@code String}s.
  * 
@@ -77,6 +79,18 @@ public final class Strings {
       b.append(o);
     }
     return b.toString();
+  }
+
+  /**
+   * Format with {@link String#format(String, Object...)} the given message iif some args have been given otherwise juts
+   * return the message.
+   * 
+   * @param message the string to format
+   * @param args args used to format the message, can be null or empty
+   * @return the formatted string if any args were given
+   */
+  public static String formatIfArgs(String message, Object... args) {
+    return Arrays.isNullOrEmpty(args) ? message : format(message, args);
   }
 
   /**
