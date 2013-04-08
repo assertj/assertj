@@ -14,14 +14,20 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
+import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 
 /**
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
 final class CommonValidations {
 
+  private CommonValidations() {}
+  
   static void checkIndexValueIsValid(Index index, int maximum) {
     if (index == null) throw new NullPointerException("Index should not be null");
     if (index.value <= maximum) return;
@@ -37,5 +43,24 @@ final class CommonValidations {
     if (number == null) throw new NullPointerException("The given number should not be null");
   }
 
-  private CommonValidations() {}
+  static void checkIsNotEmpty(Object[] values) {
+    if (values.length == 0) {
+      throw arrayOfValuesToLookForIsEmpty();
+    }
+  }
+
+  static void checkIsNotNull(Object[] values) {
+    if (values == null) throw arrayOfValuesToLookForIsNull();
+  }
+
+  static void checkIsNotNullAndNotEmpty(Object[] values) {
+    checkIsNotNull(values);
+    checkIsNotEmpty(values);
+  }
+
+  static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
+    if (values.length == 0) {
+      throw new AssertionError("actual is not empty");
+    }
+  }
 }

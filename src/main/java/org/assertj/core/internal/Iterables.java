@@ -46,8 +46,9 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
-import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
-import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -62,7 +63,6 @@ import java.util.Set;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -187,9 +187,7 @@ public class Iterables {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object[] other) {
     assertNotNull(info, actual);
-    if (other == null) {
-      throw arrayOfValuesToLookForIsNull();
-    }
+    checkIsNotNull(other);
     int sizeOfActual = sizeOf(actual);
     int sizeOfOther = other.length;
     if (sizeOfActual == sizeOfOther) {
@@ -231,17 +229,19 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkIsNotNull(values);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && values.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(values);
+    // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) {
       if (!iterableContains(actual, value)) {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty()) {
-      return;
-    }
+    if (notFound.isEmpty()) return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
@@ -272,8 +272,12 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNullAndNotEmpty(values);
+    checkIsNotNull(values);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && values.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(values);
+    // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) {
@@ -347,8 +351,12 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNullAndNotEmpty(sequence);
+    checkIsNotNull(sequence);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(sequence);
+    // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
     for (int i = 0; i < actualAsList.size(); i++) {
       // look for given sequence in actual starting from current index (i)
@@ -485,8 +493,11 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNullAndNotEmpty(sequence);
+    checkIsNotNull(sequence);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     if (sizeOf(actual) < sequenceSize) {
       throw actualDoesNotStartWithSequence(info, actual, sequence);
@@ -521,8 +532,11 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not end with the given sequence of objects.
    */
   public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNullAndNotEmpty(sequence);
+    checkIsNotNull(sequence);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     int sizeOfActual = sizeOf(actual);
     if (sizeOfActual < sequenceSize) {
@@ -979,14 +993,13 @@ public class Iterables {
    * @param actual the given {@code Iterable}.
    * @param values the values that are expected to be in the given {@code Iterable} in order.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given
    *           {@code Iterable} contains values that are not in the given array, in order.
    */
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNullAndNotEmpty(values);
-    assertHasSameSizeAs(info, actual, values); // include chack that actual is not null
+    checkIsNotNull(values);
+    assertHasSameSizeAs(info, actual, values); // include check that actual is not null
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) {
@@ -1001,15 +1014,6 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
-  }
-
-  private void checkIsNotNullAndNotEmpty(Object[] values) {
-    if (values == null) {
-      throw arrayOfValuesToLookForIsNull();
-    }
-    if (values.length == 0) {
-      throw arrayOfValuesToLookForIsEmpty();
-    }
   }
 
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {

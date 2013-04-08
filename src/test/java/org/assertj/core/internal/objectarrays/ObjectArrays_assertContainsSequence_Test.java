@@ -57,8 +57,14 @@ public class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_pass_if_actual_and_given_values_are_empty() {
+    actual = new String[0];
+    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
+  }
+
+  @Test
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+    thrown.expect(AssertionError.class);
     arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
@@ -128,8 +134,8 @@ public class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+    thrown.expect(AssertionError.class);
     arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 

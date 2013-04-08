@@ -15,7 +15,7 @@
 package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -23,15 +23,16 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
 
+import org.junit.Before;
+import org.junit.Test;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.Test;
 
 
 /**
@@ -42,7 +43,11 @@ import org.junit.Test;
  */
 public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
 
-  private static Collection<String> actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");
+  @Before
+  public void setUp() {
+    super.setUp();
+    actual = newArrayList("Yoda", "Luke", "Leia", "Obi-Wan");
+  }
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
@@ -51,8 +56,14 @@ public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_sequence_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_pass_if_actual_and_sequence_are_empty() {
+    actual.clear();
+    iterables.assertEndsWith(someInfo(), actual, emptyArray());
+  }
+  
+  @Test
+  public void should_fail_if_sequence_to_look_for_is_empty_and_actual_is_not() {
+    thrown.expect(AssertionError.class);
     iterables.assertEndsWith(someInfo(), actual, emptyArray());
   }
 

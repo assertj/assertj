@@ -66,8 +66,14 @@ public class CharArrays_assertContains_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_pass_if_actual_and_given_values_are_empty() {
+    actual = emptyArray();
+    arrays.assertContains(someInfo(), actual, emptyArray());
+  }
+  
+  @Test
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+    thrown.expect(AssertionError.class);
     arrays.assertContains(someInfo(), actual, emptyArray());
   }
 
@@ -123,8 +129,8 @@ public class CharArrays_assertContains_Test extends CharArraysBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty_whatever_custom_comparison_strategy_is() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
+    thrown.expect(AssertionError.class);
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, emptyArray());
   }
 

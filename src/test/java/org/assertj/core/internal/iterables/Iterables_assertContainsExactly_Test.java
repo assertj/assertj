@@ -53,8 +53,14 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(valuesToLookForIsEmpty());
+  public void should_pass_if_actual_and_given_values_are_empty() {
+    actual.clear();
+    iterables.assertContainsExactly(someInfo(), actual, array());
+  }
+  
+  @Test
+  public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+    thrown.expect(AssertionError.class);
     iterables.assertContainsExactly(someInfo(), actual, emptyArray());
   }
 

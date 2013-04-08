@@ -16,23 +16,25 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.entriesToLookForIsNull;
+import static org.assertj.core.test.ErrorMessages.entryToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-
 import static org.mockito.Mockito.verify;
 
+import java.util.HashMap;
 import java.util.Map;
+
+import org.junit.Test;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
-import org.junit.Test;
 
 
 /**
@@ -59,8 +61,14 @@ public class Maps_assertContains_Test extends MapsBaseTest {
   }
 
   @Test
+  public void should_pass_if_actual_and_given_entries_are_empty() {
+    actual = new HashMap<String, String>();
+    maps.assertContains(someInfo(), actual, new MapEntry[0]);
+  }
+
+  @Test
   public void should_throw_error_if_array_of_entries_to_look_for_is_empty() {
-    thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
+    thrown.expect(AssertionError.class);
     maps.assertContains(someInfo(), actual, new MapEntry[0]);
   }
 

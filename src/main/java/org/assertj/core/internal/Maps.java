@@ -179,8 +179,11 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given entries.
    */
   public void assertContains(AssertionInfo info, Map<?, ?> actual, MapEntry[] entries) {
-    isNotEmptyOrNull(entries);
+    isNotNull(entries);
     assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (actual.isEmpty() && entries.length == 0) return;
+    failIfEmptySinceActualIsNotEmpty(entries);
     Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
     for (MapEntry entry : entries) {
       if (!containsEntry(actual, entry)) {
@@ -283,12 +286,16 @@ public class Maps {
     throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
-  private void isNotEmptyOrNull(MapEntry[] entries) {
-    if (entries == null) {
-      throw new NullPointerException("The array of entries to look for should not be null");
-    }
+  private static void isNotEmptyOrNull(MapEntry[] entries) {
+    isNotNull(entries);
     if (entries.length == 0) {
       throw new IllegalArgumentException("The array of entries to look for should not be empty");
+    }
+  }
+
+  private static void isNotNull(MapEntry[] entries) {
+    if (entries == null) {
+      throw new NullPointerException("The array of entries to look for should not be null");
     }
   }
 
@@ -304,5 +311,9 @@ public class Maps {
 
   private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  private static void failIfEmptySinceActualIsNotEmpty(MapEntry[] values) {
+    if (values.length == 0) throw new AssertionError("actual is not empty");
   }
 }
