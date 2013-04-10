@@ -17,6 +17,8 @@ package org.assertj.core.groups;
 import static junit.framework.Assert.assertSame;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
+
 import static org.mockito.Mockito.*;
 
 import java.util.*;
@@ -46,21 +48,21 @@ public class Properties_from_with_array_Test {
 
   private PropertySupport propertySupport;
   private String propertyName;
-  private Properties<Long> properties;
+  private Properties<Integer> properties;
 
   @Before
   public void setUp() {
     propertySupport = mock(PropertySupport.class);
-    propertyName = "id";
-    properties = new Properties<Long>(propertyName, Long.class);
+    propertyName = "age";
+    properties = new Properties<Integer>(propertyName, Integer.class);
     properties.propertySupport = propertySupport;
   }
 
   @Test
   public void should_return_values_of_property() {
-    List<Long> ids = new ArrayList<Long>();
-    ids.add(yoda.getId());
-    when(propertySupport.propertyValues(propertyName, Long.class, wrap(employees))).thenReturn(ids);
-    assertSame(ids, properties.from(employees));
+    List<Integer> ages = newArrayList();
+    ages.add(yoda.getAge());
+    when(propertySupport.propertyValues(propertyName, Integer.class, wrap(employees))).thenReturn(ages);
+    assertSame(ages, properties.from(employees));
   }
 }

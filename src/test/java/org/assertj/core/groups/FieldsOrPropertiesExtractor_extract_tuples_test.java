@@ -16,10 +16,13 @@ package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
+import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -30,7 +33,7 @@ import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-public class FieldsOrPropertiesExtractor_extract_test {
+public class FieldsOrPropertiesExtractor_extract_tuples_test {
   
   @Rule
   public ExpectedException thrown = none();
@@ -39,7 +42,6 @@ public class FieldsOrPropertiesExtractor_extract_test {
   private static Employee luke;
   private static List<Employee> employees;
 
-  
   @BeforeClass
   public static void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
@@ -48,38 +50,33 @@ public class FieldsOrPropertiesExtractor_extract_test {
   }
 
   @Test
-  public void should_extract_field_values_even_if_property_exist() {
-    List<Object> extractedValues = extract("id", employees);
-    assertThat(extractedValues).containsOnly(1L, 2L);
+  public void should_extract_tuples_from_fields_or_properties() {
+    List<Tuple> extractedValues = extract(employees, "id", "age");
+    assertThat(extractedValues).containsOnly(tuple(1L, 800), tuple(2L, 26));
   }
   
   @Test
-  public void should_extract_property_values_when_no_public_field_match_given_name() {
-    List<Object> extractedValues = extract("age", employees);
-    assertThat(extractedValues).containsOnly(800, 26);
+  public void should_extract_tuples_with_consistent_iteration_order() {
+    Set<Employee> employeeSet =  new HashSet<Employee>(employees);
+    List<Tuple> extractedValues = extract(employeeSet, "id", "name.first", "age");
+    assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L,"Luke", 26));
   }
   
   @Test
-  public void should_extract_pure_property_values() {
-    List<Object> extractedValues = extract("adult", employees);
-    assertThat(extractedValues).containsOnly(true);
-  }
-  
-  @Test
-  public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
+  public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
     thrown.expect(IntrospectionError.class);
-    extract("unknown", employees);
+    extract(employees, "id", "age", "unknown");
   }
   
   @Test
   public void should_throw_exception_when_given_name_is_null() {
-    thrown.expectIllegalArgumentException("The name of the field/property to read should not be null");
-    extract((String)null, employees);
+    thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be null");
+    extract(employees, (String[])null);
   }
   
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
-    thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
-    extract("", employees);
+    thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be empty");
+    extract(employees, new String[0]);
   }
 }

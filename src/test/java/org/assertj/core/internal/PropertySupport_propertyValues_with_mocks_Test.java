@@ -62,14 +62,14 @@ public class PropertySupport_propertyValues_with_mocks_Test {
   @Test
   public void should_throw_error_if_PropertyDescriptor_cannot_invoke_read_method() throws Exception {
     RuntimeException thrownOnPurpose = new RuntimeException("Thrown on purpose");
-    PropertyDescriptor real = getProperty("id", yoda);
+    PropertyDescriptor real = getProperty("age", yoda);
     when(descriptor.invokeReadMethod(real, yoda)).thenThrow(thrownOnPurpose);
     try {
-      propertySupport.propertyValues("id", Long.class, employees);
+      propertySupport.propertyValues("age", Long.class, employees);
       fail("expecting an IntrospectionError to be thrown");
     } catch (IntrospectionError expected) {
       assertSame(thrownOnPurpose, expected.getCause());
-      String msg = String.format("Unable to obtain the value of the property <'id'> from <%s>", yoda.toString());
+      String msg = String.format("Unable to obtain the value of the property <'age'> from <%s>", yoda.toString());
       assertEquals(msg, expected.getMessage());
     }
   }

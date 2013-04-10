@@ -22,27 +22,19 @@ import static java.lang.String.format;
  */
 public class Employee {
 
-  // intentionnaly public to test field retrieval
-  // getter have been created to test property retrieval
+  // intentionnaly public to test retrieval of a public field that is not a property
   public long id;
+  // name is both a public field and a property 
   public Name name;
-  // keep private to test we are able to read property but not field
+  // keep private to test we are able to read property that is not a public field
   private int age;
 
   public Employee() {}
 
   public Employee(long id, Name name, int age) {
-    setId(id);
+    this.id = id;
     setName(name);
     setAge(age);
-  }
-
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
   }
 
   public Name getName() {
@@ -59,6 +51,11 @@ public class Employee {
 
   public void setAge(int age) {
     this.age = age;
+  }
+  
+  // pure property not backed by a field
+  public boolean isAdult() {
+    return age > 18;
   }
 
   @Override

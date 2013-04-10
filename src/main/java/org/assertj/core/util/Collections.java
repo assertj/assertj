@@ -33,6 +33,9 @@ import java.util.Set;
  * @author Joel Costigliola
  */
 public final class Collections {
+  private static final String DEFAULT_END = "]";
+  private static final String DEFAULT_START = "[";
+
   /**
    * Returns any duplicate elements from the given {@code Collection}.
    * 
@@ -75,25 +78,36 @@ public final class Collections {
    * @return the {@code String} representation of the given {@code Collection}.
    */
   public static String format(Collection<?> c) {
+    return format(c, DEFAULT_START, DEFAULT_END);
+  }
+
+  /**
+   * Returns the {@code String} representation of the given {@code Collection}, or {@code null} if the given
+   * {@code Collection} is {@code null}.
+   * 
+   * @param c the {@code Collection} to format.
+   * @return the {@code String} representation of the given {@code Collection}.
+   */
+  public static String format(Collection<?> c, String start, String end) {
     if (c == null) {
       return null;
     }
     Iterator<?> i = c.iterator();
     if (!i.hasNext()) {
-      return "[]";
+      return start + end;
     }
     StringBuilder b = new StringBuilder();
-    b.append('[');
+    b.append(start);
     for (;;) {
       Object e = i.next();
       b.append(e == c ? "(this Collection)" : toStringOf(e));
       if (!i.hasNext()) {
-        return b.append(']').toString();
+        return b.append(end).toString();
       }
       b.append(", ");
     }
   }
-
+  
   /**
    * Returns all the non-{@code null} elements in the given {@link Collection}.
    * 

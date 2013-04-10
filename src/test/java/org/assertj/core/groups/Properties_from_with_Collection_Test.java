@@ -45,21 +45,21 @@ public class Properties_from_with_Collection_Test {
 
   private PropertySupport propertySupport;
   private String propertyName;
-  private Properties<Long> properties;
+  private Properties<Integer> properties;
 
   @Before
   public void setUp() {
     propertySupport = mock(PropertySupport.class);
-    propertyName = "id";
-    properties = new Properties<Long>(propertyName, Long.class);
+    propertyName = "age";
+    properties = new Properties<Integer>(propertyName, Integer.class);
     properties.propertySupport = propertySupport;
   }
 
   @Test
   public void should_return_values_of_property() {
-    List<Long> ids = new ArrayList<Long>();
-    ids.add(yoda.getId());
-    when(propertySupport.propertyValues(propertyName, Long.class, employees)).thenReturn(ids);
-    assertSame(ids, properties.from(employees));
+    List<Integer> ages = newArrayList();
+    ages.add(yoda.getAge());
+    when(propertySupport.propertyValues(propertyName, Integer.class, employees)).thenReturn(ages);
+    assertSame(ages, properties.from(employees));
   }
 }

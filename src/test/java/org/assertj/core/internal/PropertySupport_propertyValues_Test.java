@@ -61,40 +61,40 @@ public class PropertySupport_propertyValues_Test {
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
-    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, null);
-    assertEquals(emptyList(), ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, null);
+    assertEquals(emptyList(), ages);
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
-    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, emptySet());
-    assertEquals(emptyList(), ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, emptySet());
+    assertEquals(emptyList(), ages);
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_contains_only_nulls() {
-    Iterable<Long> ids = propertySupport.propertyValues("ids", Long.class, newArrayList(null, null));
-    assertEquals(emptyList(), ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, newArrayList(null, null));
+    assertEquals(emptyList(), ages);
   }
 
   @Test
   public void should_remove_null_values_from_given_Iterable() {
     List<Employee> anotherList = newArrayList(yoda, null, luke, null);
-    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, anotherList);
-    assertEquals(newArrayList(6000L, 8000L), ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, anotherList);
+    assertEquals(newArrayList(800, 26), ages);
   }
 
   @Test
   public void should_return_values_of_simple_property() {
-    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
-    assertEquals(newArrayList(6000L, 8000L), ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, employees);
+    assertEquals(newArrayList(800, 26), ages);
   }
 
   @Test
   public void should_return_values_of_simple_property_as_objects() {
-    Iterable<Long> ids = propertySupport.propertyValues("id", Long.class, employees);
-    Iterable<Object> idsAsObjects = propertySupport.propertyValues("id", employees);
-    assertEquals(idsAsObjects, ids);
+    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, employees);
+    Iterable<Object> agesAsObjects = propertySupport.propertyValues("age", employees);
+    assertEquals(agesAsObjects, ages);
     Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
     Iterable<Object> firstNamesAsObjects = propertySupport.propertyValues("name.first", employees);
     assertEquals(firstNamesAsObjects, firstNames);
@@ -109,12 +109,12 @@ public class PropertySupport_propertyValues_Test {
   @Test
   public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
-    propertySupport.propertyValues("id.", Long.class, employees);
+    propertySupport.propertyValues("foo", Integer.class, employees);
   }
 
   @Test
   public void should_extract_property() {
-    Long id = propertySupport.propertyValue("id", Long.class, yoda);
-    assertEquals(Long.valueOf(6000L), id);
+    Integer age = propertySupport.propertyValue("age", Integer.class, yoda);
+    assertEquals(Integer.valueOf(800), age);
   }
 }

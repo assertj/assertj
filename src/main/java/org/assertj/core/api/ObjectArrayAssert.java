@@ -18,6 +18,7 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.util.VisibleForTesting;
@@ -329,4 +330,11 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
     Object[] values = FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
     return new ObjectArrayAssert<Object>(values);
   }
+  
+  // TODO : write javadoc !
+  public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
+    Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, fieldsOrProperties);
+    return new ObjectArrayAssert<Tuple>(values);
+  }
+
 }
