@@ -41,6 +41,6 @@ public class ShouldBeRelativePath_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] File:<xyz> should be a relative path", message);
+    assertEquals("[Test] \nExpecting file:\n <xyz>\nto be a relative path", message);
   }
 }

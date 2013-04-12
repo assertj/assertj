@@ -43,8 +43,8 @@ public class ShouldHaveEqualContent_create_Test {
 
   @Before
   public void setUp() {
-    diffs = newArrayList("line:<0>, expected:<line0> but was:<line_0>", "line:<1>, expected:<line1> but was:<line_1>",
-        "line:<2>, expected:<line2> but was:<line_%s>");
+    diffs = newArrayList("line:<0>, \nExpecting:\n<line0> but was:<line_0>", "line:<1>, \nExpecting:\n<line1> but was:<line_1>",
+        "line:<2>, \nExpecting:\n<line2> but was:<line_%s>");
   }
 
   @Test
@@ -52,7 +52,7 @@ public class ShouldHaveEqualContent_create_Test {
     factory = ShouldHaveEqualContent.shouldHaveEqualContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
 
     StringBuilder b = new StringBuilder();
-    b.append("[Test] file:<abc> and file:<xyz> do not have equal content:");
+    b.append("[Test] \nFile:\n <abc>\nand file:\n <xyz>\ndo not have equal content:");
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
     assertEquals(b.toString(), factory.create(new TextDescription("Test")));
@@ -64,7 +64,7 @@ public class ShouldHaveEqualContent_create_Test {
         new ByteArrayInputStream(new byte[] { 'b' }), diffs);
 
     StringBuilder b = new StringBuilder();
-    b.append("[Test] InputStreams do not have equal content:");
+    b.append("[Test] \nInputStreams do not have equal content:");
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
     assertEquals(b.toString(), factory.create(new TextDescription("Test")));

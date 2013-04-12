@@ -33,6 +33,6 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSize(Object actual, Object actualSize, Object expectedSize) {
-    super("expected size:<%s> but was:<%s> in:<%s>", expectedSize, actualSize, actual);
+    super("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, actual);
   }
 }

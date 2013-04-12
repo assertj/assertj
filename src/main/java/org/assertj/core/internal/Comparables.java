@@ -70,6 +70,11 @@ public class Comparables {
     this.failures = failures;
   }
 
+  @VisibleForTesting
+  void resetFailures() {
+    this.failures = Failures.instance();
+  }
+
   /**
    * Asserts that two T instances are equal.
    * @param info contains information about the assertion.

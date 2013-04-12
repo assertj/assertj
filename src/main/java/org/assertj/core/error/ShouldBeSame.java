@@ -32,6 +32,6 @@ public class ShouldBeSame extends BasicErrorMessageFactory {
   }
 
   private ShouldBeSame(Object actual, Object expected) {
-    super("expected:<%s> and actual:<%s> should refer to the same object", expected, actual);
+    super("\nExpecting:\n <%s>\nand actual:\n <%s>\nto refer to the same object", expected, actual);
   }
 }

@@ -40,7 +40,7 @@ public class ShouldBeInSameHour_create_Test {
         ISO_DATE_TIME_FORMAT.parse("2011-01-01T06:00:00"));
 
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected <2011-01-01T05:00:00> to be on same year, month, day and hour as <2011-01-01T06:00:00>",
+    assertEquals("[Test] \nExpecting:\n <2011-01-01T05:00:00>\nto be on same year, month, day and hour as:\n <2011-01-01T06:00:00>",
         message);
   }
 

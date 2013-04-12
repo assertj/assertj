@@ -48,7 +48,7 @@ public class ShouldNotHaveDuplicates extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveDuplicates(Object actual, Object duplicates, ComparisonStrategy comparisonStrategy) {
-    super("found duplicate(s)\n<%s>\n in\n<%s>\n%s", duplicates, actual, comparisonStrategy);
+    super("\nFound duplicate(s):\n <%s>\nin:\n <%s>\n%s", duplicates, actual, comparisonStrategy);
   }
 
 }

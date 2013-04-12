@@ -38,6 +38,6 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<?> offset, Number difference) {
-    super("expecting <%s> to be close to <%s> within offset <%s> but offset was <%s>", actual, expected, offset.value, difference);
+    super("\nExpecting:\n <%s>\nto be close to:\n <%s>\nwithin offset <%s> but offset was <%s>", actual, expected, offset.value, difference);
   }
 }

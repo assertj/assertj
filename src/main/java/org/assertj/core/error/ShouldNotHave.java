@@ -37,6 +37,6 @@ public class ShouldNotHave extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHave(Object actual, Condition<?> condition) {
-    super("expecting:<%s> not to have:<%s>", actual, condition);
+    super("\nExpecting:\n <%s>\nnot to have:\n <%s>", actual, condition);
   }
 }

@@ -45,7 +45,7 @@ public class ShouldHaveComparableElementsAccordingToComparator_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
     assertEquals(
-        "[Test] some elements are not mutually comparable according to 'CaseInsensitiveStringComparator' comparator in group:<['b', 'c', 'a']>",
+        "[Test] \nsome elements are not mutually comparable according to 'CaseInsensitiveStringComparator' comparator in group:\n<['b', 'c', 'a']>",
         message);
   }
 }

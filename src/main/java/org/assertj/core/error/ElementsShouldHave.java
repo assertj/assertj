@@ -38,6 +38,6 @@ public class ElementsShouldHave extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldHave(Object actual, Object notSatisfies, Condition<?> condition) {
-    super("expecting elements:\n<%s>\n of \n<%s>\n to have <%s>", notSatisfies, actual, condition);
+    super("\nExpecting elements:\n<%s>\n of \n<%s>\n to have <%s>", notSatisfies, actual, condition);
   }
 }

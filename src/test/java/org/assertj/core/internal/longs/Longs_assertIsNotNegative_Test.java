@@ -39,7 +39,7 @@ public class Longs_assertIsNotNegative_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_negative() {
-    thrown.expectAssertionError("expected:<-6L> to be greater than or equal to:<0L>");
+    thrown.expectAssertionError("\nExpecting:\n <-6L>\nto be greater than or equal to:\n <0L>");
     longs.assertIsNotNegative(someInfo(), -6L);
   }
 

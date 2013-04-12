@@ -34,6 +34,6 @@ public class ShouldBeAbsolutePath extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAbsolutePath(File actual) {
-    super("File:<%s> should be an absolute path", actual);
+    super("\nExpecting:\n <%s>\nto be an absolute path", actual);
   }
 }

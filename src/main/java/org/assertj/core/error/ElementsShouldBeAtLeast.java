@@ -38,6 +38,6 @@ public class ElementsShouldBeAtLeast extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldBeAtLeast(Object actual, int times, Condition<?> condition) {
-    super("expecting elements:\n<%s>\n to be at least %s times <%s>", actual, times, condition);
+    super("\nExpecting elements:\n<%s>\n to be at least %s times <%s>", actual, times, condition);
   }
 }

@@ -31,6 +31,6 @@ public class ShouldBeLowerCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeLowerCase(Character actual) {
-    super("expected:<%s> to be a lowercase character", actual);
+    super("\nExpecting <%s> to be a lowercase character", actual);
   }
 }

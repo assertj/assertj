@@ -34,6 +34,6 @@ public class ShouldBeInSameYear extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameYear(Date actual, Date other) {
-    super("expected <%s> to be on same year as <%s>", actual, other);
+    super("\nExpecting:\n <%s>\nto be on same year as:\n <%s>", actual, other);
   }
 }

@@ -39,7 +39,7 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("<0> should not be equal to:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     bytes.assertIsNotZero(someInfo(), (byte) 0);
   }
 
@@ -53,7 +53,7 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     }
   }
 

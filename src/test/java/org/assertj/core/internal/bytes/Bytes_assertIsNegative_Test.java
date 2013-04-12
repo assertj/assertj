@@ -23,7 +23,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Bytes#assertIsNegative(AssertionInfo, Byte)}</code>.
+ * Tests for <code>{@link Bytes#assertIsNegative(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -37,19 +37,19 @@ public class Bytes_assertIsNegative_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("expected:<6> to be less than:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <6>\nto be less than:\n <0>");
     bytes.assertIsNegative(someInfo(), (byte) 6);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    thrown.expectAssertionError("expected:<-6> to be less than:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <-6>\nto be less than:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) -6);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    thrown.expectAssertionError("expected:<6> to be less than:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <6>\nto be less than:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) 6);
   }
 

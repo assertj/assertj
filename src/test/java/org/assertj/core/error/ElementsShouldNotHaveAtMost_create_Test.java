@@ -45,7 +45,7 @@ public class ElementsShouldNotHaveAtMost_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting elements:\n<['Yoda', 'Luke', 'Obiwan']>\n not to have at most 2 times <Jedi power>", message);
+    assertEquals("[Test] \nExpecting elements:\n<['Yoda', 'Luke', 'Obiwan']>\n not to have at most 2 times <Jedi power>", message);
   }
 
 }

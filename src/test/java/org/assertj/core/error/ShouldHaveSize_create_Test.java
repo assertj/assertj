@@ -41,6 +41,6 @@ public class ShouldHaveSize_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected size:<8> but was:<2> in:<['Luke', 'Yoda']>", message);
+    assertEquals("[Test] \nExpected size:<8> but was:<2> in:\n<['Luke', 'Yoda']>", message);
   }
 }

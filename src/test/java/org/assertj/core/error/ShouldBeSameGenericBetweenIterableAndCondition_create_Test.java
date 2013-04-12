@@ -43,7 +43,7 @@ public class ShouldBeSameGenericBetweenIterableAndCondition_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting: <['Yoda', 'Leia']> have the same generic type as condition <Not a Jedi>", message);
+    assertEquals("[Test] \nExpecting: <['Yoda', 'Leia']> have the same generic type as condition <Not a Jedi>", message);
   }
 
 }

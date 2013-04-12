@@ -35,6 +35,6 @@ public class ShouldBeInSameMonth extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameMonth(Date actual, Date other) {
-    super("expected <%s> to be on same year and month as <%s>", actual, other);
+    super("\nExpecting:\n <%s>\nto be on same year and month as:\n <%s>", actual, other);
   }
 }

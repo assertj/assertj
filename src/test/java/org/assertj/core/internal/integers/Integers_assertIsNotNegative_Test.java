@@ -39,7 +39,7 @@ public class Integers_assertIsNotNegative_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_negative() {
-    thrown.expectAssertionError("expected:<-6> to be greater than or equal to:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <-6>\nto be greater than or equal to:\n <0>");
     integers.assertIsNotNegative(someInfo(), -6);
   }
 

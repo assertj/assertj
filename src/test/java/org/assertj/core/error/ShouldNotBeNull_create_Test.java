@@ -42,6 +42,6 @@ public class ShouldNotBeNull_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expecting actual not to be null", message);
+    assertEquals("[Test] \nExpecting actual not to be null", message);
   }
 }

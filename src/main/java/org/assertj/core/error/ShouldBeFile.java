@@ -34,6 +34,6 @@ public class ShouldBeFile extends BasicErrorMessageFactory {
   }
 
   private ShouldBeFile(File actual) {
-    super("File:<%s> should be an existing file", actual);
+    super("\nExpecting:\n <%s>\nto be a file", actual);
   }
 }

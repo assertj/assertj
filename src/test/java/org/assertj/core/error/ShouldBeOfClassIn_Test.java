@@ -45,7 +45,7 @@ public class ShouldBeOfClassIn_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected <'Yoda'> should have type in <[java.lang.Long, java.io.File]> but was:<java.lang.String>",
+    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto be of one these types:\n <[java.lang.Long, java.io.File]>\nbut was:\n <java.lang.String>",
         message);
   }
 }

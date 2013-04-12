@@ -39,7 +39,7 @@ public class ShouldContainKey_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, "name");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<{'name'='Yoda', 'color'='green'}>\n" + " to contain key:\n" + "<'name'>", message);
+    assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain key:\n <'name'>", message);
   }
 
 }

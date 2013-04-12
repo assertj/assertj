@@ -1,17 +1,12 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.Bytes;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
 import org.junit.Rule;
-
 
 /**
  * Base class for {@link Bytes} unit tests
@@ -25,10 +20,8 @@ public class BytesBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
-
   protected Failures failures;
   protected Bytes bytes;
-
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Bytes bytesWithAbsValueComparisonStrategy;
 
@@ -42,4 +35,8 @@ public class BytesBaseTest {
     bytesWithAbsValueComparisonStrategy.failures = failures;
   }
 
+  protected void resetFailures() {
+    bytes.resetFailures();
+    bytesWithAbsValueComparisonStrategy.resetFailures();
+  }
 }

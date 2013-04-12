@@ -49,6 +49,6 @@ public class ShouldBeAfterOrEqualsTo extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAfterOrEqualsTo(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
-    super("expected:<%s> to be after or equals to:<%s>%s", actual, other, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto be after or equals to:\n <%s>%s", actual, other, comparisonStrategy);
   }
 }

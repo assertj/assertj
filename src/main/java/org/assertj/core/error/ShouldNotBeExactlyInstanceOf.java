@@ -33,6 +33,6 @@ public class ShouldNotBeExactlyInstanceOf extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeExactlyInstanceOf(Object actual, Class<?> type) {
-    super("expected <%s> to have not exactly the same type as:<%s> but was:<%s>", actual, type, actual.getClass());
+    super("\nExpecting\n <%s>\nnot to be of exact type:\n <%s>\nbut was:<%s>", actual, type, actual.getClass());
   }
 }

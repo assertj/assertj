@@ -36,7 +36,7 @@ public class ShouldBeInSameDay_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldBeInSameDay(parse("2010-01-01"), parse("2010-01-25"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected <2010-01-01T00:00:00> to be on same year, month and day as <2010-01-25T00:00:00>", message);
+    assertEquals("[Test] \nExpecting:\n <2010-01-01T00:00:00>\nto be on same year, month and day as:\n <2010-01-25T00:00:00>", message);
   }
 
 }

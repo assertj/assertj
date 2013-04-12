@@ -76,7 +76,7 @@ public class MessageFormatter {
 
   private String asText(Object o) {
     if (o instanceof ComparatorBasedComparisonStrategy) {
-      return " according to " + o + " comparator";
+      return "according to " + o + " comparator";
     }
     if (o instanceof StandardComparisonStrategy) {
       return "";

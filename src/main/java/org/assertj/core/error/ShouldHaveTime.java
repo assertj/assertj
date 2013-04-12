@@ -28,7 +28,6 @@ public class ShouldHaveTime extends BasicErrorMessageFactory {
   /**
    * Creates a new </code>{@link ShouldHaveTime}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param actualTimestamp the timestamp of {@code actual}.
    * @param expectedTimestamp the expected timestamp.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -37,6 +36,6 @@ public class ShouldHaveTime extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveTime(Date actual, long expectedTimestamp) {
-    super("expected <%s> to have time:\n<%s>\n but was:\n<%s>", actual, expectedTimestamp, actual.getTime());
+    super("\nExpecting\n <%s>\nto have time:\n <%s>\nbut was:\n <%s>", actual, expectedTimestamp, actual.getTime());
   }
 }

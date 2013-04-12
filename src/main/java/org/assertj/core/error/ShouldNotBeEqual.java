@@ -46,7 +46,7 @@ public class ShouldNotBeEqual extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeEqual(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("<%s> should not be equal to:<%s>%s", actual, other, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nnot to be equal to:\n <%s>\n%s", actual, other, comparisonStrategy);
   }
 
 }

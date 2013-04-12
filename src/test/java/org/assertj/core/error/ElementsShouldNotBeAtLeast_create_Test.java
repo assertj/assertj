@@ -45,7 +45,7 @@ public class ElementsShouldNotBeAtLeast_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting elements:\n<['Yoda', 'Luke', 'Leia']>\n not to be at least 2 times <Not a Jedi>", message);
+    assertEquals("[Test] \nExpecting elements:\n<['Yoda', 'Luke', 'Leia']>\n not to be at least 2 times <Not a Jedi>", message);
   }
 
 }

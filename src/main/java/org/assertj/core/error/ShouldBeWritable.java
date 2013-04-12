@@ -26,7 +26,7 @@ import java.io.File;
 public class ShouldBeWritable extends BasicErrorMessageFactory {
 
   private ShouldBeWritable(File actual) {
-    super("File:<%s> should be writable", actual);
+    super("\nFile:\n <%s>\nshould be writable", actual);
   }
 
   /**

@@ -39,21 +39,21 @@ public class Floats_assertIsNotPositive_Test extends FloatsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("expected:<6.0f> to be less than or equal to:<0.0f>");
+    thrown.expectAssertionError("\nExpecting:\n <6.0f>\nto be less than or equal to:\n <0.0f>");
     floats.assertIsNotPositive(someInfo(), 6f);
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     thrown
-        .expectAssertionError("expected:<-1.0f> to be less than or equal to:<0.0f> according to 'AbsValueComparator' comparator");
+        .expectAssertionError("\nExpecting:\n <-1.0f>\nto be less than or equal to:\n <0.0f> according to 'AbsValueComparator' comparator");
     floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1f);
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     thrown
-        .expectAssertionError("expected:<1.0f> to be less than or equal to:<0.0f> according to 'AbsValueComparator' comparator");
+        .expectAssertionError("\nExpecting:\n <1.0f>\nto be less than or equal to:\n <0.0f> according to 'AbsValueComparator' comparator");
     floatsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1f);
   }
 

@@ -39,6 +39,6 @@ public class ShouldBeExecutableTest {
 
   @Test public void createExpectedMessage() {
     String actualMessage = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] File:<pathname> should be executable", actualMessage);
+    assertEquals("[Test] \nExpecting:\n <pathname>\nto be executable", actualMessage);
   }
 }

@@ -39,6 +39,6 @@ public class ShouldBeLowerCase_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected:<A> to be a lowercase character", message);
+    assertEquals("[Test] \nExpecting <A> to be a lowercase character", message);
   }
 }

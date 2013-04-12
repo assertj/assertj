@@ -47,6 +47,6 @@ public class ShouldNotContainString extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainString(String actual, String sequence, ComparisonStrategy comparisonStrategy) {
-    super("expecting:<%s> not to contain:<%s>%s", actual, sequence, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nnot to contain:\n <%s> %s", actual, sequence, comparisonStrategy);
   }
 }

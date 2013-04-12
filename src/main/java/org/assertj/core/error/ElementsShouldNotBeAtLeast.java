@@ -38,6 +38,6 @@ public class ElementsShouldNotBeAtLeast extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldNotBeAtLeast(Object actual, int times, Condition<?> condition) {
-    super("expecting elements:\n<%s>\n not to be at least %s times <%s>", actual, times, condition);
+    super("\nExpecting elements:\n<%s>\n not to be at least %s times <%s>", actual, times, condition);
   }
 }

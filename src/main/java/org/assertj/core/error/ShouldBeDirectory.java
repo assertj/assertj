@@ -34,6 +34,6 @@ public class ShouldBeDirectory extends BasicErrorMessageFactory {
   }
 
   private ShouldBeDirectory(File actual) {
-    super("File:<%s> should be an existing directory", actual);
+    super("\nExpecting:\n <%s>\nto be an existing directory", actual);
   }
 }

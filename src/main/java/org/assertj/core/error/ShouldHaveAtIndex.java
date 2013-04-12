@@ -28,6 +28,6 @@ public class ShouldHaveAtIndex extends BasicErrorMessageFactory {
   }
 
   private <T> ShouldHaveAtIndex(List<T> actual, Condition<? super T> condition, Index index, T found) {
-    super("expecting:<%s> at index <%s> to have:<%s> in:\n <%s>\n", found, index.value, condition, actual);
+    super("\nExpecting:\n <%s>\nat index <%s> to have:\n <%s>\nin:\n <%s>\n", found, index.value, condition, actual);
   }
 }

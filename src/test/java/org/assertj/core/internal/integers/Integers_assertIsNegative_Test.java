@@ -37,19 +37,19 @@ public class Integers_assertIsNegative_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("expected:<6> to be less than:<0>");
+    thrown.expectAssertionError("Expecting:\n <6>\nto be less than:\n <0>");
     integers.assertIsNegative(someInfo(), 6);
   }
 
   @Test
   public void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<-1> to be less than:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("Expecting:\n <-1>\nto be less than:\n <0> according to 'AbsValueComparator' comparator");
     integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    thrown.expectAssertionError("Expecting:\n <1>\nto be less than:\n <0>");
     integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 1);
   }
 

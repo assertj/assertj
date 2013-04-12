@@ -41,6 +41,6 @@ public class ShouldNotExist_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expecting file:<xyz> not to exist", message);
+    assertEquals("[Test] \nExpecting file:<xyz> not to exist", message);
   }
 }

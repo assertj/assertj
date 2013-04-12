@@ -38,6 +38,6 @@ public class ShouldNotBeEmpty implements ErrorMessageFactory {
 
   /** {@inheritDoc} */
   public String create(Description d) {
-    return MessageFormatter.instance().format(d, "expecting actual not to be empty");
+    return MessageFormatter.instance().format(d, "\nExpecting actual not to be empty");
   }
 }

@@ -17,20 +17,31 @@ package org.assertj.core.internal.bytes;
 import static org.assertj.core.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.util.AbsValueComparator;
+import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Bytes#assertIsZero(AssertionInfo, Byte)}</code>.
+ * Tests for <code>{@link Bytes#assertIsNegative(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class Bytes_assertIsZero_Test extends BytesBaseTest {
+
+  @Override
+  public void setUp() {
+    super.setUp();
+    resetFailures();
+  }
 
   @Test
   public void should_succeed_since_actual_is_zero() {
@@ -42,21 +53,21 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
     try {
       bytes.assertIsZero(someInfo(), (byte) 2);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[2]>");
+      assertEquals("expected:<[0]> but was:<[2]>", e.getMessage());
     }
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 1);
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 0);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     try {
-      bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
+      bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 1);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals("expected:<[0]> but was:<[1]>", e.getMessage());
     }
   }
 

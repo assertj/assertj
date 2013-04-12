@@ -1,36 +1,34 @@
 /*
  * Created on Aug 6, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.Integer.toHexString;
-
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.util.Strings.concat;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Comparator;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.DescriptionFormatter;
-import org.assertj.core.error.ShouldBeEqual;
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.TestDescription;
 import org.junit.Before;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.
@@ -40,7 +38,6 @@ import org.junit.Test;
 public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
 
   private String formattedDescription = "[my test]";
-
   private Description description;
   private ShouldBeEqual shouldBeEqual;
 
@@ -68,8 +65,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] expected:\n<'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")'>\n but was:\n<'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>", error.getMessage());
+    assertEquals("[my test] \nExpecting:\n <'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")'>\nto be equal to:\n <'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>\nbut was not.",
+        error.getMessage());
   }
 
   @Test
@@ -81,9 +79,9 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] Expecting actual:\n<'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
-        + ")'>\n to be equal to \n<'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")'>\n according to 'PersonComparator' comparator but was not.", error.getMessage());
+    assertEquals("[my test] \nExpecting:\n <'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+        + ")'>\nto be equal to:\n <'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")'>\naccording to 'PersonComparator' comparator but was not.", error.getMessage());
   }
 
   private static class Person {

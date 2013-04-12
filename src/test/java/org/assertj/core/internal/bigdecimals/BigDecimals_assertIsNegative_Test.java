@@ -39,7 +39,7 @@ public class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <1>\nto be less than:\n <0>");
     bigDecimals.assertIsNegative(someInfo(), BigDecimal.ONE);
   }
 
@@ -50,7 +50,7 @@ public class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<1> to be less than:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <1>\nto be less than:\n <0>");
     bigDecimalsWithComparatorComparisonStrategy.assertIsNegative(someInfo(), BigDecimal.ONE);
   }
 

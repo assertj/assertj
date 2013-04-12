@@ -25,7 +25,7 @@ import java.io.File;
  */
 public class ShouldBeReadable extends BasicErrorMessageFactory {
   private ShouldBeReadable(File actual) {
-    super("File:<%s> should be readable", actual);
+    super("\nExpecting file:\n <%s>\nto be readable", actual);
   }
 
   /**

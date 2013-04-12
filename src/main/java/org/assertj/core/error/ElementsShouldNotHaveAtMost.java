@@ -38,6 +38,6 @@ public class ElementsShouldNotHaveAtMost extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldNotHaveAtMost(Object actual, int times, Condition<?> condition) {
-    super("expecting elements:\n<%s>\n not to have at most %s times <%s>", actual, times, condition);
+    super("\nExpecting elements:\n<%s>\n not to have at most %s times <%s>", actual, times, condition);
   }
 }

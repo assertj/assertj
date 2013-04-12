@@ -37,19 +37,19 @@ public class Doubles_assertIsNegative_Test extends DoublesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("expected:<6.0> to be less than:<0.0>");
+    thrown.expectAssertionError("\nExpecting:\n <6.0>\nto be less than:\n <0.0>");
     doubles.assertIsNegative(someInfo(), 6.0d);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    thrown.expectAssertionError("expected:<-6.0> to be less than:<0.0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <-6.0>\nto be less than:\n <0.0> according to 'AbsValueComparator' comparator");
     doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -6.0d);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    thrown.expectAssertionError("expected:<6.0> to be less than:<0.0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <6.0>\nto be less than:\n <0.0> according to 'AbsValueComparator' comparator");
     doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0d);
   }
 

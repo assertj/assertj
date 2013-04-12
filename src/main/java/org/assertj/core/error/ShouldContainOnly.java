@@ -54,7 +54,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
 
   private ShouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected,
       ComparisonStrategy comparisonStrategy) {
-    super("expecting:\n<%s>\n to contain only:\n<%s>\n elements not found:\n<%s>\n and elements not expected:\n<%s>\n%s", actual,
+    super("\nExpecting:\n <%s>\nto contain only:\n <%s>\nelements not found:\n <%s>\nand elements not expected:\n <%s>\n%s", actual,
         expected, notFound, notExpected, comparisonStrategy);
   }
 

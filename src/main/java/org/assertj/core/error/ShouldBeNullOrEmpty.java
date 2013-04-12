@@ -33,6 +33,6 @@ public class ShouldBeNullOrEmpty extends BasicErrorMessageFactory {
   }
 
   private ShouldBeNullOrEmpty(Object actual) {
-    super("expecting null or empty but was:<%s>", actual);
+    super("\nExpecting null or empty but was:<%s>", actual);
   }
 }

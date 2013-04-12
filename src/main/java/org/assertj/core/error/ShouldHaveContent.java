@@ -38,7 +38,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
   }
 
   private ShouldHaveContent(File actual, Charset charset, String diffs) {
-    super("file:<%s> read with charset:<%s> does not have expected content:", actual, charset);
+    super("\nFile:\n <%s>\nread with charset <%s> does not have the expected content:", actual, charset);
     this.diffs = diffs;
   }
 }

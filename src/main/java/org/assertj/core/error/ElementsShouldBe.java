@@ -37,7 +37,7 @@ public class ElementsShouldBe extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldBe(Object actual, Object notSatisfies, Condition<?> condition) {
-    super("expecting elements:\n<%s>\n of \n<%s>\n to be <%s>", notSatisfies, actual, condition);
+    super("\nExpecting elements:\n<%s>\n of \n<%s>\n to be <%s>", notSatisfies, actual, condition);
   }
 
 }

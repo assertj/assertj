@@ -39,19 +39,19 @@ public class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_positive() {
-    thrown.expectAssertionError("expected:<6> to be less than or equal to:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <6>\nto be less than or equal to:\n <0>");
     bytes.assertIsNotPositive(someInfo(), (byte) 6);
   }
 
   @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<-1> to be less than or equal to:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <-1>\nto be less than or equal to:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) -1);
   }
 
   @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
-    thrown.expectAssertionError("expected:<1> to be less than or equal to:<0> according to 'AbsValueComparator' comparator");
+    thrown.expectAssertionError("\nExpecting:\n <1>\nto be less than or equal to:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) 1);
   }
 

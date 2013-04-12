@@ -41,7 +41,7 @@ public class ShouldBeInSameMinute_create_Test {
 
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] expected <2011-01-01T05:01:00> to be on same year, month, day, hour and minute as <2011-01-01T05:02:00>", message);
+        "[Test] \nExpecting:\n <2011-01-01T05:01:00>\nto be on same year, month, day, hour and minute as:\n <2011-01-01T05:02:00>", message);
   }
 
 }

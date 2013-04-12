@@ -41,6 +41,6 @@ public class ShouldNotBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:<'Yoda'> not to be:<Sith>", message);
+    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to be <Sith>", message);
   }
 }

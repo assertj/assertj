@@ -47,6 +47,6 @@ public class ShouldEndWith extends BasicErrorMessageFactory {
   }
 
   private ShouldEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("expecting\n<%s>\n to end with\n<%s>\n%s", actual, expected, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto end with:\n <%s>\n%s", actual, expected, comparisonStrategy);
   }
 }

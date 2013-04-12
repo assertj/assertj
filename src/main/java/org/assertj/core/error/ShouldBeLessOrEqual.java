@@ -49,6 +49,6 @@ public class ShouldBeLessOrEqual extends BasicErrorMessageFactory {
   }
 
   private ShouldBeLessOrEqual(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("expected:<%s> to be less than or equal to:<%s>%s", actual, other, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto be less than or equal to:\n <%s> %s", actual, other, comparisonStrategy);
   }
 }

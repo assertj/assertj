@@ -32,6 +32,6 @@ public class ShouldNotBeSame extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeSame(Object actual) {
-    super("expected not same:<%s>", actual);
+    super("\nExpected not same:<%s>", actual);
   }
 }

@@ -44,6 +44,6 @@ public class ShouldBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n<'Yoda'>\n to be:\n<green>", message);
+    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto be <green>", message);
   }
 }

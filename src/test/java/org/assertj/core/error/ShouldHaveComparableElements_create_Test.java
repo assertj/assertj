@@ -41,7 +41,7 @@ public class ShouldHaveComparableElements_create_Test {
 
   @Test
   public void should_create_error_message() {
-    assertEquals("[Test] some elements are not mutually comparable in group:<['b', 5, 'a']>",
+    assertEquals("[Test] \nsome elements are not mutually comparable in group:\n<['b', 5, 'a']>",
         factory.create(new TestDescription("Test")));
   }
 }

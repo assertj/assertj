@@ -40,13 +40,13 @@ public class ShouldContainStringOnlyOnce extends BasicErrorMessageFactory {
   }
 
   private ShouldContainStringOnlyOnce(String actual, String expected, int occurences, ComparisonStrategy comparisonStrategy) {
-    super("expecting:\n<%s>\n to appear only once in:\n<%s>\n but it appeared %s times%s.", expected, actual,
+    super("\nExpecting:\n <%s>\nto appear only once in:\n <%s>\nbut it appeared %s times %s", expected, actual,
         occurences,
         comparisonStrategy);
   }
 
   private ShouldContainStringOnlyOnce(String actual, String expected, ComparisonStrategy comparisonStrategy) {
-    super("expecting:\n<%s>\n to appear only once in:\n<%s>\n but it did not appear%s.", expected, actual,
+    super("\nExpecting:\n <%s>\nto appear only once in:\n <%s>\nbut it did not appear %s", expected, actual,
         comparisonStrategy);
   }
 }

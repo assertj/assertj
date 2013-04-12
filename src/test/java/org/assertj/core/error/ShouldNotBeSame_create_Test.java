@@ -42,6 +42,6 @@ public class ShouldNotBeSame_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected not same:<'Yoda'>", message);
+    assertEquals("[Test] \nExpected not same:<'Yoda'>", message);
   }
 }

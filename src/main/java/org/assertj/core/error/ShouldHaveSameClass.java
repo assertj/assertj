@@ -32,7 +32,7 @@ public class ShouldHaveSameClass extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSameClass(Object actual, Object other) {
-    super("expected <%s> to have the same class as:<%s>(<%s>) but was of class:<%s>", actual, other, other.getClass(), actual
+    super("\nExpecting\n <%s>\nto have the same class as:\n <%s>(<%s>) \nbut its class was:<%s>", actual, other, other.getClass(), actual
         .getClass());
   }
 }

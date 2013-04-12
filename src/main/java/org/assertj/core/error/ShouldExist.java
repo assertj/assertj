@@ -33,6 +33,6 @@ public class ShouldExist extends BasicErrorMessageFactory {
   }
 
   private ShouldExist(File actual) {
-    super("expecting file:<%s> to exist", actual);
+    super("\nExpecting file:<%s> to exist", actual);
   }
 }

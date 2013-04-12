@@ -31,7 +31,7 @@ final class CommonValidations {
   static void checkIndexValueIsValid(Index index, int maximum) {
     if (index == null) throw new NullPointerException("Index should not be null");
     if (index.value <= maximum) return;
-    String format = "Index should be between <%d> and <%d> (inclusive,) but was <%d>";
+    String format = "Index should be between <%d> and <%d> (inclusive,) but was:\n <%d>";
     throw new IndexOutOfBoundsException(String.format(format, 0, maximum, index.value));
   }
 

@@ -43,6 +43,6 @@ public class ShouldNotBeInstanceOfAny_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected <'Yoda'> to be an instance of any of:\n" + "<[java.lang.String, java.lang.Object]>", message);
+    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to be an instance of any of these types:\n <[java.lang.String, java.lang.Object]>", message);
   }
 }

@@ -48,8 +48,8 @@ public class ShouldContain_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<['Yoda']>\n" + " to contain:\n" + "<['Luke', 'Yoda']>\n" + " but could not find:\n"
-        + "<['Luke']>\n", message);
+    assertEquals("[Test] \nExpecting:\n <['Yoda']>\nto contain:\n <['Luke', 'Yoda']>\nbut could not find:\n"
+        + " <['Luke']>\n", message);
   }
 
   @Test
@@ -57,16 +57,16 @@ public class ShouldContain_create_Test {
     factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<['Yoda']>\n" + " to contain:\n" + "<['Luke', 'Yoda']>\n" + " but could not find:\n"
-        + "<['Luke']>\n" + " according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] \nExpecting:\n <['Yoda']>\nto contain:\n <['Luke', 'Yoda']>\nbut could not find:\n"
+        + " <['Luke']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
   @Test
   public void should_create_error_message_differentiating_long_from_integer() {
     factory = shouldContain(newArrayList(5L, 7L), newArrayList(5, 7), newLinkedHashSet(5, 7));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<[5L, 7L]>\n" + " to contain:\n" + "<[5, 7]>\n" + " but could not find:\n"
-        + "<[5, 7]>\n", message);
+    assertEquals("[Test] \nExpecting:\n <[5L, 7L]>\nto contain:\n <[5, 7]>\nbut could not find:\n"
+        + " <[5, 7]>\n", message);
   }
 
 }

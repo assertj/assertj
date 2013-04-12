@@ -40,7 +40,7 @@ public class ShouldContainValue_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<{'name'='Yoda', 'color'='green'}>\n" + " to contain value:\n" + "<'VeryOld'>", message);
+    assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain value:\n <'VeryOld'>", message);
   }
 
 }

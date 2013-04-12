@@ -32,6 +32,6 @@ public class ShouldNotBeOfClassIn extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeOfClassIn(Object actual, Object types) {
-    super("expected <%s> should not have type in <%s> but was:<%s>", actual, types, actual.getClass());
+    super("\nExpecting:\n <%s>\nnot to be of any type in:\n <%s>\nbut was of type:<%s>", actual, types, actual.getClass());
   }
 }

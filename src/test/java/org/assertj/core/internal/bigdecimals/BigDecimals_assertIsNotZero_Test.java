@@ -44,7 +44,7 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
     try {
       bigDecimals.assertIsNotZero(someInfo(), BigDecimal.ZERO);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     }
   }
 
@@ -58,7 +58,7 @@ public class BigDecimals_assertIsNotZero_Test extends BigDecimalsBaseTest {
     try {
       bigDecimalsWithComparatorComparisonStrategy.assertIsNotZero(someInfo(), BigDecimal.ZERO);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     }
   }
 

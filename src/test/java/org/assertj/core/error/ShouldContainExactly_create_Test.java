@@ -49,8 +49,8 @@ public class ShouldContainExactly_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] expecting:\n<['Yoda', 'Han']>\n to contain exactly (and in same order):\n"
-            + "<['Luke', 'Yoda']>\n but some elements were not found:\n<['Luke']>\n and others were not expected:\n<['Han']>\n",
+        "[Test] \nExpecting:\n <['Yoda', 'Han']>\nto contain exactly (and in same order):\n"
+            + " <['Luke', 'Yoda']>\nbut some elements were not found:\n <['Luke']>\nand others were not expected:\n <['Han']>\n",
         message);
   }
 
@@ -60,9 +60,9 @@ public class ShouldContainExactly_create_Test {
         newLinkedHashSet("Luke"), newLinkedHashSet("Han"), new ComparatorBasedComparisonStrategy(
             CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting:\n" + "<['Yoda', 'Han']>\n to contain exactly (and in same order):\n"
-        + "<['Luke', 'Yoda']>\n but some elements were not found:\n<['Luke']>\n and others were not expected:\n"
-        + "<['Han']>\n according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Han']>\nto contain exactly (and in same order):\n"
+        + " <['Luke', 'Yoda']>\nbut some elements were not found:\n <['Luke']>\nand others were not expected:\n"
+        + " <['Han']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
   @Test
@@ -70,8 +70,8 @@ public class ShouldContainExactly_create_Test {
     factory = shouldContainExactly("Luke", "Han", 1);
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] actual and expected have the same elements but not in the same order, at index 1 actual element was :\n"
-            + "<'Luke'>\n whereas expected element was :\n<'Han'>\n", message);
+        "[Test] \nActual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
+            + " <'Luke'>\nwhereas expected element was:\n <'Han'>\n", message);
   }
 
   @Test
@@ -80,8 +80,8 @@ public class ShouldContainExactly_create_Test {
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] actual and expected have the same elements but not in the same order, at index 1 actual element was :\n"
-            + "<'Luke'>\n whereas expected element was :\n<'Han'>\n according to 'CaseInsensitiveStringComparator' comparator",
+        "[Test] \nActual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
+            + " <'Luke'>\nwhereas expected element was:\n <'Han'>\naccording to 'CaseInsensitiveStringComparator' comparator",
         message);
   }
 }

@@ -41,6 +41,6 @@ public class ShouldBeAbsolutePath_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] File:<xyz> should be an absolute path", message);
+    assertEquals("[Test] \nExpecting:\n <xyz>\nto be an absolute path", message);
   }
 }

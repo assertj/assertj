@@ -41,7 +41,7 @@ public class ShouldBeCloseTo_create_Test {
         ISO_DATE_TIME_FORMAT_WITH_MS.parse("2011-01-01T00:00:00.101"), 100, 101);
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] expected '2011-01-01T00:00:00.000' to be close to '2011-01-01T00:00:00.101' by less than 100ms but difference was of 101ms",
+        "[Test] \nExpecting:\n <2011-01-01T00:00:00.000>\nto be close to:\n <2011-01-01T00:00:00.101>\nby less than 100ms but difference was 101ms",
         message);
   }
 

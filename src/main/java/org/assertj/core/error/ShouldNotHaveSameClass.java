@@ -32,6 +32,6 @@ public class ShouldNotHaveSameClass extends BasicErrorMessageFactory {
   }
 
   private ShouldNotHaveSameClass(Object actual, Object other) {
-    super("expected <%s> not to have not the same class as:<%s> (%s)", actual, other, actual.getClass());
+    super("\nExpecting:\n <%s>\nnot to have not the same class as:\n <%s> (%s)", actual, other, actual.getClass());
   }
 }

@@ -25,7 +25,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Long)}</code>.
+ * Tests for <code>{@link Longs#assertIsNegative(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -42,7 +42,7 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
     try {
       longs.assertIsZero(someInfo(), 2l);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]L> but was:<[2]L>");
+      assertEquals("expected:<[0]L> but was:<[2]L>", e.getMessage());
     }
   }
 
@@ -56,7 +56,8 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
     try {
       longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0L> should not be equal to:<0L>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0L>\nnot to be equal to:\n <0L>\n");
+
     }
   }
 

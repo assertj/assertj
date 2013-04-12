@@ -33,6 +33,6 @@ public class ShouldBeRelativePath extends BasicErrorMessageFactory {
   }
 
   private ShouldBeRelativePath(File actual) {
-    super("File:<%s> should be a relative path", actual);
+    super("\nExpecting file:\n <%s>\nto be a relative path", actual);
   }
 }

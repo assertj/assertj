@@ -33,7 +33,7 @@ public class ShouldHaveSameSizeAs extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSameSizeAs(Object actual, Object actualSize, Object expectedSize) {
-    super("actual and expected should have same size but actual size is:<%s> while expected is:<%s>, actual was:<%s>",
+    super("\nActual and expected should have same size but actual size is:\n <%s>\nwhile expected is:\n <%s>\nActual was:\n<%s>",
         actualSize, expectedSize, actual);
   }
 }

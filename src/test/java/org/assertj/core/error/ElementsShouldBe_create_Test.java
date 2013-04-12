@@ -45,7 +45,7 @@ public class ElementsShouldBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expecting elements:\n<['Leia']>\n of \n<['Yoda', 'Luke', 'Leia']>\n to be <a Jedi>", message);
+    assertEquals("[Test] \nExpecting elements:\n<['Leia']>\n of \n<['Yoda', 'Luke', 'Leia']>\n to be <a Jedi>", message);
   }
 
 }

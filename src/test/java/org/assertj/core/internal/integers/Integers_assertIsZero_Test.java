@@ -42,21 +42,21 @@ public class Integers_assertIsZero_Test extends IntegersBaseTest {
     try {
       integers.assertIsZero(someInfo(), 2);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[2]>");
+      assertEquals("expected:<[0]> but was:<[2]>", e.getMessage());
     }
   }
 
   @Test
-  public void should_succeed_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 1);
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+    integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 0);
   }
 
   @Test
-  public void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     try {
-      integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0);
+      integersWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 1);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals("expected:<[0]> but was:<[1]>", e.getMessage());
     }
   }
 

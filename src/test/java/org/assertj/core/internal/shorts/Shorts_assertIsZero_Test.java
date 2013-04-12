@@ -56,7 +56,7 @@ public class Shorts_assertIsZero_Test extends ShortsBaseTest {
     try {
       shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     }
   }
 

@@ -57,7 +57,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
       ComparisonStrategy comparisonStrategy) {
     super(
-        "expecting:\n<%s>\n to contain exactly (and in same order):\n<%s>\n but some elements were not found:\n<%s>\n and others were not expected:\n<%s>\n%s",
+        "\nExpecting:\n <%s>\nto contain exactly (and in same order):\n <%s>\nbut some elements were not found:\n <%s>\nand others were not expected:\n <%s>\n%s",
         actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
@@ -94,7 +94,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   private ShouldContainExactly(Object actualElement, Object expectedElement, int indexOfDifferentElements,
       ComparisonStrategy comparisonStrategy) {
     super(
-        "actual and expected have the same elements but not in the same order, at index %s actual element was :\n<%s>\n whereas expected element was :\n<%s>\n%s",
+        "\nActual and expected have the same elements but not in the same order, at index %s actual element was:\n <%s>\nwhereas expected element was:\n <%s>\n%s",
         indexOfDifferentElements, actualElement, expectedElement, comparisonStrategy);
   }
 

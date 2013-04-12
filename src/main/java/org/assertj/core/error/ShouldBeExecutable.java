@@ -25,7 +25,7 @@ import java.io.File;
  */
 public class ShouldBeExecutable extends BasicErrorMessageFactory {
   private ShouldBeExecutable(File actual) {
-    super("File:<%s> should be executable", actual);
+    super("\nExpecting:\n <%s>\nto be executable", actual);
   }
 
   /**

@@ -42,6 +42,6 @@ public class ShouldNotHaveSameClass_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] expected <'Yoda'> not to have not the same class as:<'Luke'> (java.lang.String)", message);
+    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to have not the same class as:\n <'Luke'> (java.lang.String)", message);
   }
 }

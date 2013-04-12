@@ -14,6 +14,7 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.junit.Assert.assertEquals;
 
 
@@ -33,11 +34,11 @@ public class ShouldBeReadableTest {
   ErrorMessageFactory factory;
 
   @Before public void setup() {
-    factory = ShouldBeReadable.shouldBeReadable(new FakeFile("pathname"));
+    factory = shouldBeReadable(new FakeFile("pathname"));
   }
 
   @Test public void createExpectedMessage() {
     String actualMessage = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] File:<pathname> should be readable", actualMessage);
+    assertEquals("[Test] \nExpecting file:\n <pathname>\nto be readable", actualMessage);
   }
 }

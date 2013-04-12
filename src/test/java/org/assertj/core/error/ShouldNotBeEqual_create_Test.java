@@ -45,7 +45,7 @@ public class ShouldNotBeEqual_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Jedi"));
-    assertEquals("[Jedi] <'Yoda'> should not be equal to:<'Luke'>", message);
+    assertEquals("[Jedi] \nExpecting:\n <'Yoda'>\nnot to be equal to:\n <'Luke'>\n", message);
   }
 
   @Test
@@ -53,6 +53,6 @@ public class ShouldNotBeEqual_create_Test {
     factory = shouldNotBeEqual("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TestDescription("Jedi"));
     assertEquals(
-        "[Jedi] <'Yoda'> should not be equal to:<'Luke'>" + " according to 'CaseInsensitiveStringComparator' comparator", message);
+        "[Jedi] \nExpecting:\n <'Yoda'>\nnot to be equal to:\n <'Luke'>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

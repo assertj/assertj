@@ -31,6 +31,6 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
   }
 
   private ShouldContainKey(Object actual, Object key) {
-    super("expecting:\n<%s>\n to contain key:\n<%s>", actual, key);
+    super("\nExpecting:\n <%s>\nto contain key:\n <%s>", actual, key);
   }
 }

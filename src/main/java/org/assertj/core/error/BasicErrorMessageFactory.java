@@ -62,8 +62,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
     BasicErrorMessageFactory other = (BasicErrorMessageFactory) obj;
     if (!areEqual(format, other.format)) return false;
     // because it does not manage array recursively, don't use : Arrays.equals(arguments, other.arguments);
-    // example if arguments[1] and other.arguments[1] are logically same arrays but not same object, it will return
-    // false
+    // example if arguments[1] and other.arguments[1] are logically same arrays but not same object, it will return false
     return areEqual(arguments, other.arguments);
   }
 

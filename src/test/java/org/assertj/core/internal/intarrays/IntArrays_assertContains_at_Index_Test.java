@@ -59,7 +59,7 @@ public class IntArrays_assertContains_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was <6>");
+    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was:\n <6>");
     arrays.assertContains(someInfo(), actual, 8, atIndex(6));
   }
 
@@ -101,7 +101,7 @@ public class IntArrays_assertContains_at_Index_Test extends IntArraysBaseTest {
 
   @Test
   public void should_throw_error_if_Index_is_out_of_bounds_whatever_custom_comparison_strategy_is() {
-    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was <6>");
+    thrown.expectIndexOutOfBoundsException("Index should be between <0> and <2> (inclusive,) but was:\n <6>");
     arraysWithCustomComparisonStrategy.assertContains(someInfo(), actual, -8, atIndex(6));
   }
 

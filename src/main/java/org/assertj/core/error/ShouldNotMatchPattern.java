@@ -32,6 +32,6 @@ public class ShouldNotMatchPattern extends BasicErrorMessageFactory {
   }
 
   private ShouldNotMatchPattern(String actual, String pattern) {
-    super("%s matches the pattern %s", actual, pattern);
+    super("\nExpecting:\n %s\nnot to match pattern:\n %s", actual, pattern);
   }
 }

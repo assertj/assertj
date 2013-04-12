@@ -39,7 +39,7 @@ public class Integers_assertIsNotZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("<0> should not be equal to:<0>");
+    thrown.expectAssertionError("\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     integers.assertIsNotZero(someInfo(), 0);
   }
 
@@ -53,7 +53,7 @@ public class Integers_assertIsNotZero_Test extends IntegersBaseTest {
     try {
       integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<0> should not be equal to:<0>");
+      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
     }
   }
 

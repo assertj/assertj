@@ -30,7 +30,6 @@ public class ShouldContainStringSequence extends BasicErrorMessageFactory {
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainSequence(String actual, String[] strings, int firstBadOrderIndex) {
@@ -49,7 +48,7 @@ public class ShouldContainStringSequence extends BasicErrorMessageFactory {
       ComparisonStrategy comparisonStrategy) {
 
     return new ShouldContainStringSequence(
-                                           "\nexpecting:\n<%s>\n to contain the following Strings in this order:\n<%s>\n but <%s> was found before <%s>\n%s",
+                                           "\nExpecting:\n <%s>\nto contain the following Strings in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
                                            actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex],
                                            comparisonStrategy);
   }
