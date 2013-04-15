@@ -39,6 +39,8 @@ For more details check **[AssertJ wiki](https://github.com/joel-costigliola/asse
 
 ## <a name="news"/>Latest News
 
+**2013-04-14 : AssertJ core 1.1.0 release**
+
 **2013-03-28 : AssertJ quickie presentation at Devoxx France !**
 
 **2013-03-26 - AssertJ train releases :**  
@@ -63,7 +65,7 @@ AssertJ core is available in Maven central repository.
 <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-core</artifactId>
-   <version>1.0.0</version>
+   <version>1.1.0</version>
    <scope>test</scope>
 </dependency>
 ```
@@ -85,6 +87,7 @@ import static org.assertj.core.api.Assertions.filter; // for Iterable/Array asse
 import static org.assertj.core.api.Assertions.offset; // for floating number assertions
 import static org.assertj.core.api.Assertions.anyOf; // use with Condition
 import static org.assertj.core.api.Assertions.contentOf; // use with File assertions
+import static org.assertj.core.api.Assertions.tuple; // use with extracting feature
 ```
 
 You can even configure your IDE, so that when you type `asse` and trigger code completion, it will suggest `assertThat`.
