@@ -265,7 +265,7 @@ class Arrays {
   /**
    * build a Set with that avoid duplicates <b>according to given comparison strategy</b>
    * 
-   * @param elements to feed the Set we want to build
+   * @param array to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
   private Set<Object> asSetWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
@@ -281,7 +281,7 @@ class Arrays {
   }
 
   /**
-   * Delegates to {@link ComparisonStrategy#iterableContains(Collection, Object)}
+   * Delegates to {@link ComparisonStrategy#iterableContains(Iterable, Object)}
    */
   private boolean collectionContains(Collection<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
@@ -300,31 +300,30 @@ class Arrays {
     // if both actual and values are empty arrays, then assertion passes.
     if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return;
     failIfEmptySinceActualIsNotEmpty(sequence);
-    boolean firstAlreadyFound = false;
-    int i = 0;
+    // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
+    int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
+    for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
+      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
+    }
+    throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+  }
+
+  /**
+   * Return true if actualArray contains exactly the given sequence at given starting index, false otherwise.
+   *
+   *
+   * @param actualStartIndex the index to start looking for sequence in actualArray
+   * @param actualArray the actual array to search sequence in
+   * @param sequence the sequence to look for
+   * @return true if actualArray contains exactly the given sequence at given starting index, false otherwise.
+   */
+  private boolean containsSequenceAtGivenIndex(int actualStartIndex, Object actualArray, Object sequence) {
     int sequenceSize = sizeOf(sequence);
-    int sizeOfActual = sizeOf(actual);
-    for (int j = 0; j < sizeOfActual; j++) {
-      Object o = Array.get(actual, j);
-      if (i >= sequenceSize) {
-        break;
-      }
-      if (!firstAlreadyFound) {
-        if (!areEqual(o, Array.get(sequence, i))) {
-          continue;
-        }
-        firstAlreadyFound = true;
-        i++;
-        continue;
-      }
-      if (areEqual(o, Array.get(sequence, i++))) {
-        continue;
-      }
-      throw arrayDoesNotContainSequence(info, failures, actual, sequence);
+    for (int i = 0; i < sequenceSize; i++) {
+      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex))) continue;
+      return false;
     }
-    if (!firstAlreadyFound || i < sequenceSize) {
-      throw arrayDoesNotContainSequence(info, failures, actual, sequence);
-    }
+    return true;
   }
 
   /**
@@ -332,11 +331,6 @@ class Arrays {
    */
   private boolean areEqual(Object actual, Object other) {
     return comparisonStrategy.areEqual(actual, other);
-  }
-
-  private AssertionError arrayDoesNotContainSequence(AssertionInfo info, Failures failures, Object array,
-      Object sequence) {
-    return failures.failure(info, shouldContainSequence(array, sequence, comparisonStrategy));
   }
 
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {

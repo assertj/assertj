@@ -45,6 +45,29 @@ public class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTe
   }
 
   @Test
+  public void should_pass_if_actual_contains_sequence() {
+    arrays.assertContainsSequence(someInfo(), actual, array("Luke", "Leia"));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_sequence_are_equal() {
+    arrays.assertContainsSequence(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
+    actual = array("Yoda", "Luke", "Leia", "Yoda", "Luke", "Obi-Wan");
+    // note that actual starts with {"Yoda", "Luke"} a partial sequence of {"Yoda", "Luke", "Obi-Wan"}
+    arrays.assertContainsSequence(someInfo(), actual, array("Yoda", "Luke", "Obi-Wan"));
+  }
+
+  @Test
+  public void should_pass_if_actual_and_given_values_are_empty() {
+    actual = new String[0];
+    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
+  }
+
+  @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     arrays.assertContainsSequence(someInfo(), null, array("Yoda"));
@@ -54,12 +77,6 @@ public class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTe
   public void should_throw_error_if_sequence_is_null() {
     thrown.expectNullPointerException(valuesToLookForIsNull());
     arrays.assertContainsSequence(someInfo(), actual, null);
-  }
-
-  @Test
-  public void should_pass_if_actual_and_given_values_are_empty() {
-    actual = new String[0];
-    arrays.assertContainsSequence(someInfo(), actual, emptyArray());
   }
 
   @Test
@@ -109,16 +126,6 @@ public class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTe
 
   private void verifyFailureThrownWhenSequenceNotFound(AssertionInfo info, Object[] sequence) {
     verify(failures).failure(info, shouldContainSequence(actual, sequence));
-  }
-
-  @Test
-  public void should_pass_if_actual_contains_sequence() {
-    arrays.assertContainsSequence(someInfo(), actual, array("Luke", "Leia"));
-  }
-
-  @Test
-  public void should_pass_if_actual_and_sequence_are_equal() {
-    arrays.assertContainsSequence(someInfo(), actual, array("Yoda", "Luke", "Leia", "Obi-Wan"));
   }
 
   @Test

@@ -84,16 +84,10 @@ public class BooleanArrays_assertContainsSequence_Test extends BooleanArraysBase
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_whole_sequence() {
+  public void should_pass_if_actual_contains_full_sequence_even_if_partial_sequence_is_found_before() {
     AssertionInfo info = someInfo();
     boolean[] sequence = { false, true };
-    try {
-      arrays.assertContainsSequence(info, actual, sequence);
-    } catch (AssertionError e) {
-      verifyFailureThrownWhenSequenceNotFound(info, sequence);
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+    arrays.assertContainsSequence(info, actual, sequence);
   }
 
   @Test
