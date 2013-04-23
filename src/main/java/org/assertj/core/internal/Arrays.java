@@ -110,8 +110,7 @@ class Arrays {
   @VisibleForTesting
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-                                                                     .getComparator();
+      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
     }
     return null;
   }
