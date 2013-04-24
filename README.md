@@ -158,7 +158,7 @@ Well there are two main reasons :
 * FEST 2.0 will only provide a limited set of assertions, far less than Fest 2.0M10 and even less than FEST 1.x.  
 * FEST is not enough open to users demands and contributions.
 
-On the contrary **AssertJ goal is to provide a rich set of assertions** and any resonable requests to enrich AssertJ assertions is welcome as we know it will be useful to someone. Said otherwise, AssertJ is **community driven**, we listen to our users because AssertJ is built for them. 
+On the contrary **AssertJ goal is to provide a rich set of assertions** and any reasonable request to enrich AssertJ assertions is welcome as we know it will be useful to someone. Said otherwise, AssertJ is **community driven**, we listen to our users because AssertJ is built for them. 
 
 If you feel that some assertion is missing, please [**fill a ticket**](https://github.com/joel-costigliola/assertj-core/issues) or even better make a contribution ! 
 
