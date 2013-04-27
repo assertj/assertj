@@ -25,7 +25,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Longs#assertIsNegative(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
+ * Tests for <code>{@link Longs#assertIsNegative(AssertionInfo, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
