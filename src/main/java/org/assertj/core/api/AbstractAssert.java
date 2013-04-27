@@ -153,13 +153,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
-  public S isSameAs(A expected) {
+  public S isSameAs(Object expected) {
     objects.assertSame(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S isNotSameAs(A other) {
+  public S isNotSameAs(Object other) {
     objects.assertNotSame(info, actual, other);
     return myself;
   }
