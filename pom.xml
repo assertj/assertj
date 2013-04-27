@@ -49,7 +49,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Export-Package>!.,
+            <Export-Package>
               !org.assertj.core.internal,
               org.assertj.core.*
             </Export-Package>
