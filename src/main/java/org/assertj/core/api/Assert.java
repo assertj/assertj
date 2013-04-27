@@ -246,9 +246,10 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
-   * <code>{@link #equals(Object)}</code> instead of <code>isEqualTo</code>.
+   * <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
+  @Deprecated
   boolean equals(Object obj);
 }

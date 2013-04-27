@@ -218,13 +218,25 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
     return this;
   }
 
-  /** {@inheritDoc} */
-  public BooleanArrayAssert usingElementComparator(Comparator<? super Boolean> customComparator) {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Deprecated
+  public final BooleanArrayAssert usingElementComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
 
-  /** {@inheritDoc} */
-  public BooleanArrayAssert usingDefaultElementComparator() {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Deprecated
+  public final BooleanArrayAssert usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
 }

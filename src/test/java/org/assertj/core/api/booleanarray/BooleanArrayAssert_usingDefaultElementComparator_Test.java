@@ -38,6 +38,7 @@ public class BooleanArrayAssert_usingDefaultElementComparator_Test extends Boole
 
   @Override
   @Test
+  @SuppressWarnings("deprecation")
   public void should_have_internal_effects() {
     thrown.expect(UnsupportedOperationException.class);
     assertions.usingDefaultElementComparator();

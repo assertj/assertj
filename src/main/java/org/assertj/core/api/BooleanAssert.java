@@ -86,8 +86,15 @@ public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
     return this;
   }
 
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom Comparator is not supported for Boolean comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
   @Override
-  public BooleanAssert usingComparator(Comparator<? super Boolean> customComparator) {
+  @Deprecated
+  public final BooleanAssert usingComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }
