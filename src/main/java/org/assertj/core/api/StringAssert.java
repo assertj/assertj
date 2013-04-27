@@ -265,14 +265,28 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
     return this;
   }
 
-  /** {@inheritDoc} */
-  public StringAssert usingElementComparator(Comparator<? super String> customComparator) {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for String comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Override
+  @Deprecated
+  public final StringAssert usingElementComparator(Comparator<? super String> customComparator) {
     // TODO maybe use Comparator<? super Character>
     throw new UnsupportedOperationException("custom element Comparator is not supported for String comparison");
   }
 
-  /** {@inheritDoc} */
-  public StringAssert usingDefaultElementComparator() {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for String comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Override
+  @Deprecated
+  public final StringAssert usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for String comparison");
   }
 

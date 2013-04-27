@@ -151,13 +151,27 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
     return this;
   }
 
-  /** {@inheritDoc} */
-  public MapAssert<K, V> usingElementComparator(Comparator<? super MapEntry> customComparator) {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Override
+  @Deprecated
+  public final MapAssert<K, V> usingElementComparator(Comparator<? super MapEntry> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 
-  /** {@inheritDoc} */
-  public MapAssert<K, V> usingDefaultElementComparator() {
+  /**
+   * Do not use this method.
+   *
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
+   * @throws UnsupportedOperationException if this method is called.
+   */
+  @Override
+  @Deprecated
+  public final MapAssert<K, V> usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 }
