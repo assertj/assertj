@@ -42,6 +42,7 @@ public class BooleanArrayAssert_usingElementComparator_Test extends BooleanArray
 
   @Override
   @Test
+  @SuppressWarnings("deprecation")
   public void should_have_internal_effects() {
     thrown.expect(UnsupportedOperationException.class);
     // in that, we don't care of the comparator, the point to check is that we can't use a comparator
