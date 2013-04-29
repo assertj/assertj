@@ -14,9 +14,14 @@
  */
 package org.assertj.core.api.abstract_;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ConcreteAssert;
+import org.junit.Test;
 
 import static org.mockito.Mockito.verify;
 
@@ -26,6 +31,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
 public class AbstractAssert_isNotSameAs_Test extends AbstractAssertBaseTest{
 
@@ -37,5 +43,19 @@ public class AbstractAssert_isNotSameAs_Test extends AbstractAssertBaseTest{
   @Override
   protected void verify_internal_effects() {
     verify(objects).assertNotSame(getInfo(assertions), getActual(assertions), 8L);
+  }
+
+  @Test
+  public void should_be_loosely_typed1() {
+    List<String> expected = new ArrayList<String>();
+    List<? extends String> actual = new ArrayList<String>();
+    Assertions.assertThat(actual).isNotSameAs(expected);
+  }
+
+  @Test
+  public void should_be_loosely_typed2() {
+    List<? extends String> expected = new ArrayList<String>();
+    List<? extends String> actual = new ArrayList<String>();
+    Assertions.assertThat(actual).isNotSameAs(expected);
   }
 }

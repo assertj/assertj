@@ -64,7 +64,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
    */
-  S isSameAs(A expected);
+  S isSameAs(Object expected);
 
   /**
    * Verifies that the actual value is not the same as the given one.
@@ -72,7 +72,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
    */
-  S isNotSameAs(A other);
+  S isNotSameAs(Object other);
 
   /**
    * Verifies that the actual value is present in the given array of values.
