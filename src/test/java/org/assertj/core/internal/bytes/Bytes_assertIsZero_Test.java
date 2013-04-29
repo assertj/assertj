@@ -17,20 +17,15 @@ package org.assertj.core.internal.bytes;
 import static org.assertj.core.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.util.AbsValueComparator;
-import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Bytes#assertIsNegative(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
+ * Tests for <code>{@link Bytes#assertIsNegative(AssertionInfo, Comparable)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
