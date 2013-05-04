@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-guava</artifactId>
@@ -10,7 +11,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0-SNAPSHOT</version>
   </parent>
 
   <scm>
@@ -71,7 +72,19 @@
           </execution>
         </executions>
       </plugin>
+      <!-- generate jacoco report -->
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+      </plugin>
+      <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>${argLine}</argLine>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-  
+
 </project>
