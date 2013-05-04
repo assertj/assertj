@@ -94,6 +94,29 @@
   </profiles>
   <build>
     <defaultGoal>clean install</defaultGoal>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.6.2.201302030002</version>
+          <executions>
+            <execution>
+              <id>prepare-agent</id>
+              <goals>
+                <goal>prepare-agent</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>jacoco-report</id>
+              <goals>
+                <goal>report</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -172,7 +195,7 @@
           <includes>
             <include>**/*Test.java</include>
           </includes>
-          <argLine>-Xms512m -Xmx512m</argLine>
+          <argLine>-Xms512m</argLine>
         </configuration>
       </plugin>
       <plugin>
