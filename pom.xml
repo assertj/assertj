@@ -113,6 +113,23 @@
                 <goal>report</goal>
               </goals>
             </execution>
+            <execution>
+              <id>check</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <!-- default check ratio : can be overriden in inherited projects -->
+                <check>
+                  <classRatio>100</classRatio>
+                  <instructionRatio>80</instructionRatio>
+                  <methodRatio>80</methodRatio>
+                  <branchRatio>80</branchRatio>
+                  <complexityRatio>80</complexityRatio>
+                  <lineRatio>80</lineRatio>
+                </check>
+              </configuration>
+            </execution>
           </executions>
         </plugin>
       </plugins>
