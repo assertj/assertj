@@ -183,6 +183,18 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
     return this;
   }
 
+  /** {@inheritDoc} */
+  public FloatAssert isBetween(Float start, Float end) {
+	floats.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public FloatAssert isStrictlyBetween(Float start, Float end) {
+	floats.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+  
   @Override
   public FloatAssert usingComparator(Comparator<? super Float> customComparator) {
     super.usingComparator(customComparator);

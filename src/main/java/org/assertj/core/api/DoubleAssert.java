@@ -185,6 +185,18 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
     return this;
   }
 
+  /** {@inheritDoc} */
+  public DoubleAssert isBetween(Double start, Double end) {
+	doubles.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public DoubleAssert isStrictlyBetween(Double start, Double end) {
+	doubles.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+  
   @Override
   public DoubleAssert usingComparator(Comparator<? super Double> customComparator) {
     super.usingComparator(customComparator);
