@@ -14,6 +14,10 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
+
+import java.util.Date;
+
 import org.assertj.core.api.AssertionInfo;
 
 /**
@@ -102,4 +106,63 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
     assertLessThanOrEqualTo(info, actual, zero());
   }
 
+
+  /**
+   * Asserts that the actual value is in [start, end] range (start included, end included).
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is positive.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] range.
+   */
+  public void assertIsBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
+	  assertIsBetween(info, actual, start, end, true, true);
+  }
+  
+  /**
+   * Asserts that the actual value is in ]start, end[ range (start excluded, end excluded).
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param start the start value (exclusive), expected not to be null.
+   * @param end the end value (exclusive), expected not to be null.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
+   */
+  public void assertIsStrictlyBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
+	  assertIsBetween(info, actual, start, end, false, false);
+  }
+
+  private void assertIsBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end, boolean inclusiveStart, boolean inclusiveEnd) {
+    assertNotNull(info, actual);
+    startParameterIsNotNull(start);
+    endParameterIsNotNull(end);
+    boolean checkLowerBoundaryRange = inclusiveStart ? comparisonStrategy.isLessThanOrEqualTo(start, actual) : comparisonStrategy.isLessThan(start, actual);
+    boolean checkUpperBoundaryRange = inclusiveEnd ? comparisonStrategy.isLessThanOrEqualTo(actual, end) : comparisonStrategy.isLessThan(actual, end);
+    if (checkLowerBoundaryRange && checkUpperBoundaryRange) return;
+    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+  }
+  
+  /**
+   * used to check that the start of range date to compare actual date to is not null, in that case throws a
+   * {@link NullPointerException} with an explicit message
+   * @param start the start date to check
+   * @throws a {@link NullPointerException} with an explicit message if the given start value is null
+   */
+  private static void startParameterIsNotNull(Object start) {
+    if (start == null) throw new NullPointerException("The start range to compare actual with should not be null");
+  }
+
+  /**
+   * used to check that the end of range to compare actual date to is not null, in that case throws a
+   * {@link NullPointerException} with an explicit message
+   * @param end the end date to check
+   * @throws a {@link NullPointerException} with an explicit message if the given end value is null
+   */
+  private static void endParameterIsNotNull(Object end) {
+    if (end == null) throw new NullPointerException("The end range to compare actual with should not be null");
+  }
 }
