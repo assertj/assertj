@@ -76,7 +76,6 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.6.2.201302030002</version>
       </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
