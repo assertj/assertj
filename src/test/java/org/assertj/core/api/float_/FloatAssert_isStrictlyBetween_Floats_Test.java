@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.byte_;
+package org.assertj.core.api.float_;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.api.ByteAssertBaseTest;
+import org.assertj.core.api.FloatAssert;
+import org.assertj.core.api.FloatAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ByteAssert#isBetween(Byte, Byte)}</code>.
+ * Tests for <code>{@link FloatAssert#isStrictlyBetween(Float, Float)}</code>.
  * 
  * @author William Delanoue
  */
-public class ByteAssert_isBetween_Byte_Byte_Test extends ByteAssertBaseTest {
+public class FloatAssert_isStrictlyBetween_Floats_Test extends FloatAssertBaseTest {
 
   @Override
-  protected ByteAssert invoke_api_method() {
-    return assertions.isBetween((byte) 6, (byte) 8);
+  protected FloatAssert invoke_api_method() {
+    return assertions.isStrictlyBetween(6f, 8f);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(bytes).assertIsBetween(getInfo(assertions), getActual(assertions), (byte) 6, (byte) 8);
+    verify(floats).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6f, 8f);
   }
 }

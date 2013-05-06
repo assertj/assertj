@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.integer_;
+package org.assertj.core.api.byte_;
 
-import org.assertj.core.api.IntegerAssert;
-import org.assertj.core.api.IntegerAssertBaseTest;
+import org.assertj.core.api.ByteAssert;
+import org.assertj.core.api.ByteAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link IntegerAssert#isStrictlyBetween(Integer, Integer)}</code>.
+ * Tests for <code>{@link ByteAssert#isBetween(Byte, Byte)}</code>.
  * 
  * @author William Delanoue
  */
-public class IntegerAssert_isStrictlyBetween_Integer_Integer_Test extends IntegerAssertBaseTest {
+public class ByteAssert_isBetween_Bytes_Test extends ByteAssertBaseTest {
 
   @Override
-  protected IntegerAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(6, 8);
+  protected ByteAssert invoke_api_method() {
+    return assertions.isBetween((byte) 6, (byte) 8);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(integers).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6, 8);
+    verify(bytes).assertIsBetween(getInfo(assertions), getActual(assertions), (byte) 6, (byte) 8);
   }
 }
