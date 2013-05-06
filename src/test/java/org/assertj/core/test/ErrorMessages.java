@@ -84,6 +84,14 @@ public final class ErrorMessages {
     return "The array of values to look for should not be null";
   }
 
+  public static String iterableValuesToLookForIsEmpty() {
+    return "The iterable of values to look for should not be empty";
+  }
+
+  public static String iterableValuesToLookForIsNull() {
+    return "The iterable of values to look for should not be null";
+  }
+
   public static String dateToCompareActualWithIsNull() {
     return "The date to compare actual with should not be null";
   }

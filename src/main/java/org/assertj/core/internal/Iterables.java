@@ -461,6 +461,23 @@ public class Iterables {
   }
 
   /**
+   * Asserts that the given {@code Iterable} does not contain the given values.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param values the values that are expected not to be in the given {@code Iterable}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} contains any of given values.
+   */
+  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Iterable<T> actual, Iterable<? extends T> iterable) {
+    checkIsNotNullAndNotEmpty(iterable);
+    List<T> values = newArrayList(iterable);
+    assertDoesNotContain(info, actual, values.toArray());
+  }
+
+  /**
    * Asserts that the given {@code Iterable} does not have duplicate values.
    * 
    * @param info contains information about the assertion.
