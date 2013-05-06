@@ -151,6 +151,18 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
     return this;
   }
 
+  /** {@inheritDoc} */
+  public ByteAssert isBetween(Byte start, Byte end) {
+	bytes.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public ByteAssert isStrictlyBetween(Byte start, Byte end) {
+	bytes.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+
   @Override
   public ByteAssert usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);

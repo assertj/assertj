@@ -152,6 +152,18 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
     return this;
   }
 
+  /** {@inheritDoc} */
+  public IntegerAssert isBetween(Integer start, Integer end) {
+	integers.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public IntegerAssert isStrictlyBetween(Integer start, Integer end) {
+	integers.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+  
   @Override
   public IntegerAssert usingComparator(Comparator<? super Integer> customComparator) {
     super.usingComparator(customComparator);

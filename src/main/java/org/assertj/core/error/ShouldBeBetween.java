@@ -32,8 +32,8 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
@@ -47,11 +47,40 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param start the lower boundary of date period.
    * @param end the lower boundary of date period.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeBetween(Date actual, Date start, Date end, boolean inclusiveStart,
+      boolean inclusiveEnd) {
+    return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param start the lower boundary of range.
+   * @param end the lower boundary of range.
+   * @param inclusiveStart whether to include start value in range.
+   * @param inclusiveEnd whether to include end value in range.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
+      boolean inclusiveEnd, ComparisonStrategy comparisonStrategy) {
+    return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldBeBetween}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param start the lower boundary of range.
+   * @param end the lower boundary of range.
+   * @param inclusiveStart whether to include start value in range.
+   * @param inclusiveEnd whether to include end value in range.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
       boolean inclusiveEnd) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
   }
@@ -60,5 +89,11 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
       ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n <%s>\nto be in period:\n %s%s, %s%s%s", actual, inclusiveStart ? '[' : ']', start, end, inclusiveEnd ? ']' : '[',
         comparisonStrategy);
+  }
+
+  private <T extends Comparable<? super T>> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
+	 ComparisonStrategy comparisonStrategy) {
+	super("\nExpecting:\n <%s>\nto be between:\n %s%s, %s%s%s", actual, inclusiveStart ? '[' : ']', start, end, inclusiveEnd ? ']' : '[',
+	        comparisonStrategy);
   }
 }

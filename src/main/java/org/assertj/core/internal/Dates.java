@@ -147,8 +147,8 @@ public class Dates {
    * @param actual the "actual" {@code Date}.
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start {@code Date} is {@code null}.
    * @throws NullPointerException if end {@code Date} is {@code null}.
@@ -592,7 +592,7 @@ public class Dates {
   }
 
   /**
-   * used to check that the end of perdio date to compare actual date to is not null, in that case throws a
+   * used to check that the end of period date to compare actual date to is not null, in that case throws a
    * {@link NullPointerException} with an explicit message
    * @param end the end date to check
    * @throws a {@link NullPointerException} with an explicit message if the given end date is null

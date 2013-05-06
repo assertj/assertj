@@ -80,6 +80,18 @@ public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalA
     return this;
   }
 
+  /** {@inheritDoc} */
+  public BigDecimalAssert isBetween(BigDecimal start, BigDecimal end) {
+    bigDecimals.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public BigDecimalAssert isStrictlyBetween(BigDecimal start, BigDecimal end) {
+    bigDecimals.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+
   /**
    * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigDecimal)} but takes care of converting given String to
    * {@link BigDecimal} for you.
