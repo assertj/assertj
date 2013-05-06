@@ -57,12 +57,12 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_pass_if_shorts_are_in_range() {
+  public void should_pass_if_actual_is_in_range() {
     shorts.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_shorts_are_not_in_exclusive_range_start() {
+  public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
     try {
         shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN);
@@ -74,7 +74,7 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_shorts_are_not_in_exclusive_range_end() {
+  public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
       shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
@@ -86,7 +86,7 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_shorts_are_not_in_range_start() {
+  public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
         shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN);
@@ -98,7 +98,7 @@ public class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
   }
 
   @Test
-  public void should_fail_if_shorts_are_not_in_range_end() {
+  public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
       shorts.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);

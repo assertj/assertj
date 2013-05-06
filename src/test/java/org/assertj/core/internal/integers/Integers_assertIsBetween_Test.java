@@ -55,22 +55,22 @@ public class Integers_assertIsBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_pass_if_integers_are_in_range() {
+  public void should_pass_if_actual_is_in_range() {
     integers.assertIsBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_pass_if_integers_are_in_range_inclusive_start() {
+  public void should_pass_if_actual_is_equal_to_range_start() {
     integers.assertIsBetween(someInfo(), ONE, ONE, TEN);
   }
 
   @Test
-  public void should_pass_if_integers_are_in_range_inclusive_end() {
+  public void should_pass_if_actual_is_equal_to_range_end() {
     integers.assertIsBetween(someInfo(), ONE, ZERO, ONE);
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_range_start() {
+  public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
       integers.assertIsBetween(info, ONE, TWO, TEN);
@@ -82,7 +82,7 @@ public class Integers_assertIsBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_range_end() {
+  public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
       integers.assertIsBetween(info, ONE, ZERO, ZERO);

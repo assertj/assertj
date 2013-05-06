@@ -57,12 +57,12 @@ public class Integers_assertIsStrictlyBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_pass_if_integers_are_in_range() {
+  public void should_pass_if_actual_is_in_range() {
     integers.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_exclusive_range_start() {
+  public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
     try {
         integers.assertIsStrictlyBetween(info, ONE, ONE, TEN);
@@ -74,7 +74,7 @@ public class Integers_assertIsStrictlyBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_exclusive_range_end() {
+  public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
       integers.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
@@ -86,7 +86,7 @@ public class Integers_assertIsStrictlyBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_range_start() {
+  public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
         integers.assertIsStrictlyBetween(info, ONE, TWO, TEN);
@@ -98,7 +98,7 @@ public class Integers_assertIsStrictlyBetween_Test extends IntegersBaseTest {
   }
 
   @Test
-  public void should_fail_if_integers_are_not_in_range_end() {
+  public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
       integers.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
