@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.float_;
+package org.assertj.core.api.integer_;
 
-import org.assertj.core.api.FloatAssert;
-import org.assertj.core.api.FloatAssertBaseTest;
+import org.assertj.core.api.IntegerAssert;
+import org.assertj.core.api.IntegerAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link FloatAssert#isBetween(Float, Float)}</code>.
+ * Tests for <code>{@link IntegerAssert#isStrictlyBetween(Integer, Integer)}</code>.
  * 
  * @author William Delanoue
  */
-public class FloatAssert_isBetween_Float_Float_Test extends FloatAssertBaseTest {
+public class IntegerAssert_isStrictlyBetween_Integers_Test extends IntegerAssertBaseTest {
 
   @Override
-  protected FloatAssert invoke_api_method() {
-    return assertions.isBetween(6f, 8f);
+  protected IntegerAssert invoke_api_method() {
+    return assertions.isStrictlyBetween(6, 8);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsBetween(getInfo(assertions), getActual(assertions), 6f, 8f);
+    verify(integers).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6, 8);
   }
 }

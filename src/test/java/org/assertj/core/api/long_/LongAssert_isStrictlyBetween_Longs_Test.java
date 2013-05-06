@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.short_;
+package org.assertj.core.api.long_;
 
-import org.assertj.core.api.ShortAssert;
-import org.assertj.core.api.ShortAssertBaseTest;
+import org.assertj.core.api.LongAssert;
+import org.assertj.core.api.LongAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ShortAssert#isBetween(Short, Short)}</code>.
+ * Tests for <code>{@link LongAssert#isStrictlyBetween(Long, Long)}</code>.
  * 
  * @author William Delanoue
  */
-public class ShortAssert_isBetween_Short_Short_Test extends ShortAssertBaseTest {
+public class LongAssert_isStrictlyBetween_Longs_Test extends LongAssertBaseTest {
 
   @Override
-  protected ShortAssert invoke_api_method() {
-    return assertions.isBetween((short)6, (short) 8);
+  protected LongAssert invoke_api_method() {
+    return assertions.isStrictlyBetween(6L, 8L);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(shorts).assertIsBetween(getInfo(assertions), getActual(assertions), (short) 6, (short) 8);
+    verify(longs).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6L, 8L);
   }
 }

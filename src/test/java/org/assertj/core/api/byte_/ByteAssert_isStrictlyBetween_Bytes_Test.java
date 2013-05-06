@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.double_;
+package org.assertj.core.api.byte_;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.api.DoubleAssertBaseTest;
+import org.assertj.core.api.ByteAssert;
+import org.assertj.core.api.ByteAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link DoubleAssert#isStrictlyBetween(Double, Double)}</code>.
+ * Tests for <code>{@link ByteAssert#isStrictlyBetween(Byte, Byte)}</code>.
  * 
  * @author William Delanoue
  */
-public class DoubleAssert_isStrictlyBetween_Double_Double_Test extends DoubleAssertBaseTest {
+public class ByteAssert_isStrictlyBetween_Bytes_Test extends ByteAssertBaseTest {
 
   @Override
-  protected DoubleAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(6d, 8d);
+  protected ByteAssert invoke_api_method() {
+    return assertions.isStrictlyBetween((byte) 6, (byte) 8);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(doubles).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6d, 8d);
+    verify(bytes).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), (byte) 6, (byte) 8);
   }
 }

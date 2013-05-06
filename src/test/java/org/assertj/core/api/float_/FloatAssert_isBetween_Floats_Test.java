@@ -21,19 +21,19 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link FloatAssert#isStrictlyBetween(Float, Float)}</code>.
+ * Tests for <code>{@link FloatAssert#isBetween(Float, Float)}</code>.
  * 
  * @author William Delanoue
  */
-public class FloatAssert_isStrictlyBetween_Float_Float_Test extends FloatAssertBaseTest {
+public class FloatAssert_isBetween_Floats_Test extends FloatAssertBaseTest {
 
   @Override
   protected FloatAssert invoke_api_method() {
-    return assertions.isStrictlyBetween(6f, 8f);
+    return assertions.isBetween(6f, 8f);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(floats).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6f, 8f);
+    verify(floats).assertIsBetween(getInfo(assertions), getActual(assertions), 6f, 8f);
   }
 }

@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.byte_;
+package org.assertj.core.api.short_;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.api.ByteAssertBaseTest;
+import org.assertj.core.api.ShortAssert;
+import org.assertj.core.api.ShortAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ByteAssert#isStrictlyBetween(Byte, Byte)}</code>.
+ * Tests for <code>{@link ShortAssert#isStrictlyBetween(Short, Short)}</code>.
  * 
  * @author William Delanoue
  */
-public class ByteAssert_isStrictlyBetween_Byte_Byte_Test extends ByteAssertBaseTest {
+public class ShortAssert_isStrictlyBetween_Shorts_Test extends ShortAssertBaseTest {
 
   @Override
-  protected ByteAssert invoke_api_method() {
-    return assertions.isStrictlyBetween((byte) 6, (byte) 8);
+  protected ShortAssert invoke_api_method() {
+    return assertions.isStrictlyBetween((short)6, (short) 8);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(bytes).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), (byte) 6, (byte) 8);
+    verify(shorts).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), (short) 6, (short) 8);
   }
 }

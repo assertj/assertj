@@ -25,7 +25,7 @@ import static org.mockito.Mockito.verify;
  * 
  * @author William Delanoue
  */
-public class LongAssert_isBetween_Long_Long_Test extends LongAssertBaseTest {
+public class LongAssert_isBetween_Longs_Test extends LongAssertBaseTest {
 
   @Override
   protected LongAssert invoke_api_method() {

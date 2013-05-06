@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.integer_;
+package org.assertj.core.api.double_;
 
-import org.assertj.core.api.IntegerAssert;
-import org.assertj.core.api.IntegerAssertBaseTest;
+import org.assertj.core.api.DoubleAssert;
+import org.assertj.core.api.DoubleAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link IntegerAssert#isBetween(Integer, Integer)}</code>.
+ * Tests for <code>{@link DoubleAssert#isStrictlyBetween(Double, Double)}</code>.
  * 
  * @author William Delanoue
  */
-public class IntegerAssert_isBetween_Integer_Integer_Test extends IntegerAssertBaseTest {
+public class DoubleAssert_isStrictlyBetween_Doubles_Test extends DoubleAssertBaseTest {
 
   @Override
-  protected IntegerAssert invoke_api_method() {
-    return assertions.isBetween(6, 8);
+  protected DoubleAssert invoke_api_method() {
+    return assertions.isStrictlyBetween(6d, 8d);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(integers).assertIsBetween(getInfo(assertions), getActual(assertions), 6, 8);
+    verify(doubles).assertIsStrictlyBetween(getInfo(assertions), getActual(assertions), 6d, 8d);
   }
 }
