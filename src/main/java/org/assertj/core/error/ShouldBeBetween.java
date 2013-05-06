@@ -66,7 +66,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
       boolean inclusiveEnd, ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);
   }
@@ -80,7 +80,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
    * @param inclusiveEnd whether to include end value in range.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T extends Comparable<T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
+  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeBetween(T actual, T start, T end, boolean inclusiveStart,
       boolean inclusiveEnd) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
   }
@@ -91,7 +91,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
         comparisonStrategy);
   }
 
-  private <T extends Comparable<T>> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
+  private <T extends Comparable<? super T>> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
 	 ComparisonStrategy comparisonStrategy) {
 	super("\nExpecting:\n <%s>\nto be between:\n %s%s, %s%s%s", actual, inclusiveStart ? '[' : ']', start, end, inclusiveEnd ? ']' : '[',
 	        comparisonStrategy);
