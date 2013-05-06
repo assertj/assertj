@@ -56,12 +56,12 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_pass_if_big_decimals_are_in_range() {
+  public void should_pass_if_actual_is_in_range() {
     bigDecimals.assertIsStrictlyBetween(someInfo(), ONE, ZERO, TEN);
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_in_exclusive_range_start() {
+  public void should_fail_if_actual_is_equal_to_range_start() {
     AssertionInfo info = someInfo();
     try {
         bigDecimals.assertIsStrictlyBetween(info, ONE, ONE, TEN);
@@ -73,7 +73,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_in_exclusive_range_end() {
+  public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
       bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, ONE);
@@ -85,7 +85,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_in_range_start() {
+  public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();
     try {
         bigDecimals.assertIsStrictlyBetween(info, ONE, new BigDecimal(2), TEN);
@@ -97,7 +97,7 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
-  public void should_fail_if_big_decimals_are_not_in_range_end() {
+  public void should_fail_if_actual_is_not_in_range_end() {
     AssertionInfo info = someInfo();
     try {
       bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, ZERO);
