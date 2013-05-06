@@ -73,6 +73,15 @@ public interface NumberAssert<T extends Number> {
   
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
+   * <pre>
+   * // these assertions succeed ... 
+   * assertThat(12).isBetween(10, 14);
+   * assertThat(12).isBetween(12, 14);
+   * assertThat(12).isBetween(10, 12);
+   * 
+   * // ... but these one fails
+   * assertThat(12).isBetween(14, 16);
+   * </pre>
    * @param start the start value (inclusive), expected not to be null.
    * @param end the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -85,6 +94,17 @@ public interface NumberAssert<T extends Number> {
   
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   * 
+   * <pre>
+   * // this assertion succeeds ... 
+   * assertThat(12).isBetween(10, 14);
+   * 
+   * // ... but these one fails
+   * assertThat(12).isBetween(12, 14);
+   * assertThat(12).isBetween(10, 12);
+   * assertThat(12).isBetween(16, 18);
+   * </pre>
+   * 
    * @param start the start value (exclusive), expected not to be null.
    * @param end the end value (exclusive), expected not to be null.
    * @return this assertion object.
