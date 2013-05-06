@@ -262,10 +262,10 @@ public class Comparables {
     assertNotNull(info, actual);
     startParameterIsNotNull(start);
     endParameterIsNotNull(end);
-    boolean checkLowerBoundaryRange = inclusiveStart ? comparisonStrategy.isLessThanOrEqualTo(start, actual)
-        : comparisonStrategy.isLessThan(start, actual);
-    boolean checkUpperBoundaryRange = inclusiveEnd ? comparisonStrategy.isLessThanOrEqualTo(actual, end)
-        : comparisonStrategy.isLessThan(actual, end);
+    boolean checkLowerBoundaryRange = inclusiveStart ? !isGreaterThan(start, actual)
+        : isLessThan(start, actual);
+    boolean checkUpperBoundaryRange = inclusiveEnd ? !isGreaterThan(actual, end)
+        : isLessThan(actual, end);
     if (checkLowerBoundaryRange && checkUpperBoundaryRange)
       return;
     throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
