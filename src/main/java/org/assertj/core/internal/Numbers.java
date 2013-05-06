@@ -16,8 +16,6 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 
-import java.util.Date;
-
 import org.assertj.core.api.AssertionInfo;
 
 /**
@@ -147,9 +145,9 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   }
   
   /**
-   * used to check that the start of range date to compare actual date to is not null, in that case throws a
+   * used to check that the start of range to compare actual number to is not null, in that case throws a
    * {@link NullPointerException} with an explicit message
-   * @param start the start date to check
+   * @param start the start number to check
    * @throws a {@link NullPointerException} with an explicit message if the given start value is null
    */
   private static void startParameterIsNotNull(Object start) {
@@ -157,9 +155,9 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   }
 
   /**
-   * used to check that the end of range to compare actual date to is not null, in that case throws a
+   * used to check that the end of range to compare actual number to is not null, in that case throws a
    * {@link NullPointerException} with an explicit message
-   * @param end the end date to check
+   * @param end the end number to check
    * @throws a {@link NullPointerException} with an explicit message if the given end value is null
    */
   private static void endParameterIsNotNull(Object end) {
