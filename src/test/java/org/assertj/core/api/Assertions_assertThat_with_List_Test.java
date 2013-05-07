@@ -14,14 +14,15 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Collections.*;
-import static org.junit.Assert.*;
+import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ListAssert;
-import org.junit.Test;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(List)}</code>.
@@ -35,6 +36,10 @@ public class Assertions_assertThat_with_List_Test {
   public void should_create_Assert() {
     ListAssert<Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
+
+      List<String> strings0 = new ArrayList<String>();
+      List<? extends String> strings1 = new ArrayList<String>();
+    Assertions.assertThat(strings0).isEqualTo(strings1);
   }
 
   @Test
