@@ -133,10 +133,10 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
    * <pre>
    * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    * 
-   * // this assertion succeeds ... 
+   * // this assertion succeeds ...
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * 
-   * // ... but this one fails as "author" must come after "A Game of Thrones"
+   * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * </pre>
    * 
@@ -145,7 +145,8 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
    * @throws NullPointerException if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contain all the given strings <b>in the given order</b>.
+   * @throws AssertionError if the actual {@code String} does not contain all the given strings <b>in the given
+   *           order</b>.
    */
   public StringAssert containsSequence(String... values) {
     strings.assertContainsSequence(info, actual, values);
@@ -267,7 +268,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Do not use this method.
-   *
+   * 
    * @deprecated Custom element Comparator is not supported for String comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -280,7 +281,7 @@ public class StringAssert extends AbstractAssert<StringAssert, String> implement
 
   /**
    * Do not use this method.
-   *
+   * 
    * @deprecated Custom element Comparator is not supported for String comparison.
    * @throws UnsupportedOperationException if this method is called.
    */

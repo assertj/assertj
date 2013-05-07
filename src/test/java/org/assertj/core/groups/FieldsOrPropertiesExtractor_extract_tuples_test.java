@@ -1,14 +1,14 @@
 /*
  * Created on Jul 27, 2012
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
@@ -34,10 +34,10 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class FieldsOrPropertiesExtractor_extract_tuples_test {
-  
+
   @Rule
   public ExpectedException thrown = none();
-  
+
   private static Employee yoda;
   private static Employee luke;
   private static List<Employee> employees;
@@ -54,26 +54,26 @@ public class FieldsOrPropertiesExtractor_extract_tuples_test {
     List<Tuple> extractedValues = extract(employees, "id", "age");
     assertThat(extractedValues).containsOnly(tuple(1L, 800), tuple(2L, 26));
   }
-  
+
   @Test
   public void should_extract_tuples_with_consistent_iteration_order() {
-    Set<Employee> employeeSet =  new HashSet<Employee>(employees);
+    Set<Employee> employeeSet = new HashSet<Employee>(employees);
     List<Tuple> extractedValues = extract(employeeSet, "id", "name.first", "age");
-    assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L,"Luke", 26));
+    assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, "Luke", 26));
   }
-  
+
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
     thrown.expect(IntrospectionError.class);
     extract(employees, "id", "age", "unknown");
   }
-  
+
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be null");
-    extract(employees, (String[])null);
+    extract(employees, (String[]) null);
   }
-  
+
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be empty");

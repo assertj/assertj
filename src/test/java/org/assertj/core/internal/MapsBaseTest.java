@@ -4,7 +4,6 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.Maps.mapOf;
 
-
 import static org.mockito.Mockito.spy;
 
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.assertj.core.internal.Maps;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
-
 
 /**
  * Base class for {@link Maps} unit tests

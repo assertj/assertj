@@ -1,14 +1,14 @@
 /*
  * Created on Aug 5, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -24,7 +24,6 @@ import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Failure actions.
  * 
@@ -37,6 +36,7 @@ public class Failures {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Failures instance() {
@@ -50,6 +50,7 @@ public class Failures {
 
   /**
    * Sets wether we remove elements related to Fest from assertion error stack trace.
+   * 
    * @param removeFestRelatedElementsFromStackTrace flag
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
@@ -57,42 +58,47 @@ public class Failures {
   }
 
   @VisibleForTesting
-  Failures() {}
+  Failures() {
+  }
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:
    * <ol>
-   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code> as the
-   * error message if such value is not {@code null}, or</li>
-   * <li>uses the given <code>{@link AssertionErrorFactory}</code> to create an <code>{@link AssertionError}</code>, prepending
-   * the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
+   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
+   * as the error message if such value is not {@code null}, or</li>
+   * <li>uses the given <code>{@link AssertionErrorFactory}</code> to create an <code>{@link AssertionError}</code>,
+   * prepending the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
    * </ol>
+   * 
    * @param info contains information about the failed assertion.
    * @param factory knows how to create {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
     AssertionError error = failureIfErrorMessageIsOverriden(info);
-    if (error != null) return error;
+    if (error != null)
+      return error;
     return factory.newAssertionError(info.description());
   }
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:
    * <ol>
-   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code> as the
-   * error message if such value is not {@code null}, or</li>
+   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
+   * as the error message if such value is not {@code null}, or</li>
    * <li>uses the given <code>{@link ErrorMessageFactory}</code> to create the detail message of the
-   * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to the error
-   * message</li>
+   * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to
+   * the error message</li>
    * </ol>
+   * 
    * @param info contains information about the failed assertion.
    * @param message knows how to create detail messages for {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory message) {
     AssertionError error = failureIfErrorMessageIsOverriden(info);
-    if (error != null) return error;
+    if (error != null)
+      return error;
     AssertionError assertionError = new AssertionError(message.create(info.description()));
     removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     return assertionError;
@@ -100,8 +106,8 @@ public class Failures {
 
   private AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage) ? null : failure(MessageFormatter.instance().format(info.description(),
-        overridingErrorMessage));
+    return isNullOrEmpty(overridingErrorMessage) ? null : failure(MessageFormatter.instance().format(
+        info.description(), overridingErrorMessage));
   }
 
   /**
@@ -109,6 +115,7 @@ public class Failures {
    * <p>
    * It filters the AssertionError stack trace be default, to have full stack trace use
    * {@link #setRemoveAssertJRelatedElementsFromStackTrace(boolean)}.
+   * 
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */

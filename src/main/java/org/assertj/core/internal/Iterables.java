@@ -232,7 +232,8 @@ public class Iterables {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0) return;
+    if (!actual.iterator().hasNext() && values.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<Object>();
@@ -241,7 +242,8 @@ public class Iterables {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty()) return;
+    if (notFound.isEmpty())
+      return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
@@ -275,7 +277,8 @@ public class Iterables {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0) return;
+    if (!actual.iterator().hasNext() && values.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
@@ -354,7 +357,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
@@ -496,7 +500,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     if (sizeOf(actual) < sequenceSize) {
@@ -535,7 +540,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     int sizeOfActual = sizeOf(actual);

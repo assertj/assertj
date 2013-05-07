@@ -22,4 +22,5 @@ package org.assertj.core.util;
  * 
  * @since 1.1.1
  */
-public @interface VisibleForTesting {}
+public @interface VisibleForTesting {
+}

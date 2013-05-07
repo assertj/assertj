@@ -69,5 +69,6 @@ public class Maps {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 
-  private Maps() {}
+  private Maps() {
+  }
 }

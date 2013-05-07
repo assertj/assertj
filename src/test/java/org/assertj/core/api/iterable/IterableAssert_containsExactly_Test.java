@@ -20,7 +20,6 @@ import org.assertj.core.api.IterableAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#containsExactly(Object...)}</code>.
  * 

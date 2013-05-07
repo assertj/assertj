@@ -30,6 +30,7 @@ public class ShouldBeExecutable extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeExecutable}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

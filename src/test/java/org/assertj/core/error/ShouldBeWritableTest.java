@@ -30,11 +30,13 @@ import org.junit.Test;
 public class ShouldBeWritableTest {
   ErrorMessageFactory factory;
 
-  @Before public void setup() {
+  @Before
+  public void setup() {
     factory = shouldBeWritable(new FakeFile("pathname"));
   }
 
-  @Test public void createExpectedMessage() {
+  @Test
+  public void createExpectedMessage() {
     String actualMessage = factory.create(new TestDescription("Test"));
     assertEquals("[Test] \nFile:\n <pathname>\nshould be writable", actualMessage);
   }

@@ -11,7 +11,6 @@ import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -23,7 +22,6 @@ import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Lists#assertIs(AssertionInfo, List, org.assertj.core.core.Condition, Index)}</code> .

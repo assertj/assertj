@@ -31,13 +31,13 @@ public final class Strings {
   public static boolean isNullOrEmpty(String s) {
     return s == null || s.length() == 0;
   }
-  
+
   /**
    * Only there for backward compatibility reasons - use {@link #isNullOrEmpty(String)} instead.
    */
   @Deprecated
   public static boolean isEmpty(String s) {
-    return isNullOrEmpty( s );
+    return isNullOrEmpty(s);
   }
 
   /**
@@ -201,5 +201,6 @@ public final class Strings {
     }
   }
 
-  private Strings() {}
+  private Strings() {
+  }
 }

@@ -12,7 +12,6 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * Base class for tests involving {@link Doubles}
  * <p>

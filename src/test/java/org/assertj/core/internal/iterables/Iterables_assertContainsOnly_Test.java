@@ -1,14 +1,14 @@
 /*
  * Created on Oct 3, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -28,7 +28,6 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -77,7 +76,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     actual.clear();
     iterables.assertContainsOnly(someInfo(), actual, array());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
@@ -103,7 +102,8 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
+      verify(failures).failure(info,
+          shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -115,18 +115,21 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
+    iterablesWithCaseInsensitiveComparisonStrategy
+        .assertContainsOnly(someInfo(), actual, array("LUKE", "YODA", "Leia"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_in_different_order_according_to_custom_comparison_strategy() {
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
+    iterablesWithCaseInsensitiveComparisonStrategy
+        .assertContainsOnly(someInfo(), actual, array("LEIA", "yoda", "LukE"));
   }
 
   @Test
   public void should_pass_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("Luke", "Luke"));
-    iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
+    iterablesWithCaseInsensitiveComparisonStrategy
+        .assertContainsOnly(someInfo(), actual, array("luke", "YOda", "LeIA"));
   }
 
   @Test
@@ -143,7 +146,8 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"), comparisonStrategy));
+      verify(failures).failure(info,
+          shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"), comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

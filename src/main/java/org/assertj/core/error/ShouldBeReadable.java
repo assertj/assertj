@@ -30,6 +30,7 @@ public class ShouldBeReadable extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeReadable}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

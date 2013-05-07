@@ -8,7 +8,6 @@ import org.assertj.core.test.Name;
 import org.assertj.core.test.Player;
 import org.junit.BeforeClass;
 
-
 public class AbstractTest_filter {
 
   protected static Player rose;

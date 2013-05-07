@@ -12,7 +12,6 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * 
  * Base class for {@link Strings} tests.

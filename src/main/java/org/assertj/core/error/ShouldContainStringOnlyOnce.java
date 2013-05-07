@@ -3,8 +3,8 @@ package org.assertj.core.error;
 import org.assertj.core.internal.*;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code String} contains another {@code String} only
- * once failed.
+ * Creates an error message indicating that an assertion that verifies that a {@code String} contains another
+ * {@code String} only once failed.
  * 
  * @author Pauline Iogna
  * @author Joel Costigliola
@@ -22,7 +22,8 @@ public class ShouldContainStringOnlyOnce extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainOnlyOnce(String actual, String sequence, int occurences,
       ComparisonStrategy comparisonStrategy) {
-    if (occurences == 0) return new ShouldContainStringOnlyOnce(actual, sequence, comparisonStrategy);
+    if (occurences == 0)
+      return new ShouldContainStringOnlyOnce(actual, sequence, comparisonStrategy);
     return new ShouldContainStringOnlyOnce(actual, sequence, occurences, comparisonStrategy);
   }
 
@@ -35,14 +36,15 @@ public class ShouldContainStringOnlyOnce extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnlyOnce(String actual, String sequence, int occurences) {
-    if (occurences == 0) return new ShouldContainStringOnlyOnce(actual, sequence, StandardComparisonStrategy.instance());
+    if (occurences == 0)
+      return new ShouldContainStringOnlyOnce(actual, sequence, StandardComparisonStrategy.instance());
     return new ShouldContainStringOnlyOnce(actual, sequence, occurences, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainStringOnlyOnce(String actual, String expected, int occurences, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainStringOnlyOnce(String actual, String expected, int occurences,
+      ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n <%s>\nto appear only once in:\n <%s>\nbut it appeared %s times %s", expected, actual,
-        occurences,
-        comparisonStrategy);
+        occurences, comparisonStrategy);
   }
 
   private ShouldContainStringOnlyOnce(String actual, String expected, ComparisonStrategy comparisonStrategy) {

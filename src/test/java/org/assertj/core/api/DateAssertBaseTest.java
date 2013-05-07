@@ -31,7 +31,7 @@ public abstract class DateAssertBaseTest {
     assertions.dates = dates;
     assertions.objects = objects;
   }
-  
+
   protected DateFormat dateFormat() {
     return DateAssert.dateFormat;
   }
@@ -43,11 +43,11 @@ public abstract class DateAssertBaseTest {
   protected Date getActual(DateAssert someAssertions) {
     return someAssertions.actual;
   }
-  
+
   protected Objects getObjects(DateAssert someAssertions) {
     return someAssertions.objects;
   }
-  
+
   protected Dates getDates(DateAssert someAssertions) {
     return someAssertions.dates;
   }

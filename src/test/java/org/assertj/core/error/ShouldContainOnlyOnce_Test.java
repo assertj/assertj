@@ -11,7 +11,6 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
-
 public class ShouldContainOnlyOnce_Test {
 
   private ErrorMessageFactory factoryWithSeveralOccurences;

@@ -42,5 +42,6 @@ public final class Sets {
     return set;
   }
 
-  private Sets() {}
+  private Sets() {
+  }
 }

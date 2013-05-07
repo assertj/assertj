@@ -30,5 +30,6 @@ public final class SystemProperties {
     }
   }
 
-  private SystemProperties() {}
+  private SystemProperties() {
+  }
 }

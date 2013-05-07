@@ -15,7 +15,6 @@ package org.assertj.core.util.introspection;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-
 /**
  * Shameless copy from Apache commons lang and then modified to keep only the interesting stuff for AssertJ.
  * 
@@ -239,8 +238,7 @@ public class FieldUtils {
    * @throws IllegalArgumentException if <code>target</code> or <code>fieldName</code> is null
    * @throws IllegalAccessException if the field is not made accessible
    */
-  static Object readDeclaredField(Object target, String fieldName, boolean forceAccess)
-      throws IllegalAccessException {
+  static Object readDeclaredField(Object target, String fieldName, boolean forceAccess) throws IllegalAccessException {
     if (target == null) {
       throw new IllegalArgumentException("target object must not be null");
     }

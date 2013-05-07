@@ -16,11 +16,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
-
 /**
  * Base class for {@link InputStreams} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link InputStreams} attributes appropriately.
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link InputStreams} attributes
+ * appropriately.
  * 
  * @author Joel Costigliola
  * 

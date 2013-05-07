@@ -10,7 +10,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 import org.junit.Test;
 
-
 public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
 
   @Test

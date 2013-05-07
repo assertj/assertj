@@ -1,14 +1,14 @@
 /*
  * Created on Jun 26, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -27,7 +27,6 @@ import java.util.List;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-
 /**
  * Utility methods for properties access.
  * 
@@ -44,6 +43,7 @@ public class PropertySupport {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static PropertySupport instance() {
@@ -54,17 +54,21 @@ public class PropertySupport {
   JavaBeanDescriptor javaBeanDescriptor = new JavaBeanDescriptor();
 
   @VisibleForTesting
-  PropertySupport() {}
+  PropertySupport() {
+  }
 
   /**
-   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the given
-   * <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will return an empty
-   * {@code List}. This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
-   *          {@code null} or empty.
+   * Returns a <code>{@link List}</code> containing the values of the given property name, from the elements of the
+   * given <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will
+   * return an empty {@code List}. This method supports nested properties (e.g. "address.street.number").
+   * 
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
    * @param target the given {@code Iterable}.
-   * @return an {@code Iterable} containing the values of the given property name, from the elements of the given {@code Iterable}.
-   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
+   * @return an {@code Iterable} containing the values of the given property name, from the elements of the given
+   *         {@code Iterable}.
+   * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching
+   *           name.
    */
   public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     // ignore null elements as we can't extract a property from a null object
@@ -84,8 +88,9 @@ public class PropertySupport {
   /**
    * Static variant of {@link #propertyValue(String, Class, Object)} for syntactic sugar.
    * <p>
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
-   *          {@code null} or empty.
+   * 
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
    * @param target the given object
    * @param clazz type of property
    * @return a the values of the given property name
@@ -119,15 +124,15 @@ public class PropertySupport {
 
   /**
    * <pre>
-   * isNestedProperty("address.street"); // true
-   * isNestedProperty("address.street.name"); // true
-   * isNestedProperty("person"); // false
-   * isNestedProperty(".name"); // false
-   * isNestedProperty("person."); // false
-   * isNestedProperty("person.name."); // false
-   * isNestedProperty(".person.name"); // false
-   * isNestedProperty("."); // false
-   * isNestedProperty(""); // false
+   * isNestedProperty(&quot;address.street&quot;); // true
+   * isNestedProperty(&quot;address.street.name&quot;); // true
+   * isNestedProperty(&quot;person&quot;); // false
+   * isNestedProperty(&quot;.name&quot;); // false
+   * isNestedProperty(&quot;person.&quot;); // false
+   * isNestedProperty(&quot;person.name.&quot;); // false
+   * isNestedProperty(&quot;.person.name&quot;); // false
+   * isNestedProperty(&quot;.&quot;); // false
+   * isNestedProperty(&quot;&quot;); // false
    * </pre>
    */
   private boolean isNestedProperty(String propertyName) {
@@ -136,8 +141,9 @@ public class PropertySupport {
 
   /**
    * Return the value of property from a target object.
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
-   *          {@code null} or empty.
+   * 
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
    * @param target the given object
    * @param clazz type of property
    * @return a the values of the given property name
@@ -148,7 +154,8 @@ public class PropertySupport {
     try {
       return clazz.cast(javaBeanDescriptor.invokeReadMethod(descriptor, target));
     } catch (ClassCastException e) {
-      String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
+      String msg = format(
+          "Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
           propertyName, target, clazz);
       throw new IntrospectionError(msg, e);
     } catch (Throwable unexpected) {
@@ -158,10 +165,12 @@ public class PropertySupport {
   }
 
   /**
-   * Returns the value of the given property name given target. If the given object is {@code null}, this method will return null.<br>
+   * Returns the value of the given property name given target. If the given object is {@code null}, this method will
+   * return null.<br>
    * This method supports nested properties (e.g. "address.street.number").
-   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate for
-   *          {@code null} or empty.
+   * 
+   * @param propertyName the name of the property. It may be a nested property. It is left to the clients to validate
+   *          for {@code null} or empty.
    * @param clazz the class of property.
    * @param target the given Object to extract property from.
    * @return the value of the given property name given target.

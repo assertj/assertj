@@ -110,8 +110,7 @@ public class Strings_assertContainsSequence_Test extends StringsBaseTest {
       stringsWithCaseInsensitiveComparisonStrategy.assertContainsSequence(info, "Yoda", array("Yo", "da", "Han"));
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"),
-                                             comparisonStrategy));
+          shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

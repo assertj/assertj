@@ -1,14 +1,14 @@
 /*
  * Created on Oct 24, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -19,7 +19,6 @@ import java.util.Comparator;
 import org.assertj.core.data.Offset;
 import org.assertj.core.internal.*;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Assertion methods for floats.
@@ -34,7 +33,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
+public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements
+    FloatingPointNumberAssert<Float> {
 
   @VisibleForTesting
   Floats floats = Floats.instance();
@@ -93,6 +93,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -111,6 +112,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is equal to the given one, within a positive offset.
+   * 
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
@@ -125,6 +127,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -137,6 +140,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is less than the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -149,6 +153,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -161,6 +166,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -173,6 +179,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.

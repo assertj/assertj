@@ -22,11 +22,12 @@ public class ClassUtils {
    * @return the {@code List} of interfaces in order, {@code null} if null input
    */
   static List<Class<?>> getAllInterfaces(Class<?> cls) {
-    if (cls == null) return null;
-  
+    if (cls == null)
+      return null;
+
     LinkedHashSet<Class<?>> interfacesFound = new LinkedHashSet<Class<?>>();
     getAllInterfaces(cls, interfacesFound);
-  
+
     return new ArrayList<Class<?>>(interfacesFound);
   }
 
@@ -39,13 +40,13 @@ public class ClassUtils {
   static void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
     while (cls != null) {
       Class<?>[] interfaces = cls.getInterfaces();
-  
+
       for (Class<?> i : interfaces) {
         if (interfacesFound.add(i)) {
           getAllInterfaces(i, interfacesFound);
         }
       }
-  
+
       cls = cls.getSuperclass();
     }
   }

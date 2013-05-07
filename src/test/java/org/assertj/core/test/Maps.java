@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
 
-
 /**
  * @author Alex Ruiz
  */
@@ -31,5 +30,6 @@ public final class Maps {
     return map;
   }
 
-  private Maps() {}
+  private Maps() {
+  }
 }

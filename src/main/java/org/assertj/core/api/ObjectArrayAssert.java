@@ -314,8 +314,8 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
    *           .doesNotContain(&quot;Orc&quot;);
    * </pre>
    * 
-   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public)
-   * then a property with the given name is looked for.
+   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
+   * a property with the given name is looked for.
    * <p>
    * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
    * work if half of the objects have the field and the other the property.
@@ -330,7 +330,7 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
     Object[] values = FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
     return new ObjectArrayAssert<Object>(values);
   }
-  
+
   // TODO : write javadoc !
   public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
     Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, fieldsOrProperties);

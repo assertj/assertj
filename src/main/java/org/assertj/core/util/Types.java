@@ -28,8 +28,8 @@ import java.util.Set;
  * @author Alex Ruiz
  */
 public final class Types {
-  private static final Class<?>[] PRIMITIVE_TYPES =
-    { boolean.class, byte.class, short.class, int.class, long.class, float.class, double.class, char.class };
+  private static final Class<?>[] PRIMITIVE_TYPES = { boolean.class, byte.class, short.class, int.class, long.class,
+      float.class, double.class, char.class };
 
   private static final Class<?>[] COLLECTION_TYPES = { Collection.class, List.class, Queue.class, Set.class };
 
@@ -41,5 +41,6 @@ public final class Types {
     return newArrayList(COLLECTION_TYPES);
   }
 
-  private Types() {}
+  private Types() {
+  }
 }

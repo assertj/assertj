@@ -76,13 +76,15 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() throws Exception {
-    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+        tuple("Luke", 26, 2L));
   }
-  
+
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() throws Exception {
     thrown.expect(IntrospectionError.class);
-    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("unknown", "age", "id")
+        .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
-  
+
 }

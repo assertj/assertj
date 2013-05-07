@@ -8,7 +8,8 @@ public class AbsValueComparator<NUMBER extends Number> implements Comparator<NUM
 
   public int compare(NUMBER i1, NUMBER i2) {
     double diff = abs(i1.doubleValue()) - abs(i2.doubleValue());
-    if (diff == 0.0) return 0;
+    if (diff == 0.0)
+      return 0;
     return diff < 0.0 ? -1 : 1;
   }
 }

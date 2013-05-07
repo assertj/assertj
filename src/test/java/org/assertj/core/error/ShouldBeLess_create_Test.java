@@ -49,6 +49,7 @@ public class ShouldBeLess_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <8>\nto be less than:\n <6> according to 'AbsValueComparator' comparator", message);
+    assertEquals("[Test] \nExpecting:\n <8>\nto be less than:\n <6> according to 'AbsValueComparator' comparator",
+        message);
   }
 }

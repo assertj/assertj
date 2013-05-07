@@ -79,10 +79,10 @@ public class FieldSupport {
     return simpleFieldValues(fieldName, fieldClass, cleanedUp);
   }
 
-  public List<Object> fieldValues(String fieldName, Iterable<?>  target) {
+  public List<Object> fieldValues(String fieldName, Iterable<?> target) {
     return fieldValues(fieldName, Object.class, target);
   }
-  
+
   /**
    * Returns a <code>{@link List}</code> containing the values of the given field name, from the elements of the given
    * <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will return an
@@ -99,11 +99,11 @@ public class FieldSupport {
   public <T> List<T> fieldValues(String fieldName, Class<T> fieldClass, Object[] target) {
     return fieldValues(fieldName, fieldClass, wrap(target));
   }
-  
+
   public List<Object> fieldValues(String fieldName, Object[] target) {
     return fieldValues(fieldName, Object.class, wrap(target));
   }
-  
+
   /**
    * Static variant of {@link #fieldValue(String, Class, Object)} for syntactic sugar.
    * <p>
@@ -173,11 +173,11 @@ public class FieldSupport {
       return clazz.cast(readField);
     } catch (ClassCastException e) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
-                          fieldName, target, clazz);
+          fieldName, target, clazz);
       throw new IntrospectionError(msg, e);
     } catch (IllegalAccessException iae) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s>, check that field is public.",
-                          fieldName, target);
+          fieldName, target);
       throw new IntrospectionError(msg, iae);
     } catch (Throwable unexpected) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s>", fieldName, target);
