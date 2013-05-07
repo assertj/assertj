@@ -24,7 +24,6 @@ import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.ToString;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Formats the messages to be included in assertion errors.
  * 
@@ -41,7 +40,8 @@ public class MessageFormatter {
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   @VisibleForTesting
-  MessageFormatter() {}
+  MessageFormatter() {
+  }
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to

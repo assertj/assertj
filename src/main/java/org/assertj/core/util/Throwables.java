@@ -1,15 +1,15 @@
 /*
  * Created on Dec 13, 2008
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2008-2012 the original author or authors.
  */
 package org.assertj.core.util;
@@ -20,13 +20,13 @@ import java.util.*;
 
 /**
  * Utility methods related to <code>{@link Throwable}</code>s.
- *
+ * 
  * @author Alex Ruiz
  */
 public final class Throwables {
   /**
    * Appends the stack trace of the current thread to the one in the given <code>{@link Throwable}</code>.
-   *
+   * 
    * @param t the given {@code Throwable}.
    * @param methodToStartFrom the name of the method used as the starting point of the current thread's stack trace.
    */
@@ -53,7 +53,7 @@ public final class Throwables {
     return newArrayList(Thread.currentThread().getStackTrace());
   }
 
-  /**
+/**
    * Removes the FEST-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
    *
@@ -108,5 +108,6 @@ public final class Throwables {
     throwable.setStackTrace(newStackTrace);
   }
 
-  private Throwables() {}
+  private Throwables() {
+  }
 }

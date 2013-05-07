@@ -15,7 +15,6 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * Base class for testing <code>{@link Files}</code>, set up diff and failures attributes (which is why it is in
  * <code>org.fest.assertions.internal</code> package.

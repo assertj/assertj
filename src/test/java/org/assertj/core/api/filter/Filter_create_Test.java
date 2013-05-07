@@ -13,7 +13,6 @@ import org.assertj.core.api.filter.Filters;
 import org.assertj.core.test.Player;
 import org.junit.Test;
 
-
 public class Filter_create_Test extends AbstractTest_filter {
 
   @Test

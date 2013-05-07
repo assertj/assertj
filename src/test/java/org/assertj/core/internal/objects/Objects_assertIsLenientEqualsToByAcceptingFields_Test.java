@@ -23,7 +23,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
@@ -36,7 +35,6 @@ import org.assertj.core.test.Jedi;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Objects#assertIsLenientEqualsToByAcceptingFields(AssertionInfo, Object, Object, String...)</code>.

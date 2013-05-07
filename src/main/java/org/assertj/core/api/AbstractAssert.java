@@ -291,7 +291,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * 
    * <pre>
    * assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
-   *                              .isTrue();
+   *     .isTrue();
    * </pre>
    * 
    * @param newErrorMessage the error message that will replace the default one provided by Fest.
@@ -320,6 +320,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /**
    * {@inheritDoc}
+   * 
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override

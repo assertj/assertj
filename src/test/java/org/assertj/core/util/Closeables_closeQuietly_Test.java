@@ -59,7 +59,8 @@ public class Closeables_closeQuietly_Test {
     boolean closed;
     IOException toThrow;
 
-    public CloseableStub() {}
+    public CloseableStub() {
+    }
 
     public CloseableStub(IOException toThrow) {
       this.toThrow = toThrow;

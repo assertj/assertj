@@ -1,15 +1,15 @@
 /*
  * Created on Jun 2, 2006
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2006-2012 the original author or authors.
  */
 package org.assertj.core.util;
@@ -20,7 +20,7 @@ import java.lang.reflect.Array;
 
 /**
  * Utility methods related to objects.
- *
+ * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -31,7 +31,7 @@ public final class Objects {
 
   /**
    * Returns {@code true} if the given objects are equal or if both objects are {@code null}.
-   *
+   * 
    * @param o1 one of the objects to compare.
    * @param o2 one of the objects to compare.
    * @return {@code true} if the given objects are equal or if both objects are {@code null}.
@@ -69,7 +69,7 @@ public final class Objects {
 
   /**
    * Returns an array containing the names of the given types.
-   *
+   * 
    * @param types the given types.
    * @return the names of the given types stored in an array.
    */
@@ -87,7 +87,7 @@ public final class Objects {
   /**
    * Returns the hash code for the given object. If the object is {@code null}, this method returns zero. Otherwise
    * calls the method {@code hashCode} of the given object.
-   *
+   * 
    * @param o the given object.
    * @return the hash code for the given object
    */
@@ -98,7 +98,7 @@ public final class Objects {
   /**
    * Casts the given object to the given type only if the object is of the given type. If the object is not of the given
    * type, this method returns {@code null}.
-   *
+   * 
    * @param <T> the generic type to cast the given object to.
    * @param o the object to cast.
    * @param type the given type.
@@ -111,5 +111,6 @@ public final class Objects {
     return null;
   }
 
-  private Objects() {}
+  private Objects() {
+  }
 }

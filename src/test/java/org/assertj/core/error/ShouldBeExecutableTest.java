@@ -16,7 +16,6 @@ package org.assertj.core.error;
 
 import static org.junit.Assert.assertEquals;
 
-
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeExecutable;
 import org.assertj.core.internal.TestDescription;
@@ -33,11 +32,13 @@ import org.junit.Test;
 public class ShouldBeExecutableTest {
   ErrorMessageFactory factory;
 
-  @Before public void setup() {
+  @Before
+  public void setup() {
     factory = ShouldBeExecutable.shouldBeExecutable(new FakeFile("pathname"));
   }
 
-  @Test public void createExpectedMessage() {
+  @Test
+  public void createExpectedMessage() {
     String actualMessage = factory.create(new TestDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <pathname>\nto be executable", actualMessage);
   }

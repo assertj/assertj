@@ -52,7 +52,7 @@ public class ShouldNotContainAtIndex_create_Test {
     factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Luke']>\nnot to contain:\n <'Luke'>\n"
-        + "at index <1>\n" + "according to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Luke']>\nnot to contain:\n <'Luke'>\n" + "at index <1>\n"
+        + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

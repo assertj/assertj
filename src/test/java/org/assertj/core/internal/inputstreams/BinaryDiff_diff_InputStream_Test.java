@@ -1,14 +1,14 @@
 /*
  * Created on Jul 20, 2012
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
@@ -25,7 +25,6 @@ import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link BinaryDiff#diff(java.io.InputStream, java.io.InputStream)}</code>.
@@ -51,7 +50,7 @@ public class BinaryDiff_diff_InputStream_Test {
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
     assertTrue(result.hasNoDiff());
   }
-  
+
   @Test
   public void should_return_diff_if_inputstreams_differ_on_one_byte() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
@@ -61,7 +60,7 @@ public class BinaryDiff_diff_InputStream_Test {
     assertEquals("0xBA", result.actual);
     assertEquals("0xBE", result.expected);
   }
-  
+
   @Test
   public void should_return_diff_if_actual_is_shorter() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA);
@@ -71,7 +70,7 @@ public class BinaryDiff_diff_InputStream_Test {
     assertEquals("EOF", result.actual);
     assertEquals("0xBE", result.expected);
   }
-  
+
   @Test
   public void should_return_diff_if_expected_is_shorter() throws IOException {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);

@@ -12,7 +12,6 @@ import org.assertj.core.util.CaseInsensitiveCharacterComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * Base class for Characters unit tests
  * <p>
@@ -37,7 +36,8 @@ public class CharactersBaseTest {
     failures = spy(new Failures());
     characters = new Characters();
     characters.failures = failures;
-    caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveCharacterComparator.instance);
+    caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(
+        CaseInsensitiveCharacterComparator.instance);
     charactersWithCaseInsensitiveComparisonStrategy = new Characters(caseInsensitiveComparisonStrategy);
     charactersWithCaseInsensitiveComparisonStrategy.failures = failures;
   }

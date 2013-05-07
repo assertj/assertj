@@ -48,7 +48,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-
 /**
  * Reusable assertions for {@code Object}s.
  * 

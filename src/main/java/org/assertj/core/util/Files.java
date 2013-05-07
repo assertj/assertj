@@ -317,8 +317,7 @@ public class Files {
         try {
           reader.close();
         } catch (IOException e) {
-          if (!threw)
-          {
+          if (!threw) {
             throw e; // if there was an initial exception, don't hide it
           }
         }
@@ -326,5 +325,6 @@ public class Files {
     }
   }
 
-  private Files() {}
+  private Files() {
+  }
 }

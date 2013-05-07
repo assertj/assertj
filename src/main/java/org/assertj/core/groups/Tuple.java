@@ -33,13 +33,18 @@ public class Tuple {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (obj == null) return false;
-    if (getClass() != obj.getClass()) return false;
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
     Tuple other = (Tuple) obj;
     if (datas == null) {
-      if (other.datas != null) return false;
-    } else if (!datas.equals(other.datas)) return false;
+      if (other.datas != null)
+        return false;
+    } else if (!datas.equals(other.datas))
+      return false;
     return true;
   }
 

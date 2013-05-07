@@ -5,8 +5,6 @@ import org.assertj.core.api.StringAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
-
-
 /**
  * Tests for <code>{@link StringAssert#containsOnlyOnce(String)}</code>.
  * 

@@ -17,7 +17,9 @@ public class YearAndMonthComparator implements Comparator<Date> {
   public final static YearAndMonthComparator instance = new YearAndMonthComparator();
 
   public int compare(Date date1, Date date2) {
-    if (yearOf(date1) != yearOf(date2)) { return yearOf(date1) - yearOf(date2); }
+    if (yearOf(date1) != yearOf(date2)) {
+      return yearOf(date1) - yearOf(date2);
+    }
     return monthOf(date1) - monthOf(date2);
   }
 }

@@ -12,7 +12,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 import org.junit.Test;
 
-
 public class Filter_with_property_not_equals_to_given_value_Test extends AbstractTest_filter {
 
   @Test

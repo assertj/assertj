@@ -37,7 +37,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContain(String actual, String sequence) {
     return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s> %s", actual, sequence,
-                                   StandardComparisonStrategy.instance());
+        StandardComparisonStrategy.instance());
   }
 
   /**
@@ -63,7 +63,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContain(String actual, String[] strings, Set<String> notFound,
       ComparisonStrategy comparisonStrategy) {
     return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s>\nbut could not find:\n <%s>\n %s", actual,
-                                   strings, notFound, comparisonStrategy);
+        strings, notFound, comparisonStrategy);
   }
 
   /**
@@ -87,7 +87,7 @@ public class ShouldContainString extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainIgnoringCase(String actual, String sequence) {
     return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s>\n (ignoring case)", actual, sequence,
-                                   StandardComparisonStrategy.instance());
+        StandardComparisonStrategy.instance());
   }
 
   private ShouldContainString(String format, String actual, String sequence, ComparisonStrategy comparisonStrategy) {

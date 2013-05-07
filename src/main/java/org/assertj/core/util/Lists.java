@@ -60,5 +60,6 @@ public final class Lists {
     return list;
   }
 
-  private Lists() {}
+  private Lists() {
+  }
 }

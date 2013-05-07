@@ -48,5 +48,6 @@ public final class Closeables {
     }
   }
 
-  private Closeables() {}
+  private Closeables() {
+  }
 }

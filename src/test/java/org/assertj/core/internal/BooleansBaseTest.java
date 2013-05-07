@@ -10,7 +10,6 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * Base class for testing <code>{@link Booleans}</code>.
  * <p>

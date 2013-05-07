@@ -6,7 +6,6 @@ import static org.assertj.core.api.filter.Filters.filter;
 import org.assertj.core.test.Player;
 import org.junit.Test;
 
-
 public class Filter_with_property_equals_to_null_value_Test extends AbstractTest_filter {
 
   @Test

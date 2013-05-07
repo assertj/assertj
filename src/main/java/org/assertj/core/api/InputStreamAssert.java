@@ -6,12 +6,12 @@ import org.assertj.core.internal.InputStreams;
 import org.assertj.core.internal.InputStreamsException;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Assertion methods for <code>{@link InputStream}</code>s.
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(InputStream)}</code>.
  * </p>
+ * 
  * @author Matthieu Baechler
  */
 public class InputStreamAssert extends AbstractAssert<InputStreamAssert, InputStream> {
@@ -30,7 +30,8 @@ public class InputStreamAssert extends AbstractAssert<InputStreamAssert, InputSt
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given
+   *           one.
    * @throws InputStreamsException if an I/O error occurs.
    */
   public InputStreamAssert hasContentEqualTo(InputStream expected) {

@@ -221,7 +221,8 @@ public class Strings {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty()) return;
+    if (notFound.isEmpty())
+      return;
     if (notFound.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
@@ -330,7 +331,7 @@ public class Strings {
     if (sequenceOccurencesInActual == 1)
       return;
     throw failures.failure(info,
-                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+        shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
   }
 
   /**
@@ -493,7 +494,8 @@ public class Strings {
     checkSequenceIsNotNull(values[0]);
     Set<String> notFound = new LinkedHashSet<String>();
     for (String value : values) {
-      if (!stringContains(actual, value)) notFound.add(value);
+      if (!stringContains(actual, value))
+        notFound.add(value);
     }
     if (notFound.isEmpty()) {
       if (values.length == 1) {

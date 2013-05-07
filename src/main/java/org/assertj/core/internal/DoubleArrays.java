@@ -1,14 +1,14 @@
 /*
  * Created on Dec 20, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -20,7 +20,6 @@ import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for arrays of {@code double}s.
@@ -35,6 +34,7 @@ public class DoubleArrays {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static DoubleArrays instance() {
@@ -62,6 +62,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array is {@code null} or empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is not {@code null} *and* contains one or more elements.
@@ -72,6 +73,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array is empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -83,6 +85,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array is not empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws AssertionError if the given array is {@code null}.
@@ -94,6 +97,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the number of elements in the given array is equal to the expected one.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param expectedSize the expected size of {@code actual}.
@@ -106,6 +110,7 @@ public class DoubleArrays {
 
   /**
    * Assert that the actual array has the same size as the other {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
@@ -119,6 +124,7 @@ public class DoubleArrays {
 
   /**
    * Assert that the actual array has the same size as the other array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param other the group to compare
@@ -132,6 +138,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array contains the given values, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected to be in the given array.
@@ -146,14 +153,15 @@ public class DoubleArrays {
 
   /**
    * Verifies that the given array contains the given value at the given index.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.
    * @param index the index where the value should be stored in the given array.
    * @throws AssertionError if the given array is {@code null} or empty.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the given
-   *           array.
+   * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
+   *           the given array.
    * @throws AssertionError if the given array does not contain the given value at the given index.
    */
   public void assertContains(AssertionInfo info, double[] actual, double value, Index index) {
@@ -162,6 +170,7 @@ public class DoubleArrays {
 
   /**
    * Verifies that the given array does not contain the given value at the given index.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param value the value to look for.
@@ -176,14 +185,15 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array contains only the given values and nothing else, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected to be in the given array.
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the given array does not contain the given values or if the given array contains values that are
-   *           not in the given array.
+   * @throws AssertionError if the given array does not contain the given values or if the given array contains values
+   *           that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, double[] actual, double[] values) {
     arrays.assertContainsOnly(info, failures, actual, values);
@@ -191,6 +201,7 @@ public class DoubleArrays {
 
   /**
    * Verifies that the given array contains the given sequence of values, without any other values between them.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of values to look for.
@@ -205,6 +216,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array does not contain the given values.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param values the values that are expected not to be in the given array.
@@ -219,6 +231,7 @@ public class DoubleArrays {
 
   /**
    * Asserts that the given array does not have duplicate values.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @throws NullPointerException if the array of values is {@code null}.
@@ -231,9 +244,10 @@ public class DoubleArrays {
   }
 
   /**
-   * Verifies that the given array starts with the given sequence of values, without any other values between them. Similar to
-   * <code>{@link #assertContainsSequence(AssertionInfo, double[], double[])}</code>, but it also verifies that the first element
-   * in the sequence is also the first element of the given array.
+   * Verifies that the given array starts with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, double[], double[])}</code>, but it also verifies
+   * that the first element in the sequence is also the first element of the given array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of values to look for.
@@ -247,9 +261,10 @@ public class DoubleArrays {
   }
 
   /**
-   * Verifies that the given array ends with the given sequence of values, without any other values between them. Similar to
-   * <code>{@link #assertContainsSequence(AssertionInfo, double[], double[])}</code>, but it also verifies that the last element
-   * in the sequence is also the last element of the given array.
+   * Verifies that the given array ends with the given sequence of values, without any other values between them.
+   * Similar to <code>{@link #assertContainsSequence(AssertionInfo, double[], double[])}</code>, but it also verifies
+   * that the last element in the sequence is also the last element of the given array.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given array.
    * @param sequence the sequence of values to look for.
@@ -279,7 +294,8 @@ public class DoubleArrays {
    * @param actual the given array.
    * @param comparator the {@link Comparator} used to compare array elements
    */
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual, Comparator<? super Double> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, double[] actual,
+      Comparator<? super Double> comparator) {
     Arrays.assertIsSortedAccordingToComparator(info, failures, actual, comparator);
   }
 }

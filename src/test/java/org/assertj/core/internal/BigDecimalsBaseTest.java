@@ -3,7 +3,6 @@ package org.assertj.core.internal;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
-
 import static org.mockito.Mockito.spy;
 
 import java.math.BigDecimal;
@@ -16,7 +15,6 @@ import org.assertj.core.util.AbsValueComparator;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.Before;
 import org.junit.Rule;
-
 
 /**
  * Base class for {@link BigDecimals} unit tests

@@ -12,7 +12,6 @@ import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAtIndex;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link ShouldBeAtIndex#create(org.assertj.core.description.Description)}</code>.
  * 
@@ -22,9 +21,10 @@ public class ShouldBeAtIndex_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldBeAtIndex(newArrayList("Yoda", "Luke"), new TestCondition<String>("red lightsaber"), atIndex(1),
-        "Luke");
+    ErrorMessageFactory factory = shouldBeAtIndex(newArrayList("Yoda", "Luke"), new TestCondition<String>(
+        "red lightsaber"), atIndex(1), "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Luke'>\nat index <1> to be:\n <red lightsaber>\nin:\n <['Yoda', 'Luke']>\n", message);
+    assertEquals("[Test] \nExpecting:\n <'Luke'>\nat index <1> to be:\n <red lightsaber>\nin:\n <['Yoda', 'Luke']>\n",
+        message);
   }
 }

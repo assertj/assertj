@@ -8,7 +8,6 @@ import static org.junit.Assert.fail;
 import org.assertj.core.test.Player;
 import org.junit.Test;
 
-
 public class Filter_having_condition_Test extends AbstractTest_filter {
 
   private PotentialMvpCondition mvpStats = new PotentialMvpCondition();

@@ -126,7 +126,8 @@ public class Strings_assertContains_Test extends StringsBaseTest {
     try {
       stringsWithCaseInsensitiveComparisonStrategy.assertContains(info, "Yoda", "Yo", "da", "Han");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy));
+      verify(failures).failure(info,
+          shouldContain("Yoda", array("Yo", "da", "Han"), newLinkedHashSet("Han"), comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

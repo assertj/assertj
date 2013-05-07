@@ -32,7 +32,6 @@ import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Compares the contents of two files or two streams.
  * 

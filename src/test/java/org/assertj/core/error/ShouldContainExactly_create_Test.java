@@ -29,7 +29,6 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link ShouldContainExactly#create(Description)}</code>.
  * 

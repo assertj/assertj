@@ -19,7 +19,6 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * A text-based description.
  * 

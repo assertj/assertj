@@ -1,14 +1,14 @@
 /*
  * Created on Oct 25, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -24,7 +24,6 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
  * 
@@ -37,6 +36,7 @@ public class Doubles extends RealNumbers<Double> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Doubles instance() {
@@ -64,8 +64,9 @@ public class Doubles extends RealNumbers<Double> {
 
   /**
    * Verifies that two floats are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison
-   * strategy.
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison strategy.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
@@ -81,9 +82,12 @@ public class Doubles extends RealNumbers<Double> {
     checkNumberIsNotNull(expected);
     assertNotNull(info, actual);
     // doesn't use areEqual method relying on comparisonStrategy attribute
-    if (Objects.areEqual(actual, expected)) return;
-    if (expected != null && isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected.doubleValue() - actual.doubleValue())));
+    if (Objects.areEqual(actual, expected))
+      return;
+    if (expected != null && isEqualTo(actual, expected, offset))
+      return;
+    throw failures.failure(info,
+        shouldBeEqual(actual, expected, offset, abs(expected.doubleValue() - actual.doubleValue())));
   }
 
   @Override

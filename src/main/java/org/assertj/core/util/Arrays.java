@@ -120,5 +120,6 @@ public class Arrays {
     return array.length > 0;
   }
 
-  private Arrays() {}
+  private Arrays() {
+  }
 }

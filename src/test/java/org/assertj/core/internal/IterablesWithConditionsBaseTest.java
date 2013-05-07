@@ -10,7 +10,6 @@ import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Iterables;
 import org.junit.Before;
 
-
 /**
  * Base class for testing <code>{@link Iterables}</code> with {@link Conditions}.
  * <p>

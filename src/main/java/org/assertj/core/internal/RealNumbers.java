@@ -34,6 +34,7 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
@@ -44,8 +45,9 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
 
   /**
    * Returns true if the two floats parameter are equal within a positive offset, false otherwise.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison
-   * strategy.
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison strategy.
+   * 
    * @param actual the actual value.
    * @param expected the expected value.
    * @param offset the given positive offset.

@@ -48,9 +48,8 @@ public class ShouldContainStringSequence extends BasicErrorMessageFactory {
       ComparisonStrategy comparisonStrategy) {
 
     return new ShouldContainStringSequence(
-                                           "\nExpecting:\n <%s>\nto contain the following Strings in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
-                                           actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex],
-                                           comparisonStrategy);
+        "\nExpecting:\n <%s>\nto contain the following Strings in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
+        actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex], comparisonStrategy);
   }
 
   private ShouldContainStringSequence(String format, String actual, String[] strings, String foundButBadOrder,

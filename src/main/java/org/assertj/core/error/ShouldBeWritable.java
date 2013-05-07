@@ -19,9 +19,9 @@ import java.io.File;
 /**
  * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is writable
  * failed.
- *
+ * 
  * @author Olivier Demeijer
- *
+ * 
  */
 public class ShouldBeWritable extends BasicErrorMessageFactory {
 
@@ -31,6 +31,7 @@ public class ShouldBeWritable extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeWritable}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */

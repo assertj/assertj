@@ -75,7 +75,7 @@ public final class Iterables {
    * @param <T> the type of elements of the {@code Iterable}.
    * @param i the given {@code Iterable}.
    * @return all the non-{@code null} elements in the given {@code Iterable}. An empty list is returned if the given
-   *        {@code Iterable} is {@code null}.
+   *         {@code Iterable} is {@code null}.
    * @since 1.1.3
    */
   public static <T> List<T> nonNullElementsIn(Iterable<T> i) {
@@ -91,5 +91,6 @@ public final class Iterables {
     return nonNull;
   }
 
-  private Iterables() {}
+  private Iterables() {
+  }
 }

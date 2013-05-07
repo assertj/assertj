@@ -13,13 +13,12 @@ import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
- * Base class for testing <code>{@link Floats}</code>, set up an instance with {@link StandardComparisonStrategy} and another with
- * {@link ComparatorBasedComparisonStrategy}.
+ * Base class for testing <code>{@link Floats}</code>, set up an instance with {@link StandardComparisonStrategy} and
+ * another with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Floats#failures} appropriately and to use
- * {@link Floats#NaN()}.
+ * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Floats#failures} appropriately and
+ * to use {@link Floats#NaN()}.
  * 
  * @author Joel Costigliola
  */

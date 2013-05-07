@@ -28,7 +28,6 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  * Tests for <code>{@link ShouldBeInstance#create(Description)}</code>.
  * 

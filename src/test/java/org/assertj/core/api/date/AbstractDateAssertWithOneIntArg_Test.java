@@ -2,7 +2,6 @@ package org.assertj.core.api.date;
 
 import static org.junit.Assert.assertSame;
 
-
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;

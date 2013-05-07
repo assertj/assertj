@@ -473,20 +473,15 @@ public class Assertions {
    * 
    * <pre>
    * // extract simple property values having a java standard type (here String)
-   * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing))
-   *                                                                            .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;,
-   *                                                                                      &quot;Legolas&quot;)
-   *                                                                            .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
+   * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;,
+   *     &quot;Legolas&quot;).doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    * 
    * // extracting property works also with user's types (here Race)
-   * assertThat(extractProperty(&quot;race&quot;, String.class).from(fellowshipOfTheRing))
-   *                                                                            .contains(HOBBIT, ELF)
-   *                                                                            .doesNotContain(ORC);
+   * assertThat(extractProperty(&quot;race&quot;, String.class).from(fellowshipOfTheRing)).contains(HOBBIT, ELF).doesNotContain(ORC);
    * 
    * // extract nested property on Race
-   * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
-   *                                                                                 .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
-   *                                                                                 .doesNotContain(&quot;Orc&quot;);
+   * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
+   *     .doesNotContain(&quot;Orc&quot;);
    * </pre>
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
@@ -502,9 +497,8 @@ public class Assertions {
    * <pre>
    * // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
-   * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing))
-   *                                                              .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;, &quot;Legolas&quot;)
-   *                                                              .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
+   * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing)).contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;, &quot;Legolas&quot;)
+   *     .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
    * 
    * // extracting property works also with user's types (here Race), even though it will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, Race.class) instead.
@@ -686,9 +680,8 @@ public class Assertions {
    * and with filter language based on java bean property :
    * 
    * <pre>
-   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
-   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7)
-   *                           .get()).containsOnly(james, rose);
+   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *     .containsOnly(james, rose);
    * </pre>
    */
   public static <E> Filters<E> filter(E[] array) {
@@ -710,9 +703,8 @@ public class Assertions {
    * and with filter language based on java bean property :
    * 
    * <pre>
-   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20)
-   *                           .and(&quot;assistsPerGame&quot;).greaterThan(7)
-   *                           .get()).containsOnly(james, rose);
+   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;).greaterThan(7).get())
+   *     .containsOnly(james, rose);
    * </pre>
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {

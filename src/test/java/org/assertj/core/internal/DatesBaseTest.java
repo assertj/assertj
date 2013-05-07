@@ -15,7 +15,6 @@ import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.Before;
 import org.junit.Rule;
 
-
 /**
  * Base class for {@link Dates} unit tests
  * <p>
@@ -52,6 +51,7 @@ public abstract class DatesBaseTest {
 
   /**
    * Simply delegate to {@link org.assertj.core.util.Dates#parse(String)}
+   * 
    * @param dateAsString see {@link org.assertj.core.util.Dates#parse(String)}
    * @return see {@link org.assertj.core.util.Dates#parse(String)}
    */
@@ -61,6 +61,7 @@ public abstract class DatesBaseTest {
 
   /**
    * Simply delegate to {@link org.assertj.core.util.Dates#parseDatetime(String)}
+   * 
    * @param dateAsString see {@link org.assertj.core.util.Dates#parseDatetime(String)}
    * @return see {@link org.assertj.core.util.Dates#parseDatetime(String)}
    */

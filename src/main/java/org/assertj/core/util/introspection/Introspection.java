@@ -23,7 +23,6 @@ import static org.assertj.core.util.Strings.quote;
 import java.beans.*;
 import java.lang.reflect.Method;
 
-
 /**
  * Utility methods related to <a
  * href="http://java.sun.com/docs/books/tutorial/javabeans/introspection/index.html">JavaBeans Introspection</a>.
@@ -93,5 +92,6 @@ public final class Introspection {
     }
   }
 
-  private Introspection() {}
+  private Introspection() {
+  }
 }

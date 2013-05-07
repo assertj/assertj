@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
-
 public class ConditionsBaseTest {
 
   protected static Object actual;
