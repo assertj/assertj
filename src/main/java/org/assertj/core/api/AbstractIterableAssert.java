@@ -71,6 +71,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
+  public S isEqualTo(List<? extends T> expected) {
+    objects.assertEqual(info, actual, expected);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
   public S hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
     return myself;
