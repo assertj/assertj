@@ -1,7 +1,5 @@
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Dates.ISO_DATE_FORMAT;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -40,10 +38,10 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
 
   /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string to Date.<br>
-   * The format used can be overriden by invoking {@link #withDateFormat(DateFormat)}
+   * The format used can be overridden by invoking {@link #withDateFormat(DateFormat)}
    */
   @VisibleForTesting
-  static DateFormat dateFormat = ISO_DATE_FORMAT;
+  static DateFormat dateFormat = org.assertj.core.util.Dates.newIsoDateFormat();
 
   /**
    * Creates a new </code>{@link DateAssert}</code>.
@@ -289,8 +287,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * To include end in the period set inclusiveEnd parameter to <code>true</code>.<br>
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start {@code Date} is {@code null}.
@@ -307,8 +305,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * date format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param start the period start, expected not to be null.
    * @param end the period end, expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start Date as String is {@code null}.
@@ -327,8 +325,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * To include end in the period set inclusiveEnd parameter to <code>true</code>.<br>
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start {@code Date} is {@code null}.
@@ -345,8 +343,8 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * ISO date format (yyyy-MM-dd) or user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
-   * @param inclusiveStart wether to include start date in period.
-   * @param inclusiveEnd wether to include end date in period.
+   * @param inclusiveStart whether to include start date in period.
+   * @param inclusiveEnd whether to include end date in period.
    * @return this assertion object.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws NullPointerException if start Date as String is {@code null}.
@@ -510,7 +508,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
   }
 
   /**
-   * Verifies that the actual {@code Date} hour od day is equal to the given hour of day (24-hour clock).
+   * Verifies that the actual {@code Date} hour of day is equal to the given hour of day (24-hour clock).
    * <p>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    * 
@@ -861,14 +859,14 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
    * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
    */
   public static void useIsoDateFormat() {
-    dateFormat = ISO_DATE_FORMAT;
+    dateFormat = org.assertj.core.util.Dates.newIsoDateFormat();
   }
 
   /**
-   * Utillity method to parse a Date with {@link #dateFormat}, note that it is thread safe.<br>
+   * Utility method to parse a Date with {@link #dateFormat}, note that it is thread safe.<br>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.
    * @param dateAsString the string to parse as a Date with {@link #dateFormat}
-   * @return the corrresponding Date, null if dateAsString parameter is null.
+   * @return the corresponding Date, null if dateAsString parameter is null.
    * @throws AssertionError if the string can't be parsed as a Date
    */
   private static Date parse(String dateAsString) {

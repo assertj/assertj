@@ -17,13 +17,13 @@ package org.assertj.core.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
-import static org.assertj.core.util.Dates.ISO_DATE_TIME_FORMAT;
 
 import java.text.ParseException;
 
 import org.assertj.core.description.*;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeInSameHour;
+import org.assertj.core.util.Dates;
 import org.junit.Test;
 
 
@@ -31,13 +31,14 @@ import org.junit.Test;
  * Tests for <code>{@link ShouldBeInSameHour#create(Description)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ShouldBeInSameHour_create_Test {
 
   @Test
   public void should_create_error_message() throws ParseException {
-    ErrorMessageFactory factory = shouldBeInSameHour(ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:00:00"),
-        ISO_DATE_TIME_FORMAT.parse("2011-01-01T06:00:00"));
+    ErrorMessageFactory factory = shouldBeInSameHour(Dates.parseDatetime("2011-01-01T05:00:00"),
+        Dates.parseDatetime("2011-01-01T06:00:00"));
 
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <2011-01-01T05:00:00>\nto be on same year, month, day and hour as:\n <2011-01-01T06:00:00>",

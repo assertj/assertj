@@ -17,7 +17,6 @@ package org.assertj.core.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
-import static org.assertj.core.util.Dates.ISO_DATE_TIME_FORMAT;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -25,6 +24,7 @@ import java.util.Date;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ShouldHaveTime;
+import org.assertj.core.util.Dates;
 import org.junit.Test;
 
 
@@ -34,12 +34,13 @@ import org.junit.Test;
  * @author Guillaume Girou
  * @author Nicolas François
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ShouldHaveTime_create_Test {
 
   @Test
   public void should_create_error_message() throws ParseException {
-    Date date = ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:01:00");
+    Date date = Dates.parseDatetime("2011-01-01T05:01:00");
     String message = shouldHaveTime(date, 123).create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting\n <2011-01-01T05:01:00>\nto have time:\n <123L>\nbut was:\n <" + date.getTime() + "L>", message);
   }

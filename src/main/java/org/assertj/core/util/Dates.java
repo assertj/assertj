@@ -24,23 +24,31 @@ import java.util.Date;
  * Utility methods related to dates.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class Dates {
 
   /**
    * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
    */
-  public static final DateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+  private static final DateFormat ISO_DATE_FORMAT = newIsoDateFormat();
 
   /**
    * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
    */
-  public static final DateFormat ISO_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+  private static final DateFormat ISO_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
   /**
    * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example : <code>2003-04-26T03:01:02.999</code>
    */
-  public static final DateFormat ISO_DATE_TIME_FORMAT_WITH_MS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  private static final DateFormat ISO_DATE_TIME_FORMAT_WITH_MS = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+
+  /**
+   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
+   */
+  public static DateFormat newIsoDateFormat() {
+    return new SimpleDateFormat("yyyy-MM-dd");
+  }
 
   /**
    * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
@@ -81,10 +89,10 @@ public class Dates {
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_FORMAT}, returns null if the given String is null.
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_FORMAT}
-   * @return the corrresponding Date or null if the given String is null.
+   * @return the corresponding Date or null if the given String is null.
    * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
    */
-  public static Date parse(String dateAsString) {
+  public static synchronized Date parse(String dateAsString) {
     try {
       return dateAsString == null ? null : ISO_DATE_FORMAT.parse(dateAsString);
     } catch (ParseException e) {
@@ -95,12 +103,26 @@ public class Dates {
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
-   * @return the corrresponding Date with time details or null if the given String is null.
+   * @return the corresponding Date with time details or null if the given String is null.
    * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
    */
-  public static Date parseDatetime(String dateAsString) {
+  public static synchronized Date parseDatetime(String dateAsString) {
     try {
       return dateAsString == null ? null : ISO_DATE_TIME_FORMAT.parse(dateAsString);
+    } catch (ParseException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  /**
+   * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}, returns null if the given String is null.
+   * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}
+   * @return the corresponding Date with time details or null if the given String is null.
+   * @throws RuntimeException encapsulating ParseException if the string can't be parsed as a Date
+   */
+  public static synchronized Date parseDatetimeWithMs(String dateAsString) {
+    try {
+      return dateAsString == null ? null : ISO_DATE_TIME_FORMAT_WITH_MS.parse(dateAsString);
     } catch (ParseException e) {
       throw new RuntimeException(e);
     }

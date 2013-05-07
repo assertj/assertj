@@ -16,19 +16,18 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.assertj.core.util.Dates;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is in same year, month, day
- * of month, hour, minute, second adn millisecond as another one failed.
+ * of month, hour, minute, second and millisecond as another one failed.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ShouldBeInSameMillisecond extends BasicErrorMessageFactory {
-
-  private static final DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss:SS");
 
   /**
    * Creates a new </code>{@link ShouldBeInSameMillisecond}</code>.
@@ -45,6 +44,6 @@ public class ShouldBeInSameMillisecond extends BasicErrorMessageFactory {
 
     super(format(
         "\nExpecting:\n <%s>\nto be on same year, month, day, hour, minute, second and millisecond as:\n <%s>",
-        dateformat.format(actual), dateformat.format(other)));
+        Dates.formatAsDatetimeWithMs(actual), Dates.formatAsDatetimeWithMs(other)));
   }
 }
