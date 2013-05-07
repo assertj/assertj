@@ -40,7 +40,7 @@ public class ShouldBeInSameMillisecond_create_Test {
     Date date2 = dateFormat.parse("1994-08-26T22:35:17:30");
     String message = shouldBeInSameMillisecond(date1, date2).create(new TextDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <1994-08-26T22:35:17:29>\nto be on same year, month, day, hour, minute, second and millisecond as:\n <1994-08-26T22:35:17:30>",
+        "[Test] \nExpecting:\n <1994-08-26T22:35:17.029>\nto be on same year, month, day, hour, minute, second and millisecond as:\n <1994-08-26T22:35:17.030>",
         message);
   }
 
