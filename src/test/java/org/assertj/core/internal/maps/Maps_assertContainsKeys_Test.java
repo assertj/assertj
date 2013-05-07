@@ -33,12 +33,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Maps#assertContainsKey(AssertionInfo, Map, Object)}</code>.
+ * Tests for <code>{@link Maps#assertContainsKeys(AssertionInfo, Map, Object...)}</code>.
  * 
- * @author Nicolas François
- * @author Joel Costigliola
+ * @author William Delanoue
  */
-public class Maps_assertContainsKey_Test extends MapsBaseTest {
+public class Maps_assertContainsKeys_Test extends MapsBaseTest {
 
   @SuppressWarnings("unchecked")
   @Override
@@ -72,6 +71,20 @@ public class Maps_assertContainsKey_Test extends MapsBaseTest {
       maps.assertContainsKeys(info, actual, key);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldContainKey(actual, newLinkedHashSet(key)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_contain_keys() {
+    AssertionInfo info = someInfo();
+    String key1 = "power";
+    String key2 = "rangers";
+    try {
+      maps.assertContainsKeys(info, actual, key1, key2);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldContainKey(actual, newLinkedHashSet(key1, key2)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

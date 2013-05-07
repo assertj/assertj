@@ -28,6 +28,7 @@ import java.util.*;
  * @author Yvonne Wang
  */
 public final class ToString {
+  
   /**
    * Returns the {@code toString} representation of the given object. It may or not the object's own implementation of
    * {@code toString}.

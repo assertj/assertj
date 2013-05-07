@@ -14,10 +14,11 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 
 import java.util.Map;
@@ -37,9 +38,16 @@ public class ShouldContainKey_create_Test {
   @Test
   public void should_create_error_message() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldContainKey(map, "name");
+    ErrorMessageFactory factory = shouldContainKey(map, newLinkedHashSet("name"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain key:\n <'name'>", message);
   }
 
+  @Test
+  public void should_create_error_message_with_multiple_keys() {
+    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+    ErrorMessageFactory factory = shouldContainKey(map, newLinkedHashSet("name", "color"));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain keys:\n <'name', 'color'>", message);
+  }
 }

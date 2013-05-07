@@ -1,14 +1,14 @@
 /*
  * Created on Dec 21, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -38,7 +38,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
  * 
@@ -51,6 +50,7 @@ public class Maps {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Maps instance() {
@@ -61,10 +61,12 @@ public class Maps {
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  Maps() {}
+  Maps() {
+  }
 
   /**
    * Asserts that the given {@code Map} is {@code null} or empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given map.
    * @throws AssertionError if the given {@code Map} is not {@code null} *and* contains one or more entries.
@@ -78,6 +80,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} is empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @throws AssertionError if the given {@code Map} is {@code null}.
@@ -93,6 +96,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} is not empty.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @throws AssertionError if the given {@code Map} is {@code null}.
@@ -108,6 +112,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} is equal to the expected one.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param expectedSize the expected size of {@code actual}.
@@ -125,6 +130,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} has the same size as the other {@code Iterable}.
+   * 
    * @param info contains information about the assertion.
    * @param map the given {@code Map}.
    * @param other the group to compare
@@ -147,6 +153,7 @@ public class Maps {
 
   /**
    * Asserts that the number of entries in the given {@code Map} has the same size as the other array.
+   * 
    * @param info contains information about the assertion.
    * @param map the given {@code Map}.
    * @param other the group to compare
@@ -169,6 +176,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} contains the given entries, in any order.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -182,7 +190,8 @@ public class Maps {
     isNotNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (actual.isEmpty() && entries.length == 0) return;
+    if (actual.isEmpty() && entries.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(entries);
     Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
     for (MapEntry entry : entries) {
@@ -198,6 +207,7 @@ public class Maps {
 
   /**
    * Asserts that the given {@code Map} does not contain the given entries.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param entries the entries that are expected to be in the given {@code Map}.
@@ -224,22 +234,30 @@ public class Maps {
 
   /**
    * Verifies that the actual map contain the given key.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
-   * @param key the given key
+   * @param keys the given keys
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given key.
    */
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K... keys) {
     assertNotNull(info, actual);
-    if (actual.containsKey(key)) {
+    Set<K> notFound = new LinkedHashSet<K>();
+    for (K key : keys) {
+      if (!actual.containsKey(key)) {
+        notFound.add(key);
+      }
+    }
+    if (notFound.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldContainKey(actual, key));
+    throw failures.failure(info, shouldContainKey(actual, notFound));
   }
 
   /**
    * Verifies that the actual map not contains the given key.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param key the given key
@@ -256,6 +274,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map contain the given value.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -272,6 +291,7 @@ public class Maps {
 
   /**
    * Verifies that the actual map not contains the given value.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Map}.
    * @param value the given value
@@ -314,6 +334,7 @@ public class Maps {
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(MapEntry[] values) {
-    if (values.length == 0) throw new AssertionError("actual is not empty");
+    if (values.length == 0)
+      throw new AssertionError("actual is not empty");
   }
 }
