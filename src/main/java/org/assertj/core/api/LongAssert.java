@@ -152,6 +152,18 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
     return this;
   }
 
+  /** {@inheritDoc} */
+  public LongAssert isBetween(Long start, Long end) {
+	longs.assertIsBetween(info, actual, start, end);
+    return this;
+  }
+
+  /** {@inheritDoc} */
+  public LongAssert isStrictlyBetween(Long start, Long end) {
+	longs.assertIsStrictlyBetween(info, actual, start, end);
+    return this;
+  }
+  
   @Override
   public LongAssert usingComparator(Comparator<? super Long> customComparator) {
     super.usingComparator(customComparator);

@@ -70,5 +70,48 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is not non positive.
    */
   NumberAssert<T> isNotPositive();
-
+  
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   * <pre>
+   * // these assertions succeed ... 
+   * assertThat(12).isBetween(10, 14);
+   * assertThat(12).isBetween(12, 14);
+   * assertThat(12).isBetween(10, 12);
+   * 
+   * // ... but these one fails
+   * assertThat(12).isBetween(14, 16);
+   * </pre>
+   * @param start the start value (inclusive), expected not to be null.
+   * @param end the end value (inclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in [start, end] range.
+   */
+  NumberAssert<T> isBetween(T start, T end);
+  
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   * 
+   * <pre>
+   * // this assertion succeeds ... 
+   * assertThat(12).isBetween(10, 14);
+   * 
+   * // ... but these one fails
+   * assertThat(12).isBetween(12, 14);
+   * assertThat(12).isBetween(10, 12);
+   * assertThat(12).isBetween(16, 18);
+   * </pre>
+   * 
+   * @param start the start value (exclusive), expected not to be null.
+   * @param end the end value (exclusive), expected not to be null.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws NullPointerException if start value is {@code null}.
+   * @throws NullPointerException if end value is {@code null}.
+   * @throws AssertionError if the actual value is not in ]start, end[ range.
+   */
+  NumberAssert<T> isStrictlyBetween(T start, T end);
 }
