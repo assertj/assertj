@@ -36,7 +36,7 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
   }
 
   private <K> ShouldContainKey(Object actual, Set<K> key) {
-    // new StringBuilder to avoid "ToString.quote" in message formatting.. better solution ?
-    super("\nExpecting:\n <%s>\nto contain key%s:\n <%s>", actual, new StringBuilder(key.size() == 1 ? "": "s"), new StringBuilder(Strings.join(key).with(", ", "'")));
+    // unquotedString to avoid "ToString.quote" in message formatting.. better solution ?
+    super("\nExpecting:\n <%s>\nto contain key%s:\n <%s>", actual, unquotedString(key.size() == 1 ? "": "s"), unquotedString(Strings.join(key).with(", ", "'")));
   }
 }

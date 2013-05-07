@@ -40,7 +40,6 @@ public class ShouldContainKey_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, newLinkedHashSet("name"));
     String message = factory.create(new TextDescription("Test"));
-    System.out.println(message);
     assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain key:\n <'name'>", message);
   }
 
@@ -49,7 +48,6 @@ public class ShouldContainKey_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKey(map, newLinkedHashSet("name", "color"));
     String message = factory.create(new TextDescription("Test"));
-    System.out.println(message);
     assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain keys:\n <'name', 'color'>", message);
   }
 }
