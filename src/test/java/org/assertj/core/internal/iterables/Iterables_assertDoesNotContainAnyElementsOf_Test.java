@@ -42,26 +42,26 @@ import org.junit.Test;
  */
 public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest {
 
-  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");;
+  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values() {
+  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated() {
+  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated() {
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
+  public void should_throw_error_if_given_iterable_is_empty() {
     thrown.expectIllegalArgumentException(iterableValuesToLookForIsEmpty());
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, Collections.<String>emptyList());
   }
 
   @Test
-  public void should_throw_error_if_array_of_values_to_look_for_is_null() {
+  public void should_throw_error_if_given_iterable_is_null() {
     thrown.expectNullPointerException(iterableValuesToLookForIsNull());
     iterables.assertDoesNotContainAnyElementsOf(someInfo(), emptyList(), null);
   }
@@ -73,13 +73,13 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values() {
+  public void should_fail_if_actual_contains_one_element_of_given_iterable() {
     AssertionInfo info = someInfo();
-    List<String> expected = newArrayList("Luke", "Yoda", "Han");
+    List<String> list = newArrayList("Vador", "Yoda", "Han");
     try {
-      iterables.assertDoesNotContainAnyElementsOf(info, actual, expected);
+      iterables.assertDoesNotContainAnyElementsOf(info, actual, list);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContain(actual, expected.toArray(), newLinkedHashSet("Luke", "Yoda")));
+      verify(failures).failure(info, shouldNotContain(actual, list.toArray(), newLinkedHashSet("Yoda")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -90,19 +90,19 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   // ------------------------------------------------------------------------------------------------------------------
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
         newArrayList("Han"));
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contain_given_values_even_if_duplicated_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
         newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_contains_one_element_of_given_iterable_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
     try {
