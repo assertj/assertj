@@ -1,14 +1,14 @@
 /*
  * Created on Oct 12, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
@@ -24,13 +24,15 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
+import java.util.UUID;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -96,4 +98,20 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+//  @Ignore
+  // Or use @Category, but doesn't "test" nothing.
+  public void testManyGeneration() {
+    AssertionInfo info = someInfo();
+    int generationCount = 100000;
+
+    List<String> generated = new ArrayList<String>(generationCount);
+    for (int count = 0; count < generationCount; count++) {
+      generated.add(UUID.randomUUID().toString());
+    }
+
+    long time = System.currentTimeMillis();
+    iterables.assertDoesNotHaveDuplicates(info, generated);
+    System.out.println("Time elapsed in ms : " + (System.currentTimeMillis() - time));
+  }
 }
