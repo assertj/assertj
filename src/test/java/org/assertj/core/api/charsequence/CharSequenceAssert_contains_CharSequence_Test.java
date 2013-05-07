@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link StringAssert#contains(String...)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#contains(CharSequence)}</code>.
  * 
- * @author Joel Costigliola
+ * @author Alex Ruiz
  */
-public class StringAssert_contains_several_String_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_contains_CharSequence_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.contains("od", "do");
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.contains("od");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContains(getInfo(assertions), getActual(assertions), "od", "do");
+    verify(strings).assertContains(getInfo(assertions), getActual(assertions), "od");
   }
 }

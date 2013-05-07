@@ -1,5 +1,5 @@
 /*
- * Created on Dec 26, 2010
+ * Created on Dec 22, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,28 +12,37 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
-
+import static org.assertj.core.test.TestData.matchAnything;
 import static org.mockito.Mockito.verify;
 
 
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.BeforeClass;
+
 /**
- * Tests for <code>{@link StringAssert#doesNotContain(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#matches(CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_doesNotContain_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_matches_String_Test extends CharSequenceAssertBaseTest {
+
+  private static CharSequence regex;
+
+  @BeforeClass
+  public static void setUpOnce() {
+    regex = matchAnything().pattern();
+  }
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.doesNotContain("Luke");
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.matches(regex);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertDoesNotContain(getInfo(assertions), getActual(assertions), "Luke");
+    verify(strings).assertMatches(getInfo(assertions), getActual(assertions), regex);
   }
 }

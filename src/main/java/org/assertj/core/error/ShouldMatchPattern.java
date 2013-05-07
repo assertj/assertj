@@ -15,9 +15,10 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code String} matches a pattern failed.
+ * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} matches a pattern failed.
  * 
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
 public class ShouldMatchPattern extends BasicErrorMessageFactory {
 
@@ -27,11 +28,11 @@ public class ShouldMatchPattern extends BasicErrorMessageFactory {
    * @param pattern a regular expression pattern.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldMatch(String actual, String pattern) {
+  public static ErrorMessageFactory shouldMatch(CharSequence actual, CharSequence pattern) {
     return new ShouldMatchPattern(actual, pattern);
   }
 
-  private ShouldMatchPattern(String actual, String pattern) {
+  private ShouldMatchPattern(CharSequence actual, CharSequence pattern) {
     super("\nExpecting:\n %s\nto match pattern:\n %s", actual, pattern);
   }
 }

@@ -12,32 +12,32 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
 import static junit.framework.Assert.assertSame;
 
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.Strings;
-import org.assertj.core.util.CaseInsensitiveStringComparator;
+import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
 import org.junit.Before;
 
 /**
- * Tests for <code>{@link StringAssert#usingDefaultComparator()}</code>.
+ * Tests for <code>{@link CharSequenceAssert#usingDefaultComparator()}</code>.
  * 
  * @author Joel Costigliola
  */
-public class StringAssert_usingDefaultComparator_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_usingDefaultComparator_Test extends CharSequenceAssertBaseTest {
 
   @Before
   public void before() {
-    assertions.usingComparator(CaseInsensitiveStringComparator.instance);
+    assertions.usingComparator(CaseInsensitiveCharSequenceComparator.instance);
   }
 
   @Override
-  protected StringAssert invoke_api_method() {
+  protected CharSequenceAssert invoke_api_method() {
     return assertions.usingDefaultComparator();
   }
 

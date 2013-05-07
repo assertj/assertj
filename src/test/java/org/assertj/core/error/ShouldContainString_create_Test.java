@@ -15,8 +15,8 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldContainString.shouldContain;
-import static org.assertj.core.error.ShouldContainString.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.internal.util.collections.Sets.newSet;
 
@@ -27,7 +27,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldContainString#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainCharSequence#create(Description)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang

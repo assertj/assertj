@@ -29,7 +29,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertEmpty(AssertionInfo, String)}</code>.
+ * Tests for <code>{@link Strings#assertEmpty(AssertionInfo, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

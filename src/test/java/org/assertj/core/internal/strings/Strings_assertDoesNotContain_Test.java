@@ -14,7 +14,7 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldNotContainString.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,7 +30,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  */

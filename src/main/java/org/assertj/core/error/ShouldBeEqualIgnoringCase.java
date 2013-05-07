@@ -15,7 +15,7 @@
 package org.assertj.core.error;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two {@code String}s are equal, ignoring case
+ * Creates an error message indicating that an assertion that verifies that two {@code CharSequence}s are equal, ignoring case
  * considerations, failed.
  * 
  * @author Alex Ruiz
@@ -28,11 +28,11 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeEqual(String actual, String expected) {
+  public static ErrorMessageFactory shouldBeEqual(CharSequence actual, CharSequence expected) {
     return new ShouldBeEqualIgnoringCase(actual, expected);
   }
 
-  private ShouldBeEqualIgnoringCase(String actual, String expected) {
+  private ShouldBeEqualIgnoringCase(CharSequence actual, CharSequence expected) {
     super("\nExpecting:\n <%s>\nto be equal to:\n <%s>\nignoring case considerations", actual, expected);
   }
 }

@@ -32,7 +32,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertMatches(AssertionInfo, String, Pattern)}</code>.
+ * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, Pattern)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

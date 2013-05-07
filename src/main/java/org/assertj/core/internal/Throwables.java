@@ -14,7 +14,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldContainString.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
