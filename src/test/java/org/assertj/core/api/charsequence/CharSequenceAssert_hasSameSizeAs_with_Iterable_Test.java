@@ -12,7 +12,7 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -20,16 +20,16 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
- * Tests for <code>{@link StringAssert#hasSameSizeAs(Iterable)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#hasSameSizeAs(Iterable)}</code>.
  * 
  * @author Nicolas François
  */
-public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_hasSameSizeAs_with_Iterable_Test extends CharSequenceAssertBaseTest {
 
   private static List<String> other;
   
@@ -39,7 +39,7 @@ public class StringAssert_hasSameSizeAs_with_Iterable_Test extends StringAssertB
   }
 
   @Override
-  protected StringAssert invoke_api_method() {
+  protected CharSequenceAssert invoke_api_method() {
     return assertions.hasSameSizeAs(other);
   }
 

@@ -29,7 +29,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertStartsWith(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertStartsWith(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

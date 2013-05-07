@@ -1,6 +1,6 @@
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldContainStringOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -10,10 +10,14 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
 
+/**
+ * Tests for <code>{@link Strings#assertContainsOnlyOnce(AssertionInfo, CharSequence, CharSequence)}</code>.
+ */
 public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test

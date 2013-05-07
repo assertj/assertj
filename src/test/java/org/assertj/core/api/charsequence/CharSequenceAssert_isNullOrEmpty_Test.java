@@ -12,31 +12,36 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.charsequence;
 
-import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.StringAssert;
+
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#isNullOrEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Assertions_assertThat_with_String_Test {
+public class CharSequenceAssert_isNullOrEmpty_Test extends CharSequenceAssertBaseTest {
 
-  @Test
-  public void should_create_Assert() {
-    StringAssert assertions = Assertions.assertThat("Yoda");
-    assertNotNull(assertions);
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    assertions.isNullOrEmpty();
+    return null;
   }
 
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
+  }
+  
+  @Override
   @Test
-  public void should_pass_actual() {
-    String actual = "Yoda";
-    StringAssert assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+  public void should_return_this() {
+    // Disable this test, the isNullOrEmpty method is void.
   }
 }

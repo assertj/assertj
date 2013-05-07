@@ -14,7 +14,7 @@
  */
 package org.assertj.core.internal.throwables;
 
-import static org.assertj.core.error.ShouldContainString.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 

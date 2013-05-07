@@ -16,19 +16,19 @@ package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.assertj.core.error.ShouldNotContainString.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotContainString;
+import org.assertj.core.error.ShouldNotContainCharSequence;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldNotContainString#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotContainCharSequence#create(Description)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang

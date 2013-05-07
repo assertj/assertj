@@ -18,43 +18,44 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code String} contains aa sequence of
- * several {@code String} in order failed.
+ * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a sequence of
+ * several {@code CharSequence}s in order failed.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ShouldContainStringSequence extends BasicErrorMessageFactory {
+public class ShouldContainCharSequenceSequence extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldContainStringSequence}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequenceSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(String actual, String[] strings, int firstBadOrderIndex) {
+  public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int firstBadOrderIndex) {
     return shouldContainSequence(actual, strings, firstBadOrderIndex, StandardComparisonStrategy.instance());
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainStringSequence}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequenceSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainSequence(String actual, String[] strings, int badOrderIndex,
+  public static ErrorMessageFactory shouldContainSequence(CharSequence actual, CharSequence[] strings, int badOrderIndex,
       ComparisonStrategy comparisonStrategy) {
 
-    return new ShouldContainStringSequence(
-                                           "\nExpecting:\n <%s>\nto contain the following Strings in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
+    return new ShouldContainCharSequenceSequence(
+                                           "\nExpecting:\n <%s>\nto contain the following CharSequences in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
                                            actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex],
                                            comparisonStrategy);
   }
 
-  private ShouldContainStringSequence(String format, String actual, String[] strings, String foundButBadOrder,
-      String foundButBadOrder2, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainCharSequenceSequence(String format, CharSequence actual, CharSequence[] strings, CharSequence foundButBadOrder,
+      CharSequence foundButBadOrder2, ComparisonStrategy comparisonStrategy) {
     super(format, actual, strings, foundButBadOrder, foundButBadOrder2, comparisonStrategy);
   }
 

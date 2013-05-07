@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link StringAssert#containsIgnoringCase(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_containsIgnoringCase_String_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_hasSize_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.containsIgnoringCase("od");
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.hasSize(6);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertContainsIgnoringCase(getInfo(assertions), getActual(assertions), "od");
+    verify(strings).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }

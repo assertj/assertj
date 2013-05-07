@@ -29,7 +29,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertEqualsIgnoringCase(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertEqualsIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

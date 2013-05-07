@@ -16,7 +16,7 @@ package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.assertj.core.error.ShouldContainStringSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 
 import org.junit.Test;
 
@@ -26,7 +26,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 
 /**
- * Tests for <code>{@link ShouldContainStringSequence#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainCharSequenceSequence#create(Description)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -42,7 +42,7 @@ public class ShouldContainSequenceString_create_Test {
     factory = shouldContainSequence(actual, sequenceValues, 1);
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <'" + actual + "'>\n"
-        + "to contain the following Strings in this order:\n"
+        + "to contain the following CharSequences in this order:\n"
         + " <['{', 'author', 'title', '}']>\n"
         + "but <'title'> was found before <'author'>\n", message);
   }
@@ -56,7 +56,7 @@ public class ShouldContainSequenceString_create_Test {
                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <'" + actual + "'>\n"
-        + "to contain the following Strings in this order:\n"
+        + "to contain the following CharSequences in this order:\n"
         + " <['{', 'author', 'title', '}']>\n"
         + "but <'title'> was found before <'author'>\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
