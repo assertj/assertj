@@ -99,7 +99,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   }
 
   @Test
-//  @Ignore
+  @Ignore
   // Or use @Category, but doesn't "test" nothing.
   public void testManyGeneration() {
     AssertionInfo info = someInfo();
