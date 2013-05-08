@@ -15,10 +15,11 @@
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
+import static java.util.Collections.EMPTY_SET;
+
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 
 import java.lang.reflect.Array;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -30,20 +31,26 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-    Set<Object> duplicates = new HashSet<Object>();
-    if (isNullOrEmpty(iterable)) {
-      return duplicates;
-    }
-    Set<Object> noDuplicates = new HashSet<Object>();
+    // To optimize the search - see https://github.com/alexruiz/fest-assert-2.x/issues/122
+    if (isNullOrEmpty(iterable)) return EMPTY_SET;
+
+    Set<Object> duplicates = newSetUsingComparisonStrategy();
+    Set<Object> noEmbeddedDuplicates = newSetUsingComparisonStrategy();
     for (Object element : iterable) {
-      if (iterableContains(noDuplicates, element)) {
+      if (noEmbeddedDuplicates.contains(element)) {
         duplicates.add(element);
       } else {
-        noDuplicates.add(element);
+        noEmbeddedDuplicates.add(element);
       }
     }
     return duplicates;
   }
+
+  /**
+   * Returns a {@link Set} honoring the comparison strategy used.
+   * @return a {@link Set} honoring the comparison strategy used.
+   */
+  protected abstract Set<Object> newSetUsingComparisonStrategy();
 
   @Override
   public boolean arrayContains(Object array, Object value) {
