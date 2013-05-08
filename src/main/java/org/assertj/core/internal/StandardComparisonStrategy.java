@@ -16,7 +16,6 @@ package org.assertj.core.internal;
  */
 
 import static java.lang.String.format;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -78,7 +77,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       return false;
     }
     for (Object next : iterable) {
-      if (Objects.areEqual(next, value)) {
+      if (areEqual(next, value)) {
         return true;
       }
     }
@@ -109,48 +108,15 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * @return an {@link Iterable} containing the duplicate elements of the given one. If no duplicates are found, an
    *         empty {@link Iterable} is returned.
    */
+  // overriden to write javadoc.
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-    // To optimize the search (see https://github.com/alexruiz/fest-assert-2.x/issues/122)
-    class Embedded {
-      private final Object embedded;
+    return super.duplicatesFrom(iterable);
+  }
 
-      private final int hashCode;
-
-      public Embedded(Object embedded) {
-        this.embedded = embedded;
-        this.hashCode = Objects.hashCodeFor(embedded);
-      }
-
-      @Override
-      public boolean equals(Object o) {
-        if (o instanceof Embedded) {
-          return Objects.areEqual(embedded, ((Embedded) o).embedded);
-        }
-        // Can't append.
-        return false;
-      }
-
-      @Override
-      public int hashCode() {
-        return hashCode;
-      }
-    }
-
-    Set<Object> duplicates = new HashSet<Object>();
-    if (isNullOrEmpty(iterable)) {
-      return duplicates;
-    }
-    Set<Embedded> noDuplicates = new HashSet<Embedded>();
-    for (Object element : iterable) {
-      Embedded e = new Embedded(element);
-      if (noDuplicates.contains(e)) {
-        duplicates.add(element);
-      } else {
-        noDuplicates.add(e);
-      }
-    }
-    return duplicates;
+  @Override
+  protected Set<Object> newSetUsingComparisonStrategy() {
+    return new HashSet<Object>();
   }
 
   @Override
