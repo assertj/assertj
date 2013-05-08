@@ -35,12 +35,12 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     if (isNullOrEmpty(iterable)) return EMPTY_SET;
 
     Set<Object> duplicates = newSetUsingComparisonStrategy();
-    Set<Object> noEmbeddedDuplicates = newSetUsingComparisonStrategy();
+    Set<Object> noDuplicates = newSetUsingComparisonStrategy();
     for (Object element : iterable) {
-      if (noEmbeddedDuplicates.contains(element)) {
+      if (noDuplicates.contains(element)) {
         duplicates.add(element);
       } else {
-        noEmbeddedDuplicates.add(element);
+        noDuplicates.add(element);
       }
     }
     return duplicates;
