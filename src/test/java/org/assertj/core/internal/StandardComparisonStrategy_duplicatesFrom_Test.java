@@ -28,7 +28,7 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * Tests for {@link StandardComparisonStrategy#standardComparisonStrategy.duplicatesFrom(java.util.Collection)}.<br>
+ * Tests for {@link StandardComparisonStrategy#duplicatesFrom(Iterable)}.<br>
  * 
  * @author Joel Costigliola
  */
