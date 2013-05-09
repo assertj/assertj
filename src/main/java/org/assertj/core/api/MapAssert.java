@@ -79,6 +79,12 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
 
   /**
    * Verifies that the actual map contains the given entries, in any order.
+   * <p>
+   * Example :
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
+   * </pre>
    * 
    * @param entries the given entries.
    * @return {@code this} assertion object.
@@ -95,6 +101,12 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
 
   /**
    * Verifies that the actual map contains the given entry.
+   * <p>
+   * Example :
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
+   * </pre>
    * 
    * @param key the given key to check.
    * @param value the given value to check.
