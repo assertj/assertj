@@ -17,9 +17,10 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.assertj.core.util.Objects;
 
@@ -32,6 +33,9 @@ import org.assertj.core.util.Objects;
 public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   private static final StandardComparisonStrategy INSTANCE = new StandardComparisonStrategy();
+
+  // Define a comparator to use areEqual to compare objects in Set, this is needed to implement duplicatesFrom.
+  private final Comparator<Object> comparator;
 
   /**
    * Returns the singleton instance of this class.
@@ -47,6 +51,15 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * {@link Object#equals(Object)}.
    */
   private StandardComparisonStrategy() {
+    // define a comparator so that we can use areEqual to compare objects in Set collections
+    // the "less than" comparison does not make much sense here but need to be defined.
+    comparator = new Comparator<Object>() {
+      @Override
+      public int compare(Object o1, Object o2) {
+        if (areEqual(o1, o2)) return 0;
+        return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
+      }
+    };
   }
 
   /**
@@ -94,7 +107,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     }
     Iterator<?> iterator = iterable.iterator();
     while (iterator.hasNext()) {
-      if (Objects.areEqual(iterator.next(), value)) {
+      if (areEqual(iterator.next(), value)) {
         iterator.remove();
       }
     }
@@ -116,7 +129,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   @Override
   protected Set<Object> newSetUsingComparisonStrategy() {
-    return new HashSet<Object>();
+    return new TreeSet<Object>(comparator);
   }
 
   @Override
