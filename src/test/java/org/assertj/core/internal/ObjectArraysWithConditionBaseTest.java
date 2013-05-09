@@ -14,8 +14,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.mockito.Mockito.spy;
-
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.condition.JediCondition;
@@ -34,7 +32,6 @@ import org.junit.Before;
  */
 public class ObjectArraysWithConditionBaseTest extends ObjectArraysBaseTest {
 
-  protected Conditions conditions;
   protected Condition<String> jediPower;
   protected TestCondition<Object> testCondition;
   protected Condition<String> jedi;
@@ -43,8 +40,6 @@ public class ObjectArraysWithConditionBaseTest extends ObjectArraysBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    conditions = spy(new Conditions());
-    arrays.conditions = conditions;
     jediPower = new JediPowerCondition();
     jedi = new JediCondition();
     testCondition = new TestCondition<Object>();

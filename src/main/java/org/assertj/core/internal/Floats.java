@@ -30,6 +30,7 @@ import org.assertj.core.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class Floats extends RealNumbers<Float> {
 
@@ -86,7 +87,7 @@ public class Floats extends RealNumbers<Float> {
     checkNumberIsNotNull(expected);
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
-    if (expected != null && isEqualTo(actual, expected, offset)) return;
+    if (isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual.floatValue())));
   }
 
