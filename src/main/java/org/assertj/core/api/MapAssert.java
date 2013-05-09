@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Maps;
-import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

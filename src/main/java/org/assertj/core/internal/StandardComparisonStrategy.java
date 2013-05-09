@@ -25,8 +25,9 @@ import java.util.TreeSet;
 import org.assertj.core.util.Objects;
 
 /**
- * Implements {@link ComparisonStrategy} contract with a comparison strategy based on {@link Object#equals(Object)}
- * method, it is also based on {@link Comparable#compareTo(Object)} when Object are {@link Comparable} method.
+ * Implements {@link ComparisonStrategy} contract with a comparison strategy based on
+ * {@link Objects#areEqual(Object, Object)} method, it is also based on {@link Comparable#compareTo(Object)} when Object
+ * are {@link Comparable} method.
  * 
  * @author Joel Costigliola
  */
@@ -48,7 +49,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   /**
    * Creates a new </code>{@link StandardComparisonStrategy}</code>, comparison strategy being based on
-   * {@link Object#equals(Object)}.
+   * {@link Objects#areEqual(Object, Object)}.
    */
   private StandardComparisonStrategy() {
     // define a comparator so that we can use areEqual to compare objects in Set collections
@@ -63,11 +64,11 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Returns true if actual and other are equal based on {@link Object#equals(Object)}, false otherwise.
+   * Returns true if actual and other are equal based on {@link Objects#areEqual(Object, Object)}, false otherwise.
    * 
    * @param actual the object to compare to other
    * @param other the object to compare to actual
-   * @return true if actual and other are equal based on {@link Object#equals(Object)}, false otherwise.
+   * @return true if actual and other are equal based on {@link Objects#areEqual(Object, Object)}, false otherwise.
    */
   @Override
   public boolean areEqual(Object actual, Object other) {
@@ -75,14 +76,14 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Returns true if given {@link Iterable} contains given value based on {@link Object#equals(Object)}, false
-   * otherwise.<br>
+   * Returns true if given {@link Iterable} contains given value based on {@link Objects#areEqual(Object, Object)},
+   * false otherwise.<br>
    * If given {@link Iterable} is null, return false.
    * 
    * @param iterable the {@link Iterable} to search value in
    * @param value the object to look for in given {@link Iterable}
-   * @return true if given {@link Iterable} contains given value based on {@link Object#equals(Object)}, false
-   *         otherwise.
+   * @return true if given {@link Iterable} contains given value based on {@link Objects#areEqual(Object, Object)},
+   *         false otherwise.
    */
   @Override
   public boolean iterableContains(Iterable<?> iterable, Object value) {

@@ -104,7 +104,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @return an {@link Iterable} containing the duplicate elements of the given one. If no duplicates are found, an empty
    *         {@link Iterable} is returned.
    */
-  // overriden to write javadoc.
+  // overridden to write javadoc.
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
