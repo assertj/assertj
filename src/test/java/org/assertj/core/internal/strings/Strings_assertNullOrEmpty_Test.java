@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertNullOrEmpty(AssertionInfo, String)}</code>.
+ * Tests for <code>{@link Strings#assertNullOrEmpty(AssertionInfo, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

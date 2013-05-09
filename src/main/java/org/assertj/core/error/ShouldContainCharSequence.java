@@ -20,81 +20,82 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@code String} contains another
- * {@code String} failed.
+ * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains another
+ * {@code CharSequence} failed.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
-public class ShouldContainString extends BasicErrorMessageFactory {
+public class ShouldContainCharSequence extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldContainString}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(String actual, String sequence) {
-    return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s> %s", actual, sequence,
+  public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence) {
+    return new ShouldContainCharSequence("\nExpecting:\n <%s>\nto contain:\n <%s> %s", actual, sequence,
                                    StandardComparisonStrategy.instance());
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainString}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(String actual, String sequence, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s> %s", actual, sequence, comparisonStrategy);
+  public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence sequence, ComparisonStrategy comparisonStrategy) {
+    return new ShouldContainCharSequence("\nExpecting:\n <%s>\nto contain:\n <%s> %s", actual, sequence, comparisonStrategy);
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainString}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(String actual, String[] strings, Set<String> notFound,
+  public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings, Set<? extends CharSequence> notFound,
       ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s>\nbut could not find:\n <%s>\n %s", actual,
+    return new ShouldContainCharSequence("\nExpecting:\n <%s>\nto contain:\n <%s>\nbut could not find:\n <%s>\n %s", actual,
                                    strings, notFound, comparisonStrategy);
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainString}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param strings the sequence of values expected to be in {@code actual}.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContain(String actual, String[] strings, Set<String> notFound) {
+  public static ErrorMessageFactory shouldContain(CharSequence actual, CharSequence[] strings, Set<? extends CharSequence> notFound) {
     return shouldContain(actual, strings, notFound, StandardComparisonStrategy.instance());
   }
 
   /**
-   * Creates a new <code>{@link ShouldContainString}</code>.
+   * Creates a new <code>{@link ShouldContainCharSequence}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param sequence the sequence of values expected to be in {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainIgnoringCase(String actual, String sequence) {
-    return new ShouldContainString("\nExpecting:\n <%s>\nto contain:\n <%s>\n (ignoring case)", actual, sequence,
+  public static ErrorMessageFactory shouldContainIgnoringCase(CharSequence actual, CharSequence sequence) {
+    return new ShouldContainCharSequence("\nExpecting:\n <%s>\nto contain:\n <%s>\n (ignoring case)", actual, sequence,
                                    StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainString(String format, String actual, String sequence, ComparisonStrategy comparisonStrategy) {
+  private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence, ComparisonStrategy comparisonStrategy) {
     super(format, actual, sequence, comparisonStrategy);
   }
 
-  private ShouldContainString(String format, String actual, String[] values, Set<String> notFound,
+  private ShouldContainCharSequence(String format, CharSequence actual, CharSequence[] values, Set<? extends CharSequence> notFound,
       ComparisonStrategy comparisonStrategy) {
     super(format, actual, values, notFound, comparisonStrategy);
   }

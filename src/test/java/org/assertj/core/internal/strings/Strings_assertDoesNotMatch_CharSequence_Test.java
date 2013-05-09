@@ -31,11 +31,11 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Strings_assertDoesNotMatch_String_Test extends StringsBaseTest {
+public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 

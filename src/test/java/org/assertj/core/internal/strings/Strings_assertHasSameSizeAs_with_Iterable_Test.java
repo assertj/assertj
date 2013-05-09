@@ -19,19 +19,17 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
-
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.BooleanArrays;
+import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link BooleanArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
+ * Tests for <code>{@link Strings#assertHasSameSizeAs(AssertionInfo, CharSequence, Iterable)}</code>.
  * 
  * @author Nicolas François
  */

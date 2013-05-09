@@ -32,12 +32,12 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertMatches(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class Strings_assertMatches_String_Test extends StringsBaseTest {
+public class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   private String actual = "Yoda";
 

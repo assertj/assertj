@@ -31,7 +31,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, String, Pattern)}</code>.
+ * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, CharSequence, Pattern)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

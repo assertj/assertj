@@ -14,7 +14,7 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldContainString.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.test.ErrorMessages.sequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,7 +30,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertContainsIgnoringCase(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertContainsIgnoringCase(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
