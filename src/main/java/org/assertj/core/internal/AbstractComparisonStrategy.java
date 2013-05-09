@@ -45,7 +45,7 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     }
     return duplicates;
   }
-
+  
   /**
    * Returns a {@link Set} honoring the comparison strategy used.
    * @return a {@link Set} honoring the comparison strategy used.

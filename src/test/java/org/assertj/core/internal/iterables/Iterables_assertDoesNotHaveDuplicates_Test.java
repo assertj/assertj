@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -45,7 +46,7 @@ import org.assertj.core.internal.IterablesBaseTest;
  */
 public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
 
-  private static final int GENERATED_OBJECTS_NUMBER = 100000;
+  private static final int GENERATED_OBJECTS_NUMBER = 50000;
   private final List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
@@ -92,7 +93,23 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     System.out.println("Time elapsed in ms for assertDoesNotHaveDuplicates : " + (System.currentTimeMillis() - time));
     assertThat((System.currentTimeMillis() - time)).isLessThan(2000);
   }
-  
+
+  @Test
+  public void should_fail_if_actual_contains_duplicates_array() {
+    Collection<String[]> actual = newArrayList(array("Luke", "Yoda"), array("Luke", "Yoda"));
+    // duplicates is commented, because mockito is not smart enough to compare arrays contents 
+    // Collection<String[]> duplicates = newLinkedHashSet();
+    // duplicates.add(array("Luke", "Yoda"));
+    try {
+      iterables.assertDoesNotHaveDuplicates(someInfo(), actual);
+    } catch (AssertionError e) {
+      // can't use verify since mockito not smart enough to compare arrays contents
+      // verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -115,7 +132,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
-
+  
   @Test
   public void should_pass_within_time_constraints_with_custom_comparison_strategy() {
     List<String> generated = new ArrayList<String>(GENERATED_OBJECTS_NUMBER);
@@ -125,10 +142,10 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
 
     long time = System.currentTimeMillis();
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotHaveDuplicates(someInfo(), generated);
-    // check that it takes less than 10 seconds, usually it takes 2000ms on an average computer
+    // check that it takes less than 10 seconds, usually it takes 1000ms on an average computer
     // with the previous implementation, it would take minutes ...
-    // System.out.println("Time elapsed in ms for assertDoesNotHaveDuplicates with custom comparison strategy : " + (System.currentTimeMillis() - time));
+    System.out.println("Time elapsed in ms for assertDoesNotHaveDuplicates with custom comparison strategy : " + (System.currentTimeMillis() - time));
     assertThat((System.currentTimeMillis() - time)).isLessThan(10000);
   }
-  
+
 }
