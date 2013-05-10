@@ -11,6 +11,7 @@ AssertJ provides a rich and intuitive set of strongly typed assertions to use fo
 * [Migrating from Fest assertions](#migrating-from-fest)
 * [Documentation & Mailing list](#doc)
 * [Contributing](#contributing)
+* [Thanks](#thanks)
 
 You can ask questions and make suggestions on [AssertJ google group](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
 To directly jump to a more complete documentation please go to **[AssertJ wiki](https://github.com/joel-costigliola/AssertJ-core/wiki)**.
@@ -190,3 +191,10 @@ To directly jump to a more complete documentation please go to **[AssertJ wiki](
 ## <a name="contributing"/>Want to contribute ?
 
 You are very welcome to contribute any missing useful assertions, please check the [contributor guidelines](CONTRIBUTING.md).
+
+## <a name="Thanks"/>Thanks
+
+Many thanks to Cloudbees for their FOSS program that allows AssertJ to have a **[Jenkins CI server](https://assertj.ci.cloudbees.com/#)**!
+
+![cloudbees](src/site/resources/images/built-on-Dev@Cloud-Cloudbees.png)
+
