@@ -14,7 +14,7 @@
  */
 package org.assertj.core.internal.throwables;
 
-import static org.assertj.core.error.ShouldContainString.shouldContain;
+import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -29,31 +29,31 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Throwables#assertHasMessageContaining(AssertionInfo, Throwable, String)}</code>.
+ * Tests for <code>{@link Throwables#assertHasMessageEndingWith(AssertionInfo, Throwable, String)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessageEndingWith_Test extends ThrowablesBaseTest {
+public class Throwables_assertHasMessageEnding_Test extends ThrowablesBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_message_containinging_with_expected_description() {
-    throwables.assertHasMessageContaining(someInfo(), actual, "able");
+  public void should_pass_if_actual_has_message_ending_with_expected_description() {
+    throwables.assertHasMessageEndingWith(someInfo(), actual, "sage");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    throwables.assertHasMessageContaining(someInfo(), null, "Throwable");
+    throwables.assertHasMessageEndingWith(someInfo(), null, "Throwable");
   }
 
   @Test
-  public void should_fail_if_actual_has_message_not_containinging_with_expected_description() {
+  public void should_fail_if_actual_has_message_not_ending_with_expected_description() {
     AssertionInfo info = someInfo();
     try {
-      throwables.assertHasMessageContaining(info, actual, "expected descirption part");
+      throwables.assertHasMessageEndingWith(info, actual, "expected end");
       fail("AssertionError expected");
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldContain(actual.getMessage(), "expected descirption part"));
+      verify(failures).failure(info, shouldEndWith(actual.getMessage(), "expected end"));
     }
   }
 }
