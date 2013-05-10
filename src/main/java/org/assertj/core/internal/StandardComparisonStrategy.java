@@ -35,9 +35,6 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   private static final StandardComparisonStrategy INSTANCE = new StandardComparisonStrategy();
 
-  // Define a comparator to use areEqual to compare objects in Set, this is needed to implement duplicatesFrom.
-  private final Comparator<Object> comparator;
-
   /**
    * Returns the singleton instance of this class.
    * 
@@ -52,15 +49,21 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * {@link Objects#areEqual(Object, Object)}.
    */
   private StandardComparisonStrategy() {
+    // empty
+  }
+
+  @Override
+  protected Set<Object> newSetUsingComparisonStrategy() {
     // define a comparator so that we can use areEqual to compare objects in Set collections
     // the "less than" comparison does not make much sense here but need to be defined.
-    comparator = new Comparator<Object>() {
-      @Override
-      public int compare(Object o1, Object o2) {
-        if (areEqual(o1, o2)) return 0;
-        return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
-      }
-    };
+    return new TreeSet<Object>(
+                               new Comparator<Object>() {
+                                 @Override
+                                 public int compare(Object o1, Object o2) {
+                                   if (areEqual(o1, o2)) return 0;
+                                   return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
+                                 }
+                               });
   }
 
   /**
@@ -126,11 +129,6 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
-  }
-
-  @Override
-  protected Set<Object> newSetUsingComparisonStrategy() {
-    return new TreeSet<Object>(comparator);
   }
 
   @Override
