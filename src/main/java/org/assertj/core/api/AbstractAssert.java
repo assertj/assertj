@@ -135,7 +135,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
-  public S isEqualTo(A expected) {
+  public S isEqualTo(Object expected) {
     objects.assertEqual(info, actual, expected);
     return myself;
   }

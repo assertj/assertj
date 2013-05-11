@@ -33,10 +33,33 @@ import org.junit.Test;
  * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_List_Test {
+  private static class Person {
+    @SuppressWarnings("unused")
+    private String name;
+
+    public Person(String name) {
+      this.name = name;
+    }
+  }
+
+  private static class Employee extends Person {
+    public Employee(String name) {
+      super(name);
+    }
+  }
+
   @Test
   public void should_create_Assert() {
     ListAssert<Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
+  }
+
+  @Test
+  public void should_create_Assert_generics() {
+    Employee bill = new Employee("bill");
+    Person billou = bill;
+    Assertions.assertThat(bill).isEqualTo(billou);
+    Assertions.assertThat(billou).isEqualTo(bill);
   }
 
   @Test
@@ -49,20 +72,6 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert_with_extends() {
-    class Person {
-      private String name;
-
-      public Person(String name) {
-        this.name = name;
-      }
-    }
-
-    class Employee extends Person {
-      public Employee(String name) {
-        super(name);
-      }
-    }
-
     Employee bill = new Employee("bill");
     Person billou = bill;
     List<Person> list1 = newArrayList(billou);
