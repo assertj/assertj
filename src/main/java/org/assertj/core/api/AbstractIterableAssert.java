@@ -126,9 +126,35 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return myself;
   }
 
-  /** {@inheritDoc} */
   public S doesNotContain(T... values) {
     iterables.assertDoesNotContain(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual group does not contain any elements of the given {@link Iterable} (i.e. none).
+   * 
+   * <pre>
+   * // this assertion succeeds :
+   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;CVS&quot;, &quot;SOURCESAFE&quot;);
+   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
+   * assertThat(actual).doesNotContainAnyElementsOf(values);
+   * 
+   * // This one fails : 
+   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
+   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
+   * assertThat(actual).doesNotContainAnyElementsOf(values);
+   * </pre>
+   * 
+   * @param iterable the given {@link Iterable}
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty iterable.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
+   */
+  public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
+    iterables.assertDoesNotContainAnyElementsOf(info, actual, iterable);
     return myself;
   }
 

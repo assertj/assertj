@@ -92,7 +92,8 @@ public final class Objects {
    * @return the hash code for the given object
    */
   public static int hashCodeFor(Object o) {
-    return o != null ? o.hashCode() : 0;
+    if (o == null) return 0;
+    return isArray(o) ? java.util.Arrays.deepHashCode((Object[]) o) : o.hashCode() ;
   }
 
   /**

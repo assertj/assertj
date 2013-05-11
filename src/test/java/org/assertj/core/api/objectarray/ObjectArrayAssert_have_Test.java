@@ -31,7 +31,7 @@ import org.junit.Before;
  */
 public class ObjectArrayAssert_have_Test extends ObjectArrayAssertBaseTest {
 
-  private static Condition<Object> condition;
+  private Condition<Object> condition;
 
   @Before
   public void before() {

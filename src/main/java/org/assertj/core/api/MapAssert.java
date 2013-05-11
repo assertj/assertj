@@ -14,11 +14,15 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.util.Arrays.array;
+
 import java.util.Comparator;
 import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Maps;
+import org.assertj.core.util.Arrays;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -79,6 +83,13 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
 
   /**
    * Verifies that the actual map contains the given entries, in any order.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
+   * </pre>
    * 
    * @param entries the given entries.
    * @return {@code this} assertion object.
@@ -94,7 +105,38 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
   }
 
   /**
+   * Verifies that the actual map contains the given entry.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
+   * </pre>
+   * 
+   * @param key the given key to check.
+   * @param value the given value to check.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given entries.
+   */
+  public MapAssert<K, V> containsEntry(K key, V value) {
+    maps.assertContains(info, actual, array(entry(key, value)));
+    return this;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given entries.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).doesNotContain(entry(oneRing, aragorn));
+   * </pre>
    * 
    * @param entries the given entries.
    * @return {@code this} assertion object.
@@ -105,6 +147,28 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
    */
   public MapAssert<K, V> doesNotContain(MapEntry... entries) {
     maps.assertDoesNotContain(info, actual, entries);
+    return this;
+  }
+
+  /**
+   * Verifies that the actual map does not contain the given entry.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * assertThat(ringBearers).doesNotContainEntry(oneRing, aragorn);
+   * </pre>
+   * 
+   * @param entries the given entries.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains any of the given entries.
+   */
+  public MapAssert<K, V> doesNotContainEntry(K key, V value) {
+    maps.assertDoesNotContain(info, actual, array(entry(key, value)));
     return this;
   }
 

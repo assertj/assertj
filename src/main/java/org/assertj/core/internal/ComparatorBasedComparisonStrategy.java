@@ -19,6 +19,8 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
@@ -106,6 +108,12 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Override
+  protected Set<Object> newSetUsingComparisonStrategy() {
+    return new TreeSet<Object>(comparator);
   }
 
   @Override

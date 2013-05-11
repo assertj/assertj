@@ -16,6 +16,8 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonErrors.iterableOfValuesForIsNull;
+import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
@@ -49,13 +51,28 @@ final class CommonValidations {
     }
   }
 
+  static void checkIsNotEmpty(Iterable<?> iterable) {
+    if (!iterable.iterator().hasNext()) {
+      throw iterableOfValuesToLookForIsEmpty();
+    }
+  }
+
   static void checkIsNotNull(Object[] values) {
     if (values == null) throw arrayOfValuesToLookForIsNull();
+  }
+
+  static void checkIsNotNull(Iterable<?> iterable) {
+    if (iterable == null) throw iterableOfValuesForIsNull();
   }
 
   static void checkIsNotNullAndNotEmpty(Object[] values) {
     checkIsNotNull(values);
     checkIsNotEmpty(values);
+  }
+
+  static void checkIsNotNullAndNotEmpty(Iterable<?> iterable) {
+    checkIsNotNull(iterable);
+    checkIsNotEmpty(iterable);
   }
 
   static void failIfEmptySinceActualIsNotEmpty(Object[] values) {

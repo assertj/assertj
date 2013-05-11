@@ -17,13 +17,13 @@ package org.assertj.core.error;
 import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldBeInSameMinute.shouldBeInSameMinute;
-import static org.assertj.core.util.Dates.ISO_DATE_TIME_FORMAT;
 
 import java.text.ParseException;
 
 import org.assertj.core.description.*;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeInSameMinute;
+import org.assertj.core.util.Dates;
 import org.junit.Test;
 
 
@@ -31,13 +31,14 @@ import org.junit.Test;
  * Tests for <code>{@link ShouldBeInSameMinute#create(Description)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class ShouldBeInSameMinute_create_Test {
 
   @Test
   public void should_create_error_message() throws ParseException {
-    ErrorMessageFactory factory = shouldBeInSameMinute(ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:01:00"),
-        ISO_DATE_TIME_FORMAT.parse("2011-01-01T05:02:00"));
+    ErrorMessageFactory factory = shouldBeInSameMinute(Dates.parseDatetime("2011-01-01T05:01:00"),
+        Dates.parseDatetime("2011-01-01T05:02:00"));
 
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
