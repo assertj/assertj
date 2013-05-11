@@ -15,7 +15,7 @@
 package org.assertj.core.internal.maps;
 
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
+import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -71,7 +71,7 @@ public class Maps_assertContainsKey_Test extends MapsBaseTest {
     try {
       maps.assertContainsKeys(info, actual, key);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainKey(actual, newLinkedHashSet(key)));
+      verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

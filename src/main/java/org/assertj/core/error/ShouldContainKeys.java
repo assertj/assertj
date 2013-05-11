@@ -16,27 +16,30 @@ package org.assertj.core.error;
 
 import java.util.Set;
 
-import org.assertj.core.util.Strings;
-
 /**
  * Creates an error message indicating that an assertion that verifies a map contains a key..
  * 
  * @author Nicolas François
+ * @author Joel Costigliola
  */
-public class ShouldContainKey extends BasicErrorMessageFactory {
+public class ShouldContainKeys extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldContainKey}</code>.
+   * Creates a new </code>{@link ShouldContainKeys}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <K> ErrorMessageFactory shouldContainKey(Object actual, Set<K> key) {
-    return new ShouldContainKey(actual, key);
+  public static <K> ErrorMessageFactory shouldContainKeys(Object actual, Set<K> keys) {
+    if (keys.size() == 1) return new ShouldContainKeys(actual, keys.iterator().next());
+    return new ShouldContainKeys(actual, keys);
   }
 
-  private <K> ShouldContainKey(Object actual, Set<K> key) {
-    // unquotedString to avoid "ToString.quote" in message formatting.. better solution ?
-    super("\nExpecting:\n <%s>\nto contain key%s:\n <%s>", actual, unquotedString(key.size() == 1 ? "": "s"), unquotedString(Strings.join(key).with(", ", "'")));
+  private <K> ShouldContainKeys(Object actual, Set<K> key) {
+    super("\nExpecting:\n <%s>\nto contain keys:\n <%s>", actual, key);
+  }
+
+  private <K> ShouldContainKeys(Object actual, K key) {
+    super("\nExpecting:\n <%s>\nto contain key:\n <%s>", actual, key);
   }
 }

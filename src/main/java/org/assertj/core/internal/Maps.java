@@ -17,7 +17,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
+import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -252,7 +252,7 @@ public class Maps {
     if (notFound.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldContainKey(actual, notFound));
+    throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
 
   /**
