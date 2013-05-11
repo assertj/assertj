@@ -55,52 +55,61 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     iterables.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     iterables.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotEmpty() {
     iterables.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSameSizeAs(Object[] other) {
     iterables.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSameSizeAs(Iterable<?> other) {
     iterables.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S contains(T... values) {
     iterables.assertContains(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S containsOnly(T... values) {
     iterables.assertContainsOnly(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S containsExactly(T... values) {
     iterables.assertContainsExactly(info, actual, values);
     return myself;
@@ -121,6 +130,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
+  @Override
   public S containsSequence(T... sequence) {
     iterables.assertContainsSequence(info, actual, sequence);
     return myself;
@@ -140,7 +150,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
    * assertThat(actual).doesNotContainAnyElementsOf(values);
    * 
-   * // This one fails : 
+   * // This one fails :
    * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
    * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
    * assertThat(actual).doesNotContainAnyElementsOf(values);
@@ -159,144 +169,168 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doesNotHaveDuplicates() {
     iterables.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S startsWith(T... sequence) {
     iterables.assertStartsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S endsWith(T... sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S containsNull() {
     iterables.assertContainsNull(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doesNotContainNull() {
     iterables.assertDoesNotContainNull(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S are(Condition<? super T> condition) {
     iterables.assertAre(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areNot(Condition<? super T> condition) {
     iterables.assertAreNot(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S have(Condition<? super T> condition) {
     iterables.assertHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doNotHave(Condition<? super T> condition) {
     iterables.assertDoNotHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areAtLeast(int times, Condition<? super T> condition) {
     iterables.assertAreAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areNotAtLeast(int times, Condition<? super T> condition) {
     iterables.assertAreNotAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areAtMost(int times, Condition<? super T> condition) {
     iterables.assertAreAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areNotAtMost(int times, Condition<? super T> condition) {
     iterables.assertAreNotAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areExactly(int times, Condition<? super T> condition) {
     iterables.assertAreExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S areNotExactly(int times, Condition<? super T> condition) {
     iterables.assertAreNotExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S haveAtLeast(int times, Condition<? super T> condition) {
     iterables.assertHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doNotHaveAtLeast(int times, Condition<? super T> condition) {
     iterables.assertDoNotHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S haveAtMost(int times, Condition<? super T> condition) {
     iterables.assertHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doNotHaveAtMost(int times, Condition<? super T> condition) {
     iterables.assertDoNotHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S haveExactly(int times, Condition<? super T> condition) {
     iterables.assertHaveExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doNotHaveExactly(int times, Condition<? super T> condition) {
     iterables.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S containsAll(Iterable<? extends T> iterable) {
     iterables.assertContainsAll(info, actual, iterable);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S usingElementComparator(Comparator<? super T> customComparator) {
     this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S usingDefaultElementComparator() {
     this.iterables = Iterables.instance();
     return myself;
