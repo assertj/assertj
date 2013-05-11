@@ -15,6 +15,9 @@
 package org.assertj.core.util;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.List;
 
 /**
  * Utility methods related to {@code String}s.
@@ -31,13 +34,13 @@ public final class Strings {
   public static boolean isNullOrEmpty(String s) {
     return s == null || s.length() == 0;
   }
-  
+
   /**
    * Only there for backward compatibility reasons - use {@link #isNullOrEmpty(String)} instead.
    */
   @Deprecated
   public static boolean isEmpty(String s) {
-    return isNullOrEmpty( s );
+    return isNullOrEmpty(s);
   }
 
   /**
@@ -112,6 +115,28 @@ public final class Strings {
   }
 
   /**
+   * Joins the given {@code String}s using a given delimiter. The following example illustrates proper usage of this
+   * method:
+   * 
+   * <pre>
+   * Strings.join(new ArrayList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)).with(&quot;|&quot;)
+   * </pre>
+   * 
+   * which will result in the {@code String} <code>"a|b|c"</code>.
+   * 
+   * @param strings the {@code String}s to join.
+   * @return an intermediate object that takes a given delimiter and knows how to join the given {@code String}s.
+   * @see StringsToJoin#with(String)
+   */
+  public static StringsToJoin join(Iterable<? extends Object> toStringable) {
+    List<String> strings = newArrayList();
+    for (Object o : toStringable) {
+      strings.add(String.valueOf(o));
+    }
+    return new StringsToJoin(strings.toArray(new String[strings.size()]));
+  }
+
+  /**
    * Knows how to join {@code String}s using a given delimiter.
    * 
    * @see Strings#join(String[])
@@ -131,25 +156,40 @@ public final class Strings {
     }
 
     /**
-     * Specifies the delimeter to use to join {@code String}s.
+     * Specifies the delimiter to use to join {@code String}s.
      * 
-     * @param delimeter the delimeter to use.
-     * @return the {@code String}s joined using the given delimeter.
+     * @param delimiter the delimiter to use.
+     * @return the {@code String}s joined using the given delimiter.
      */
-    public String with(String delimeter) {
-      if (delimeter == null) {
+    public String with(String delimiter) {
+      return with(delimiter, null);
+    }
+
+    /**
+     * Specifies the delimiter to use to join {@code String}s.
+     * 
+     * @param delimiter the delimiter to use.
+     * @return the {@code String}s joined using the given delimiter.
+     */
+    public String with(String delimiter, String escapeString) {
+      if (delimiter == null) {
         throw new IllegalArgumentException("Delimiter should not be null");
       }
       if (Arrays.isNullOrEmpty(strings)) {
         return "";
       }
+      String escape = escapeString == null ? "" : escapeString;
       StringBuilder b = new StringBuilder();
       int stringCount = strings.length;
       for (int i = 0; i < stringCount; i++) {
         String s = strings[i];
-        b.append(s != null ? s : "");
+        if (s != null) {
+          b.append(escape);
+          b.append(s);
+          b.append(escape);
+        }
         if (i < stringCount - 1) {
-          b.append(delimeter);
+          b.append(delimiter);
         }
       }
       return b.toString();
@@ -201,5 +241,6 @@ public final class Strings {
     }
   }
 
-  private Strings() {}
+  private Strings() {
+  }
 }

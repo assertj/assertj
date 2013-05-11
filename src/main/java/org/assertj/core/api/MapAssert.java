@@ -179,7 +179,19 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
    * @throws AssertionError if the actual map does not contain the given key.
    */
   public MapAssert<K, V> containsKey(K key) {
-    maps.assertContainsKey(info, actual, key);
+    return containsKeys(key);
+  }
+
+  /**
+   * Verifies that the actual map contains the given keys.
+   * 
+   * @param keys the given keys
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given key.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  public MapAssert<K, V> containsKeys(K... keys) {
+    maps.assertContainsKeys(info, actual, keys);
     return this;
   }
 
