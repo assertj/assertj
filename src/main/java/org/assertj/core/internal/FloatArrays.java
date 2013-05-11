@@ -190,6 +190,22 @@ public class FloatArrays {
   }
 
   /**
+   * Asserts that the given array contains only once the given values.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param values the values that are expected to be in the given array.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given array does not contain the given values or if the given array contains more
+   *           than once values.
+   */
+  public void assertContainsOnlyOnce(AssertionInfo info, float[] actual, float[] values) {
+    arrays.assertContainsOnlyOnce(info, failures, actual, values);
+  }
+
+  /**
    * Verifies that the given array contains the given sequence of values, without any other values between them.
    * @param info contains information about the assertion.
    * @param actual the given array.

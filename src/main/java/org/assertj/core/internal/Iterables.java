@@ -38,6 +38,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -53,12 +54,14 @@ import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -232,7 +235,8 @@ public class Iterables {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0) return;
+    if (!actual.iterator().hasNext() && values.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<Object>();
@@ -241,7 +245,8 @@ public class Iterables {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty()) return;
+    if (notFound.isEmpty())
+      return;
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
@@ -275,7 +280,8 @@ public class Iterables {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0) return;
+    if (!actual.iterator().hasNext() && values.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
@@ -339,6 +345,83 @@ public class Iterables {
   }
 
   /**
+   * Asserts that the given {@code Iterable} contains the given values and only once.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param values the values that are expected to be in the given {@code Iterable}.
+   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws IllegalArgumentException if the array of values is empty.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if the given {@code Iterable} does not contain the given values or if the given
+   *           {@code Iterable} contains values that are not in the given array.
+   */
+  public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    // if both actual and values are empty, then assertion passes.
+    if (!actual.iterator().hasNext() && values.length == 0)
+      return;
+    failIfEmptySinceActualIsNotEmpty(values);
+    // check for elements in values that are missing in actual.
+    Set<?> expected = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Arrays.asList(values));
+    Set<?> actualList = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
+    Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
+    for (Object element : expected) {
+      if (!actualList.contains(element)) {
+        notFound.add(element);
+      } else if (iterableContains(duplicates, element)) {
+        notOnlyOnce.add(element);
+      }
+    }
+    if (notFound.isEmpty() && notOnlyOnce.isEmpty()) {
+      return;
+    }
+    throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
+  }
+
+  /**
+   * build a TreeSet with that avoid duplicates <b>according to given comparison strategy</b>
+   * 
+   * @param iterable to feed the Set we want to build
+   * @return a Set without duplicates <b>according to given comparison strategy</b> and with {@code .contains} who use
+   *         the given comparison strategy.
+   */
+  private <T> Set<T> asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Iterable<T> iterable) {
+    Set<T> set = new TreeSet<T>(getComparatorFromComparisonStrategy());
+    for (T element : iterable) {
+      set.add(element);
+    }
+    return set;
+  }
+
+  private Comparator<Object> getComparatorFromComparisonStrategy() {
+    @SuppressWarnings("unchecked")
+    Comparator<Object> comparator = (Comparator<Object>) getComparator();
+    if (comparator == null) {
+      comparator = new Comparator<Object>() {
+        @Override
+        public int compare(Object o1, Object o2) {
+          if (comparisonStrategy.areEqual(o1, o2))
+            return 0;
+          if (o1 == null) {
+            return -1;
+          }
+          if (o2 == null) {
+            return 1;
+          }
+          if (comparisonStrategy.isGreaterThan(o1, o2))
+            return 1;
+          return -1;
+        }
+      };
+    }
+    return comparator;
+  }
+
+  /**
    * Verifies that the given <code>{@link Iterable}</code> contains the given sequence of objects, without any other
    * objects between them.
    * 
@@ -354,7 +437,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
@@ -471,7 +555,8 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} contains any of given values.
    */
-  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Iterable<T> actual, Iterable<? extends T> iterable) {
+  public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Iterable<T> actual,
+      Iterable<? extends T> iterable) {
     checkIsNotNullAndNotEmpty(iterable);
     List<T> values = newArrayList(iterable);
     assertDoesNotContain(info, actual, values.toArray());
@@ -513,7 +598,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     if (sizeOf(actual) < sequenceSize) {
@@ -552,7 +638,8 @@ public class Iterables {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0) return;
+    if (!actual.iterator().hasNext() && sequence.length == 0)
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
     int sizeOfActual = sizeOf(actual);
