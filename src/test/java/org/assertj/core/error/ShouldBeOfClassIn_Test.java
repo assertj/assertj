@@ -37,6 +37,7 @@ public class ShouldBeOfClassIn_Test {
 
   private ErrorMessageFactory factory;
 
+  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     factory = shouldBeOfClassIn("Yoda", newArrayList(Long.class, File.class));

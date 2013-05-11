@@ -178,6 +178,7 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given key.
    */
+  @SuppressWarnings("unchecked")
   public MapAssert<K, V> containsKey(K key) {
     return containsKeys(key);
   }

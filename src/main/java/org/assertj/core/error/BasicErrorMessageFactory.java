@@ -17,13 +17,14 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 
 import static org.assertj.core.util.Arrays.format;
-import static org.assertj.core.util.Objects.*;
+import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
+import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.util.ToString;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
