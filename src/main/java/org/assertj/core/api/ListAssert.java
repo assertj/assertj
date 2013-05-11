@@ -61,7 +61,7 @@ public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>
 
   /** {@inheritDoc} */
   @Override
-  public ListAssert<T> isEqualTo(List<? extends T> expected) {
+  public ListAssert<T> isEqualTo(List<?> expected) {
     objects.assertEqual(info, actual, expected);
     return myself;
   }

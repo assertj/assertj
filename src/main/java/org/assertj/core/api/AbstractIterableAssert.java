@@ -71,7 +71,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /** {@inheritDoc} */
-  public S isEqualTo(List<? extends T> expected) {
+  public S isEqualTo(List<?> expected) {
     objects.assertEqual(info, actual, expected);
     return myself;
   }
@@ -146,7 +146,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
    * assertThat(actual).doesNotContainAnyElementsOf(values);
    * 
-   * // This one fails : 
+   * // This one fails :
    * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
    * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
    * assertThat(actual).doesNotContainAnyElementsOf(values);
