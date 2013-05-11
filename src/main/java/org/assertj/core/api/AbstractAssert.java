@@ -108,57 +108,67 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S as(String description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
+  @Override
   public S as(Description description) {
     return describedAs(description);
   }
 
   /** {@inheritDoc} */
+  @Override
   public S describedAs(String description) {
     info.description(description);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S describedAs(Description description) {
     info.description(description);
     return myself;
   }
 
   /** {@inheritDoc} */
-  public S isEqualTo(A expected) {
+  @Override
+  public S isEqualTo(Object expected) {
     objects.assertEqual(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotEqualTo(A other) {
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNull() {
     objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotNull() {
     objects.assertNotNull(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isSameAs(Object expected) {
     objects.assertSame(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotSameAs(Object other) {
     objects.assertNotSame(info, actual, other);
     return myself;
@@ -171,18 +181,21 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotIn(A... values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isIn(Iterable<? extends A> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotIn(Iterable<? extends A> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
@@ -201,24 +214,28 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S has(Condition<? super A> condition) {
     conditions.assertHas(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doesNotHave(Condition<? super A> condition) {
     conditions.assertDoesNotHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
     return myself;
@@ -255,18 +272,21 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotExactlyInstanceOf(Class<?> type) {
     objects.assertIsNotExactlyInstanceOf(info, actual, type);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isOfAnyClassIn(Class<?>... types) {
     objects.assertIsOfAnyClassIn(info, actual, types);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotOfAnyClassIn(Class<?>... types) {
     objects.assertIsNotOfAnyClassIn(info, actual, types);
     return myself;
@@ -305,6 +325,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S usingComparator(Comparator<? super A> customComparator) {
     // using a specific strategy to compare actual with other objects.
     this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
@@ -312,6 +333,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S usingDefaultComparator() {
     // fall back to default strategy to compare actual with other objects.
     this.objects = Objects.instance();

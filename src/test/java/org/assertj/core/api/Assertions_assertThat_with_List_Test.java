@@ -14,9 +14,13 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Collections.*;
-import static org.junit.Assert.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -31,10 +35,52 @@ import org.junit.Test;
  * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_List_Test {
+  private static class Person {
+    @SuppressWarnings("unused")
+    private String name;
+
+    public Person(String name) {
+      this.name = name;
+    }
+  }
+
+  private static class Employee extends Person {
+    public Employee(String name) {
+      super(name);
+    }
+  }
+
   @Test
   public void should_create_Assert() {
     ListAssert<Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
+  }
+
+  @Test
+  public void should_create_Assert_generics() {
+    Employee bill = new Employee("bill");
+    Person billou = bill;
+    Assertions.assertThat(bill).isEqualTo(billou);
+    Assertions.assertThat(billou).isEqualTo(bill);
+  }
+
+  @Test
+  public void should_create_Assert_with_list_extended() {
+    List<String> strings0 = new ArrayList<String>();
+    List<? extends String> strings1 = new ArrayList<String>();
+    Assertions.assertThat(strings0).isEqualTo(strings1);
+    Assertions.assertThat(strings1).isEqualTo(strings0);
+  }
+
+  @Test
+  public void should_create_Assert_with_extends() {
+    Employee bill = new Employee("bill");
+    Person billou = bill;
+    List<Person> list1 = newArrayList(billou);
+    List<Employee> list2 = newArrayList(bill);
+
+    Assertions.assertThat(list1).isEqualTo(list2);
+    Assertions.assertThat(list2).isEqualTo(list1);
   }
 
   @Test
