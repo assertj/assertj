@@ -32,7 +32,7 @@ A good javadoc example taken from [`ObjectAssert.isEqualsToByComparingFields`](s
 * parameters description (if any)
 * exceptions description
 
-```
+```java
 /**
  * Assert that the actual object is lenient equals to given one by comparing only actual and <b>not null</b> other
  * fields (including inherited fields).
