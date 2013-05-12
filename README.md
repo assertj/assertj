@@ -191,7 +191,7 @@ To directly jump to a more complete documentation please go to **[AssertJ wiki](
 
 You are very welcome to contribute any missing useful assertions, please check the [contributor guidelines](CONTRIBUTING.md).
 
-Special thanks to **William Telloue** and **Mikhail Mazursky** for their contributions to assertj-core 1.2.0.
+Special thanks to **William Delanoue** and **Mikhail Mazursky** for their contributions to assertj-core 1.2.0.
 
 ## <a name="Thanks"/>Thanks
 
