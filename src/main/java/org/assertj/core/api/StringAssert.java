@@ -15,16 +15,16 @@
 package org.assertj.core.api;
 
 /**
- * Assertion methods for {@code CharSequence}s.
+ * Assertion methods for {@code String}s.
  * <p>
- * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(CharSequence)}</code>.
+ * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(String)}</code>.
  * </p>
- * 
+ *
  * @author Mikhail Mazursky
  */
-public class CharSequenceAssert extends AbstractCharSequenceAssert<CharSequenceAssert, CharSequence> {
+public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> {
 
-  protected CharSequenceAssert(CharSequence actual) {
-    super(actual, CharSequenceAssert.class);
+  protected StringAssert(String actual) {
+    super(actual, StringAssert.class);
   }
 }
