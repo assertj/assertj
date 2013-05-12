@@ -334,11 +334,11 @@ public class Strings {
   }
 
   /**
-   * Count occurences of sequenceToSearch in actual {@link String}.
+   * Count occurrences of sequenceToSearch in actual {@link String}.
    * 
    * @param sequenceToSearch the sequence to search in in actual {@link String}.
-   * @param actual the {@link String} to search occurences in.
-   * @return the number of occurences of sequenceToSearch in actual {@link String}.
+   * @param actual the {@link String} to search occurrences in.
+   * @return the number of occurrences of sequenceToSearch in actual {@link String}.
    */
   private int countOccurences(String sequenceToSearch, String actual) {
     int occurences = 0;

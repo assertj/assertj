@@ -44,7 +44,7 @@ import org.junit.Test;
  */
 public class Iterables_assertDoesNotContain_Test extends IterablesBaseTest {
 
-  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");;
+  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
   public void should_pass_if_actual_does_not_contain_given_values() {

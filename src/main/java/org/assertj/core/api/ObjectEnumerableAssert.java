@@ -57,6 +57,19 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
   S containsOnly(T... values);
+  
+  /**
+   * Verifies that the actual group contains only the given values once.
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
+   *           or none of the given values, or the actual group contains more than once these values.
+   */
+  S containsOnlyOnce(T... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.<br>
