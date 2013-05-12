@@ -14,23 +14,24 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.StringAssert;
+import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.internal.Strings;
 
 import static org.mockito.Mockito.mock;
 
 
 /**
- * Base class for {@link StringAssert} tests.
+ * Base class for {@link CharSequenceAssert} tests.
  * 
  * @author Olivier Michallat
+ * @author Mikhail Mazursky
  */
-public abstract class StringAssertBaseTest extends BaseTestTemplate<StringAssert, String> {
+public abstract class CharSequenceAssertBaseTest extends BaseTestTemplate<CharSequenceAssert, CharSequence> {
   protected Strings strings;
 
   @Override
-  protected StringAssert create_assertions() {
-    return new StringAssert("Yoda");
+  protected CharSequenceAssert create_assertions() {
+    return new CharSequenceAssert("Yoda");
   }
 
   @Override
@@ -40,7 +41,7 @@ public abstract class StringAssertBaseTest extends BaseTestTemplate<StringAssert
     assertions.strings = strings;
   }
 
-  protected Strings getStrings(StringAssert someAssertions) {
+  protected Strings getStrings(CharSequenceAssert someAssertions) {
     return someAssertions.strings;
   }
 }

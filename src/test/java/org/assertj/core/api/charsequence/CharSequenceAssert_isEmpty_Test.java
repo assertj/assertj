@@ -12,28 +12,36 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
-
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+package org.assertj.core.api.charsequence;
 
 import static org.mockito.Mockito.verify;
 
 
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.Test;
+
 /**
- * Tests for <code>{@link StringAssert#isNotEmpty()}</code>.
+ * Tests for <code>{@link CharSequenceAssert#isEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_isNotEmpty_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_isEmpty_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.isNotEmpty();
+  protected CharSequenceAssert invoke_api_method() {
+    assertions.isEmpty();
+    return null;
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertNotEmpty(getInfo(assertions), getActual(assertions));
+    verify(strings).assertEmpty(getInfo(assertions), getActual(assertions));
+  }
+  
+  @Override
+  @Test
+  public void should_return_this() {
+    // Disable this test, the isEmpty method is void.
   }
 }

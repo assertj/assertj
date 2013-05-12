@@ -29,7 +29,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Strings#assertHasSize(AssertionInfo, String, int)}</code>.
+ * Tests for <code>{@link Strings#assertHasSize(AssertionInfo, CharSequence, int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

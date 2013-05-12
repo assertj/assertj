@@ -17,26 +17,39 @@ package org.assertj.core.api;
 import static org.junit.Assert.*;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.CharSequenceAssert;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Assertions#assertThat(String)}</code>.
+ * Tests for <code>{@link Assertions#assertThat(CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_String_Test {
+public class Assertions_assertThat_with_CharSequence_Test {
 
   @Test
   public void should_create_Assert() {
-    StringAssert assertions = Assertions.assertThat("Yoda");
+    CharSequenceAssert assertions = Assertions.assertThat((CharSequence) "Yoda");
+    assertNotNull(assertions);
+  }
+
+  @Test
+  public void should_create_Assert_with_StringBuilder() {
+    CharSequenceAssert assertions = Assertions.assertThat(new StringBuilder("Yoda"));
+    assertNotNull(assertions);
+  }
+
+  @Test
+  public void should_create_Assert_with_StringBuffer() {
+    CharSequenceAssert assertions = Assertions.assertThat(new StringBuffer("Yoda"));
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     String actual = "Yoda";
-    StringAssert assertions = Assertions.assertThat(actual);
+    CharSequenceAssert assertions = Assertions.assertThat((CharSequence) actual);
     assertSame(actual, assertions.actual);
   }
 }

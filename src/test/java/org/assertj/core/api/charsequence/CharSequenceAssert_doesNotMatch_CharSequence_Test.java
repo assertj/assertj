@@ -1,5 +1,5 @@
 /*
- * Created on Jun 4, 2012
+ * Created on Dec 24, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -10,37 +10,41 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  * 
- * Copyright @2010-2012 the original author or authors.
+ * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
+import static org.assertj.core.test.TestData.matchAnything;
 import static org.mockito.Mockito.verify;
 
+import java.util.regex.Pattern;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
- * Tests for <code>{@link StringAssert#hasSameSizeAs(Object[])}</code>.
+ * Tests for <code>{@link CharSequenceAssert#doesNotMatch(Pattern)}</code>.
  * 
- * @author Nicolas François
+ * @author Alex Ruiz
  */
-public class StringAssert_hasSameSizeAs_with_Array_Test extends StringAssertBaseTest {
-  private static Object[] other;
-  
+public class CharSequenceAssert_doesNotMatch_CharSequence_Test extends CharSequenceAssertBaseTest {
+
+  private static Pattern pattern;
+
   @BeforeClass
   public static void setUpOnce() {
-    other = new Object[] { "Luke" };
+    pattern = matchAnything();
   }
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.hasSameSizeAs(other);
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.doesNotMatch(pattern);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
+    verify(strings).assertDoesNotMatch(getInfo(assertions), getActual(assertions), pattern);
   }
 }

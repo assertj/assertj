@@ -14,8 +14,8 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.error.ShouldContainString.shouldContain;
-import static org.assertj.core.error.ShouldContainStringSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.test.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
@@ -33,7 +33,7 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 
 /**
- * Tests for <code>{@link Strings#assertContains(AssertionInfo, String, String)}</code>.
+ * Tests for <code>{@link Strings#assertContains(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

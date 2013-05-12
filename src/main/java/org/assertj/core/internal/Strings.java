@@ -17,16 +17,16 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.assertj.core.error.ShouldContainString.shouldContain;
-import static org.assertj.core.error.ShouldContainString.shouldContainIgnoringCase;
-import static org.assertj.core.error.ShouldContainStringOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainStringSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
+import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.ShouldNotContainString.shouldNotContain;
+import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
@@ -44,11 +44,12 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
- * Reusable assertions for <code>{@link String}</code>s.
+ * Reusable assertions for <code>{@link CharSequence}</code>s.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
 public class Strings {
 
@@ -86,13 +87,13 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code String} is {@code null} or empty.
+   * Asserts that the given {@code CharSequence} is {@code null} or empty.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @throws AssertionError if the given {@code String} is not {@code null} *and* it is not empty.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is not {@code null} *and* it is not empty.
    */
-  public void assertNullOrEmpty(AssertionInfo info, String actual) {
+  public void assertNullOrEmpty(AssertionInfo info, CharSequence actual) {
     if (actual == null || !hasContents(actual)) {
       return;
     }
@@ -100,14 +101,14 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code String} is empty.
+   * Asserts that the given {@code CharSequence} is empty.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the given {@code String} is not empty.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is not empty.
    */
-  public void assertEmpty(AssertionInfo info, String actual) {
+  public void assertEmpty(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
     if (!hasContents(actual)) {
       return;
@@ -116,14 +117,14 @@ public class Strings {
   }
 
   /**
-   * Asserts that the given {@code String} is not empty.
+   * Asserts that the given {@code CharSequence} is not empty.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the given {@code String} is empty.
+   * @param actual the given {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is empty.
    */
-  public void assertNotEmpty(AssertionInfo info, String actual) {
+  public void assertNotEmpty(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
     if (hasContents(actual)) {
       return;
@@ -131,20 +132,20 @@ public class Strings {
     throw failures.failure(info, shouldNotBeEmpty());
   }
 
-  private static boolean hasContents(String s) {
+  private static boolean hasContents(CharSequence s) {
     return s.length() > 0;
   }
 
   /**
-   * Asserts that the size of the given {@code String} is equal to the expected one.
+   * Asserts that the size of the given {@code CharSequence} is equal to the expected one.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
+   * @param actual the given {@code CharSequence}.
    * @param expectedSize the expected size of {@code actual}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the size of the given {@code String} is different than the expected one.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the size of the given {@code CharSequence} is different than the expected one.
    */
-  public void assertHasSize(AssertionInfo info, String actual, int expectedSize) {
+  public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
     int sizeOfActual = actual.length();
     if (sizeOfActual == expectedSize) {
@@ -154,16 +155,16 @@ public class Strings {
   }
 
   /**
-   * Asserts that the number of entries in the given {@code String} has the same size as the other {@code Iterable}.
+   * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other {@code Iterable}.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
+   * @param actual the given {@code CharSequence}.
    * @param other the group to compare
-   * @throws AssertionError if the given {@code String}. is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
+   * @throws AssertionError if the number of entries in the given {@code CharSequence} does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, String actual, Iterable<?> other) {
+  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Iterable<?> other) {
     assertNotNull(info, actual);
     if (other == null) {
       throw new NullPointerException("The iterable to look for should not be null");
@@ -177,16 +178,16 @@ public class Strings {
   }
 
   /**
-   * Asserts that the number of entries in the given {@code String} has the same size as the other array.
+   * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other array.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
+   * @param actual the given {@code CharSequence}.
    * @param other the group to compare
-   * @throws AssertionError if the given {@code String} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
-   * @throws AssertionError if the number of entries in the given {@code String} does not have the same size.
+   * @throws AssertionError if the number of entries in the given {@code CharSequence} does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, String actual, Object[] other) {
+  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object[] other) {
     assertNotNull(info, actual);
     if (other == null) {
       throw arrayOfValuesToLookForIsNull();
@@ -200,23 +201,23 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code String} contains the given strings.
+   * Verifies that the given {@code CharSequence} contains the given strings.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
+   * @param actual the actual {@code CharSequence}.
    * @param values the values to look for.
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contain the given sequence.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
    */
-  public void assertContains(AssertionInfo info, String actual, String... values) {
+  public void assertContains(AssertionInfo info, CharSequence actual, CharSequence... values) {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
     checkSequenceIsNotNull(values[0]);
-    Set<String> notFound = new LinkedHashSet<String>();
-    for (String value : values) {
+    Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
+    for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
         notFound.add(value);
       }
@@ -228,13 +229,13 @@ public class Strings {
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
   }
 
-  private void checkIsNotNull(String... values) {
+  private void checkIsNotNull(CharSequence... values) {
     if (values == null) {
       throw arrayOfValuesToLookForIsNull();
     }
   }
 
-  private void checkIsNotEmpty(String... values) {
+  private void checkIsNotEmpty(CharSequence... values) {
     if (values.length == 0) {
       throw arrayOfValuesToLookForIsEmpty();
     }
@@ -243,40 +244,40 @@ public class Strings {
   /**
    * Delegates to {@link ComparisonStrategy#stringContains(String, String)}
    */
-  private boolean stringContains(String actual, String sequence) {
-    return comparisonStrategy.stringContains(actual, sequence);
+  private boolean stringContains(CharSequence actual, CharSequence sequence) {
+    return comparisonStrategy.stringContains(actual.toString(), sequence.toString());
   }
 
   /**
-   * Verifies that the given {@code String} contains the given sequence, ignoring case considerations.
+   * Verifies that the given {@code CharSequence} contains the given sequence, ignoring case considerations.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
+   * @param actual the actual {@code CharSequence}.
    * @param sequence the sequence to search for.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contain the given sequence.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
    */
-  public void assertContainsIgnoringCase(AssertionInfo info, String actual, String sequence) {
+  public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (actual.toLowerCase().contains(sequence.toLowerCase())) {
+    if (actual.toString().toLowerCase().contains(sequence.toString().toLowerCase())) {
       return;
     }
     throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   /**
-   * Verifies that the given {@code String} does not contain the given sequence.
+   * Verifies that the given {@code CharSequence} does not contain the given sequence.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
+   * @param actual the actual {@code CharSequence}.
    * @param sequence the sequence to search for.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} contains the given sequence.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} contains the given sequence.
    */
-  public void assertDoesNotContain(AssertionInfo info, String actual, String sequence) {
+  public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (!stringContains(actual, sequence)) {
@@ -285,45 +286,45 @@ public class Strings {
     throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
   }
 
-  private void checkSequenceIsNotNull(String sequence) {
+  private void checkSequenceIsNotNull(CharSequence sequence) {
     if (sequence == null) {
       throw new NullPointerException("The sequence to look for should not be null");
     }
   }
 
   /**
-   * Verifies that two {@code String}s are equal, ignoring case considerations.
+   * Verifies that two {@code CharSequence}s are equal, ignoring case considerations.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
-   * @param expected the expected {@code String}.
-   * @throws AssertionError if the given {@code String}s are not equal.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
-  public void assertEqualsIgnoringCase(AssertionInfo info, String actual, String expected) {
+  public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
     if (areEqualIgnoringCase(actual, expected)) {
       return;
     }
     throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
-  private boolean areEqualIgnoringCase(String actual, String expected) {
+  private boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
     if (actual == null) {
       return expected == null;
     }
-    return actual.equalsIgnoreCase(expected);
+    return actual.toString().equalsIgnoreCase(expected.toString());
   }
 
   /**
-   * Verifies that actual {@code String}s contains only once the given sequence.
+   * Verifies that actual {@code CharSequence}s contains only once the given sequence.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
-   * @param sequence the given {@code String}.
+   * @param actual the actual {@code CharSequence}.
+   * @param sequence the given {@code CharSequence}.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not contains <b>only once</b> the given {@code String}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contains <b>only once</b> the given {@code CharSequence}.
    */
-  public void assertContainsOnlyOnce(AssertionInfo info, String actual, String sequence) {
+  public void assertContainsOnlyOnce(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     int sequenceOccurencesInActual = countOccurences(sequence, actual);
@@ -334,16 +335,18 @@ public class Strings {
   }
 
   /**
-   * Count occurences of sequenceToSearch in actual {@link String}.
+   * Count occurrences of sequenceToSearch in actual {@link CharSequence}.
    * 
-   * @param sequenceToSearch the sequence to search in in actual {@link String}.
-   * @param actual the {@link String} to search occurences in.
-   * @return the number of occurences of sequenceToSearch in actual {@link String}.
+   * @param sequenceToSearch the sequence to search in in actual {@link CharSequence}.
+   * @param actual the {@link CharSequence} to search occurrences in.
+   * @return the number of occurrences of sequenceToSearch in actual {@link CharSequence}.
    */
-  private int countOccurences(String sequenceToSearch, String actual) {
+  private int countOccurences(CharSequence sequenceToSearch, CharSequence actual) {
+    String strToSearch = sequenceToSearch.toString();
+    String strActual = actual.toString();
     int occurences = 0;
-    for (int i = 0; i <= (actual.length() - sequenceToSearch.length()); i++) {
-      if (comparisonStrategy.areEqual(actual.substring(i, i + sequenceToSearch.length()), sequenceToSearch)) {
+    for (int i = 0; i <= (strActual.length() - strToSearch.length()); i++) {
+      if (comparisonStrategy.areEqual(strActual.substring(i, i + sequenceToSearch.length()), strToSearch)) {
         occurences++;
       }
     }
@@ -351,102 +354,102 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code String} starts with the given prefix.
+   * Verifies that the given {@code CharSequence} starts with the given prefix.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
+   * @param actual the actual {@code CharSequence}.
    * @param prefix the given prefix.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not start with the given prefix.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix.
    */
-  public void assertStartsWith(AssertionInfo info, String actual, String prefix) {
+  public void assertStartsWith(AssertionInfo info, CharSequence actual, CharSequence prefix) {
     if (prefix == null) {
       throw new NullPointerException("The given prefix should not be null");
     }
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringStartsWith(actual, prefix)) {
+    if (comparisonStrategy.stringStartsWith(actual.toString(), prefix.toString())) {
       return;
     }
     throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
 
   /**
-   * Verifies that the given {@code String} ends with the given suffix.
+   * Verifies that the given {@code CharSequence} ends with the given suffix.
    * 
    * @param info contains information about the assertion.
-   * @param actual the actual {@code String}.
+   * @param actual the actual {@code CharSequence}.
    * @param suffix the given suffix.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not end with the given suffix.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix.
    */
-  public void assertEndsWith(AssertionInfo info, String actual, String suffix) {
+  public void assertEndsWith(AssertionInfo info, CharSequence actual, CharSequence suffix) {
     if (suffix == null) {
       throw new NullPointerException("The given suffix should not be null");
     }
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringEndsWith(actual, suffix)) {
+    if (comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString())) {
       return;
     }
     throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
   }
 
   /**
-   * Verifies that the given {@code String} matches the given regular expression.
+   * Verifies that the given {@code CharSequence} matches the given regular expression.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @param regex the regular expression to which the actual {@code String} is to be matched.
+   * @param actual the given {@code CharSequence}.
+   * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
    * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the actual {@code String} does not match the given regular expression.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
    */
-  public void assertMatches(AssertionInfo info, String actual, String regex) {
+  public void assertMatches(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
-    if (Pattern.matches(regex, actual)) {
+    if (Pattern.matches(regex.toString(), actual)) {
       return;
     }
     throw failures.failure(info, shouldMatch(actual, regex));
   }
 
   /**
-   * Verifies that the given {@code String} does not match the given regular expression.
+   * Verifies that the given {@code CharSequence} does not match the given regular expression.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @param regex the regular expression to which the actual {@code String} is to be matched.
+   * @param actual the given {@code CharSequence}.
+   * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
    * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code String} matches the given regular expression.
+   * @throws AssertionError if the actual {@code CharSequence} matches the given regular expression.
    */
-  public void assertDoesNotMatch(AssertionInfo info, String actual, String regex) {
+  public void assertDoesNotMatch(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
-    if (actual == null || !Pattern.matches(regex, actual)) {
+    if (actual == null || !Pattern.matches(regex.toString(), actual)) {
       return;
     }
     throw failures.failure(info, shouldNotMatch(actual, regex));
   }
 
-  private void checkRegexIsNotNull(String regex) {
+  private void checkRegexIsNotNull(CharSequence regex) {
     if (regex == null) {
       throw patternToMatchIsNull();
     }
   }
 
   /**
-   * Verifies that the given {@code String} matches the given regular expression.
+   * Verifies that the given {@code CharSequence} matches the given regular expression.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @param pattern the regular expression to which the actual {@code String} is to be matched.
+   * @param actual the given {@code CharSequence}.
+   * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the given {@code String} is {@code null}.
-   * @throws AssertionError if the given {@code String} does not match the given regular expression.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} does not match the given regular expression.
    */
-  public void assertMatches(AssertionInfo info, String actual, Pattern pattern) {
+  public void assertMatches(AssertionInfo info, CharSequence actual, Pattern pattern) {
     checkIsNotNull(pattern);
     assertNotNull(info, actual);
     if (pattern.matcher(actual).matches()) {
@@ -456,15 +459,15 @@ public class Strings {
   }
 
   /**
-   * Verifies that the given {@code String} does not match the given regular expression.
+   * Verifies that the given {@code CharSequence} does not match the given regular expression.
    * 
    * @param info contains information about the assertion.
-   * @param actual the given {@code String}.
-   * @param pattern the regular expression to which the actual {@code String} is to be matched.
+   * @param actual the given {@code CharSequence}.
+   * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the given {@code String} matches the given regular expression.
+   * @throws AssertionError if the given {@code CharSequence} matches the given regular expression.
    */
-  public void assertDoesNotMatch(AssertionInfo info, String actual, Pattern pattern) {
+  public void assertDoesNotMatch(AssertionInfo info, CharSequence actual, Pattern pattern) {
     checkIsNotNull(pattern);
     if (actual == null || !pattern.matcher(actual).matches()) {
       return;
@@ -482,17 +485,17 @@ public class Strings {
     return new NullPointerException("The regular expression pattern to match should not be null");
   }
 
-  private void assertNotNull(AssertionInfo info, String actual) {
+  private void assertNotNull(AssertionInfo info, CharSequence actual) {
     Objects.instance().assertNotNull(info, actual);
   }
 
-  public void assertContainsSequence(AssertionInfo info, String actual, String[] values) {
+  public void assertContainsSequence(AssertionInfo info, CharSequence actual, CharSequence[] values) {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
     checkSequenceIsNotNull(values[0]);
-    Set<String> notFound = new LinkedHashSet<String>();
-    for (String value : values) {
+    Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
+    for (CharSequence value : values) {
       if (!stringContains(actual, value)) notFound.add(value);
     }
     if (notFound.isEmpty()) {
@@ -501,8 +504,9 @@ public class Strings {
         return;
       }
       // we have found all the given values but were they in the correct order ?
+      String strActual = actual.toString();
       for (int i = 1; i < values.length; i++) {
-        if (actual.indexOf(values[i - 1]) > actual.indexOf(values[i])) {
+        if (strActual.indexOf(values[i - 1].toString()) > strActual.indexOf(values[i].toString())) {
           throw failures.failure(info, shouldContainSequence(actual, values, i - 1, comparisonStrategy));
         }
       }

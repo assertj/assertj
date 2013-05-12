@@ -12,31 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.charsequence;
 
-import static org.junit.Assert.*;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import static org.mockito.Mockito.verify;
+
 
 /**
- * Tests for <code>{@link Assertions#assertThat(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#hasSize(int)}</code>.
  * 
  * @author Alex Ruiz
- * @author Mikhail Mazursky
  */
-public class Assertions_assertThat_with_String_Test {
+public class CharSequenceAssert_hasSize_Test extends CharSequenceAssertBaseTest {
 
-  @Test
-  public void should_create_Assert() {
-    StringAssert assertions = Assertions.assertThat("Yoda");
-    assertNotNull(assertions);
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.hasSize(6);
   }
 
-  @Test
-  public void should_pass_actual() {
-    String actual = "Yoda";
-    StringAssert assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertHasSize(getInfo(assertions), getActual(assertions), 6);
   }
 }

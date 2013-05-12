@@ -12,22 +12,19 @@
  * 
  * Copyright @2010-2013 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.util;
 
+import java.util.Comparator;
 
 /**
- * Assertion methods for {@code String}s.
- * <p>
- * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(String)}</code>.
- * </p>
- * This class has been defined so that, when calling {@link #usingComparator(java.util.Comparator)}, one provide a
- * String comparator instead of a {@link CharSequence} comparator.
- * 
  * @author Mikhail Mazursky
  */
-public class StringAssert extends AbstractCharSequenceAssert<StringAssert, String> {
+public class CaseInsensitiveCharSequenceComparator implements Comparator<CharSequence> {
 
-  protected StringAssert(String actual) {
-    super(actual, StringAssert.class);
+  public final static CaseInsensitiveCharSequenceComparator instance = new CaseInsensitiveCharSequenceComparator();
+
+  public int compare(CharSequence s1, CharSequence s2) {
+
+    return CaseInsensitiveStringComparator.instance.compare(s1.toString(), s2.toString());
   }
 }

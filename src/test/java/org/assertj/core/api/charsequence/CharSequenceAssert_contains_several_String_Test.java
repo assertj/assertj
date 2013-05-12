@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link StringAssert#isEqualToIgnoringCase(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#contains(CharSequence...)}</code>.
  * 
- * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-public class StringAssert_isEqualToIgnoringCase_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_contains_several_String_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.isEqualToIgnoringCase("yoda");
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.contains("od", "do");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertEqualsIgnoringCase(getInfo(assertions), getActual(assertions), "yoda");
+    verify(strings).assertContains(getInfo(assertions), getActual(assertions), "od", "do");
   }
 }

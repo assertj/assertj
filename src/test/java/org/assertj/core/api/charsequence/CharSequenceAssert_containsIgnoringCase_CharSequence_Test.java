@@ -12,28 +12,28 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link StringAssert#startsWith(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#containsIgnoringCase(CharSequence)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_startsWith_Test extends StringAssertBaseTest {
+public class CharSequenceAssert_containsIgnoringCase_CharSequence_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.startsWith("Yod");
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.containsIgnoringCase("od");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertStartsWith(getInfo(assertions), getActual(assertions), "Yod");
+    verify(strings).assertContainsIgnoringCase(getInfo(assertions), getActual(assertions), "od");
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Created on Dec 22, 2010
+ * Created on Dec 26, 2010
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
  * License. You may obtain a copy of the License at
@@ -12,37 +12,36 @@
  * 
  * Copyright @2010-2011 the original author or authors.
  */
-package org.assertj.core.api.string;
+package org.assertj.core.api.charsequence;
 
-import static org.assertj.core.test.TestData.matchAnything;
 import static org.mockito.Mockito.verify;
 
 
-import org.assertj.core.api.StringAssert;
-import org.assertj.core.api.StringAssertBaseTest;
-import org.junit.BeforeClass;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link StringAssert#matches(String)}</code>.
+ * Tests for <code>{@link CharSequenceAssert#isNullOrEmpty()}</code>.
  * 
  * @author Alex Ruiz
  */
-public class StringAssert_matches_String_Test extends StringAssertBaseTest {
-
-  private static String regex;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    regex = matchAnything().pattern();
-  }
+public class CharSequenceAssert_isNullOrEmpty_Test extends CharSequenceAssertBaseTest {
 
   @Override
-  protected StringAssert invoke_api_method() {
-    return assertions.matches(regex);
+  protected CharSequenceAssert invoke_api_method() {
+    assertions.isNullOrEmpty();
+    return null;
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertMatches(getInfo(assertions), getActual(assertions), regex);
+    verify(strings).assertNullOrEmpty(getInfo(assertions), getActual(assertions));
+  }
+  
+  @Override
+  @Test
+  public void should_return_this() {
+    // Disable this test, the isNullOrEmpty method is void.
   }
 }

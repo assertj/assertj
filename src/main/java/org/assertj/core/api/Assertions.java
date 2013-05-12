@@ -396,6 +396,16 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * 
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static CharSequenceAssert assertThat(CharSequence actual) {
+    return new CharSequenceAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link StringAssert}</code>.
    * 
    * @param actual the actual value.
