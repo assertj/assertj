@@ -28,6 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
+ * @param <A> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author David DIDIER
@@ -36,13 +37,13 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  */
-public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceAssert<S>>
-    extends AbstractAssert<S, CharSequence> implements EnumerableAssert<S, Character> {
+public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceAssert<S, A>, A extends CharSequence>
+    extends AbstractAssert<S, A> implements EnumerableAssert<S, Character> {
 
   @VisibleForTesting
   Strings strings = Strings.instance();
 
-  protected AbstractCharSequenceAssert(CharSequence actual, Class<?> selfType) {
+  protected AbstractCharSequenceAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
@@ -291,7 +292,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   @Override
-  public S usingComparator(Comparator<? super CharSequence> customComparator) {
+  public S usingComparator(Comparator<? super A> customComparator) {
     super.usingComparator(customComparator);
     this.strings = new Strings(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
