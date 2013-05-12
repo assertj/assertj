@@ -12,7 +12,7 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Failing assertion unit test method name must start with : `should_fail_...`.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/joel-costigliola/assertj-examples) and use it in the javadoc. 
 
-[assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to use efficiently Assert4J through fun unit test examples, it can be seen as AssertJ living documention.
+[assertj-examples](https://github.com/joel-costigliola/assertj-examples) shows how to use efficiently AssertJ through fun unit test examples, it can be seen as AssertJ living documention.
 
 Naming convetions on some examples : 
 
