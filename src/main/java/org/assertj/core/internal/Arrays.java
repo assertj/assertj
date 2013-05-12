@@ -15,7 +15,6 @@
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
-
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -42,6 +41,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -69,6 +69,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -167,7 +168,8 @@ class Arrays {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(values)) return;
+    if (isArrayEmpty(actual) && isArrayEmpty(values))
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     Set<Object> notFound = new LinkedHashSet<Object>();
     int valueCount = sizeOf(values);
@@ -210,7 +212,7 @@ class Arrays {
       return;
     }
     throw failures.failure(info,
-                           shouldContainAtIndex(array, value, index, Array.get(array, index.value), comparisonStrategy));
+        shouldContainAtIndex(array, value, index, Array.get(array, index.value), comparisonStrategy));
   }
 
   void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
@@ -239,7 +241,8 @@ class Arrays {
     checkIsNotNull(values);
     assertNotNull(info, actual);
     // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(values)) return;
+    if (isArrayEmpty(actual) && isArrayEmpty(values))
+      return;
     failIfEmptySinceActualIsNotEmpty(values);
     Set<Object> notExpected = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
@@ -247,6 +250,32 @@ class Arrays {
       return;
     }
     throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
+    checkIsNotNull(values);
+    assertNotNull(info, actual);
+    // if both actual and values are empty arrays, then assertion passes.
+    if (isArrayEmpty(actual) && isArrayEmpty(values))
+      return;
+    failIfEmptySinceActualIsNotEmpty(values);
+    Set<?> expected = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(asList(values));
+    List<Object> actualList = asList(actual);
+    Set<?> actualSet = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(actualList);
+    Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actualList);
+    Set<Object> notFound = new LinkedHashSet<Object>();
+    Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
+    for (Object element : expected) {
+      if (!actualSet.contains(element)) {
+        notFound.add(element);
+      } else if (collectionContains(duplicates, element)) {
+        notOnlyOnce.add(element);
+      }
+    }
+    if (notFound.isEmpty() && notOnlyOnce.isEmpty()) {
+      return;
+    }
+    throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
@@ -280,9 +309,42 @@ class Arrays {
   }
 
   /**
+   * build a TreeSet with that avoid duplicates <b>according to given comparison strategy</b>
+   * 
+   * @param collection to feed the Set we want to build
+   * @return a Set without duplicates <b>according to given comparison strategy</b> and with {@code .contains} who use
+   *         the given comparison strategy.
+   */
+  private Set<Object> asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Iterable<Object> iterable) {
+    Set<Object> set = new TreeSet<Object>(getComparatorFromComparisonStrategy());
+    for (Object element : iterable) {
+      set.add(element);
+    }
+    return set;
+  }
+
+  private Comparator<Object> getComparatorFromComparisonStrategy() {
+    @SuppressWarnings("unchecked")
+    Comparator<Object> comparator = (Comparator<Object>) getComparator();
+    if (comparator == null) {
+      comparator = new Comparator<Object>() {
+        @Override
+        public int compare(Object o1, Object o2) {
+          if (comparisonStrategy.areEqual(o1, o2))
+            return 0;
+          if (comparisonStrategy.isGreaterThan(o1, o2))
+            return 1;
+          return -1;
+        }
+      };
+    }
+    return comparator;
+  }
+
+  /**
    * Delegates to {@link ComparisonStrategy#iterableContains(Iterable, Object)}
    */
-  private boolean collectionContains(Collection<?> actual, Object value) {
+  private boolean collectionContains(Iterable<?> actual, Object value) {
     return comparisonStrategy.iterableContains(actual, value);
   }
 
@@ -297,20 +359,22 @@ class Arrays {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return;
+    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
     for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
-      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence)) return;
+      if (containsSequenceAtGivenIndex(actualIndex, actual, sequence))
+        return;
     }
     throw failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
   }
 
   /**
    * Return true if actualArray contains exactly the given sequence at given starting index, false otherwise.
-   *
-   *
+   * 
+   * 
    * @param actualStartIndex the index to start looking for sequence in actualArray
    * @param actualArray the actual array to search sequence in
    * @param sequence the sequence to look for
@@ -319,7 +383,8 @@ class Arrays {
   private boolean containsSequenceAtGivenIndex(int actualStartIndex, Object actualArray, Object sequence) {
     int sequenceSize = sizeOf(sequence);
     for (int i = 0; i < sequenceSize; i++) {
-      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex))) continue;
+      if (areEqual(Array.get(sequence, i), Array.get(actualArray, i + actualStartIndex)))
+        continue;
       return false;
     }
     return true;
@@ -369,7 +434,8 @@ class Arrays {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return;
+    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
@@ -393,7 +459,8 @@ class Arrays {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return;
+    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
+      return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
@@ -485,8 +552,7 @@ class Arrays {
   }
 
   public <E> void assertAreAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -501,8 +567,7 @@ class Arrays {
   }
 
   public <E> void assertAreNotAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -517,8 +582,7 @@ class Arrays {
   }
 
   public <E> void assertAreAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -533,8 +597,7 @@ class Arrays {
   }
 
   public <E> void assertAreNotAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -549,8 +612,7 @@ class Arrays {
   }
 
   public <E> void assertAreExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -565,8 +627,7 @@ class Arrays {
   }
 
   public <E> void assertAreNotExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -581,8 +642,7 @@ class Arrays {
   }
 
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -597,8 +657,7 @@ class Arrays {
   }
 
   public <E> void assertDoNotHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -613,8 +672,7 @@ class Arrays {
   }
 
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -629,8 +687,7 @@ class Arrays {
   }
 
   public <E> void assertDoNotHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -645,8 +702,7 @@ class Arrays {
   }
 
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -661,8 +717,7 @@ class Arrays {
   }
 
   public <E> void assertDoNotHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times,
-      Condition<E> condition) {
+      int times, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
     try {
@@ -836,7 +891,8 @@ class Arrays {
   }
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {
-    if (isArrayEmpty(values)) throw new AssertionError("actual is not empty");
+    if (isArrayEmpty(values))
+      throw new AssertionError("actual is not empty");
   }
 
 }

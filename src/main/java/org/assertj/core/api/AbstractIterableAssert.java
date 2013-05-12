@@ -110,6 +110,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /** {@inheritDoc} */
   @Override
+  public S containsOnlyOnce(T... values) {
+    iterables.assertContainsOnlyOnce(info, actual, values);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public S containsExactly(T... values) {
     iterables.assertContainsExactly(info, actual, values);
     return myself;
