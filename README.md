@@ -40,11 +40,11 @@ For more details check **[AssertJ wiki](https://github.com/joel-costigliola/asse
 
 ## <a name="news"/>Latest News
 
-**2013-05-12 : AssertJ core 1.2.0 release**
+To have details on the latest releases, please go to [**New and noteworthy**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) wiki section. 
 
-**2013-04-14 : AssertJ core 1.1.0 release**
-
-**2013-03-28 : AssertJ quickie presentation at Devoxx France !**
+**2013-05-12 : AssertJ core 1.2.0 release**  
+**2013-04-14 : AssertJ core 1.1.0 release**  
+**2013-03-28 : AssertJ quickie presentation at Devoxx France !**  
 
 **2013-03-26 - AssertJ train releases :**  
 * **assertj-core 1.0.0**
@@ -52,9 +52,6 @@ For more details check **[AssertJ wiki](https://github.com/joel-costigliola/asse
 * **assertj-joda-time 1.0.0**
 * **assertj-assertions-generator 1.0.0**
 * **assertj-assertions-generator-maven-plugin 1.0.0**
-
-See [**what's new**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) in assertj-core compared to Fest. 
-
 
 ## <a name="quickstart"/>Quickstart
 
