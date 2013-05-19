@@ -229,4 +229,32 @@ public class ShortArrayAssert extends AbstractAssert<ShortArrayAssert, short[]> 
     this.arrays = ShortArrays.instance();
     return myself;
   }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * short[] shorts = { 1, 2, 3 };
+   * 
+   * // assertion will pass
+   * assertThat(shorts).containsExactly((short) 1, (short) 2, (short) 3);
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(shorts).containsExactly((short) 2, (short) 1, (short) 3);
+   * </pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public ShortArrayAssert containsExactly(short... values) {
+    objects.assertEqual(info, actual, values);
+    return this;
+  }
 }

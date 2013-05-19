@@ -229,4 +229,32 @@ public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implem
     this.arrays = IntArrays.instance();
     return myself;
   }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * int[] ints = { 1, 2, 3 };
+   * 
+   * // assertion will pass
+   * assertThat(ints).containsExactly(1, 2, 3);
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(ints).containsExactly(2, 1, 3);
+   * </pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public IntArrayAssert containsExactly(int... values) {
+    objects.assertEqual(info, actual, values);
+    return this;
+  }
 }

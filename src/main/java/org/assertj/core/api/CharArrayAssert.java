@@ -229,4 +229,32 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
     this.arrays = CharArrays.instance();
     return myself;
   }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * char[] chars = { 'a', 'b', 'c' };
+   * 
+   * // assertion will pass
+   * assertThat(chars).containsExactly('a', 'b', 'c');
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(chars).containsExactly('b', 'a', 'c');
+   * </pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public CharArrayAssert containsExactly(char... values) {
+    objects.assertEqual(info, actual, values);
+    return this;
+  }
 }
