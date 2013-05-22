@@ -37,7 +37,7 @@ public class FieldsOrPropertiesExtractor {
   }
 
   /**
-   * Call {@link #extract(Iterable, String)} after converting objects to an iterable.
+   * Call {@link #extract(Iterable, String...)} after converting objects to an iterable.
    * <p>
    * Behavior is described in javadoc {@link AbstractIterableAssert#extracting(String...)}
    */
