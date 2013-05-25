@@ -230,4 +230,31 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
     return myself;
   }
 
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * double[] doubles = { 1.0, 2.0, 3.0 };
+   * 
+   * // assertion will pass
+   * assertThat(doubles).containsExactly(1.0, 2.0, 3.0);
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(doubles).containsExactly(2.0, 1.0, 3.0);
+   * </pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+  public DoubleArrayAssert containsExactly(double... values) {
+    objects.assertEqual(info, actual, values);
+    return this;
+  }
 }

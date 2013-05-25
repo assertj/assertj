@@ -229,4 +229,32 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
     this.arrays = FloatArrays.instance();
     return myself;
   }
+
+  /**
+   * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * float[] floats = { 1.0f, 2.0f, 3.0f };
+   * 
+   * // assertion will pass
+   * assertThat(floats).containsExactly(1.0f, 2.0f, 3.0f);
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(floats).containsExactly(2.0f, 1.0f, 3.0f);
+   * </pre>
+   * 
+   * @param values the given values.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
+   *           contains some or none of the given values, or the actual group contains more values than the given ones
+   *           or values are the same but the order is not.
+   */
+    public FloatArrayAssert containsExactly(float... values) {
+        objects.assertEqual(info, actual, values);
+        return this;
+    }
 }
