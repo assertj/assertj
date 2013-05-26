@@ -108,7 +108,19 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce((short) 1, (short) 2);
+   * 
+   * // assertions will fail
+   * assertThat(new byte[] { 1, 2, 1 }).containsOnlyOnce((short) 1);
+   * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce((short) 4);
+   * assertThat(new byte[] { 1, 2, 3, 3 }).containsOnlyOnce((short) 0, 1, (short) 4, (short) 5);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

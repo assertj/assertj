@@ -155,7 +155,8 @@ public class Strings {
   }
 
   /**
-   * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other {@code Iterable}.
+   * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other
+   * {@code Iterable}.
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
@@ -322,7 +323,8 @@ public class Strings {
    * @param sequence the given {@code CharSequence}.
    * @throws NullPointerException if the given sequence is {@code null}.
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contains <b>only once</b> the given {@code CharSequence}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contains <b>only once</b> the given
+   *           {@code CharSequence}.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkSequenceIsNotNull(sequence);
@@ -335,21 +337,11 @@ public class Strings {
   }
 
   /**
-<<<<<<< Upstream, based on origin/master
    * Count occurrences of sequenceToSearch in actual {@link CharSequence}.
-=======
-   * Count occurrences of sequenceToSearch in actual {@link String}.
->>>>>>> 8b37c03 javadoc
    * 
-<<<<<<< Upstream, based on origin/master
    * @param sequenceToSearch the sequence to search in in actual {@link CharSequence}.
    * @param actual the {@link CharSequence} to search occurrences in.
    * @return the number of occurrences of sequenceToSearch in actual {@link CharSequence}.
-=======
-   * @param sequenceToSearch the sequence to search in in actual {@link String}.
-   * @param actual the {@link String} to search occurrences in.
-   * @return the number of occurrences of sequenceToSearch in actual {@link String}.
->>>>>>> 8b37c03 javadoc
    */
   private int countOccurences(CharSequence sequenceToSearch, CharSequence actual) {
     String strToSearch = sequenceToSearch.toString();

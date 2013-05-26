@@ -108,7 +108,19 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(1.0, 2.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).containsOnlyOnce(1.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnlyOnce(4.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0, 3.0 }).containsOnlyOnce(0.0, 1.0, 2.0, 3.0, 4.0, 5.0);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

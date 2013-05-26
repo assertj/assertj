@@ -892,7 +892,7 @@ class Arrays {
 
   private static void failIfEmptySinceActualIsNotEmpty(Object values) {
     if (isArrayEmpty(values))
-      throw new AssertionError("actual is not empty");
+      throw new AssertionError("actual is not empty while group of values to look for is.");
   }
 
 }

@@ -108,7 +108,19 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new long[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
+   * 
+   * // assertions will fail
+   * assertThat(new long[] { 1, 2, 1 }).containsOnlyOnce(1);
+   * assertThat(new long[] { 1, 2, 3 }).containsOnlyOnce(4);
+   * assertThat(new long[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

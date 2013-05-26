@@ -108,7 +108,19 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce('a', 'b');
+   * 
+   * // assertions will fail
+   * assertThat(new char[] { 'a', 'b', 'a' }).containsOnlyOnce('a');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce('d');
+   * assertThat(new char[] { 'a', 'b', 'c', 'c' }).containsOnlyOnce('z', 'b', 'c', 'd');
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

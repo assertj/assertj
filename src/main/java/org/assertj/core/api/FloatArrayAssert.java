@@ -108,7 +108,19 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(1.0f, 2.0f);
+   * 
+   * // assertions will fail
+   * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).containsOnlyOnce(1.0f);
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(4.0f);
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 3.0f }).containsOnlyOnce(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

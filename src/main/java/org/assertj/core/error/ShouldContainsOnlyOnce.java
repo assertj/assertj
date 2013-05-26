@@ -14,7 +14,12 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.*;
+import static org.assertj.core.util.Iterables.isNullOrEmpty;
+
+import java.util.Set;
+
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -34,9 +39,14 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Object notFound,
-      Object notOnlyOnce, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, comparisonStrategy);
+  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
+      Set<?> notOnlyOnce, ComparisonStrategy comparisonStrategy) {
+    if (!isNullOrEmpty(notFound) && !isNullOrEmpty(notOnlyOnce))
+      return new ShouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, comparisonStrategy);
+    if (!isNullOrEmpty(notFound))
+      return new ShouldContainsOnlyOnce(actual, expected, notFound, comparisonStrategy);
+    // case where no elements were missing but some appeared more than once.
+    return new ShouldContainsOnlyOnce(notOnlyOnce, actual, expected, comparisonStrategy);
   }
 
   /**
@@ -45,20 +55,32 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @param actual the actual value in the failed assertion.
    * @param expected values expected to be contained in {@code actual}.
    * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notOnlyOnceExpected values in {@code actual} that were not only once in {@code expected}.
+   * @param notOnlyOnce values in {@code actual} that were found not only once in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Object notFound,
-      Object notOnlyOnceExpected) {
-    return new ShouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnceExpected,
-        StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
+      Set<?> notOnlyOnce) {
+    return shouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, StandardComparisonStrategy.instance());
   }
 
-  private ShouldContainsOnlyOnce(Object actual, Object expected, Object notFound, Object notOnlyOnce,
+  private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, Set<?> notOnlyOnce,
       ComparisonStrategy comparisonStrategy) {
-    super(
-        "\nExpecting:\n <%s>\nto contain only once:\n <%s>\nelements not found:\n <%s>\nand elements more than once:\n <%s>\n%s",
-        actual, expected, notFound, notOnlyOnce, comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\n"
+        + "but some elements were not found:\n <%s>\n"
+        + "and others were found more than once:\n <%s>\n%s",
+          actual, expected, notFound, notOnlyOnce, comparisonStrategy);
+  }
+
+  private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\nbut some elements were not found:\n <%s>\n%s",
+          actual, expected, notFound, comparisonStrategy);
+  }
+
+  // change the order of parameters to avoid confusion with previous constructor
+  private ShouldContainsOnlyOnce(Set<?> notOnlyOnce, Object actual, Object expected,
+      ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\nbut some elements were found more than once:\n <%s>\n%s",
+          actual, expected, notOnlyOnce, comparisonStrategy);
   }
 
 }

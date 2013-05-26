@@ -108,7 +108,19 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   }
 
   /**
-   * Verifies that the actual array contains only the given values and only once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new boolean[] { true, false }).containsOnlyOnce(true, false);
+   * 
+   * // assertions will fail
+   * assertThat(new boolean[] { true, false, true }).containsOnlyOnce(true);
+   * assertThat(new boolean[] { true, false, false }).containsOnlyOnce(true, false);
+   * assertThat(new boolean[] { true }).containsOnlyOnce(false);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

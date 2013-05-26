@@ -57,9 +57,22 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
   S containsOnly(T... values);
-  
+
   /**
-   * Verifies that the actual group contains only the given values once.
+   * Verifies that the actual array contains the given values only once.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;coming&quot;, &quot;winter&quot;);
+   * 
+   * // assertions will fail
+   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;);
+   * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;Lannister&quot;);
+   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Aria&quot;);
+   * </pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

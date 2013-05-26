@@ -2,7 +2,7 @@ package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
 
-import static org.assertj.core.error.ShouldContainStringOnlyOnce.shouldContainOnlyOnce;
+import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.ErrorMessageFactory;
