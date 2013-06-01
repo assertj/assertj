@@ -44,12 +44,12 @@ public class Failures {
   }
 
   /**
-   * flag indicating wether or not we remove elements related to AssertJ from assertion error stack trace.
+   * flag indicating whether or not we remove elements related to AssertJ from assertion error stack trace.
    */
   private boolean removeAssertJRelatedElementsFromStackTrace = true;
 
   /**
-   * Sets wether we remove elements related to Fest from assertion error stack trace.
+   * Sets whether we remove elements related to Fest from assertion error stack trace.
    * @param removeFestRelatedElementsFromStackTrace flag
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
