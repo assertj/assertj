@@ -373,16 +373,17 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
    * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
    * work if half of the objects have the field and the other the property.
    * <p>
-   * Note that the order of extracted field/property values is consistent with the array order.
+   * Note that the order of extracted field/property values is consistent with the order of the array under test.
    * 
    * @param fieldOrProperty the field/property to extract from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    */
-  public <T> ObjectArrayAssert<T> extracting(String fieldOrProperty, Class<T> extractingType) {
-    T[] values = (T[]) FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
-    return new ObjectArrayAssert<T>(values);
+  public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
+    @SuppressWarnings("unchecked")
+    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
+    return new ObjectArrayAssert<P>(values);
   }
 
   // TODO : write javadoc !
