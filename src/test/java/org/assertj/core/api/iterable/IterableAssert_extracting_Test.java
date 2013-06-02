@@ -19,15 +19,16 @@ import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
+import java.util.Comparator;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#extracting(String)}</code> and
@@ -64,8 +65,22 @@ public class IterableAssert_extracting_Test {
     assertThat(employees).extracting("adult").containsOnly(true, true);
     // extract field that is also a property
     assertThat(employees).extracting("name").containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+    // extract field that is also a property
+    assertThat(employees).extracting("name").containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
     // nested property
     assertThat(employees).extracting("name.first").containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined()
+      throws Exception {
+    // extract field that is also a property and check generic for comparator.
+    assertThat(employees).extracting("name", Name.class).usingElementComparator(new Comparator<Name>() {
+      @Override
+      public int compare(Name o1, Name o2) {
+        return o1.getFirst().compareTo(o2.getFirst());
+      }
+    }).isNotEmpty();
   }
 
   @Test
@@ -76,13 +91,15 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() throws Exception {
-    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+        tuple("Luke", 26, 2L));
   }
-  
+
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() throws Exception {
     thrown.expect(IntrospectionError.class);
-    assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("unknown", "age", "id")
+        .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
-  
+
 }

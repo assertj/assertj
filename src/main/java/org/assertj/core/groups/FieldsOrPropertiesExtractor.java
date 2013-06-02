@@ -44,7 +44,7 @@ public class FieldsOrPropertiesExtractor {
   public static Tuple[] extract(Object[] objects, String... fieldsOrPropertiesNames) {
     ArrayList<Object> newArrayList = Lists.newArrayList(objects);
     List<Tuple> extractedValues = extract(newArrayList, fieldsOrPropertiesNames);
-    return extractedValues.toArray(new Tuple[0]);
+    return extractedValues.toArray(new Tuple[extractedValues.size()]);
   }
 
   /**
