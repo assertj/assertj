@@ -338,6 +338,61 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
     return new ObjectArrayAssert<Object>(values);
   }
 
+  /**
+   * Extract the values of given field or property from the array's elements under test into a new array, this new array
+   * becoming the array under test with type.
+   * <p>
+   * It allows you to test a field/property of the array's elements instead of testing the elements themselves, it can
+   * be sometimes much less work !
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
+   * // they can be public field or properties, both works when extracting their values.
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
+   * 
+   * // let's verify the names of TolkienCharacter in fellowshipOfTheRing :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, String.class)
+   *           .contains(&quot;Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;)
+   *           .doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
+   * 
+   * // you can also extract nested field/property like the name of Race :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
+   *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
+   *           .doesNotContain(&quot;Orc&quot;);
+   * </pre>
+   * 
+   * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
+   * a property with the given name is looked for.
+   * <p>
+   * It works only if all objects have the field or all objects have the property with the given name, i.e. it won't
+   * work if half of the objects have the field and the other the property.
+   * <p>
+   * Note that the order of extracted field/property values is consistent with the order of the array under test.
+   * 
+   * @param fieldOrProperty the field/property to extract from the array under test
+   * @param extractingType type to return
+   * @return a new assertion object whose object under test is the array of extracted field/property values.
+   * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
+   */
+  public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
+    @SuppressWarnings("unchecked")
+    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(fieldOrProperty, actual);
+    return new ObjectArrayAssert<P>(values);
+  }
+
   // TODO : write javadoc !
   public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
     Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, fieldsOrProperties);
