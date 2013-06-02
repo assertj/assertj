@@ -22,7 +22,7 @@ import static java.lang.String.format;
  */
 public class Employee {
 
-  // intentionnaly public to test retrieval of a public field that is not a property
+  // intentionally public to test retrieval of a public field that is not a property
   public long id;
   // name is both a public field and a property 
   public Name name;
