@@ -95,4 +95,33 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     return this;
   }
 
+
+  /**
+   * Verifies that the cause of the actual {@code Throwable} is an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new NullPointerException());
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
+   * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
+   * </pre>
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   */
+  public ThrowableAssert hasCauseInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasCauseInstanceOf(info, actual, type);
+    return this;
+  }
 }
