@@ -17,6 +17,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
+import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
@@ -141,6 +142,29 @@ public class Throwables {
     if (type.isInstance(actual.getCause()))
       return;
     throw failures.failure(info, shouldHaveCauseInstance(actual, type));
+  }
+
+  /**
+   * Assert that the cause of actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param type the expected cause type.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
+   *           type.
+   */
+  public void assertHasCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
+    if (type == null) {
+      throw new NullPointerException("The given type should not be null");
+    }
+    assertNotNull(info, actual);
+    Throwable cause = actual.getCause();
+    if (cause != null && type.equals(cause.getClass()))
+      return;
+    throw failures.failure(info, shouldHaveCauseExactlyInstance(actual, type));
   }
 
   private static void assertNotNull(AssertionInfo info, Throwable actual) {
