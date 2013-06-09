@@ -95,4 +95,125 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     return this;
   }
 
+
+  /**
+   * Verifies that the cause of the actual {@code Throwable} is an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new NullPointerException());
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
+   * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
+   * </pre>
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   */
+  public ThrowableAssert hasCauseInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasCauseInstanceOf(info, actual, type);
+    return this;
+  }
+
+  /**
+   * Verifies that the cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new NullPointerException());
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasCauseExactlyInstanceOf(NullPointerException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
+   * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
+   *           type.
+   */
+  public ThrowableAssert hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
+    return this;
+  }
+
+  /**
+   * Verifies that the root cause of the actual {@code Throwable} is an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseInstanceOf(NullPointerException.class);
+   * assertThat(throwable).hasRootCauseInstanceOf(RuntimeException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   */
+  public ThrowableAssert hasRootCauseInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasRootCauseInstanceOf(info, actual, type);
+    return this;
+  }
+
+  /**
+   * Verifies that the root cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
+   *           given type.
+   */
+  public ThrowableAssert hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
+    return this;
+  }
 }
