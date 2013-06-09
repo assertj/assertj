@@ -108,5 +108,20 @@ public final class Throwables {
     throwable.setStackTrace(newStackTrace);
   }
 
+  /**
+   * Get the root cause (ie the last non null cause) from a {@link Throwable}.
+   * 
+   * @param throwable the {@code Throwable} to get root cause from.
+   * @return the root cause if any, else {@code null}.
+   */
+  public static Throwable getRootCause(Throwable throwable) {
+    if (throwable.getCause() == null)
+      return null;
+    Throwable cause;
+    while ((cause = throwable.getCause()) != null)
+      throwable = cause;
+    return throwable;
+  }
+    
   private Throwables() {}
 }
