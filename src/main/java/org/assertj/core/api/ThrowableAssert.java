@@ -185,4 +185,35 @@ public class ThrowableAssert extends AbstractAssert<ThrowableAssert, Throwable> 
     throwables.assertHasRootCauseInstanceOf(info, actual, type);
     return this;
   }
+
+  /**
+   * Verifies that the root cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
+   * 
+   * // assertion will pass
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
+   * 
+   * // assertion will fail
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
+   * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
+   *           given type.
+   */
+  public ThrowableAssert hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
+    throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
+    return this;
+  }
 }
