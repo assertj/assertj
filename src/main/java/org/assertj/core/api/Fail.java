@@ -29,7 +29,7 @@ import static java.lang.String.format;
 public final class Fail {
 
   /**
-   * Sets wether we remove elements related to Fest from assertion error stack trace.
+   * Sets whether we remove elements related to Fest from assertion error stack trace.
    * @param removeFestRelatedElementsFromStackTrace flag.
    */
   public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
