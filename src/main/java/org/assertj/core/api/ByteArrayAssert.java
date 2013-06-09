@@ -43,34 +43,40 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,24 +249,28 @@ public class ByteArrayAssert extends AbstractAssert<ByteArrayAssert, byte[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert isSortedAccordingTo(Comparator<? super Byte> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert usingElementComparator(Comparator<? super Byte> customComparator) {
     this.arrays = new ByteArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteArrayAssert usingDefaultElementComparator() {
     this.arrays = ByteArrays.instance();
     return myself;

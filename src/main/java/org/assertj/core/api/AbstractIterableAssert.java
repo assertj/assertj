@@ -143,6 +143,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return myself;
   }
 
+  @Override
   public S doesNotContain(T... values) {
     iterables.assertDoesNotContain(info, actual, values);
     return myself;

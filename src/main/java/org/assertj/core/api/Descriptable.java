@@ -23,8 +23,9 @@ import org.assertj.core.description.*;
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
-public interface Descriptable<S> {
+public interface Descriptable<S extends Descriptable<S>> {
 
   /**
    * Sets the description of this object.

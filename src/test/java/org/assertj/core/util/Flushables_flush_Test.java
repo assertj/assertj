@@ -38,6 +38,7 @@ public class Flushables_flush_Test {
       this.toThrow = toThrow;
     }
 
+    @Override
     public void flush() throws IOException {
       flushed = true;
       if (toThrow != null) throw toThrow;

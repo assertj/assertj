@@ -27,6 +27,7 @@ import static org.mockito.Mockito.verify;
  */
 public class FloatAssert_isNotEqualTo_float_Test extends FloatAssertBaseTest {
 
+  @Override
   protected FloatAssert invoke_api_method() {
     return assertions.isNotEqualTo(8f);
   }

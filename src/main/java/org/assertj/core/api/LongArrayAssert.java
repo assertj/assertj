@@ -43,34 +43,40 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,24 +249,28 @@ public class LongArrayAssert extends AbstractAssert<LongArrayAssert, long[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert isSortedAccordingTo(Comparator<? super Long> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert usingElementComparator(Comparator<? super Long> customComparator) {
     this.arrays = new LongArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongArrayAssert usingDefaultElementComparator() {
     this.arrays = LongArrays.instance();
     return myself;

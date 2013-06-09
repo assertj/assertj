@@ -48,11 +48,13 @@ public class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArr
     super.setUp();
     actual = new long[] { 4L, 3L, 2L, 2L, 1L };
     longDescendingOrderComparator = new Comparator<Long>() {
+      @Override
       public int compare(Long long1, Long long2) {
         return -long1.compareTo(long2);
       }
     };
     longSquareComparator = new Comparator<Long>() {
+      @Override
       public int compare(Long long1, Long long2) {
         return new Long(long1 * long1).compareTo(new Long(long2 * long2));
       }

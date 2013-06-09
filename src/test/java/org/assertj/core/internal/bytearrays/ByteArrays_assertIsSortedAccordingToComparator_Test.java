@@ -48,11 +48,13 @@ public class ByteArrays_assertIsSortedAccordingToComparator_Test extends ByteArr
     super.setUp();
     actual = new byte[] { 4, 3, 2, 2, 1 };
     byteDescendingOrderComparator = new Comparator<Byte>() {
+      @Override
       public int compare(Byte byte1, Byte byte2) {
         return -byte1.compareTo(byte2);
       }
     };
     byteAscendingOrderComparator = new Comparator<Byte>() {
+      @Override
       public int compare(Byte byte1, Byte byte2) {
         return byte1.compareTo(byte2);
       }

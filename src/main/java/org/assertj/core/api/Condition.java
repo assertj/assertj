@@ -59,22 +59,26 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
   }
 
   /** {@inheritDoc} */
+  @Override
   public Condition<T> describedAs(String newDescription) {
     return as(newDescription);
   }
 
   /** {@inheritDoc} */
+  @Override
   public Condition<T> as(String newDescription) {
     description = checkIsNotNull(newDescription);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public Condition<T> describedAs(Description newDescription) {
     return as(newDescription);
   }
 
   /** {@inheritDoc} */
+  @Override
   public Condition<T> as(Description newDescription) {
     description = checkIsNotNull(newDescription);
     return this;

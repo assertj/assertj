@@ -32,12 +32,14 @@ public abstract class AbstractUnevenComparableAssert<S extends AbstractUnevenCom
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isEqualByComparingTo(A expected) {
     comparables.assertEqualByComparison(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotEqualByComparingTo(A other) {
     comparables.assertNotEqualByComparison(info, actual, other);
     return myself;

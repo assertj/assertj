@@ -43,34 +43,40 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,24 +249,28 @@ public class CharArrayAssert extends AbstractAssert<CharArrayAssert, char[]> imp
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert isSortedAccordingTo(Comparator<? super Character> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert usingElementComparator(Comparator<? super Character> customComparator) {
     this.arrays = new CharArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public CharArrayAssert usingDefaultElementComparator() {
     this.arrays = CharArrays.instance();
     return myself;

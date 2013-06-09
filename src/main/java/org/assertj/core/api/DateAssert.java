@@ -88,7 +88,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     for (int i = 0; i < datesAsString.length; i++) {
       dates[i] = parse(datesAsString[i]);
     }
-    return isIn(dates);
+    return isIn((Object[])dates);
   }
 
   /**
@@ -122,7 +122,7 @@ public class DateAssert extends AbstractAssert<DateAssert, Date> {
     for (int i = 0; i < datesAsString.length; i++) {
       dates[i] = parse(datesAsString[i]);
     }
-    return isNotIn(dates);
+    return isNotIn((Object[])dates);
   }
 
   /**

@@ -35,6 +35,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
 
   /** {@inheritDoc} */
+  @Override
   public String overridingErrorMessage() {
     return overridingErrorMessage;
   }
@@ -48,6 +49,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   }
 
   /** {@inheritDoc} */
+  @Override
   public Description description() {
     return description;
   }

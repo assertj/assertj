@@ -18,6 +18,7 @@ public class BigDecimalComparator implements Comparator<BigDecimal> {
    */
   public static final BigDecimalComparator BIG_DECIMAL_COMPARATOR = new BigDecimalComparator();
 
+  @Override
   public int compare(BigDecimal bigDecimal1, BigDecimal bigDecimal2) {
     return bigDecimal1.compareTo(bigDecimal2);
   }

@@ -31,6 +31,7 @@ public class ComparatorBasedComparisonStrategy_toString_Test extends AbstractTes
   @Test
   public void toString_with_anonymous_comparator() {
     ComparatorBasedComparisonStrategy lengthComparisonStrategy = new ComparatorBasedComparisonStrategy(new Comparator<String>() {
+      @Override
       public int compare(String s1, String s2) {
         return s1.length() - s2.length();
       }

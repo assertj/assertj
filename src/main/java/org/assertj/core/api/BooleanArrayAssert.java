@@ -43,34 +43,40 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,12 +249,14 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BooleanArrayAssert isSortedAccordingTo(Comparator<? super Boolean> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
@@ -260,6 +268,7 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
    * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
+  @Override
   @Deprecated
   public final BooleanArrayAssert usingElementComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
@@ -271,6 +280,7 @@ public class BooleanArrayAssert extends AbstractAssert<BooleanArrayAssert, boole
    * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
+  @Override
   @Deprecated
   public final BooleanArrayAssert usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");

@@ -44,34 +44,40 @@ public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implem
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -244,24 +250,28 @@ public class IntArrayAssert extends AbstractAssert<IntArrayAssert, int[]> implem
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert isSortedAccordingTo(Comparator<? super Integer> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert usingElementComparator(Comparator<? super Integer> customComparator) {
     this.arrays = new IntArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntArrayAssert usingDefaultElementComparator() {
     this.arrays = IntArrays.instance();
     return myself;

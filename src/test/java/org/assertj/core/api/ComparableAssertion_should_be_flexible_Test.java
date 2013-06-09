@@ -16,6 +16,7 @@ public class ComparableAssertion_should_be_flexible_Test {
   // The important thing here is that TestClass implements Comparable<Object> and not Comparable<TestClass>
   // even
   private static final class TestClass implements Comparable<Object> {
+    @Override
     public int compareTo(Object other) {
       return 0; // always equals for the test
     }
