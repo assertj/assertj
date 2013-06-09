@@ -54,7 +54,7 @@ public final class Throwables {
   }
 
   /**
-   * Removes the FEST-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
+   * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
    *
    * <pre>
