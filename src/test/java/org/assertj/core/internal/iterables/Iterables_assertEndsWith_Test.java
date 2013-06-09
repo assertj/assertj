@@ -43,6 +43,7 @@ import org.assertj.core.internal.IterablesBaseTest;
  */
 public class Iterables_assertEndsWith_Test extends IterablesBaseTest {
 
+  @Override
   @Before
   public void setUp() {
     super.setUp();

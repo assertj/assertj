@@ -68,36 +68,42 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isZero() {
     bytes.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isNotZero() {
     bytes.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isPositive() {
     bytes.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isNegative() {
     bytes.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isNotNegative() {
     bytes.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isNotPositive() {
     bytes.assertIsNotPositive(info, actual);
     return this;
@@ -152,12 +158,14 @@ public class ByteAssert extends AbstractComparableAssert<ByteAssert, Byte> imple
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isBetween(Byte start, Byte end) {
 	bytes.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ByteAssert isStrictlyBetween(Byte start, Byte end) {
 	bytes.assertIsStrictlyBetween(info, actual, start, end);
     return this;

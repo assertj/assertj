@@ -175,6 +175,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isIn(A... values) {
     objects.assertIsIn(info, actual, values);
     return myself;
@@ -202,12 +203,14 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S is(Condition<? super A> condition) {
     conditions.assertIs(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNot(Condition<? super A> condition) {
     conditions.assertIsNot(info, actual, condition);
     return myself;
@@ -242,30 +245,35 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotInstanceOf(Class<?> type) {
     objects.assertIsNotInstanceOf(info, actual, type);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotInstanceOfAny(Class<?>... types) {
     objects.assertIsNotInstanceOfAny(info, actual, types);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSameClassAs(Object other) {
     objects.assertHasSameClassAs(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S doesNotHaveSameClassAs(Object other) {
     objects.assertDoesNotHaveSameClassAs(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isExactlyInstanceOf(Class<?> type) {
     objects.assertIsExactlyInstanceOf(info, actual, type);
     return myself;

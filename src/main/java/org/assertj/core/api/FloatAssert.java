@@ -44,48 +44,56 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNaN() {
     floats.assertIsNaN(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNotNaN() {
     floats.assertIsNotNaN(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isZero() {
     floats.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNotZero() {
     floats.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isPositive() {
     floats.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNegative() {
     floats.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNotNegative() {
     floats.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isNotPositive() {
     floats.assertIsNotPositive(info, actual);
     return this;
@@ -104,6 +112,7 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isEqualTo(Float expected, Offset<Float> offset) {
     floats.assertEqual(info, actual, expected, offset);
     return this;
@@ -184,12 +193,14 @@ public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> im
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isBetween(Float start, Float end) {
 	floats.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatAssert isStrictlyBetween(Float start, Float end) {
 	floats.assertIsStrictlyBetween(info, actual, start, end);
     return this;

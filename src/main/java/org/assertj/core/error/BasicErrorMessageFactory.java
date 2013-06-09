@@ -112,6 +112,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   }
 
   /** {@inheritDoc} */
+  @Override
   public String create(Description d) {
     return formatter.format(d, format, arguments);
   }

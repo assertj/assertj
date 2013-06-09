@@ -49,46 +49,54 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> contains(T... values) {
     arrays.assertContains(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> containsOnly(T... values) {
     arrays.assertContainsOnly(info, actual, values);
     return this;
@@ -102,184 +110,215 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> containsExactly(T... values) {
     objects.assertEqual(info, actual, values);
     return this;
   };
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> containsSequence(T... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> contains(T value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doesNotContain(T value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doesNotContain(T... values) {
     arrays.assertDoesNotContain(info, actual, values);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doesNotHaveDuplicates() {
     arrays.assertDoesNotHaveDuplicates(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> startsWith(T... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> endsWith(T... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> containsNull() {
     arrays.assertContainsNull(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doesNotContainNull() {
     arrays.assertDoesNotContainNull(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> are(Condition<? super T> condition) {
     arrays.assertAre(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areNot(Condition<? super T> condition) {
     arrays.assertAreNot(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> have(Condition<? super T> condition) {
     arrays.assertHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doNotHave(Condition<? super T> condition) {
     arrays.assertDoNotHave(info, actual, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areAtLeast(int times, Condition<? super T> condition) {
     arrays.assertAreAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areNotAtLeast(int times, Condition<? super T> condition) {
     arrays.assertAreNotAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areAtMost(int times, Condition<? super T> condition) {
     arrays.assertAreAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areNotAtMost(int times, Condition<? super T> condition) {
     arrays.assertAreNotAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areExactly(int times, Condition<? super T> condition) {
     arrays.assertAreExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> areNotExactly(int times, Condition<? super T> condition) {
     arrays.assertAreNotExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> haveAtLeast(int times, Condition<? super T> condition) {
     arrays.assertHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doNotHaveAtLeast(int times, Condition<? super T> condition) {
     arrays.assertDoNotHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> haveAtMost(int times, Condition<? super T> condition) {
     arrays.assertHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doNotHaveAtMost(int times, Condition<? super T> condition) {
     arrays.assertDoNotHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> haveExactly(int times, Condition<? super T> condition) {
     arrays.assertHaveExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> doNotHaveExactly(int times, Condition<? super T> condition) {
     arrays.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> isSortedAccordingTo(Comparator<? super T> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ObjectArrayAssert<T> containsAll(Iterable<? extends T> iterable) {
     arrays.assertContainsAll(info, actual, iterable);
     return this;
   }
 
+  @Override
   public ObjectArrayAssert<T> usingElementComparator(Comparator<? super T> customComparator) {
     this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
+  @Override
   public ObjectArrayAssert<T> usingDefaultElementComparator() {
     this.arrays = ObjectArrays.instance();
     return myself;

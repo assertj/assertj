@@ -69,36 +69,42 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isZero() {
     integers.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isNotZero() {
     integers.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isPositive() {
     integers.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isNegative() {
     integers.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isNotNegative() {
     integers.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isNotPositive() {
     integers.assertIsNotPositive(info, actual);
     return this;
@@ -153,12 +159,14 @@ public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integ
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isBetween(Integer start, Integer end) {
 	integers.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public IntegerAssert isStrictlyBetween(Integer start, Integer end) {
 	integers.assertIsStrictlyBetween(info, actual, start, end);
     return this;

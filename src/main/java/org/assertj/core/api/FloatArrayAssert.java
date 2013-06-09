@@ -43,34 +43,40 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,24 +249,28 @@ public class FloatArrayAssert extends AbstractAssert<FloatArrayAssert, float[]> 
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert isSortedAccordingTo(Comparator<? super Float> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert usingElementComparator(Comparator<? super Float> customComparator) {
     this.arrays = new FloatArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public FloatArrayAssert usingDefaultElementComparator() {
     this.arrays = FloatArrays.instance();
     return myself;

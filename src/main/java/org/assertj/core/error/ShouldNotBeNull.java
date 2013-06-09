@@ -36,6 +36,7 @@ public class ShouldNotBeNull implements ErrorMessageFactory {
   private ShouldNotBeNull() {}
 
   /** {@inheritDoc} */
+  @Override
   public String create(Description d) {
     return MessageFormatter.instance().format(d, "\nExpecting actual not to be null");
   }

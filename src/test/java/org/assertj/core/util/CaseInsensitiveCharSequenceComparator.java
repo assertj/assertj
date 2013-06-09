@@ -23,6 +23,7 @@ public class CaseInsensitiveCharSequenceComparator implements Comparator<CharSeq
 
   public final static CaseInsensitiveCharSequenceComparator instance = new CaseInsensitiveCharSequenceComparator();
 
+  @Override
   public int compare(CharSequence s1, CharSequence s2) {
 
     return CaseInsensitiveStringComparator.instance.compare(s1.toString(), s2.toString());

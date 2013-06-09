@@ -43,34 +43,40 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return this;
@@ -243,24 +249,28 @@ public class DoubleArrayAssert extends AbstractAssert<DoubleArrayAssert, double[
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert isSorted() {
     arrays.assertIsSorted(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert isSortedAccordingTo(Comparator<? super Double> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert usingElementComparator(Comparator<? super Double> customComparator) {
     this.arrays = new DoubleArrays(new ComparatorBasedComparisonStrategy(customComparator));
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleArrayAssert usingDefaultElementComparator() {
     this.arrays = DoubleArrays.instance();
     return myself;

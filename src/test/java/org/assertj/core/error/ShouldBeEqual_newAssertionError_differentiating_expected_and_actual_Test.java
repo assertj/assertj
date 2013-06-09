@@ -100,6 +100,7 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   }
 
   private static class PersonComparator implements Comparator<Person> {
+    @Override
     public int compare(Person p1, Person p2) {
       return p1.age - p2.age;
     }

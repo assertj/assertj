@@ -69,36 +69,42 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isZero() {
     longs.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isNotZero() {
     longs.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isPositive() {
     longs.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isNegative() {
     longs.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isNotNegative() {
     longs.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isNotPositive() {
     longs.assertIsNotPositive(info, actual);
     return this;
@@ -153,12 +159,14 @@ public class LongAssert extends AbstractComparableAssert<LongAssert, Long> imple
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isBetween(Long start, Long end) {
 	longs.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public LongAssert isStrictlyBetween(Long start, Long end) {
 	longs.assertIsStrictlyBetween(info, actual, start, end);
     return this;
