@@ -19,11 +19,11 @@ import org.junit.Test;
  */
 public class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBaseTest {
 
-  private Throwable error = new Throwable(new Exception(new IllegalArgumentException()));
+  private Throwable throwableWithCause = new Throwable(new Exception(new IllegalArgumentException()));
 
   @Test
   public void should_pass_if_root_cause_is_exactly_instance_of_expected_type() throws Exception {
-    throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), error, IllegalArgumentException.class);
+    throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
   }
 
   @Test
@@ -33,9 +33,9 @@ public class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends Throwab
   }
 
   @Test
-  public void should_throw_npe_if_given_type_is_null() throws Exception {
+  public void should_throw_NullPointerException_if_given_type_is_null() throws Exception {
     thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), error, null);
+    throwables.assertHasRootCauseExactlyInstanceOf(someInfo(), throwableWithCause, null);
   }
 
   @Test
@@ -56,9 +56,9 @@ public class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends Throwab
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
-      throwables.assertHasRootCauseExactlyInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -69,9 +69,9 @@ public class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends Throwab
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
     try {
-      throwables.assertHasRootCauseExactlyInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasRootCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveRootCauseExactlyInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

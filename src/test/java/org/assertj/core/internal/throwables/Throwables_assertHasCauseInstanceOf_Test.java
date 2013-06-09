@@ -19,16 +19,16 @@ import org.junit.Test;
  */
 public class Throwables_assertHasCauseInstanceOf_Test extends ThrowablesBaseTest {
 
-  private Throwable error = new Throwable(new IllegalArgumentException());
+  private Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
 
   @Test
   public void should_pass_if_cause_is_exactly_instance_of_expected_type() throws Exception {
-    throwables.assertHasCauseInstanceOf(someInfo(), error, IllegalArgumentException.class);
+    throwables.assertHasCauseInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
   }
 
   @Test
   public void should_pass_if_cause_is_instance_of_expected_type() throws Exception {
-    throwables.assertHasCauseInstanceOf(someInfo(), error, RuntimeException.class);
+    throwables.assertHasCauseInstanceOf(someInfo(), throwableWithCause, RuntimeException.class);
   }
 
   @Test
@@ -38,9 +38,9 @@ public class Throwables_assertHasCauseInstanceOf_Test extends ThrowablesBaseTest
   }
 
   @Test
-  public void should_throw_npe_if_given_type_is_null() throws Exception {
+  public void should_throw_NullPointerException_if_given_type_is_null() throws Exception {
     thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertHasCauseInstanceOf(someInfo(), error, null);
+    throwables.assertHasCauseInstanceOf(someInfo(), throwableWithCause, null);
   }
 
   @Test
@@ -61,9 +61,9 @@ public class Throwables_assertHasCauseInstanceOf_Test extends ThrowablesBaseTest
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
-      throwables.assertHasCauseInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasCauseInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveCauseInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

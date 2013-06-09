@@ -1,14 +1,14 @@
 /*
  * Created on Jan 26, 2011
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
@@ -24,10 +24,10 @@ import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHa
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.util.Objects.areEqual;
+import static org.assertj.core.util.Throwables.getRootCause;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -40,6 +40,7 @@ public class Throwables {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Throwables instance() {
@@ -52,10 +53,12 @@ public class Throwables {
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  Throwables() {}
+  Throwables() {
+  }
 
   /**
    * Asserts that the given actual {@code Throwable} message is equal to the given one.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param message the expected message.
@@ -70,6 +73,7 @@ public class Throwables {
 
   /**
    * Asserts that the actual {@code Throwable} does not have a cause.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
@@ -84,6 +88,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} starts with the given description.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to start the actual {@code Throwable}'s message.
@@ -99,6 +104,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} contains with the given description.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to be contained in the actual {@code Throwable}'s message.
@@ -113,6 +119,7 @@ public class Throwables {
 
   /**
    * Asserts that the message of the actual {@code Throwable} ends with the given description.
+   * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Throwable}.
    * @param description the description expected to end the actual {@code Throwable}'s message.
@@ -137,12 +144,9 @@ public class Throwables {
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public void assertHasCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) {
-      throw new NullPointerException("The given type should not be null");
-    }
+    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
-    if (type.isInstance(actual.getCause()))
-      return;
+    if (type.isInstance(actual.getCause())) return;
     throw failures.failure(info, shouldHaveCauseInstance(actual, type));
   }
 
@@ -159,13 +163,10 @@ public class Throwables {
    *           type.
    */
   public void assertHasCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) {
-      throw new NullPointerException("The given type should not be null");
-    }
+    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
     Throwable cause = actual.getCause();
-    if (cause != null && type.equals(cause.getClass()))
-      return;
+    if (cause != null && type.equals(cause.getClass())) return;
     throw failures.failure(info, shouldHaveCauseExactlyInstance(actual, type));
   }
 
@@ -181,12 +182,9 @@ public class Throwables {
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public void assertHasRootCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) {
-      throw new NullPointerException("The given type should not be null");
-    }
+    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
-    if (type.isInstance(org.assertj.core.util.Throwables.getRootCause(actual)))
-      return;
+    if (type.isInstance(getRootCause(actual))) return;
     throw failures.failure(info, shouldHaveRootCauseInstance(actual, type));
   }
 
@@ -199,17 +197,14 @@ public class Throwables {
    * @throws NullPointerException if given type is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has no cause.
-   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
-   *           type.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
+   *           given type.
    */
   public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) {
-      throw new NullPointerException("The given type should not be null");
-    }
+    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
-    Throwable rootCause = org.assertj.core.util.Throwables.getRootCause(actual);
-    if (rootCause != null && type.equals(rootCause.getClass()))
-      return;
+    Throwable rootCause = getRootCause(actual);
+    if (rootCause != null && type.equals(rootCause.getClass())) return;
     throw failures.failure(info, shouldHaveRootCauseExactlyInstance(actual, type));
   }
 

@@ -19,16 +19,16 @@ import org.junit.Test;
  */
 public class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBaseTest {
 
-  private Throwable error = new Throwable(new Exception(new IllegalArgumentException()));
+  private Throwable throwableWithCause = new Throwable(new Exception(new IllegalArgumentException()));
 
   @Test
   public void should_pass_if_root_cause_is_exactly_instance_of_expected_type() throws Exception {
-    throwables.assertHasRootCauseInstanceOf(someInfo(), error, IllegalArgumentException.class);
+    throwables.assertHasRootCauseInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
   }
 
   @Test
   public void should_pass_if_root_cause_is_instance_of_expected_type() throws Exception {
-    throwables.assertHasRootCauseInstanceOf(someInfo(), error, RuntimeException.class);
+    throwables.assertHasRootCauseInstanceOf(someInfo(), throwableWithCause, RuntimeException.class);
   }
 
   @Test
@@ -38,9 +38,9 @@ public class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBase
   }
 
   @Test
-  public void should_throw_npe_if_given_type_is_null() throws Exception {
+  public void should_throw_NullPointerException_if_given_type_is_null() throws Exception {
     thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertHasRootCauseInstanceOf(someInfo(), error, null);
+    throwables.assertHasRootCauseInstanceOf(someInfo(), throwableWithCause, null);
   }
 
   @Test
@@ -61,9 +61,9 @@ public class Throwables_assertHasRootCauseInstanceOf_Test extends ThrowablesBase
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
-      throwables.assertHasRootCauseInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasRootCauseInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveRootCauseInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveRootCauseInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

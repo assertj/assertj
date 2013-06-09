@@ -19,11 +19,11 @@ import org.junit.Test;
  */
 public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest {
 
-  private Throwable error = new Throwable(new IllegalArgumentException());
+  private Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
 
   @Test
   public void should_pass_if_cause_is_exactly_instance_of_expected_type() throws Exception {
-    throwables.assertHasCauseExactlyInstanceOf(someInfo(), error, IllegalArgumentException.class);
+    throwables.assertHasCauseExactlyInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
   }
 
   @Test
@@ -33,9 +33,9 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
   }
 
   @Test
-  public void should_throw_npe_if_given_type_is_null() throws Exception {
+  public void should_throw_NullPointerException_if_given_type_is_null() throws Exception {
     thrown.expectNullPointerException("The given type should not be null");
-    throwables.assertHasCauseExactlyInstanceOf(someInfo(), error, null);
+    throwables.assertHasCauseExactlyInstanceOf(someInfo(), throwableWithCause, null);
   }
 
   @Test
@@ -56,9 +56,9 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
     AssertionInfo info = someInfo();
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     try {
-      throwables.assertHasCauseExactlyInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseExactlyInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -69,9 +69,9 @@ public class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesB
     AssertionInfo info = someInfo();
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
     try {
-      throwables.assertHasCauseExactlyInstanceOf(info, error, expectedCauseType);
+      throwables.assertHasCauseExactlyInstanceOf(info, throwableWithCause, expectedCauseType);
     } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveCauseExactlyInstance(error, expectedCauseType));
+      verify(failures).failure(info, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
