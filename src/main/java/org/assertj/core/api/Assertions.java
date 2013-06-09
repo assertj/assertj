@@ -478,7 +478,7 @@ public class Assertions {
    * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
    * entry point to all Fest Assert features (but you can use Fail if you prefer).
    */
-  public static void failBecauseExceptionWasNotThrown(Class<? extends Exception> exceptionClass) {
+  public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
     Fail.failBecauseExceptionWasNotThrown(exceptionClass);
   }
 
