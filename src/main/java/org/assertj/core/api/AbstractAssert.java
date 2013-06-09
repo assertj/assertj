@@ -142,7 +142,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
-  public S isNotEqualTo(A other) {
+  public S isNotEqualTo(Object other) {
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -176,28 +176,28 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
-  public S isIn(A... values) {
+  public S isIn(Object... values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotIn(A... values) {
+  public S isNotIn(Object... values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isIn(Iterable<? extends A> values) {
+  public S isIn(Iterable<?> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S isNotIn(Iterable<? extends A> values) {
+  public S isNotIn(Iterable<?> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }

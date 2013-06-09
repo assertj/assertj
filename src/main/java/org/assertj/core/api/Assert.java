@@ -27,7 +27,7 @@ import java.util.Comparator;
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
+public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
    * Verifies that the actual value is equal to the given one.
@@ -35,7 +35,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  S isEqualTo(A expected);
+  S isEqualTo(Object expected);
 
   /**
    * Verifies that the actual value is not equal to the given one.
@@ -43,7 +43,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
-  S isNotEqualTo(A other);
+  S isNotEqualTo(Object other);
 
   /**
    * Verifies that the actual value is {@code null}.
@@ -82,7 +82,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is not present in the given array.
    */
-  S isIn(A... values);
+  S isIn(Object... values);
 
   /**
    * Verifies that the actual value is not present in the given array of values.
@@ -92,7 +92,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given array is empty.
    * @throws AssertionError if the actual value is present in the given array.
    */
-  S isNotIn(A... values);
+  S isNotIn(Object... values);
 
   /**
    * Verifies that the actual value is present in the given values.
@@ -102,7 +102,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is not present in the given collection.
    */
-  S isIn(Iterable<? extends A> values);
+  S isIn(Iterable<?> values);
 
   /**
    * Verifies that the actual value is not present in the given values.
@@ -112,7 +112,7 @@ public interface Assert<S, A> extends Descriptable<S>, ExtensionPoints<S, A> {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the actual value is present in the given collection.
    */
-  S isNotIn(Iterable<? extends A> values);
+  S isNotIn(Iterable<?> values);
 
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.

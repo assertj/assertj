@@ -24,7 +24,7 @@ package org.assertj.core.api;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public interface ExtensionPoints<S, A> {
+public interface ExtensionPoints<S extends ExtensionPoints<S, A>, A> {
 
   /**
    * Verifies that the actual value satisfies the given condition. This method is an alias for
