@@ -46,12 +46,14 @@ public class ListAssert<T> extends AbstractIterableAssert<ListAssert<T>, List<T>
   }
 
   /** {@inheritDoc} */
+  @Override
   public ListAssert<T> contains(T value, Index index) {
     lists.assertContains(info, actual, value, index);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ListAssert<T> doesNotContain(T value, Index index) {
     lists.assertDoesNotContain(info, actual, value, index);
     return this;

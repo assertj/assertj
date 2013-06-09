@@ -515,7 +515,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is not present in the given collection.
    */
-  public <A> void assertIsIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
+  public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (isActualIn(actual, values)) {
@@ -534,7 +534,7 @@ public class Objects {
    * @throws IllegalArgumentException if the given collection is empty.
    * @throws AssertionError if the given object is present in the given collection.
    */
-  public <A> void assertIsNotIn(AssertionInfo info, A actual, Iterable<? extends A> values) {
+  public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
     if (!isActualIn(actual, values)) {
@@ -552,8 +552,8 @@ public class Objects {
     }
   }
 
-  private <A> boolean isActualIn(A actual, Iterable<? extends A> values) {
-    for (A value : values) {
+  private boolean isActualIn(Object actual, Iterable<?> values) {
+    for (Object value : values) {
       if (areEqual(value, actual)) {
         return true;
       }
@@ -592,7 +592,7 @@ public class Objects {
           nullFields.add(field.getName());
         }
       } catch (IntrospectionError e) {
-        // Not readeable field, skip.
+        // Not readable field, skip.
       }
     }
     if (fieldsNames.isEmpty()) {
@@ -666,7 +666,7 @@ public class Objects {
           }
         }
       } catch (IntrospectionError e) {
-        // Not readeable field, skip.
+        // Not readable field, skip.
       }
     }
     if (fieldsNames.isEmpty()) {
@@ -702,7 +702,7 @@ public class Objects {
    * 
    * @param info contains information about the assertion.
    * @param other the object to check type against given class.
-   * @param type the type to check the given object against.
+   * @param clazz the type to check the given object against.
    * @throws NullPointerException if the given type is {@code null}.
    * @throws AssertionError if other is {@code null}.
    * @throws AssertionError if other is not an instance of the given type.

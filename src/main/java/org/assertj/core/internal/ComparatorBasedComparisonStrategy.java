@@ -50,6 +50,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param value the object to look for in given {@link Iterable}
    * @return true if given {@link Iterable} contains given value according to {@link #comparator}, false otherwise.
    */
+  @Override
   @SuppressWarnings("unchecked")
   public boolean iterableContains(Iterable<?> iterable, Object value) {
     if (isNullOrEmpty(iterable)) return false;
@@ -69,6 +70,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param iterable the {@link Iterable} we want remove value from
    * @param value object to remove from given {@link Iterable}
    */
+  @Override
   @SuppressWarnings("unchecked")
   public void iterableRemoves(Iterable<?> iterable, Object value) {
     if (iterable == null) return;
@@ -88,6 +90,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
    * @param other the object to compare to actual
    * @return true if actual and other are equal according to {@link #comparator}, false otherwise.
    */
+  @Override
   @SuppressWarnings("unchecked")
   public boolean areEqual(Object actual, Object other) {
     if (actual == null) return other == null;
@@ -126,6 +129,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
     return comparator;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean stringStartsWith(String string, String prefix) {
     if (string.length() < prefix.length()) return false;
@@ -133,6 +137,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
     return comparator.compare(stringPrefix, prefix) == 0;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean stringEndsWith(String string, String suffix) {
     if (string.length() < suffix.length()) return false;
@@ -140,6 +145,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
     return comparator.compare(stringSuffix, suffix) == 0;
   }
 
+  @Override
   public boolean stringContains(String string, String sequence) {
     int sequenceLength = sequence.length();
     for (int i = 0; i < string.length(); i++) {
@@ -150,6 +156,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
     return false;
   }
 
+  @Override
   @SuppressWarnings("unchecked")
   public boolean isGreaterThan(Object actual, Object other) {
     return comparator.compare(actual, other) > 0;

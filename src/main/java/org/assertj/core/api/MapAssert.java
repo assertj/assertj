@@ -47,34 +47,40 @@ public class MapAssert<K, V> extends AbstractAssert<MapAssert<K, V>, Map<K, V>> 
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     maps.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     maps.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public MapAssert<K, V> isNotEmpty() {
     maps.assertNotEmpty(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public MapAssert<K, V> hasSize(int expected) {
     maps.assertHasSize(info, actual, expected);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public MapAssert<K, V> hasSameSizeAs(Object[] other) {
     maps.assertHasSameSizeAs(info, actual, other);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public MapAssert<K, V> hasSameSizeAs(Iterable<?> other) {
     maps.assertHasSameSizeAs(info, actual, other);
     return this;

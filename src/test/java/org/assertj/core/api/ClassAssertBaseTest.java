@@ -47,14 +47,17 @@ public abstract class ClassAssertBaseTest extends BaseTestTemplate<ClassAssert, 
     assertions.classes = classes;
   }
 
+  @Override
   protected AssertionInfo getInfo(ClassAssert someAssertions) {
     return someAssertions.info;
   }
 
+  @Override
   protected Class<?> getActual(ClassAssert someAssertions) {
     return someAssertions.actual;
   }
 
+  @Override
   protected Objects getObjects(ClassAssert someAssertions) {
     return someAssertions.objects;
   }

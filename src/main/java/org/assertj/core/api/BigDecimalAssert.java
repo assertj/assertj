@@ -45,48 +45,56 @@ public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalA
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isZero() {
     bigDecimals.assertIsZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isNotZero() {
     bigDecimals.assertIsNotZero(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isPositive() {
     bigDecimals.assertIsPositive(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isNegative() {
     bigDecimals.assertIsNegative(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isNotPositive() {
     bigDecimals.assertIsNotPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isNotNegative() {
     bigDecimals.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isBetween(BigDecimal start, BigDecimal end) {
     bigDecimals.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public BigDecimalAssert isStrictlyBetween(BigDecimal start, BigDecimal end) {
     bigDecimals.assertIsStrictlyBetween(info, actual, start, end);
     return this;

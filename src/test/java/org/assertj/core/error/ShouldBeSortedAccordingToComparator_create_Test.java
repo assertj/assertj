@@ -53,6 +53,7 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
   }
 
   private static class StaticStringComparator implements Comparator<String> {
+    @Override
     public int compare(String s1, String s2) {
       return s1.compareTo(s2);
     }

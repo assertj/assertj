@@ -49,11 +49,13 @@ public class ObjectArrays_assertIsSortedAccordingToComparator_Test extends Objec
     super.setUp();
     actual = array("Yoda", "Vador", "Luke", "Luke", "Leia");
     stringDescendingOrderComparator = new Comparator<String>() {
+      @Override
       public int compare(String s1, String s2) {
         return -s1.compareTo(s2);
       }
     };
     comparator = new Comparator<Object>() {
+      @Override
       public int compare(Object o1, Object o2) {
         return o1.toString().compareTo(o2.toString());
       }

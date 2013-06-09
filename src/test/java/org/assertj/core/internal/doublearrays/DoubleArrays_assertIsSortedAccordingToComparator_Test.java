@@ -48,11 +48,13 @@ public class DoubleArrays_assertIsSortedAccordingToComparator_Test extends Doubl
     super.setUp();
     actual = new double[] { 4.0, 3.0, 2.0, 2.0, 1.0 };
     doubleDescendingOrderComparator = new Comparator<Double>() {
+      @Override
       public int compare(Double double1, Double double2) {
         return -double1.compareTo(double2);
       }
     };
     doubleSquareComparator = new Comparator<Double>() {
+      @Override
       public int compare(Double double1, Double double2) {
         return new Double(double1 * double1).compareTo(new Double(double2 * double2));
       }

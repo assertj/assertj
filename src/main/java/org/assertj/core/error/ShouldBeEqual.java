@@ -97,6 +97,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param description the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
+  @Override
   public AssertionError newAssertionError(Description description) {
     if (actualAndExpectedHaveSameStringRepresentation()) {
       // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and

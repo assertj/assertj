@@ -69,36 +69,42 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isZero() {
     shorts.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isNotZero() {
     shorts.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isPositive() {
     shorts.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isNegative() {
     shorts.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isNotNegative() {
     shorts.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isNotPositive() {
     shorts.assertIsNotPositive(info, actual);
     return this;
@@ -157,12 +163,14 @@ public class ShortAssert extends AbstractComparableAssert<ShortAssert, Short> im
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isBetween(Short start, Short end) {
     shorts.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public ShortAssert isStrictlyBetween(Short start, Short end) {
     shorts.assertIsStrictlyBetween(info, actual, start, end);
     return this;

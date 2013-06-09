@@ -46,48 +46,56 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNaN() {
     doubles.assertIsNaN(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNotNaN() {
     doubles.assertIsNotNaN(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isZero() {
     doubles.assertIsZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNotZero() {
     doubles.assertIsNotZero(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isPositive() {
     doubles.assertIsPositive(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNegative() {
     doubles.assertIsNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNotNegative() {
     doubles.assertIsNotNegative(info, actual);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isNotPositive() {
     doubles.assertIsNotPositive(info, actual);
     return this;
@@ -106,6 +114,7 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isEqualTo(Double expected, Offset<Double> offset) {
     doubles.assertEqual(info, actual, expected, offset);
     return this;
@@ -186,12 +195,14 @@ public class DoubleAssert extends AbstractComparableAssert<DoubleAssert, Double>
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isBetween(Double start, Double end) {
 	doubles.assertIsBetween(info, actual, start, end);
     return this;
   }
 
   /** {@inheritDoc} */
+  @Override
   public DoubleAssert isStrictlyBetween(Double start, Double end) {
 	doubles.assertIsStrictlyBetween(info, actual, start, end);
     return this;

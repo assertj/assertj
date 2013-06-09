@@ -48,11 +48,13 @@ public class IntArrays_assertIsSortedAccordingToComparator_Test extends IntArray
     super.setUp();
     actual = new int[] { 4, 3, 2, 2, 1 };
     intDescendingOrderComparator = new Comparator<Integer>() {
+      @Override
       public int compare(Integer int1, Integer int2) {
         return -int1.compareTo(int2);
       }
     };
     intSquareComparator = new Comparator<Integer>() {
+      @Override
       public int compare(Integer int1, Integer int2) {
         return new Integer(int1 * int1).compareTo(new Integer(int2 * int2));
       }

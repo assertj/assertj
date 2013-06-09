@@ -48,34 +48,40 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isNullOrEmpty() {
     strings.assertNullOrEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public void isEmpty() {
     strings.assertEmpty(info, actual);
   }
 
   /** {@inheritDoc} */
+  @Override
   public S isNotEmpty() {
     strings.assertNotEmpty(info, actual);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSameSizeAs(Object[] other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
   /** {@inheritDoc} */
+  @Override
   public S hasSameSizeAs(Iterable<?> other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
