@@ -14,14 +14,8 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
-import org.assertj.core.internal.*;
-import org.assertj.core.util.VisibleForTesting;
-
-
 /**
- * Assertion methods for characters.
+ * Assertion methods for {@link Character}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Character)}</code> or
  * <code>{@link Assertions#assertThat(char)}</code>.
@@ -34,120 +28,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class CharacterAssert extends AbstractComparableAssert<CharacterAssert, Character> {
-
-  @VisibleForTesting
-  Characters characters = Characters.instance();
+public class CharacterAssert extends AbstractCharacterAssert<CharacterAssert> {
 
   protected CharacterAssert(Character actual) {
     super(actual, CharacterAssert.class);
-  }
-
-  /**
-   * Verifies that the actual value is equal to the given one.
-   * @param expected the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
-   */
-  public CharacterAssert isEqualTo(char expected) {
-    characters.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is not equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the given one.
-   */
-  public CharacterAssert isNotEqualTo(char other) {
-    characters.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is less than the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to or greater than the given one.
-   */
-  public CharacterAssert isLessThan(char other) {
-    characters.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is less than or equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is greater than the given one.
-   */
-  public CharacterAssert isLessThanOrEqualTo(char other) {
-    characters.assertLessThanOrEqualTo(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is greater than the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to or less than the given one.
-   */
-  public CharacterAssert isGreaterThan(char other) {
-    characters.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is greater than or equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is less than the given one.
-   */
-  public CharacterAssert isGreaterThanOrEqualTo(char other) {
-    characters.assertGreaterThanOrEqualTo(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is a lowercase character.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not a lowercase character.
-   */
-  public CharacterAssert isLowerCase() {
-    characters.assertLowerCase(info, actual);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is a uppercase character.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not a uppercase character.
-   */
-  public CharacterAssert isUpperCase() {
-    characters.assertUpperCase(info, actual);
-    return this;
-  }
-
-  @Override
-  public CharacterAssert usingComparator(Comparator<? super Character> customComparator) {
-    super.usingComparator(customComparator);
-    this.characters = new Characters(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
-  }
-
-  @Override
-  public CharacterAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
-    this.characters = Characters.instance();
-    return myself;
   }
 }

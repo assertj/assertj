@@ -18,12 +18,15 @@ import org.assertj.core.data.Offset;
 
 /**
  * Assertion methods applicable to floating-point <code>{@link Number}</code>s.
- * @param <T> the type of the "actual" value.
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <A> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
+ * @author Mikhail Mazursky
  */
-public interface FloatingPointNumberAssert<T extends Number> extends NumberAssert<T> {
+public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<S, A>, A extends Number> extends NumberAssert<S, A> {
 
   /**
    * Verifies that the actual value is equal to the given one, within a positive offset.
@@ -34,19 +37,19 @@ public interface FloatingPointNumberAssert<T extends Number> extends NumberAsser
    * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
-  FloatingPointNumberAssert<T> isEqualTo(T expected, Offset<T> offset);
+  S isEqualTo(A expected, Offset<A> offset);
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.
    * @return this assertion object.
    * @throws AssertionError if the actual value is not equal to {@code NaN}.
    */
-  FloatingPointNumberAssert<T> isNaN();
+  S isNaN();
 
   /**
    * Verifies that the actual value is not equal to {@code NaN}.
    * @return this assertion object.
    * @throws AssertionError if the actual value is equal to {@code NaN}.
    */
-  FloatingPointNumberAssert<T> isNotNaN();
+  S isNotNaN();
 }

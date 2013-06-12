@@ -14,14 +14,8 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
-import org.assertj.core.internal.Booleans;
-import org.assertj.core.util.VisibleForTesting;
-
-
 /**
- * Assertion methods for bytes.
+ * Assertion methods for {@link Boolean}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Boolean)}</code> or
  * <code>{@link Assertions#assertThat(boolean)}</code>.
@@ -33,68 +27,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Ansgar Konermann
  * @author Mikhail Mazursky
  */
-public class BooleanAssert extends AbstractAssert<BooleanAssert, Boolean> {
-
-  @VisibleForTesting
-  Booleans booleans = Booleans.instance();
+public class BooleanAssert extends AbstractBooleanAssert<BooleanAssert> {
 
   protected BooleanAssert(Boolean actual) {
     super(actual, BooleanAssert.class);
-  }
-
-  /**
-   * Verifies that the actual value is {@code true}.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not {@code true}.
-   */
-  public BooleanAssert isTrue() {
-    return isEqualTo(true);
-  }
-
-  /**
-   * Verifies that the actual value is {@code false}.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not {@code false}.
-   */
-  public BooleanAssert isFalse() {
-    return isEqualTo(false);
-  }
-
-  /**
-   * Verifies that the actual value is equal to the given one.
-   * @param expected the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
-   */
-  public BooleanAssert isEqualTo(boolean expected) {
-    booleans.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is not equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the given one.
-   */
-  public BooleanAssert isNotEqualTo(boolean other) {
-    booleans.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public final BooleanAssert usingComparator(Comparator<? super Boolean> customComparator) {
-    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }

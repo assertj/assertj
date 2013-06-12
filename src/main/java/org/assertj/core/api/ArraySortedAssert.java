@@ -32,7 +32,7 @@ import java.util.Comparator;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public interface ArraySortedAssert<S, E> {
+public interface ArraySortedAssert<S extends ArraySortedAssert<S, E>, E> {
 
   /**
    * Verifies that the actual array is sorted into ascending order according to the natural ordering of its elements.

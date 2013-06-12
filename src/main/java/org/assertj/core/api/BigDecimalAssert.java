@@ -15,18 +15,14 @@
 package org.assertj.core.api;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
-
-import org.assertj.core.internal.*;
-import org.assertj.core.util.VisibleForTesting;
 
 
 /**
- * Assertion methods for <code>{@link BigDecimal}</code>s.
+ * Assertion methods for {@link BigDecimal}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(BigDecimal)}</code>.
  * </p>
- * 
+ *
  * @author David DIDIER
  * @author Ted M. Young
  * @author Yvonne Wang
@@ -34,99 +30,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class BigDecimalAssert extends AbstractUnevenComparableAssert<BigDecimalAssert, BigDecimal> implements
-    NumberAssert<BigDecimal> {
-
-  @VisibleForTesting
-  BigDecimals bigDecimals = BigDecimals.instance();
+public class BigDecimalAssert extends AbstractBigDecimalAssert<BigDecimalAssert> {
 
   protected BigDecimalAssert(BigDecimal actual) {
     super(actual, BigDecimalAssert.class);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isZero() {
-    bigDecimals.assertIsZero(info, actual);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isNotZero() {
-    bigDecimals.assertIsNotZero(info, actual);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isPositive() {
-    bigDecimals.assertIsPositive(info, actual);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isNegative() {
-    bigDecimals.assertIsNegative(info, actual);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isNotPositive() {
-    bigDecimals.assertIsNotPositive(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isNotNegative() {
-    bigDecimals.assertIsNotNegative(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isBetween(BigDecimal start, BigDecimal end) {
-    bigDecimals.assertIsBetween(info, actual, start, end);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public BigDecimalAssert isStrictlyBetween(BigDecimal start, BigDecimal end) {
-    bigDecimals.assertIsStrictlyBetween(info, actual, start, end);
-    return this;
-  }
-
-  /**
-   * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigDecimal)} but takes care of converting given String to
-   * {@link BigDecimal} for you.
-   */
-  public BigDecimalAssert isEqualTo(String expected) {
-    return super.isEqualTo(new BigDecimal(expected));
-  }
-
-  /**
-   * Same as {@link AbstractUnevenComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)} but takes
-   * care of converting given String to {@link BigDecimal} for you.
-   */
-  public BigDecimalAssert isEqualByComparingTo(String expected) {
-    return super.isEqualByComparingTo(new BigDecimal(expected));
-  }
-
-  @Override
-  public BigDecimalAssert usingComparator(Comparator<? super BigDecimal> customComparator) {
-    super.usingComparator(customComparator);
-    this.bigDecimals = new BigDecimals(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
-  }
-
-  @Override
-  public BigDecimalAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
-    this.bigDecimals = BigDecimals.instance();
-    return myself;
   }
 }
