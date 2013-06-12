@@ -14,14 +14,9 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
-import org.assertj.core.internal.*;
-import org.assertj.core.util.VisibleForTesting;
-
 
 /**
- * Assertion methods for integers.
+ * Assertion methods for {@link Integer}s.
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Integer)}</code> or
  * <code>{@link Assertions#assertThat(int)}</code>.
@@ -35,154 +30,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class IntegerAssert extends AbstractComparableAssert<IntegerAssert, Integer> implements NumberAssert<IntegerAssert, Integer> {
-
-  @VisibleForTesting
-  Integers integers = Integers.instance();
+public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
 
   protected IntegerAssert(Integer actual) {
     super(actual, IntegerAssert.class);
-  }
-
-  /**
-   * Verifies that the actual value is equal to the given one.
-   * @param expected the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
-   */
-  public IntegerAssert isEqualTo(int expected) {
-    integers.assertEqual(info, actual, expected);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is not equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to the given one.
-   */
-  public IntegerAssert isNotEqualTo(int other) {
-    integers.assertNotEqual(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isZero() {
-    integers.assertIsZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isNotZero() {
-    integers.assertIsNotZero(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isPositive() {
-    integers.assertIsPositive(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isNegative() {
-    integers.assertIsNegative(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isNotNegative() {
-    integers.assertIsNotNegative(info, actual);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isNotPositive() {
-    integers.assertIsNotPositive(info, actual);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is less than the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to or greater than the given one.
-   */
-  public IntegerAssert isLessThan(int other) {
-    integers.assertLessThan(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is less than or equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is greater than the given one.
-   */
-  public IntegerAssert isLessThanOrEqualTo(int other) {
-    integers.assertLessThanOrEqualTo(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is greater than the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is equal to or less than the given one.
-   */
-  public IntegerAssert isGreaterThan(int other) {
-    integers.assertGreaterThan(info, actual, other);
-    return this;
-  }
-
-  /**
-   * Verifies that the actual value is greater than or equal to the given one.
-   * @param other the given value to compare the actual value to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is less than the given one.
-   */
-  public IntegerAssert isGreaterThanOrEqualTo(int other) {
-    integers.assertGreaterThanOrEqualTo(info, actual, other);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isBetween(Integer start, Integer end) {
-	integers.assertIsBetween(info, actual, start, end);
-    return this;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public IntegerAssert isStrictlyBetween(Integer start, Integer end) {
-	integers.assertIsStrictlyBetween(info, actual, start, end);
-    return this;
-  }
-  
-  @Override
-  public IntegerAssert usingComparator(Comparator<? super Integer> customComparator) {
-    super.usingComparator(customComparator);
-    this.integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
-  }
-
-  @Override
-  public IntegerAssert usingDefaultComparator() {
-    super.usingDefaultComparator();
-    this.integers = Integers.instance();
-    return myself;
   }
 }
