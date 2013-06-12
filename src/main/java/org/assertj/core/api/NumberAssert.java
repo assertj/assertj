@@ -16,12 +16,15 @@ package org.assertj.core.api;
 
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
- * @param <T> the type of the "actual" value.
- * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <A> the type of the "actual" value.
+ *
  * @author Alex Ruiz
  * @author Nicolas François
+ * @author Mikhail Mazursky
  */
-public interface NumberAssert<T extends Number> {
+public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is equal to zero.
@@ -29,7 +32,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
    */
-  NumberAssert<T> isZero();
+  S isZero();
 
   /**
    * Verifies that the actual value is not equal to zero.
@@ -37,7 +40,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
    */
-  NumberAssert<T> isNotZero();
+  S isNotZero();
 
   /**
    * Verifies that the actual value is positive.
@@ -45,7 +48,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
    */
-  NumberAssert<T> isPositive();
+  S isPositive();
 
   /**
    * Verifies that the actual value is negative.
@@ -53,7 +56,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative.
    */
-  NumberAssert<T> isNegative();
+  S isNegative();
 
   /**
    * Verifies that the actual value is non negative (positive or equal zero).
@@ -61,7 +64,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non negative.
    */
-  NumberAssert<T> isNotNegative();
+  S isNotNegative();
 
   /**
    * Verifies that the actual value is non positive (negative or equal zero).
@@ -69,7 +72,7 @@ public interface NumberAssert<T extends Number> {
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non positive.
    */
-  NumberAssert<T> isNotPositive();
+  S isNotPositive();
   
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
@@ -90,7 +93,7 @@ public interface NumberAssert<T extends Number> {
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
-  NumberAssert<T> isBetween(T start, T end);
+  S isBetween(A start, A end);
   
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
@@ -113,5 +116,5 @@ public interface NumberAssert<T extends Number> {
    * @throws NullPointerException if end value is {@code null}.
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
-  NumberAssert<T> isStrictlyBetween(T start, T end);
+  S isStrictlyBetween(A start, A end);
 }

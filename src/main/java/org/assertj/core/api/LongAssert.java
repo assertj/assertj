@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<Long> {
+public class LongAssert extends AbstractComparableAssert<LongAssert, Long> implements NumberAssert<LongAssert, Long> {
 
   @VisibleForTesting
   Longs longs = Longs.instance();

@@ -24,8 +24,9 @@ import java.math.BigDecimal;
  * @param <T> the type of the "actual" value.
  * 
  * @author Alex Ruiz
+ * @author Mikhail Mazursky
  */
-public interface UnevenComparableAssert<S, T extends Comparable<? super T>> extends ComparableAssert<S, T> {
+public interface UnevenComparableAssert<S extends UnevenComparableAssert<S, T>, T extends Comparable<? super T>> extends ComparableAssert<S, T> {
 
   /**
    * Verifies that the actual value is equal to the given one by invoking <code>{@link Comparable#compareTo(Object)}</code>.

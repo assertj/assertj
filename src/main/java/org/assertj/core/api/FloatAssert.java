@@ -34,7 +34,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<Float> {
+public class FloatAssert extends AbstractComparableAssert<FloatAssert, Float> implements FloatingPointNumberAssert<FloatAssert, Float> {
 
   @VisibleForTesting
   Floats floats = Floats.instance();

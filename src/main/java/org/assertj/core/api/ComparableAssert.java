@@ -22,8 +22,9 @@ package org.assertj.core.api;
  * 
  * @author Alex Ruiz
  * @author Ted M. Young
+ * @author Mikhail Mazursky
  */
-public interface ComparableAssert<S, A extends Comparable<? super A>> {
+public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Comparable<? super A>> {
 
   /**
    * Verifies that the actual value is less than the given one.
