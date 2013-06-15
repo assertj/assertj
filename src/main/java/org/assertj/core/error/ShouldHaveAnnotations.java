@@ -21,24 +21,25 @@ import java.util.Collection;
  * Creates an error message indicating that an assertion that verifies that a class have an annotation.
  * 
  * @author William Delanoue
+ * @author Joel Costigliola
  */
-public class ShouldHaveAnnotation extends BasicErrorMessageFactory {
+public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveAnnotation}</code>.
+   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveAnnotations}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected annotations for this class
    * @param missing missing annotations for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveAnnotation(Class<?> actual,
+  public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
       Collection<Class<? extends Annotation>> expected, Collection<Class<? extends Annotation>> missing) {
-    return new ShouldHaveAnnotation(actual, expected, missing);
+    return new ShouldHaveAnnotations(actual, expected, missing);
   }
 
-  private ShouldHaveAnnotation(Class<?> actual, Collection<Class<? extends Annotation>> expected,
+  private ShouldHaveAnnotations(Class<?> actual, Collection<Class<? extends Annotation>> expected,
       Collection<Class<? extends Annotation>> missing) {
-    super("\nExpecting\n <%s>\nto have annotations :  \n<%s>\nbut be doesn't have \n<%s>", actual, expected, missing);
+    super("\nExpecting\n  <%s>\nto have annotations:\n  <%s>\nbut the following annotations were not found:\n  <%s>", actual, expected, missing);
   }
 }

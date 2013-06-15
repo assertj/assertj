@@ -42,6 +42,6 @@ public class ShouldBeInterface extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInterface(Class<?> actual, boolean toBeOrNotToBe) {
-    super("\nExpecting\n <%s>\nto " + (toBeOrNotToBe ? "" : " not ") + "be an interface", actual);
+    super("\nExpecting\n  <%s>\n" + (toBeOrNotToBe ? "" : " not ") + "to be an interface", actual);
   }
 }

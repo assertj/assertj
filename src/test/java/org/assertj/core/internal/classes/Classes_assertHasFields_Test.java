@@ -14,17 +14,19 @@
  */
 package org.assertj.core.internal.classes;
 
-import static org.assertj.core.error.ShouldHaveField.shouldHaveField;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+
 import static org.mockito.Mockito.verify;
+
+import org.junit.Before;
+import org.junit.Test;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ClassesBaseTest;
-import org.assertj.core.util.Sets;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  * Tests for
@@ -64,10 +66,9 @@ public class Classes_assertHasFields_Test extends ClassesBaseTest {
     try {
       classes.assertHasFields(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldHaveField(actual, Sets.newLinkedHashSet(expected),
-              Sets.newLinkedHashSet("protectedField", "privateField")));
+      verify(failures).failure(info, shouldHaveFields(actual,
+                                                     newLinkedHashSet(expected),
+                                                     newLinkedHashSet("protectedField", "privateField")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,10 +81,9 @@ public class Classes_assertHasFields_Test extends ClassesBaseTest {
     try {
       classes.assertHasFields(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(
-          info,
-          shouldHaveField(actual, Sets.newLinkedHashSet(expected),
-              Sets.newLinkedHashSet("missingField")));
+      verify(failures).failure(info, shouldHaveFields(actual,
+                                                     newLinkedHashSet(expected),
+                                                     newLinkedHashSet("missingField")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

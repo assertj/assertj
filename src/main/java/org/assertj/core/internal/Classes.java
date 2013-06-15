@@ -5,9 +5,9 @@ import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
-import static org.assertj.core.error.ShouldHaveAnnotation.shouldHaveAnnotation;
-import static org.assertj.core.error.ShouldHaveField.shouldHaveDeclaredField;
-import static org.assertj.core.error.ShouldHaveField.shouldHaveField;
+import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -136,7 +136,7 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} contains {@code Annotation}.
+   * Verifies that the actual {@code Class} contains the given {@code Annotation}s.
    * 
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Class}.
@@ -144,7 +144,7 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public void assertContainsAnnotation(AssertionInfo info, Class<?> actual, Class<? extends Annotation>... annotations) {
+  public void assertContainsAnnotations(AssertionInfo info, Class<?> actual, Class<? extends Annotation>... annotations) {
     assertNotNull(info, actual);
     Set<Class<? extends Annotation>> expected = Sets.newLinkedHashSet(annotations);
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<Class<? extends Annotation>>();
@@ -158,7 +158,7 @@ public class Classes {
     if (missing.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldHaveAnnotation(actual, expected, missing));
+    throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
   }
 
   /**
@@ -184,7 +184,7 @@ public class Classes {
     if (missing.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldHaveField(actual, expected, missing));
+    throw failures.failure(info, shouldHaveFields(actual, expected, missing));
   }
 
   /**
@@ -210,7 +210,7 @@ public class Classes {
     if (missing.isEmpty()) {
       return;
     }
-    throw failures.failure(info, shouldHaveDeclaredField(actual, expected, missing));
+    throw failures.failure(info, shouldHaveDeclaredFields(actual, expected, missing));
   }
 
   private static Set<String> fieldsToName(Field[] fields) {

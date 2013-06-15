@@ -38,6 +38,7 @@ public abstract class ClassesBaseTest {
   protected static class AnnotatedClass {
     public String publicField;
     protected String protectedField;
+    @SuppressWarnings("unused")
     private String privateField;
   }
 

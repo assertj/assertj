@@ -25,10 +25,14 @@ public abstract class ClassAssertBaseTest extends BaseTestTemplate<ClassAssert, 
   @Target(ElementType.TYPE)
   @Retention(RetentionPolicy.RUNTIME)
   protected static @interface MyAnnotation {
-
   }
 
-  @MyAnnotation
+  @Target(ElementType.TYPE)
+  @Retention(RetentionPolicy.RUNTIME)
+  protected static @interface AnotherAnnotation {
+  }
+  
+  @MyAnnotation @AnotherAnnotation
   protected static class AnnotatedClass {
   }
 

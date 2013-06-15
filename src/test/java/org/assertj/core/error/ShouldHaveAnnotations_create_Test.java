@@ -15,28 +15,31 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
+import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 
+import java.lang.annotation.Annotation;
+
+import org.assertj.core.description.TextDescription;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.assertj.core.description.TextDescription;
-import org.assertj.core.util.Sets;
-
 /**
  * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeAssignableFrom#shouldBeAssignableFrom(Class, java.util.Set, java.util.Set)}</code>
+ * <code>{@link ShouldHaveAnnotations#shouldHaveAnnotations(Class, java.util.Collection, java.util.Collection)}}</code>
  * 
  * @author William Delanoue
  */
-public class ShouldBeAssignableFrom_create_Test {
+public class ShouldHaveAnnotations_create_Test {
 
   private ErrorMessageFactory factory;
 
+  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
-    factory = shouldBeAssignableFrom(ShouldBeAssignableFrom_create_Test.class,
-                                     Sets.<Class<?>> newLinkedHashSet(String.class, Integer.class), Sets.<Class<?>> newLinkedHashSet((String.class)));
+    factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,
+                                   Lists.<Class<? extends Annotation>> newArrayList(Override.class, Deprecated.class),
+                                   Lists.<Class<? extends Annotation>> newArrayList(SuppressWarnings.class));
   }
 
   @Test
@@ -45,10 +48,10 @@ public class ShouldBeAssignableFrom_create_Test {
     assertThat(message).isEqualTo(
                                   "[Test] \n"
                                       + "Expecting\n"
-                                      + "  <org.assertj.core.error.ShouldBeAssignableFrom_create_Test>\n"
-                                      + "to be assignable from:\n"
-                                      + "  <[java.lang.String, java.lang.Integer]>\n"
-                                      + "but was not assignable from:\n"
-                                      + "  <[java.lang.String]>");
+                                      + "  <org.assertj.core.error.ShouldHaveAnnotations_create_Test>\n"
+                                      + "to have annotations:\n"
+                                      + "  <[java.lang.Override, java.lang.Deprecated]>\n"
+                                      + "but the following annotations were not found:\n"
+                                      + "  <[java.lang.SuppressWarnings]>");
   }
 }

@@ -20,20 +20,26 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#containsAnnotation(Class[])}</code>.
+ * Tests for <code>{@link org.assertj.core.api.ClassAssert#hasAnnotations(Class[])}</code>.
  * 
  * @author William Delanoue
+ * @author Joel Costigliola
  */
-public class ClassAssert_containsAnnotation_Test extends ClassAssertBaseTest {
+public class ClassAssert_hasAnnotations_Test extends ClassAssertBaseTest {
 
+  @SuppressWarnings("unchecked")
   @Override
   protected ClassAssert invoke_api_method() {
-    return assertions.containsAnnotation(MyAnnotation.class);
+    return assertions.hasAnnotations(MyAnnotation.class, AnotherAnnotation.class);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   protected void verify_internal_effects() {
-    verify(classes).assertContainsAnnotation(getInfo(assertions), getActual(assertions), MyAnnotation.class);
+    verify(classes).assertContainsAnnotations(getInfo(assertions),
+                                              getActual(assertions),
+                                              MyAnnotation.class,
+                                              AnotherAnnotation.class);
   }
 
 }

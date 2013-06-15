@@ -20,35 +20,36 @@ import java.util.Set;
  * Creates an error message indicating that an assertion that verifies that a class have field.
  * 
  * @author William Delanoue
+ * @author Joel Costigliola
  */
-public class ShouldHaveField extends BasicErrorMessageFactory {
+public class ShouldHaveFields extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveField}</code>.
+   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
    * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class
    * @param missing missing fields for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveField(Class<?> actual, Set<String> expected, Set<String> missing) {
-    return new ShouldHaveField(actual, expected, missing, false);
+  public static ErrorMessageFactory shouldHaveFields(Class<?> actual, Set<String> expected, Set<String> missing) {
+    return new ShouldHaveFields(actual, expected, missing, false);
   }
 
   /**
-   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveField}</code>.
-   *
+   * Creates a new </code>{@link org.assertj.core.error.ShouldHaveFields}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @param expected expected fields for this class
    * @param missing missing fields for this class
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveDeclaredField(Class<?> actual, Set<String> expected, Set<String> missing) {
-    return new ShouldHaveField(actual, expected, missing, false);
+  public static ErrorMessageFactory shouldHaveDeclaredFields(Class<?> actual, Set<String> expected, Set<String> missing) {
+    return new ShouldHaveFields(actual, expected, missing, true);
   }
 
-  private ShouldHaveField(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
-    super("\nExpecting\n <%s>\nto have " + (declared ? "declared " : "")
-        + "fields :  \n<%s>\nbut be doesn't have \n<%s>", actual, expected, missing);
+  private ShouldHaveFields(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
+    super("\nExpecting\n  <%s>\nto have " + (declared ? "declared " : "")
+        + "fields:\n  <%s>\nbut it doesn't have:\n  <%s>", actual, expected, missing);
   }
 }
