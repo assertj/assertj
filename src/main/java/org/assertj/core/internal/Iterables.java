@@ -602,17 +602,18 @@ public class Iterables {
       return;
     failIfEmptySinceActualIsNotEmpty(sequence);
     int sequenceSize = sequence.length;
-    if (sizeOf(actual) < sequenceSize) {
-      throw actualDoesNotStartWithSequence(info, actual, sequence);
-    }
     int i = 0;
-    for (Object o : actual) {
+    for (Object actualCurrentElement : actual) {
       if (i >= sequenceSize) {
         break;
       }
-      if (areEqual(o, sequence[i++])) {
+      if (areEqual(actualCurrentElement, sequence[i++])) {
         continue;
       }
+      throw actualDoesNotStartWithSequence(info, actual, sequence);
+    }
+    if (sequenceSize > i) {
+      // sequence has more elements than actual
       throw actualDoesNotStartWithSequence(info, actual, sequence);
     }
   }
