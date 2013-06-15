@@ -24,11 +24,6 @@
 package org.assertj.core.api;
 
 import java.io.File;
-import java.nio.charset.Charset;
-
-import org.assertj.core.internal.Files;
-import org.assertj.core.util.FilesException;
-import org.assertj.core.util.VisibleForTesting;
 
 
 /**
