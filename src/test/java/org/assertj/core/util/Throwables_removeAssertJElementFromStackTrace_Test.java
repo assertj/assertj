@@ -24,19 +24,19 @@ import org.junit.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_removeFestElementFromStackTrace_Test {
+public class Throwables_removeAssertJElementFromStackTrace_Test {
   @Test
   public void should_add_stack_trace_of_current_thread() {
     try {
-      throw new FestThrowable();
-    } catch (FestThrowable throwable) {
+      throw new AssertJThrowable();
+    } catch (AssertJThrowable throwable) {
       assertTrue(hasStackTraceElementContainingAssertJClass(throwable));
       Throwables.removeAssertJRelatedElementsFromStackTrace(throwable);
       assertFalse(hasStackTraceElementContainingAssertJClass(throwable));
     }
   }
 
-  private static boolean hasStackTraceElementContainingAssertJClass(FestThrowable throwable) {
+  private static boolean hasStackTraceElementContainingAssertJClass(AssertJThrowable throwable) {
     StackTraceElement[] stackTrace = throwable.getStackTrace();
     for (StackTraceElement stackTraceElement : stackTrace) {
       if (stackTraceElement.getClassName().contains("org.assertj")) {
@@ -46,7 +46,7 @@ public class Throwables_removeFestElementFromStackTrace_Test {
     return false;
   }
 
-  private static class FestThrowable extends Throwable {
+  private static class AssertJThrowable extends Throwable {
     private static final long serialVersionUID = 1L;
   }
 }

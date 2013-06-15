@@ -49,11 +49,11 @@ public class Failures {
   private boolean removeAssertJRelatedElementsFromStackTrace = true;
 
   /**
-   * Sets whether we remove elements related to Fest from assertion error stack trace.
-   * @param removeFestRelatedElementsFromStackTrace flag
+   * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * @param removeAssertJRelatedElementsFromStackTrace flag
    */
-  public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
-    this.removeAssertJRelatedElementsFromStackTrace = removeFestRelatedElementsFromStackTrace;
+  public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
+    this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
   }
 
   @VisibleForTesting
@@ -120,7 +120,7 @@ public class Failures {
 
 /**
    * If is {@link #removeAssertJRelatedElementsFromStackTrace} is true, it filters the stack trace of the given {@link AssertionError} 
-   * by removing stack trace elements related to Fest in order to get a more readable stack trace.
+   * by removing stack trace elements related to AssertJ in order to get a more readable stack trace.
    * <p>
    * See example below :
    * <pre>

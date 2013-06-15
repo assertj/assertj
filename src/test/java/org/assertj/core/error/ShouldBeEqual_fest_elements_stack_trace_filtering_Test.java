@@ -32,7 +32,7 @@ public class ShouldBeEqual_fest_elements_stack_trace_filtering_Test {
 
   @Test
   public void fest_elements_should_be_removed_from_assertion_error_stack_trace() {
-    Fail.setRemoveFestRelatedElementsFromStackTrace(true);
+    Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
     try {
       assertThat("Xavi").isEqualTo("Xabi");
     } catch (AssertionError assertionError) {
@@ -42,7 +42,7 @@ public class ShouldBeEqual_fest_elements_stack_trace_filtering_Test {
 
   @Test
   public void fest_elements_should_be_kept_in_assertion_error_stack_trace() {
-    Fail.setRemoveFestRelatedElementsFromStackTrace(false);
+    Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
       assertThat("Messi").isEqualTo("Ronaldo");
     } catch (AssertionError assertionError) {

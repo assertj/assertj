@@ -23,7 +23,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)}</code>.
+ * Tests for <code>{@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -31,7 +31,7 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
 
   @Test
   public void fest_elements_should_be_removed_from_assertion_error_stack_trace() {
-    Fail.setRemoveFestRelatedElementsFromStackTrace(true);
+    Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
     try {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {
@@ -41,7 +41,7 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
 
   @Test
   public void fest_elements_should_be_kept_in_assertion_error_stack_trace() {
-    Fail.setRemoveFestRelatedElementsFromStackTrace(false);
+    Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {

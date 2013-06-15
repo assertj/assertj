@@ -29,11 +29,11 @@ import static java.lang.String.format;
 public final class Fail {
 
   /**
-   * Sets whether we remove elements related to Fest from assertion error stack trace.
-   * @param removeFestRelatedElementsFromStackTrace flag.
+   * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * @param removeAssertJRelatedElementsFromStackTrace flag.
    */
-  public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
-    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
+  public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
+    Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**

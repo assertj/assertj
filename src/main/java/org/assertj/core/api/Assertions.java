@@ -447,15 +447,15 @@ public class Assertions {
   }
 
   // -------------------------------------------------------------------------------------------------
-  // fail methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Fail#setRemoveFestRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full
-   * feature entry point to all Fest Assert features (but you can use {@link Fail} if you prefer).
+   * Only delegate to {@link Fail#setRemoveAssertJRelatedElementsFromStackTrace(boolean)} so that Assertions offers a full
+   * feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
    */
-  public static void setRemoveFestRelatedElementsFromStackTrace(boolean removeFestRelatedElementsFromStackTrace) {
-    Fail.setRemoveFestRelatedElementsFromStackTrace(removeFestRelatedElementsFromStackTrace);
+  public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
+    Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
