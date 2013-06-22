@@ -34,7 +34,7 @@ AssertJ's assertions are super easy to write: just type **```assertThat```** fol
 and any Java IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
 order of the "expected" and "actual" values. Our assertions are very readable as well: they read very close to plain 
 English, making it easier for non-technical people to read test code.  
-A lot of effort have to provide intuitive error messages showing as clearly as possible what the problem is.
+A lot of effort have been done to provide intuitive error messages showing as clearly as possible what the problem is.
 
 Note that AssertJ requires at least Java 6.
 
