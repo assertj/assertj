@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.test.ErrorMessages.regexPatternIsNull;
 import static org.assertj.core.test.TestData.*;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
 import static org.mockito.Mockito.verify;
@@ -66,7 +67,8 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   }
 
   @Test
-  public void should_pass_if_actual_is_null() {
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
     strings.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
   }
 
@@ -102,7 +104,8 @@ public class Strings_assertDoesNotMatch_CharSequence_Test extends StringsBaseTes
   }
 
   @Test
-  public void should_pass_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
+    thrown.expectAssertionError(actualIsNull());
     stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), null, matchAnything().pattern());
   }
 

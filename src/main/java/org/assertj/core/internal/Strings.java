@@ -425,11 +425,13 @@ public class Strings {
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @throws NullPointerException if the given pattern is {@code null}.
    * @throws PatternSyntaxException if the regular expression's syntax is invalid.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} matches the given regular expression.
    */
   public void assertDoesNotMatch(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
-    if (actual == null || !Pattern.matches(regex.toString(), actual)) {
+    assertNotNull(info, actual);
+    if (!Pattern.matches(regex.toString(), actual)) {
       return;
     }
     throw failures.failure(info, shouldNotMatch(actual, regex));
