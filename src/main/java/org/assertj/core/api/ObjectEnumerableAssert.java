@@ -201,7 +201,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S are(Condition<? super T> condition);
 
   /**
-   * Verifies that each element value not satisfies the given condition
+   * Verifies that each element value does not satisfy the given condition
    * 
    * @param condition the given condition.
    * @return {@code this} object.
@@ -223,7 +223,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S have(Condition<? super T> condition);
 
   /**
-   * Verifies that each element value not satisfies the given condition
+   * Verifies that each element value does not satisfy the given condition
    * 
    * @param condition the given condition.
    * @return {@code this} object.
@@ -246,21 +246,6 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtLeast(int n, Condition<? super T> condition);
 
   /**
-   * @deprecated
-   * 
-   *             Verifies that there is <b>at least</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
-   *             given condition.
-   * 
-   * @param n the number of times the condition should not be verified at least.
-   * @param condition the given condition.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
-   */
-  S areNotAtLeast(int n, Condition<? super T> condition);
-
-  /**
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * 
    * @param n the number of times the condition should be at most verified.
@@ -271,21 +256,6 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   S areAtMost(int n, Condition<? super T> condition);
-
-  /**
-   * @deprecated
-   * 
-   *             Verifies that there is <b>at most</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
-   *             given condition.
-   * 
-   * @param n the number of times the condition should not be verified at most.
-   * @param condition the given condition.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
-   */
-  S areNotAtMost(int n, Condition<? super T> condition);
 
   /**
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
@@ -300,32 +270,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areExactly(int n, Condition<? super T> condition);
 
   /**
-   * 
-   * @deprecated
-   * 
-   *             Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group <b>not</b> satisfying the
-   *             given condition.
-   * 
-   * @param n the exact number of times the condition should not be verified.
-   * @param condition the given condition.
-   * @return {@code this} object.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
-   */
-  S areNotExactly(int n, Condition<? super T> condition);
-
-  /**
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
   S haveAtLeast(int n, Condition<? super T> condition);
-
-  /**
-   * @deprecated
-   * 
-   *             This method is an alias {@link #areNotAtLeast(int, Condition)}.
-   */
-  S doNotHaveAtLeast(int n, Condition<? super T> condition);
 
   /**
    * This method is an alias {@link #areAtMost(int, Condition)}.
@@ -333,19 +280,9 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S haveAtMost(int n, Condition<? super T> condition);
 
   /**
-   * @deprecated This method is an alias {@link #areNotAtMost(int, Condition)}.
-   */
-  S doNotHaveAtMost(int n, Condition<? super T> condition);
-
-  /**
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
   S haveExactly(int n, Condition<? super T> condition);
-
-  /**
-   * @deprecated This method is an alias {@link #areNotExactly(int, Condition)}.
-   */
-  S doNotHaveExactly(int n, Condition<? super T> condition);
 
   /**
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.

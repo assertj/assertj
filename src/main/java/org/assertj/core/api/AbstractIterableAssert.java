@@ -248,22 +248,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /** {@inheritDoc} */
   @Override
-  public S areNotAtLeast(int times, Condition<? super T> condition) {
-    iterables.assertAreNotAtLeast(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public S areAtMost(int times, Condition<? super T> condition) {
     iterables.assertAreAtMost(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public S areNotAtMost(int times, Condition<? super T> condition) {
-    iterables.assertAreNotAtMost(info, actual, times, condition);
     return myself;
   }
 
@@ -276,22 +262,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /** {@inheritDoc} */
   @Override
-  public S areNotExactly(int times, Condition<? super T> condition) {
-    iterables.assertAreNotExactly(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public S haveAtLeast(int times, Condition<? super T> condition) {
     iterables.assertHaveAtLeast(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public S doNotHaveAtLeast(int times, Condition<? super T> condition) {
-    iterables.assertDoNotHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
@@ -304,22 +276,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /** {@inheritDoc} */
   @Override
-  public S doNotHaveAtMost(int times, Condition<? super T> condition) {
-    iterables.assertDoNotHaveAtMost(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public S haveExactly(int times, Condition<? super T> condition) {
     iterables.assertHaveExactly(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public S doNotHaveExactly(int times, Condition<? super T> condition) {
-    iterables.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
 

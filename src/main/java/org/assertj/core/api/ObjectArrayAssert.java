@@ -216,22 +216,8 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
 
   /** {@inheritDoc} */
   @Override
-  public ObjectArrayAssert<T> areNotAtLeast(int times, Condition<? super T> condition) {
-    arrays.assertAreNotAtLeast(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public ObjectArrayAssert<T> areAtMost(int times, Condition<? super T> condition) {
     arrays.assertAreAtMost(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public ObjectArrayAssert<T> areNotAtMost(int times, Condition<? super T> condition) {
-    arrays.assertAreNotAtMost(info, actual, times, condition);
     return myself;
   }
 
@@ -244,22 +230,8 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
 
   /** {@inheritDoc} */
   @Override
-  public ObjectArrayAssert<T> areNotExactly(int times, Condition<? super T> condition) {
-    arrays.assertAreNotExactly(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public ObjectArrayAssert<T> haveAtLeast(int times, Condition<? super T> condition) {
     arrays.assertHaveAtLeast(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public ObjectArrayAssert<T> doNotHaveAtLeast(int times, Condition<? super T> condition) {
-    arrays.assertDoNotHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
@@ -272,22 +244,8 @@ public class ObjectArrayAssert<T> extends AbstractAssert<ObjectArrayAssert<T>, T
 
   /** {@inheritDoc} */
   @Override
-  public ObjectArrayAssert<T> doNotHaveAtMost(int times, Condition<? super T> condition) {
-    arrays.assertDoNotHaveAtMost(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
   public ObjectArrayAssert<T> haveExactly(int times, Condition<? super T> condition) {
     arrays.assertHaveExactly(info, actual, times, condition);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public ObjectArrayAssert<T> doNotHaveExactly(int times, Condition<? super T> condition) {
-    arrays.assertDoNotHaveExactly(info, actual, times, condition);
     return myself;
   }
 
