@@ -165,14 +165,18 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public S isBetween(Integer start, Integer end) {
     integers.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public S isStrictlyBetween(Integer start, Integer end) {
     integers.assertIsStrictlyBetween(info, actual, start, end);

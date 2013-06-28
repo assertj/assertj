@@ -45,56 +45,173 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
     super(actual, selfType);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(BigDecimal.ZERO).isZero();
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isZero();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isZero() {
     bigDecimals.assertIsZero(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isNotZero();
+   * 
+   * // assertion will fail
+   * assertThat(BigDecimal.ZERO).isNotZero();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNotZero() {
     bigDecimals.assertIsNotZero(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isPositive();
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;-8.0&quot;)).isPositive();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isPositive() {
     bigDecimals.assertIsPositive(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNegative();
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNegative();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNegative() {
     bigDecimals.assertIsNegative(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNotPositive();
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotPositive();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNotPositive() {
     bigDecimals.assertIsNotPositive(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotNegative();
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;-8.0&quot;)).isNotNegative();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNotNegative() {
     bigDecimals.assertIsNotNegative(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isBetween(BigDecimal start, BigDecimal end) {
     bigDecimals.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
+   * 
+   * // assertions will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isStrictlyBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isStrictlyBetween(BigDecimal start, BigDecimal end) {
     bigDecimals.assertIsStrictlyBetween(info, actual, start, end);
@@ -104,6 +221,18 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   /**
    * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigDecimal)} but takes care of converting given String to
    * {@link BigDecimal} for you.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualTo(&quot;8.0&quot;);
+   * 
+   * // assertion will fail because 8.00 is not equals to 8.0
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isEqualTo(&quot;8.0&quot;);
+   * </pre>
+   * 
+   * </p>
    */
   public S isEqualTo(String expected) {
     return isEqualTo(new BigDecimal(expected));
@@ -112,6 +241,20 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   /**
    * Same as {@link AbstractUnevenComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)}
    * but takes care of converting given String to {@link BigDecimal} for you.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
+   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;2.0&quot;);
+   * </pre>
+   * 
+   * </p>
    */
   public S isEqualByComparingTo(String expected) {
     return isEqualByComparingTo(new BigDecimal(expected));
