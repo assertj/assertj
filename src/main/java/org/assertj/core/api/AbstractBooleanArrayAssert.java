@@ -96,12 +96,12 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * 
    * <pre>
    * // assertion will pass
-   * assertThat(new boolean[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
+   * assertThat(new boolean[] { true, false }).containsOnlyOnce(true, false);
    * 
    * // assertions will fail
-   * assertThat(new boolean[] { 1, 2, 1 }).containsOnlyOnce(1);
-   * assertThat(new boolean[] { 1, 2, 3 }).containsOnlyOnce(4);
-   * assertThat(new boolean[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);
+   * assertThat(new boolean[] { true, false, true }).containsOnlyOnce(true);
+   * assertThat(new boolean[] { true }).containsOnlyOnce(false);
+   * assertThat(new boolean[] { true }).containsOnlyOnce(true, false);
    * </pre>
    * 
    * @param values the given values.
