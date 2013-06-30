@@ -84,28 +84,84 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 1).isPositive();
+   * 
+   * // assertion will fail
+   * assertThat((byte) -1).isPositive();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isPositive() {
     bytes.assertIsPositive(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) -1).isNegative();
+   * 
+   * // assertion will fail
+   * assertThat((byte) 1).isNegative();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNegative() {
     bytes.assertIsNegative(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 1).isNotNegative();
+   * 
+   * // assertion will fail
+   * assertThat((byte) -1).isNotNegative();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNotNegative() {
     bytes.assertIsNotNegative(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) -1).isNotPositive();
+   * 
+   * // assertion will fail
+   * assertThat((byte) 1).isNotPositive();
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isNotPositive() {
     bytes.assertIsNotPositive(info, actual);
@@ -114,6 +170,19 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 1).isLessThan(2);
+   * 
+   * // assertion will fail
+   * assertThat((byte) 1).isLessThan(0);
+   * assertThat((byte) 1).isLessThan(1);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -127,6 +196,19 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 1).isLessThanOrEqualTo(2);
+   * assertThat((byte) 1).isLessThanOrEqualTo(1);
+   * 
+   * // assertion will fail
+   * assertThat((byte) 1).isLessThanOrEqualTo(0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -140,6 +222,19 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 2).isGreaterThan(1);
+   * 
+   * // assertion will fail
+   * assertThat((byte) 2).isGreaterThan(3);
+   * assertThat((byte) 2).isGreaterThan(2);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -153,6 +248,19 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 2).isGreaterThanOrEqualTo(1);
+   * assertThat((byte) 2).isGreaterThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat((byte) 2).isGreaterThanOrEqualTo(3);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -164,14 +272,48 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in [start, end] range (start included, end included).
+   *
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertions will pass
+   * assertThat((byte) 1).isBetween((byte) -1, (byte) 2);
+   * assertThat((byte) 1).isBetween((byte) 1, (byte) 2);
+   * assertThat((byte) 1).isBetween((byte) 0, (byte) 1);
+   * 
+   * // assertion will fail
+   * assertThat((byte) 1).isBetween((byte) 2, (byte) 3);
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isBetween(Byte start, Byte end) {
     bytes.assertIsBetween(info, actual, start, end);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
+   *
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat((byte) 1).isStrictlyBetween((byte) -1, (byte) 2);
+   * 
+   * // assertions will fail
+   * assertThat((byte) 1).isStrictlyBetween((byte) 1, (byte) 2);
+   * assertThat((byte) 1).isStrictlyBetween((byte) 0, (byte) 1);
+   * assertThat((byte) 1).isStrictlyBetween((byte) 2, (byte) 3);
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S isStrictlyBetween(Byte start, Byte end) {
     bytes.assertIsStrictlyBetween(info, actual, start, end);
