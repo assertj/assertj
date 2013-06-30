@@ -14,7 +14,7 @@
  */
 package org.assertj.core.util;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Utility methods related to {@code java.util.List}s.
@@ -36,9 +36,7 @@ public final class Lists {
       return null;
     }
     ArrayList<T> list = new ArrayList<T>();
-    for (T e : elements) {
-      list.add(e);
-    }
+    java.util.Collections.addAll(list, elements);
     return list;
   }
 

@@ -38,7 +38,7 @@ public class Offset<T extends Number> {
    */
   public static Offset<Double> offset(Double value) {
     checkNotNull(value);
-    if (value.doubleValue() < 0d) {
+    if (value < 0d) {
       throw valueNotPositive();
     }
     return new Offset<Double>(value);
@@ -54,7 +54,7 @@ public class Offset<T extends Number> {
    */
   public static Offset<Float> offset(Float value) {
     checkNotNull(value);
-    if (value.floatValue() < 0f) {
+    if (value < 0f) {
       throw valueNotPositive();
     }
     return new Offset<Float>(value);
@@ -70,7 +70,7 @@ public class Offset<T extends Number> {
    */
   public static Offset<Integer> offset(Integer value) {
     checkNotNull(value);
-    if (value.intValue() < 0) {
+    if (value < 0) {
       throw valueNotPositive();
     }
     return new Offset<Integer>(value);

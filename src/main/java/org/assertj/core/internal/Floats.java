@@ -65,7 +65,7 @@ public class Floats extends RealNumbers<Float> {
 
   @Override
   protected boolean isEqualTo(Float actual, Float expected, Offset<?> offset) {
-    return abs(expected - actual.floatValue()) <= offset.value.floatValue();
+    return abs(expected - actual) <= offset.value.floatValue();
   }
 
   /**
@@ -88,7 +88,7 @@ public class Floats extends RealNumbers<Float> {
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
     if (isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual.floatValue())));
+    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual)));
   }
 
 }

@@ -168,7 +168,8 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 	 * assertThat(ringBearers).doesNotContainEntry(oneRing, aragorn);
 	 * </pre>
 	 *
-	 * @param entries the given entries.
+	 * @param key key of the entry.
+	 * @param value value of the entry.
 	 * @return {@code this} assertion object.
 	 * @throws NullPointerException if the given argument is {@code null}.
 	 * @throws IllegalArgumentException if the given argument is an empty array.
