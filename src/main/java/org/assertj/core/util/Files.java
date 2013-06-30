@@ -258,8 +258,11 @@ public class Files {
     if (!file.isDirectory()) {
       return;
     }
-    for (File f : file.listFiles()) {
-      delete(f);
+    File[] existingFiles = file.listFiles();
+    if (!isNullOrEmpty(existingFiles)) {
+      for (File f : existingFiles) {
+        delete(f);
+      }
     }
     file.delete();
   }
