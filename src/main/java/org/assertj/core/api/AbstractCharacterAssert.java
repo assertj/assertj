@@ -72,6 +72,20 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is less than the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat('A').isLessThan('a');
+   * assertThat('a').isLessThan('b');
+   *
+   * // assertion will fail
+   * assertThat('a').isLessThan('A');
+   * assertThat('b').isLessThan('a');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -85,6 +99,19 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat('A').isLessThanOrEqualTo('a');
+   * assertThat('A').isLessThanOrEqualTo('A');
+   *
+   * // assertion will fail
+   * assertThat('b').isLessThanOrEqualTo('a');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -98,6 +125,20 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is greater than the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat('a').isGreaterThan('A');
+   * assertThat('b').isGreaterThan('a');
+   *
+   * // assertion will fail
+   * assertThat('A').isGreaterThan('a');
+   * assertThat('a').isGreaterThan('b');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -111,6 +152,19 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat('A').isGreaterThanOrEqualTo('A');
+   * assertThat('b').isGreaterThanOrEqualTo('a');
+   * 
+   * // assertion will fail
+   * assertThat('a').isGreaterThanOrEqualTo('b');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -124,6 +178,18 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is a lowercase character.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // assertion will pass
+   * assertThat('a').isLowerCase();
+   *
+   * // assertion will fail
+   * assertThat('A').isLowerCase();
+   * </pre>
+   *
+   * </p>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -136,6 +202,18 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
 
   /**
    * Verifies that the actual value is a uppercase character.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat('A').isLowerCase();
+   * 
+   * // assertion will fail
+   * assertThat('a').isLowerCase();
+   * </pre>
+   * 
+   * </p>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
