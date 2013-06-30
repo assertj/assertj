@@ -18,6 +18,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.Condition;
@@ -159,9 +160,7 @@ public class Filters<E> {
   @VisibleForTesting
   Filters(E[] array) {
     List<E> iterable = new ArrayList<E>(array.length);
-    for (E anArray : array) {
-      iterable.add(anArray);
-    }
+    Collections.addAll(iterable, array);
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
     this.filteredIterable = newArrayList(iterable);

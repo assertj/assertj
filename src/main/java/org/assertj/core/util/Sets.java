@@ -14,8 +14,7 @@
  */
 package org.assertj.core.util;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Utility methods related to {@link Set}s.
@@ -36,9 +35,7 @@ public final class Sets {
       return null;
     }
     LinkedHashSet<T> set = new LinkedHashSet<T>();
-    for (T e : elements) {
-      set.add(e);
-    }
+    java.util.Collections.addAll(set, elements);
     return set;
   }
 

@@ -28,9 +28,7 @@ public class Tuple {
   private final List<Object> datas = newArrayList();
 
   public Tuple(Object... values) {
-    for (Object value : values) {
-      datas.add(value);
-    }
+    java.util.Collections.addAll(datas, values);
   }
 
   public void addData(Object data) {
