@@ -575,7 +575,7 @@ public class Dates {
    * used to check that the date to compare actual date to is not null, in that case throws a {@link NullPointerException} with an
    * explicit message
    * @param date the date to check
-   * @throws a {@link NullPointerException} with an explicit message if the given date is null
+   * @throws NullPointerException with an explicit message if the given date is null
    */
   private static void dateParameterIsNotNull(Date date) {
     if (date == null) throw new NullPointerException("The date to compare actual with should not be null");
@@ -585,7 +585,7 @@ public class Dates {
    * used to check that the start of period date to compare actual date to is not null, in that case throws a
    * {@link NullPointerException} with an explicit message
    * @param start the start date to check
-   * @throws a {@link NullPointerException} with an explicit message if the given start date is null
+   * @throws NullPointerException with an explicit message if the given start date is null
    */
   private static void startDateParameterIsNotNull(Date start) {
     if (start == null) throw new NullPointerException("The start date of period to compare actual with should not be null");
@@ -595,7 +595,7 @@ public class Dates {
    * used to check that the end of period date to compare actual date to is not null, in that case throws a
    * {@link NullPointerException} with an explicit message
    * @param end the end date to check
-   * @throws a {@link NullPointerException} with an explicit message if the given end date is null
+   * @throws NullPointerException with an explicit message if the given end date is null
    */
   private static void endDateParameterIsNotNull(Date end) {
     if (end == null) throw new NullPointerException("The end date of period to compare actual with should not be null");

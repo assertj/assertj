@@ -549,7 +549,7 @@ public class Iterables {
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
-   * @param values the values that are expected not to be in the given {@code Iterable}.
+   * @param iterable the values that are expected not to be in the given {@code Iterable}.
    * @throws NullPointerException if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty.
    * @throws AssertionError if the given {@code Iterable} is {@code null}.

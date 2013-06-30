@@ -276,7 +276,7 @@ public class Comparables {
    * {@link NullPointerException} with an explicit message
    * 
    * @param start the start number to check
-   * @throws a {@link NullPointerException} with an explicit message if the given start value is null
+   * @throws NullPointerException with an explicit message if the given start value is null
    */
   private static void startParameterIsNotNull(Object start) {
     if (start == null)
@@ -288,7 +288,7 @@ public class Comparables {
    * {@link NullPointerException} with an explicit message
    * 
    * @param end the end number to check
-   * @throws a {@link NullPointerException} with an explicit message if the given end value is null
+   * @throws NullPointerException with an explicit message if the given end value is null
    */
   private static void endParameterIsNotNull(Object end) {
     if (end == null)

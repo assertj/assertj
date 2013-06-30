@@ -115,7 +115,7 @@ public final class Strings {
   }
 
   /**
-   * Joins the given {@code String}s using a given delimiter. The following example illustrates proper usage of this
+   * Joins the given {@code Object}s using a given delimiter. The following example illustrates proper usage of this
    * method:
    * 
    * <pre>
@@ -124,8 +124,8 @@ public final class Strings {
    * 
    * which will result in the {@code String} <code>"a|b|c"</code>.
    * 
-   * @param strings the {@code String}s to join.
-   * @return an intermediate object that takes a given delimiter and knows how to join the given {@code String}s.
+   * @param toStringable the {@code Object}s to join.
+   * @return an intermediate object that takes a given delimiter and knows how to join the given {@code Object}s.
    * @see StringsToJoin#with(String)
    */
   public static StringsToJoin join(Iterable<?> toStringable) {

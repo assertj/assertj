@@ -118,7 +118,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Returns any duplicate elements from the given collection according to {@link Objects#areEqual(Object)} comparison
+   * Returns any duplicate elements from the given collection according to {@link Objects#areEqual(Object, Object)} comparison
    * strategy.
    * 
    * @param iterable the given {@link Iterable} we want to extract duplicate elements.

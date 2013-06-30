@@ -117,7 +117,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S containsExactly(T... values) {
     objects.assertEqual(info, actual, values);
     return myself;
-  };
+  }
 
   /** {@inheritDoc} */
   @Override

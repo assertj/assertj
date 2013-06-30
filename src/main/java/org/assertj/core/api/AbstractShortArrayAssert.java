@@ -64,7 +64,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
@@ -79,7 +79,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
@@ -107,7 +107,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
@@ -139,7 +139,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
-   * @throws NullPoshorterException if the given {@code Index} is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    *           the actual array.
    * @throws AssertionError if the actual array does not contain the given value at the given index.
@@ -154,7 +154,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
@@ -171,7 +171,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws NullPoshorterException if the given {@code Index} is {@code null}.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public S doesNotContain(short value, Index index) {
@@ -198,7 +198,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
@@ -215,7 +215,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
@@ -270,7 +270,7 @@ public abstract class AbstractShortArrayAssert<S extends AbstractShortArrayAsser
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPoshorterException if the given argument is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones

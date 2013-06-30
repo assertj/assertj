@@ -120,7 +120,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Tells {@link #newAssertionError(Description)} if it should try a build a {@link ComparisonFailure}.<br>
+   * Tells {@link #newAssertionError(Description)} if it should try a build a {@link org.junit.ComparisonFailure}.<br>
    * Returns <code>true</code> as we try in this class (may not be the case in subclasses).
    * @return <code>true</code>
    */
@@ -148,7 +148,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Builds and returns an error message from description using {@link #expectedDetailedToString()} and {@link #detailedActual()}
+   * Builds and returns an error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
    * detailed representation.
    * @param description the {@link Description} used to build the returned error message
    * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()} <b>detailed</b>
