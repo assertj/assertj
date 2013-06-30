@@ -17,6 +17,7 @@ import org.junit.Test;
  * 
  * @author Julien Meddah
  * @author Joel Costigliola
+ * @author Mikhail Mazursky
  */
 public class Assertions_assertThat_with_Iterator_Test {
 
@@ -31,5 +32,11 @@ public class Assertions_assertThat_with_Iterator_Test {
     Iterator<String> names = asList("Luke", "Leia").iterator();
     IterableAssert<String> assertions = assertThat(names);
     assertThat(assertions.actual, hasItems("Leia", "Luke"));
+  }
+
+  @Test
+  public void should_allow_null() {
+    IterableAssert<?> assertions = assertThat((Iterator<?>) null);
+    assertThat(assertions.actual).isNull();
   }
 }
