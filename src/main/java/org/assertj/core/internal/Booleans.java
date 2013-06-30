@@ -56,7 +56,7 @@ public class Booleans {
    */
   public void assertEqual(AssertionInfo info, Boolean actual, boolean expected) {
     assertNotNull(info, actual);
-    if (actual.booleanValue() == expected) return;
+    if (actual == expected) return;
     throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
@@ -70,7 +70,7 @@ public class Booleans {
    */
   public void assertNotEqual(AssertionInfo info, Boolean actual, boolean other) {
     assertNotNull(info, actual);
-    if (actual.booleanValue() != other) return;
+    if (actual != other) return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 

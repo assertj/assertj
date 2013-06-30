@@ -48,8 +48,6 @@ public class Throwables {
   }
 
   @VisibleForTesting
-  Diff diff = new Diff();
-  @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting

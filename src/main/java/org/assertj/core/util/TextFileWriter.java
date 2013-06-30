@@ -28,7 +28,7 @@ import java.nio.charset.Charset;
  * @author Olivier Michallat
  */
 public class TextFileWriter {
-  private static TextFileWriter INSTANCE = new TextFileWriter();
+  private static final TextFileWriter INSTANCE = new TextFileWriter();
 
   public static TextFileWriter instance() {
     return INSTANCE;

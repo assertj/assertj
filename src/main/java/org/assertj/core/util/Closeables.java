@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * @author Yvonne Wang
  */
 public final class Closeables {
-  private static Logger logger = Logger.getLogger(Closeables.class.getCanonicalName());
+  private static final Logger logger = Logger.getLogger(Closeables.class.getCanonicalName());
 
   /**
    * Closes the given {@link Closeable}s, ignoring any thrown exceptions.

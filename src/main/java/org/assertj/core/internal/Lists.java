@@ -54,7 +54,7 @@ public class Lists {
     return INSTANCE;
   }
 
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
   Failures failures = Failures.instance();
@@ -175,7 +175,7 @@ public class Lists {
    * @throws AssertionError if the actual list elements are not mutually comparabe according to given Comparator.
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<? extends Object> comparator) {
+  public void assertIsSortedAccordingToComparator(AssertionInfo info, List<?> actual, Comparator<?> comparator) {
     assertNotNull(info, actual);
     if (comparator == null) throw new NullPointerException("The given comparator should not be null");
     try {

@@ -18,6 +18,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.Condition;
@@ -67,7 +68,7 @@ public class Filters<E> {
   final Iterable<E> initialIterable;
   Iterable<E> filteredIterable;
 
-  private PropertySupport propertySupport = PropertySupport.instance();
+  private final PropertySupport propertySupport = PropertySupport.instance();
 
   /**
    * The name of the property used for filtering.
@@ -159,9 +160,7 @@ public class Filters<E> {
   @VisibleForTesting
   Filters(E[] array) {
     List<E> iterable = new ArrayList<E>(array.length);
-    for (int i = 0; i < array.length; i++) {
-      iterable.add(array[i]);
-    }
+    Collections.addAll(iterable, array);
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
     this.filteredIterable = newArrayList(iterable);
@@ -307,7 +306,7 @@ public class Filters<E> {
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
       // As we don't know the propertyValue class, we use Object.class
-      Class<? extends Object> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
+      Class<?> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass, element);
       if (areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);

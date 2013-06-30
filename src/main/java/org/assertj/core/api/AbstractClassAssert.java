@@ -212,7 +212,7 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * 
    * </pre>
    * 
-   * @param annotations annotations who must be attached to the class
+   * @param annotation annotations who must be attached to the class
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */

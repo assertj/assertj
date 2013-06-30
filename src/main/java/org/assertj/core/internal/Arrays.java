@@ -311,7 +311,7 @@ class Arrays {
   /**
    * build a TreeSet with that avoid duplicates <b>according to given comparison strategy</b>
    * 
-   * @param collection to feed the Set we want to build
+   * @param iterable to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b> and with {@code .contains} who use
    *         the given comparison strategy.
    */

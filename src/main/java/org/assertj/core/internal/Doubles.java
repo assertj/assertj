@@ -83,12 +83,12 @@ public class Doubles extends RealNumbers<Double> {
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
     if (isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected.doubleValue() - actual.doubleValue())));
+    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual)));
   }
 
   @Override
   protected boolean isEqualTo(Double actual, Double expected, Offset<?> offset) {
-    return abs(expected.doubleValue() - actual.doubleValue()) <= offset.value.doubleValue();
+    return abs(expected - actual) <= offset.value.doubleValue();
   }
 
 }
