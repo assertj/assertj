@@ -43,6 +43,9 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   private static <T> Iterable<T> toIterable(Iterator<T> actual) {
+    if (actual == null) {
+      return null;
+    }
     Collection<T> actualList = new ArrayList<T>();
     while(actual.hasNext()) {
       actualList.add(actual.next());
