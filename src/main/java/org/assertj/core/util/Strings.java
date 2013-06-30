@@ -128,7 +128,7 @@ public final class Strings {
    * @return an intermediate object that takes a given delimiter and knows how to join the given {@code String}s.
    * @see StringsToJoin#with(String)
    */
-  public static StringsToJoin join(Iterable<? extends Object> toStringable) {
+  public static StringsToJoin join(Iterable<?> toStringable) {
     List<String> strings = newArrayList();
     for (Object o : toStringable) {
       strings.add(String.valueOf(o));

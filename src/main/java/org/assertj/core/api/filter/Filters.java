@@ -307,7 +307,7 @@ public class Filters<E> {
     List<E> newFilteredIterable = new ArrayList<E>();
     for (E element : filteredIterable) {
       // As we don't know the propertyValue class, we use Object.class
-      Class<? extends Object> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
+      Class<?> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValueClass, element);
       if (areEqual(propertyValueOfCurrentElement, propertyValue)) {
         newFilteredIterable.add(element);
