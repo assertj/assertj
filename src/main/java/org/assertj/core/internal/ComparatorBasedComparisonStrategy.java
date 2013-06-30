@@ -31,7 +31,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
 
   // A raw type is necessary because we can't make assumptions on object to be compared.
   @SuppressWarnings("rawtypes")
-  private Comparator comparator;
+  private final Comparator comparator;
 
   /**
    * Creates a new </code>{@link ComparatorBasedComparisonStrategy}</code> specifying the comparison strategy with given

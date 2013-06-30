@@ -48,7 +48,7 @@ public class Comparables {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
-  ComparisonStrategy comparisonStrategy;
+  final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
   Comparables() {

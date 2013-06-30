@@ -67,7 +67,7 @@ public class Filters<E> {
   final Iterable<E> initialIterable;
   Iterable<E> filteredIterable;
 
-  private PropertySupport propertySupport = PropertySupport.instance();
+  private final PropertySupport propertySupport = PropertySupport.instance();
 
   /**
    * The name of the property used for filtering.

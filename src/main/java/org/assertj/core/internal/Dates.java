@@ -62,7 +62,7 @@ public class Dates {
     this(StandardComparisonStrategy.instance());
   }
 
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   public Dates(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;

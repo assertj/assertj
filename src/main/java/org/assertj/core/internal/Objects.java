@@ -74,7 +74,7 @@ public class Objects {
   Failures failures = Failures.instance();
 
   @VisibleForTesting
-  PropertySupport propertySupport = PropertySupport.instance();
+  final PropertySupport propertySupport = PropertySupport.instance();
 
   private final ComparisonStrategy comparisonStrategy;
 

@@ -46,13 +46,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   @VisibleForTesting
   ConstructorInvoker constructorInvoker = new ConstructorInvoker();
   @VisibleForTesting
-  MessageFormatter messageFormatter = MessageFormatter.instance();
+  final MessageFormatter messageFormatter = MessageFormatter.instance();
   @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   protected final Object actual;
   protected final Object expected;
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.

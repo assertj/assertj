@@ -54,7 +54,7 @@ public class Lists {
     return INSTANCE;
   }
 
-  private ComparisonStrategy comparisonStrategy;
+  private final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
   Failures failures = Failures.instance();

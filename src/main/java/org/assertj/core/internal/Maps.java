@@ -46,7 +46,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Maps {
 
-  private static Maps INSTANCE = new Maps();
+  private static final Maps INSTANCE = new Maps();
 
   /**
    * Returns the singleton instance of this class.
