@@ -44,6 +44,7 @@ For more details check **[AssertJ wiki](https://github.com/joel-costigliola/asse
 
 To read details on the latest releases, please go to [**New and noteworthy**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) wiki section. 
 
+**2013-06-30 : AssertJ core 1.3.0 release**  
 **2013-05-12 : AssertJ core 1.2.0 release**  
 **2013-04-14 : AssertJ core 1.1.0 release**  
 **2013-03-28 : AssertJ quickie presentation at Devoxx France!**  
@@ -67,7 +68,7 @@ AssertJ core is available in Maven central repository:
 <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-core</artifactId>
-   <version>1.2.0</version>
+   <version>1.3.0</version>
    <scope>test</scope>
 </dependency>
 ```
