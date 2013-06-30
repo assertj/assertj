@@ -159,8 +159,8 @@ public class Filters<E> {
   @VisibleForTesting
   Filters(E[] array) {
     List<E> iterable = new ArrayList<E>(array.length);
-    for (int i = 0; i < array.length; i++) {
-      iterable.add(array[i]);
+    for (E anArray : array) {
+      iterable.add(anArray);
     }
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
