@@ -21,7 +21,6 @@ import static org.junit.rules.ExpectedException.none;
 import java.io.File;
 import java.nio.charset.Charset;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -60,13 +59,13 @@ public class Files_contentOf_Test {
     Files.contentOf(missingFile, Charset.defaultCharset());
   }
 
-  @Test @Ignore
+  @Test
   public void should_load_file_using_charset() {
     // NB: UTF-8 must be supported by every Java implementation
     assertEquals(expectedContent, Files.contentOf(sampleFile, Charset.forName("UTF-8")));
   }
 
-  @Test @Ignore
+  @Test
   public void should_load_file_using_charset_name() {
     assertEquals(expectedContent, Files.contentOf(sampleFile, "UTF-8"));
   }
