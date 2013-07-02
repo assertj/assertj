@@ -16,6 +16,7 @@ package org.assertj.core.internal;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * Wrapper for <code>{@link PropertyDescriptor}</code>.
@@ -25,6 +26,8 @@ import java.lang.reflect.InvocationTargetException;
 class JavaBeanDescriptor {
 
   Object invokeReadMethod(PropertyDescriptor d, Object o) throws IllegalAccessException, InvocationTargetException {
-    return d.getReadMethod().invoke(o);
+    Method readMethod = d.getReadMethod();
+    readMethod.setAccessible(true);
+    return readMethod.invoke(o);
   }
 }
