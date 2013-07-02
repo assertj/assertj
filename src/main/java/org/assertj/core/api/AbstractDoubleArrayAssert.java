@@ -38,21 +38,63 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSize(3);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSize(2);
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(new int[] { 1, 2, 3 });
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(new int[] { 1, 2 });
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(Arrays.asList(1, 2, 3));
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(Arrays.asList(1, 2);
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
@@ -61,6 +103,21 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array contains the given values, in any order.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 3.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(3.0, 1.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 2.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 4.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(4.0, 7.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -76,6 +133,20 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(1.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(2.0, 3.0, 1.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(1.0, 4.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsOnly(4.0, 7.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -120,6 +191,21 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(2.0, 3.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(1.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSequence(4.0, 7.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -134,6 +220,20 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array contains the given value at the given index.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, atIndex(O));
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(3.0, atIndex(2));
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, atIndex(1));
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(4.0, atIndex(2));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -151,6 +251,19 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(4.0, 8.0);
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(3.0, 1.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -166,6 +279,20 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array does not contain the given value at the given index.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, atIndex(1));
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(2.0, atIndex(0));
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(1.0, atIndex(0));
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotContain(2.0, atIndex(1));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -181,6 +308,18 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /**
    * Verifies that the actual array does not contain duplicates.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).doesNotHaveDuplicates();
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 1.0, 2.0, 3.0 }).doesNotHaveDuplicates();
+   * </pre>
+   * 
+   * </p>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -195,6 +334,18 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).startsWith(1.0, 2.0);
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).startsWith(2.0, 3.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -212,6 +363,18 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(double...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).endsWith(2.0, 3.0);
+   * 
+   * // assertion will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).endsWith(1.0, 3.0);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -259,13 +422,11 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * Example :
    * 
    * <pre>
-   * double[] doubles = { 1.0, 2.0, 3.0 };
-   * 
    * // assertion will pass
-   * assertThat(doubles).containsExactly(1.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsExactly(1.0, 2.0, 3.0);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(doubles).containsExactly(2.0, 1.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsExactly(2.0, 1.0, 3.0);
    * </pre>
    * 
    * @param values the given values.
