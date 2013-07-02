@@ -17,10 +17,10 @@ package org.assertj.core.internal;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -31,6 +31,7 @@ import org.junit.Test;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
+import org.assertj.core.test.VehicleFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -116,5 +117,12 @@ public class PropertySupport_propertyValues_Test {
   public void should_extract_property() {
     Integer age = propertySupport.propertyValue("age", Integer.class, yoda);
     assertEquals(Integer.valueOf(800), age);
+  }
+  
+  @Test
+  public void should_return_properties_of_inner_class() {
+    VehicleFactory vehicleFactory = new VehicleFactory();
+    List<String> names = propertySupport.propertyValues("name", String.class, vehicleFactory.getVehicles());
+    assertEquals(Arrays.asList("Toyota", "Honda", "Audi"), names);
   }
 }
