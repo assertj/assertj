@@ -24,12 +24,12 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
- *
+ * 
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
@@ -66,7 +66,21 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Gandalf the grey&quot;).hasSize(16);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Gandalf the grey&quot;).hasSize(1);
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
@@ -89,6 +103,19 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring case considerations.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;GaNdAlF tHe GREY&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the grey&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the white&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
@@ -101,10 +128,23 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} contains only once the given sequence.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;do&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain the given one, or contain it multiple times.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain the given one, or contain it multiple
+   *           times.
    */
   public S containsOnlyOnce(CharSequence sequence) {
     strings.assertContainsOnlyOnce(info, actual, sequence);
@@ -141,10 +181,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    * 
-   * // this assertion succeeds ... 
+   * // this assertion succeeds ...
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * 
-   * // ... but this one fails as "author" must come after "A Game of Thrones"
+   * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * </pre>
    * 
@@ -153,7 +193,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
+   *           order</b>.
    */
   public S containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
@@ -162,6 +203,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} contains the given sequence, ignoring case considerations.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;gandalf&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;white&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
@@ -176,6 +229,19 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not contain the given sequence.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;fro&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;gandalf&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
@@ -190,6 +256,20 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).startsWith(&quot;Fro&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;Gandalf&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).startsWith(&quot;fro&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
@@ -204,6 +284,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).endsWith(&quot;do&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).endsWith(&quot;Fro&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
@@ -218,6 +310,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).matches(&quot;..o.o&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).matches(&quot;.*d&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -233,6 +337,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;.*d&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -248,6 +364,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;..o.o&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -262,6 +390,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;.*d&quot;));
+   *
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -275,7 +415,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Do not use this method.
-   *
+   * 
    * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -287,7 +427,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Do not use this method.
-   *
+   * 
    * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
    */

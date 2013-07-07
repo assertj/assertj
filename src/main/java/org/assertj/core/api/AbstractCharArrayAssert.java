@@ -38,21 +38,64 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).hasSize(3);
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c', 'd' }).hasSize(3);
+   * </pre>
+   * 
+   * </p>
+   * 
+   */
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(new int[] { 1, 2 });
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(new int[] { 1, 2, 3 });
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2));
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2, 3));
+   * </pre>
+   * 
+   * </p>
+   */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
     arrays.assertHasSameSizeAs(info, actual, other);
@@ -61,6 +104,21 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array contains the given values, in any order.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'b');
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('c', 'a');
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'c', 'b');
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'd');
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', 'f');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -76,6 +134,20 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array contains only the given values and nothing else, in any order.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('b', 'c', 'a');
+   *
+   * // assertion will fail
+   * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c', 'd');
+   * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('d', 'f');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -120,6 +192,21 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('a', 'b');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('a', 'b', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('b', 'c');
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('c', 'a');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('d', 'f');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -134,6 +221,20 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array contains the given value at the given index.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(O));
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('c', atIndex(2));
+   *
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(1));
+   * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', atIndex(2));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -151,6 +252,18 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array does not contain the given values.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('d');
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -166,6 +279,20 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array does not contain the given value at the given index.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(1));
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(0));
+   *
+   * // assertion will fail
+   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
+   * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));
+   * </pre>
+   * 
+   * </p>
    * 
    * @param value the value to look for.
    * @param index the index where the value should be stored in the actual array.
@@ -181,6 +308,18 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
 
   /**
    * Verifies that the actual array does not contain duplicates.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).doesNotHaveDuplicates();
+   * 
+   * // assertion will fail
+   * assertThat(new byte[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();
+   * </pre>
+   * 
+   * </p>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
@@ -195,6 +334,18 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * Verifies that the actual array starts with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the first element in the
    * sequence is also first element of the actual array.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('a', 'b');
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('b', 'c');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -212,6 +363,18 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * Verifies that the actual array ends with the given sequence of values, without any other values between them.
    * Similar to <code>{@link #containsSequence(char...)}</code>, but it also verifies that the last element in the
    * sequence is also last element of the actual array.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('b', 'c');
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('c', 'd');
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -259,13 +422,11 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * Example :
    * 
    * <pre>
-   * char[] chars = { 'a', 'b', 'c' };
-   * 
    * // assertion will pass
-   * assertThat(chars).containsExactly('a', 'b', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('a', 'b', 'c');
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(chars).containsExactly('b', 'a', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('b', 'a', 'c');
    * </pre>
    * 
    * @param values the given values.
