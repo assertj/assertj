@@ -215,15 +215,8 @@ public class Lists {
    *           .
    */
   public <T> void assertHas(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
-    assertNotNull(info, actual);
-    assertNotNull(condition);
-    Iterables.instance().assertNotEmpty(info, actual);
-    checkIndexValueIsValid(index, actual.size() - 1);
-    int indexValue = index.value;
-    if (indexValue >= actual.size()) return;
-    T actualElement = actual.get(index.value);
-    if (condition.matches(actualElement)) return;
-    throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actualElement));
+    if (conditionIsMetAtIndex(info, actual, condition, index)) return;
+    throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
 
   /**
@@ -242,15 +235,16 @@ public class Lists {
    *           .
    */
   public <T> void assertIs(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
+    if (conditionIsMetAtIndex(info, actual, condition, index)) return;
+    throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
+  }
+
+  private <T> boolean conditionIsMetAtIndex(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
     assertNotNull(info, actual);
     assertNotNull(condition);
     Iterables.instance().assertNotEmpty(info, actual);
     checkIndexValueIsValid(index, actual.size() - 1);
-    int indexValue = index.value;
-    if (indexValue >= actual.size()) return;
-    T actualElement = actual.get(index.value);
-    if (condition.matches(actualElement)) return;
-    throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actualElement));
+    return condition.matches(actual.get(index.value));
   }
 
   @SuppressWarnings("unchecked")
