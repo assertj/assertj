@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
@@ -34,8 +35,8 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Sets.*;
 import static org.assertj.core.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
@@ -48,7 +49,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-
 /**
  * Reusable assertions for {@code Object}s.
  * 
@@ -60,6 +60,11 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public class Objects {
 
   private static final Objects INSTANCE = new Objects();
+  @VisibleForTesting
+  final PropertySupport propertySupport = PropertySupport.instance();
+  private final ComparisonStrategy comparisonStrategy;
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
@@ -69,14 +74,6 @@ public class Objects {
   public static Objects instance() {
     return INSTANCE;
   }
-
-  @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  @VisibleForTesting
-  final PropertySupport propertySupport = PropertySupport.instance();
-
-  private final ComparisonStrategy comparisonStrategy;
 
   @VisibleForTesting
   Objects() {
@@ -129,23 +126,23 @@ public class Objects {
    * @throws AssertionError if the given object is not an instance of any of the given types.
    */
   public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
+    if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
+    throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
+  }
+
+  private boolean objectIsInstanceOfOneOfGivenClasses(Object actual, Class<?>[] types, AssertionInfo info) {
     checkIsNotNullAndIsNotEmpty(types);
     assertNotNull(info, actual);
-    boolean found = false;
     for (Class<?> type : types) {
       if (type == null) {
         String format = "The given array of types:<%s> should not have null elements";
-        throw new NullPointerException(String.format(format, toStringOf(types)));
+        throw new NullPointerException(format(format, toStringOf(types)));
       }
       if (type.isInstance(actual)) {
-        found = true;
-        break;
+        return true;
       }
     }
-    if (found) {
-      return;
-    }
-    throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
+    return false;
   }
 
   /**
@@ -182,22 +179,7 @@ public class Objects {
    * @throws AssertionError if the given object is an instance of any of the given types.
    */
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-    checkIsNotNullAndIsNotEmpty(types);
-    assertNotNull(info, actual);
-    boolean found = false;
-    for (Class<?> type : types) {
-      if (type == null) {
-        String format = "The given array of types:<%s> should not have null elements";
-        throw new NullPointerException(String.format(format, toStringOf(types)));
-      }
-      if (type.isInstance(actual)) {
-        found = true;
-        break;
-      }
-    }
-    if (!found) {
-      return;
-    }
+    if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
     throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
