@@ -165,12 +165,7 @@ class Arrays {
   }
 
   void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(values))
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonChecks(info, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<Object>();
     int valueCount = sizeOf(values);
     for (int i = 0; i < valueCount; i++) {
@@ -238,12 +233,7 @@ class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(values))
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonChecks(info, actual, values)) return;
     Set<Object> notExpected = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
     if (notExpected.isEmpty() && notFound.isEmpty()) {
@@ -253,12 +243,7 @@ class Arrays {
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(values))
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonChecks(info, actual, values)) return;
     Set<?> expected = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(asList(values));
     List<Object> actualList = asList(actual);
     Set<?> actualSet = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(actualList);
@@ -356,12 +341,7 @@ class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
-      return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    if (commonChecks(info, actual, sequence)) return;
     // look for given sequence, stop check when there is not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequeceCanBeFound = sizeOf(actual) - sizeOf(sequence);
     for (int actualIndex = 0; actualIndex <= lastIndexWhereSequeceCanBeFound; actualIndex++) {
@@ -431,12 +411,7 @@ class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
-      return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    if (commonChecks(info, actual, sequence)) return;
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
     if (arraySize < sequenceSize) {
@@ -450,18 +425,22 @@ class Arrays {
     }
   }
 
+  private boolean commonChecks(AssertionInfo info, Object actual, Object sequence) {
+    checkIsNotNull(sequence);
+    assertNotNull(info, actual);
+    // if both actual and values are empty arrays, then assertion passes.
+    if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
+    failIfEmptySinceActualIsNotEmpty(sequence);
+    return false;
+  }
+
   private AssertionError arrayDoesNotStartWithSequence(AssertionInfo info, Failures failures, Object array,
       Object sequence) {
     return failures.failure(info, shouldStartWith(array, sequence, comparisonStrategy));
   }
 
   void assertEndsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
-    // if both actual and values are empty arrays, then assertion passes.
-    if (isArrayEmpty(actual) && isArrayEmpty(sequence))
-      return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    if (commonChecks(info, actual, sequence)) return;
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
     if (arraySize < sequenceSize) {
