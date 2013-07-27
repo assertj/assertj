@@ -389,20 +389,6 @@ public class ObjectArrays {
   }
 
   /**
-   * Assert that there is <b>at least</b> <i>n</i> array elements <b>not</b> satisfying the given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given array.
-   * @param n the number of times the condition should not be verified at least.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
-   */
-  public <E> void assertAreNotAtLeast(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreNotAtLeast(info, failures, conditions, actual, n, condition);
-  }
-
-  /**
    * Assert that there is <b>at most</b> <i>n</i> array elements satisfying the given condition.
    * 
    * @param info contains information about the assertion.
@@ -414,20 +400,6 @@ public class ObjectArrays {
    */
   public <E> void assertAreAtMost(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
     arrays.assertAreAtMost(info, failures, conditions, actual, n, condition);
-  }
-
-  /**
-   * Verifies that there is <b>at most</b> <i>n</i> array elements <b>not</b> satisfying the given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given array.
-   * @param n the number of times the condition should not be verified at most.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
-   */
-  public <E> void assertAreNotAtMost(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreNotAtMost(info, failures, conditions, actual, n, condition);
   }
 
   /**
@@ -445,34 +417,11 @@ public class ObjectArrays {
   }
 
   /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
-   * given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given array.
-   * @param n most times the condition should not be verify.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
-   */
-  public <E> void assertAreNotExactly(AssertionInfo info, E[] actual, int n, Condition<? super E> condition) {
-    arrays.assertAreNotExactly(info, failures, conditions, actual, n, condition);
-  }
-
-  /**
    * An alias method of {@link #assertAreAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveAtLeast(info, failures, conditions, actual, times, condition);
-  }
-
-  /**
-   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveAtLeast(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertDoNotHaveAtLeast(info, failures, conditions, actual, times, condition);
   }
 
   /**
@@ -484,27 +433,11 @@ public class ObjectArrays {
   }
 
   /**
-   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveAtMost(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertDoNotHaveAtMost(info, failures, conditions, actual, times, condition);
-  }
-
-  /**
    * An alias method of {@link #assertAreExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
    * api (same logic, only error message differs).
    */
   public <E> void assertHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
-  }
-
-  /**
-   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Object[], int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveExactly(AssertionInfo info, E[] actual, int times, Condition<? super E> condition) {
-    arrays.assertDoNotHaveExactly(info, failures, conditions, actual, times, condition);
   }
 
   /**

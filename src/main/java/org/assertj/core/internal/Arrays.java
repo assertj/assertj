@@ -15,6 +15,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
+
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -25,11 +26,7 @@ import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHav
 import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
-import static org.assertj.core.error.ElementsShouldNotBeAtLeast.elementsShouldNotBeAtLeast;
-import static org.assertj.core.error.ElementsShouldNotBeAtMost.elementsShouldNotBeAtMost;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
-import static org.assertj.core.error.ElementsShouldNotHaveAtLeast.elementsShouldNotHaveAtLeast;
-import static org.assertj.core.error.ElementsShouldNotHaveAtMost.elementsShouldNotHaveAtMost;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
@@ -40,8 +37,8 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -73,7 +70,6 @@ import java.util.TreeSet;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
-import org.assertj.core.error.ElementsShouldNotBeExactly;
 import org.assertj.core.util.ArrayWrapperList;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -511,21 +507,6 @@ class Arrays {
     }
   }
 
-  public <E> void assertAreNotAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() >= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeAtLeast(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
   public <E> void assertAreAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
     assertNotNull(info, array);
@@ -536,21 +517,6 @@ class Arrays {
         return;
       }
       throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
-  public <E> void assertAreNotAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() <= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeAtMost(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
@@ -571,21 +537,6 @@ class Arrays {
     }
   }
 
-  public <E> void assertAreNotExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() == times) {
-        return;
-      }
-      throw failures.failure(info, ElementsShouldNotBeExactly.elementsShouldNotBeExactly(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
     assertNotNull(info, array);
@@ -596,21 +547,6 @@ class Arrays {
         return;
       }
       throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
-  public <E> void assertDoNotHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = elementsNotSatisfyingCondition(array, condition);
-      if (notSatisfiesCondition.size() >= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveAtLeast(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
@@ -631,21 +567,6 @@ class Arrays {
     }
   }
 
-  public <E> void assertDoNotHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = elementsNotSatisfyingCondition(array, condition);
-      if (notSatisfiesCondition.size() <= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveAtMost(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
     assertNotNull(info, array);
@@ -656,21 +577,6 @@ class Arrays {
         return;
       }
       throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
-    }
-  }
-
-  public <E> void assertDoNotHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
-      int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(array, condition);
-      if (notSatisfiesCondition.size() == times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveExactly(array, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
