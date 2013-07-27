@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class ShouldContainOnlyOnce_Test {
+public class ShouldContainsStringOnlyOnce_create_Test {
 
   private ErrorMessageFactory factoryWithSeveralOccurences;
   private ErrorMessageFactory factoryWithNoOccurence;
