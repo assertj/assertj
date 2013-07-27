@@ -146,10 +146,7 @@ public class Files {
    * @throws FilesException if any I/O error is thrown when creating the new file.
    */
   public static File newFile(String path) {
-    File file = new File(path);
-    if (file.isDirectory() && !isNullOrEmpty(file.list())) {
-      throw cannotCreateNewFile(path, "a non-empty directory was found with the same path");
-    }
+    File file = createFileIfPathIsNotANonEmptyDirectory(path);
     try {
       if (!file.createNewFile()) {
         throw cannotCreateNewFile(path, "a file was found with the same path");
@@ -170,16 +167,21 @@ public class Files {
    * @throws FilesException if any I/O error is thrown when creating the new directory.
    */
   public static File newFolder(String path) {
-    File file = new File(path);
-    if (file.isDirectory() && !isNullOrEmpty(file.list())) {
-      throw cannotCreateNewFile(path, "a non-empty directory was found with the same path");
-    }
+    File file = createFileIfPathIsNotANonEmptyDirectory(path);
     try {
       if (!file.mkdir()) {
         throw cannotCreateNewFile(path, "a file was found with the same path");
       }
     } catch (Exception e) {
       throw cannotCreateNewFile(path, e);
+    }
+    return file;
+  }
+
+  private static File createFileIfPathIsNotANonEmptyDirectory(String path) {
+    File file = new File(path);
+    if (file.isDirectory() && !isNullOrEmpty(file.list())) {
+      throw cannotCreateNewFile(path, "a non-empty directory was found with the same path");
     }
     return file;
   }
