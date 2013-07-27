@@ -8,6 +8,7 @@ import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -15,7 +16,6 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.Sets;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -52,7 +52,7 @@ public class Classes {
   public void assertIsAssignableFrom(AssertionInfo info, Class<?> actual, Class<?>... others) {
     assertNotNull(info, actual);
 
-    Set<Class<?>> expected = Sets.newLinkedHashSet(others);
+    Set<Class<?>> expected = newLinkedHashSet(others);
     Set<Class<?>> missing = new LinkedHashSet<Class<?>>();
     for (Class<?> other : expected) {
       classParameterIsNotNull(other);
@@ -146,7 +146,7 @@ public class Classes {
    */
   public void assertContainsAnnotations(AssertionInfo info, Class<?> actual, Class<? extends Annotation>... annotations) {
     assertNotNull(info, actual);
-    Set<Class<? extends Annotation>> expected = Sets.newLinkedHashSet(annotations);
+    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<Class<? extends Annotation>>();
     for (Class<? extends Annotation> other : expected) {
       classParameterIsNotNull(other);
@@ -172,19 +172,20 @@ public class Classes {
    */
   public void assertHasFields(AssertionInfo info, Class<?> actual, String... fields) {
     assertNotNull(info, actual);
-    Set<String> expected = Sets.newLinkedHashSet(fields);
-    Set<String> missing = new LinkedHashSet<String>();
-    Set<String> fieldNames = fieldsToName(actual.getFields());
-    for (String field : expected) {
-      if (!fieldNames.contains(field)) {
-        missing.add(field);
+    Set<String> expectedFieldNames = newLinkedHashSet(fields);
+    Set<String> missingFieldNames = newLinkedHashSet();
+    Set<String> actualFieldNames = fieldsToName(actual.getFields());
+    if (noMissingFields(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
+    throw failures.failure(info, shouldHaveFields(actual, expectedFieldNames, missingFieldNames));
+  }
+
+  private static boolean noMissingFields(Set<String> actualFieldNames, Set<String> expectedFieldNames, Set<String> missingFieldNames) {
+    for (String field : expectedFieldNames) {
+      if (!actualFieldNames.contains(field)) {
+        missingFieldNames.add(field);
       }
     }
-
-    if (missing.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveFields(actual, expected, missing));
+    return missingFieldNames.isEmpty();
   }
 
   /**
@@ -198,19 +199,11 @@ public class Classes {
    */
   public void assertHasDeclaredFields(AssertionInfo info, Class<?> actual, String... fields) {
     assertNotNull(info, actual);
-    Set<String> expected = Sets.newLinkedHashSet(fields);
-    Set<String> missing = new LinkedHashSet<String>();
-    Set<String> fieldNames = fieldsToName(actual.getDeclaredFields());
-    for (String field : expected) {
-      if (!fieldNames.contains(field)) {
-        missing.add(field);
-      }
-    }
-
-    if (missing.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveDeclaredFields(actual, expected, missing));
+    Set<String> expectedFieldNames = newLinkedHashSet(fields);
+    Set<String> missingFieldNames = newLinkedHashSet();
+    Set<String> actualFieldNames = fieldsToName(actual.getDeclaredFields());
+    if (noMissingFields(actualFieldNames, expectedFieldNames, missingFieldNames)) return;
+    throw failures.failure(info, shouldHaveDeclaredFields(actual, expectedFieldNames, missingFieldNames));
   }
 
   private static Set<String> fieldsToName(Field[] fields) {
