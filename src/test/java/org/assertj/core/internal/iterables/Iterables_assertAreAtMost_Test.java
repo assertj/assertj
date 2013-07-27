@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
 import static org.assertj.core.error.ElementsShouldNotBeAtMost.elementsShouldNotBeAtMost;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -24,13 +25,14 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.error.ElementsShouldBeAtMost;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesWithConditionsBaseTest;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertAreAtMost(AssertionInfo, Iterable, Condition, int)}</code> .
+ * Tests for <code>{@link Iterables#assertAreAtMost(org.assertj.core.api.AssertionInfo, Iterable, int, org.assertj.core.api.Condition)}</code> .
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
@@ -69,7 +71,7 @@ public class Iterables_assertAreAtMost_Test extends IterablesWithConditionsBaseT
       iterables.assertAreAtMost(someInfo(), actual, 2, jedi);
     } catch (AssertionError e) {
       verify(conditions).assertIsNotNull(jedi);
-      verify(failures).failure(info, elementsShouldNotBeAtMost(actual, 2, jedi));
+      verify(failures).failure(info, elementsShouldBeAtMost(actual, 2, jedi));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

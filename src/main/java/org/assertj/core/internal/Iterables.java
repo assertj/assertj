@@ -17,19 +17,14 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
+import static org.assertj.core.error.ElementsShouldBeAtMost.elementsShouldBeAtMost;
 import static org.assertj.core.error.ElementsShouldBeExactly.elementsShouldBeExactly;
 import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
 import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHaveAtMost;
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
-import static org.assertj.core.error.ElementsShouldNotBeAtLeast.elementsShouldNotBeAtLeast;
-import static org.assertj.core.error.ElementsShouldNotBeAtMost.elementsShouldNotBeAtMost;
-import static org.assertj.core.error.ElementsShouldNotBeExactly.elementsShouldNotBeExactly;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
-import static org.assertj.core.error.ElementsShouldNotHaveAtLeast.elementsShouldNotHaveAtLeast;
-import static org.assertj.core.error.ElementsShouldNotHaveAtMost.elementsShouldNotHaveAtMost;
-import static org.assertj.core.error.ElementsShouldNotHaveExactly.elementsShouldNotHaveExactly;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
@@ -193,6 +188,10 @@ public class Iterables {
     checkIsNotNull(other);
     int sizeOfActual = sizeOf(actual);
     int sizeOfOther = other.length;
+    assertSameSizes(info, actual, sizeOfActual, sizeOfOther);
+  }
+
+  private void assertSameSizes(AssertionInfo info, Iterable<?> actual, int sizeOfActual, int sizeOfOther) {
     if (sizeOfActual == sizeOfOther) {
       return;
     }
@@ -214,10 +213,7 @@ public class Iterables {
     checkNotNull(info, other);
     int sizeOfActual = sizeOf(actual);
     int sizeOfOther = sizeOf(other);
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    assertSameSizes(info, actual, sizeOfActual, sizeOfOther);
   }
 
   /**
@@ -232,12 +228,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0)
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual, values, info);
   }
@@ -280,12 +271,7 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0)
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
@@ -360,12 +346,7 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    checkIsNotNull(values);
-    assertNotNull(info, actual);
-    // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && values.length == 0)
-      return;
-    failIfEmptySinceActualIsNotEmpty(values);
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<?> expected = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Arrays.asList(values));
     Set<?> actualList = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
@@ -437,12 +418,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given sequence of objects.
    */
   public void assertContainsSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
-    // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0)
-      return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
     // check for elements in values that are missing in actual.
     List<?> actualAsList = newArrayList(actual);
     for (int i = 0; i < actualAsList.size(); i++) {
@@ -598,24 +574,14 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    checkIsNotNull(sequence);
-    assertNotNull(info, actual);
-    // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0)
-      return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
-    int sequenceSize = sequence.length;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
-      if (i >= sequenceSize) {
-        break;
-      }
-      if (areEqual(actualCurrentElement, sequence[i++])) {
-        continue;
-      }
+      if (i >= sequence.length) break;
+      if (areEqual(actualCurrentElement, sequence[i++])) continue;
       throw actualDoesNotStartWithSequence(info, actual, sequence);
     }
-    if (sequenceSize > i) {
+    if (sequence.length > i) {
       // sequence has more elements than actual
       throw actualDoesNotStartWithSequence(info, actual, sequence);
     }
@@ -639,28 +605,27 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not end with the given sequence of objects.
    */
   public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    int sizeOfActual = sizeOf(actual);
+    if (sizeOfActual < sequence.length) {
+      throw actualDoesNotEndWithSequence(info, actual, sequence);
+    }
+    int start = sizeOfActual - sequence.length;
+    int sequenceIndex = 0, indexOfActual = 0;
+    for (Object actualElement : actual) {
+      if (indexOfActual++ < start) continue;
+      if (areEqual(actualElement, sequence[sequenceIndex++])) continue;
+      throw actualDoesNotEndWithSequence(info, actual, sequence);
+    }
+  }
+
+  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     checkIsNotNull(sequence);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
-    if (!actual.iterator().hasNext() && sequence.length == 0)
-      return;
+    if (!actual.iterator().hasNext() && sequence.length == 0) return true;
     failIfEmptySinceActualIsNotEmpty(sequence);
-    int sequenceSize = sequence.length;
-    int sizeOfActual = sizeOf(actual);
-    if (sizeOfActual < sequenceSize) {
-      throw actualDoesNotEndWithSequence(info, actual, sequence);
-    }
-    int start = sizeOfActual - sequenceSize;
-    int sequenceIndex = 0, indexOfActual = 0;
-    for (Object o : actual) {
-      if (indexOfActual++ < start) {
-        continue;
-      }
-      if (areEqual(o, sequence[sequenceIndex++])) {
-        continue;
-      }
-      throw actualDoesNotEndWithSequence(info, actual, sequence);
-    }
+    return false;
   }
 
   /**
@@ -795,52 +760,29 @@ public class Iterables {
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
-   * @param n the minimum number of times the condition should be verified.
+   * @param times the minimum number of times the condition should be verified.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
-  public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n,
+  public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
       Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() >= n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldBeAtLeast(actual, n, condition));
+      if (conditionIsSatisfiedAtLeastNTimes(actual, times, condition)) return;
+      throw failures.failure(info, elementsShouldBeAtLeast(actual, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
-  /**
-   * Assert that there is <b>at least</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
-   * given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param n the number of times the condition should not be verified at least.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &lt; n.
-   */
-  public <E> void assertAreNotAtLeast(AssertionInfo info, Iterable<? extends E> actual, int n,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() >= n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeAtLeast(actual, n, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+  private <E> boolean conditionIsSatisfiedAtLeastNTimes(Iterable<? extends E> actual, int n, Condition<? super E> condition) {List<E> satisfiesCondition = satisfiesCondition(actual, condition);
+    if (satisfiesCondition.size() >= n) {
+      return true;
     }
+    return false;
   }
 
   /**
@@ -860,41 +802,15 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() <= n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeAtMost(actual, n, condition));
+      if (conditionIsSatisfiedAtMostNTimes(actual, condition, n)) return;
+      throw failures.failure(info, elementsShouldBeAtMost(actual, n, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
-  /**
-   * Verifies that there is <b>at most</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
-   * given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param n the number of times the condition should not be verified at most.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &gt; n.
-   */
-  public <E> void assertAreNotAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() <= n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeAtMost(actual, n, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
-    }
+  private <E> boolean conditionIsSatisfiedAtMostNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int n) {List<E> satisfiesCondition = satisfiesCondition(actual, condition);
+    return satisfiesCondition.size() <= n;
   }
 
   /**
@@ -903,52 +819,29 @@ public class Iterables {
    * 
    * @param info contains information about the assertion.
    * @param actual the given {@code Iterable}.
-   * @param n the exact number of times the condition should be verified.
+   * @param times the exact number of times the condition should be verified.
    * @param condition the given {@code Condition}.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if a element cannot be cast to E.
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
-  public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int n,
+  public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
       Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() == n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldBeExactly(actual, n, condition));
+      if (conditionIsSatisfiedNTimes(actual, condition, times)) return;
+      throw failures.failure(info, elementsShouldBeExactly(actual, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
   }
 
-  /**
-   * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual {@code Iterable} <b>not</b> satisfying the
-   * given condition.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param n the exact number of times the condition should not be verified.
-   * @param condition the given {@code Condition}.
-   * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if a element cannot be cast to E.
-   * @throws AssertionError if the number of elements not satisfying the given condition is &ne; n.
-   */
-  public <E> void assertAreNotExactly(AssertionInfo info, Iterable<? extends E> actual, int n,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() == n) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotBeExactly(actual, n, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
+  private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int times) {List<E> satisfiesCondition = satisfiesCondition(actual, condition);
+    if (satisfiesCondition.size() == times) {
+      return true;
     }
+    return false;
   }
 
   /**
@@ -960,30 +853,8 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() >= times) {
-        return;
-      }
+      if (conditionIsSatisfiedAtLeastNTimes(actual, times, condition)) return;
       throw failures.failure(info, elementsShouldHaveAtLeast(actual, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
-    }
-  }
-
-  /**
-   * An alias method of {@link #assertAreNotAtLeast(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() >= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveAtLeast(actual, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
@@ -998,30 +869,8 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() <= times) {
-        return;
-      }
+      if (conditionIsSatisfiedAtMostNTimes(actual, condition, times)) return;
       throw failures.failure(info, elementsShouldHaveAtMost(actual, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
-    }
-  }
-
-  /**
-   * An alias method of {@link #assertAreNotAtMost(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() <= times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveAtMost(actual, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
@@ -1036,30 +885,8 @@ public class Iterables {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
-      List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-      if (satisfiesCondition.size() == times) {
-        return;
-      }
+      if (conditionIsSatisfiedNTimes(actual, condition, times)) return;
       throw failures.failure(info, elementsShouldHaveExactly(actual, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
-    }
-  }
-
-  /**
-   * An alias method of {@link #assertAreNotExactly(AssertionInfo, Iterable, int, Condition)} to provide a richer fluent
-   * api (same logic, only error message differs).
-   */
-  public <E> void assertDoNotHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
-    assertNotNull(info, actual);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = notSatisfiesCondition(actual, condition);
-      if (notSatisfiesCondition.size() == times) {
-        return;
-      }
-      throw failures.failure(info, elementsShouldNotHaveExactly(actual, times, condition));
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(actual, condition));
     }
