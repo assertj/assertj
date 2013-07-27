@@ -239,7 +239,10 @@ public class Iterables {
       return;
     failIfEmptySinceActualIsNotEmpty(values);
     // check for elements in values that are missing in actual.
-    Set<Object> notFound = new LinkedHashSet<Object>();
+    assertIterableContainsGivenValues(actual, values, info);
+  }
+
+  private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {Set<Object> notFound = new LinkedHashSet<Object>();
     for (Object value : values) {
       if (!iterableContains(actual, value)) {
         notFound.add(value);
@@ -1079,16 +1082,7 @@ public class Iterables {
     }
     assertNotNull(info, actual);
     Object[] values = newArrayList(other).toArray();
-    Set<Object> notFound = new LinkedHashSet<Object>();
-    for (Object value : values) {
-      if (!iterableContains(actual, value)) {
-        notFound.add(value);
-      }
-    }
-    if (notFound.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+    assertIterableContainsGivenValues(actual, values, info);
   }
 
   /**

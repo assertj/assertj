@@ -155,13 +155,19 @@ public class Dates {
    * @throws AssertionError if the actual {@code Date} is not in <i>start:end</i> period.
    */
   public void assertIsBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
+    if (actualIsBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd)) return;
+    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+  }
+
+  private boolean actualIsBetweenGivenPeriod(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
     assertNotNull(info, actual);
     startDateParameterIsNotNull(start);
     endDateParameterIsNotNull(end);
     boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
     boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
-    if (checkLowerBoundaryPeriod && checkUpperBoundaryPeriod) return;
-    throw failures.failure(info, shouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
+    boolean isBetweenGivenPeriod = checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
+    if (isBetweenGivenPeriod) return true;
+    return false;
   }
 
   /**
@@ -181,14 +187,7 @@ public class Dates {
    */
   public void assertIsNotBetween(AssertionInfo info, Date actual, Date start, Date end, boolean inclusiveStart,
       boolean inclusiveEnd) {
-    assertNotNull(info, actual);
-    startDateParameterIsNotNull(start);
-    endDateParameterIsNotNull(end);
-    // check is in given period and use the negation of this result
-    boolean checkLowerBoundaryPeriod = inclusiveStart ? isAfterOrEqualTo(actual, start) : isAfter(actual, start);
-    boolean checkUpperBoundaryPeriod = inclusiveEnd ? isBeforeOrEqualTo(actual, end) : isBefore(actual, end);
-    boolean isBetweenGivenPeriod = checkLowerBoundaryPeriod && checkUpperBoundaryPeriod;
-    if (!isBetweenGivenPeriod) return;
+    if (!actualIsBetweenGivenPeriod(info, actual, start, end, inclusiveStart, inclusiveEnd)) return;
     throw failures.failure(info, shouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy));
   }
 
