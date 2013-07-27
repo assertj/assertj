@@ -29,4 +29,10 @@ public interface ErrorMessageFactory {
    * @return the created error message.
    */
   String create(Description d);
+
+  /**
+   * Creates a new error message as a result of a failed assertion without description.
+   * @return the created error message.
+   */
+  String create();
 }

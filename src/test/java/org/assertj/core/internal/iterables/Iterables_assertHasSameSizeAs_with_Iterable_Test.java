@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -50,7 +51,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The iterable to look for should not be null");
+    thrown.expectNullPointerException("The Iterable to compare actual size with should not be null");
     Iterable<?> other = null;
     iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
   }
@@ -63,7 +64,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     try {
       iterables.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.size(), other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -82,7 +83,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
 
   @Test
   public void should_fail_if_other_is_null_whatever_custom_comparison_strategy_is() {
-    thrown.expectNullPointerException("The iterable to look for should not be null");
+    thrown.expectNullPointerException("The Iterable to compare actual size with should not be null");
     Iterable<?> other = null;
     iterables.assertHasSameSizeAs(someInfo(), newArrayList("Yoda", "Luke"), other);
   }
@@ -95,7 +96,7 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.size(), other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

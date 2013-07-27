@@ -31,9 +31,10 @@ import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Iterables.sizeOf;
 
-import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -147,11 +148,7 @@ public class Strings {
    */
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
-    int sizeOfActual = actual.length();
-    if (sizeOfActual == expectedSize) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    checkSizes(actual, actual.length(), expectedSize, info);
   }
 
   /**
@@ -167,15 +164,7 @@ public class Strings {
    */
   public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Iterable<?> other) {
     assertNotNull(info, actual);
-    if (other == null) {
-      throw new NullPointerException("The iterable to look for should not be null");
-    }
-    int sizeOfActual = actual.length();
-    int sizeOfOther = sizeOf(other);
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    hasSameSizeAsCheck(info, actual, other, actual.length());
   }
 
   /**
@@ -189,16 +178,8 @@ public class Strings {
    * @throws AssertionError if the number of entries in the given {@code CharSequence} does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object[] other) {
-    assertNotNull(info, actual);
-    if (other == null) {
-      throw arrayOfValuesToLookForIsNull();
-    }
-    int sizeOfActual = actual.length();
-    int sizeOfOther = Array.getLength(other);
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    Objects.instance().assertNotNull(info, actual);
+    hasSameSizeAsCheck(info, actual, other, actual.length());
   }
 
   /**

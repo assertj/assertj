@@ -44,7 +44,9 @@ import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplic
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -166,11 +168,7 @@ public class Iterables {
    */
   public void assertHasSize(AssertionInfo info, Iterable<?> actual, int expectedSize) {
     assertNotNull(info, actual);
-    int sizeOfActual = sizeOf(actual);
-    if (sizeOfActual == expectedSize) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    checkSizes(actual, sizeOf(actual), expectedSize, info);
   }
 
   /**
@@ -185,17 +183,7 @@ public class Iterables {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object[] other) {
     assertNotNull(info, actual);
-    checkIsNotNull(other);
-    int sizeOfActual = sizeOf(actual);
-    int sizeOfOther = other.length;
-    assertSameSizes(info, actual, sizeOfActual, sizeOfOther);
-  }
-
-  private void assertSameSizes(AssertionInfo info, Iterable<?> actual, int sizeOfActual, int sizeOfOther) {
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+    hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
   }
 
   /**
@@ -210,10 +198,7 @@ public class Iterables {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
     assertNotNull(info, actual);
-    checkNotNull(info, other);
-    int sizeOfActual = sizeOf(actual);
-    int sizeOfOther = sizeOf(other);
-    assertSameSizes(info, actual, sizeOfActual, sizeOfOther);
+    hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
   }
 
   /**

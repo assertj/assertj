@@ -15,6 +15,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ErrorMessages.*;
@@ -111,7 +112,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, 3, 2));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), expected.length).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

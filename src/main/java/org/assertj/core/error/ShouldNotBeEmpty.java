@@ -22,7 +22,7 @@ import org.assertj.core.description.Description;
  * 
  * @author Alex Ruiz
  */
-public class ShouldNotBeEmpty implements ErrorMessageFactory {
+public class ShouldNotBeEmpty extends BasicErrorMessageFactory {
 
   private static final ShouldNotBeEmpty INSTANCE = new ShouldNotBeEmpty();
 
@@ -34,11 +34,8 @@ public class ShouldNotBeEmpty implements ErrorMessageFactory {
     return INSTANCE;
   }
 
-  private ShouldNotBeEmpty() {}
-
-  /** {@inheritDoc} */
-  @Override
-  public String create(Description d) {
-    return MessageFormatter.instance().format(d, "\nExpecting actual not to be empty");
+  private ShouldNotBeEmpty() {
+    super("\nExpecting actual not to be empty");
   }
+
 }

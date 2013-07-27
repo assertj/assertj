@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -48,7 +49,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The iterable to look for should not be null");
+    thrown.expectNullPointerException("The Iterable to compare actual size with should not be null");
     String[] actual = array("Solo", "Leia");
     Iterable<?> other = null;
     arrays.assertHasSameSizeAs(someInfo(), actual, other);
@@ -62,7 +63,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectA
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

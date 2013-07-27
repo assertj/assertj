@@ -119,7 +119,7 @@ public class ShortArrays {
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, short[] actual, Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, failures, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   /**
@@ -133,7 +133,7 @@ public class ShortArrays {
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, short[] actual, Object[] other) {
-    arrays.assertHasSameSizeAs(info, failures, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   /**

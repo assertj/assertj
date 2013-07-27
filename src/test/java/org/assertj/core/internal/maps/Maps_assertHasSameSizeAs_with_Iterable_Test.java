@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.Maps.mapOf;
@@ -36,7 +37,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Maps#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
+ * Tests for <code>{@link Maps#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, java.util.Map, Iterable)}</code>.
  * 
  * @author Nicolas François
  */
@@ -63,7 +64,7 @@ public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
     try {
       maps.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.size(), other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.shortarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ShortArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -61,7 +62,7 @@ public class ShortArrays_assertHasSameSizeAs_with_Iterable_Test extends ShortArr
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

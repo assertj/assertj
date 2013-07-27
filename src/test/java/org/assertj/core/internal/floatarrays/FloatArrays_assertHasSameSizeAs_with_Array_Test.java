@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.floatarrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,7 +31,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link FloatArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Object[])}</code>.
+ * Tests for <code>{@link FloatArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, float[], Object[])}</code>.
  * 
  * @author Nicolas François
  * @author Joel Costigliola
@@ -50,7 +51,7 @@ public class FloatArrays_assertHasSameSizeAs_with_Array_Test extends FloatArrays
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.length));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -14,13 +14,20 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
+import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
+import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
+import static org.assertj.core.util.Iterables.sizeOf;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
+
+import java.lang.reflect.Array;
 
 /**
  * @author Alex Ruiz
@@ -28,13 +35,15 @@ import org.assertj.core.data.Offset;
  */
 final class CommonValidations {
 
+  private static Failures failures = Failures.instance();
+
   private CommonValidations() {}
   
   static void checkIndexValueIsValid(Index index, int maximum) {
     if (index == null) throw new NullPointerException("Index should not be null");
     if (index.value <= maximum) return;
-    String format = "Index should be between <%d> and <%d> (inclusive,) but was:\n <%d>";
-    throw new IndexOutOfBoundsException(String.format(format, 0, maximum, index.value));
+    String errorMessage = "Index should be between <%d> and <%d> (inclusive,) but was:\n <%d>";
+    throw new IndexOutOfBoundsException(format(errorMessage, 0, maximum, index.value));
   }
 
   static void checkOffsetIsNotNull(Offset<?> offset) {
@@ -46,15 +55,11 @@ final class CommonValidations {
   }
 
   static void checkIsNotEmpty(Object[] values) {
-    if (values.length == 0) {
-      throw arrayOfValuesToLookForIsEmpty();
-    }
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
   static void checkIsNotEmpty(Iterable<?> iterable) {
-    if (!iterable.iterator().hasNext()) {
-      throw iterableOfValuesToLookForIsEmpty();
-    }
+    if (!iterable.iterator().hasNext()) throw iterableOfValuesToLookForIsEmpty();
   }
 
   static void checkIsNotNull(Object[] values) {
@@ -76,8 +81,32 @@ final class CommonValidations {
   }
 
   static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
-    if (values.length == 0) {
-      throw new AssertionError("actual is not empty");
-    }
+    if (values.length == 0) throw new AssertionError("actual is not empty");
+  }
+
+  public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {
+    checkOtherIsNotNull(other, "Array");
+    checkSameSizes(info, actual, sizeOfActual, Array.getLength(other));
+  }
+
+  public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Iterable<?> other, int sizeOfActual) {
+    checkOtherIsNotNull(other, "Iterable");
+    checkSameSizes(info, actual, sizeOfActual, sizeOf(other));
+  }
+
+  private static void checkOtherIsNotNull(Object other, String otherType) {
+    if (other == null) throw new NullPointerException("The "+ otherType +" to compare actual size with should not be null");
+  }
+
+  private static void checkSameSizes(AssertionInfo info, Object actual, int sizeOfActual, int sizeOfOther) {
+    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
+  }
+
+  public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
+    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
+  }
+
+  public static void checkTypeIsNotNull(Class<?> expectedType) {
+    if (expectedType == null) throw new NullPointerException("The given type should not be null");
   }
 }

@@ -114,12 +114,8 @@ public class Diff {
       String actualLine = actual.readLine();
       String expectedLine = expected.readLine();
       if (actualLine == null || expectedLine == null) {
-        if (expectedLine != null) {
-          diffs.add(output(lineNumber, EOF, expectedLine));
-        }
-        if (actualLine != null) {
-          diffs.add(output(lineNumber, actualLine, EOF));
-        }
+        if (expectedLine != null) diffs.add(output(lineNumber, EOF, expectedLine));
+        if (actualLine != null) diffs.add(output(lineNumber, actualLine, EOF));
         return diffs;
       } else if (!areEqual(actualLine, expectedLine)) {
         diffs.add(output(lineNumber, actualLine, expectedLine));

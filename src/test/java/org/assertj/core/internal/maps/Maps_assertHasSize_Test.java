@@ -14,7 +14,9 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
@@ -59,7 +61,7 @@ public class Maps_assertHasSize_Test extends MapsBaseTest {
     try {
       maps.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
+      assertThat(e).hasMessage(shouldHaveSize(actual, actual.size(), 8).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

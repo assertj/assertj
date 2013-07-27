@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.bytearrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -30,7 +31,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ByteArrays#assertHasSameSizeAs(AssertionInfo, Object[], Object[])}</code>.
+ * Tests for <code>{@link ByteArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, byte[], Object[])}</code>.
  * 
  * @author Nicolas François
  * @author Joel Costigliola
@@ -50,7 +51,7 @@ public class ByteArrays_assertHasSameSizeAs_with_Array_Test extends ByteArraysBa
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.length));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

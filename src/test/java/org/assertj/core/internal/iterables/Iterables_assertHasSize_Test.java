@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.iterables;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -32,7 +33,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Iterables#assertHasSize(AssertionInfo, Collection, int)}</code>.
+ * Tests for <code>{@link Iterables#assertHasSize(org.assertj.core.api.AssertionInfo, Iterable, int)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -57,7 +58,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
     try {
       iterables.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
+      assertThat(e).hasMessage(shouldHaveSize(actual, actual.size(), 8).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -81,7 +82,7 @@ public class Iterables_assertHasSize_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.size(), 8));
+      assertThat(e).hasMessage(shouldHaveSize(actual, actual.size(), 8).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

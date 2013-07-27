@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -50,7 +51,7 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
     try {
       strings.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length(), other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

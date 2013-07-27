@@ -114,7 +114,7 @@ public class ByteArrays {
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, byte[] actual, Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, failures, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   /**
@@ -127,7 +127,7 @@ public class ByteArrays {
    * @throws AssertionError if the actual group does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, byte[] actual, Object[] other) {
-    arrays.assertHasSameSizeAs(info, failures, actual, other);
+    arrays.assertHasSameSizeAs(info, actual, other);
   }
 
   /**

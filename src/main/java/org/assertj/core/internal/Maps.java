@@ -25,11 +25,11 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
-import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkSizes;
+import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Objects.areEqual;
 
-import java.lang.reflect.Array;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -121,11 +121,7 @@ public class Maps {
    */
   public void assertHasSize(AssertionInfo info, Map<?, ?> actual, int expectedSize) {
     assertNotNull(info, actual);
-    int sizeOfActual = actual.size();
-    if (sizeOfActual == expectedSize) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    checkSizes(actual, actual.size(), expectedSize, info);
   }
 
   /**
@@ -140,15 +136,7 @@ public class Maps {
    */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Iterable<?> other) {
     assertNotNull(info, map);
-    if (other == null) {
-      throw new NullPointerException("The iterable to look for should not be null");
-    }
-    int sizeOfActual = map.size();
-    int sizeOfOther = sizeOf(other);
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(map, sizeOfActual, sizeOfOther));
+    hasSameSizeAsCheck(info, map, other, map.size());
   }
 
   /**
@@ -162,16 +150,8 @@ public class Maps {
    * @throws AssertionError if the number of entries in the given {@code Map} does not have the same size.
    */
   public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Object[] other) {
-    assertNotNull(info, map);
-    if (other == null) {
-      throw arrayOfValuesToLookForIsNull();
-    }
-    int sizeOfActual = map.size();
-    int sizeOfOther = Array.getLength(other);
-    if (sizeOfActual == sizeOfOther) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveSameSizeAs(map, sizeOfActual, sizeOfOther));
+    Objects.instance().assertNotNull(info, map);
+    hasSameSizeAsCheck(info, map, other, map.size());
   }
 
   /**

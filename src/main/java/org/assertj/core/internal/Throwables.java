@@ -23,6 +23,7 @@ import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Throwables.getRootCause;
 
@@ -142,8 +143,8 @@ public class Throwables {
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public void assertHasCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
+    checkTypeIsNotNull(type);
     if (type.isInstance(actual.getCause())) return;
     throw failures.failure(info, shouldHaveCauseInstance(actual, type));
   }
@@ -161,8 +162,8 @@ public class Throwables {
    *           type.
    */
   public void assertHasCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
+    checkTypeIsNotNull(type);
     Throwable cause = actual.getCause();
     if (cause != null && type.equals(cause.getClass())) return;
     throw failures.failure(info, shouldHaveCauseExactlyInstance(actual, type));
@@ -180,8 +181,8 @@ public class Throwables {
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public void assertHasRootCauseInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
+    checkTypeIsNotNull(type);
     if (type.isInstance(getRootCause(actual))) return;
     throw failures.failure(info, shouldHaveRootCauseInstance(actual, type));
   }
@@ -199,8 +200,8 @@ public class Throwables {
    *           given type.
    */
   public void assertHasRootCauseExactlyInstanceOf(AssertionInfo info, Throwable actual, Class<? extends Throwable> type) {
-    if (type == null) throw new NullPointerException("The given type should not be null");
     assertNotNull(info, actual);
+    checkTypeIsNotNull(type);
     Throwable rootCause = getRootCause(actual);
     if (rootCause != null && type.equals(rootCause.getClass())) return;
     throw failures.failure(info, shouldHaveRootCauseExactlyInstance(actual, type));

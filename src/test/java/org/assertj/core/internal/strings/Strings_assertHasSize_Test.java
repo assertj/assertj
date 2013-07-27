@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -49,7 +50,7 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
     try {
       strings.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length(), 6));
+      assertThat(e).hasMessage(shouldHaveSize(actual, actual.length(), 6).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -73,7 +74,7 @@ public class Strings_assertHasSize_Test extends StringsBaseTest {
     try {
       stringsWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 6);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSize(actual, actual.length(), 6));
+      assertThat(e).hasMessage(shouldHaveSize(actual, actual.length(), 6).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

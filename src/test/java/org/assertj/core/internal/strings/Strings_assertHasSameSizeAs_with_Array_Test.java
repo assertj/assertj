@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.strings;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -22,6 +23,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
@@ -48,7 +50,7 @@ public class Strings_assertHasSameSizeAs_with_Array_Test extends StringsBaseTest
     try {
       strings.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length(), other.length));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.length).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.doublearrays;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -31,12 +32,6 @@ import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.Test;
 
 
-/**
- * Tests for <code>{@link DoubleArrays#assertHasSameSizeAs(AssertionInfo, boolean[], Iterable)}</code>.
- * 
- * @author Nicolas François
- * @author Joel Costigliola
- */
 public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleArraysBaseTest {
 
   private final List<String> other = newArrayList("Solo", "Leia", "Luke");
@@ -54,7 +49,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveSameSizeAs(actual, actual.length, other.size()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

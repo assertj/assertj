@@ -14,14 +14,12 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.Description;
-
 /**
  * Creates an error message that indicates an assertion that verifies that an object is not {@code null} failed.
  * 
  * @author Alex Ruiz
  */
-public class ShouldNotBeNull implements ErrorMessageFactory {
+public class ShouldNotBeNull extends BasicErrorMessageFactory {
 
   private static final ShouldNotBeNull INSTANCE = new ShouldNotBeNull();
 
@@ -33,11 +31,8 @@ public class ShouldNotBeNull implements ErrorMessageFactory {
     return INSTANCE;
   }
 
-  private ShouldNotBeNull() {}
-
-  /** {@inheritDoc} */
-  @Override
-  public String create(Description d) {
-    return MessageFormatter.instance().format(d, "\nExpecting actual not to be null");
+  private ShouldNotBeNull() {
+    super("\nExpecting actual not to be null");
   }
+
 }
