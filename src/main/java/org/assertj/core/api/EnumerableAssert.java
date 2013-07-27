@@ -33,7 +33,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
    * Verifies that the actual group of values is {@code null} or empty.
    * @throws AssertionError if the actual group of values is not {@code null} or not empty.
    */
-  void isNullOrEmpty();
+  void isNullOrEmpty() throws AssertionError;
 
   /**
    * Verifies that the actual group of values is empty.

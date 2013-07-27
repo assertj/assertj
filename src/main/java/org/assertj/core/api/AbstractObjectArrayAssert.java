@@ -51,33 +51,47 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     super(actual, selfType);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * @throws AssertionError {@inheritDoc}
+   */
   @Override
   public void isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * @throws AssertionError {@inheritDoc}
+   */
   @Override
   public void isEmpty() {
     arrays.assertEmpty(info, actual);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * @throws AssertionError {@inheritDoc}
+   */
   @Override
   public S isNotEmpty() {
     arrays.assertNotEmpty(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   * @throws AssertionError {@inheritDoc}
+   */
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public S hasSameSizeAs(Object[] other) {
     arrays.assertHasSameSizeAs(info, actual, other);
