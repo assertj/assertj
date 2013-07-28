@@ -5,6 +5,7 @@ AssertJ assertions for [Guava](http://code.google.com/p/guava-libraries/) provid
 
 * [Quick start](#quickstart)
 * [Latest news](#news)
+* [Javadoc](#javadoc)
 * [Migrating from Fest Guava assertions](#migrating-from-fest)
 * [Using both AssertJ Core assertions and Guava assertions](#core-and-guava-assertions)
 * [Contributing](#contributing)
@@ -55,6 +56,10 @@ Note that you can find working examples in [assertj-examples](https://github.com
 
 New features since Fest fork : 
 * Guava Table assertions 
+
+## <a name="javadoc"/>Javadoc of latest release
+
+Latest javadoc release : [**AssertJ Guava javadoc**](http://joel-costigliola.github.io/assertj/guava/api/index.html).
 
 
 ## <a name="migrating-from-fest"/>Migrating from Fest Guava assertions
