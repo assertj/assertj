@@ -4,6 +4,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 
 * [AssertJ's goals](#goals)
 * [Latest News](#news)
+* [Javadoc](#javadoc)
 * [Quick start](#quickstart)
 * [Assertions for your own custom types](#custom types-assertions)
 * [Replacing JUnit assertions by AssertJ Assertions](#junit-to-assertj-assertions)
@@ -33,12 +34,13 @@ Assertion missing? Please [create an issue](https://github.com/joel-costigliola/
 AssertJ's assertions are super easy to write: just type **```assertThat```** followed by the actual value in parentheses and then a dot,
 and any Java IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
 order of the "expected" and "actual" values. Our assertions are very readable as well: they read very close to plain 
-English, making it easier for non-technical people to read test code.  
+English, making it easier for non-technical people to read test code.
 A lot of effort have been done to provide intuitive error messages showing as clearly as possible what the problem is.
 
 Note that AssertJ requires at least Java 6.
 
 For more details check **[AssertJ wiki](https://github.com/joel-costigliola/assertj-core/wiki/)**.
+AssertJ core javadoc is published [here](http://joel-costigliola.github.io/assertj/core/api/index.html).
 
 ## <a name="news"/>Latest News
 
@@ -55,6 +57,10 @@ To read details on the latest releases, please go to [**New and noteworthy**](ht
 * **assertj-joda-time 1.0.0**
 * **assertj-assertions-generator 1.0.0**
 * **assertj-assertions-generator-maven-plugin 1.0.0**
+
+## <a name="javadoc"/>Javadoc of latest release
+
+Latest javadoc release : [**AssertJ Core javadoc**](http://joel-costigliola.github.io/assertj/core/api/index.html).
 
 ## <a name="quickstart"/>Quickstart
 
