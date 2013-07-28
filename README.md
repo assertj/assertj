@@ -24,9 +24,9 @@ we are checking. If you're checking the value of a String, you use String-specif
 a Map? Use the Map-specific assertions, which make it easy to check on the contents of the map.
 
 AssertJ is composed of several modules:
-* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...). 
-* A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...).
-* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime).
+* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see [AssertJ core javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
+* A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...) - see [AssertJ Guava javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
+* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time javadoc](http://joel-costigliola.github.io/assertj/joda-time/api/index.html).
 
 Assertion missing? Please [create an issue](https://github.com/joel-costigliola/assertj-core/issues)! 
 
@@ -44,7 +44,7 @@ For more details check **[AssertJ wiki](https://github.com/joel-costigliola/asse
 
 To read details on the latest releases, please go to [**New and noteworthy**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) wiki section. 
 
-**2013-06-30 : AssertJ core 1.3.0 release**  
+**2013-06-30 : AssertJ core 1.3.0 release (with [Javadoc API published](http://joel-costigliola.github.io/assertj/core/api/index.html))**  
 **2013-05-12 : AssertJ core 1.2.0 release**  
 **2013-04-14 : AssertJ core 1.1.0 release**  
 **2013-03-28 : AssertJ quickie presentation at Devoxx France!**  
@@ -101,7 +101,7 @@ You can even configure your IDE, so that when you type `asse` and trigger code c
 
 That's all!
 
-
+If you want to bookmark AssertJ core javadoc, it is published [here](http://joel-costigliola.github.io/assertj/core/api/index.html).
 
 ### Some assertions examples
 
@@ -195,6 +195,7 @@ To directly jump to a more complete documentation please go to **[AssertJ wiki](
 
 You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributor guidelines](CONTRIBUTING.md).
 
+Special thanks to **William Delanoue**, **Jean Christophe Gay** and **Mikhail Mazursky** for their contributions to assertj-core 1.3.0.
 Special thanks to **William Delanoue** and **Mikhail Mazursky** for their contributions to assertj-core 1.2.0.
 
 ## <a name="Thanks"/>Thanks
