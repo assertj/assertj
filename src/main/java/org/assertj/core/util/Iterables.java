@@ -15,6 +15,7 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -89,6 +90,21 @@ public final class Iterables {
       }
     }
     return nonNull;
+  }
+
+  /**
+   * Create an array from an {@link Iterable}.
+   * 
+   * @param iterable an {@link Iterable} to translate in an array.
+   * @param <T> the type of elements of the {@code Iterable}.
+   * @return all the elements from the given {@link Iterable} in an array. {@code null} if given {@link Iterable} is
+   *         null.
+   */
+  public static <T> T[] toArray(Iterable<T> iterable) {
+    if (iterable == null) {
+      return null;
+    }
+    return (T[]) newArrayList(iterable).toArray();
   }
 
   private Iterables() {}
