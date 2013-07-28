@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Assertj by joel-costigliola</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Assertj-core</h1>
+        <p class="header">AssertJ is a library of assertions similar to fest-assert but providing a richer set of assertions.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/joel-costigliola/assertj-core/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/joel-costigliola/assertj-core/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/joel-costigliola/assertj-core" target="_blank">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/joel-costigliola" target="_blank">Joel Costigliola</a></p>
+
+
+      </header>
+      <section>
+<p>This page will help converting all your JUnit assertions to AssertJ Assertions.<br>
+Note that FEST &amp; JUnit assertions can coexist together, you don't have to migrate all in one time.</p>
+
+<p>Here's a list of find/replace based on <strong>regexp</strong> that allow to change JUnit assertion into FEST assertion (don't forget to check regexp mode in your editor replace window).</p>
+
+<p>If you are using IntelliJ IDEA, you can use the Structured Search and Replace (SSR) feature.</p>
+
+<p>The order of find/replace is important, so that you can benefit of the most relevant AssertJ assertions. For example you should convert <code>assertEquals(0, myList.size())</code> to <code>assertThat(myList).isEmpty()</code> instead of 
+<code>assertThat(myList.size()).isEqualTo(0)</code></p>
+
+<p>Finally, we plan to create an eclipse plugin that will ease/automate the conversion task. </p>
+      </section>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
