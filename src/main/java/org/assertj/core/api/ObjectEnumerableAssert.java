@@ -86,7 +86,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.<br>
-   * This assertion should only be used with Iterable that have a consistent iteration order (i.e. don't use it with
+   * This assertion should only be used with group that have a consistent iteration order (i.e. don't use it with
    * {@link HashSet}, prefer {@link #containsOnly(Object...)} in that case).
    * <p>
    * Example :
@@ -107,7 +107,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
-   *           or values are teh same but the order is not.
+   *           or values are the same but the order is not.
    */
   S containsExactly(T... values);
 
@@ -294,5 +294,4 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
    */
   S containsAll(Iterable<? extends T> iterable);
-
 }

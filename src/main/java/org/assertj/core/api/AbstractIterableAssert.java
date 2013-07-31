@@ -26,6 +26,8 @@ import org.assertj.core.internal.Iterables;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+import static org.assertj.core.util.Iterables.toArray;
+
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
  * <code>{@link Collection}</code>.
@@ -479,4 +481,25 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return new ListAssert<Tuple>(values);
   }
 
+  /**
+   * Same as {@link #containsExactly(Object[])} but handle the {@link Iterable} to array conversion.
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsExactly(newLinkedList(vilya, nenya, narya));
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(elvesRings).containsExactly(newLinkedList(nenya, vilya, narya));
+   * </pre>
+   * </p>
+   * 
+   * @param iterable the given {@code Iterable} we will get elements from.
+   */
+  public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
+    return containsExactly(toArray(iterable));
+  }
 }
