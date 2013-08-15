@@ -15,6 +15,7 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
@@ -22,8 +23,6 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgno
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
@@ -33,7 +32,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.util.Comparator;
 import java.util.LinkedHashSet;
@@ -42,6 +41,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -55,6 +55,9 @@ import org.assertj.core.util.VisibleForTesting;
 public class Strings {
 
   private static final Strings INSTANCE = new Strings();
+  private final ComparisonStrategy comparisonStrategy;
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
@@ -66,14 +69,9 @@ public class Strings {
   }
 
   @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  @VisibleForTesting
   Strings() {
     this(StandardComparisonStrategy.instance());
   }
-
-  private final ComparisonStrategy comparisonStrategy;
 
   public Strings(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
@@ -197,14 +195,15 @@ public class Strings {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
-    checkSequenceIsNotNull(values[0]);
+    checkCharSequenceIsNotNull(values[0]);
     Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty()) return;
+    if (notFound.isEmpty())
+      return;
     if (notFound.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
@@ -241,7 +240,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code CharSequence} does not contain the given sequence.
    */
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
-    checkSequenceIsNotNull(sequence);
+    checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (actual.toString().toLowerCase().contains(sequence.toString().toLowerCase())) {
       return;
@@ -260,7 +259,7 @@ public class Strings {
    * @throws AssertionError if the actual {@code CharSequence} contains the given sequence.
    */
   public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence sequence) {
-    checkSequenceIsNotNull(sequence);
+    checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     if (!stringContains(actual, sequence)) {
       return;
@@ -268,9 +267,9 @@ public class Strings {
     throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
   }
 
-  private void checkSequenceIsNotNull(CharSequence sequence) {
+  private void checkCharSequenceIsNotNull(CharSequence sequence) {
     if (sequence == null) {
-      throw new NullPointerException("The sequence to look for should not be null");
+      throw new NullPointerException("The char sequence to look for should not be null");
     }
   }
 
@@ -308,13 +307,13 @@ public class Strings {
    *           {@code CharSequence}.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, CharSequence actual, CharSequence sequence) {
-    checkSequenceIsNotNull(sequence);
+    checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     int sequenceOccurencesInActual = countOccurences(sequence, actual);
     if (sequenceOccurencesInActual == 1)
       return;
     throw failures.failure(info,
-                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+        shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
   }
 
   /**
@@ -478,10 +477,11 @@ public class Strings {
     assertNotNull(info, actual);
     checkIsNotNull(values);
     checkIsNotEmpty(values);
-    checkSequenceIsNotNull(values[0]);
+    checkCharSequenceIsNotNull(values[0]);
     Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
     for (CharSequence value : values) {
-      if (!stringContains(actual, value)) notFound.add(value);
+      if (!stringContains(actual, value))
+        notFound.add(value);
     }
     if (notFound.isEmpty()) {
       if (values.length == 1) {
@@ -502,5 +502,17 @@ public class Strings {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
+    // check that actual and expected XML CharSequence are not null.
+    // we consider that null values don't make much sense when you want to compare XML document as String/CharSequence.
+    checkCharSequenceIsNotNull(expectedXml);
+    assertNotNull(info, actualXml);
+    // we only use default comparison strategy, it does not make sense to use a specific comparison strategy
+    final String formattedActualXml = xmlPrettyFormat(actualXml.toString());
+    final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
+    if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
+      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy));
   }
 }

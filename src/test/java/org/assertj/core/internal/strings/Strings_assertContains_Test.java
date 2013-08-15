@@ -15,7 +15,7 @@
 package org.assertj.core.internal.strings;
 
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.test.ErrorMessages.sequenceToLookForIsNull;
+import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Arrays.array;
@@ -64,7 +64,7 @@ public class Strings_assertContains_Test extends StringsBaseTest {
 
   @Test
   public void should_throw_error_if_sequence_is_null() {
-    thrown.expectNullPointerException(sequenceToLookForIsNull());
+    thrown.expectNullPointerException(charSequenceToLookForIsNull());
     strings.assertContains(someInfo(), "Yoda", (String) null);
   }
 

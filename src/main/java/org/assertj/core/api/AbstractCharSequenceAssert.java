@@ -347,9 +347,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -366,17 +366,17 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;..o.o&quot;));
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -392,7 +392,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;.*d&quot;));
@@ -400,9 +400,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -410,6 +410,57 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S doesNotMatch(Pattern pattern) {
     strings.assertDoesNotMatch(info, actual, pattern);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been formatted the same way.
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre>
+   * String expectedXml =
+   *     &quot;&lt;rings&gt;\n&quot; +
+   *     &quot;  &lt;bearer&gt;\n&quot; +
+   *     &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
+   *     &quot;    &lt;ring&gt;\n&quot; +
+   *     &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
+   *     &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
+   *     &quot;    &lt;/ring&gt;\n&quot; +
+   *     &quot;  &lt;/bearer&gt;\n&quot; +
+   *     &quot;&lt;/rings&gt;&quot;;
+   *
+   * // Whatever how formatted your xml string is, isXmlEqualTo assertion is able to compare it with another xml String.
+   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
+   * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
+   *
+   * String xmlWithNewLine =
+   *     &quot;&lt;rings&gt;\n&quot; +
+   *     &quot;&lt;bearer&gt;   \n&quot; +
+   *     &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
+   *     &quot;  &lt;ring&gt;\n&quot; +
+   *     &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
+   *     &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
+   *     &quot;  &lt;/ring&gt;\n&quot; +
+   *     &quot;&lt;/bearer&gt;\n&quot; +
+   *     &quot;&lt;/rings&gt;&quot;;
+   * assertThat(xmlWithNewLine).isXmlEqualTo(expectedXml);
+   *
+   * // You can compare it with oneLineXml
+   * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
+   *
+   * // Tip : use Assertions.contentOf to compare your XML String with the content of an XML file.
+   * assertThat(oneLineXml).isXmlEqualTo(contentOf(new File(&quot;src/test/resources/formatted.xml&quot;)));
+   * </pre>
+   *
+   * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
+   * @return {@code this} assertion object to chain other assertions.
+   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML {@code CharSequence}.
+   */
+  public S isXmlEqualTo(CharSequence expectedXml) {
+    strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
   }
 

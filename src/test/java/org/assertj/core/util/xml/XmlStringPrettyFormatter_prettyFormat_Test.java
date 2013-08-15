@@ -1,0 +1,79 @@
+/*
+ * Created on Feb 22, 2011
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ * 
+ * Copyright @2011 the original author or authors.
+ */
+package org.assertj.core.util.xml;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
+
+import org.junit.Test;
+import org.xml.sax.SAXParseException;
+
+/**
+ * Tests for <code>{@link XmlStringPrettyFormatter#xmlPrettyFormat(String)}</code>.
+ * 
+ * @author Joel Costigliola
+ */
+public class XmlStringPrettyFormatter_prettyFormat_Test {
+
+  private static final String EXPECTED_FORMATTED_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\">\n    <channel>\n"
+      + "        <title>Java Tutorials and Examples 1</title>\n"
+      + "        <language>en-us</language>\n"
+      + "    </channel>\n</rss>\n";
+
+  @Test
+  public void should_format_xml_string_prettily() {
+    String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
+    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(EXPECTED_FORMATTED_XML);
+  }
+
+  @Test
+  public void should_format_xml_string_without_xml_declaration_prettily() {
+    String xmlString = "<rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></channel></rss>";
+    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(
+        EXPECTED_FORMATTED_XML.substring("<?xml version='1.0' encoding='UTF-8'?>\n".length()));
+  }
+
+  @Test
+  public void should_format_xml_string_with_space_and_newline_prettily() {
+    String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel>  <title>Java Tutorials and Examples 1</title>  \n\n<language>en-us</language>  </channel></rss>";
+    assertThat(xmlPrettyFormat(xmlString)).isEqualTo(EXPECTED_FORMATTED_XML);
+  }
+
+  @Test
+  public void should_throw_error_when_xml_string_is_null() {
+    try {
+      xmlPrettyFormat(null);
+      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    } catch (Exception e) {
+      assertThat(e).isInstanceOf(IllegalArgumentException.class).hasMessageStartingWith(
+          "Expecting XML String not to be null");
+    }
+  }
+
+  @Test
+  public void should_throw_error_when_xml_string_is_not_valid() {
+    String xmlString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\"><channel><title>Java Tutorials and Examples 1</title><language>en-us</language></chnel></rss>";
+    try {
+      xmlPrettyFormat(xmlString);
+    } catch (Exception e) {
+      assertThat(e).isInstanceOf(RuntimeException.class).hasMessageStartingWith("Unable to format XML string");
+      assertThat(e).hasRootCauseInstanceOf(SAXParseException.class);
+      assertThat(e.getCause()).hasMessageContaining(
+          "The element type \"channel\" must be terminated by the matching end-tag \"</channel>\"");
+    }
+  }
+
+}

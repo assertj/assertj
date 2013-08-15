@@ -72,8 +72,8 @@ public final class ErrorMessages {
     return "The regular expression pattern to match should not be null";
   }
 
-  public static String sequenceToLookForIsNull() {
-    return "The sequence to look for should not be null";
+  public static String charSequenceToLookForIsNull() {
+    return "The char sequence to look for should not be null";
   }
 
   public static String valuesToLookForIsEmpty() {
