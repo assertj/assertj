@@ -142,6 +142,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S containsSubsequence(T... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+
+  /** {@inheritDoc} */
+  @Override
   public S contains(T value, Index index) {
     arrays.assertContains(info, actual, value, index);
     return myself;

@@ -123,6 +123,17 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsSequence(T... sequence);
 
   /**
+   * Verifies that the actual group contains the given subsequence (possibly with other values between them).
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given subsequence.
+   */
+  S containsSubsequence(T... sequence);
+
+  /**
    * Verifies that the actual group does not contain the given values.
    * 
    * @param values the given values.

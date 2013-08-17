@@ -236,6 +236,21 @@ public class ObjectArrays {
   }
 
   /**
+   * Verifies that the given array contains the given subsequence of objects (possibly with other values between them).
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param subsequence the subsequence of objects to look for.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws NullPointerException if the given subsequence is {@code null}.
+   * @throws IllegalArgumentException if the given subsequence is empty.
+   * @throws AssertionError if the given array does not contain the given subsequence of objects.
+   */
+  public void assertContainsSubsequence(AssertionInfo info, Object[] actual, Object[] subsequence) {
+    arrays.assertContainsSubsequence(info, failures, actual, subsequence);
+  }
+
+  /**
    * Asserts that the given array does not contain the given values.
    * 
    * @param info contains information about the assertion.

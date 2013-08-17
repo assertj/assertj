@@ -38,6 +38,7 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -55,7 +56,7 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -340,6 +341,32 @@ class Arrays {
     }
     return true;
   }
+
+  void assertContainsSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
+    if (commonChecks(info, actual, subsequence))
+      return;
+
+    int sizeOfActual = sizeOf(actual);
+    int sizeOfSubsequence = sizeOf(subsequence);
+    // look for given subsequence, stop check when there is not enough elements remaining in actual to contain
+    // subsequence
+    int lastIndexWhereEndOfSubsequeceCanBeFound = sizeOfActual - sizeOfSubsequence;
+
+    int actualIndex = 0;
+    int subsequenceIndex = 0;
+    while (actualIndex <= lastIndexWhereEndOfSubsequeceCanBeFound && subsequenceIndex < sizeOfSubsequence) {
+      if (areEqual(Array.get(actual, actualIndex), Array.get(subsequence, subsequenceIndex))) {
+        subsequenceIndex++;
+        lastIndexWhereEndOfSubsequeceCanBeFound++;
+      }
+      actualIndex++;
+    }
+
+    if (subsequenceIndex < sizeOfSubsequence) {
+      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
+    }
+  }
+
 
   /**
    * Delegates to {@link ComparisonStrategy#areEqual(Object, Object)}

@@ -133,6 +133,19 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
   }
 
   /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(float... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+  /**
    * Verifies that the actual array contains the given value at the given index.
    * 
    * @param value the value to look for.

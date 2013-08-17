@@ -220,6 +220,21 @@ public class ByteArrays {
   }
 
   /**
+   * Verifies that the given array contains the given sequence of values (possibly with other values between them).
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given array.
+   * @param subsequence the subsequence of values to look for.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given sequence is empty.
+   * @throws AssertionError if the given array does not contain the given sequence of values.
+   */
+  public void assertContainsSubsequence(AssertionInfo info, byte[] actual, byte[] subsequence) {
+    arrays.assertContainsSubsequence(info, failures, actual, subsequence);
+  }
+
+  /**
    * Asserts that the given array does not contain the given values.
    * @param info contains information about the assertion.
    * @param actual the given array.

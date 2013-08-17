@@ -220,6 +220,36 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
   }
 
   /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2, 3);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsubsequence(1, 3);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(2, 3);
+   * 
+   * // assertion will fail
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(2, 1);
+   * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(4, 7);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(byte... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given value at the given index.
    * <p>
    * Example:
@@ -228,7 +258,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, atIndex(O));
    * assertThat(new byte[] { 1, 2, 3 }).contains(3, atIndex(2));
-   *
+   * 
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, atIndex(1));
    * assertThat(new byte[] { 1, 2, 3 }).contains(4, atIndex(2));

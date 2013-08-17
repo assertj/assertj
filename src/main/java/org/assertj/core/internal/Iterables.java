@@ -33,10 +33,9 @@ import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
-import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
@@ -54,6 +53,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -416,6 +416,40 @@ public class Iterables {
   }
 
   /**
+   * Verifies that the given <code>{@link Iterable}</code> contains the given subsequence of objects (possibly with
+   * other values between them).
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Iterable}.
+   * @param subsequence the subsequence of objects to look for.
+   * @throws AssertionError if the given {@code Iterable} is {@code null}.
+   * @throws NullPointerException if the given sequence is {@code null}.
+   * @throws IllegalArgumentException if the given subsequence is empty.
+   * @throws AssertionError if the given {@code Iterable} does not contain the given subsequence of objects.
+   */
+  public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) {
+      return;
+    }
+
+    Iterator<?> actualIterator = actual.iterator();
+    int subsequenceIndex = 0;
+
+    while (actualIterator.hasNext() && subsequenceIndex < subsequence.length) {
+      Object actualNext = actualIterator.next();
+      Object subsequenceNext = subsequence[subsequenceIndex];
+
+      if (areEqual(actualNext, subsequenceNext)) {
+        subsequenceIndex++;
+      }
+    }
+
+    if (subsequenceIndex < subsequence.length) {
+      throw actualDoesNotContainSubsequence(info, actual, subsequence);
+    }
+  }
+
+  /**
    * Verifies that the actual <code>Iterable</code> is a subset of values <code>Iterable</code>. <br/>
    * Both actual and given iterable are treated as sets, therefore duplicates on either of them are ignored.
    * 
@@ -480,6 +514,10 @@ public class Iterables {
 
   private AssertionError actualDoesNotContainSequence(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
     return failures.failure(info, shouldContainSequence(actual, sequence, comparisonStrategy));
+  }
+
+  private AssertionError actualDoesNotContainSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
+    return failures.failure(info, shouldContainSubsequence(actual, subsequence, comparisonStrategy));
   }
 
   /**
