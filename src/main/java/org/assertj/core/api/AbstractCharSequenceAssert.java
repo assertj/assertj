@@ -14,6 +14,7 @@
  */
 package org.assertj.core.api;
 
+import java.io.File;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -21,6 +22,8 @@ import java.util.regex.PatternSyntaxException;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.VisibleForTesting;
+
+import static org.assertj.core.api.Assertions.contentOf;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -450,8 +453,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // You can compare it with oneLineXml
    * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
    *
-   * // Tip : use Assertions.contentOf to compare your XML String with the content of an XML file.
-   * assertThat(oneLineXml).isXmlEqualTo(contentOf(new File(&quot;src/test/resources/formatted.xml&quot;)));
+   * // Tip : use isXmlEqualToContentOf assertion to compare your XML String with the content of an XML file :
+   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
    * </pre>
    *
    * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
@@ -461,6 +464,30 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S isXmlEqualTo(CharSequence expectedXml) {
     strings.assertXmlEqualsTo(info, actual, expectedXml);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the content of the given file.
+   * <p/>
+   * This is an handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
+   * </p>
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre>
+   * // You can easily compare your XML String to the content of an XML file, whatever how formatted thay are.
+   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
+   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
+   * </pre>
+   * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
+   * @return {@code this} assertion object to chain other assertions.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of given {@code File}.
+   */
+  public S isXmlEqualToContentOf(File xmlFile) {
+    isXmlEqualTo(contentOf(xmlFile));
     return myself;
   }
 
