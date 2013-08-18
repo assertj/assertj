@@ -120,6 +120,19 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
 
   /**
    * Verifies that the actual array contains the given sequence, without any other values between them.
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 2);
+   * 
+   * // assertion will fail
+   * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 3);
+   * assertThat(new long[] { 1, 2, 3 }).containsSequence(2, 1);
+   * </pre>
+   * 
+   * </p>
    * 
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
@@ -129,6 +142,33 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    */
   public S containsSequence(long... sequence) {
     arrays.assertContainsSequence(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(1, 2);
+   * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(1, 3);
+   * 
+   * // assertion will fail
+   * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(2, 1);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(long... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
 

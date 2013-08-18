@@ -219,6 +219,34 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 2.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 2.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(2.0, 3.0);
+   * 
+   * // assertions will fail
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(1.0, 3.0);
+   * assertThat(new double[] { 1.0, 2.0, 3.0 }).containsSubsequence(4.0, 7.0);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(double... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+  /**
    * Verifies that the actual array contains the given value at the given index.
    * <p>
    * Example:

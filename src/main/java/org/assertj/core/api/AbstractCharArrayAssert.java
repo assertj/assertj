@@ -3,8 +3,8 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.CharArrays;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<S>>
@@ -219,6 +219,36 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
     return myself;
   }
 
+  /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('a', 'b');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('a', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('b', 'c');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('a', 'b', 'c');
+   * 
+   * // assertion will fail
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('c', 'a');
+   * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('d', 'f');
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(char... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+  
   /**
    * Verifies that the actual array contains the given value at the given index.
    * <p>

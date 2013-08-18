@@ -113,6 +113,19 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that the actual group contains the given sequence, without any other values between them.
+   * <p>
+   * <pre>
+   * Example:
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsSequence(vilya, nenya);
+   * 
+   * // assertion will fail
+   * assertThat(elvesRings).containsSequence(vilya, narya);
+   * assertThat(elvesRings).containsSequence(nenya, vilya);
+   * </pre>
+   * </p>
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -121,6 +134,32 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
   S containsSequence(T... sequence);
+
+  /**
+   * Verifies that the actual group contains the given subsequence (possibly with other values between them).
+   * <p>
+   * 
+   * <pre>
+   * Example:
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertion will pass
+   * assertThat(elvesRings).containsSubsequence(vilya, nenya);
+   * assertThat(elvesRings).containsSubsequence(vilya, narya);
+   * 
+   * // assertion will fail
+   * assertThat(elvesRings).containsSubsequence(nenya, vilya);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param sequence the sequence of objects to look for.
+   * @return this assertion object.
+   * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual group does not contain the given subsequence.
+   */
+  S containsSubsequence(T... sequence);
 
   /**
    * Verifies that the actual group does not contain the given values.
