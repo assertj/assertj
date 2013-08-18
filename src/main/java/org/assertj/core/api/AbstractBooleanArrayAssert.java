@@ -215,6 +215,33 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
   }
 
   /**
+   * Verifies that the actual array contains the given subsequence (possibly with other values between them).
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * // assertion will pass
+   * assertThat(new boolean[] { true, false }).containsSubsequence(true, false);
+   * assertThat(new boolean[] { true, false, false, true }).containsSubsequence(true, true);
+   * 
+   * // assertion will fail
+   * assertThat(new boolean[] { true, true, false }).containsSubsequence(false, true);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param subsequence the subsequence of values to look for.
+   * @return myself assertion object.
+   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given subsequence.
+   */
+  public S containsSubsequence(boolean... subsequence) {
+    arrays.assertContainsSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual array contains the given value at the given index.
    * <p>
    * Example:
