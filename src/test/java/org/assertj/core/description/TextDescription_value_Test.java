@@ -32,4 +32,10 @@ public class TextDescription_value_Test {
     TextDescription description = new TextDescription("Robin");
     assertEquals(description.value, description.value());
   }
+
+  @Test
+  public void should_return_formatted_value() {
+    TextDescription description = new TextDescription("Robin {}", "Hood");
+    assertEquals("Robin Hood", description.value());
+  }
 }

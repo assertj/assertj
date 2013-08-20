@@ -22,9 +22,9 @@ import org.assertj.core.description.*;
  */
 final class DescriptionValidations {
 
-  static Description checkIsNotNull(String d) {
+  static Description checkIsNotNull(String d, Object... args) {
     if (d == null) throw bomb();
-    return new TextDescription(d);
+    return new TextDescription(d, args);
   }
 
   static Description checkIsNotNull(Description d) {

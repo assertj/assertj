@@ -65,11 +65,12 @@ public class WritableAssertionInfo implements AssertionInfo {
   /**
    * Sets the description of an assertion.
    * @param newDescription the new description.
+   * @param args if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
    * @throws NullPointerException if the given description is {@code null}.
    * @see #description(Description)
    */
-  public void description(String newDescription) {
-    description = checkIsNotNull(newDescription);
+  public void description(String newDescription, Object... args) {
+    description = checkIsNotNull(newDescription, args);
   }
 
   /**
