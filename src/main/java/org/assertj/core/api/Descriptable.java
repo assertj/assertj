@@ -30,11 +30,12 @@ public interface Descriptable<S extends Descriptable<S>> {
   /**
    * Sets the description of this object.
    * @param description the new description to set.
+   * @param args optional parameter if description is a format String.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
-   * @see #describedAs(String)
+   * @see #describedAs(String, Object...)
    */
-  S as(String description);
+  S as(String description, Object... args);
 
   /**
    * Sets the description of this object. To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as
@@ -52,16 +53,16 @@ public interface Descriptable<S extends Descriptable<S>> {
   S as(Description description);
 
   /**
-   * Alias for <code>{@link #as(String)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
+   * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
    * target="_blank">Groovy</a>.
    * @param description the new description to set.
    * @return {@code this} object.
    * @throws NullPointerException if the description is {@code null}.
    */
-  S describedAs(String description);
+  S describedAs(String description, Object... args);
 
   /**
-   * Alias for <code>{@link #as(String)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
+   * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a href="http://groovy.codehaus.org/"
    * target="_blank">Groovy</a>. To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as argument.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing users to

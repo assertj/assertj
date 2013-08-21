@@ -32,4 +32,10 @@ public class TextDescription_toString_Test {
     TextDescription description = new TextDescription("Flash");
     assertEquals(description.value, description.toString());
   }
+
+  @Test
+  public void should_return_formatted_value() {
+    TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
+    assertEquals("Flash %s MacQueen", description.toString());
+  }
 }
