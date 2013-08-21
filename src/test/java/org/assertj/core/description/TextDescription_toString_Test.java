@@ -36,6 +36,6 @@ public class TextDescription_toString_Test {
   @Test
   public void should_return_formatted_value() {
     TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
-    assertEquals("Flash %s MacQueen", description.toString());
+    assertEquals("Flash MacQueen {}", description.toString());
   }
 }

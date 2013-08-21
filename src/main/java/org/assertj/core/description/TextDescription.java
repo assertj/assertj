@@ -20,6 +20,7 @@ import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.util.VisibleForTesting;
 
@@ -51,10 +52,7 @@ public class TextDescription extends Description {
 
   @Override
   public String value() {
-    if(args != null) {
-      return org.assertj.core.util.Strings.formatIfArgs(value.replaceAll("%", "%%").replaceAll(Pattern.quote("{}"), "%s"), args);
-    }
-    return value;
+    return formatIfArgs(value, args);
   }
 
   @Override

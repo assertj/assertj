@@ -35,7 +35,13 @@ public class TextDescription_value_Test {
 
   @Test
   public void should_return_formatted_value() {
-    TextDescription description = new TextDescription("Robin {}", "Hood");
+    TextDescription description = new TextDescription("Robin %s", "Hood");
     assertEquals("Robin Hood", description.value());
+  }
+
+  @Test
+  public void should_not_format_curly_brace() {
+    TextDescription description = new TextDescription("{} Robin %s", "Hood");
+    assertEquals("{} Robin Hood", description.value());
   }
 }
