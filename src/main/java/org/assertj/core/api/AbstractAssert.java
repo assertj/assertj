@@ -80,7 +80,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Utility method to ease write write custom assertions classes, you can use format specifiers in error message, they
    * will be replaced by the given arguments.
    * <p>
-   * Moreover, this method honors any description ({@link #as(String)} or overridden error message defined by the user (
+   * Moreover, this method honors any description ({@link #as(String, Object...)} or overridden error message defined by the user (
    * {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
@@ -109,8 +109,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
-  public S as(String description) {
-    return describedAs(description);
+  public S as(String description, Object... args) {
+    return describedAs(description, args);
   }
 
   /** {@inheritDoc} */
@@ -121,8 +121,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
-  public S describedAs(String description) {
-    info.description(description);
+  public S describedAs(String description, Object... args) {
+    info.description(description, args);
     return myself;
   }
 
@@ -301,7 +301,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * The description of this assertion set with {@link #describedAs(String)} or {@link #describedAs(Description)}.
+   * The description of this assertion set with {@link #describedAs(String, Object...)} or {@link #describedAs(Description)}.
    * 
    * @return the description String representation of this assertion.
    */

@@ -60,14 +60,14 @@ public abstract class Condition<T> implements Descriptable<Condition<T>> {
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> describedAs(String newDescription) {
-    return as(newDescription);
+  public Condition<T> describedAs(String newDescription, Object... args) {
+    return as(newDescription, args);
   }
 
   /** {@inheritDoc} */
   @Override
-  public Condition<T> as(String newDescription) {
-    description = checkIsNotNull(newDescription);
+  public Condition<T> as(String newDescription, Object... args) {
+    description = checkIsNotNull(newDescription, args);
     return this;
   }
 
