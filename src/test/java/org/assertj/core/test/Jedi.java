@@ -22,7 +22,7 @@ package org.assertj.core.test;
  */
 public class Jedi extends Person {
 
-  private String lightSaberColor;
+  public String lightSaberColor;
   @SuppressWarnings("unused")
   private Object strangeNotReadablePrivateField;
 
@@ -31,13 +31,14 @@ public class Jedi extends Person {
     this.lightSaberColor = lightSaberColor;
   }
 
-  public String getLightSaberColor() {
-    return lightSaberColor;
-  }
-
   @Override
   public String toString() {
     return getName() + " the Jedi";
+  }
+
+  @SuppressWarnings("unused")
+  private Object getStrangeNotReadablePrivateField() {
+    return strangeNotReadablePrivateField;
   }
 
 }

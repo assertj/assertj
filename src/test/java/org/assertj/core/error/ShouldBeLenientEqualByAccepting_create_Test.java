@@ -41,8 +41,8 @@ public class ShouldBeLenientEqualByAccepting_create_Test {
     factory = shouldBeLenientEqualByAccepting(new Jedi("Luke", "blue"), newArrayList("name", "lightSaberColor"),
         newArrayList((Object) "Yoda", (Object) "green"), newArrayList("name", "lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected values:\n" + "<['Yoda', 'green']>\n" + " in fields:\n" + "<['name', 'lightSaberColor']>\n"
-        + " of <Luke the Jedi>.\n" + "Comparison was performed on fields <['name', 'lightSaberColor']>", message);
+    assertEquals("[Test] expected values:\n" + "  <['Yoda', 'green']>\n" + "in fields:\n" + "  <['name', 'lightSaberColor']>\n"
+        + "of <Luke the Jedi>.\n" + "Comparison was performed on fields:\n  <['name', 'lightSaberColor']>", message);
   }
 
   @Test
@@ -50,8 +50,7 @@ public class ShouldBeLenientEqualByAccepting_create_Test {
     factory = shouldBeLenientEqualByAccepting(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"), newArrayList((Object) "green"),
         newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] expected value <'green'> in field <'lightSaberColor'> of <Yoda the Jedi>.\n"
-        + "Comparison was performed on fields <['lightSaberColor']>", message);
+    assertEquals("[Test] expected value:\n  <'green'>\nin field\n  <'lightSaberColor'>\nof <Yoda the Jedi>", message);
   }
 
 }

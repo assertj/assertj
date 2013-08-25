@@ -123,38 +123,50 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
 	 * @throws AssertionError if the other object is not an instance of the actual type.
 	 */
 	public S isLenientEqualsToByIgnoringFields(A other, String... fields) {
-		objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other, fields);
+		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, fields);
 		return myself;
 	}
 
-	/**
-	 * Assert that the actual object is equals fields by fields to another object, inherited fields are taken into
-	 * account.
-	 * <p>
-	 * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
-	 *
-	 * <pre>
-	 * Example:
-	 *
-	 * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-	 * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-	 *
-	 * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
-	 * assertThat(frodo).isEqualsTo(frodoClone); // Fail if equals has not been overriden in TolkienCharacter
-	 *
-	 * // frodo and frodoClone are equals by comparing fields
-	 * assertThat(frodo).isEqualsToByComparingFields(frodoClone); // OK
-	 *
-	 * </pre>
-	 *
-	 * @param other the object to compare {@code actual} to.
-	 * @throws NullPointerException if the actual type is {@code null}.
-	 * @throws NullPointerException if the other type is {@code null}.
-	 * @throws AssertionError if the actual and the given object are not equals fields by fields.
-	 * @throws AssertionError if the other object is not an instance of the actual type.
-	 */
+	  /**
+   * Assert that the actual object is equals fields by fields to another object, inherited fields are taken into
+   * account.
+   * <p>
+   * Note that only <b>accessible </b>fields values are compared, that is fields must be directly accessible (e.g. public) or
+   * have otherwise an accessible getter.
+   * 
+   * <p>
+   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+   * 
+   * <pre>
+   * Example:
+   * 
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * 
+   * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
+   * assertThat(frodo).isEqualsTo(frodoClone);
+   * 
+   * // frodo and frodoClone are equals by comparing fields
+   * assertThat(frodo).isEqualsToByComparingFields(frodoClone);
+   * 
+   * </pre>
+   * 
+   * @param other the object to compare {@code actual} to.
+   * @throws NullPointerException if the actual type is {@code null}.
+   * @throws NullPointerException if the other type is {@code null}.
+   * @throws AssertionError if the actual and the given object are not equals fields by fields.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */
+	public S isEqualsToComparingFields(A other) {
+		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other);
+		return myself;
+	}
+
+  /**
+   * @deprecated : use {@link #isEqualsToComparingFields(Object)}  }
+   */
 	public S isEqualsToByComparingFields(A other) {
-		objects.assertIsLenientEqualsToByIgnoringFields(info, actual, other);
+		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other);
 		return myself;
 	}
 }

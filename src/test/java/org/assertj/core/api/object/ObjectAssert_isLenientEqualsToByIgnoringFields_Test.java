@@ -39,6 +39,6 @@ public class ObjectAssert_isLenientEqualsToByIgnoringFields_Test extends ObjectA
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToByIgnoringFields(getInfo(assertions), getActual(assertions), other, "lightSaberColor");
+    verify(objects).assertIsLenientEqualsToIgnoringFields(getInfo(assertions), getActual(assertions), other, "lightSaberColor");
   }
 }

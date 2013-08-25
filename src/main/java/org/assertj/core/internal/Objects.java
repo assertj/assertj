@@ -42,6 +42,7 @@ import static org.assertj.core.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -533,24 +534,21 @@ public class Objects {
     List<String> nullFields = new LinkedList<String>();
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
-        Object otherFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), other);
-        if (otherFieldValue != null) {
-          Object actualFieldValue = propertySupport.propertyValue(field.getName(), field.getType(), actual);
-          if (!otherFieldValue.equals(actualFieldValue)) {
+        Object otherFieldValue = getFieldOrPropertyValue(other, field);
+        if (otherFieldValue == null) {
+          nullFields.add(field.getName());
+        } else {
+          if (!otherFieldValue.equals(getFieldOrPropertyValue(actual, field))) {
             fieldsNames.add(field.getName());
             values.add(otherFieldValue);
           }
-        } else {
-          nullFields.add(field.getName());
         }
       } catch (IntrospectionError e) {
         // Not readable field, skip.
       }
     }
-    if (fieldsNames.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, nullFields));
+    if (!fieldsNames.isEmpty())
+      throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, nullFields));
   }
 
   /**
@@ -571,11 +569,11 @@ public class Objects {
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> rejectedFieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
+    final Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     for (String fieldName : fields) {
-      Object actualFieldValue = propertySupport.propertyValue(fieldName, Object.class, actual);
-      Object otherFieldValue = propertySupport.propertyValue(fieldName, Object.class, other);
-      if (!(actualFieldValue == otherFieldValue ||
-             (actualFieldValue != null && actualFieldValue.equals(otherFieldValue)))) {
+      Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName, declaredFieldsIncludingInherited, actual.getClass()));
+      Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited, other.getClass()));
+      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
       }
@@ -583,6 +581,22 @@ public class Objects {
     if (!rejectedFieldsNames.isEmpty())
       throw failures.failure(info,
                              shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
+  }
+
+  /**
+   * Find field with given fieldName in fields of Class clazz.
+   * @param fieldName the field name used to find field in fields
+   * @param fields Fields to look into
+   * @param clazz use for the exception to indicate to whihc class fields belonged.
+   * @return the field with given field name
+   * @throws IntrospectionError if no field with given fieldName can be found.
+   */
+  private Field findField(String fieldName, Set<Field> fields, Class<?> clazz) {
+    if (fieldName == null) return null;
+    for (Field field : fields) {
+      if (fieldName.equals(field.getName())) return field;
+    }
+    throw new IntrospectionError(format("No field '%s' in %s", fieldName, clazz));
   }
 
   /**
@@ -598,7 +612,7 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsLenientEqualsToByIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
+  public <A> void assertIsLenientEqualsToIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
@@ -607,8 +621,8 @@ public class Objects {
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
         if (!ignoredFields.contains(field.getName())) {
-          Object actualFieldValue = propertySupport.propertyValue(field.getName(), Object.class, actual);
-          Object otherFieldValue = propertySupport.propertyValue(field.getName(), Object.class, other);
+          Object actualFieldValue = getFieldOrPropertyValue(actual, field);
+          Object otherFieldValue = getFieldOrPropertyValue(other, field);
           if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
             fieldsNames.add(field.getName());
             expectedValues.add(otherFieldValue);
@@ -620,6 +634,24 @@ public class Objects {
     }
     if (!fieldsNames.isEmpty())
       throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, newArrayList(fields)));
+  }
+
+  /**
+   * Get field value first and in case of error try its value from property getter (property name being field name)
+   * @param a the object to get field value from
+   * @param field Field to read
+   * @param <A>
+   * @return field value or property value if field was not accessible.
+   * @throws IntrospectionError is field value can't get retrieved.
+   */
+  private <A> Object getFieldOrPropertyValue(A a, Field field)  {
+    try {
+      // read field value
+      return field.get(a);
+    } catch (IllegalAccessException e) {
+      // field is not accessible, let's try to get its value from its getter if any.
+      return propertySupport.propertyValue(field.getName(), Object.class, a);
+    }
   }
 
   /**

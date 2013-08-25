@@ -14,27 +14,25 @@
  */
 package org.assertj.core.internal.objects;
 
-import static junit.framework.Assert.assertEquals;
-
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
-
-
+import static org.assertj.core.util.Lists.*;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
 import org.assertj.core.util.introspection.IntrospectionError;
-
 import org.junit.Test;
 
 
@@ -129,11 +127,11 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
+    final String field = "age";
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "age");
+      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, field);
     } catch (IntrospectionError expected) {
-      String msg = String.format("No getter for property '%s' in %s", "age", actual.getClass().getName());
-      assertEquals(msg, expected.getMessage());
+      assertThat(expected).hasMessage(format("No field '%s' in class %s", field, actual.getClass().getName()));
       return;
     }
     fail("expecting an IntrospectionError to be thrown");

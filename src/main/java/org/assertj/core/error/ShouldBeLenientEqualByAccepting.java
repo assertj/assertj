@@ -44,12 +44,12 @@ public class ShouldBeLenientEqualByAccepting extends BasicErrorMessageFactory {
 
   private ShouldBeLenientEqualByAccepting(Object actual, List<String> rejectedFields, List<Object> expectedValue,
       List<String> acceptedFields) {
-    super("expected values:\n<%s>\n in fields:\n<%s>\n of <%s>.\nComparison was performed on fields <%s>", expectedValue,
+    super("expected values:\n  <%s>\nin fields:\n  <%s>\nof <%s>.\nComparison was performed on fields:\n  <%s>", expectedValue,
         rejectedFields, actual, acceptedFields);
   }
 
   private ShouldBeLenientEqualByAccepting(Object actual, String rejectedField, Object rejectedValue, List<String> acceptedFields) {
-    super("expected value <%s> in field <%s> of <%s>.\nComparison was performed on fields <%s>", rejectedValue, rejectedField,
+    super("expected value:\n  <%s>\nin field\n  <%s>\nof <%s>", rejectedValue, rejectedField,
         actual, acceptedFields);
   }
 
