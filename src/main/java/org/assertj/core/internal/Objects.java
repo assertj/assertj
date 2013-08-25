@@ -21,8 +21,8 @@ import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
-import static org.assertj.core.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
-import static org.assertj.core.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
+import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
+import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
@@ -42,7 +42,6 @@ import static org.assertj.core.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -526,7 +525,7 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsLenientEqualsToByIgnoringNullFields(AssertionInfo info, A actual, A other) {
+  public <A> void assertIsLenientEqualsToIgnoringNullFields(AssertionInfo info, A actual, A other) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
@@ -548,7 +547,7 @@ public class Objects {
       }
     }
     if (!fieldsNames.isEmpty())
-      throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, values, nullFields));
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, values, nullFields));
   }
 
   /**
@@ -564,7 +563,7 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    * @throws IntrospectionError if a field does not exist in actual.
    */
-  public <A> void assertIsLenientEqualsToByAcceptingFields(AssertionInfo info, A actual, A other, String... fields) {
+  public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> rejectedFieldsNames = new LinkedList<String>();
@@ -580,7 +579,7 @@ public class Objects {
     }
     if (!rejectedFieldsNames.isEmpty())
       throw failures.failure(info,
-                             shouldBeLenientEqualByAccepting(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
+                             shouldBeEqualComparingOnlyGivenFields(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
   }
 
   /**
@@ -612,7 +611,7 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsLenientEqualsToIgnoringFields(AssertionInfo info, A actual, A other, String... fields) {
+  public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
@@ -633,7 +632,7 @@ public class Objects {
       }
     }
     if (!fieldsNames.isEmpty())
-      throw failures.failure(info, shouldBeLenientEqualByIgnoring(actual, fieldsNames, expectedValues, newArrayList(fields)));
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, expectedValues, newArrayList(fields)));
   }
 
   /**

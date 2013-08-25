@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ObjectAssert#isLenientEqualsToByAcceptingFields(Object, String...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToComparingOnlyGivenFields(Object, String...)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
@@ -34,11 +34,11 @@ public class ObjectAssert_isLenientEqualsToByAcceptingFields_Test extends Object
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isLenientEqualsToByAcceptingFields(other, "name");
+    return assertions.isEqualToComparingOnlyGivenFields(other, "name");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToByAcceptingFields(getInfo(assertions), getActual(assertions), other, "name");
+    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other, "name");
   }
 }

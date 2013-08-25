@@ -17,7 +17,7 @@ package org.assertj.core.internal.objects;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
-import static org.assertj.core.error.ShouldBeLenientEqualByAccepting.shouldBeLenientEqualByAccepting;
+import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -28,7 +28,6 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
@@ -48,28 +47,28 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
   public void should_pass_when_selected_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
   }
 
   @Test
   public void should_pass_even_if_non_accepted_fields_differ() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name");
   }
 
   @Test
   public void should_pass_when_field_value_is_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), actual, other, "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToByAcceptingFields(someInfo(), null, other, "name", "lightSaberColor");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, "name", "lightSaberColor");
   }
 
   @Test
@@ -78,13 +77,13 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Blue");
       verify(failures).failure(
           info,
-          shouldBeLenientEqualByAccepting(actual, newArrayList("lightSaberColor"), expected,
-              newArrayList("name", "lightSaberColor")));
+          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("lightSaberColor"), expected,
+                                                newArrayList("name", "lightSaberColor")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -96,13 +95,13 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name", "lightSaberColor");
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Luke");
       verify(failures).failure(
           info,
-          shouldBeLenientEqualByAccepting(actual, newArrayList("name"), expected,
-              newArrayList("name", "lightSaberColor")));
+          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("name"), expected,
+                                                newArrayList("name", "lightSaberColor")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -114,7 +113,7 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, "name");
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name");
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
       return;
@@ -129,7 +128,7 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
     Jedi other = new Jedi("Yoda", "Blue");
     final String field = "age";
     try {
-      objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, field);
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, field);
     } catch (IntrospectionError expected) {
       assertThat(expected).hasMessage(format("No field '%s' in class %s", field, actual.getClass().getName()));
       return;

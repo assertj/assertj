@@ -15,7 +15,7 @@
 package org.assertj.core.internal.objects;
 
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
-import static org.assertj.core.error.ShouldBeLenientEqualByIgnoring.shouldBeLenientEqualByIgnoring;
+import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -46,35 +46,35 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
   public void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToIgnoringFields(someInfo(), actual, other);
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other);
   }
 
   @Test
   public void should_pass_when_not_ignored_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
-    objects.assertIsLenientEqualsToIgnoringFields(someInfo(), actual, other, "lightSaberColor");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_not_ignored_inherited_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
-    objects.assertIsLenientEqualsToIgnoringFields(someInfo(), actual, other, "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "name");
   }
 
   @Test
   public void should_pass_when_field_values_are_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
-    objects.assertIsLenientEqualsToIgnoringFields(someInfo(), actual, other, "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "name");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
     Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsLenientEqualsToIgnoringFields(someInfo(), null, other, "name");
+    objects.assertIsEqualToIgnoringGivenFields(someInfo(), null, other, "name");
   }
 
   @Test
@@ -83,12 +83,12 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, "name");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "name");
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
-              newArrayList("name")));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
+                                             newArrayList("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -100,12 +100,12 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
     try {
-      objects.assertIsLenientEqualsToIgnoringFields(info, actual, other);
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
-              new ArrayList<String>()));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
+                                             new ArrayList<String>()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -117,12 +117,12 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Luke", "Green");
     try {
-      objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, "lightSaberColor");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "lightSaberColor");
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeLenientEqualByIgnoring(actual, newArrayList("name"), newArrayList((Object) "Luke"),
-              newArrayList("lightSaberColor")));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"), newArrayList((Object) "Luke"),
+                                             newArrayList("lightSaberColor")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -134,7 +134,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, "name");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "name");
     } catch (AssertionError err) {
       verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
       return;
@@ -148,11 +148,11 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", "Green");
     try {
-      objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, "name");
+      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "name");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Green");
       verify(failures).failure(info,
-          shouldBeLenientEqualByIgnoring(actual, newArrayList("lightSaberColor"), expected, newArrayList("name")));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), expected, newArrayList("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

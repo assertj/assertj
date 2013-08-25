@@ -18,124 +18,158 @@ import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Base class for all implementations of assertions for {@link Object}s.
+ * 
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
- *
+ * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
+ * @author Joel Costigliola
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
-	protected AbstractObjectAssert(A actual, Class<?> selfType) {
-		super(actual, selfType);
-	}
+  protected AbstractObjectAssert(A actual, Class<?> selfType) {
+    super(actual, selfType);
+  }
 
-	/**
-	 * Assert that the actual object is lenient equals to given one by comparing only actual and <b>not null</b> other
-	 * fields (including inherited fields).
-	 * <p>
-	 * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by
-	 * lenient comparison, but the inverse will make assertion fail (null field in actual, not null in other).
-	 *
-	 * <pre>
-	 * Example:
-	 *
-	 * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-	 * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
-	 *
-	 * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
-	 * assertThat(frodo).isLenientEqualsToByIgnoringNullFields(mysteriousHobbit); //=> OK
-	 *
-	 * // ... but the lenient equality is not reversible !
-	 * assertThat(mysteriousHobbit).isLenientEqualsToByIgnoringNullFields(frodo); //=> FAIL
-	 *
-	 * </pre>
-	 *
-	 * @param other the object to compare {@code actual} to.
-	 * @throws NullPointerException if the actual type is {@code null}.
-	 * @throws NullPointerException if the other type is {@code null}.
-	 * @throws AssertionError if the actual and the given object are not lenient equals.
-	 * @throws AssertionError if the other object is not an instance of the actual type.
-	 */
-	public S isLenientEqualsToByIgnoringNullFields(A other) {
-		objects.assertIsLenientEqualsToByIgnoringNullFields(info, actual, other);
-		return myself;
-	}
-
-	/**
-	 * Assert that the actual object is lenient equals to given one by only comparing actual and other on the given
-	 * "accepted" fields only ("accepted" fields can be inherited fields).
-	 * <p>
-	 * Example:
-	 *
-	 * <pre>
-	 * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
-	 * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
-	 *
-	 * // frodo and sam both are hobbits, so they are lenient equals on race
-	 * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, &quot;race&quot;); // =&gt; OK
-	 *
-	 * // ... but not when accepting name and race
-	 * assertThat(frodo).isLenientEqualsToByAcceptingFields(sam, &quot;name&quot;, &quot;race&quot;); // =&gt; FAIL
-	 *
-	 * </pre>
-	 *
-	 * @param other the object to compare {@code actual} to.
-	 * @param fields accepted fields for lenient equality.
-	 * @throws NullPointerException if the actual type is {@code null}.
-	 * @throws NullPointerException if the other type is {@code null}.
-	 * @throws AssertionError if the actual and the given object are not lenient equals.
-	 * @throws AssertionError if the other object is not an instance of the actual type.
-	 * @throws IntrospectionError if a field does not exist in actual.
-	 */
-	public S isLenientEqualsToByAcceptingFields(A other, String... fields) {
-		objects.assertIsLenientEqualsToByAcceptingFields(info, actual, other, fields);
-		return myself;
-	}
-
-	/**
-	 * Assert that the actual object is lenient equals to given one by comparing actual and other fields (including
-	 * inherited fields) except the given "ignored" fields.
-	 *
-	 * <pre>
-	 * Example:
-	 *
-	 * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-	 * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-	 *
-	 * // frodo and sam both are lenient equals ignoring name and age since only remaining property is race and frodo and sam both are HOBBIT
-	 * assertThat(frodo).isLenientEqualsToByIgnoringFields(sam, "name", "age"); //=> OK
-	 *
-	 * // ... but they are not lenient equals if only age is ignored because their names differ.
-	 * assertThat(frodo).isLenientEqualsToByIgnoringFields(sam, "age"); //=> FAIL
-	 *
-	 * </pre>
-	 *
-	 * @param other the object to compare {@code actual} to.
-	 * @param fields ignored fields for lenient equality.
-	 * @throws NullPointerException if the actual type is {@code null}.
-	 * @throws NullPointerException if the other type is {@code null}.
-	 * @throws AssertionError if the actual and the given object are not lenient equals.
-	 * @throws AssertionError if the other object is not an instance of the actual type.
-	 */
-	public S isLenientEqualsToByIgnoringFields(A other, String... fields) {
-		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other, fields);
-		return myself;
-	}
-
-	  /**
-   * Assert that the actual object is equals fields by fields to another object, inherited fields are taken into
-   * account.
+  /**
+   * Assert that the actual object is equal to the given one by comparing actual's fields with <b>not null</b> other's
+   * fields only (including inherited fields).
    * <p>
-   * Note that only <b>accessible </b>fields values are compared, that is fields must be directly accessible (e.g. public) or
-   * have otherwise an accessible getter.
+   * It means that if an actual field is not null and the corresponding field in other is null, this field will be
+   * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other).
+   * 
+   * <pre>
+   * Example:
+   * 
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
+   * 
+   * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
+   * assertThat(frodo).isEqualToIgnoringNullFields(mysteriousHobbit); // OK
+   * 
+   * // ... but the lenient equality is not reversible !
+   * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL
+   * 
+   * </pre>
+   * 
+   * @param other the object to compare {@code actual} to.
+   * @throws NullPointerException if the actual or other object is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */
+  public S isEqualToIgnoringNullFields(A other) {
+    objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * @deprecated : use {@link #isEqualToIgnoringNullFields(Object)} instead.
+   */
+  public S isLenientEqualsToByIgnoringNullFields(A other) {
+    objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object is equal to given one when doing a field by field comparison on the given fields only
+   * (fields can be inherited fields).
    * 
    * <p>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.
+   * </p>
+   * 
+   * Example:
+   * 
+   * <pre>
+   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
+   * 
+   * // frodo and sam both are hobbits, so they are equals when comparing only race
+   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race&quot;); // OK
+   * 
+   * // ... but not when comparing noth name and race
+   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL
+   * 
+   * </pre>
+   * 
+   * @param other the object to compare {@code actual} to.
+   * @param fieldsUsedInComparison accepted fieldsUsedInComparison for lenient equality.
+   * @throws NullPointerException if the actual or other is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws IntrospectionError if a field does not exist in actual.
+   */
+  public S isEqualToComparingOnlyGivenFields(A other, String... fieldsUsedInComparison) {
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fieldsUsedInComparison);
+    return myself;
+  }
+
+  /**
+   * @deprecated : use {@link #isEqualToComparingOnlyGivenFields(Object, String...)} instead.
+   */
+  public S isLenientEqualsToByAcceptingFields(A other, String... fields) {
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fields);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object is equal to the given one by comparing their fields except for the given ones
+   * (inherited fields are taken into account).
+   * 
+   * <p>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.
+   * </p>
+   * 
+   * <pre>
+   * Example:
+   * 
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+   * 
+   * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
+   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
+   * 
+   * // ... but they are not equals if only age is ignored as their names differ.
+   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL
+   * 
+   * </pre>
+   * 
+   * @param other the object to compare {@code actual} to.
+   * @param fieldsToIgnore ignored fieldsToIgnore for lenient equality.
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual and the given object are not lenient equals.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   */
+  public S isEqualToIgnoringGivenFields(A other, String... fieldsToIgnore) {
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fieldsToIgnore);
+    return myself;
+  }
+
+  /**
+   * @deprecated : use {@link #isEqualToIgnoringGivenFields(Object, String...)} instead.
+   */
+  public S isLenientEqualsToByIgnoringFields(A other, String... fields) {
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fields);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object is equal to the given object based on a field by field comparison (including
+   * inherited fields).
+   * <p>
    * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+   * </p>
+   * <p>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.
+   * </p>
    * 
    * <pre>
    * Example:
@@ -146,27 +180,26 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
    * assertThat(frodo).isEqualsTo(frodoClone);
    * 
-   * // frodo and frodoClone are equals by comparing fields
-   * assertThat(frodo).isEqualsToByComparingFields(frodoClone);
+   * // frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);
    * 
    * </pre>
    * 
    * @param other the object to compare {@code actual} to.
-   * @throws NullPointerException if the actual type is {@code null}.
-   * @throws NullPointerException if the other type is {@code null}.
-   * @throws AssertionError if the actual and the given object are not equals fields by fields.
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual and the given object are not equals field by field.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-	public S isEqualsToComparingFields(A other) {
-		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other);
-		return myself;
-	}
+  public S isEqualToComparingFieldByField(A other) {
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
+  }
 
   /**
-   * @deprecated : use {@link #isEqualsToComparingFields(Object)}  }
+   * @deprecated : use {@link #isEqualToComparingFieldByField(Object)} instead.
    */
-	public S isEqualsToByComparingFields(A other) {
-		objects.assertIsLenientEqualsToIgnoringFields(info, actual, other);
-		return myself;
-	}
+  public S isEqualsToByComparingFields(A other) {
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
+  }
 }

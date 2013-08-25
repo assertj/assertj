@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ObjectAssert#isLenientEqualsToByIgnoringNullFields(Object)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToIgnoringNullFields(Object)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
@@ -34,11 +34,11 @@ public class ObjectAssert_isLenientEqualsToByIgnoringNullFields_Test extends Obj
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isLenientEqualsToByIgnoringNullFields(other);
+    return assertions.isEqualToIgnoringNullFields(other);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToByIgnoringNullFields(getInfo(assertions), getActual(assertions), other);
+    verify(objects).assertIsLenientEqualsToIgnoringNullFields(getInfo(assertions), getActual(assertions), other);
   }
 }

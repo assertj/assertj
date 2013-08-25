@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ObjectAssert#isEqualsToComparingFields(Object)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToComparingFieldByField(Object)}</code>.
  * 
  * @author Nicolas François
  */
@@ -33,11 +33,11 @@ public class ObjectAssert_isEqualsToComparingFields_Test extends ObjectAssertBas
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isEqualsToComparingFields(other);
+    return assertions.isEqualToComparingFieldByField(other);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToIgnoringFields(getInfo(assertions), getActual(assertions), other);
+    verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), other);
   }
 }

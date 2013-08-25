@@ -23,22 +23,22 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ObjectAssert#isLenientEqualsToByIgnoringFields(Object, String...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToIgnoringGivenFields(Object, String...)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_isLenientEqualsToByIgnoringFields_Test extends ObjectAssertBaseTest {
+public class ObjectAssert_isEqualToIgnoringGivenFields_Test extends ObjectAssertBaseTest {
 
   private Jedi other = new Jedi("Yoda", "Blue");
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isLenientEqualsToByIgnoringFields(other, "lightSaberColor");
+    return assertions.isEqualToIgnoringGivenFields(other, "lightSaberColor");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToIgnoringFields(getInfo(assertions), getActual(assertions), other, "lightSaberColor");
+    verify(objects).assertIsEqualToIgnoringGivenFields(getInfo(assertions), getActual(assertions), other, "lightSaberColor");
   }
 }

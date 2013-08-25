@@ -15,12 +15,9 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeEqualIgnoringCase;
 import org.assertj.core.internal.TestDescription;
 import org.junit.Before;
 import org.junit.Test;
