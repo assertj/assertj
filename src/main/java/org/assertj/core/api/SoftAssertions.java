@@ -159,7 +159,7 @@ public class SoftAssertions {
   protected final ErrorCollector collector = new ErrorCollector();
 
   /** Creates a new </code>{@link SoftAssertions}</code>. */
-  protected SoftAssertions() {
+  public SoftAssertions() {
   }
 
   /**
