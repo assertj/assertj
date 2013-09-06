@@ -1,15 +1,15 @@
 /*
  * Created on Dec 22, 2010
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
+ *
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.api;
@@ -47,40 +47,123 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     super(actual, selfType);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} is empty, i.e., it has a length of 0, or is {@code null}.
+   * <p>
+   * If you do not want to accept a {@code null} value, use
+   * {@link org.assertj.core.api.AbstractCharSequenceAssert#isEmpty()} instead.
+   * <p>
+   * Both of these assertions will succeed:
+   * <pre>
+   * String emptyString = &quot;&quot;
+   * assertThat(emptyString).isNullOrEmpty();
+   *
+   * String nullString = null;
+   * assertThat(nullString).isNullOrEmpty();
+   * </pre>
+   *
+   * @throws AssertionError if the actual {@code CharSequence} has a non-zero length.
+   */
   @Override
   public void isNullOrEmpty() {
     strings.assertNullOrEmpty(info, actual);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} is empty, i.e., it has a length of 0 and is not {@code null}.
+   * <p>
+   * If you want to accept a {@code null} value as well as a 0 length, use
+   * {@link org.assertj.core.api.AbstractCharSequenceAssert#isNullOrEmpty()} instead.
+   * <p>
+   * This assertion will succeed:
+   * <pre>
+   * String emptyString = &quot;&quot;
+   * assertThat(emptyString).isEmpty();
+   * </pre>
+   * Whereas this assertion will fail:
+   * <pre>
+   * String nullString = null;
+   * assertThat(nullString).isEmpty();
+   * </pre>
+   *
+   * @throws AssertionError if the actual {@code CharSequence} has a non-zero length or is null.
+   */
   @Override
   public void isEmpty() {
     strings.assertEmpty(info, actual);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} is not empty, i.e., is not {@code null} and has a length of 1 or more.
+   * <p>
+   * This assertion will succeed:
+   * <pre>
+   * String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).isNotEmpty();
+   * </pre>
+   * Whereas this assertion will fail:
+   * <pre>
+   * String emptyString = &quot;&quot;
+   * assertThat(emptyString).isNotEmpty();
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is empty (has a length of 0).
+   */
   @Override
   public S isNotEmpty() {
     strings.assertNotEmpty(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
+   * <p>
+   * This assertion will succeed:
+   * <pre>
+   * String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSize(17);
+   * </pre>
+   * Whereas this assertion will fail:
+   * <pre>
+   * String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSize(4);
+   * </pre>
+   *
+   * @param expected the expected length of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual length is not equal to the expected length.
+   */
   @Override
   public S hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
+   * array.
+   *
+   * @param other the given array to be used for size comparison.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements in the array.
+   * @throws NullPointerException if the given array is {@code null}.
+   */
   @Override
   public S hasSameSizeAs(Object[] other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
+   * Iterable.
+   *
+   * @param other the given {@code Iterable} to be used for size comparison.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements in the {@code Iterable}.
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
+   */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
     strings.assertHasSameSizeAs(info, actual, other);
@@ -89,7 +172,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring case considerations.
-   * 
+   *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
@@ -100,11 +183,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains only once the given sequence.
-   * 
+   * Verifies that the actual {@code CharSequence} contains the given sequence <b>only once</b>.
+   *
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain the given one, or contain it multiple times.
+   * @throws AssertionError if the actual {@code CharSequence} either does not contain the given one at all, or contains it more than once.
    */
   public S containsOnlyOnce(CharSequence sequence) {
     strings.assertContainsOnlyOnce(info, actual, sequence);
@@ -114,17 +197,17 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} contains all the given strings.
    * <p>
-   * You can use one or several strings as in the example below
-   * 
+   * You can use one or several strings as in this example:
+   *
    * <pre>
    * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);
    * </pre>
-   * 
+   *
    * @param values the Strings to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
-   * @throws IllegalArgumentException if the given values is empty.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
    */
@@ -136,19 +219,19 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
    * <p>
-   * Example :
-   * 
+   * Example:
+   *
    * <pre>
    * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
-   * 
-   * // this assertion succeeds ... 
+   *
+   * // this assertion succeeds ...
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
-   * 
+   *
    * // ... but this one fails as "author" must come after "A Game of Thrones"
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * </pre>
-   * 
-   * @param values the Strings to look for in order.
+   *
+   * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
@@ -162,7 +245,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} contains the given sequence, ignoring case considerations.
-   * 
+   *
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -176,7 +259,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not contain the given sequence.
-   * 
+   *
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -190,7 +273,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
-   * 
+   *
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
@@ -204,7 +287,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
-   * 
+   *
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
@@ -218,7 +301,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
-   * 
+   *
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -233,7 +316,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
-   * 
+   *
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -247,8 +330,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} matches the given regular expression.
-   * 
+   * Verifies that the actual {@code CharSequence} matches the given regular expression pattern.
+   *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -261,8 +344,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} does not match the given regular expression.
-   * 
+   * Verifies that the actual {@code CharSequence} does not match the given regular expression pattern.
+   *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
