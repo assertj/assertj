@@ -37,7 +37,7 @@ public class SoftAssertionError extends AssertionError {
   }
 
   private static String createMessage(List<String> errors) {
-    StringBuilder msg = new StringBuilder("The following ");
+    StringBuilder msg = new StringBuilder("\nThe following ");
     int size = errors.size();
 
     if (size == 1) {

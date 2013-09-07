@@ -14,6 +14,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.util.Lists;
@@ -24,13 +25,13 @@ public class SoftAssertionErrorTest {
   @Test
   public void should_format_a_single_error_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One"));
-    assertEquals("The following assertion failed:\n1) One\n", error.getMessage());
+    assertThat(error.getMessage()).isEqualTo("\nThe following assertion failed:\n1) One\n");
   }
 
   @Test
   public void should_format_multiple_errors_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One", "Two"));
-    assertEquals("The following 2 assertions failed:\n1) One\n2) Two\n", error.getMessage());
+    assertThat(error.getMessage()).isEqualTo("\nThe following 2 assertions failed:\n1) One\n2) Two\n");
   }
 
 }
