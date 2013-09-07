@@ -15,12 +15,12 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Dates.parseDatetime;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.List;
 
 import org.assertj.core.data.MapEntry;
@@ -58,7 +58,7 @@ public class SoftAssertionsTest {
 
       softly.assertThat(Object.class).isEqualTo(String.class);
 
-      softly.assertThat(new Date(0)).isEqualTo(new Date(1));
+      softly.assertThat(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
 
       softly.assertThat(new Double(6.0d)).isEqualTo(new Double(7.0d));
       softly.assertThat(8.0d).isEqualTo(9.0d);
@@ -140,25 +140,22 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(11)).isEqualTo("expected:<java.lang.[String]> but was:<java.lang.[Object]>");
 
-      assertThat(errors.get(12))
-          .isEqualTo(
-              "\nExpecting:\n <'1969-12-31T19:00:00 (Date@1)'>\nto be equal to:\n <'1969-12-31T19:00:00 (Date@0)'>\nbut was not.");
+      assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01]> but was:<[1999-12-31T23:59:59]>");
 
       assertThat(errors.get(13)).isEqualTo("expected:<[7].0> but was:<[6].0>");
       assertThat(errors.get(14)).isEqualTo("expected:<[9].0> but was:<[8].0>");
       assertThat(errors.get(15)).isEqualTo("expected:<[1[1].0]> but was:<[1[0].0]>");
 
-      assertThat(errors.get(16)).isEqualTo(
-          "expected:<...-repos\\assertj-core\\[b]> but was:<...-repos\\assertj-core\\[a]>");
+      // can't check complete error message as it displays the file's path that depend on where you run the test.
+      assertThat(errors.get(16)).containsSequence("expected:<...", "[b]> but was:<...", "[a]>");
 
       assertThat(errors.get(17)).isEqualTo("expected:<1[3].0f> but was:<1[2].0f>");
       assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
       assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0]> but was:<[1[6].0]>");
 
-      String actual = errors.get(20);
-      String expected = "\nInputStreams do not have equal content:" + System.getProperty("line.separator")
-          + "line:<0>, expected:<B> but was:<A>";
-      assertThat(actual).isEqualTo(expected);
+      assertThat(errors.get(20)).isEqualTo(
+          "\nInputStreams do not have equal content:" + System.getProperty("line.separator")
+              + "line:<0>, expected:<B> but was:<A>");
 
       assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
