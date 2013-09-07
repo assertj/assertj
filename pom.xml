@@ -39,6 +39,12 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib-nodep</artifactId>
+      <version>2.2.2</version>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -83,7 +89,33 @@
         <configuration>
           <argLine>${argLine} -Duser.language=en</argLine>
         </configuration>
-      </plugin>      
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>jarjar-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jarjar</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>cglib:cglib-nodep</include>
+              </includes>
+              <rules>
+                <rule>
+                  <pattern>net.sf.cglib.**</pattern>
+                  <result>org.assertj.core.internal.cglib.@1</result>
+                </rule>
+                <keep>
+                  <pattern>org.assertj.core.**</pattern>
+                </keep>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
