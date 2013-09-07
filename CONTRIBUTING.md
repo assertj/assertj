@@ -27,7 +27,7 @@ Let's look at `Throwables_assertHasNoCause_Test` tests method names (underscore 
 * `should_fail_if_actual_is_null`
 * `should_fail_if_actual_has_a_cause`
 
-A good javadoc example taken from [`ObjectAssert.isEqualsToByComparingFields`](src/main/java/org/assertj/core/assertions/api/ObjectAssert.java) including:
+A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`](src/main/java/org/assertj/core/assertions/api/AbstractCharSequenceAssert.java) including:
 * assertion description
 * a code example showing how to use the assertion
 * parameters description (if any)
@@ -35,31 +35,26 @@ A good javadoc example taken from [`ObjectAssert.isEqualsToByComparingFields`](s
 
 ```java
 /**
- * Assert that the actual object is lenient equals to given one by comparing only actual and <b>not null</b> other
- * fields (including inherited fields).
+ * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
  * <p>
- * It means that if an actual field is not null and the corresponding field in other is null, field will be ignored by
- * lenient comparison, but the inverse will make assertion fail (null field in actual, not null in other).
- *
- * <pre>
  * Example:
  *
- * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
- * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
+ * <pre>
+ * String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
  *
- * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
- * assertThat(frodo).isLenientEqualsToByIgnoringNullFields(mysteriousHobbit); //=> OK
+ * // this assertion succeeds ...
+ * assertThat(book).containsSequence("{", "title", "A Game of Thrones", "}");
  *
- * // ... but the lenient equality is not reversible!
- * assertThat(mysteriousHobbit).isLenientEqualsToByIgnoringNullFields(frodo); //=> FAIL
- *
+ * // ... but this one fails as "author" must come after "A Game of Thrones"
+ * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}");
  * </pre>
  *
- * @param other the object to compare {@code actual} to.
- * @throws NullPointerException if the actual type is {@code null}.
- * @throws NullPointerException if the other type is {@code null}.
- * @throws AssertionError if the actual and the given object are not lenient equals.
- * @throws AssertionError if the other object is not an instance of the actual type.
+ * @param values the Strings to look for, in order.
+ * @return {@code this} assertion object.
+ * @throws NullPointerException if the given values is {@code null}.
+ * @throws IllegalArgumentException if the given values is empty.
+ * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+ * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
  */
 ```
 
