@@ -126,10 +126,6 @@ import net.sf.cglib.proxy.MethodProxy;
  * easily distinguished from one another.
  * </p>
  * 
- * <p>
- * Use of SoftAssertions requires the optional cglib-nodep dependency. See the pom.xml file for details.
- * </p>
- * 
  * @author Brian Laframboise
  * 
  * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
