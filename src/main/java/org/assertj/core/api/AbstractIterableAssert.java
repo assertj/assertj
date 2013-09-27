@@ -14,19 +14,20 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Iterables.toArray;
+
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.groups.MethodInvocationResultExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
-
-import static org.assertj.core.util.Iterables.toArray;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -366,6 +367,24 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     List<Object> values = FieldsOrPropertiesExtractor.extract(propertyOrField, actual);
     return new ListAssert<Object>(values);
   }
+
+  /**
+   * TODO: 
+   * @param methodName
+   * @return
+   */
+  public ListAssert<Object> extractingResultOf(String methodName) {
+    List<Object> values = MethodInvocationResultExtractor.extractResultOf(methodName, actual);
+    return new ListAssert<Object>(values);
+  }
+
+  public <P> ListAssert<P> extractingResultOf(String methodName, Class<P> extractingType) {
+    @SuppressWarnings("unchecked")
+    List<P> values = (List<P>) MethodInvocationResultExtractor.extractResultOf(methodName, actual);
+    return new ListAssert<P>(values);
+  }
+
+  
   /**
    * Extract the values of given field or property from the Iterable's elements under test into a new Iterable, this new
    * Iterable becoming the Iterable under test.

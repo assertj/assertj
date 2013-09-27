@@ -125,4 +125,11 @@ public class PropertySupport_propertyValues_Test {
     List<String> names = propertySupport.propertyValues("name", String.class, vehicleFactory.getVehicles());
     assertEquals(Arrays.asList("Toyota", "Honda", "Audi"), names);
   }
+  
+  @Test
+  public void should_return_property_from_superclass() {
+    List<Class> names = propertySupport.propertyValues("class", Class.class, employees);
+    assertEquals(Arrays.asList(Employee.class, Employee.class), names);
+  }
+  
 }

@@ -19,6 +19,7 @@ import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -81,5 +82,63 @@ public class FieldsOrPropertiesExtractor_extract_test {
   public void should_throw_exception_when_given_name_is_empty() {
     thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
     extract("", employees);
+  }
+  
+  @Test
+  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
+
+    List<Employee> employees = Arrays.<Employee>asList(employeeWithBrokenName("Name"));
+    List<Object> extractedValues = extract("name", employees);
+    assertThat(extractedValues).containsOnly(new Name("Name"));
+  }
+
+
+  @Test
+  public void should_prefer_properties_over_fields() throws Exception {
+    
+    List<Employee> employees = Arrays.<Employee>asList(employeeWithOverridenName("Overriden Name"));
+    List<Object> extractedValues = extract("name", employees);
+    assertThat(extractedValues).containsOnly(new Name("Overriden Name"));
+  }
+
+  @Test
+  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() throws Exception {
+    
+    thrown.expect(IntrospectionError.class);
+    
+    List<Employee> employees = Arrays.<Employee>asList(brokenEmployee());
+    extract("adult", employees);
+  }
+
+  // --
+  
+  private Employee employeeWithBrokenName(String name) {
+    return new Employee(1L, new Name(name), 0){
+      
+      @Override
+      public Name getName() {
+        throw new IllegalStateException();
+      }
+    };
+  }
+  
+  private Employee employeeWithOverridenName(final String overridenName) {
+    return new Employee(1L, new Name("Name"), 0){
+      
+      @Override
+      public Name getName() {
+        return new Name(overridenName);
+      }
+    };
+  }
+
+  private Employee brokenEmployee() {
+    return new Employee(){
+      
+      @Override
+      public boolean isAdult() {
+        throw new IllegalStateException();
+      }
+    };
   }
 }

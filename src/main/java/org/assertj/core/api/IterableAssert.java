@@ -52,4 +52,5 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
     }
     return actualList;
   }
+
 }

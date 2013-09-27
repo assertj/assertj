@@ -29,9 +29,22 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given {@code String} is empty.
    */
   public static String checkNotNullOrEmpty(String s) {
-    checkNotNull(s);
+    return checkNotNullOrEmpty(s, "Argument expected not to be empty!");
+  }
+
+  /**
+   * Verifies that the given {@code String} is not {@code null} or empty.
+   * 
+   * @param s the given {@code String}.
+   * @param message error message in case of empty {@code String}.
+   * @return the validated {@code String}.
+   * @throws NullPointerException if the given {@code String} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code String} is empty.
+   */
+  public static String checkNotNullOrEmpty(String s, String message) {
+    checkNotNull(s, message);
     if (s.isEmpty()) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException(message);
     }
     return s;
   }
@@ -46,6 +59,21 @@ public final class Preconditions {
   public static <T> T checkNotNull(T reference) {
     if (reference == null) {
       throw new NullPointerException();
+    }
+    return reference;
+  }
+  
+  /**
+   * Verifies that the given object reference is not {@code null}.
+   * 
+   * @param reference the given object reference.
+   * @param message error message in case of null reference.
+   * @return the non-{@code null} reference that was validated.
+   * @throws NullPointerException if the given object reference is {@code null}.
+   */
+  public static <T> T checkNotNull(T reference, String message) {
+    if (reference == null) {
+      throw new NullPointerException(message);
     }
     return reference;
   }
