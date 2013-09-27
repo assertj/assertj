@@ -14,11 +14,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -38,11 +38,10 @@ public class StandardComparisonStrategy_isLessThanOrEqualTo_Test extends Abstrac
   }
 
   @Test
-  public void should_fail_if_a_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
-    Rectangle r1 = new Rectangle(10, 20);
-    Rectangle r2 = new Rectangle(20, 10);
-    standardComparisonStrategy.isLessThanOrEqualTo(r1, r2);
+  public void should_be_able_to_say_not_comparable_objects_are_equal() {
+     Rectangle r1 = new Rectangle(10, 20);
+     Rectangle r2 = new Rectangle(10, 20);
+     assertTrue(standardComparisonStrategy.isLessThanOrEqualTo(r1, r2));
   }
 
 }
