@@ -26,7 +26,9 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -37,6 +39,7 @@ import org.junit.Test;
  * Tests for <code>{@link Iterables#assertContainsOnlyOnce(AssertionInfo, Collection, Object[])}</code>.
  * 
  * @author William Delanoue
+ * @author Tomasz Bartczak
  */
 public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
 
@@ -162,7 +165,7 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual.addAll(newArrayList("LUKE"));
     Object[] expected = array("LUke", "LUke", "lukE", "YOda", "Leia", "Han");
@@ -190,6 +193,41 @@ public class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_with_correct_assertion_error_when_actual_does_not_implement_Comparable() {
+    AssertionInfo info = someInfo();
+    NotComparable expectedElement = new NotComparable("1");
+    Object[] expected = array(expectedElement);
+    List<NotComparable> actual = Arrays.asList(new NotComparable("2"));
+    try {
+      iterables.assertContainsOnlyOnce(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(expectedElement), newLinkedHashSet()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  public static class NotComparable {
+
+    private String field;
+
+    public NotComparable(String field) {
+      this.field = field;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return ((NotComparable) o).field.equals(field);
+    }
+
+    @Override
+    public int hashCode() {
+      return 1;
+    }
   }
 
 }

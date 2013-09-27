@@ -14,11 +14,9 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import java.awt.Rectangle;
-
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -35,14 +33,6 @@ public class StandardComparisonStrategy_isLessThan_Test extends AbstractTest_Sta
     assertTrue(standardComparisonStrategy.isLessThan(young, boss));
     assertFalse(standardComparisonStrategy.isLessThan(boss, young));
     assertFalse(standardComparisonStrategy.isLessThan(boss, boss));
-  }
-
-  @Test
-  public void should_fail_if_a_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
-    Rectangle r1 = new Rectangle(10, 20);
-    Rectangle r2 = new Rectangle(20, 10);
-    standardComparisonStrategy.isLessThan(r1, r2);
   }
 
 }

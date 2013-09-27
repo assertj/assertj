@@ -15,8 +15,6 @@ package org.assertj.core.internal;
  * Copyright @2010-2011 the original author or authors.
  */
 
-import static java.lang.String.format;
-
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
@@ -32,7 +30,7 @@ import org.assertj.core.util.Objects;
  * @author Joel Costigliola
  */
 public class StandardComparisonStrategy extends AbstractComparisonStrategy {
-
+ 
   private static final StandardComparisonStrategy INSTANCE = new StandardComparisonStrategy();
 
   /**
@@ -56,17 +54,20 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   protected Set<Object> newSetUsingComparisonStrategy() {
     // define a comparator so that we can use areEqual to compare objects in Set collections
     // the "less than" comparison does not make much sense here but need to be defined.
-    return new TreeSet<Object>(
-                               new Comparator<Object>() {
-                                 @Override
-                                 public int compare(Object o1, Object o2) {
-                                   if (areEqual(o1, o2)) return 0;
-                                   return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
-                                 }
-                               });
+    return new TreeSet<Object>(hashCodeComparator());
   }
 
-  /**
+    private Comparator<Object> hashCodeComparator() {
+        return new Comparator<Object>() {
+          @Override
+          public int compare(Object o1, Object o2) {
+            if (areEqual(o1, o2)) return 0;
+            return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
+          }
+        };
+    }
+
+    /**
    * Returns true if actual and other are equal based on {@link Objects#areEqual(Object, Object)}, false otherwise.
    * 
    * @param actual the object to compare to other
@@ -148,11 +149,15 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 
   @Override
   @SuppressWarnings("unchecked")
-  public boolean isGreaterThan(Object actual, Object other) {
-    if (!(actual instanceof Comparable)) {
-      throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
+  public boolean isGreaterThan(Object o1, Object o2) {
+    if (!(o1 instanceof Comparable)) {
+        return isPositiveValue(hashCodeComparator().compare(o1, o2));
     }
-    return Comparable.class.cast(actual).compareTo(other) > 0;
+    return isPositiveValue(Comparable.class.cast(o1).compareTo(o2));
   }
+
+    private boolean isPositiveValue(int compareResult) {
+        return compareResult > 0;
+    }
 
 }

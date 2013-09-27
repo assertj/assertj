@@ -14,12 +14,11 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import java.awt.Rectangle;
-
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -46,9 +45,4 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
     assertFalse(standardComparisonStrategy.isGreaterThan(boss, boss));
   }
 
-  @Test
-  public void should_fail_if_first_parameter_is_not_comparable() {
-    thrown.expect(IllegalArgumentException.class);
-    standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo");
-  }
 }
