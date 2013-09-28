@@ -333,61 +333,20 @@ public class Iterables {
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
     if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
-    Set<?> expected = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Arrays.asList(values));
-    Set<?> actualList = asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
-    Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
     Set<Object> notFound = new LinkedHashSet<Object>();
     Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
-    for (Object element : expected) {
-      if (!actualList.contains(element)) {
-        notFound.add(element);
-      } else if (iterableContains(duplicates, element)) {
-        notOnlyOnce.add(element);
+    Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(actual);
+    for (Object expectedOnlyOnce : values) {
+      if (!iterableContains(actual, expectedOnlyOnce)) {
+        notFound.add(expectedOnlyOnce);
+      } else if (iterableContains(actualDuplicates, expectedOnlyOnce)) {
+        notOnlyOnce.add(expectedOnlyOnce);
       }
     }
     if (notFound.isEmpty() && notOnlyOnce.isEmpty()) {
       return;
     }
     throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
-  }
-
-  /**
-   * build a TreeSet with that avoid duplicates <b>according to given comparison strategy</b>
-   * 
-   * @param iterable to feed the Set we want to build
-   * @return a Set without duplicates <b>according to given comparison strategy</b> and with {@code .contains} who use
-   *         the given comparison strategy.
-   */
-  private <T> Set<T> asTreeSetWithoutDuplicatesAccordingToComparisonStrategy(Iterable<T> iterable) {
-    Set<T> set = new TreeSet<T>(getComparatorFromComparisonStrategy());
-    for (T element : iterable) {
-      set.add(element);
-    }
-    return set;
-  }
-
-  private Comparator<Object> getComparatorFromComparisonStrategy() {
-    @SuppressWarnings("unchecked")
-    Comparator<Object> comparator = (Comparator<Object>) getComparator();
-    if (comparator == null) {
-      comparator = new Comparator<Object>() {
-        @Override
-        public int compare(Object o1, Object o2) {
-          if (comparisonStrategy.areEqual(o1, o2))
-            return 0;
-          if (o1 == null) {
-            return -1;
-          }
-          if (o2 == null) {
-            return 1;
-          }
-          if (comparisonStrategy.isGreaterThan(o1, o2))
-            return 1;
-          return -1;
-        }
-      };
-    }
-    return comparator;
   }
 
   /**
