@@ -21,6 +21,7 @@ import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
@@ -28,6 +29,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.Test;
+
+import java.awt.Rectangle;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertContainsOnlyOnce(AssertionInfo, Object[], Object[])}</code>.
@@ -37,8 +40,16 @@ import org.junit.Test;
 public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only() {
+  public void should_pass_if_actual_contains_given_values_only_once() {
     arrays.assertContainsOnlyOnce(someInfo(), actual, array("Luke", "Yoda", "Leia"));
+  }
+
+  @Test
+  public void should_pass_if_actual_contains_given_values_only_once_even_if_actual_type_is_not_comparable() {
+    // Rectangle class does not implement Comparable
+    Rectangle r1 = new Rectangle(1, 1);
+    Rectangle r2 = new Rectangle(2, 2);
+    arrays.assertContainsOnlyOnce(someInfo(), array(r1, r2, r2), array(r1));
   }
 
   @Test
@@ -47,7 +58,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_only_more_than_once() {
+  public void should_fail_if_actual_contains_given_values_more_than_once() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "Yoda", "Han", "Luke", "Yoda", "Han", "Yoda", "Luke");
     String[] expected = { "Luke", "Yoda", "Leia" };
@@ -62,7 +73,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated() {
+  public void should_pass_if_actual_contains_given_values_only_once_even_if_duplicated() {
     arrays.assertContainsOnlyOnce(someInfo(), actual, array("Luke", "Yoda", "Leia", "Luke", "Yoda", "Leia"));
   }
 
@@ -91,7 +102,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only() {
+  public void should_fail_if_actual_does_not_contain_all_given_values() {
     AssertionInfo info = someInfo();
     String[] expected = { "Luke", "Yoda", "Han" };
     try {
@@ -115,7 +126,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_contains_given_values_only_more_than_once_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_contains_given_values_more_than_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = array("Luke", "yODA", "Han", "luke", "yoda", "Han", "YodA");
     String[] expected = { "Luke", "yOda", "Leia" };
@@ -132,7 +143,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
+  public void should_pass_if_actual_contains_given_values_only_once_according_to_custom_comparison_strategy_even_if_duplicated_() {
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual,
         array("Luke", "Yoda", "Leia", "Luke", "yODA", "LeiA"));
   }
@@ -156,7 +167,7 @@ public class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTe
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only_according_to_custom_comparison_strategy() {
+  public void should_fail_if_actual_does_not_contain_all_given_values_only_once_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     String[] expected = { "Luke", "yoda", "han" };
     try {
