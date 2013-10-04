@@ -195,6 +195,12 @@ import static org.assertj.core.api.Assertions...
 
 And that should be all you need to do. If something's missing or doesn't work, please create an issue so that I can update this section.
 
+For linux users, a quick way to do that is to use something like:
+
+```bash
+find . -name "*.java" -exec sed -i "s/org.fest.assertions.api.Assertions/org.assertj.core.api.Assertions/g" '{}' \;
+```
+
 If you are using FEST Assert 1.x, please read the [migration guide](https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4).
 
 ## <a name="doc"/>Documentation & Mailing list
