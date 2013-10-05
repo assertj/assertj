@@ -7,3 +7,7 @@
 /target
 /.classpath
 /.project
+.idea
+*.iml
+*.iws
+*.ipr
