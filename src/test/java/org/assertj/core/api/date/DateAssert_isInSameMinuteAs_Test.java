@@ -22,8 +22,8 @@ import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for <code>{@link DateAssert#isInSameMinuteAs(Date)}</code>.
- * 
+ * Tests for <code>{@link org.assertj.core.api.DateAssert#isInSameMinuteAs(java.util.Date)}</code>.
+ *
  * @author Joel Costigliola
  */
 public class DateAssert_isInSameMinuteAs_Test extends AbstractDateAssertWithDateArg_Test {

@@ -68,6 +68,10 @@ public abstract class DatesBaseTest {
     return org.assertj.core.util.Dates.parseDatetime(dateAsString);
   }
 
+  protected static Date parseDatetimeWithMs(String dateAsString) {
+    return org.assertj.core.util.Dates.parseDatetimeWithMs(dateAsString);
+  }
+
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return yearAndMonthComparator;
   }

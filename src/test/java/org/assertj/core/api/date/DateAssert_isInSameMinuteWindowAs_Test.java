@@ -22,25 +22,25 @@ import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for <code>{@link DateAssert#isInSameHourAs(Date)}</code>.
+ * Tests for <code>{@link DateAssert#isInSameMinuteWindowAs(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameHourOfDayAs_Test extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isInSameMinuteWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isInSameHourAs(otherDate);
+    return assertions.isInSameMinuteWindowAs(otherDate);
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String date) {
-    return assertions.isInSameHourAs(date);
+    return assertions.isInSameMinuteWindowAs(date);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(dates).assertIsInSameHourAs(getInfo(assertions), getActual(assertions), date);
+    verify(dates).assertIsInSameMinuteWindowAs(getInfo(assertions), getActual(assertions), date);
   }
 
 }

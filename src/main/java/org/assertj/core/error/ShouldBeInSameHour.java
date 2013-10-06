@@ -35,6 +35,6 @@ public class ShouldBeInSameHour extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameHour(Date actual, Date other) {
-    super("\nExpecting:\n <%s>\nto be on same year, month, day and hour as:\n <%s>", actual, other);
+    super("\nExpecting:\n <%s>\nto have same year, month, day and hour fields values as:\n <%s>", actual, other);
   }
 }

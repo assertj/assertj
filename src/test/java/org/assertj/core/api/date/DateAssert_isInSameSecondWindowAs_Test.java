@@ -22,25 +22,25 @@ import org.assertj.core.api.DateAssert;
 
 
 /**
- * Tests for <code>{@link org.assertj.core.api.DateAssert#isInSameSecondAs(java.util.Date)}</code>.
- *
+ * Tests for <code>{@link DateAssert#isInSameSecondWindowAs(Date)}</code>.
+ * 
  * @author Joel Costigliola
  */
-public class DateAssert_isInSameSecondAs_Test extends AbstractDateAssertWithDateArg_Test {
+public class DateAssert_isInSameSecondWindowAs_Test extends AbstractDateAssertWithDateArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isInSameSecondAs(otherDate);
+    return assertions.isInSameSecondWindowAs(otherDate);
   }
 
   @Override
   protected DateAssert assertionInvocationWithStringArg(String date) {
-    return assertions.isInSameSecondAs(date);
+    return assertions.isInSameSecondWindowAs(date);
   }
 
   @Override
   protected void verifyAssertionInvocation(Date date) {
-    verify(dates).assertIsInSameSecondAs(getInfo(assertions), getActual(assertions), date);
+    verify(dates).assertIsInSameSecondWindowAs(getInfo(assertions), getActual(assertions), date);
   }
 
 }
