@@ -1,11 +1,13 @@
 package org.assertj.core.internal;
 
+import java.util.concurrent.TimeUnit;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
 import static org.assertj.core.error.ShouldBeInSameMinute.shouldBeInSameMinute;
@@ -15,6 +17,7 @@ import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
@@ -41,6 +44,7 @@ import org.assertj.core.util.VisibleForTesting;
  * Reusable assertions for <code>{@link Date}</code>s.
  * 
  * @author Joel Costigliola
+ * @author William Delanoue
  */
 public class Dates {
 
@@ -137,6 +141,45 @@ public class Dates {
     dateParameterIsNotNull(other);
     if (isAfterOrEqualTo(actual, other)) return;
     throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is equal to the given one with precision.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param other the given Date.
+   * @param precision maximum precision for the comparison.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not equal to the given one.
+   */
+  public void assertIsEqualWithPrecision(AssertionInfo info, Date actual, Date other, TimeUnit precision) {
+    assertNotNull(info, actual);
+    Calendar calendarActual = Calendar.getInstance();
+    calendarActual.setTime(actual);
+    Calendar calendarOther = Calendar.getInstance();
+    calendarOther.setTime(other);
+    switch (precision) {
+      case DAYS:
+        calendarActual.set(Calendar.DAY_OF_WEEK, 0);
+        calendarOther.set(Calendar.DAY_OF_WEEK, 0);
+      case HOURS:
+        calendarActual.set(Calendar.HOUR, 0);
+        calendarOther.set(Calendar.HOUR, 0);
+      case MINUTES:
+        calendarActual.set(Calendar.MINUTE, 0);
+        calendarOther.set(Calendar.MINUTE, 0);
+      case SECONDS:
+        calendarActual.set(Calendar.SECOND, 0);
+        calendarOther.set(Calendar.SECOND, 0);
+      case MILLISECONDS:
+        calendarActual.set(Calendar.MILLISECOND, 0);
+        calendarOther.set(Calendar.MILLISECOND, 0);
+      case MICROSECONDS:
+        break;
+    }
+    if(calendarActual.compareTo(calendarOther) != 0)
+    throw failures.failure(info, ShouldBeEqualWithTimePrecision.shouldBeEqual(actual, other, precision));
   }
 
   /**
