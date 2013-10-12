@@ -19,7 +19,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link Maps} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Maps} attributes appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Maps} attributes appropriately.
  * 
  * @author Joel Costigliola
  * 

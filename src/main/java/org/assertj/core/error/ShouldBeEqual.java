@@ -1,13 +1,16 @@
 /*
  * Created on Aug 5, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
+ * with the
  * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language
  * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
@@ -26,12 +29,13 @@ import org.assertj.core.util.VisibleForTesting;
 
 
 /**
- * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal failed.
- * <p>
- * The built {@link AssertionError}'s message differentiates {@link #actual} and {@link #expected} description if their string
- * representation are the same (e.g. 42 float and 42 double). It also mentions the comparator in case of a custom comparator is
- * used (instead of equals method).
- * 
+ * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
+ * failed.
+ * <p/>
+ * The built {@link AssertionError}'s message differentiates {@link #actual} and {@link #expected} description if their
+ * string representation are the same (e.g. 42 float and 42 double). It also mentions the comparator in case of a custom
+ * comparator is used (instead of equals method).
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -39,24 +43,23 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldBeEqual implements AssertionErrorFactory {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "\nExpecting:\n <%s>\nto be equal to:\n <%s>\nbut was not.";
-  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "\nExpecting:\n <%s>\nto be equal to:\n <%s>\n%s but was not.";
-
-  private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[] { String.class, String.class, String.class };
-
+  private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = "\nExpecting:\n <%s>\nto be equal to:\n " +
+                                                                            "<%s>\n%s but was not.";
+  private static final Class<?>[] MSG_ARG_TYPES = new Class<?>[]{String.class, String.class, String.class};
+  protected final Object actual;
+  protected final Object expected;
+  @VisibleForTesting
+  final MessageFormatter messageFormatter = MessageFormatter.instance();
+  private final ComparisonStrategy comparisonStrategy;
   @VisibleForTesting
   ConstructorInvoker constructorInvoker = new ConstructorInvoker();
   @VisibleForTesting
-  final MessageFormatter messageFormatter = MessageFormatter.instance();
-  @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
-
-  protected final Object actual;
-  protected final Object expected;
-  private final ComparisonStrategy comparisonStrategy;
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
-   * @param actual the actual value in the failed assertion.
+   *
+   * @param actual   the actual value in the failed assertion.
    * @param expected the expected value in the failed assertion.
    * @return the created {@code AssertionErrorFactory}.
    */
@@ -66,12 +69,14 @@ public class ShouldBeEqual implements AssertionErrorFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param expected the expected value in the failed assertion.
+   *
+   * @param actual             the actual value in the failed assertion.
+   * @param expected           the expected value in the failed assertion.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to compare actual with expected.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
+                                                     ComparisonStrategy comparisonStrategy) {
     return new ShouldBeEqual(actual, expected, comparisonStrategy);
   }
 
@@ -83,17 +88,15 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal failed.<br>
-   * The <code>{@link AssertionError}</code> message is built so that it differentiates {@link #actual} and {@link #expected}
-   * description in case their string representation are the same (like 42 float and 42 double).
-   * <p>
-   * If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link #actual} and
-   * {@link #expected} string representation were differents), this method will instead create a org.junit.ComparisonFailure that
-   * highlights the difference(s) between the expected and actual objects.
-   * </p>
-   * {@link AssertionError} stack trace won't show Fest related elements if {@link Failures} is configured to filter them (see
-   * {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
-   * 
+   * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are
+   * equal failed.<br> The <code>{@link AssertionError}</code> message is built so that it differentiates {@link
+   * #actual} and {@link #expected} description in case their string representation are the same (like 42 float and 42
+   * double). <p> If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link
+   * #actual} and {@link #expected} string representation were differents), this method will instead create a
+   * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects. </p> {@link
+   * AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter them
+   * (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
+   *
    * @param description the description of the failed assertion.
    * @return the created {@code AssertionError}.
    */
@@ -122,6 +125,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   /**
    * Tells {@link #newAssertionError(Description)} if it should try a build a {@link org.junit.ComparisonFailure}.<br>
    * Returns <code>true</code> as we try in this class (may not be the case in subclasses).
+   *
    * @return <code>true</code>
    */
   private boolean isJUnitComparisonFailureRelevant() {
@@ -136,28 +140,31 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Builds and returns an error message from description using {@link #expected} and {@link #actual} basic representation.
+   * Builds and returns an error message from description using {@link #expected} and {@link #actual} basic
+   * representation.
+   *
    * @param description the {@link Description} used to build the returned error message
    * @return the error message from description using {@link #expected} and {@link #actual} basic representation.
    */
   private String defaultErrorMessage(Description description) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter
-          .format(description, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, actual, expected, comparisonStrategy);
+               .format(description, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, actual, expected, comparisonStrategy);
     return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, expected, actual);
   }
 
   /**
-   * Builds and returns an error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
-   * detailed representation.
+   * Builds and returns an error message from description using {@link #detailedExpected()} and {@link
+   * #detailedActual()} detailed representation.
+   *
    * @param description the {@link Description} used to build the returned error message
-   * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()} <b>detailed</b>
-   *         representation.
+   * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
+   *         <b>detailed</b> representation.
    */
   private String defaultDetailedErrorMessage(Description description) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, detailedActual(),
-          detailedExpected(), comparisonStrategy);
+                                     detailedExpected(), comparisonStrategy);
     return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
   }
 

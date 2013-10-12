@@ -14,7 +14,7 @@ import org.junit.Rule;
 /**
  * Base class for testing <code>{@link Booleans}</code>.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Booleans#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Booleans#failures} appropriately.
  * 
  * @author Joel Costigliola
  */

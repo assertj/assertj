@@ -15,7 +15,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link org.assertj.core.internal.Classes} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set
+ * Is in <code>org.assertj.core.internal</code> package to be able to set
  * {@link org.assertj.core.internal.Classes#failures} appropriately.
  * 
  * @author William Delanoue

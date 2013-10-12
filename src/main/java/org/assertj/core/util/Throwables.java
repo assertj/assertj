@@ -96,7 +96,7 @@ public final class Throwables {
         // java.lang.reflect.Constructor.newInstance(Constructor.java:501),
         // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
         //
-        // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to FEST.
+        // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to AssertJ.
         if (previous != null && previous.getClassName().equals("java.lang.reflect.Constructor")
             && element.getClassName().contains("org.assertj.core.error.ConstructorInvoker")) {
           filtered.remove(previous);

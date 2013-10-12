@@ -24,7 +24,7 @@ import org.assertj.core.api.TestCondition;
 import org.junit.BeforeClass;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#have(org.fest.assertions.core.Condition)()}</code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#have(org.assertj.core.api.Condition)}</code>.
  * 
  * @author Nicolas François
  */

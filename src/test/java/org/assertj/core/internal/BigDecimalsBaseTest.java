@@ -21,7 +21,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link BigDecimals} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link BigDecimals#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BigDecimals#failures} appropriately.
  * 
  * @author Joel Costigliola
  * 

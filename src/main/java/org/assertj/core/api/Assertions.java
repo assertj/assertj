@@ -457,8 +457,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Fest Assert
-   * features (but you can use Fail if you prefer).
+   * Only delegate to {@link Fail#fail(String)} so that Assertions offers a full feature entry point to all Assertj
+   * Assert features (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
@@ -466,7 +466,7 @@ public class Assertions {
 
   /**
    * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
-   * Fest Assert features (but you can use Fail if you prefer).
+   * AssertJ features (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
@@ -474,19 +474,19 @@ public class Assertions {
 
   /**
    * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
-   * entry point to all Fest Assert features (but you can use Fail if you prefer).
+   * entry point to all AssertJ features (but you can use Fail if you prefer).
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
     Fail.failBecauseExceptionWasNotThrown(exceptionClass);
   }
 
   // ------------------------------------------------------------------------------------------------------
-  // properties methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // properties methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use {@link Properties} if you prefer).
+   * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
@@ -512,7 +512,7 @@ public class Assertions {
 
   /**
    * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
-   * all Fest Assert features (but you can use {@link Properties} if you prefer).
+   * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
@@ -548,12 +548,12 @@ public class Assertions {
   }
 
   // ------------------------------------------------------------------------------------------------------
-  // Data utility methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
 
   /**
    * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
-   * Fest Assert features (but you can use {@link MapEntry} if you prefer).
+   * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p/>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * <p/>
@@ -566,7 +566,7 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all Fest Assert
+   * Only delegate to {@link Index#atIndex(int)} so that Assertions offers a full feature entry point to all AssertJ
    * features (but you can use {@link Index} if you prefer).
    * <p/>
    * Typical usage :
@@ -581,8 +581,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Offset} if you prefer).
+   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all AssertJ
+   * features (but you can use {@link Offset} if you prefer).
    * <p/>
    * Typical usage :
    * <p/>
@@ -595,8 +595,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Offset} if you prefer).
+   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all AssertJ
+   * features (but you can use {@link Offset} if you prefer).
    * <p/>
    * Typical usage :
    * <p/>
@@ -609,7 +609,7 @@ public class Assertions {
   }
 
   // ------------------------------------------------------------------------------------------------------
-  // Condition methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
 
   /**
@@ -639,8 +639,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link AnyOf} if you prefer).
+   * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
+   * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p/>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <p/>
@@ -686,12 +686,12 @@ public class Assertions {
   }
 
   // --------------------------------------------------------------------------------------------------
-  // Filter methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // Filter methods : not assertions but here to have a single entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Filters} if you prefer).
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all
+   * AssertJ features (but you can use {@link Filters} if you prefer).
    * <p/>
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p/>
@@ -714,8 +714,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all Fest
-   * Assert features (but you can use {@link Filters} if you prefer).
+   * Only delegate to {@link Filters#filter(Object[])} so that Assertions offers a full feature entry point to all
+   * AssertJ features (but you can use {@link Filters} if you prefer).
    * <p/>
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p/>
@@ -738,7 +738,7 @@ public class Assertions {
   }
 
   // --------------------------------------------------------------------------------------------------
-  // File methods : not assertions but here to have a single entry point to all Fest Assert features.
+  // File methods : not assertions but here to have a single entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------
 
   /**
@@ -801,22 +801,30 @@ public class Assertions {
     AbstractDateAssert.useDateFormat(userCustomDateFormat);
   }
 
-  /** Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions. */
+  /**
+   * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
+   */
   public static void useIsoDateFormat() {
     AbstractDateAssert.useIsoDateFormat();
   }
 
-  /** Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code> */
+  /**
+   * Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   */
   public static void useIsoDateTimeFormat() {
     AbstractDateAssert.useDateFormat(Dates.newIsoDateTimeFormat());
   }
 
-  /** Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code> */
+  /**
+   * Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   */
   public static void useIsoDateTimeWithMsFormat() {
     AbstractDateAssert.useDateFormat(Dates.newIsoDateTimeWithMsFormat());
   }
 
-  /** Creates a new </code>{@link Assertions}</code>. */
+  /**
+   * Creates a new </code>{@link Assertions}</code>.
+   */
   protected Assertions() {
   }
 }

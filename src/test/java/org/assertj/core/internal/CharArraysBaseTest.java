@@ -35,7 +35,7 @@ import org.junit.Rule;
  * Base class for testing <code>{@link CharArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link CharArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link CharArrays#failures} appropriately.
  * 
  * @author Joel Costigliola
  */

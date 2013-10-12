@@ -57,7 +57,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
-  // let's keep compiler warning internal to fest (when we can) and not expose them to our end users.
+  // let's keep compiler warning internal (when we can) and not expose them to our end users.
   @SuppressWarnings("unchecked")
   protected AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
@@ -310,7 +310,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Overrides Fest default error message by the given one.
+   * Overrides AssertJ default error message by the given one.
    * <p>
    * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
    * don't, the error message is taken as it is).
@@ -322,7 +322,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *                              .isTrue();
    * </pre>
    * 
-   * @param newErrorMessage the error message that will replace the default one provided by Fest.
+   * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    * @throws exception see {@link String#format(String, Object...)} exception clause.

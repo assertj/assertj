@@ -26,7 +26,7 @@ import org.junit.Before;
 /**
  * Base class for testing <code>{@link ObjectArrays}</code> with {@link Conditions}.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link ObjectArrays#conditions} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link ObjectArrays#conditions} appropriately.
  * 
  * @author Joel Costigliola
  */
