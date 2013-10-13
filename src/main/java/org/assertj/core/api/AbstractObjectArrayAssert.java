@@ -422,14 +422,102 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return new ObjectArrayAssert<Tuple>(values);
   }
 
-  // TODO : write javadoc !
+  /**
+   * Extract the result of given method invocation from the array's elements under test into a new array, this new array
+   * becoming the array under test.
+   * <p>
+   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can
+   * be sometimes much less work!
+   * <p>
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() or public String status() instead
+   * of public String getStatus()). 
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] {
+   *   new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
+   *   new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
+   *   new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
+   *   new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
+   *   new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
+   *   new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;)
+   * };
+   * 
+   * // let's verify the words of great houses in Westeros:
+   * 
+   * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;)
+   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   * </pre>
+   * 
+   * <p>
+   * Following requirements have to be met to extract method results:
+   * <ul>
+   *    <li>method has to be public,</li>
+   *    <li>method cannot accept any arguments,</li>
+   *    <li>method cannot return void.</li>
+   * </ul>
+   * <p>
+   * Note that the order of extracted values is consistent with the order of the array under test.
+   * 
+   * @param method the name of the method which result is to be extracted from the array under test
+   * @return a new assertion object whose object under test is the array of extracted values.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
+   *    or method does return void, or method accepts arguments.
+   */
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
-    @SuppressWarnings("unchecked")
     Object[] values = MethodInvocationResultExtractor.extractResultOf(method, actual);
     return new ObjectArrayAssert<Object>(values);
   }
 
-  // TODO : write javadoc !
+  /**
+   * Extract the result of given method invocation from the array's elements under test into a new array, this new array
+   * becoming the array under test.
+   * <p>
+   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can
+   * be sometimes much less work!
+   * <p>
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() or public String status() instead
+   * of public String getStatus()). 
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] {
+   *   new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
+   *   new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
+   *   new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
+   *   new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
+   *   new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
+   *   new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;)
+   * };
+   * 
+   * // let's verify the words of great houses in Westeros:
+   * 
+   * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;, String.class)
+   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   * </pre>
+   * 
+   * <p>
+   * Following requirements have to be met to extract method results:
+   * <ul>
+   *    <li>method has to be public,</li>
+   *    <li>method can not accept any arguments,</li>
+   *    <li>method can not return void.</li>
+   * </ul>
+   * <p>
+   * Note that the order of extracted values is consistent with the order of the array under test.
+   * 
+   * @param method the name of the method which result is to be extracted from the array under test
+   * @param extractingType type to return
+   * @return a new assertion object whose object under test is the array of extracted values.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
+   *    or method does return void, or method accepts arguments.
+   */
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
     P[] values = (P[]) MethodInvocationResultExtractor.extractResultOf(method, actual);

@@ -369,18 +369,108 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * TODO: 
-   * @param methodName
-   * @return
+   * Extract the result of given method invocation from the Iterable's elements under test into a new Iterable, this new Iterable
+   * becoming the Iterable under test.
+   * <p>
+   * It allows you to test a method reslts of the Iterable's elements instead of testing the elements themselves, it can
+   * be sometimes much less work!
+   * <p>
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() 
+   * or public String status() instead of public String getStatus()). 
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
+   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;));
+   * 
+   * // let's verify the words of great houses in Westeros:
+   * 
+   * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;)
+   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   * </pre>
+   * 
+   * <p>
+   * Following requirements have to be met to extract method results:
+   * <ul>
+   *    <li>method has to be public,</li>
+   *    <li>method cannot accept any arguments,</li>
+   *    <li>method cannot return void.</li>
+   * </ul>
+   * 
+   * <p>
+   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions of the extracted values
+   * order.
+   *  
+   * @param method the name of the method which result is to be extracted from the array under test
+   * @return a new assertion object whose object under test is the Iterable of extracted values.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
+   *    or method does return void, or method accepts arguments.
    */
-  public ListAssert<Object> extractingResultOf(String methodName) {
-    List<Object> values = MethodInvocationResultExtractor.extractResultOf(methodName, actual);
+  public ListAssert<Object> extractingResultOf(String method) {
+    List<Object> values = MethodInvocationResultExtractor.extractResultOf(method, actual);
     return new ListAssert<Object>(values);
   }
-
-  public <P> ListAssert<P> extractingResultOf(String methodName, Class<P> extractingType) {
+  
+  /**
+   * Extract the result of given method invocation from the Iterable's elements under test into a new Iterable, this new Iterable
+   * becoming the Iterable under test.
+   * <p>
+   * It allows you to test a method reslts of the Iterable's elements instead of testing the elements themselves, it can
+   * be sometimes much less work!
+   * <p>
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() 
+   * or public String status() instead of public String getStatus()). 
+   * <p>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
+   * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
+   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;));
+   * 
+   * // let's verify the words of great houses in Westeros:
+   * 
+   * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;, String.class)
+   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   * </pre>
+   * 
+   * <p>
+   * Following requirements have to be met to extract method results:
+   * <ul>
+   *    <li>method has to be public,</li>
+   *    <li>method cannot accept any arguments,</li>
+   *    <li>method cannot return void.</li>
+   * </ul>
+   * 
+   * <p>
+   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
+   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions of the extracted values
+   * order.
+   *     
+   * @param method the name of the method which result is to be extracted from the array under test
+   * @param extractingType type to return
+   * @return a new assertion object whose object under test is the Iterable of extracted values.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
+   *    or method does return void, or method accepts arguments.
+   */
+  public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
-    List<P> values = (List<P>) MethodInvocationResultExtractor.extractResultOf(methodName, actual);
+    List<P> values = (List<P>) MethodInvocationResultExtractor.extractResultOf(method, actual);
     return new ListAssert<P>(values);
   }
 
