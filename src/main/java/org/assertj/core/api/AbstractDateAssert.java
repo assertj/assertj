@@ -1,7 +1,13 @@
 package org.assertj.core.api;
 
+import static org.assertj.core.util.Dates.newIsoDateFormat;
+import static org.assertj.core.util.Dates.newIsoDateTimeFormat;
+import static org.assertj.core.util.Dates.newIsoDateTimeWithMsFormat;
+import static org.assertj.core.util.ToString.toStringOf;
+
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -11,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -33,11 +38,16 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extends AbstractAssert<S, Date> {
 
   /**
+   * the default DateFormat used to parse any String date representation.
+   */
+  private static final DateFormat[] defaultDateFormats = {newIsoDateTimeWithMsFormat(), newIsoDateTimeFormat(),
+                                                           newIsoDateFormat()};
+  /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
    * to Date.<br> The format used can be overridden by invoking {@link #withDateFormat(DateFormat)}
    */
   @VisibleForTesting
-  static DateFormat dateFormat = org.assertj.core.util.Dates.newIsoDateFormat();
+  static DateFormat customDateFormat = null;
   @VisibleForTesting
   Dates dates = Dates.instance();
 
@@ -1373,7 +1383,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
    * field.
    * <p/>
-   * To revert to default format simply call {@link #withIsoDateFormat()}.
+   * To revert to default formats simply call {@link #withDefaultDateFormats()}.
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    * @return this assertion object.
@@ -1384,8 +1394,25 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
-   * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow the default
-   * Date format, that is ISO 8601 format : "yyyy-MM-dd".
+   * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow one of the
+   * default Date formats: [yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]
+   * <p/>
+   * With this method, user can specify its own date format, replacing the current date format for all future Date
+   * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
+   * field.
+   * <p/>
+   * To revert to default format simply call {@link #withDefaultDateFormats()}.
+   *
+   * @param userCustomDateFormatPattern the new Date format string pattern used for String based Date assertions.
+   * @return this assertion object.
+   */
+  public S withDateFormat(String userCustomDateFormatPattern) {
+    return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
+  }
+
+  /**
+   * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow one of the
+   * default Date formats: [yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]
    * <p/>
    * With this method, user can specify its own date format, replacing the current date format for all future Date
    * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
@@ -1399,7 +1426,24 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   public static void useDateFormat(DateFormat userCustomDateFormat) {
     if (userCustomDateFormat == null)
       throw new NullPointerException("The given date format should not be null");
-    dateFormat = userCustomDateFormat;
+    customDateFormat = userCustomDateFormat;
+  }
+
+  /**
+   * For String based Date assertions like {@link #isBefore(String)}, given String is expected to follow one of the
+   * default Date formats: [yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]
+   * <p/>
+   * With this method, user can specify its own date format, replacing the current date format for all future Date
+   * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
+   * field.
+   * <p/>
+   * To revert to default format simply call {@link #useIsoDateFormat()} (static method) or {@link
+   * #withIsoDateFormat()}.
+   *
+   * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
+   */
+  public static void useDateFormat(String userCustomDateFormatPattern) {
+    useDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
   /**
@@ -1413,29 +1457,93 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
-   * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
+   * Use the defaults date formats to parse string as date.
+   * <p/>
+   * Defaults date format are:
+   * <ul>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   *   <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p/>
+   * Example of valid string date representations:
+   * <ul>
+   *   <li><code>2003-04-26T03:01:02.999</code></li>
+   *   <li><code>2003-04-26T13:01:02</code></li>
+   *   <li><code>2003-04-26</code></li>
+   * </ul>
+   *
+   * @return this assertion
    */
-  public static void useIsoDateFormat() {
-    dateFormat = org.assertj.core.util.Dates.newIsoDateFormat();
+  public S withDefaultDateFormats() {
+    useDefaultDateFormats();
+    return myself;
   }
 
   /**
-   * Utility method to parse a Date with {@link #dateFormat}, note that it is thread safe.<br> Returns <code>null</code>
-   * if dateAsString parameter is <code>null</code>.
+   * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
+   */
+  public static void useIsoDateFormat() {
+    customDateFormat = newIsoDateFormat();
+  }
+
+  /**
+   * Use the defaults date formats to parse string as date.
+   * <p/>
+   * Defaults date format are:
+   * <ul>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   *   <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p/>
+   * Example of valid string date representations:
+   * <ul>
+   *   <li><code>2003-04-26T03:01:02.999</code></li>
+   *   <li><code>2003-04-26T13:01:02</code></li>
+   *   <li><code>2003-04-26</code></li>
+   * </ul>
+   */
+  public static void useDefaultDateFormats() {
+    customDateFormat = null;
+  }
+
+  /**
+   * Utility method to parse a Date with either {@link #defaultDateFormats} or {@link #customDateFormat} if the latter
+   * has been set, note that it is thread safe. <p/> Returns <code>null</code> if dateAsString parameter is
+   * <code>null</code>.
    *
-   * @param dateAsString the string to parse as a Date with {@link #dateFormat}
+   * @param dateAsString the string to parse as a Date with {@link #customDateFormat}
    * @return the corresponding Date, null if dateAsString parameter is null.
    * @throws AssertionError if the string can't be parsed as a Date
    */
-  private static Date parse(String dateAsString) {
+  @VisibleForTesting
+  static Date parse(String dateAsString) {
     if (dateAsString == null) return null;
-    try {
-      // synchronized is used because SimpleDateFormat which is not thread safe (sigh).
-      synchronized (dateFormat) {
-        return dateFormat.parse(dateAsString);
+    // use synchronized block because SimpleDateFormat which is not thread safe (sigh).
+    // parse with date format specified by user
+    if (customDateFormat != null) {
+      synchronized (customDateFormat) {
+        try {
+          return customDateFormat.parse(dateAsString);
+        } catch (ParseException e) {
+          throw new AssertionError("Failed to parse " + dateAsString + " with date format: "
+                                     + toStringOf(customDateFormat));
+        }
       }
-    } catch (ParseException e) {
-      throw Failures.instance().failure("Failed to parse " + dateAsString + " with date format " + dateFormat);
+    }
+    // user has not set any specific date format, let's try our defaults ones.
+    synchronized (defaultDateFormats) {
+      for (DateFormat defaultDateFormat : defaultDateFormats) {
+        try {
+          return defaultDateFormat.parse(dateAsString);
+        } catch (ParseException e) {
+          // ignore and try next date format
+        }
+      }
+      // no suitable date format
+      throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
+                                 + toStringOf(defaultDateFormats));
     }
   }
 

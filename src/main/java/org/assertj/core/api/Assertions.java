@@ -786,19 +786,44 @@ public class Assertions {
 
   /**
    * For String based Date assertions like {@link AbstractDateAssert#isBefore(String)}, given String is expected to
-   * follow the default Date format, that is ISO 8601 format : "yyyy-MM-dd".
-   * <p/>
+   * follow one of the default Date format:
+   * <ul>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   *   <li><code>yyyy-MM-dd</code></li>
+   * </ul>
    * With this method, user can specify its own date format, replacing the current date format for all future Date
    * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
    * field.
    * <p/>
-   * To revert to default format simply call {@link #useIsoDateFormat()} (static method) or {@link
-   * AbstractDateAssert#withIsoDateFormat()}.
+   * To revert to default format simply call {@link #useDefaultDateFormats()} (static method) or {@link
+   * org.assertj.core.api.AbstractDateAssert#withDefaultDateFormats()}.
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
   public static void useDateFormat(final DateFormat userCustomDateFormat) {
     AbstractDateAssert.useDateFormat(userCustomDateFormat);
+  }
+
+  /**
+   * For String based Date assertions like {@link AbstractDateAssert#isBefore(String)}, given String is expected to
+   * follow one of the default Date format:
+   * <ul>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   *   <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * With this method, user can specify its own date format, replacing the current date format for all future Date
+   * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
+   * field.
+   * <p/>
+   * To revert to default format simply call {@link #useDefaultDateFormats()} (static method) or {@link
+   * org.assertj.core.api.AbstractDateAssert#withDefaultDateFormats()}.
+   *
+   * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
+   */
+  public static void useDateFormat(final String userCustomDateFormatPattern) {
+    AbstractDateAssert.useDateFormat(userCustomDateFormatPattern);
   }
 
   /**
@@ -816,10 +841,31 @@ public class Assertions {
   }
 
   /**
-   * Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   * Use ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T03:01:02.999</code>
    */
   public static void useIsoDateTimeWithMsFormat() {
     AbstractDateAssert.useDateFormat(Dates.newIsoDateTimeWithMsFormat());
+  }
+
+  /**
+   * Use the defaults date formats to parse string as date.
+   * <p/>
+   * Defaults date format are:
+   * <ul>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   *   <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p/>
+   * Example of valid string date representations:
+   * <ul>
+   *   <li><code>2003-04-26T03:01:02.999</code></li>
+   *   <li><code>2003-04-26T13:01:02</code></li>
+   *   <li><code>2003-04-26</code></li>
+   * </ul>
+   */
+  public static void useDefaultDateFormats() {
+    AbstractDateAssert.useDefaultDateFormats();
   }
 
   /**

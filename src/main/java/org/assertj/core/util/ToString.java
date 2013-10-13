@@ -18,6 +18,8 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -70,6 +72,9 @@ public final class ToString {
     if (o instanceof Comparator) {
       return toStringOf((Comparator<?>) o);
     }
+    if (o instanceof SimpleDateFormat) {
+      return toStringOf((SimpleDateFormat) o);
+    }
     return o == null ? null : o.toString();
   }
 
@@ -108,6 +113,10 @@ public final class ToString {
 
   private static String toStringOf(Map<?, ?> m) {
     return Maps.format(m);
+  }
+
+  private static String toStringOf(SimpleDateFormat dateFormat) {
+    return dateFormat.toPattern();
   }
 
   private ToString() {}

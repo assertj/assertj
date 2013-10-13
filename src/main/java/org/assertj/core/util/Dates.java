@@ -34,9 +34,13 @@ import java.util.Date;
  */
 public class Dates {
 
-  /** ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code> */
+  /**
+   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
+   */
   private static final DateFormat ISO_DATE_FORMAT = newIsoDateFormat();
-  /** ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code> */
+  /**
+   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   */
   private static final DateFormat ISO_DATE_TIME_FORMAT = newIsoDateTimeFormat();
   /**
    * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
@@ -44,12 +48,16 @@ public class Dates {
    */
   private static final DateFormat ISO_DATE_TIME_FORMAT_WITH_MS = newIsoDateTimeWithMsFormat();
 
-  /** ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code> */
+  /**
+   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
+   */
   public static DateFormat newIsoDateFormat() {
     return new SimpleDateFormat("yyyy-MM-dd");
   }
 
-  /** ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code> */
+  /**
+   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   */
   public static DateFormat newIsoDateTimeFormat() {
     return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
   }
