@@ -68,6 +68,11 @@ public abstract class DatesBaseTest {
     return org.assertj.core.util.Dates.parseDatetime(dateAsString);
   }
 
+  /**
+   * Simply delegate to {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
+   * @param dateAsString see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)} }
+   * @return see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
+   */
   protected static Date parseDatetimeWithMs(String dateAsString) {
     return org.assertj.core.util.Dates.parseDatetimeWithMs(dateAsString);
   }
