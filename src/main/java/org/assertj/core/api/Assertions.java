@@ -184,7 +184,8 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first converted
+   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first
+   * converted
    * into an <code>{@link Iterable}</code>
    *
    * @param actual the actual value.
@@ -485,7 +486,8 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
+   * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
@@ -511,7 +513,8 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link Properties#extractProperty(String)} so that Assertions offers a full feature entry point
+   * to
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
@@ -552,7 +555,8 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to all
+   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
+   * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p/>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
@@ -788,9 +792,9 @@ public class Assertions {
    * For String based Date assertions like {@link AbstractDateAssert#isBefore(String)}, given String is expected to
    * follow one of the default Date format:
    * <ul>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   *   <li><code>yyyy-MM-dd</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * With this method, user can specify its own date format, replacing the current date format for all future Date
    * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
@@ -809,9 +813,9 @@ public class Assertions {
    * For String based Date assertions like {@link AbstractDateAssert#isBefore(String)}, given String is expected to
    * follow one of the default Date format:
    * <ul>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   *   <li><code>yyyy-MM-dd</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * With this method, user can specify its own date format, replacing the current date format for all future Date
    * assertions in the test suite (i.e. not only the current assertions) since custom DateFormat is stored in a static
@@ -852,16 +856,16 @@ public class Assertions {
    * <p/>
    * Defaults date format are:
    * <ul>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   *   <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   *   <li><code>yyyy-MM-dd</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
    * </ul>
    * <p/>
    * Example of valid string date representations:
    * <ul>
-   *   <li><code>2003-04-26T03:01:02.999</code></li>
-   *   <li><code>2003-04-26T13:01:02</code></li>
-   *   <li><code>2003-04-26</code></li>
+   * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26</code></li>
    * </ul>
    */
   public static void useDefaultDateFormats() {
