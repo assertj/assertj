@@ -15,11 +15,11 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToFest;
+import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 
 import org.assertj.core.api.Fail;
-import org.assertj.core.error.ShouldBeEqual;
+
 import org.junit.Test;
 
 
@@ -28,7 +28,7 @@ import org.junit.Test;
  * 
  * @author Joel Costigliola
  */
-public class ShouldBeEqual_fest_elements_stack_trace_filtering_Test {
+public class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
 
   @Test
   public void fest_elements_should_be_removed_from_assertion_error_stack_trace() {
@@ -36,7 +36,7 @@ public class ShouldBeEqual_fest_elements_stack_trace_filtering_Test {
     try {
       assertThat("Xavi").isEqualTo("Xabi");
     } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToFest(assertionError)).isFalse();
+      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
     }
   }
 
@@ -46,7 +46,7 @@ public class ShouldBeEqual_fest_elements_stack_trace_filtering_Test {
     try {
       assertThat("Messi").isEqualTo("Ronaldo");
     } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToFest(assertionError)).isTrue();
+      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
     }
   }
 
