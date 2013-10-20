@@ -15,6 +15,8 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 
 import java.lang.reflect.Method;
 
@@ -22,61 +24,51 @@ import org.assertj.core.util.Preconditions;
 
 /**
  * Utillity class for reflective method invocation.
- * 
+ *
  * @author Michał Piotrkowski
- * 
  */
 public class MethodSupport {
 
-  private static final String METHOD_HAS_NO_RETURN_VALUE = "Method with name '%s' in class %s.class has to return value!";
-  private static final String METHOD_NOT_FOUND = "Can't find method with name '%s' in class %s.class. Make sure public method exist and accepts no arguments!";
+  private static final String METHOD_HAS_NO_RETURN_VALUE = "Method '%s' in class %s.class has to return a value!";
+  private static final String METHOD_NOT_FOUND = "Can't find method '%s' in class %s.class. Make sure public method " +
+                                                   "exists and accepts no arguments!";
 
   /**
    * Returns result of given method invocation on provided object.
-   * <p>
+   * <p/>
    * Following requirements have to be met to extract method results:
    * <ul>
    * <li>method has to be public,</li>
    * <li>method cannot accept any arguments,</li>
    * <li>method cannot return void.</li>
    * </ul>
-   * 
-   * @param instance object on which
+   *
+   * @param instance   object on which
    * @param methodName name of method to be invoked
-   * @throws IllegalArgumentException if method does not exist or is not public, method returns void or method accepts
-   *           any argument
    * @return result of method invocation
+   * @throws IllegalArgumentException if method does not exist or is not public, method returns void or method accepts
+   *                                  any argument
    */
   public static Object methodResultFor(Object instance, String methodName) {
-
-    Preconditions.checkNotNull(instance, "Object instance can not be null!");
-    Preconditions.checkNotNullOrEmpty(methodName, "Method name can not be empty!");
-
+    checkNotNull(instance, "Object instance can not be null!");
+    checkNotNullOrEmpty(methodName, "Method name can not be empty!");
     Method method = findMethod(methodName, instance.getClass());
     return invokeMethod(instance, method);
-
   }
 
   private static Object invokeMethod(Object item, Method method) {
-
     try {
-
       return method.invoke(item);
-
     } catch (Exception e) {
       throw new IllegalStateException(e);
     }
   }
 
   private static Method findMethod(String methodName, Class<? extends Object> itemClass) {
-
     try {
-
-      Method method = itemClass.getMethod(methodName, new Class<?>[0]);
+      Method method = itemClass.getMethod(methodName);
       assertHasReturnType(itemClass, method);
-
       return method;
-
     } catch (SecurityException e) {
       throw prepareMethodNotFoundException(methodName, itemClass, e);
     } catch (NoSuchMethodException e) {
@@ -85,8 +77,8 @@ public class MethodSupport {
   }
 
   private static IllegalArgumentException prepareMethodNotFoundException(String methodName,
-      Class<? extends Object> itemClass, Exception cause) {
-
+                                                                          Class<? extends Object> itemClass,
+                                                                          Exception cause) {
     String message = format(METHOD_NOT_FOUND, methodName, itemClass.getSimpleName());
     return new IllegalArgumentException(message, cause);
   }
