@@ -25,7 +25,7 @@ To start using Guava assertions
  </dependency>
 ```
 
-2 - statically import `GUAVA.assertThat` and use your preferred IDE code completion after `assertThat.`.
+2 - statically import `org.assertj.guava.api.Assertions.assertThat` and use your preferred IDE code completion after `assertThat.`.
 
 Example : 
 
@@ -46,7 +46,7 @@ Optional<String> optional = Optional.of("Test");
 assertThat(optional).isPresent().contains("Test");
 ```
 
-`assertThat` and `entry` are static import from `Assertions` class.
+`assertThat` and `entry` are static imports from the `Assertions` class.
 
 Note that you can find working examples in [assertj-examples](https://github.com/joel-costigliola/assertj-examples/blob/master/src/test/java/org/assertj/examples/guava) guava package.
 
@@ -84,7 +84,7 @@ import static org.assertj.guava.api.Assertions
 
 ## <a name="core-and-guava-assertions"/>Using both AssertJ [Core assertions](https://github.com/joel-costigliola/assertj-core) and Guava assertions
 
-You will have to make two static import : one for `Assertions.assertThat` to get **core** assertions and one `GUAVA.assertThat` for **Guava** assertions.
+You will have to make two static import : one for `org.assertj.core.api.Assertions.assertThat` to get **core** assertions and one `org.assertj.guava.api.Assertions.assertThat` for **Guava** assertions.
 
 ```java
 import static org.assertj.core.api.Assertions.assertThat;
