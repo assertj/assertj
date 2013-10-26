@@ -152,8 +152,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements in the array.
    * @throws NullPointerException if the given array is {@code null}.
    */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
+  public S hasSameSizeAs(Object other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }

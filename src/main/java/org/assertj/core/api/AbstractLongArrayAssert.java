@@ -8,9 +8,7 @@ import org.assertj.core.internal.LongArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<S>>
-    extends AbstractAssert<S, long[]>
-    implements EnumerableAssert<AbstractLongArrayAssert<S>, Long>,
-    ArraySortedAssert<AbstractLongArrayAssert<S>, Long> {
+  extends AbstractArrayAssert<S, long[], Long> {
 
   @VisibleForTesting
   protected LongArrays arrays = LongArrays.instance();
@@ -42,13 +40,6 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 

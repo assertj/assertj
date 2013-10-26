@@ -8,9 +8,7 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAssert<S>>
-    extends AbstractAssert<S, double[]>
-    implements EnumerableAssert<AbstractDoubleArrayAssert<S>, Double>,
-    ArraySortedAssert<AbstractDoubleArrayAssert<S>, Double> {
+  extends AbstractArrayAssert<S, double[], Double> {
 
   @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
@@ -63,28 +61,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * {@inheritDoc}
    * <p>
    * Examples :
-   * 
-   * <pre>
-   * // assertion will pass
-   * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(new int[] { 1, 2, 3 });
-   * 
-   * // assertions will fail
-   * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(new int[] { 1, 2 });
-   * </pre>
-   * 
-   * </p>
-   */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * Examples :
-   * 
    * <pre>
    * // assertion will pass
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).hasSameSizeAs(Arrays.asList(1, 2, 3));
@@ -92,8 +68,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * // assertions will fail
    * assertThat(new double[] { 1.0, 2.0, 1.0 }).hasSameSizeAs(Arrays.asList(1, 2);
    * </pre>
-   * 
-   * </p>
    */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {

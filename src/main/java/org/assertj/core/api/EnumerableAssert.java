@@ -20,14 +20,14 @@ import java.util.Comparator;
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <T> the type of elements of the "actual" value.
+ * @param <E> the type of elements of the "actual" value.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
+public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
@@ -68,13 +68,15 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
 
   /**
    * Verifies that the actual group has the same size as given array.
-   * @param other the array to compare size with actual group.
+   * <p/>
+   * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
+   * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other array is {@code null}.
+   * @throws AssertionError if the array parameter is {@code null} or is not a true array.
    * @throws AssertionError if actual group and given array don't have the same size.
    */
-  S hasSameSizeAs(Object[] other);
+  S hasSameSizeAs(Object array);
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group elements for
@@ -109,7 +111,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, T>, T> {
    * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
    */
-  S usingElementComparator(Comparator<? super T> customComparator);
+  S usingElementComparator(Comparator<? super E> customComparator);
 
   /**
    * Revert to standard comparison for incoming assertion group element checks.

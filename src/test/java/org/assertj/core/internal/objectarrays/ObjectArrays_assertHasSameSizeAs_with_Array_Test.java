@@ -31,7 +31,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ObjectArrays#assertHasSameSizeAs(AssertionInfo, Object[], Object[])}</code>.
+ * Tests for <code>{@link ObjectArrays#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, Object[], Object)}</code>.
  * 
  * @author Nicolas François
  * @author Joel Costigliola
@@ -46,7 +46,7 @@ public class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArra
 
   @Test
   public void should_fail_if_other_is_null() {
-    thrown.expectNullPointerException("The Array to compare actual size with should not be null");
+    thrown.expectAssertionError("Expecting an array but was:<null>");
     String[] actual = array("Solo", "Leia");
     String[] other = null;
     arrays.assertHasSameSizeAs(someInfo(), actual, other);

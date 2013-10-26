@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link MapsAssert#hasSameSizeAs(Object[])}</code>.
+ * Tests for <code>{@link MapAssert#hasSameSizeAs(Object)}</code>.
  * 
  * @author Nicolas François
  */

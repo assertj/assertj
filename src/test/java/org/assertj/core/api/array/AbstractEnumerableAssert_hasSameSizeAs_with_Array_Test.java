@@ -1,5 +1,5 @@
 /*
- * Created on Apr 27, 2012
+ * Created on Jun 4, 2012
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the
@@ -15,32 +15,41 @@
  * 
  * Copyright @2010-2012 the original author or authors.
  */
-package org.assertj.core.api.objectarray;
+package org.assertj.core.api.array;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.test.ExpectedException;
 
 
 /**
- * Tests for <code>{@link ObjectArrayAssert#hasSameSizeAs(Object))}</code>.
+ * Tests for <code>{@link org.assertj.core.api.AbstractEnumerableAssert#hasSameSizeAs(Object)}</code>.
  *
  * @author Joel Costigliola
  */
-public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
+public class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
 
-  private final String[] other = array("Yoda");
   @Rule
   public ExpectedException thrown = none();
+
+  @Test
+  public void should_pass_if_actual_primitive_array_has_same_size_as_other_object_array() {
+    assertThat(new byte[]{1, 2}).hasSameSizeAs(new Byte[]{2, 3});
+    assertThat(new int[]{1, 2}).hasSameSizeAs(new String[]{"1", "2"});
+  }
+
+  @Test
+  public void should_pass_if_actual_primitive_array_has_same_size_as_other_primitive_array() {
+    assertThat(new byte[]{1, 2}).hasSameSizeAs(new byte[]{2, 3});
+    assertThat(new byte[]{1, 2}).hasSameSizeAs(new int[]{2, 3});
+  }
 
   @Test
   public void should_pass_if_actual_object_array_has_same_size_as_other_object_array() {
@@ -50,15 +59,15 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   @Test
   public void should_pass_if_actual_object_array_has_same_size_as_other_primitive_array() {
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
-    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
+//    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new byte[]{2, 3});
+//    assertThat(new String[]{"1", "2"}).hasSameSizeAs(new int[]{2, 3});
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    final String[] actual = null;
-    assertThat(actual).hasSameSizeAs(new String[]{"1"});
+    final byte[] actual = null;
+    assertThat(actual).hasSameSizeAs(new byte[]{2, 3});
   }
 
   @Test
@@ -69,8 +78,8 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
   @Test
   public void should_fail_if_size_of_actual_has_same_as_other_array() {
-    final String[] actual = array("Luke", "Yoda");
-    final String[] other = array("Yoda");
+    final byte[] actual = new byte[]{1, 2};
+    final byte[] other = new byte[]{1, 2, 3};
     try {
       assertThat(actual).hasSameSizeAs(other);
     } catch (AssertionError e) {
@@ -79,4 +88,5 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
 }

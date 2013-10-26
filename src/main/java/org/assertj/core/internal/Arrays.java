@@ -26,6 +26,7 @@ import static org.assertj.core.error.ElementsShouldHaveAtMost.elementsShouldHave
 import static org.assertj.core.error.ElementsShouldHaveExactly.elementsShouldHaveExactly;
 import static org.assertj.core.error.ElementsShouldNotBe.elementsShouldNotBe;
 import static org.assertj.core.error.ElementsShouldNotHave.elementsShouldNotHave;
+import static org.assertj.core.error.ShouldBeAnArray.shouldBeAnArray;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
@@ -70,6 +71,7 @@ import java.util.TreeSet;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
+import org.assertj.core.error.ShouldBeAnArray;
 import org.assertj.core.util.ArrayWrapperList;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -80,7 +82,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-class Arrays {
+public class Arrays {
 
   private static final Arrays INSTANCE = new Arrays();
   private final ComparisonStrategy comparisonStrategy;
@@ -94,7 +96,7 @@ class Arrays {
     return INSTANCE;
   }
 
-  private Arrays() {
+  public Arrays() {
     this(StandardComparisonStrategy.instance());
   }
 
@@ -108,6 +110,11 @@ class Arrays {
       return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
     }
     return null;
+  }
+
+  public static void assertIsArray(AssertionInfo info, Object array) {
+    if (isArray(array)) return;
+    throw Failures.instance().failure(info, shouldBeAnArray(array));
   }
 
   void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
@@ -139,8 +146,10 @@ class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  void assertHasSameSizeAs(AssertionInfo info, Object array, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, Object array, Object other) {
     assertNotNull(info, array);
+    assertIsArray(info, array);
+    assertIsArray(info, other);
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
@@ -718,6 +727,7 @@ class Arrays {
   }
 
   private static int sizeOf(Object array) {
+    if (array instanceof Object[]) return ((Object[]) array).length;
     return Array.getLength(array);
   }
 

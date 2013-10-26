@@ -14,6 +14,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.util.Iterables.toArray;
 
 import java.util.Collection;
@@ -24,6 +25,7 @@ import java.util.List;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.MethodInvocationResultExtractor;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.util.VisibleForTesting;
@@ -94,8 +96,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
+  public S hasSameSizeAs(Object other) {
     iterables.assertHasSameSizeAs(info, actual, other);
     return myself;
   }

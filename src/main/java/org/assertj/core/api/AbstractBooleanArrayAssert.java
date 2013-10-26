@@ -7,9 +7,7 @@ import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayAssert<S>>
-    extends AbstractAssert<S, boolean[]>
-    implements EnumerableAssert<AbstractBooleanArrayAssert<S>, Boolean>,
-    ArraySortedAssert<AbstractBooleanArrayAssert<S>, Boolean> {
+  extends AbstractArrayAssert<S, boolean[], Boolean> {
 
   @VisibleForTesting
   protected BooleanArrays arrays = BooleanArrays.instance();
@@ -56,27 +54,6 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * Example:
-   * 
-   * <pre>
-   * // assertion will pass
-   * assertThat(new boolean[] { true, false }).hasSameSizeAs(new int[] { 1, 2 });
-   * 
-   * // assertion will fail
-   * assertThat(new boolean[] { true, false }).hasSameSizeAs(new int[] { 1, 2, 3 });
-   * </pre>
-   * 
-   * </p>
-   */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 

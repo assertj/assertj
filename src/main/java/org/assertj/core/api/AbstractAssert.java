@@ -325,7 +325,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
-   * @throws exception see {@link String#format(String, Object...)} exception clause.
+   * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
     info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));

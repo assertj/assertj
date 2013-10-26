@@ -41,6 +41,7 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
@@ -176,8 +177,9 @@ public class Iterables {
    * @throws AssertionError if the other group is {@code null}.
    * @throws AssertionError if actual {@code Iterable} and other array don't have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object[] other) {
+  public void assertHasSameSizeAs(AssertionInfo info, Iterable<?> actual, Object other) {
     assertNotNull(info, actual);
+    assertIsArray(info, other);
     hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
   }
 

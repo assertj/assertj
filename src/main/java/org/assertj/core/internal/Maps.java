@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
+import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Objects.areEqual;
@@ -148,8 +149,9 @@ public class Maps {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of entries in the given {@code Map} does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Object[] other) {
-    Objects.instance().assertNotNull(info, map);
+  public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Object other) {
+    assertNotNull(info, map);
+    assertIsArray(info, other);
     hasSameSizeAsCheck(info, map, other, map.size());
   }
 
