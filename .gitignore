@@ -11,3 +11,5 @@
 /clover.license
 /actual.txt
 /expected.txt
+#jEnv configuration
+.java-version
