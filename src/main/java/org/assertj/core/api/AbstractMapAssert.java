@@ -272,6 +272,37 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
+   * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
+   * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
+   * {@link java.util.HashMap}, prefer {@link #containsOnly(org.assertj.core.data.MapEntry...)} in that case).
+   * <p>
+   * Example :
+   * 
+   * <pre>
+   * Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo), entry(nenya, galadriel),
+   *     entry(narya, gandalf));
+   * 
+   * // assertion will pass
+   * assertThat(ringBearers).containsExactly(entry(oneRing, frodo), entry(nenya, galadriel), entry(narya, gandalf));
+   * 
+   * // assertion will fail as actual and expected orders differ.
+   * assertThat(ringBearers).containsExactly(entry(nenya, galadriel), entry(narya, gandalf), entry(oneRing, frodo));
+   * </pre>
+   * 
+   * @param entries the given entries.
+   * @throws NullPointerException if the given entries array is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws IllegalArgumentException if the given entries array is empty.
+   * @throws AssertionError if the actual map does not contain the given entries with same order, i.e. the actual map
+   *           contains some or none of the given entries, or the actual map contains more entries than the given ones
+   *           or entries are the same but the order is not.
+   */
+  public S containsExactly(MapEntry... entries) {
+    maps.assertContainsExactly(info, actual, entries);
+    return myself;
+  }
+
+  /**
    * Do not use this method.
    * 
    * @deprecated Custom element Comparator is not supported for MapEntry comparison.

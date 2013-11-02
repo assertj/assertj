@@ -18,6 +18,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
@@ -33,6 +34,7 @@ import java.util.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.ShouldContainExactly;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -296,17 +298,75 @@ public class Maps {
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
   public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, MapEntry... entries) {
-    assertNotNull(info, actual);
-    isNotNull(entries);
+    doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) {
       return;
     }
     isNotEmpty(entries);
 
+    Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
+    Set<MapEntry> notExpected = new LinkedHashSet<MapEntry>();
+
+    compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
+
+    if (notFound.isEmpty() && notExpected.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
+  }
+
+  /**
+   * Verifies that the actual map contains only the given entries and nothing else, <b>in order</b>.<br>
+   * This assertion should only be used with map that have a consistent iteration order (i.e. don't use it with
+   * {@link java.util.HashMap}).
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entries the given entries.
+   * @throws NullPointerException if the given entries array is {@code null}.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws IllegalArgumentException if the given entries array is empty.
+   * @throws AssertionError if the actual map does not contain the given entries with same order, i.e. the actual map
+   *           contains some or none of the given entries, or the actual map contains more entries than the given ones
+   *           or entries are the same but the order is not.
+   */
+  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, MapEntry... entries) {
+    doCommonContainsCheck(info, actual, entries);
+    if (actual.isEmpty() && entries.length == 0) {
+      return;
+    }
+    isNotEmpty(entries);
+    assertHasSameSizeAs(info, actual, entries);
+
+    Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
+    Set<MapEntry> notExpected = new LinkedHashSet<MapEntry>();
+
+    compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
+
+    if (notExpected.isEmpty() && notFound.isEmpty()) {
+      // check entries order
+      int index = 0;
+      for (K keyFromActual : actual.keySet()) {
+        if (!areEqual(keyFromActual, entries[index].key)) {
+          MapEntry actualEntry = entry(keyFromActual, actual.get(keyFromActual));
+          throw failures.failure(info, shouldContainExactly(actualEntry, entries[index], index));
+        }
+        index++;
+      }
+      // all entries are in the same order.
+      return;
+    }
+
+    throw failures.failure(info, shouldContainExactly(actual, entries, notFound, notExpected));
+  }
+
+  private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, MapEntry[] entries,
+      Set<MapEntry> notExpected, Set<MapEntry> notFound) {
+
     Map<K, V> expectedEntries = entriesToMap(entries);
     Map<K, V> actualEntries = new LinkedHashMap<K, V>(actual);
 
-    Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
     for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
       if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
         // this is an expected entry
@@ -318,16 +378,14 @@ public class Maps {
     }
 
     // All remaining entries from actual copy are not expected entries.
-    Set<MapEntry> notExpected = new LinkedHashSet<MapEntry>();
     for (Map.Entry<K, V> entry : actualEntries.entrySet()) {
       notExpected.add(entry(entry.getKey(), entry.getValue()));
     }
+  }
 
-    if (notFound.isEmpty() && notExpected.isEmpty()) {
-      return;
-    }
-
-    throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
+  private <K, V> void doCommonContainsCheck(AssertionInfo info, Map<K, V> actual, MapEntry[] entries) {
+    assertNotNull(info, actual);
+    isNotNull(entries);
   }
 
   @SuppressWarnings("unchecked")
