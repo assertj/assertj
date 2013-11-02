@@ -244,6 +244,34 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
+   * Verifies that the actual map contains only the given entries and nothing else, in any order.
+   * 
+   * <p>
+   * Examples :
+   * 
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * 
+   * // assertion will pass
+   * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel), entry(narya, gandalf), entry(vilya, elrond));
+   * 
+   * // assertion will fail
+   * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel));
+   * </pre>
+   * 
+   * @param entries the entries that should be in the actual map.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
+   *           none of the given entries, or the actual map contains more entries than the given ones.
+   */
+  public S containsOnly(MapEntry... entries) {
+    maps.assertContainsOnly(info, actual, entries);
+    return myself;
+  }
+
+  /**
    * Do not use this method.
    * 
    * @deprecated Custom element Comparator is not supported for MapEntry comparison.

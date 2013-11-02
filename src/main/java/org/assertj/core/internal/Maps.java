@@ -14,25 +14,22 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
+import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
-import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Objects.areEqual;
 
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
@@ -198,7 +195,7 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} contains any of the given entries.
    */
   public void assertDoesNotContain(AssertionInfo info, Map<?, ?> actual, MapEntry[] entries) {
-    isNotEmptyOrNull(entries);
+    isNotNullOrEmpty(entries);
     assertNotNull(info, actual);
     Set<MapEntry> found = new LinkedHashSet<MapEntry>();
     for (MapEntry entry : entries) {
@@ -286,11 +283,71 @@ public class Maps {
     throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
-  private static void isNotEmptyOrNull(MapEntry[] entries) {
+  /**
+   * Verifies that the actual map contains only the given entries and nothing else, in any order.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param entries the entries that should be in the actual map.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws NullPointerException if the given entries array is {@code null}.
+   * @throws IllegalArgumentException if the given entries array is empty.
+   * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
+   *           none of the given entries, or the actual map contains more entries than the given ones.
+   */
+  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, MapEntry... entries) {
+    assertNotNull(info, actual);
     isNotNull(entries);
+    if (actual.isEmpty() && entries.length == 0) {
+      return;
+    }
+    isNotEmpty(entries);
+
+    Map<K, V> expectedEntries = entriesToMap(entries);
+    Map<K, V> actualEntries = new LinkedHashMap<K, V>(actual);
+
+    Set<MapEntry> notFound = new LinkedHashSet<MapEntry>();
+    for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
+      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
+        // this is an expected entry
+        actualEntries.remove(entry.getKey());
+      } else {
+        // this is a not found entry
+        notFound.add(entry(entry.getKey(), entry.getValue()));
+      }
+    }
+
+    // All remaining entries from actual copy are not expected entries.
+    Set<MapEntry> notExpected = new LinkedHashSet<MapEntry>();
+    for (Map.Entry<K, V> entry : actualEntries.entrySet()) {
+      notExpected.add(entry(entry.getKey(), entry.getValue()));
+    }
+
+    if (notFound.isEmpty() && notExpected.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <K, V> Map<K, V> entriesToMap(MapEntry[] entries) {
+    Map<K, V> expectedEntries = new LinkedHashMap<K, V>();
+    for (MapEntry entry : entries) {
+      expectedEntries.put((K) entry.key, (V) entry.value);
+    }
+    return expectedEntries;
+  }
+
+  private static void isNotEmpty(MapEntry[] entries) {
     if (entries.length == 0) {
       throw new IllegalArgumentException("The array of entries to look for should not be empty");
     }
+  }
+
+  private static void isNotNullOrEmpty(MapEntry[] entries) {
+    isNotNull(entries);
+    isNotEmpty(entries);
   }
 
   private static void isNotNull(MapEntry[] entries) {
