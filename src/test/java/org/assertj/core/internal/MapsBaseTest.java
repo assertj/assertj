@@ -9,6 +9,7 @@ import static org.mockito.Mockito.spy;
 
 import java.util.Map;
 
+import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.test.ExpectedException;
@@ -41,4 +42,7 @@ public class MapsBaseTest {
     maps.failures = failures;
   }
 
+  protected static MapEntry[] emptyEntries() {
+    return new MapEntry[0];
+  }
 }
