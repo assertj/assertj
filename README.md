@@ -46,13 +46,11 @@ AssertJ core javadoc is published [here](http://joel-costigliola.github.io/asser
 
 To read details on the latest releases, please go to [**New and noteworthy**](https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy) wiki section. 
 
-**2013-09-15 : AssertJ core 1.4.0 release**
-
-**2013-06-30 : AssertJ core 1.3.0 release (with [Javadoc API published](http://joel-costigliola.github.io/assertj/core/api/index.html))**
-
-**2013-05-12 : AssertJ core 1.2.0 release**
-
-**2013-04-14 : AssertJ core 1.1.0 release**
+**2013-11-06 : AssertJ core 1.5.0 release.**  
+**2013-09-15 : AssertJ core 1.4.0 release**  
+**2013-06-30 : AssertJ core 1.3.0 release (with [Javadoc API published](http://joel-costigliola.github.io/assertj/core/api/index.html))**  
+**2013-05-12 : AssertJ core 1.2.0 release**  
+**2013-04-14 : AssertJ core 1.1.0 release**  
 
 **2013-03-28 : AssertJ quickie presentation at Devoxx France!**  
 
@@ -79,7 +77,7 @@ AssertJ core is available in Maven central repository:
 <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-core</artifactId>
-   <version>1.4.0</version>
+   <version>1.5.0</version>
    <scope>test</scope>
 </dependency>
 ```
@@ -211,6 +209,8 @@ To directly jump to a more complete documentation please go to **[AssertJ wiki](
 ## <a name="contributing"/>Want to contribute?
 
 You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributor guidelines](CONTRIBUTING.md).
+
+Special thanks to **William Delanoue**, **Jean Christophe Gay**, **Tomasz Bartczak**, **Michaël Bitard** and **Michał Ostruszka** for their contributions to **assertj-core 1.5.0**.
 
 Special thanks to **Brian Laframboise**, **William Delanoue**, **Marcus Klimstra**, **Ted Young**, **Piotr Betkier**, **Marcin Mikosik** and  **Jean Christophe Gay** for their contributions to **assertj-core 1.4.0**.
 
