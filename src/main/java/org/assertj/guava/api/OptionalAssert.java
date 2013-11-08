@@ -34,7 +34,7 @@ import com.google.common.base.Optional;
  * 
  * @author Kornel Kiełczewski
  */
-public final class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
+public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
 
   @VisibleForTesting
   Failures failures = Failures.instance();

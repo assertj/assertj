@@ -32,7 +32,7 @@ import com.google.common.collect.Table;
 /**
  * @author Jan Gorman
  */
-public final class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, Table<R, C, V>> {
+public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, Table<R, C, V>> {
 
   @VisibleForTesting
   Failures failures = Failures.instance();
