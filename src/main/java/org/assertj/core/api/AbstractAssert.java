@@ -77,7 +77,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Utility method to ease write write custom assertions classes, you can use format specifiers in error message, they
+   * Utility method to ease writing custom assertions classes, you can use format specifiers in error message, they
    * will be replaced by the given arguments.
    * <p>
    * Moreover, this method honors any description ({@link #as(String, Object...)} or overridden error message defined by the user (
