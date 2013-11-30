@@ -38,7 +38,7 @@ import org.junit.Test;
 
 /**
  * Tests for {@link ToString#toStringOf(Object)}.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ToString_toStringOf_Test {
@@ -148,6 +148,13 @@ public class ToString_toStringOf_Test {
     assertFalse(toStringOf(20L).equals(toStringOf(20)));
     assertEquals("20", toStringOf(20));
     assertEquals("20L", toStringOf(20L));
+  }
+
+  @Test
+  public void should_format_bytes_as_hex() {
+    assertFalse(toStringOf((byte) 20).equals(toStringOf((char) 20)));
+    assertFalse(toStringOf((byte) 20).equals(toStringOf((short) 20)));
+    assertEquals("0x20", toStringOf((byte) 32));
   }
 
   @Test

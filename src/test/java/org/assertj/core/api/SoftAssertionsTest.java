@@ -128,9 +128,9 @@ public class SoftAssertionsTest {
       assertThat(errors.get(2)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
       assertThat(errors.get(3)).isEqualTo("expected:<[[tru]e]> but was:<[[fals]e]>");
 
-      assertThat(errors.get(4)).isEqualTo("expected:<[1]> but was:<[0]>");
-      assertThat(errors.get(5)).isEqualTo("expected:<[3]> but was:<[2]>");
-      assertThat(errors.get(6)).isEqualTo("expected:<[[5]]> but was:<[[4]]>");
+      assertThat(errors.get(4)).isEqualTo("expected:<0x0[1]> but was:<0x0[0]>");
+      assertThat(errors.get(5)).isEqualTo("expected:<0x0[3]> but was:<0x0[2]>");
+      assertThat(errors.get(6)).isEqualTo("expected:<[0x0[5]]> but was:<[0x0[4]]>");
 
       assertThat(errors.get(7)).isEqualTo("expected:<[B]> but was:<[A]>");
       assertThat(errors.get(8)).isEqualTo("expected:<[D]> but was:<[C]>");
@@ -151,7 +151,7 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(17)).isEqualTo("expected:<1[3].0f> but was:<1[2].0f>");
       assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
-      assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0]> but was:<[1[6].0]>");
+      assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
       assertThat(errors.get(20)).isEqualTo(
           "\nInputStreams do not have equal content:" + System.getProperty("line.separator")
@@ -168,7 +168,7 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
       assertThat(errors.get(28)).isEqualTo("expected:<3[5]L> but was:<3[4]L>");
-      assertThat(errors.get(29)).isEqualTo("expected:<[3[7]]> but was:<[3[6]]>");
+      assertThat(errors.get(29)).isEqualTo("expected:<[3[7]L]> but was:<[3[6]L]>");
 
       assertThat(errors.get(30)).isEqualTo("expected:<{'[40'='41]'}> but was:<{'[38'='39]'}>");
 
