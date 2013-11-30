@@ -16,6 +16,8 @@ package org.assertj.core.internal.bytes;
 
 import static org.assertj.core.test.TestData.someInfo;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.Test;
 
@@ -39,8 +41,8 @@ public class Bytes_assertIsNotNegative_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_negative() {
-    thrown.expectAssertionError("\nExpecting:\n <-6>\nto be greater than or equal to:\n <0>");
-    bytes.assertIsNotNegative(someInfo(), (byte) -6);
+    thrown.expectAssertionError("\nExpecting:\n <0xFA>\nto be greater than or equal to:\n <0x00>");
+    bytes.assertIsNotNegative(someInfo(), (byte) 0xFA);
   }
 
   @Test

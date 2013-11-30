@@ -18,7 +18,6 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,7 +29,7 @@ import java.util.*;
  * @author Yvonne Wang
  */
 public final class ToString {
-  
+
   /**
    * Returns the {@code toString} representation of the given object. It may or not the object's own implementation of
    * {@code toString}.
@@ -45,12 +44,6 @@ public final class ToString {
     if (o instanceof Calendar) {
       return toStringOf((Calendar) o);
     }
-    if (o instanceof Class<?>) {
-      return toStringOf((Class<?>) o);
-    }
-    if (o instanceof Collection<?>) {
-      return toStringOf((Collection<?>) o);
-    }
     if (o instanceof Date) {
       return toStringOf((Date) o);
     }
@@ -60,14 +53,14 @@ public final class ToString {
     if (o instanceof Long) {
       return toStringOf((Long) o);
     }
+    if (o instanceof Byte) {
+      return toStringOf((Byte) o);
+    }
     if (o instanceof File) {
       return toStringOf((File) o);
     }
     if (o instanceof Map<?, ?>) {
       return toStringOf((Map<?, ?>) o);
-    }
-    if (o instanceof String) {
-      return quote((String) o);
     }
     if (o instanceof Comparator) {
       return toStringOf((Comparator<?>) o);
@@ -75,7 +68,7 @@ public final class ToString {
     if (o instanceof SimpleDateFormat) {
       return toStringOf((SimpleDateFormat) o);
     }
-    return o == null ? null : o.toString();
+    return CompactToString.toStringOf(o);
   }
 
   private static String toStringOf(Comparator<?> comparator) {
@@ -87,12 +80,9 @@ public final class ToString {
     return Dates.formatAsDatetime(c);
   }
 
-  private static String toStringOf(Class<?> c) {
-    return c.getCanonicalName();
-  }
+  private static String toStringOf(Byte b) {
+    return "0x" + CompactToString.toStringOf(b);
 
-  private static String toStringOf(Collection<?> c) {
-    return Collections.format(c);
   }
 
   private static String toStringOf(Date d) {

@@ -24,7 +24,7 @@ import java.util.Set;
 
 /**
  * Creates a {@code String} representation of an array.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -97,10 +97,11 @@ final class ArrayFormatter {
     }
     StringBuilder buffer = new StringBuilder();
     buffer.append('[');
-    buffer.append(Array.get(o, 0));
+    buffer.append(CompactToString.toStringOf(Array.get(o, 0)));
     for (int i = 1; i < size; i++) {
-      buffer.append(", ");
-      buffer.append(Array.get(o, i));
+      Object element = Array.get(o, i);
+      buffer.append(Collections.elementSeparator(element));
+      buffer.append(CompactToString.toStringOf(element));
     }
     buffer.append("]");
     return buffer.toString();

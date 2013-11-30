@@ -55,7 +55,7 @@ public class ArrayFormatter_format_Test {
 
   @Test
   public void should_format_byte_array() {
-    assertEquals("[6, 8]", formatter.format(new byte[] { 6, 8 }));
+    assertEquals("[06:08]", formatter.format(new byte[] { 6, 8 }));
   }
 
   @Test
