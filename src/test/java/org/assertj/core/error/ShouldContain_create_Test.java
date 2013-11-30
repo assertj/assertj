@@ -31,7 +31,7 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link ShouldContain#create(Description)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -61,12 +61,29 @@ public class ShouldContain_create_Test {
         + " <['Luke']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
+
   @Test
   public void should_create_error_message_differentiating_long_from_integer() {
+    factory = shouldContain(5L, 5, 5);
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] \nExpecting:\n <5L>\nto contain:\n <5>\nbut could not find:\n"
+        + " <5>\n", message);
+  }
+
+  @Test
+  public void should_create_error_message_differentiating_long_from_integer_in_arrays() {
     factory = shouldContain(newArrayList(5L, 7L), newArrayList(5, 7), newLinkedHashSet(5, 7));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n <[5L, 7L]>\nto contain:\n <[5, 7]>\nbut could not find:\n"
         + " <[5, 7]>\n", message);
+  }
+
+  @Test
+  public void should_create_error_message_differentiating_double_from_float() {
+    factory = shouldContain(newArrayList(5d, 7d), newArrayList(5f, 7f), newLinkedHashSet(5f, 7f));
+    String message = factory.create(new TextDescription("Test"));
+    assertEquals("[Test] \nExpecting:\n <[5.0, 7.0]>\nto contain:\n <[5.0f, 7.0f]>\nbut could not find:\n"
+        + " <[5.0f, 7.0f]>\n", message);
   }
 
 }

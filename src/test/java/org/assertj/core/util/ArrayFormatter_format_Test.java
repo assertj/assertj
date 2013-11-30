@@ -55,7 +55,7 @@ public class ArrayFormatter_format_Test {
 
   @Test
   public void should_format_byte_array() {
-    assertEquals("[6, 8]", formatter.format(new byte[] { 6, 8 }));
+    assertEquals("[0x06, 0x08]", formatter.format(new byte[] { 6, 8 }));
   }
 
   @Test
@@ -70,12 +70,12 @@ public class ArrayFormatter_format_Test {
 
   @Test
   public void should_format_longArray() {
-    assertEquals("[6, 8]", formatter.format(new long[] { 6l, 8l }));
+    assertEquals("[6L, 8L]", formatter.format(new long[] { 6l, 8l }));
   }
 
   @Test
   public void should_format_float_array() {
-    assertEquals("[6.0, 8.0]", formatter.format(new float[] { 6f, 8f }));
+    assertEquals("[6.0f, 8.0f]", formatter.format(new float[] { 6f, 8f }));
   }
 
   @Test

@@ -18,7 +18,6 @@ import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,7 +29,9 @@ import java.util.*;
  * @author Yvonne Wang
  */
 public final class ToString {
-  
+
+  final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
   /**
    * Returns the {@code toString} representation of the given object. It may or not the object's own implementation of
    * {@code toString}.
@@ -53,6 +54,9 @@ public final class ToString {
     }
     if (o instanceof Date) {
       return toStringOf((Date) o);
+    }
+    if (o instanceof Byte) {
+      return toStringOf((Byte) o);
     }
     if (o instanceof Float) {
       return toStringOf((Float) o);
@@ -77,7 +81,6 @@ public final class ToString {
     }
     return o == null ? null : o.toString();
   }
-
   private static String toStringOf(Comparator<?> comparator) {
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     return quote(!comparatorSimpleClassName.isEmpty() ? comparatorSimpleClassName : "Anonymous Comparator class");
@@ -117,6 +120,15 @@ public final class ToString {
 
   private static String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
+  }
+
+  private static String toStringOf(Byte b) {
+    return "0x" + byteToStringHex(b);
+  }
+
+  private static String byteToStringHex(Byte b) {
+    int v = b & 0xFF;
+    return new String(new char[]{hexArray[v >>> 4], hexArray[v & 0x0F]});
   }
 
   private ToString() {}

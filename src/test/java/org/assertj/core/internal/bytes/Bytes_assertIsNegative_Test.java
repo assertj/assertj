@@ -37,20 +37,20 @@ public class Bytes_assertIsNegative_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_negative() {
-    thrown.expectAssertionError("\nExpecting:\n <6>\nto be less than:\n <0>");
-    bytes.assertIsNegative(someInfo(), (byte) 6);
+    thrown.expectAssertionError("\nExpecting:\n <0x06>\nto be less than:\n <0x00>");
+    bytes.assertIsNegative(someInfo(), (byte) 0x06);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy() {
-    thrown.expectAssertionError("\nExpecting:\n <-6>\nto be less than:\n <0> according to 'AbsValueComparator' comparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) -6);
+    thrown.expectAssertionError("\nExpecting:\n <0xFA>\nto be less than:\n <0x00> according to 'AbsValueComparator' comparator");
+    bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) 0xFA);
   }
 
   @Test
   public void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy2() {
-    thrown.expectAssertionError("\nExpecting:\n <6>\nto be less than:\n <0> according to 'AbsValueComparator' comparator");
-    bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) 6);
+    thrown.expectAssertionError("\nExpecting:\n <0x06>\nto be less than:\n <0x00> according to 'AbsValueComparator' comparator");
+    bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) 0x06);
   }
 
 }
