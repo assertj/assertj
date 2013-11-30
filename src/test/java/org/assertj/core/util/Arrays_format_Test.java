@@ -50,7 +50,7 @@ public class Arrays_format_Test {
   @Test
   public void should_format_byte_array() {
     Object o = new byte[] { (byte) 3, (byte) 8 };
-    assertEquals("[3, 8]", Arrays.format(o));
+    assertEquals("[03:08]", Arrays.format(o));
   }
 
   @Test

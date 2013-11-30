@@ -104,7 +104,7 @@ public final class Collections {
       if (!i.hasNext()) {
         return b.append(end).toString();
       }
-      b.append(", ");
+      b.append(elementSeparator(e));
     }
   }
   
@@ -131,4 +131,12 @@ public final class Collections {
   }
 
   private Collections() {}
+
+  static String elementSeparator(Object o){
+    if (o instanceof Byte) {
+      return ":";
+    } else {
+      return ", ";
+    }
+  }
 }

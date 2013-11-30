@@ -128,9 +128,9 @@ public class SoftAssertionsTest {
       assertThat(errors.get(2)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
       assertThat(errors.get(3)).isEqualTo("expected:<[[tru]e]> but was:<[[fals]e]>");
 
-      assertThat(errors.get(4)).isEqualTo("expected:<[1]> but was:<[0]>");
-      assertThat(errors.get(5)).isEqualTo("expected:<[3]> but was:<[2]>");
-      assertThat(errors.get(6)).isEqualTo("expected:<[[5]]> but was:<[[4]]>");
+      assertThat(errors.get(4)).isEqualTo("expected:<0x0[1]> but was:<0x0[0]>");
+      assertThat(errors.get(5)).isEqualTo("expected:<0x0[3]> but was:<0x0[2]>");
+      assertThat(errors.get(6)).isEqualTo("expected:<[0[5]]> but was:<[0[4]]>");
 
       assertThat(errors.get(7)).isEqualTo("expected:<[B]> but was:<[A]>");
       assertThat(errors.get(8)).isEqualTo("expected:<[D]> but was:<[C]>");
