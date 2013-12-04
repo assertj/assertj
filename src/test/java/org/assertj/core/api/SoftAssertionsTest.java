@@ -1,22 +1,18 @@
 /*
  * Created on Sep 1, 2013
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
+ *
  * Copyright @2013 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -28,9 +24,13 @@ import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
+
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
- * 
+ *
  * @author Brian Laframboise
  */
 public class SoftAssertionsTest {
@@ -78,7 +78,6 @@ public class SoftAssertionsTest {
       softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
       softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-      softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
       softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
@@ -121,7 +120,7 @@ public class SoftAssertionsTest {
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(37);
+      assertThat(errors).hasSize(36);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -162,24 +161,22 @@ public class SoftAssertionsTest {
       assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
       assertThat(errors.get(24)).isEqualTo("expected:<['2[7]']> but was:<['2[6]']>");
-      assertThat(errors.get(25)).isEqualTo(
-          "\nExpecting:\n <['28']>\nto contain:\n <['29']>\nbut could not find:\n <['29']>\n");
-      assertThat(errors.get(26)).isEqualTo("expected:<['3[1]']> but was:<['3[0]']>");
+      assertThat(errors.get(25)).isEqualTo("expected:<['3[1]']> but was:<['3[0]']>");
 
-      assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
-      assertThat(errors.get(28)).isEqualTo("expected:<3[5]L> but was:<3[4]L>");
-      assertThat(errors.get(29)).isEqualTo("expected:<[3[7]]> but was:<[3[6]]>");
+      assertThat(errors.get(26)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
+      assertThat(errors.get(27)).isEqualTo("expected:<3[5]L> but was:<3[4]L>");
+      assertThat(errors.get(28)).isEqualTo("expected:<[3[7]]> but was:<[3[6]]>");
 
-      assertThat(errors.get(30)).isEqualTo("expected:<{'[40'='41]'}> but was:<{'[38'='39]'}>");
+      assertThat(errors.get(29)).isEqualTo("expected:<{'[40'='41]'}> but was:<{'[38'='39]'}>");
 
-      assertThat(errors.get(31)).isEqualTo("expected:<4[3]> but was:<4[2]>");
-      assertThat(errors.get(32)).isEqualTo("expected:<4[5]> but was:<4[4]>");
-      assertThat(errors.get(33)).isEqualTo("expected:<[4[7]]> but was:<[4[6]]>");
+      assertThat(errors.get(30)).isEqualTo("expected:<4[3]> but was:<4[2]>");
+      assertThat(errors.get(31)).isEqualTo("expected:<4[5]> but was:<4[4]>");
+      assertThat(errors.get(32)).isEqualTo("expected:<[4[7]]> but was:<[4[6]]>");
 
-      assertThat(errors.get(34)).isEqualTo("expected:<'4[9]'> but was:<'4[8]'>");
+      assertThat(errors.get(33)).isEqualTo("expected:<'4[9]'> but was:<'4[8]'>");
 
-      assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
-      assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
+      assertThat(errors.get(34)).isEqualTo("expected:<5[1]> but was:<5[0]>");
+      assertThat(errors.get(35)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
     }
   }
 
