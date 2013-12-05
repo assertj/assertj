@@ -210,6 +210,8 @@ To directly jump to a more complete documentation please go to **[AssertJ wiki](
 
 You are encouraged to contribute any missing, useful assertions. To do so, please read the [contributor guidelines](CONTRIBUTING.md).
 
+Special thanks to **Mariusz Smykula** for their contributions to **assertj-core 1.6.0**.
+
 Special thanks to **William Delanoue**, **Jean Christophe Gay**, **Tomasz Bartczak**, **Michaël Bitard** and **Michał Piotrkowski** for their contributions to **assertj-core 1.5.0**.
 
 Special thanks to **Brian Laframboise**, **William Delanoue**, **Marcus Klimstra**, **Ted Young**, **Piotr Betkier**, **Marcin Mikosik** and  **Jean Christophe Gay** for their contributions to **assertj-core 1.4.0**.
