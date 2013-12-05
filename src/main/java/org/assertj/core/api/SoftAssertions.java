@@ -16,18 +16,13 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
 
 /**
  * <p>
@@ -131,26 +126,6 @@ import net.sf.cglib.proxy.MethodProxy;
  * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
  */
 public class SoftAssertions {
-
-  /** Collects error messages of all AssertionErrors thrown by the proxied method. */
-  private class ErrorCollector implements MethodInterceptor {
-
-    private final List<String> errors = new ArrayList<String>();
-
-    @Override
-    public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-      try {
-        proxy.invokeSuper(obj, args);
-      } catch (AssertionError e) {
-        errors.add(e.getMessage());
-      }
-      return obj;
-    }
-
-    public List<String> errors() {
-      return Collections.unmodifiableList(errors);
-    }
-  }
 
   protected final ErrorCollector collector = new ErrorCollector();
 
