@@ -184,9 +184,10 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>. The <code>{@link Iterator}</code> is first
-   * converted
-   * into an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link IterableAssert}</code> by consuming the given <code>{@link Iterator}</code>
+   * to build an <code>{@link Iterable}</code>
+   * <p/>
+   * <b>Be aware thar the given Iterator can't be use anymore since it has been consumed !</b>
    *
    * @param actual the actual value.
    * @return the created assertion object.
