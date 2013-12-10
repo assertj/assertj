@@ -27,7 +27,7 @@ a Map? Use the Map-specific assertions, which make it easy to check on the conte
 AssertJ is composed of several modules:
 * A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see [AssertJ core javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
 * A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...) - see [AssertJ Guava javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
-* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time javadoc](http://joel-costigliola.github.io/assertj/joda-time/api/index.html).
+* A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time javadoc](http://joel-costigliola.github.io/assertj/jodatime/api/index.html).
 
 Assertion missing? Please [create an issue](https://github.com/joel-costigliola/assertj-core/issues)! 
 
