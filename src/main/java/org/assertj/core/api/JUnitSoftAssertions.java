@@ -21,7 +21,7 @@ import net.sf.cglib.proxy.MethodProxy;
  *   public class SoftlyTest {
  *
  *     &#064;Rule
- *     public final Softly softly = new Softly();
+ *     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
  *
  *     &#064;Test
  *     public void testSoftly() throws Exception {
@@ -33,7 +33,7 @@ import net.sf.cglib.proxy.MethodProxy;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-public class Softly extends AbstractSoftAssertions<Softly.ErrorCollector> implements TestRule {
+public class JUnitSoftAssertions extends AbstractSoftAssertions<JUnitSoftAssertions.ErrorCollector> implements TestRule {
 
     /**
      * Collects error messages of all AssertionErrors thrown by the proxied method.
@@ -57,7 +57,7 @@ public class Softly extends AbstractSoftAssertions<Softly.ErrorCollector> implem
         }
     }
 
-    public Softly() {
+    public JUnitSoftAssertions() {
         super(new ErrorCollector());
     }
 
