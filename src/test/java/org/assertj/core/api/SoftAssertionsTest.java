@@ -26,14 +26,23 @@ import java.util.List;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
+
 import org.junit.Test;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
- * 
+ *
  * @author Brian Laframboise
  */
 public class SoftAssertionsTest {
+
+  @Test
+  public void all_assertions_should_pass() {
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(1).isEqualTo(1);
+    softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+    softly.assertAll();
+  }
 
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
@@ -44,15 +53,15 @@ public class SoftAssertionsTest {
 
       softly.assertThat(Boolean.FALSE).isTrue();
       softly.assertThat(false).isTrue();
-      softly.assertThat(new boolean[] { false }).isEqualTo(new boolean[] { true });
+      softly.assertThat(new boolean[]{false}).isEqualTo(new boolean[]{true});
 
       softly.assertThat(new Byte((byte) 0)).isEqualTo((byte) 1);
       softly.assertThat((byte) 2).isEqualTo((byte) 3);
-      softly.assertThat(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
+      softly.assertThat(new byte[]{4}).isEqualTo(new byte[]{5});
 
       softly.assertThat(new Character((char) 65)).isEqualTo(new Character((char) 66));
       softly.assertThat((char) 67).isEqualTo((char) 68);
-      softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
+      softly.assertThat(new char[]{69}).isEqualTo(new char[]{70});
 
       softly.assertThat(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
 
@@ -62,20 +71,21 @@ public class SoftAssertionsTest {
 
       softly.assertThat(new Double(6.0d)).isEqualTo(new Double(7.0d));
       softly.assertThat(8.0d).isEqualTo(9.0d);
-      softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
+      softly.assertThat(new double[]{10.0d}).isEqualTo(new double[]{11.0d});
 
       softly.assertThat(new File("a")).isEqualTo(new File("b"));
 
       softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
       softly.assertThat(14f).isEqualTo(15f);
-      softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
+      softly.assertThat(new float[]{16f}).isEqualTo(new float[]{17f});
 
-      softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 })).hasContentEqualTo(
-          new ByteArrayInputStream(new byte[] { (byte) 66 }));
+      softly.assertThat(new ByteArrayInputStream(new byte[]{(byte) 65})).hasContentEqualTo(
+                                                                                            new ByteArrayInputStream
+                                                                                              (new byte[]{(byte) 66}));
 
       softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
       softly.assertThat(22).isEqualTo(23);
-      softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
+      softly.assertThat(new int[]{24}).isEqualTo(new int[]{25});
 
       softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
       softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
@@ -83,13 +93,13 @@ public class SoftAssertionsTest {
 
       softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
       softly.assertThat(34L).isEqualTo(35L);
-      softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
+      softly.assertThat(new long[]{36L}).isEqualTo(new long[]{37L});
 
       softly.assertThat(Maps.mapOf(MapEntry.entry("38", "39"))).isEqualTo(Maps.mapOf(MapEntry.entry("40", "41")));
 
       softly.assertThat(new Short((short) 42)).isEqualTo(new Short((short) 43));
       softly.assertThat((short) 44).isEqualTo((short) 45);
-      softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
+      softly.assertThat(new short[]{(short) 46}).isEqualTo(new short[]{(short) 47});
 
       softly.assertThat("48").isEqualTo("49");
 
@@ -105,23 +115,26 @@ public class SoftAssertionsTest {
         }
       });
 
-      softly.assertThat(new Object[] { new Object() {
+      softly.assertThat(new Object[]{new Object() {
         @Override
         public String toString() {
           return "52";
         }
-      } }).isEqualTo(new Object[] { new Object() {
+      }}).isEqualTo(new Object[]{new Object() {
         @Override
         public String toString() {
           return "53";
         }
-      } });
+      }});
 
+      final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
+                                                                  ("IllegalArgumentException message");
+      softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(37);
+      assertThat(errors).hasSize(38);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -153,17 +166,21 @@ public class SoftAssertionsTest {
       assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
       assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-      assertThat(errors.get(20)).isEqualTo(
-          "\nInputStreams do not have equal content:" + System.getProperty("line.separator")
-              + "line:<0>, expected:<B> but was:<A>");
+      assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
+                                           + System.getProperty("line.separator")
+                                           + "line:<0>, expected:<B> but was:<A>");
 
       assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
       assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
       assertThat(errors.get(24)).isEqualTo("expected:<['2[7]']> but was:<['2[6]']>");
-      assertThat(errors.get(25)).isEqualTo(
-          "\nExpecting:\n <['28']>\nto contain:\n <['29']>\nbut could not find:\n <['29']>\n");
+      assertThat(errors.get(25)).isEqualTo("\nExpecting:\n" +
+                                           " <['28']>\n" +
+                                           "to contain:\n" +
+                                           " <['29']>\n" +
+                                           "but could not find:\n" +
+                                           " <['29']>\n");
       assertThat(errors.get(26)).isEqualTo("expected:<['3[1]']> but was:<['3[0]']>");
 
       assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
@@ -180,6 +197,10 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
+      assertThat(errors.get(37)).isEqualTo("\nExpecting message:\n"
+                                           + " <'NullPointerException message'>\n"
+                                           + "but was:\n"
+                                           + " <'IllegalArgumentException message'>");
     }
   }
 
