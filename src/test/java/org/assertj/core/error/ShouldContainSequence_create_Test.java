@@ -47,7 +47,7 @@ public class ShouldContainSequence_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Luke']>\nto contain sequence:\n <['Han', 'Leia']>\n", message);
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto contain sequence:\n <[\"Han\", \"Leia\"]>\n", message);
   }
 
   @Test
@@ -55,7 +55,7 @@ public class ShouldContainSequence_create_Test {
     ErrorMessageFactory factory = shouldContainSequence(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Luke']>\nto contain sequence:\n <['Han', 'Leia']>\n"
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto contain sequence:\n <[\"Han\", \"Leia\"]>\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

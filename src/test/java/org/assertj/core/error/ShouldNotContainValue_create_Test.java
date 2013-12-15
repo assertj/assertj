@@ -37,7 +37,7 @@ public class ShouldNotContainValue_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldNotContainValue(map, "green");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nnot to contain value:\n <'green'>", message);
+    assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nnot to contain value:\n <\"green\">", message);
   }
 
 }

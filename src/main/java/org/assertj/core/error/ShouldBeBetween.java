@@ -22,7 +22,7 @@ import org.assertj.core.internal.*;
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is between start - end dates (inclusive
  * or not) failed.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeBetween extends BasicErrorMessageFactory {
@@ -87,13 +87,13 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
 
   private ShouldBeBetween(Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd,
       ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be in period:\n %s%s, %s%s%s", actual, inclusiveStart ? '[' : ']', start, end, inclusiveEnd ? ']' : '[',
-        comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto be in period:\n " + (inclusiveStart ? '[' : ']') + "%s, %s%s" +
+        (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
   }
 
   private <T extends Comparable<? super T>> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
 	 ComparisonStrategy comparisonStrategy) {
-	super("\nExpecting:\n <%s>\nto be between:\n %s%s, %s%s%s", actual, inclusiveStart ? '[' : ']', start, end, inclusiveEnd ? ']' : '[',
-	        comparisonStrategy);
+    super("\nExpecting:\n <%s>\nto be between:\n " + (inclusiveStart ? '[' : ']')
+        +"%s, %s%s" + (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
   }
 }

@@ -50,7 +50,7 @@ public class ArrayFormatter_format_Test {
 
   @Test
   public void should_format_char_array() {
-    assertEquals("[a, b, c]", formatter.format(new char[] { 'a', 'b', 'c' }));
+    assertEquals("['a', 'b', 'c']", formatter.format(new char[] { 'a', 'b', 'c' }));
   }
 
   @Test
@@ -85,24 +85,24 @@ public class ArrayFormatter_format_Test {
 
   @Test
   public void should_format_String_array() {
-    assertEquals("['Hello', 'World']", formatter.format(new Object[] { "Hello", "World" }));
+    assertEquals("[\"Hello\", \"World\"]", formatter.format(new Object[] { "Hello", "World" }));
   }
 
   @Test
   public void should_format_array_with_null_element() {
-    assertEquals("['Hello', null]", formatter.format(new Object[] { "Hello", null }));
+    assertEquals("[\"Hello\", null]", formatter.format(new Object[] { "Hello", null }));
   }
 
   @Test
   public void should_format_Object_array() {
-    assertEquals("['Hello', 'Anakin']", formatter.format(new Object[] { "Hello", new Person("Anakin") }));
+    assertEquals("[\"Hello\", 'Anakin']", formatter.format(new Object[] { "Hello", new Person("Anakin") }));
   }
 
   @Test
   public void should_format_Object_array_that_has_primitive_array_as_element() {
     boolean booleans[] = { true, false };
     Object[] array = { "Hello", booleans };
-    assertEquals("['Hello', [true, false]]", formatter.format(array));
+    assertEquals("[\"Hello\", [true, false]]", formatter.format(array));
   }
 
   @Test
@@ -110,7 +110,7 @@ public class ArrayFormatter_format_Test {
     Object[] array1 = { "Hello", "World" };
     Object[] array2 = { array1 };
     array1[1] = array2;
-    assertEquals("[['Hello', [...]]]", formatter.format(array2));
+    assertEquals("[[\"Hello\", [...]]]", formatter.format(array2));
   }
 
   private static class Person {

@@ -48,7 +48,7 @@ public class ShouldBeInstance_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <'Yoda'>\nto be an instance of:\n <java.io.File>\nbut was instance of:\n <java.lang.String>",
+        "[Test] \nExpecting:\n <\"Yoda\">\nto be an instance of:\n <java.io.File>\nbut was instance of:\n <java.lang.String>",
         message);
   }
 
@@ -56,6 +56,6 @@ public class ShouldBeInstance_create_Test {
   public void should_create_shouldBeInstanceButWasNull_error_message() {
     factory = shouldBeInstanceButWasNull("other", File.class);
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting object:\n 'other'\nto be an instance of:\n <java.io.File>\nbut was null", message);
+    assertEquals("[Test] \nExpecting object:\n \"other\"\nto be an instance of:\n <java.io.File>\nbut was null", message);
   }
 }

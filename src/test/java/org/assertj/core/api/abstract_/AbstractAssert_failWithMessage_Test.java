@@ -38,7 +38,7 @@ public class AbstractAssert_failWithMessage_Test {
     try {
       new ConcreteAssert("foo").failIfTrue(true);
     } catch (AssertionError e) {
-      assertEquals("'predefined' error message", e.getMessage());
+      assertEquals("\"predefined\" error message", e.getMessage());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

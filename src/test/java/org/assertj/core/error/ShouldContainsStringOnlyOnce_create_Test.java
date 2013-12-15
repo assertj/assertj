@@ -27,7 +27,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   public void should_create_error_message_when_string_to_search_appears_several_times() {
     String message = factoryWithSeveralOccurences.create(new TestDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <'motif'>\nto appear only once in:\n <'aaamotifmotifaabbbmotifaaa'>\nbut it appeared 3 times ",
+        "[Test] \nExpecting:\n <\"motif\">\nto appear only once in:\n <\"aaamotifmotifaabbbmotifaaa\">\nbut it appeared 3 times ",
         message);
   }
 
@@ -35,7 +35,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
   public void should_create_error_message_when_string_to_search_does_not_appear() {
     String message = factoryWithNoOccurence.create(new TestDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <'motif'>\nto appear only once in:\n <'aaamodifmoifaabbbmotfaaa'>\nbut it did not appear ",
+        "[Test] \nExpecting:\n <\"motif\">\nto appear only once in:\n <\"aaamodifmoifaabbbmotfaaa\">\nbut it did not appear ",
         message);
   }
 
@@ -45,7 +45,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <'MOtif'>\nto appear only once in:\n <'aaamoDifmoifaabbbmotfaaa'>\nbut it did not appear according to 'CaseInsensitiveStringComparator' comparator",
+        "[Test] \nExpecting:\n <\"MOtif\">\nto appear only once in:\n <\"aaamoDifmoifaabbbmotfaaa\">\nbut it did not appear according to 'CaseInsensitiveStringComparator' comparator",
         message);
   }
 
@@ -55,7 +55,7 @@ public class ShouldContainsStringOnlyOnce_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] \nExpecting:\n <'MOtif'>\nto appear only once in:\n <'aaamotIFmoTifaabbbmotifaaa'>\nbut it appeared 3 times according to 'CaseInsensitiveStringComparator' comparator",
+        "[Test] \nExpecting:\n <\"MOtif\">\nto appear only once in:\n <\"aaamotIFmoTifaabbbmotifaaa\">\nbut it appeared 3 times according to 'CaseInsensitiveStringComparator' comparator",
         message);
   }
 

@@ -15,6 +15,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
@@ -71,7 +72,10 @@ public final class ToString {
       return toStringOf((Map<?, ?>) o);
     }
     if (o instanceof String) {
-      return quote((String) o);
+      return toStringOf((String) o);
+    }
+    if (o instanceof Character) {
+      return toStringOf((Character) o);
     }
     if (o instanceof Comparator) {
       return toStringOf((Comparator<?>) o);
@@ -92,6 +96,14 @@ public final class ToString {
 
   private static String toStringOf(Class<?> c) {
     return c.getCanonicalName();
+  }
+
+  private static String toStringOf(String s) {
+    return concat("\"", s, "\"");
+  }
+
+  private static String toStringOf(Character c) {
+    return concat("'", c, "'");
   }
 
   private static String toStringOf(Collection<?> c) {

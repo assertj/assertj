@@ -40,9 +40,9 @@ public class ShouldHaveFields_create_Test {
                                       + "Expecting\n"
                                       + "  <org.assertj.core.test.Person>\n"
                                       + "to have fields:\n"
-                                      + "  <['name', 'address']>\n"
+                                      + "  <[\"name\", \"address\"]>\n"
                                       + "but it doesn't have:\n"
-                                      + "  <['address']>");
+                                      + "  <[\"address\"]>");
   }
   
   @Test
@@ -54,8 +54,8 @@ public class ShouldHaveFields_create_Test {
                                       + "Expecting\n"
                                       + "  <org.assertj.core.test.Person>\n"
                                       + "to have declared fields:\n"
-                                      + "  <['name', 'address']>\n"
+                                      + "  <[\"name\", \"address\"]>\n"
                                       + "but it doesn't have:\n"
-                                      + "  <['address']>");
+                                      + "  <[\"address\"]>");
   }
 }

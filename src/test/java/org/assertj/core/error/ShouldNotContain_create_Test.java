@@ -39,7 +39,7 @@ public class ShouldNotContain_create_Test {
     ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
         newLinkedHashSet("Yoda"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting\n <['Yoda']>\nnot to contain\n <['Luke', 'Yoda']>\nbut found\n <['Yoda']>\n",
+    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\nbut found\n <[\"Yoda\"]>\n",
         message);
   }
 
@@ -48,7 +48,7 @@ public class ShouldNotContain_create_Test {
     ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
         newLinkedHashSet("Yoda"), new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting\n <['Yoda']>\nnot to contain\n <['Luke', 'Yoda']>\n"
-        + "but found\n <['Yoda']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\n"
+        + "but found\n <[\"Yoda\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

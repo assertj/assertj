@@ -41,7 +41,7 @@ public class ShouldHaveSameSizeAs_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
     assertEquals(
-        "[Test] \nActual and expected should have same size but actual size is:\n <2>\nwhile expected is:\n <8>\nActual was:\n<['Luke', 'Yoda']>",
+        "[Test] \nActual and expected should have same size but actual size is:\n <2>\nwhile expected is:\n <8>\nActual was:\n<[\"Luke\", \"Yoda\"]>",
         message);
   }
 }

@@ -38,7 +38,7 @@ public class Arrays_format_Test {
   @Test
   public void should_format_Object_array() {
     Object o = new Object[] { "First", 3 };
-    assertEquals("['First', 3]", Arrays.format(o));
+    assertEquals("[\"First\", 3]", Arrays.format(o));
   }
 
   @Test
@@ -56,7 +56,7 @@ public class Arrays_format_Test {
   @Test
   public void should_format_char_array() {
     Object o = new char[] { 'a', 'b' };
-    assertEquals("[a, b]", Arrays.format(o));
+    assertEquals("['a', 'b']", Arrays.format(o));
   }
 
   @Test

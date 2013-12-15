@@ -67,6 +67,6 @@ public class ShouldBeEqual_newAssertionError_Test {
     when(formatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = factory.newAssertionError(description);
     assertEquals(ComparisonFailure.class, error.getClass());
-    assertEquals("[Jedi] expected:<'[Yoda]'> but was:<'[Luke]'>", error.getMessage());
+    assertEquals("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">", error.getMessage());
   }
 }

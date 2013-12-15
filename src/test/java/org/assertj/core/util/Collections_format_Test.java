@@ -43,6 +43,6 @@ public class Collections_format_Test {
   @SuppressWarnings("unchecked")
   public void should_format_Collection() {
     List<? extends Object> list = asList("First", 3);
-    assertEquals("['First', 3]", Collections.format(list));
+    assertEquals("[\"First\", 3]", Collections.format(list));
   }
 }
