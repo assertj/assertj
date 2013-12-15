@@ -41,7 +41,7 @@ public class ShouldContainString_create_Test {
   public void should_create_error_message() {
     factory = shouldContain("Yoda", "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto contain:\n <'Luke'> ", message);
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto contain:\n <\"Luke\"> ", message);
   }
 
   @Test
@@ -49,7 +49,7 @@ public class ShouldContainString_create_Test {
     factory = shouldContain("Yoda", "Luke",
                             new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto contain:\n <'Luke'> according to 'CaseInsensitiveStringComparator' comparator",
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto contain:\n <\"Luke\"> according to 'CaseInsensitiveStringComparator' comparator",
                  message);
   }
 
@@ -57,14 +57,14 @@ public class ShouldContainString_create_Test {
   public void should_create_error_message_when_ignoring_case() {
     factory = shouldContainIgnoringCase("Yoda", "Luke");
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto contain:\n <'Luke'>\n (ignoring case)", message);
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto contain:\n <\"Luke\">\n (ignoring case)", message);
   }
 
   @Test
   public void should_create_error_message_with_several_string_values() {
     factory = shouldContain("Yoda, Luke", array("Luke", "Vador", "Solo"), newSet("Vador", "Solo"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda, Luke'>\nto contain:\n <['Luke', 'Vador', 'Solo']>\nbut could not find:\n <['Vador', 'Solo']>\n ",
+    assertEquals("[Test] \nExpecting:\n <\"Yoda, Luke\">\nto contain:\n <[\"Luke\", \"Vador\", \"Solo\"]>\nbut could not find:\n <[\"Vador\", \"Solo\"]>\n ",
                  message);
   }
 

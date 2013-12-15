@@ -45,6 +45,6 @@ public class Maps_format_Test {
     Map<String, Class<?>> map = new LinkedHashMap<String, Class<?>>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertEquals("{'One'=java.lang.String, 'Two'=java.io.File}", Maps.format(map));
+    assertEquals("{\"One\"=java.lang.String, \"Two\"=java.io.File}", Maps.format(map));
   }
 }

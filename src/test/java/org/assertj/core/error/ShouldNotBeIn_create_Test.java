@@ -47,7 +47,7 @@ public class ShouldNotBeIn_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Luke'>\nnot to be in:\n <['Luke', 'Leia']>\n", message);
+    assertEquals("[Test] \nExpecting:\n <\"Luke\">\nnot to be in:\n <[\"Luke\", \"Leia\"]>\n", message);
   }
 
   @Test
@@ -55,7 +55,7 @@ public class ShouldNotBeIn_create_Test {
     factory = shouldNotBeIn("Luke", array("Luke", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Luke'>\nnot to be in:\n <['Luke', 'Leia']>\n"
+    assertEquals("[Test] \nExpecting:\n <\"Luke\">\nnot to be in:\n <[\"Luke\", \"Leia\"]>\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

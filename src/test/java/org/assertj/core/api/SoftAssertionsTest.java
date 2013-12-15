@@ -145,9 +145,9 @@ public class SoftAssertionsTest {
       assertThat(errors.get(5)).isEqualTo("expected:<0x0[3]> but was:<0x0[2]>");
       assertThat(errors.get(6)).isEqualTo("expected:<[0x0[5]]> but was:<[0x0[4]]>");
 
-      assertThat(errors.get(7)).isEqualTo("expected:<[B]> but was:<[A]>");
-      assertThat(errors.get(8)).isEqualTo("expected:<[D]> but was:<[C]>");
-      assertThat(errors.get(9)).isEqualTo("expected:<[[F]]> but was:<[[E]]>");
+      assertThat(errors.get(7)).isEqualTo("expected:<'[B]'> but was:<'[A]'>");
+      assertThat(errors.get(8)).isEqualTo("expected:<'[D]'> but was:<'[C]'>");
+      assertThat(errors.get(9)).isEqualTo("expected:<['[F]']> but was:<['[E]']>");
 
       assertThat(errors.get(10)).isEqualTo("expected:<[b]> but was:<[a]>");
 
@@ -174,33 +174,33 @@ public class SoftAssertionsTest {
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
       assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
-      assertThat(errors.get(24)).isEqualTo("expected:<['2[7]']> but was:<['2[6]']>");
+      assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
       assertThat(errors.get(25)).isEqualTo("\nExpecting:\n" +
-                                           " <['28']>\n" +
+                                           " <[\"28\"]>\n" +
                                            "to contain:\n" +
-                                           " <['29']>\n" +
+                                           " <[\"29\"]>\n" +
                                            "but could not find:\n" +
-                                           " <['29']>\n");
-      assertThat(errors.get(26)).isEqualTo("expected:<['3[1]']> but was:<['3[0]']>");
+                                           " <[\"29\"]>\n");
+      assertThat(errors.get(26)).isEqualTo("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
       assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
       assertThat(errors.get(28)).isEqualTo("expected:<3[5]L> but was:<3[4]L>");
       assertThat(errors.get(29)).isEqualTo("expected:<[3[7]L]> but was:<[3[6]L]>");
 
-      assertThat(errors.get(30)).isEqualTo("expected:<{'[40'='41]'}> but was:<{'[38'='39]'}>");
+      assertThat(errors.get(30)).isEqualTo("expected:<{\"[40\"=\"41]\"}> but was:<{\"[38\"=\"39]\"}>");
 
       assertThat(errors.get(31)).isEqualTo("expected:<4[3]> but was:<4[2]>");
       assertThat(errors.get(32)).isEqualTo("expected:<4[5]> but was:<4[4]>");
       assertThat(errors.get(33)).isEqualTo("expected:<[4[7]]> but was:<[4[6]]>");
 
-      assertThat(errors.get(34)).isEqualTo("expected:<'4[9]'> but was:<'4[8]'>");
+      assertThat(errors.get(34)).isEqualTo("expected:<\"4[9]\"> but was:<\"4[8]\">");
 
       assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
       assertThat(errors.get(37)).isEqualTo("\nExpecting message:\n"
-                                           + " <'NullPointerException message'>\n"
+                                           + " <\"NullPointerException message\">\n"
                                            + "but was:\n"
-                                           + " <'IllegalArgumentException message'>");
+                                           + " <\"IllegalArgumentException message\">");
     }
   }
 

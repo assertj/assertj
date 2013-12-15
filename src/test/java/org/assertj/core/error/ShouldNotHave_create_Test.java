@@ -41,6 +41,6 @@ public class ShouldNotHave_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to have:\n <red lightsaber>", message);
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to have:\n <red lightsaber>", message);
   }
 }

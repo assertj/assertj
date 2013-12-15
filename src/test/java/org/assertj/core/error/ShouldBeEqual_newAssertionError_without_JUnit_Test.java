@@ -71,11 +71,11 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private void check(AssertionError error) throws Exception {
     createComparisonFailure(verify(constructorInvoker));
     assertFalse(error instanceof ComparisonFailure);
-    assertEquals("[Jedi] \nExpecting:\n <'Yoda'>\nto be equal to:\n <'Luke'>\nbut was not.", error.getMessage());
+    assertEquals("[Jedi] \nExpecting:\n <\"Yoda\">\nto be equal to:\n <\"Luke\">\nbut was not.", error.getMessage());
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
     return invoker.newInstance(ComparisonFailure.class.getName(), new Class<?>[] { String.class, String.class, String.class },
-        array("[Jedi]", "'Yoda'", "'Luke'"));
+        array("[Jedi]", "\"Yoda\"", "\"Luke\""));
   }
 }

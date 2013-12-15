@@ -48,8 +48,8 @@ public class ShouldContain_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda']>\nto contain:\n <['Luke', 'Yoda']>\nbut could not find:\n"
-        + " <['Luke']>\n", message);
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain:\n <[\"Luke\", \"Yoda\"]>\nbut could not find:\n"
+        + " <[\"Luke\"]>\n", message);
   }
 
   @Test
@@ -57,8 +57,8 @@ public class ShouldContain_create_Test {
     factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda']>\nto contain:\n <['Luke', 'Yoda']>\nbut could not find:\n"
-        + " <['Luke']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain:\n <[\"Luke\", \"Yoda\"]>\nbut could not find:\n"
+        + " <[\"Luke\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
 

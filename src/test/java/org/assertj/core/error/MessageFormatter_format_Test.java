@@ -62,7 +62,7 @@ public class MessageFormatter_format_Test {
   public void should_format_message() {
     Description description = new TextDescription("Test");
     String s = messageFormatter.format(description, "Hello %s", "World");
-    assertEquals("[Test] Hello 'World'", s);
+    assertEquals("[Test] Hello \"World\"", s);
     verify(descriptionFormatter).format(description);
   }
 }

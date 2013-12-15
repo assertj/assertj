@@ -49,12 +49,12 @@ public class ToString_toStringOf_Test {
 
   @Test
   public void should_quote_String() {
-    assertEquals("'Hello'", ToString.toStringOf("Hello"));
+    assertEquals("\"Hello\"", ToString.toStringOf("Hello"));
   }
 
   @Test
   public void should_quote_empty_String() {
-    assertEquals("''", ToString.toStringOf(""));
+    assertEquals("\"\"", ToString.toStringOf(""));
   }
 
   @Test
@@ -78,7 +78,7 @@ public class ToString_toStringOf_Test {
   @Test
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
-    assertEquals("['s1', 's2']", ToString.toStringOf(collection));
+    assertEquals("[\"s1\", \"s2\"]", ToString.toStringOf(collection));
   }
 
   @Test
@@ -92,7 +92,7 @@ public class ToString_toStringOf_Test {
     Collection<List<String>> collection = new ArrayList<List<String>>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
-    assertEquals("[['s1', 's2'], ['s3', 's4', 's5']]", ToString.toStringOf(collection));
+    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", ToString.toStringOf(collection));
   }
 
   @Test
@@ -100,18 +100,18 @@ public class ToString_toStringOf_Test {
     Map<String, String> map = new LinkedHashMap<String, String>();
     map.put("key1", "value1");
     map.put("key2", "value2");
-    assertEquals("{'key1'='value1', 'key2'='value2'}", ToString.toStringOf(map));
+    assertEquals("{\"key1\"=\"value1\", \"key2\"=\"value2\"}", ToString.toStringOf(map));
   }
 
   @Test
   public void should_return_toString_of_array() {
-    assertEquals("['s1', 's2']", ToString.toStringOf(array("s1", "s2")));
+    assertEquals("[\"s1\", \"s2\"]", ToString.toStringOf(array("s1", "s2")));
   }
 
   @Test
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
-    assertEquals("[['s1', 's2'], ['s3', 's4', 's5']]", ToString.toStringOf(array));
+    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", ToString.toStringOf(array));
   }
 
   @Test

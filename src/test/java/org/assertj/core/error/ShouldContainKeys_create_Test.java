@@ -41,7 +41,7 @@ public class ShouldContainKeys_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name"));
     String message = factory.create(new TextDescription("Test"));
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain key:\n <'name'>");
+    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain key:\n <\"name\">");
   }
 
   @Test
@@ -49,6 +49,6 @@ public class ShouldContainKeys_create_Test {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name", "color"));
     String message = factory.create(new TextDescription("Test"));
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain keys:\n <['name', 'color']>");
+    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain keys:\n <[\"name\", \"color\"]>");
   }
 }

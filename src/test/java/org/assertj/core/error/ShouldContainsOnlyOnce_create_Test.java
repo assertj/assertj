@@ -45,13 +45,13 @@ public class ShouldContainsOnlyOnce_create_Test {
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n" +
-        " <['Yoda', 'Han', 'Han']>\n" +
+        " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
         "to contain only once:\n" +
-        " <['Luke', 'Yoda']>\n" +
+        " <[\"Luke\", \"Yoda\"]>\n" +
         "but some elements were not found:\n" +
-        " <['Luke']>\n" +
+        " <[\"Luke\"]>\n" +
         "and others were found more than once:\n" +
-        " <['Han']>\n", message);
+        " <[\"Han\"]>\n", message);
   }
 
   @Test
@@ -62,13 +62,13 @@ public class ShouldContainsOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \n" +
         "Expecting:\n" +
-        " <['Yoda', 'Han']>\n" +
+        " <[\"Yoda\", \"Han\"]>\n" +
         "to contain only once:\n" +
-        " <['Luke', 'Yoda']>\n" +
+        " <[\"Luke\", \"Yoda\"]>\n" +
         "but some elements were not found:\n" +
-        " <['Luke']>\n" +
+        " <[\"Luke\"]>\n" +
         "and others were found more than once:\n" +
-        " <['Han']>\n" +
+        " <[\"Han\"]>\n" +
         "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 
@@ -78,11 +78,11 @@ public class ShouldContainsOnlyOnce_create_Test {
                                      newLinkedHashSet("Han"));
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n" +
-        " <['Yoda', 'Han', 'Han']>\n" +
+        " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
         "to contain only once:\n" +
-        " <['Yoda']>\n" +
+        " <[\"Yoda\"]>\n" +
         "but some elements were found more than once:\n" +
-        " <['Han']>\n", message);
+        " <[\"Han\"]>\n", message);
   }
 
   @Test
@@ -91,11 +91,11 @@ public class ShouldContainsOnlyOnce_create_Test {
                                      newLinkedHashSet());
     String message = factory.create(new TextDescription("Test"));
     assertEquals("[Test] \nExpecting:\n" +
-        " <['Yoda', 'Han']>\n" +
+        " <[\"Yoda\", \"Han\"]>\n" +
         "to contain only once:\n" +
-        " <['Luke']>\n" +
+        " <[\"Luke\"]>\n" +
         "but some elements were not found:\n" +
-        " <['Luke']>\n", message);
+        " <[\"Luke\"]>\n", message);
   }
   
 }

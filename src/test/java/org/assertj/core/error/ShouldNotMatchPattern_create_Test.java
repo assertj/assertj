@@ -39,6 +39,6 @@ public class ShouldNotMatchPattern_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n 'Yoda'\nnot to match pattern:\n 'Luke'", message);
+    assertEquals("[Test] \nExpecting:\n \"Yoda\"\nnot to match pattern:\n \"Luke\"", message);
   }
 }

@@ -44,7 +44,7 @@ public class ElementsShouldHaveExactly_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting elements:\n<['Yoda', 'Solo', 'Leia']>\n to have at least 2 times <Jedi power>", message);
+    assertEquals("[Test] \nExpecting elements:\n<[\"Yoda\", \"Solo\", \"Leia\"]>\n to have at least 2 times <Jedi power>", message);
   }
 
 }

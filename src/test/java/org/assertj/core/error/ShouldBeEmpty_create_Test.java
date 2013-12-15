@@ -43,6 +43,6 @@ public class ShouldBeEmpty_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting empty but was:<['Luke', 'Yoda']>", message);
+    assertEquals("[Test] \nExpecting empty but was:<[\"Luke\", \"Yoda\"]>", message);
   }
 }
