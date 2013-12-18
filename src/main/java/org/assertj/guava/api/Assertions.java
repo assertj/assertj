@@ -17,6 +17,7 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Table;
+import com.google.common.io.ByteSource;
 
 /**
  * The entry point for all Guava assertions.
@@ -28,6 +29,10 @@ import com.google.common.collect.Table;
  * @author Joel Costigliola
  */
 public class Assertions {
+
+  public static ByteSourceAssert assertThat(final ByteSource actual) {
+    return new ByteSourceAssert(actual);
+  }
 
   public static <K, V> MultimapAssert<K, V> assertThat(final Multimap<K, V> actual) {
     return new MultimapAssert<K, V>(actual);
