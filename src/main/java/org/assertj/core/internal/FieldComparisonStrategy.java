@@ -1,9 +1,7 @@
 package org.assertj.core.internal;
 
-/**
- * Created by pragmatists on 12/19/13.
- */
 public abstract class FieldComparisonStrategy extends StandardComparisonStrategy {
+
     @Override
     public boolean areEqual(Object actual, Object other) {
         if(actual == null && other == null)

@@ -2,13 +2,13 @@ package org.assertj.core.api.iterable;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
+import org.assertj.core.internal.IgnoringFieldsComparisonStrategy;
 import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.OnFieldsComparisonStrategy;
 import org.junit.Before;
 
 import static org.junit.Assert.*;
 
-public class IterableAssert_usingElementComparatorOnFields_Test extends IterableAssertBaseTest {
+public class IterableAssert_usingElementComparatorIgnoringFields_Test extends IterableAssertBaseTest {
 
     private Iterables iterablesBefore;
 
@@ -19,14 +19,14 @@ public class IterableAssert_usingElementComparatorOnFields_Test extends Iterable
 
     @Override
     protected ConcreteIterableAssert<Object> invoke_api_method() {
-        return assertions.usingElementComparatorOnFields("field");
+        return assertions.usingElementComparatorIgnoringFields("field");
     }
 
     @Override
     protected void verify_internal_effects() {
         assertNotSame(getIterables(assertions), iterablesBefore);
-        assertTrue(getIterables(assertions).getComparisonStrategy() instanceof OnFieldsComparisonStrategy);
-        assertArrayEquals(new String[]{"field"}, ((OnFieldsComparisonStrategy) getIterables(assertions).getComparisonStrategy()).getFields());
+        assertTrue(getIterables(assertions).getComparisonStrategy() instanceof IgnoringFieldsComparisonStrategy);
+        assertArrayEquals(new String[]{"field"}, ((IgnoringFieldsComparisonStrategy) getIterables(assertions).getComparisonStrategy()).getFields());
     }
 
 }
