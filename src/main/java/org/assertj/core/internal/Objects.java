@@ -566,22 +566,32 @@ public class Objects {
   public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
+    ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
+    if (byFieldsComparison.isFieldsNamesNotEmpty())
+      throw failures.failure(info, shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames,
+                                                                         byFieldsComparison.rejectedValues,
+                                                                         byFieldsComparison.expectedValues,
+                                                                         newArrayList(fields)));
+  }
+
+  private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other, String[] fields) {
     List<String> rejectedFieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
     List<Object> rejectedValues = new LinkedList<Object>();
     final Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     for (String fieldName : fields) {
-      Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName, declaredFieldsIncludingInherited, actual.getClass()));
-      Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited, other.getClass()));
+      Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName,
+                                                                          declaredFieldsIncludingInherited,
+                                                                          actual.getClass()));
+      Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited,
+                                                                        other.getClass()));
       if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
         rejectedFieldsNames.add(fieldName);
-        rejectedValues.add(actualFieldValue);
         expectedValues.add(otherFieldValue);
+        rejectedValues.add(actualFieldValue);
       }
     }
-    if (!rejectedFieldsNames.isEmpty())
-      throw failures.failure(info, 
-          shouldBeEqualComparingOnlyGivenFields(actual, rejectedFieldsNames, rejectedValues, expectedValues, newArrayList(fields)));
+    return new ByFieldsComparison(rejectedFieldsNames, expectedValues, rejectedValues);
   }
 
   /**
@@ -616,9 +626,18 @@ public class Objects {
   public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
+    ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
+    if (byFieldsComparison.isFieldsNamesNotEmpty())
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames,
+                                                                      byFieldsComparison.rejectedValues,
+                                                                      byFieldsComparison.expectedValues,
+                                                                      newArrayList(fields)));
+  }
+
+  private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] fields) {
     List<String> fieldsNames = new LinkedList<String>();
-    List<Object> rejectedValues = new LinkedList<Object>();
     List<Object> expectedValues = new LinkedList<Object>();
+    List<Object> rejectedValues = new LinkedList<Object>();
     Set<String> ignoredFields = newLinkedHashSet(fields);
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
@@ -635,17 +654,15 @@ public class Objects {
         // Not readable field, skip.
       }
     }
-    if (!fieldsNames.isEmpty()) {
-      throw failures.failure(info,
-          shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, rejectedValues, expectedValues, newArrayList(fields)));
-    }
+    return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
   }
 
   /**
    * Get field value first and in case of error try its value from property getter (property name being field name)
-   * @param a the object to get field value from
+   *
+   * @param a     the object to get field value from
    * @param field Field to read
-   * @param <A> the type of object a
+   * @param <A>   the type of object a
    * @return field value or property value if field was not accessible.
    * @throws IntrospectionError is field value can't get retrieved.
    */
@@ -697,4 +714,33 @@ public class Objects {
     if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
   }
 
+  public boolean areEqualToIgnoringGivenFields(Object actual, Object other, String... fields) {
+    return isEqualToIgnoringGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  }
+
+  public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other, String... fields) {
+    return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  }
+
+  private class ByFieldsComparison {
+
+    private final List<String> fieldsNames;
+    private final List<Object> expectedValues;
+    private final List<Object> rejectedValues;
+
+    public ByFieldsComparison(final List<String> fieldsNames, final List<Object> expectedValues,
+                              final List<Object> rejectedValues) {
+      this.fieldsNames = fieldsNames;
+      this.expectedValues = expectedValues;
+      this.rejectedValues = rejectedValues;
+    }
+
+    public boolean isFieldsNamesEmpty() {
+      return fieldsNames.isEmpty();
+    }
+
+    public boolean isFieldsNamesNotEmpty() {
+      return !isFieldsNamesEmpty();
+    }
+  }
 }
