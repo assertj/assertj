@@ -36,18 +36,24 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
   @Test
   public void should_create_error_message_with_all_fields_differences() {
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Luke", "blue"), newArrayList("name", "lightSaberColor"),
-                                                    newArrayList((Object) "Yoda", "green"), newArrayList("name", "lightSaberColor"));
+        newArrayList((Object) "Luke", "blue"), newArrayList((Object) "Yoda", "green"), newArrayList("name", "lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting values:\n" + "  <[\"Yoda\", \"green\"]>\n" + "in fields:\n" + "  <[\"name\", \"lightSaberColor\"]>\n"
-        + "of <Luke the Jedi>.\n" + "Comparison was performed on fields:\n  <[\"name\", \"lightSaberColor\"]>", message);
+    assertEquals("[Test] \nExpecting values:\n  <[\"Yoda\", \"green\"]>\n" +
+        "in fields:\n  <[\"name\", \"lightSaberColor\"]>\n" +
+        "but were:\n  <[\"Luke\", \"blue\"]>\n" +
+        "in <Luke the Jedi>.\n" +
+        "Comparison was performed on fields:\n  <[\"name\", \"lightSaberColor\"]>", message);
   }
 
   @Test
   public void should_create_error_message_with_single_field_difference() {
-    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"), newArrayList((Object) "green"),
-                                                    newArrayList("lightSaberColor"));
+    factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"),
+        newArrayList((Object) "green"), newArrayList((Object) "blue"), newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting value <\"green\"> in field <\"lightSaberColor\"> of <Yoda the Jedi>", message);
+    assertEquals("[Test] \nExpecting value <\"blue\">" +
+        " in field <\"lightSaberColor\">" +
+        " but was <\"green\">" +
+        " in <Yoda the Jedi>", message);
   }
 
 }

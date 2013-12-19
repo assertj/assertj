@@ -87,8 +87,8 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
-                                             newArrayList("name")));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Green"),
+              newArrayList((Object) "Blue"), newArrayList("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -104,8 +104,8 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Blue"),
-                                             new ArrayList<String>()));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Green"),
+              newArrayList((Object) "Blue"), new ArrayList<String>()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -121,7 +121,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     } catch (AssertionError err) {
       verify(failures).failure(
           info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"), newArrayList((Object) "Luke"),
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"), newArrayList((Object) "Yoda"), newArrayList((Object) "Luke"),
                                              newArrayList("lightSaberColor")));
       return;
     }
@@ -152,7 +152,8 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Green");
       verify(failures).failure(info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), expected, newArrayList("name")));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) null), expected,
+              newArrayList("name")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

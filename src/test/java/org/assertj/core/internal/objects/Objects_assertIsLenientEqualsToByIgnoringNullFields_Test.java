@@ -72,7 +72,8 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
     } catch (AssertionError err) {
       List<String> emptyList = newArrayList();
       verify(failures).failure(info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) "Green"), emptyList));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"), newArrayList((Object) null),
+              newArrayList((Object) "Green"), emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -88,7 +89,8 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
     } catch (AssertionError err) {
       List<String> emptyList = newArrayList();
       verify(failures).failure(info,
-          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"), newArrayList((Object) "Soda"), emptyList));
+          shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"), newArrayList((Object) "Yoda"), newArrayList((Object) "Soda"),
+              emptyList));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
