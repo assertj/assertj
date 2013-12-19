@@ -760,7 +760,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
      *
      * @return {@code this} assertion object.
      */
-  public S usingElementComparatorIgnoringFields(String fields) {
+  public S usingElementComparatorIgnoringFields(String... fields) {
     return usingComparisonStrategy(new IgnoringFieldsComparisonStrategy(fields));
   }
 }
