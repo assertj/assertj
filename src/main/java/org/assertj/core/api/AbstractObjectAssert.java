@@ -93,7 +93,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // frodo and sam both are hobbits, so they are equals when comparing only race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race&quot;); // OK
    * 
-   * // ... but not when comparing noth name and race
+   * // ... but not when comparing both name and race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL
    * 
    * </pre>
