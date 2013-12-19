@@ -14,22 +14,19 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.internal.Arrays.assertIsArray;
-import static org.assertj.core.util.Iterables.toArray;
+import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.groups.MethodInvocationResultExtractor;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.*;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import org.assertj.core.groups.FieldsOrPropertiesExtractor;
-import org.assertj.core.groups.MethodInvocationResultExtractor;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Arrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Iterables;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.introspection.IntrospectionError;
+import static org.assertj.core.util.Iterables.toArray;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -664,5 +661,106 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
     return containsExactly(toArray(iterable));
+  }
+
+    /**
+     * Use field by field comparison (including inherited fields) instead of relying
+     * on actual type A <code>equals</code> method to compare group elements
+     * for incoming assertion checks.
+     *
+     * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+     * </p>
+     * <p>
+     * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+     * (e.g. public) or fields with an accessible getter.
+     * </p>
+     *
+     * <pre>
+     * Example:
+     *
+     * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+     * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+     *
+     * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
+     * assertThat(newArrayList(frodo)).contains(frodoClone);
+     *
+     * // frodo and frodoClone are equals when doing a field by field comparison.
+     * assertThat(newArrayList(frodo)).usingFieldByFieldElementComparator().contains(frodoClone);
+     *
+     * </pre>
+     *
+     * @return {@code this} assertion object.
+     */
+  public S usingFieldByFieldElementComparator() {
+    return usingComparisonStrategy(new FieldByFieldComparisonStrategy());
+  }
+
+    /**
+     * Use field by field comparison on the given fields only (fields can be inherited fields)
+     * instead of relying on actual type A <code>equals</code> method to compare group elements
+     * for incoming assertion checks.
+     *
+     * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+     * </p>
+     * <p>
+     * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+     * (e.g. public) or fields with an accessible getter.
+     * </p>
+     *
+     * <pre>
+     * Example:
+     *
+     * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+     * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+     *
+     * // frodo and sam both are hobbits, so they are equals when comparing only race
+     * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("race").contains(sam); // OK
+     *
+     * // ... but not when comparing both name and race
+     * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL
+     *
+     * </pre>
+     *
+     * @return {@code this} assertion object.
+     */
+  public S usingElementComparatorOnFields(String... fields) {
+    return usingComparisonStrategy(new OnFieldsComparisonStrategy(fields));
+  }
+
+  protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
+    iterables = new Iterables(comparisonStrategy);
+    return myself;
+  }
+    /**
+     * Use field by field comparison on all fields except for the given ones
+     * (inherited fields are taken into account)
+     * instead of relying on actual type A <code>equals</code> method to compare group elements
+     * for incoming assertion checks.
+     *
+     * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+     * </p>
+     * <p>
+     * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+     * (e.g. public) or fields with an accessible getter.
+     * </p>
+     *
+     * <pre>
+     * Example:
+     *
+     * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+     * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+     *
+     * // frodo and sam both are hobbits, so they are equals when comparing only race (i.e. ignoring all other fields)
+     * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("name", "age").contains(sam); // OK
+     *
+     * // ... but not when comparing both name and race
+     * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL
+     *
+     * </pre>
+     *
+     * @return {@code this} assertion object.
+     */
+  public S usingElementComparatorIgnoringFields(String... fields) {
+    return usingComparisonStrategy(new IgnoringFieldsComparisonStrategy(fields));
   }
 }
