@@ -271,4 +271,8 @@ public class Lists {
     return comparisonStrategy.areEqual(actual, other);
   }
 
+    @VisibleForTesting
+  public ComparisonStrategy getComparisonStrategy() {
+    return comparisonStrategy;
+  }
 }

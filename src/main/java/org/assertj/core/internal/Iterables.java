@@ -980,4 +980,8 @@ public class Iterables {
     return new IllegalArgumentException("The iterable to look for should not be empty");
   }
 
+    @VisibleForTesting
+    public ComparisonStrategy getComparisonStrategy() {
+        return comparisonStrategy;
+    }
 }

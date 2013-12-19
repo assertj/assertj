@@ -145,10 +145,22 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 		return myself;
 	}
 
-	@Override
+    @Override
 	public S usingDefaultElementComparator() {
 		super.usingDefaultElementComparator();
 		lists = Lists.instance();
 		return myself;
 	}
+
+    @Override
+    public S usingFieldByFieldElementComparator() {
+        return usingComparisonStrategy(new FieldByFieldComparisonStrategy());
+    }
+
+    @Override
+    protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
+        super.usingComparisonStrategy(comparisonStrategy);
+        lists = new Lists(comparisonStrategy);
+        return myself;
+    }
 }

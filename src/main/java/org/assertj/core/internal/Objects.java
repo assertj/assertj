@@ -36,7 +36,7 @@ import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.*;
 import static org.assertj.core.util.ToString.toStringOf;
 
@@ -614,28 +614,34 @@ public class Objects {
   public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-    List<String> fieldsNames = new LinkedList<String>();
-    List<Object> expectedValues = new LinkedList<Object>();
-    Set<String> ignoredFields = newLinkedHashSet(fields);
-    for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
-      try {
-        if (!ignoredFields.contains(field.getName())) {
-          Object actualFieldValue = getFieldOrPropertyValue(actual, field);
-          Object otherFieldValue = getFieldOrPropertyValue(other, field);
-          if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-            fieldsNames.add(field.getName());
-            expectedValues.add(otherFieldValue);
-          }
-        }
-      } catch (IntrospectionError e) {
-        // Not readable field, skip.
-      }
-    }
-    if (!fieldsNames.isEmpty())
-      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, expectedValues, newArrayList(fields)));
+    ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
+    if (byFieldsComparison.isFieldsNamesNotEmpty())
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames, byFieldsComparison.expectedValues, newArrayList(fields)));
   }
 
-  /**
+    private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] fields) {
+        List<String> fieldsNames = new LinkedList<String>();
+        List<Object> expectedValues = new LinkedList<Object>();
+        Set<String> ignoredFields = newLinkedHashSet(fields);
+        for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
+          try {
+            if (!ignoredFields.contains(field.getName())) {
+              Object actualFieldValue = getFieldOrPropertyValue(actual, field);
+              Object otherFieldValue = getFieldOrPropertyValue(other, field);
+              if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+                fieldsNames.add(field.getName());
+                expectedValues.add(otherFieldValue);
+              }
+            }
+          } catch (IntrospectionError e) {
+            // Not readable field, skip.
+          }
+        }
+        return new ByFieldsComparison(fieldsNames, expectedValues);
+    }
+
+
+    /**
    * Get field value first and in case of error try its value from property getter (property name being field name)
    * @param a the object to get field value from
    * @param field Field to read
@@ -691,4 +697,26 @@ public class Objects {
     if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
   }
 
+  public boolean areEqualToIgnoringGivenFields(Object left, Object right, String... fields) {
+    return isEqualToIgnoringGivenFields(left, right, fields).isFieldsNamesEmpty();
+  }
+
+    private class ByFieldsComparison {
+
+        private final List<String> fieldsNames;
+        private final List<Object> expectedValues;
+
+        public ByFieldsComparison(List<String> fieldsNames, List<Object> expectedValues) {
+            this.fieldsNames = fieldsNames;
+            this.expectedValues = expectedValues;
+        }
+
+        public boolean isFieldsNamesEmpty() {
+            return fieldsNames.isEmpty();
+        }
+
+        public boolean isFieldsNamesNotEmpty() {
+            return !isFieldsNamesEmpty();
+        }
+    }
 }
