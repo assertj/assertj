@@ -153,11 +153,6 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 	}
 
     @Override
-    public S usingFieldByFieldElementComparator() {
-        return usingComparisonStrategy(new FieldByFieldComparisonStrategy());
-    }
-
-    @Override
     protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
         super.usingComparisonStrategy(comparisonStrategy);
         lists = new Lists(comparisonStrategy);

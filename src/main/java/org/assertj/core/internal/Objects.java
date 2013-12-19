@@ -566,23 +566,28 @@ public class Objects {
   public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-    List<String> rejectedFieldsNames = new LinkedList<String>();
-    List<Object> expectedValues = new LinkedList<Object>();
-    final Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
-    for (String fieldName : fields) {
-      Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName, declaredFieldsIncludingInherited, actual.getClass()));
-      Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited, other.getClass()));
-      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-        rejectedFieldsNames.add(fieldName);
-        expectedValues.add(otherFieldValue);
-      }
-    }
-    if (!rejectedFieldsNames.isEmpty())
+      ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
+      if (byFieldsComparison.isFieldsNamesNotEmpty())
       throw failures.failure(info,
-                             shouldBeEqualComparingOnlyGivenFields(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
+                             shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames, byFieldsComparison.expectedValues, newArrayList(fields)));
   }
 
-  /**
+    private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other, String[] fields) {
+        List<String> rejectedFieldsNames = new LinkedList<String>();
+        List<Object> expectedValues = new LinkedList<Object>();
+        final Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+        for (String fieldName : fields) {
+          Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName, declaredFieldsIncludingInherited, actual.getClass()));
+          Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited, other.getClass()));
+          if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+            rejectedFieldsNames.add(fieldName);
+            expectedValues.add(otherFieldValue);
+          }
+        }
+        return new ByFieldsComparison(rejectedFieldsNames, expectedValues);
+    }
+
+    /**
    * Find field with given fieldName in fields of Class clazz.
    * @param fieldName the field name used to find field in fields
    * @param fields Fields to look into
@@ -697,8 +702,12 @@ public class Objects {
     if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
   }
 
-  public boolean areEqualToIgnoringGivenFields(Object left, Object right, String... fields) {
-    return isEqualToIgnoringGivenFields(left, right, fields).isFieldsNamesEmpty();
+  public boolean areEqualToIgnoringGivenFields(Object actual, Object other, String... fields) {
+    return isEqualToIgnoringGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  }
+
+  public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other, String... fields) {
+    return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
     private class ByFieldsComparison {

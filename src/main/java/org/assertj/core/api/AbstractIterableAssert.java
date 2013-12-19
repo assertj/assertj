@@ -667,8 +667,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return usingComparisonStrategy(new FieldByFieldComparisonStrategy());
   }
 
-  protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
-    iterables = new Iterables(comparisonStrategy);
-    return myself;
+  public S usingElementComparatorOnFields(String... fields) {
+    return usingComparisonStrategy(new OnFieldsComparisonStrategy(fields));
   }
+
+    protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
+        iterables = new Iterables(comparisonStrategy);
+        return myself;
+    }
 }
