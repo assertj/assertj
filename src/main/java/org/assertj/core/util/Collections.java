@@ -15,7 +15,7 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.util.ToString.toStringOf;
+import static org.assertj.core.util.ElementSeparator.separatorFor;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -100,14 +100,15 @@ public final class Collections {
     b.append(start);
     for (;;) {
       Object e = i.next();
-      b.append(e == c ? "(this Collection)" : toStringOf(e));
+      b.append(e == c ? "(this Collection)" : SimpleToString.toStringOf(e));
       if (!i.hasNext()) {
         return b.append(end).toString();
       }
-      b.append(", ");
+      b.append(separatorFor(e));
     }
   }
-  
+
+
   /**
    * Returns all the non-{@code null} elements in the given {@link Collection}.
    * 
