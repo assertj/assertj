@@ -763,4 +763,84 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public S usingElementComparatorIgnoringFields(String... fields) {
     return usingComparisonStrategy(new IgnoringFieldsComparisonStrategy(fields));
   }
+
+  /**
+   * Enable hexadecimal representation of Iterable elements instead of standard representation in error messages.
+   * <p/>
+   * It can be useful to better understand what the error was with a more meaningful error message.
+   * <p/>
+   * Example
+   * <pre>
+   * final List<Byte> bytes = newArrayList((byte)0x10, (byte) 0x20);
+   * </pre>
+   *
+   * With standard error message:
+   * <pre>
+   * assertThat(bytes).contains((byte)0x30);
+   *
+   * Expecting:
+   *  <[16, 32]>
+   * to contain:
+   *  <[48]>
+   * but could not find:
+   *  <[48]>
+   * </pre>
+   *
+   * With Hexadecimal error message:
+   * <pre>
+   * assertThat(bytes).asHexadecimal().contains((byte)0x30);
+   *
+   * Expecting:
+   *  <[0x10, 0x20]>
+   * to contain:
+   *  <[0x30]>
+   * but could not find:
+   *  <[0x30]>
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  @Override
+  public S asHexadecimal() { // TODO rename to asHexadecimalElements() ?
+    return super.asHexadecimal();
+  }
+
+  /**
+   * Enable binary representation of Iterable elements instead of standard representation in error messages.
+   * <p/>
+   * Example:
+   * <pre>
+   * final List<Byte> bytes = newArrayList((byte)0x10, (byte) 0x20);
+   * </pre>
+   *
+   * With standard error message:
+   * <pre>
+   * assertThat(bytes).contains((byte)0x30);
+   *
+   * Expecting:
+   *  <[16, 32]>
+   * to contain:
+   *  <[48]>
+   * but could not find:
+   *  <[48]>
+   * </pre>
+   *
+   * With binary error message:
+   * <pre>
+   * assertThat(bytes).asBinary().contains((byte)0x30);
+   *
+   * Expecting:
+   *  <[0b00010000, 0b00100000]>
+   * to contain:
+   *  <[0b00110000]>
+   * but could not find:
+   *  <[0b00110000]>
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
 }

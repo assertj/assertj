@@ -22,9 +22,9 @@ import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.sho
 import static org.assertj.core.util.Lists.*;
 import static org.junit.Assert.assertEquals;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Jedi;
 
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
                                                     newArrayList((Object) "Luke", "blue"),
                                                     newArrayList((Object) "Yoda", "green"), newArrayList("name",
                                                                                                          "lightSaberColor"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \n" +
                                   "Expecting values:\n" +
                                   "  <[\"Yoda\", \"green\"]>\n" +
@@ -63,7 +63,7 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
     factory = shouldBeEqualComparingOnlyGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"),
                                                     newArrayList((Object) "green"), newArrayList((Object) "blue"),
                                                     newArrayList("lightSaberColor"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \nExpecting value <\"blue\">" +
                                   " in field <\"lightSaberColor\">" +
                                   " but was <\"green\">" +

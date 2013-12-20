@@ -15,6 +15,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.presentation.Representation;
 
 /**
  * Factory of error messages.
@@ -26,9 +27,10 @@ public interface ErrorMessageFactory {
   /**
    * Creates a new error message as a result of a failed assertion.
    * @param d the description of the failed assertion.
+   * @param p
    * @return the created error message.
    */
-  String create(Description d);
+  String create(Description d, Representation p);
 
   /**
    * Creates a new error message as a result of a failed assertion without description.

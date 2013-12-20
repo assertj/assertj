@@ -40,4 +40,47 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
   protected AbstractEnumerableAssert(final A actual, final Class<?> selfType) {
     super(actual, selfType);
   }
+
+  /**
+   * Enable hexadecimal object representation of Itearble elements instead of standard java representation in error messages.
+   * <p/>
+   * It can be useful to better understand what the error was with a more meaningful error message.
+   * <p/>
+   * Example
+   * <pre>
+   * assertThat(new byte[]{0x10,0x20}).asHex().contains(new byte[]{0x30});
+   * </pre>
+   *
+   * With standard error message:
+   * <pre>
+   * Expecting:
+   *  <[16, 32]>
+   * to contain:
+   *  <[48]>
+   * but could not find:
+   *  <[48]>
+   * </pre>
+   *
+   * With Hexadecimal error message:
+   * <pre>
+   * Expecting:
+   *  <[0x10, 0x20]>
+   * to contain:
+   *  <[0x30]>
+   * but could not find:
+   *  <[0x30]>
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
+
 }

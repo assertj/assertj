@@ -20,13 +20,13 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeSorted#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -36,7 +36,7 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
   public void should_create_error_message_with_comparator() {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "A"),
         new CaseInsensitiveStringComparator());
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \ngroup is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"A\">\ngroup was:\n <[\"b\", \"c\", \"A\"]>",
         message);
@@ -46,7 +46,7 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
   public void should_create_error_message_with_private_static_comparator() {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
         new StaticStringComparator());
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \ngroup is not sorted according to 'StaticStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"a\">\ngroup was:\n <[\"b\", \"c\", \"a\"]>",
         message);

@@ -119,6 +119,59 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return describedAs(description);
   }
 
+  /**
+   * Use hexadecimal object representation instead of standard representation in error messages.
+   * <p/>
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
+   * it is thus impossible to find differences from the standard error message:
+   * <p/>
+   * With standard message:
+   * <pre>
+   * assertThat("µµµ").contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <"µµµ">
+   * to contain:
+   *   <"μμμ">
+   * </pre>
+   *
+   * With Hexadecimal message:
+   * <pre>
+   * assertThat("µµµ").asHexadecimal().contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <"['00B5', '00B5', '00B5']">
+   * to contain:
+   *   <"['03BC', '03BC', '03BC']">
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  protected S asHexadecimal() {
+    info.representationAsHexadecimal();
+    return myself;
+  }
+
+  /**
+   * Use binary object representation instead of standard representation in error messages.
+   * <p/>
+   * Example:
+   * <pre>
+   * assertThat(1).asBinary().isEqualTo(2);
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :0b00000000_00000000_00000000_00000010
+   * Actual   :0b00000000_00000000_00000000_00000001
+   *
+   * @return {@code this} assertion object.
+   */
+  protected S asBinary() {
+    info.representationAsBinary();
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public S describedAs(String description, Object... args) {

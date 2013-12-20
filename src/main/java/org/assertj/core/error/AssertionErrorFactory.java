@@ -15,6 +15,7 @@
 package org.assertj.core.error;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.presentation.Representation;
 
 /**
  * Factory of <code>{@link AssertionError}</code>s.
@@ -27,7 +28,8 @@ public interface AssertionErrorFactory {
   /**
    * Creates an <code>{@link AssertionError}</code>.
    * @param d the description of the failed assertion.
+   * @param representation
    * @return the created {@code AssertionError}.
    */
-  AssertionError newAssertionError(Description d);
+  AssertionError newAssertionError(Description d, Representation representation);
 }

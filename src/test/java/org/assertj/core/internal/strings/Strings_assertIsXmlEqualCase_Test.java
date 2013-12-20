@@ -62,7 +62,7 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
     try {
       strings.assertXmlEqualsTo(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected)));
+      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected), info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -83,7 +83,8 @@ public class Strings_assertIsXmlEqualCase_Test extends StringsBaseTest {
     try {
       stringsWithCaseInsensitiveComparisonStrategy.assertXmlEqualsTo(someInfo(), actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected)));
+      verify(failures).failure(info, shouldBeEqual(xmlPrettyFormat(actual), xmlPrettyFormat(expected),
+          info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

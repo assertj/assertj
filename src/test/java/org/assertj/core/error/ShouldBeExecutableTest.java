@@ -17,9 +17,8 @@ package org.assertj.core.error;
 import static org.junit.Assert.assertEquals;
 
 
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeExecutable;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -38,7 +37,7 @@ public class ShouldBeExecutableTest {
   }
 
   @Test public void createExpectedMessage() {
-    String actualMessage = factory.create(new TestDescription("Test"));
+    String actualMessage = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <pathname>\nto be executable", actualMessage);
   }
 }

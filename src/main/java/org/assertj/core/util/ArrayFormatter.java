@@ -14,9 +14,10 @@
  */
 package org.assertj.core.util;
 
+import org.assertj.core.presentation.Representation;
+
 import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import java.lang.reflect.Array;
 import java.util.HashSet;
@@ -31,25 +32,25 @@ import java.util.Set;
 final class ArrayFormatter {
   private static final String NULL = "null";
 
-  String format(Object o) {
+  String format(Representation p, Object o) {
     if (!isArray(o)) {
       return null;
     }
-    return isObjectArray(o) ? formatObjectArray(o) : formatPrimitiveArray(o);
+    return isObjectArray(o) ? formatObjectArray(p, o) : formatPrimitiveArray(p, o);
   }
 
-  private String formatObjectArray(Object o) {
+  private String formatObjectArray(Representation p, Object o) {
     Object[] array = (Object[]) o;
     int size = array.length;
     if (size == 0) {
       return "[]";
     }
     StringBuilder buffer = new StringBuilder((20 * (size - 1)));
-    deepToString(array, buffer, new HashSet<Object[]>());
+    deepToString(p, array, buffer, new HashSet<Object[]>());
     return buffer.toString();
   }
 
-  private void deepToString(Object[] array, StringBuilder buffer, Set<Object[]> alreadyFormatted) {
+  private void deepToString(Representation p, Object[] array, StringBuilder buffer, Set<Object[]> alreadyFormatted) {
     if (array == null) {
       buffer.append(NULL);
       return;
@@ -63,18 +64,18 @@ final class ArrayFormatter {
       }
       Object element = array[i];
       if (!isArray(element)) {
-        buffer.append(element == null ? NULL : toStringOf(element));
+        buffer.append(element == null ? NULL : p.toStringOf(element));
         continue;
       }
       if (!isObjectArray(element)) {
-        buffer.append(formatPrimitiveArray(element));
+        buffer.append(formatPrimitiveArray(p, element));
         continue;
       }
       if (alreadyFormatted.contains(element)) {
         buffer.append("[...]");
         continue;
       }
-      deepToString((Object[]) element, buffer, alreadyFormatted);
+      deepToString(p, (Object[]) element, buffer, alreadyFormatted);
     }
     buffer.append(']');
     alreadyFormatted.remove(array);
@@ -84,7 +85,7 @@ final class ArrayFormatter {
     return isArray(o) && !isArrayTypePrimitive(o);
   }
 
-  private String formatPrimitiveArray(Object o) {
+  private String formatPrimitiveArray(Representation p, Object o) {
     if (!isArray(o)) {
       return null;
     }
@@ -97,11 +98,11 @@ final class ArrayFormatter {
     }
     StringBuilder buffer = new StringBuilder();
     buffer.append('[');
-    buffer.append(toStringOf(Array.get(o, 0)));
+    buffer.append(p.toStringOf(Array.get(o, 0)));
     for (int i = 1; i < size; i++) {
       Object element = Array.get(o, i);
       buffer.append(", ");
-      buffer.append(toStringOf(element));
+      buffer.append(p.toStringOf(element));
     }
     buffer.append("]");
     return buffer.toString();

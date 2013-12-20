@@ -22,14 +22,13 @@ import static org.junit.Assert.assertEquals;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ElementsShouldNotBe;
-import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ElementsShouldNotBe#create(Description)}</code>.
+ * Tests for <code>{@link ElementsShouldNotBe#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -44,7 +43,7 @@ public class ElementsShouldNotBe_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting elements:\n<[\"Yoda\"]>\n of \n<[\"Darth Vader\", \"Leia\", \"Yoda\"]>\n not to be <not a Jedi>",
         message);
   }

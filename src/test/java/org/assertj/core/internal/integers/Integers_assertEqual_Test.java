@@ -53,7 +53,7 @@ public class Integers_assertEqual_Test extends IntegersBaseTest {
     try {
       integers.assertEqual(info, 6, 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6, 8));
+      verify(failures).failure(info, shouldBeEqual(6, 8, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +76,7 @@ public class Integers_assertEqual_Test extends IntegersBaseTest {
     try {
       integersWithAbsValueComparisonStrategy.assertEqual(info, 6, -8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6, -8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual(6, -8, absValueComparisonStrategy, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

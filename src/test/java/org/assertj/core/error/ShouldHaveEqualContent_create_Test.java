@@ -22,16 +22,14 @@ import static org.assertj.core.util.SystemProperties.LINE_SEPARATOR;
 import java.io.ByteArrayInputStream;
 import java.util.List;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldHaveEqualContent;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldHaveEqualContent#create(Description)}</code>.
+ * Tests for <code>{@link ShouldHaveEqualContent#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
@@ -55,7 +53,7 @@ public class ShouldHaveEqualContent_create_Test {
     b.append("[Test] \nFile:\n <abc>\nand file:\n <xyz>\ndo not have equal content:");
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
-    assertEquals(b.toString(), factory.create(new TextDescription("Test")));
+    assertEquals(b.toString(), factory.create(new TextDescription("Test"), new StandardRepresentation()));
   }
 
   @Test
@@ -67,7 +65,7 @@ public class ShouldHaveEqualContent_create_Test {
     b.append("[Test] \nInputStreams do not have equal content:");
     for (String diff : diffs)
       b.append(LINE_SEPARATOR).append(diff);
-    assertEquals(b.toString(), factory.create(new TextDescription("Test")));
+    assertEquals(b.toString(), factory.create(new TextDescription("Test"), new StandardRepresentation()));
   }
 
 }

@@ -25,8 +25,8 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Doubles#assertEqual(AssertionInfo, Double, double)}</code>.
@@ -53,7 +53,7 @@ public class Doubles_assertEqual_Test extends DoublesBaseTest {
     try {
       doubles.assertEqual(info, 6d, 8d);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +76,8 @@ public class Doubles_assertEqual_Test extends DoublesBaseTest {
     try {
       doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, 8d);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual(6d, 8d, absValueComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

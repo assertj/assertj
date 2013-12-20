@@ -151,6 +151,38 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
   }
 
   /**
+   /**
+   * Use unicode character representation instead of standard representation in error messages.
+   * <p/>
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
+   * it is thus impossible to find differences from the standard error message:
+   * <p/>
+   * With standard error message:
+   * <pre>
+   * assertThat('µ').isEqualTo('μ');
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :'μ'
+   * Actual   :'µ'
+   * </pre>
+   *
+   * With unicode based error message:
+   * <pre>
+   * assertThat('µ').asUnicode().isEqualTo('μ');
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :\u03bc
+   * Actual   :\u00b5
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
@@ -195,6 +227,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a lowercase character.
    */
+
   public S isLowerCase() {
     characters.assertLowerCase(info, actual);
     return myself;

@@ -594,4 +594,45 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     this.strings = Strings.instance();
     return myself;
   }
+
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  /**
+   * Use unicode character representation instead of standard representation in error messages.
+   * <p/>
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
+   * it is thus impossible to find differences from the standard error message:
+   * <p/>
+   * With standard message:
+   * <pre>
+   * assertThat("µµµ").contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <"µµµ">
+   * to contain:
+   *   <"μμμ">
+   * </pre>
+   *
+   * With Hexadecimal message:
+   * <pre>
+   * assertThat("µµµ").asUnicode().contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <\u00b5\u00b5\u00b5>
+   * to contain:
+   *   <\u03bc\u03bc\u03bc>
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
+    return myself;
+  }
+
 }

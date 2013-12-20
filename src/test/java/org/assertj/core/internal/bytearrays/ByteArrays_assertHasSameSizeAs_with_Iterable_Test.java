@@ -27,7 +27,6 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.Test;
 
@@ -47,7 +46,8 @@ public class ByteArrays_assertHasSameSizeAs_with_Iterable_Test extends ByteArray
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size())
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

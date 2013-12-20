@@ -68,7 +68,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
     try {
       comparables.assertEqualByComparison(info, "Luke", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
+      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -100,7 +100,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
     try {
       comparablesWithCustomComparisonStrategy.assertEqualByComparison(info, "Luke", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
+      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

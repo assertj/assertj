@@ -3,7 +3,6 @@ package org.assertj.core.api;
 import static org.assertj.core.util.Dates.newIsoDateFormat;
 import static org.assertj.core.util.Dates.newIsoDateTimeFormat;
 import static org.assertj.core.util.Dates.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -2157,7 +2156,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the string can't be parsed as a Date
    */
   @VisibleForTesting
-  static Date parse(String dateAsString) {
+  Date parse(String dateAsString) {
     if (dateAsString == null) return null;
     // use synchronized block because SimpleDateFormat which is not thread safe (sigh).
     // parse with date format specified by user
@@ -2167,7 +2166,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
           return customDateFormat.parse(dateAsString);
         } catch (ParseException e) {
           throw new AssertionError("Failed to parse " + dateAsString + " with date format: "
-                                     + toStringOf(customDateFormat));
+                                     + info.representation().toStringOf(customDateFormat));
         }
       }
     }
@@ -2182,7 +2181,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
       }
       // no suitable date format
       throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
-                                 + toStringOf(defaultDateFormats));
+                                 + info.representation().toStringOf(defaultDateFormats));
     }
   }
 

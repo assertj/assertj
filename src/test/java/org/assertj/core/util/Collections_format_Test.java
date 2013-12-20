@@ -19,10 +19,11 @@ import static org.junit.Assert.*;
 
 import java.util.*;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Collections#format(Collection)}</code>.
+ * Tests for <code>{@link Collections#format(org.assertj.core.presentation.Representation, java.util.Collection)}</code>.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -31,18 +32,18 @@ public class Collections_format_Test {
 
   @Test
   public void should_return_null_if_Collection_is_null() {
-    assertNull(Collections.format(null));
+    assertNull(Collections.format(new StandardRepresentation(), null));
   }
 
   @Test
   public void should_return_empty_brackets_if_Collection_is_empty() {
-    assertEquals("[]", Collections.format(new ArrayList<String>()));
+    assertEquals("[]", Collections.format(new StandardRepresentation(), new ArrayList<String>()));
   }
 
   @Test
   @SuppressWarnings("unchecked")
   public void should_format_Collection() {
     List<? extends Object> list = asList("First", 3);
-    assertEquals("[\"First\", 3]", Collections.format(list));
+    assertEquals("[\"First\", 3]", Collections.format(new StandardRepresentation(), list));
   }
 }

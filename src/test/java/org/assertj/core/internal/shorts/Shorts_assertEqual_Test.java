@@ -19,14 +19,13 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Shorts#assertEqual(AssertionInfo, Short, short)}</code>.
@@ -53,7 +52,7 @@ public class Shorts_assertEqual_Test extends ShortsBaseTest {
     try {
       shorts.assertEqual(info, (short) 6, (short) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8));
+      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +75,8 @@ public class Shorts_assertEqual_Test extends ShortsBaseTest {
     try {
       shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -20,8 +20,8 @@ import static org.mockito.Mockito.*;
 
 
 import org.assertj.core.description.*;
-import org.assertj.core.error.DescriptionFormatter;
-import org.assertj.core.error.MessageFormatter;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.ExpectedException;
 import org.junit.*;
 
@@ -48,20 +48,21 @@ public class MessageFormatter_format_Test {
   @Test
   public void should_throw_error_if_format_string_is_null() {
     thrown.expect(NullPointerException.class);
-    messageFormatter.format(null, null);
+    messageFormatter.format(null, null, null);
   }
 
   @Test
   public void should_throw_error_if_args_array_is_null() {
     thrown.expect(NullPointerException.class);
     Object[] args = null;
-    messageFormatter.format(null, "", args);
+    messageFormatter.format(null, null, "", args);
   }
 
   @Test
   public void should_format_message() {
     Description description = new TextDescription("Test");
-    String s = messageFormatter.format(description, "Hello %s", "World");
+    Representation representation = new StandardRepresentation();
+    String s = messageFormatter.format(description, representation, "Hello %s", "World");
     assertEquals("[Test] Hello \"World\"", s);
     verify(descriptionFormatter).format(description);
   }

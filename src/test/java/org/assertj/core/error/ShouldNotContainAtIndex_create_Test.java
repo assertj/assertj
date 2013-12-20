@@ -19,15 +19,15 @@ import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.util.Lists.*;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContainAtIndex#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotContainAtIndex#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -43,7 +43,7 @@ public class ShouldNotContainAtIndex_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\nat index <1>\n", message);
   }
 
@@ -51,7 +51,7 @@ public class ShouldNotContainAtIndex_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\n"
         + "at index <1>\n" + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }

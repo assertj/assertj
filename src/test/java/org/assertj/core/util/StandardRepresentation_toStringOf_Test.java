@@ -16,9 +16,10 @@ package org.assertj.core.util;
 
 import static junit.framework.Assert.assertFalse;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -34,27 +35,29 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
- * Tests for {@link ToString#toStringOf(Object)}.
+ * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.
  *
  * @author Joel Costigliola
  */
-public class ToString_toStringOf_Test {
+public class StandardRepresentation_toStringOf_Test {
+
   @Test
   public void should_return_null_if_object_is_null() {
-    assertNull(ToString.toStringOf(null));
+    assertNull(new StandardRepresentation().toStringOf(null));
   }
 
   @Test
   public void should_quote_String() {
-    assertEquals("\"Hello\"", ToString.toStringOf("Hello"));
+    assertEquals("\"Hello\"", new StandardRepresentation().toStringOf("Hello"));
   }
 
   @Test
   public void should_quote_empty_String() {
-    assertEquals("\"\"", ToString.toStringOf(""));
+    assertEquals("\"\"", new StandardRepresentation().toStringOf(""));
   }
 
   @Test
@@ -67,24 +70,24 @@ public class ToString_toStringOf_Test {
         return path;
       }
     };
-    assertEquals(path, ToString.toStringOf(o));
+    assertEquals(path, new StandardRepresentation().toStringOf(o));
   }
 
   @Test
   public void should_return_toString_of_Class_with_its_name() {
-    assertEquals("java.lang.Object", ToString.toStringOf(Object.class));
+    assertEquals("java.lang.Object", new StandardRepresentation().toStringOf(Object.class));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
-    assertEquals("[\"s1\", \"s2\"]", ToString.toStringOf(collection));
+    assertEquals("[\"s1\", \"s2\"]", new StandardRepresentation().toStringOf(collection));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays() {
     List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true));
-    assertEquals("[[true, false], [true, false, true]]", ToString.toStringOf(collection));
+    assertEquals("[[true, false], [true, false, true]]", new StandardRepresentation().toStringOf(collection));
   }
 
   @Test
@@ -92,7 +95,7 @@ public class ToString_toStringOf_Test {
     Collection<List<String>> collection = new ArrayList<List<String>>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
-    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", ToString.toStringOf(collection));
+    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", new StandardRepresentation().toStringOf(collection));
   }
 
   @Test
@@ -100,36 +103,36 @@ public class ToString_toStringOf_Test {
     Map<String, String> map = new LinkedHashMap<String, String>();
     map.put("key1", "value1");
     map.put("key2", "value2");
-    assertEquals("{\"key1\"=\"value1\", \"key2\"=\"value2\"}", ToString.toStringOf(map));
+    assertEquals("{\"key1\"=\"value1\", \"key2\"=\"value2\"}", new StandardRepresentation().toStringOf(map));
   }
 
   @Test
   public void should_return_toString_of_array() {
-    assertEquals("[\"s1\", \"s2\"]", ToString.toStringOf(array("s1", "s2")));
+    assertEquals("[\"s1\", \"s2\"]", new StandardRepresentation().toStringOf(array("s1", "s2")));
   }
 
   @Test
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
-    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", ToString.toStringOf(array));
+    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", new StandardRepresentation().toStringOf(array));
   }
 
   @Test
   public void should_return_toString_of_array_of_Class() {
     Class<?>[] array = { String.class, File.class };
-    assertEquals("[java.lang.String, java.io.File]", ToString.toStringOf(array));
+    assertEquals("[java.lang.String, java.io.File]", new StandardRepresentation().toStringOf(array));
   }
 
   @Test
   public void should_return_toString_of_calendar() {
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
-    assertEquals("2011-01-18T23:53:17", ToString.toStringOf(calendar));
+    assertEquals("2011-01-18T23:53:17", new StandardRepresentation().toStringOf(calendar));
   }
 
   @Test
   public void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertEquals("2011-06-18T23:53:17", ToString.toStringOf(date));
+    assertEquals("2011-06-18T23:53:17", new StandardRepresentation().toStringOf(date));
   }
 
   @Test
@@ -140,12 +143,12 @@ public class ToString_toStringOf_Test {
         return s1.length() - s2.length();
       }
     };
-    assertEquals("'Anonymous Comparator class'", ToString.toStringOf(anonymousComparator));
+    assertEquals("'Anonymous Comparator class'", new StandardRepresentation().toStringOf(anonymousComparator));
   }
 
   @Test
   public void should_format_longs_and_integers() {
-    assertFalse(toStringOf(20L).equals(toStringOf(20)));
+    assertFalse(new StandardRepresentation().toStringOf(20L).equals(toStringOf(20)));
     assertEquals("20", toStringOf(20));
     assertEquals("20L", toStringOf(20L));
   }
@@ -153,8 +156,8 @@ public class ToString_toStringOf_Test {
   @Test
   public void should_format_bytes_as_hex() {
     assertFalse(toStringOf((byte) 20).equals(toStringOf((char) 20)));
-    assertFalse(toStringOf((byte) 20).equals(toStringOf((short) 20)));
-    assertEquals("0x20", toStringOf((byte) 32));
+    assertEquals(toStringOf((byte) 20), (toStringOf((short) 20)));
+    assertEquals("32", toStringOf((byte) 32));
   }
 
   @Test
@@ -162,5 +165,14 @@ public class ToString_toStringOf_Test {
     assertFalse(toStringOf(20.0f).equals(toStringOf(20.0)));
     assertEquals("20.0", toStringOf(20.0));
     assertEquals("20.0f", toStringOf(20.0f));
+  }
+
+  @Test
+  public void should_format_tuples() {
+    assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, 3)");
+  }
+
+  private String toStringOf(Object o) {
+    return new StandardRepresentation().toStringOf(o);
   }
 }

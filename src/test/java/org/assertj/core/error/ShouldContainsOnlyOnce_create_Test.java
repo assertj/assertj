@@ -19,15 +19,15 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.junit.Assert.assertEquals;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldContainsOnlyOnce#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainsOnlyOnce#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author William Delanoue
  */
@@ -43,7 +43,7 @@ public class ShouldContainsOnlyOnce_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n" +
         " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
         "to contain only once:\n" +
@@ -59,7 +59,7 @@ public class ShouldContainsOnlyOnce_create_Test {
     ErrorMessageFactory factory = shouldContainsOnlyOnce(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
                                                          newLinkedHashSet("Luke"), newLinkedHashSet("Han"), new ComparatorBasedComparisonStrategy(
                                                                                                                                                   CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \n" +
         "Expecting:\n" +
         " <[\"Yoda\", \"Han\"]>\n" +
@@ -76,7 +76,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   public void should_create_error_message_without_not_found_elements() {
     factory = shouldContainsOnlyOnce(newArrayList("Yoda", "Han", "Han"), newArrayList("Yoda"), newLinkedHashSet(),
                                      newLinkedHashSet("Han"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n" +
         " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
         "to contain only once:\n" +
@@ -89,7 +89,7 @@ public class ShouldContainsOnlyOnce_create_Test {
   public void should_create_error_message_without_elements_found_many_times() {
     factory = shouldContainsOnlyOnce(newArrayList("Yoda", "Han"), newArrayList("Luke"), newLinkedHashSet("Luke"),
                                      newLinkedHashSet());
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n" +
         " <[\"Yoda\", \"Han\"]>\n" +
         "to contain only once:\n" +

@@ -92,7 +92,7 @@ public class Comparables {
     assertNotNull(info, actual);
     if (areEqual(actual, expected))
       return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   protected <T> boolean areEqual(T actual, T expected) {
@@ -134,7 +134,7 @@ public class Comparables {
     // we don't delegate to comparisonStrategy, as this assertion makes it clear it relies on Comparable
     if (actual.compareTo(expected) == 0)
       return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
   }
 
   /**

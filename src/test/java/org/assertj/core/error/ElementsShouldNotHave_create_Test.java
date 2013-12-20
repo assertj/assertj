@@ -22,14 +22,13 @@ import static org.junit.Assert.assertEquals;
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ElementsShouldNotHave;
-import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ElementsShouldNotHave#create(Description)}</code>.
+ * Tests for <code>{@link ElementsShouldNotHave#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -44,7 +43,7 @@ public class ElementsShouldNotHave_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting elements:\n<[\"Leia\"]>\n of \n<[\"Yoda\", \"Luke\", \"Leia\"]>\n not to have <jedi power>", message);
   }
 
