@@ -42,7 +42,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -515,6 +514,7 @@ public class Strings {
     final String formattedActualXml = xmlPrettyFormat(actualXml.toString());
     final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
     if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
-      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy));
+      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
+          info.representation()));
   }
 }

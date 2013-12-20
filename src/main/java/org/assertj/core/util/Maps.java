@@ -14,7 +14,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.ToString.toStringOf;
+import org.assertj.core.presentation.Representation;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -43,7 +43,7 @@ public class Maps {
    * @param map the map to format.
    * @return the {@code String} representation of the given map.
    */
-  public static String format(Map<?, ?> map) {
+  public static String format(Representation p, Map<?, ?> map) {
     if (map == null) {
       return null;
     }
@@ -55,9 +55,9 @@ public class Maps {
     buffer.append("{");
     for (;;) {
       Entry<?, ?> e = (Entry<?, ?>) i.next();
-      buffer.append(format(map, e.getKey()));
+      buffer.append(format(map, e.getKey(), p));
       buffer.append('=');
-      buffer.append(format(map, e.getValue()));
+      buffer.append(format(map, e.getValue(), p));
       if (!i.hasNext()) {
         return buffer.append("}").toString();
       }
@@ -65,8 +65,8 @@ public class Maps {
     }
   }
 
-  private static Object format(Map<?, ?> map, Object o) {
-    return o == map ? "(this Map)" : toStringOf(o);
+  private static Object format(Map<?, ?> map, Object o, Representation p) {
+    return o == map ? "(this Map)" : p.toStringOf(o);
   }
 
   private Maps() {}

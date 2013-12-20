@@ -21,12 +21,13 @@ import static org.junit.Assert.assertEquals;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeIn#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeIn#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -42,7 +43,7 @@ public class ShouldBeIn_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be in:\n <[\"Luke\", \"Leia\"]>\n", message);
   }
 
@@ -50,7 +51,7 @@ public class ShouldBeIn_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldBeIn("Yoda", array("Luke", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nExpecting:\n <\"Yoda\">\nto be in:\n <[\"Luke\", \"Leia\"]>\naccording to 'CaseInsensitiveStringComparator' comparator",
         message);

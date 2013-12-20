@@ -21,10 +21,10 @@ import static java.lang.Integer.toHexString;
 
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.*;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.*;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -51,6 +51,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   @VisibleForTesting
   final MessageFormatter messageFormatter = MessageFormatter.instance();
   private final ComparisonStrategy comparisonStrategy;
+  private Representation representation;
   @VisibleForTesting
   ConstructorInvoker constructorInvoker = new ConstructorInvoker();
   @VisibleForTesting
@@ -63,8 +64,8 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param expected the expected value in the failed assertion.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected) {
-    return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance());
+  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, Representation representation) {
+    return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
   /**
@@ -76,15 +77,16 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @return the created {@code AssertionErrorFactory}.
    */
   public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
-                                                     ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeEqual(actual, expected, comparisonStrategy);
+                                                     ComparisonStrategy comparisonStrategy, Representation representation) {
+    return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
   @VisibleForTesting
-  ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
+  ShouldBeEqual(Object actual, Object expected, ComparisonStrategy comparisonStrategy, Representation representation) {
     this.actual = actual;
     this.expected = expected;
     this.comparisonStrategy = comparisonStrategy;
+    this.representation = representation;
   }
 
   /**
@@ -98,10 +100,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
    *
    * @param description the description of the failed assertion.
+   * @param representation
    * @return the created {@code AssertionError}.
    */
   @Override
-  public AssertionError newAssertionError(Description description) {
+  public AssertionError newAssertionError(Description description, Representation representation) {
     if (actualAndExpectedHaveSameStringRepresentation()) {
       // Example : actual = 42f and expected = 42d gives actual : "42" and expected : "42" and
       // JUnit 4 manages this case even worst, it will output something like :
@@ -109,7 +112,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       // which does not solve the problem and makes things even more confusing since we lost the fact that 42 was a
       // float or a double, it is then better to built our own description, with the drawback of not using a
       // ComparisonFailure (which looks nice in eclipse)
-      return Failures.instance().failure(defaultDetailedErrorMessage(description));
+      return Failures.instance().failure(defaultDetailedErrorMessage(description, representation));
     }
     // if comparison strategy was based on a custom comparator, we build the assertion error message, the result is
     // better than the JUnit ComparisonFailure we could build (that would not mention the comparator).
@@ -119,11 +122,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
       if (error != null) { return error; }
     }
     // No JUnit in the classpath => fall back to default error message.
-    return Failures.instance().failure(defaultErrorMessage(description));
+    return Failures.instance().failure(defaultErrorMessage(description, representation));
   }
 
   /**
-   * Tells {@link #newAssertionError(Description)} if it should try a build a {@link org.junit.ComparisonFailure}.<br>
+   * Tells {@link AssertionErrorFactory#newAssertionError(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)} if it should try a build a {@link org.junit.ComparisonFailure}.<br>
    * Returns <code>true</code> as we try in this class (may not be the case in subclasses).
    *
    * @return <code>true</code>
@@ -136,7 +139,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private boolean actualAndExpectedHaveSameStringRepresentation() {
-    return areEqual(toStringOf(actual), toStringOf(expected));
+    return areEqual(representation.toStringOf(actual), representation.toStringOf(expected));
   }
 
   /**
@@ -144,13 +147,14 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * representation.
    *
    * @param description the {@link Description} used to build the returned error message
+   * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation of object
    * @return the error message from description using {@link #expected} and {@link #actual} basic representation.
    */
-  private String defaultErrorMessage(Description description) {
+  private String defaultErrorMessage(Description description, Representation representation) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter
-               .format(description, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, actual, expected, comparisonStrategy);
-    return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, expected, actual);
+               .format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, actual, expected, comparisonStrategy);
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expected, actual);
   }
 
   /**
@@ -158,14 +162,15 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * #detailedActual()} detailed representation.
    *
    * @param description the {@link Description} used to build the returned error message
+   * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation of object
    * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
    *         <b>detailed</b> representation.
    */
-  private String defaultDetailedErrorMessage(Description description) {
+  private String defaultDetailedErrorMessage(Description description, Representation representation) {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
-      return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, detailedActual(),
+      return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, detailedActual(),
                                      detailedExpected(), comparisonStrategy);
-    return messageFormatter.format(description, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
   }
 
   private AssertionError comparisonFailure(Description description) {
@@ -185,11 +190,11 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   private Object[] msgArgs(String description) {
-    return array(description, toStringOf(expected), toStringOf(actual));
+    return array(description, representation.toStringOf(expected), representation.toStringOf(actual));
   }
 
-  private static String detailedToStringOf(Object obj) {
-    return toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode()) + ")";
+  private String detailedToStringOf(Object obj) {
+    return representation.toStringOf(obj) + " (" + obj.getClass().getSimpleName() + "@" + toHexString(obj.hashCode()) + ")";
   }
 
   private String detailedActual() {

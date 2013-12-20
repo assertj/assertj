@@ -18,17 +18,15 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotContainCharSequence;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldNotContainCharSequence#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotContainCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -39,7 +37,7 @@ public class ShouldNotContainString_create_Test {
   @Test
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od");
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> ", message);
   }
 
@@ -47,7 +45,7 @@ public class ShouldNotContainString_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od", new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> according to 'CaseInsensitiveStringComparator' comparator",
         message);
   }

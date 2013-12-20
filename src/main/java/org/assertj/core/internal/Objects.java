@@ -38,7 +38,6 @@ import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameCla
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Lists.*;
 import static org.assertj.core.util.Sets.*;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import java.lang.reflect.Field;
 import java.util.Comparator;
@@ -93,7 +92,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the given object against.
@@ -107,7 +106,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is an instance of any of the given types.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the given object against.
@@ -128,7 +127,7 @@ public class Objects {
     for (Class<?> type : types) {
       if (type == null) {
         String format = "The given array of types:<%s> should not have null elements";
-        throw new NullPointerException(format(format, toStringOf(types)));
+        throw new NullPointerException(format(format, info.representation().toStringOf(types)));
       }
       if (type.isInstance(actual)) {
         return true;
@@ -139,7 +138,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is not an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the given object against.
@@ -159,7 +158,7 @@ public class Objects {
 
   /**
    * Verifies that the given object is not an instance of any of the given types.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the given object against.
@@ -176,7 +175,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value has the same class as the given object.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the actual has not the same type has the given object.
@@ -199,7 +198,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value does not have the same class as the given object.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to check type against.
@@ -213,7 +212,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value is exactly a instance of given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
@@ -234,7 +233,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value is not exactly a instance of given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param type the type to check the actual value against.
@@ -249,7 +248,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value type is in given types.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the actual value against.
@@ -270,7 +269,7 @@ public class Objects {
 
   /**
    * Verifies that the actual value type is not in given types.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param types the types to check the actual value against.
@@ -294,7 +293,7 @@ public class Objects {
 
   /**
    * Asserts that two objects are equal.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the "actual" object.
    * @param expected the "expected" object.
@@ -306,12 +305,12 @@ public class Objects {
     if (areEqual(actual, expected)) {
       return;
     }
-    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy));
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
    * Asserts that two objects are not equal.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -326,7 +325,7 @@ public class Objects {
 
   /**
    * Compares actual and other with standard strategy (null safe equals check).
-   * 
+   *
    * @param actual the object to compare to other
    * @param other the object to compare to actual
    * @return true if actual and other are equal (null safe equals check), false otherwise.
@@ -337,7 +336,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is {@code null}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the given object is not {@code null}.
@@ -346,12 +345,12 @@ public class Objects {
     if (actual == null) {
       return;
     }
-    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy));
+    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   /**
    * Asserts that the given object is not {@code null}.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @throws AssertionError if the given object is {@code null}.
@@ -365,7 +364,7 @@ public class Objects {
 
   /**
    * Asserts that two objects refer to the same object.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param expected the expected object.
@@ -380,7 +379,7 @@ public class Objects {
 
   /**
    * Asserts that two objects do not refer to the same object.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -395,7 +394,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is present in the given array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given array.
@@ -414,7 +413,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is not present in the given array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given array.
@@ -442,7 +441,7 @@ public class Objects {
 
   /**
    * Returns <code>true</code> if given item is in given array, <code>false</code> otherwise.
-   * 
+   *
    * @param item the object to look for in arrayOfValues
    * @param arrayOfValues the array of values
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
@@ -456,7 +455,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is present in the given collection.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given iterable.
@@ -475,7 +474,7 @@ public class Objects {
 
   /**
    * Asserts that the given object is not present in the given collection.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param values the given collection.
@@ -513,7 +512,7 @@ public class Objects {
   /**
    * Assert that the given object is lenient equals by ignoring null fields value on other object (including inherited
    * fields).
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -552,7 +551,7 @@ public class Objects {
 
   /**
    * Assert that the given object is lenient equals to other object by comparing given fields value only.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -613,7 +612,7 @@ public class Objects {
   /**
    * Assert that the given object is lenient equals to the other by comparing all fields (including inherited fields)
    * unless given ignored ones.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given object.
    * @param other the object to compare {@code actual} to.
@@ -679,7 +678,7 @@ public class Objects {
   /**
    * Returns the declared fields of given class and its superclasses stopping at superclass in <code>java.lang</code>
    * package whose fields are not included.
-   * 
+   *
    * @param clazz the class we want the declared fields.
    * @return the declared fields of given class and its superclasses.
    */
@@ -697,7 +696,7 @@ public class Objects {
 
   /**
    * Verifies that other object is an instance of the given type.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param other the object to check type against given class.
    * @param clazz the type to check the given object against.

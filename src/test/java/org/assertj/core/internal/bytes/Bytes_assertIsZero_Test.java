@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
 import static org.junit.Assert.assertEquals;
@@ -46,7 +47,16 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
   @Test
   public void should_fail_since_actual_is_not_zero() {
     try {
-      bytes.assertIsZero(someInfo(), (byte) 0x02);
+      bytes.assertIsZero(someInfo(), (byte) 2);
+    } catch (AssertionError e) {
+      assertEquals("expected:<[0]> but was:<[2]>", e.getMessage());
+    }
+  }
+
+  @Test
+  public void should_fail_since_actual_is_not_zero_in_hex_representation() {
+    try {
+      bytes.assertIsZero(someHexInfo(), (byte) 0x02);
     } catch (AssertionError e) {
       assertEquals("expected:<0x0[0]> but was:<0x0[2]>", e.getMessage());
     }
@@ -54,13 +64,27 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
 
   @Test
   public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 0x00);
+    bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 0);
+  }
+
+  @Test
+  public void should_succeed_since_actual_is_zero_whatever_custom_comparison_strategy_is_in_hex_representation() {
+    bytesWithAbsValueComparisonStrategy.assertIsZero(someHexInfo(), (byte) 0x00);
   }
 
   @Test
   public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     try {
-      bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 0x01);
+      bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 1);
+    } catch (AssertionError e) {
+      assertEquals("expected:<[0]> but was:<[1]>", e.getMessage());
+    }
+  }
+
+  @Test
+  public void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is_in_hex_representation() {
+    try {
+      bytesWithAbsValueComparisonStrategy.assertIsZero(someHexInfo(), (byte) 0x01);
     } catch (AssertionError e) {
       assertEquals("expected:<0x0[0]> but was:<0x0[1]>", e.getMessage());
     }

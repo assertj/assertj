@@ -32,7 +32,7 @@ public abstract class DateAssertBaseTest {
   }
   
   protected Date parse(String dateAsString) {
-    return DateAssert.parse(dateAsString);
+    return assertions.parse(dateAsString);
   }
 
   protected AssertionInfo getInfo(DateAssert someAssertions) {

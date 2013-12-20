@@ -64,7 +64,8 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     try {
       iterables.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size())
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -96,7 +97,8 @@ public class Iterables_assertHasSameSizeAs_with_Iterable_Test extends IterablesB
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), other.size())
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

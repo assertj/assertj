@@ -21,16 +21,14 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull
 
 import java.io.File;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeInstance;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldBeInstance#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeInstance#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -46,7 +44,7 @@ public class ShouldBeInstance_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nExpecting:\n <\"Yoda\">\nto be an instance of:\n <java.io.File>\nbut was instance of:\n <java.lang.String>",
         message);
@@ -55,7 +53,7 @@ public class ShouldBeInstance_create_Test {
   @Test
   public void should_create_shouldBeInstanceButWasNull_error_message() {
     factory = shouldBeInstanceButWasNull("other", File.class);
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting object:\n \"other\"\nto be an instance of:\n <java.io.File>\nbut was null", message);
   }
 }

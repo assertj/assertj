@@ -20,13 +20,12 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBeEmpty#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeEmpty#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -42,7 +41,7 @@ public class ShouldBeEmpty_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting empty but was:<[\"Luke\", \"Yoda\"]>", message);
   }
 }

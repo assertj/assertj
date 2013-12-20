@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations
 import java.lang.annotation.Annotation;
 
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,7 +45,7 @@ public class ShouldHaveAnnotations_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(
                                   "[Test] \n"
                                       + "Expecting\n"

@@ -20,13 +20,13 @@ import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny
 import java.io.File;
 import java.util.regex.Pattern;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeInstanceOfAny#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeInstanceOfAny#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  */
@@ -42,7 +42,7 @@ public class ShouldBeInstanceOfAny_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nExpecting:\n <\"Yoda\">\nto be an instance of any of:\n <[java.io.File, java.util.regex.Pattern]>\nbut was instance of:\n <java.lang.String>",
         message);

@@ -21,11 +21,14 @@ import static org.assertj.core.util.Strings.quote;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
+import org.assertj.core.presentation.*;
+import org.assertj.core.presentation.BinaryRepresentation;
+import org.assertj.core.presentation.HexadecimalRepresentation;
 
 
 /**
  * Writable information about an assertion.
- * 
+ *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
@@ -33,6 +36,7 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   private String overridingErrorMessage;
   private Description description;
+  private Representation representation;
 
   /** {@inheritDoc} */
   @Override
@@ -53,6 +57,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   public Description description() {
     return description;
   }
+
 
   /**
    * Returns the text of this object's description, or {@code null} if such description is {@code null}.
@@ -81,6 +86,27 @@ public class WritableAssertionInfo implements AssertionInfo {
    */
   public void description(Description newDescription) {
     description = checkIsNotNull(newDescription);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public Representation representation() {
+    if(representation == null){
+      representation = new StandardRepresentation();
+    }
+    return representation;
+  }
+
+  public void representationAsHexadecimal() {
+    representation = new HexadecimalRepresentation();
+  }
+
+  public void representationAsBinary() {
+    representation = new BinaryRepresentation();
+  }
+
+  public void representation(Representation newRepresentation) {
+    representation = newRepresentation;
   }
 
   /** {@inheritDoc} */

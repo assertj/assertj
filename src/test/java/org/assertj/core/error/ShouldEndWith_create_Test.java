@@ -19,17 +19,15 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldEndWith;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldEndWith#create(Description)}</code>.
+ * Tests for <code>{@link ShouldEndWith#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -41,7 +39,7 @@ public class ShouldEndWith_create_Test {
   @Test
   public void should_create_error_message() {
     factory = shouldEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto end with:\n <[\"Han\", \"Leia\"]>\n", message);
   }
 
@@ -49,7 +47,7 @@ public class ShouldEndWith_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto end with:\n <[\"Han\", \"Leia\"]>\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }

@@ -12,15 +12,21 @@
  *
  * Copyright @2009-2012 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.presentation;
 
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.Collections;
+import org.assertj.core.util.Dates;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.Date;
+
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
 
 /**
  * Obtains the {@code toString} representation of an object.
@@ -28,63 +34,61 @@ import java.util.*;
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Yvonne Wang
+ * @author Mariusz Smykula
  */
-public final class ToString {
-
-  final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+final class StandardToString {
 
   /**
    * Returns the {@code toString} representation of the given object. It may or not the object's own implementation of
    * {@code toString}.
    *
-   * @param o the given object.
+   * @param object the given object.
    * @return the {@code toString} representation of the given object.
    */
-  public static String toStringOf(Object o) {
-    if (isArray(o)) {
-      return Arrays.format(o);
+  public static String toStringOf(Representation representation, Object object) {
+    if (object instanceof Calendar) {
+      return toStringOf((Calendar) object);
     }
-    if (o instanceof Calendar) {
-      return toStringOf((Calendar) o);
+    if (object instanceof Class<?>) {
+      return toStringOf((Class<?>) object);
     }
-    if (o instanceof Class<?>) {
-      return toStringOf((Class<?>) o);
+    if (object instanceof Date) {
+      return toStringOf((Date) object);
     }
-    if (o instanceof Collection<?>) {
-      return toStringOf((Collection<?>) o);
+    if (object instanceof Number) {
+      return toStringOf((Number) object, null);
     }
-    if (o instanceof Date) {
-      return toStringOf((Date) o);
+    if (object instanceof File) {
+      return toStringOf((File) object);
     }
-    if (o instanceof Byte) {
-      return toStringOf((Byte) o);
+    if (object instanceof String) {
+      return toStringOf((String) object);
     }
-    if (o instanceof Float) {
-      return toStringOf((Float) o);
+    if (object instanceof Character) {
+      return toStringOf((Character) object);
     }
-    if (o instanceof Long) {
-      return toStringOf((Long) o);
+    if (object instanceof Comparator) {
+      return toStringOf((Comparator<?>) object);
     }
-    if (o instanceof File) {
-      return toStringOf((File) o);
+    if (object instanceof SimpleDateFormat) {
+      return toStringOf((SimpleDateFormat) object);
     }
-    if (o instanceof Map<?, ?>) {
-      return toStringOf((Map<?, ?>) o);
+    if (object instanceof Tuple) {
+      return toStringOf((Tuple) object, representation);
     }
-    if (o instanceof String) {
-      return toStringOf((String) o);
-    }
-    if (o instanceof Character) {
-      return toStringOf((Character) o);
-    }
-    if (o instanceof Comparator) {
-      return toStringOf((Comparator<?>) o);
-    }
-    if (o instanceof SimpleDateFormat) {
-      return toStringOf((SimpleDateFormat) o);
-    }
-    return o == null ? null : o.toString();
+    return defaultToString(object, representation);
   }
+
+  private static String toStringOf(Number number, Representation representation) {
+    if (number instanceof Float) {
+      return toStringOf((Float) number);
+    }
+    if (number instanceof Long) {
+      return toStringOf((Long) number);
+    }
+    return defaultToString(number, representation);
+  }
+
   private static String toStringOf(Comparator<?> comparator) {
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     return quote(!comparatorSimpleClassName.isEmpty() ? comparatorSimpleClassName : "Anonymous Comparator class");
@@ -106,10 +110,6 @@ public final class ToString {
     return concat("'", c, "'");
   }
 
-  private static String toStringOf(Collection<?> c) {
-    return Collections.format(c);
-  }
-
   private static String toStringOf(Date d) {
     return Dates.formatAsDatetime(d);
   }
@@ -126,22 +126,19 @@ public final class ToString {
     return f.getAbsolutePath();
   }
 
-  private static String toStringOf(Map<?, ?> m) {
-    return Maps.format(m);
-  }
-
   private static String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
   }
 
-  private static String toStringOf(Byte b) {
-    return "0x" + byteToStringHex(b);
+  private static String toStringOf(Tuple tuple, Representation representation) {
+    return Collections.format(representation, Arrays.asList(tuple.toArray()), "(", ")");
   }
 
-  private static String byteToStringHex(Byte b) {
-    int v = b & 0xFF;
-    return new String(new char[]{hexArray[v >>> 4], hexArray[v & 0x0F]});
+  private static String defaultToString(Object object, Representation representation) {
+    return object == null ? null : CollectionToString.toStringOf(representation, object);
   }
 
-  private ToString() {}
+  private StandardToString() {
+
+  }
 }

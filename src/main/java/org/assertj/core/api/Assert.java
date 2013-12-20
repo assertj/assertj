@@ -30,6 +30,18 @@ import java.util.Comparator;
 public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, ExtensionPoints<S, A> {
 
   /**
+   * Enable hexadecimal object representation instead of standard java representation.
+   * @return {@code this} assertion object.
+   */
+  S asHex();
+
+  /**
+   * Enable binary object representation instead of standard java representation.
+   * @return {@code this} assertion object.
+   */
+  S asBinary();
+
+  /**
    * Verifies that the actual value is equal to the given one.
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.

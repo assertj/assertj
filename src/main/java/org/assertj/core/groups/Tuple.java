@@ -19,12 +19,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.Collections;
-
 public class Tuple {
 
-  private static final String END = ")";
-  private static final String START = "(";
   private final List<Object> datas = newArrayList();
 
   public Tuple(Object... values) {
@@ -33,6 +29,10 @@ public class Tuple {
 
   public void addData(Object data) {
     datas.add(data);
+  }
+
+  public Object[] toArray() {
+    return datas.toArray();
   }
 
   @Override
@@ -57,7 +57,7 @@ public class Tuple {
 
   @Override
   public String toString() {
-    return Collections.format(datas, START, END);
+    return java.util.Arrays.toString(toArray());
   }
 
   public static List<Tuple> buildTuples(int n) {

@@ -56,7 +56,7 @@ public class SoftAssertionsTest {
       softly.assertThat(new boolean[]{false}).isEqualTo(new boolean[]{true});
 
       softly.assertThat(new Byte((byte) 0)).isEqualTo((byte) 1);
-      softly.assertThat((byte) 2).isEqualTo((byte) 3);
+      softly.assertThat((byte) 2).asHex().isEqualTo((byte) 3);
       softly.assertThat(new byte[]{4}).isEqualTo(new byte[]{5});
 
       softly.assertThat(new Character((char) 65)).isEqualTo(new Character((char) 66));
@@ -141,9 +141,9 @@ public class SoftAssertionsTest {
       assertThat(errors.get(2)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
       assertThat(errors.get(3)).isEqualTo("expected:<[[tru]e]> but was:<[[fals]e]>");
 
-      assertThat(errors.get(4)).isEqualTo("expected:<0x0[1]> but was:<0x0[0]>");
+      assertThat(errors.get(4)).isEqualTo("expected:<[1]> but was:<[0]>");
       assertThat(errors.get(5)).isEqualTo("expected:<0x0[3]> but was:<0x0[2]>");
-      assertThat(errors.get(6)).isEqualTo("expected:<[0x0[5]]> but was:<[0x0[4]]>");
+      assertThat(errors.get(6)).isEqualTo("expected:<[[5]]> but was:<[[4]]>");
 
       assertThat(errors.get(7)).isEqualTo("expected:<'[B]'> but was:<'[A]'>");
       assertThat(errors.get(8)).isEqualTo("expected:<'[D]'> but was:<'[C]'>");
