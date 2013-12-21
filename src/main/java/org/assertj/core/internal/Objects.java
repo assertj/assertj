@@ -47,7 +47,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -195,10 +194,7 @@ public class Objects {
     }
     Class<?> actualClass = actual.getClass();
     Class<?> otherClass = other.getClass();
-    if (actualClass.equals(otherClass)) {
-      return true;
-    }
-    return false;
+    return actualClass.equals(otherClass);
   }
 
   /**
@@ -649,7 +645,7 @@ public class Objects {
    * Get field value first and in case of error try its value from property getter (property name being field name)
    * @param a the object to get field value from
    * @param field Field to read
-   * @param <A>
+   * @param <A> the type of object a
    * @return field value or property value if field was not accessible.
    * @throws IntrospectionError is field value can't get retrieved.
    */
