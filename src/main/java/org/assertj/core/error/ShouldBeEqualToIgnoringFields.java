@@ -25,50 +25,57 @@ import java.util.List;
  */
 public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
 
+  private static final String EXPECTED_MULTIPLE = "\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nbut were:\n  <%s>\nin <%s>.\n";
+  private static final String EXPECTED_SINGLE = "\nExpecting value <%s> in field <%s> but was <%s> in <%s>.\n";
+  private static final String COMPARISON  = "Comparison was performed on all fields";
+  private static final String EXCLUDING  = " but <%s>";
+
   /**
    * Creates a new </code>{@link ShouldBeEqualToIgnoringFields}</code>.
+   *
    * @param actual the actual value in the failed assertion.
    * @param rejectedFields fields name not matching
-   * @param expectedValues fields value not matching
+   * @param rejectedValues rejected fields values
+   * @param expectedValues expected fields values
    * @param ignoredFields fields which are not base the lenient equality
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualToIgnoringGivenFields(Object actual, List<String> rejectedFields,
-                                                                        List<Object> expectedValues, List<String> ignoredFields) {
+                                                                       List<Object> rejectedValues, List<Object> expectedValues,
+                                                                       List<String> ignoredFields) {
     if (rejectedFields.size() == 1) {
       if (ignoredFields.isEmpty()) {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), expectedValues.get(0));
+        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0));
       } else {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), expectedValues.get(0), ignoredFields);
+        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0),
+            ignoredFields);
       }
     } else {
       if (ignoredFields.isEmpty()) {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, expectedValues);
+        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues);
       } else {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, expectedValues, ignoredFields);
+        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues, ignoredFields);
       }
     }
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> expectedValues,
-                                         List<String> ignoredFields) {
-    super("\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nof <%s>.\nComparison was performed on all fields but <%s>",
-        expectedValues, rejectedFields, actual, ignoredFields);
+  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+                                        List<Object> expectedValues, List<String> ignoredFields) {
+    super(EXPECTED_MULTIPLE + COMPARISON  + EXCLUDING , expectedValues, rejectedFields, rejectedValues, actual, ignoredFields);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object expectedValue, List<String> ignoredFields) {
-    super("\nExpecting value <%s> in field <%s> of <%s>.\nComparison was performed on all fields but <%s>", expectedValue,
-        rejectedField, actual, ignoredFields);
+  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
+                                        List<String> ignoredFields) {
+    super(EXPECTED_SINGLE + COMPARISON  + EXCLUDING , expectedValue, rejectedField, rejectedValue, actual, ignoredFields);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> expectedValue) {
-    super("\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nof <%s>.\nComparison was performed on all fields", expectedValue,
-        rejectedFields, actual);
+  private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+                                        List<Object> expectedValue) {
+    super(EXPECTED_MULTIPLE + COMPARISON , expectedValue, rejectedFields, rejectedValues, actual);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object expectedValue) {
-    super("\nExpecting value <%s> in field <%s> of <%s>.\nComparison was performed on all fields", expectedValue, rejectedField,
-        actual);
+  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue) {
+    super(EXPECTED_SINGLE + COMPARISON , expectedValue, rejectedField, rejectedValue, actual);
   }
 
 }

@@ -39,40 +39,50 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
 
   @Test
   public void should_create_error_message_with_all_fields_differences() {
-    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "green"), newArrayList("name", "lightSaberColor"),
-                                                 newArrayList((Object) "Yoda", "green"), newArrayList("lightSaberColor"));
+    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("name", "lightSaberColor"),
+        newArrayList((Object) "Yoda", "blue"), newArrayList((Object) "Yoda", "green"), newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting values:\n  <[\"Yoda\", \"green\"]>\nin fields:\n  <[\"name\", \"lightSaberColor\"]>\n"
-        + "of <Yoda the Jedi>.\n" + "Comparison was performed on all fields but <[\"lightSaberColor\"]>", message);
+    assertEquals("[Test] \nExpecting values:\n  <[\"Yoda\", \"green\"]>\n" +
+        "in fields:\n  <[\"name\", \"lightSaberColor\"]>\n" +
+        "but were:\n  <[\"Yoda\", \"blue\"]>\n" +
+        "in <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields but <[\"lightSaberColor\"]>", message);
   }
 
   @Test
   public void should_create_error_message_with_single_field_difference() {
-    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"), newArrayList((Object) "green"),
-                                                 newArrayList("lightSaberColor"));
+    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("lightSaberColor"), newArrayList((Object) "blue"),
+        newArrayList((Object) "green"), newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting value <\"green\"> in field <\"lightSaberColor\"> of <Yoda the Jedi>."
-        + "\nComparison was performed on all fields but <[\"lightSaberColor\"]>", message);
+    assertEquals("[Test] \nExpecting value <\"green\"> " +
+        "in field <\"lightSaberColor\"> " +
+        "but was <\"blue\"> in <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields but <[\"lightSaberColor\"]>", message);
   }
 
   @Test
   public void should_create_error_message_with_all_fields_differences_without_ignored_fields() {
     List<String> ignoredFields = newArrayList();
-    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "green"), newArrayList("name", "lightSaberColor"),
-                                                 newArrayList((Object) "Yoda", "green"), ignoredFields);
+    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("name", "lightSaberColor"),
+        newArrayList((Object) "Yoda", "blue"), newArrayList((Object) "Yoda", "green"), ignoredFields);
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting values:\n  <[\"Yoda\", \"green\"]>\nin fields:\n  <[\"name\", \"lightSaberColor\"]>\n"
-        + "of <Yoda the Jedi>.\n" + "Comparison was performed on all fields", message);
+    assertEquals("[Test] \nExpecting values:\n  <[\"Yoda\", \"green\"]>\n" +
+        "in fields:\n  <[\"name\", \"lightSaberColor\"]>\n" +
+        "but were:\n  <[\"Yoda\", \"blue\"]>\n" +
+        "in <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields", message);
   }
 
   @Test
   public void should_create_error_message_with_single_field_difference_without_ignored_fields() {
     List<String> ignoredFields = newArrayList();
-    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "green"), newArrayList("lightSaberColor"), newArrayList((Object) "green"),
-                                                 ignoredFields);
+    factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("lightSaberColor"), newArrayList((Object) "blue"),
+        newArrayList((Object) "green"), ignoredFields);
     String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting value <\"green\"> in field <\"lightSaberColor\"> of <Yoda the Jedi>."
-        + "\nComparison was performed on all fields", message);
+    assertEquals("[Test] \nExpecting value <\"green\"> " +
+        "in field <\"lightSaberColor\"> " +
+        "but was <\"blue\"> in <Yoda the Jedi>.\n" +
+        "Comparison was performed on all fields", message);
   }
 
 }

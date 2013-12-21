@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -529,7 +530,8 @@ public class Objects {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
-    List<Object> values = new LinkedList<Object>();
+    List<Object> rejectedValues = new LinkedList<Object>();
+    List<Object> expectedValues = new LinkedList<Object>();
     List<String> nullFields = new LinkedList<String>();
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
       try {
@@ -537,9 +539,11 @@ public class Objects {
         if (otherFieldValue == null) {
           nullFields.add(field.getName());
         } else {
-          if (!otherFieldValue.equals(getFieldOrPropertyValue(actual, field))) {
+          Object actualFieldValue = getFieldOrPropertyValue(actual, field);
+          if (!otherFieldValue.equals(actualFieldValue)) {
             fieldsNames.add(field.getName());
-            values.add(otherFieldValue);
+            rejectedValues.add(actualFieldValue);
+            expectedValues.add(otherFieldValue);
           }
         }
       } catch (IntrospectionError e) {
@@ -547,7 +551,7 @@ public class Objects {
       }
     }
     if (!fieldsNames.isEmpty())
-      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, values, nullFields));
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, rejectedValues, expectedValues, nullFields));
   }
 
   /**
@@ -568,18 +572,20 @@ public class Objects {
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> rejectedFieldsNames = new LinkedList<String>();
     List<Object> expectedValues = new LinkedList<Object>();
+    List<Object> rejectedValues = new LinkedList<Object>();
     final Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
     for (String fieldName : fields) {
       Object actualFieldValue = getFieldOrPropertyValue(actual, findField(fieldName, declaredFieldsIncludingInherited, actual.getClass()));
       Object otherFieldValue = getFieldOrPropertyValue(other, findField(fieldName, declaredFieldsIncludingInherited, other.getClass()));
       if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
         rejectedFieldsNames.add(fieldName);
+        rejectedValues.add(actualFieldValue);
         expectedValues.add(otherFieldValue);
       }
     }
     if (!rejectedFieldsNames.isEmpty())
-      throw failures.failure(info,
-                             shouldBeEqualComparingOnlyGivenFields(actual, rejectedFieldsNames, expectedValues, newArrayList(fields)));
+      throw failures.failure(info, 
+          shouldBeEqualComparingOnlyGivenFields(actual, rejectedFieldsNames, rejectedValues, expectedValues, newArrayList(fields)));
   }
 
   /**
@@ -615,6 +621,7 @@ public class Objects {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<String>();
+    List<Object> rejectedValues = new LinkedList<Object>();
     List<Object> expectedValues = new LinkedList<Object>();
     Set<String> ignoredFields = newLinkedHashSet(fields);
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
@@ -624,6 +631,7 @@ public class Objects {
           Object otherFieldValue = getFieldOrPropertyValue(other, field);
           if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
             fieldsNames.add(field.getName());
+            rejectedValues.add(actualFieldValue);
             expectedValues.add(otherFieldValue);
           }
         }
@@ -631,8 +639,10 @@ public class Objects {
         // Not readable field, skip.
       }
     }
-    if (!fieldsNames.isEmpty())
-      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, expectedValues, newArrayList(fields)));
+    if (!fieldsNames.isEmpty()) {
+      throw failures.failure(info,
+          shouldBeEqualToIgnoringGivenFields(actual, fieldsNames, rejectedValues, expectedValues, newArrayList(fields)));
+    }
   }
 
   /**
