@@ -354,7 +354,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   @Override
   @Deprecated
-  public final boolean equals(Object obj) {
+  public boolean equals(Object obj) {
     throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
@@ -364,7 +364,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @return 1.
    */
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return 1;
   }
 
