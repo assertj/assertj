@@ -3,34 +3,43 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Assertj by joel-costigliola</title>
-
+    <title>Assertj-core by joel-costigliola</title>
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
     <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
   </head>
   <body>
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/joel-costigliola/assertj-core">View On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/joel-costigliola/assertj-core/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/joel-costigliola/assertj-core/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
     <div class="wrapper">
-      <header>
-        <h1 class="header">Assertj-core</h1>
-        <p class="header">AssertJ is a library of assertions similar to fest-assert but providing a richer set of assertions.</p>
 
-        <ul>
-          <li class="download"><a class="buttons" href="https://github.com/joel-costigliola/assertj-core/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/joel-costigliola/assertj-core/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/joel-costigliola/assertj-core" target="_blank">View On GitHub</a></li>
-        </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/joel-costigliola" target="_blank">Joel Costigliola</a></p>
-
-
-      </header>
       <section>
-        <h1>AssertJ - a rich assertions library for java</h1>
+        <div id="title">
+          <h1>Assertj-core</h1>
+          <p>AssertJ is a library of assertions similar to fest-assert but providing a richer set of assertions.</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/joel-costigliola">joel-costigliola</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h1>
+<a name="assertj---a-rich-assertions-library-for-java" class="anchor" href="#assertj---a-rich-assertions-library-for-java"><span class="octicon octicon-link"></span></a>AssertJ - a rich assertions library for java</h1>
 
 <p>AssertJ provides a rich and intuitive set of strongly typed assertions to use for unit testing (either with JUnit or TestNG).  </p>
 
@@ -44,11 +53,11 @@
 <li><a href="#migrating-from-fest">Migrating from Fest assertions</a></li>
 <li><a href="#doc">Documentation &amp; Mailing list</a></li>
 <li><a href="#contributing">Contributing</a></li>
-</ul><p>You can ask questions and make suggestions on <a href="https://groups.google.com/forum/?fromgroups=#!forum/assertj" target="_blank">AssertJ google group</a>.<br>
-To directly jump to a more complete documentation please go to <strong><a href="https://github.com/joel-costigliola/AssertJ-core/wiki" target="_blank">AssertJ wiki</a></strong>.</p>
+</ul><p>You can ask questions and make suggestions on <a href="https://groups.google.com/forum/?fromgroups=#!forum/assertj">AssertJ google group</a>.<br>
+To directly jump to a more complete documentation please go to <strong><a href="https://github.com/joel-costigliola/AssertJ-core/wiki">AssertJ wiki</a></strong>.</p>
 
 <h2>
-<a name="goals"></a>AssertJ's goals</h2>
+<a name="assertjs-goals" class="anchor" href="#assertjs-goals"><span class="octicon octicon-link"></span></a><a name="goals"></a>AssertJ's goals</h2>
 
 <p>AssertJ's ambition is to provide a rich and intuitive set of strongly typed assertions to use for unit testing.<br>
 The idea is that, when writing unit tests, we should have at our disposal assertions specific to the type of the objects we are checking : you are checking a String ? use String specific assertions !  </p>
@@ -57,11 +66,9 @@ The idea is that, when writing unit tests, we should have at our disposal assert
 
 <ul>
 <li>A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...). </li>
-<li>A <strong><a href="https://github.com/joel-costigliola/assertj-guava#readme" target="_blank">Guava module</a></strong> to provide assertions for Guava types (Multimap,Optional, ...).</li>
-<li>A <strong><a href="https://github.com/joel-costigliola/assertj-joda-time#readme" target="_blank">Joda Time module</a></strong> to provide assertions for Joda Time types (DateTime, LocalDateTime) - see <a href="jodatime/javadoc/index.html">javadoc</a>.</li>
-</ul>
-
-<p>Assertion missing ? Please <a href="https://github.com/joel-costigliola/assertj-core/issues">fill a ticket</a> ! </p>
+<li>A <strong><a href="https://github.com/joel-costigliola/assertj-guava#readme">Guava module</a></strong> to provide assertions for Guava types (Multimap,Optional, ...).</li>
+<li>A <strong><a href="https://github.com/joel-costigliola/assertj-joda-time#readme">Joda Time module</a></strong> to provide assertions for Joda Time types (DateTime, LocalDateTime).</li>
+</ul><p>Assertion missing ? Please <a href="https://github.com/joel-costigliola/assertj-core/issues">fill a ticket</a> ! </p>
 
 <p>AssertJ's assertions are super easy to write: just type <strong><code>assertThat</code></strong> followed the actual value and a dot, and any Java 
 IDE will show you all the assertions available for the type of the object to verify. No more confusion about the 
@@ -71,14 +78,11 @@ A lot of efforts have to provide intuitive error messages showing as clearly as 
 
 <p>Note that AssertJ requires at least Java 6.</p>
 
-<p>For more details check <strong><a href="https://github.com/joel-costigliola/assertj-core/wiki/" target="_blank">AssertJ wiki</a></strong>.</p>
+<p>For more details check <strong><a href="https://github.com/joel-costigliola/assertj-core/wiki/">AssertJ wiki</a></strong>.</p>
 
 <h2>
-<a name="news"></a>Latest News</h2>
+<a name="latest-news" class="anchor" href="#latest-news"><span class="octicon octicon-link"></span></a><a name="news"></a>Latest News</h2>
 
-<p><strong>2013-06-30 : AssertJ core 1.3.0 release</strong></p>
-<p><strong>2013-05-12 : AssertJ core 1.2.0 release</strong></p>
-<p><strong>2013-04-15 : AssertJ core 1.1.0 release</strong></p>
 <p><strong>2013-03-28 : AssertJ quickie presentation at Devoxx France !</strong></p>
 
 <p><strong>2013-03-26 - AssertJ train releases :</strong>  </p>
@@ -89,33 +93,35 @@ A lot of efforts have to provide intuitive error messages showing as clearly as 
 <li><strong>assertj-joda-time 1.0.0</strong></li>
 <li><strong>assertj-assertions-generator 1.0.0</strong></li>
 <li><strong>assertj-assertions-generator-maven-plugin 1.0.0</strong></li>
-</ul><p>See <a href="https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy" target="_blank"><strong>what's new</strong></a> in assertj-core compared to Fest. </p>
+</ul><p>See <a href="https://github.com/joel-costigliola/assertj-core/wiki/New-and-noteworthy"><strong>what's new</strong></a> in assertj-core compared to Fest. </p>
 
 <h2>
-<a name="quickstart"></a>Quickstart</h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a><a name="quickstart"></a>Quickstart</h2>
 
 <p>It is easy to start using AssertJ, it should take you less than a minute !</p>
 
-<h4>1 - Get AssertJ core</h4>
+<h4>
+<a name="1---get-assertj-core" class="anchor" href="#1---get-assertj-core"><span class="octicon octicon-link"></span></a>1 - Get AssertJ core</h4>
 
 <p>AssertJ core is available in Maven central repository.</p>
 
-<div class="highlight"><pre><span class="nt">&lt;dependency&gt;</span>
+<div class="highlight highlight-xml"><pre><span class="nt">&lt;dependency&gt;</span>
    <span class="nt">&lt;groupId&gt;</span>org.assertj<span class="nt">&lt;/groupId&gt;</span>
    <span class="nt">&lt;artifactId&gt;</span>assertj-core<span class="nt">&lt;/artifactId&gt;</span>
-   <span class="nt">&lt;version&gt;</span>1.1.0<span class="nt">&lt;/version&gt;</span>
+   <span class="nt">&lt;version&gt;</span>1.0.0<span class="nt">&lt;/version&gt;</span>
    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span>
 </pre></div>
 
-<h3>2 - Add Assertions.* static import</h3>
+<h3>
+<a name="2---add-assertions-static-import" class="anchor" href="#2---add-assertions-static-import"><span class="octicon octicon-link"></span></a>2 - Add Assertions.* static import</h3>
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+<div class="highlight highlight-java"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
 </pre></div>
 
 <p>or the complete list</p>
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>  <span class="c1">// main one</span>
+<div class="highlight highlight-java"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">assertThat</span><span class="o">;</span>  <span class="c1">// main one</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">atIndex</span><span class="o">;</span> <span class="c1">// for List assertions</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">entry</span><span class="o">;</span>  <span class="c1">// for Map assertions</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.</span><span class="na">extractProperty</span><span class="o">;</span> <span class="c1">// for Iterable/Array assertions</span>
@@ -129,15 +135,17 @@ A lot of efforts have to provide intuitive error messages showing as clearly as 
 
 <p>You can even configure your IDE, so that when you type <code>asse</code> and trigger code completion, it will suggest <code>assertThat</code>.</p>
 
-<h3>3 - Type <strong>assertThat</strong> followed by the actual value and a dot ...</h3>
+<h3>
+<a name="3---type-assertthat-followed-by-the-actual-value-and-a-dot-" class="anchor" href="#3---type-assertthat-followed-by-the-actual-value-and-a-dot-"><span class="octicon octicon-link"></span></a>3 - Type <strong>assertThat</strong> followed by the actual value and a dot ...</h3>
 
 <p>... and any Java IDE code completion will show you all the assertions available.</p>
 
 <p>That's all !</p>
 
-<h3>Some assertions examples</h3>
+<h3>
+<a name="some-assertions-examples" class="anchor" href="#some-assertions-examples"><span class="octicon octicon-link"></span></a>Some assertions examples</h3>
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
+<div class="highlight highlight-java"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span><span class="o">.*;</span>
 
 <span class="c1">// some of the assertions available for all types</span>
 <span class="n">assertThat</span><span class="o">(</span><span class="n">yoda</span><span class="o">).</span><span class="na">isInstanceOf</span><span class="o">(</span><span class="n">Jedi</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
@@ -171,25 +179,25 @@ A lot of efforts have to provide intuitive error messages showing as clearly as 
 </pre></div>
 
 <h2>
-<a name="custom%20types-assertions"></a>Assertions for your own custom types</h2>
+<a name="assertions-for-your-own-custom-types" class="anchor" href="#assertions-for-your-own-custom-types"><span class="octicon octicon-link"></span></a><a name="custom%20types-assertions"></a>Assertions for your own custom types</h2>
 
 <p>Having assertions for common types like List is great but it would so nice to have some for your own types !  </p>
 
-<p>Well this is possible with AssertJ because it is easily extensible so it's simple to <a href="https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions" target="_blank">write assertions for your custom types</a>.<br>
+<p>Well this is possible with AssertJ because it is easily extensible so it's simple to <a href="https://github.com/joel-costigliola/assertj-core/wiki/Creating-specific-assertions">write assertions for your custom types</a>.<br>
 Moreover, to ease your work, we provide assertions generator that can take a bunch of custom types and create for you specific assertions, we provide : </p>
 
 <ul>
-<li>a <strong><a href="https://github.com/joel-costigliola/assertj-assertions-generator#readme" target="_blank">CLI assertions generator</a></strong> </li>
-<li>A <strong><a href="https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin#readme" target="_blank">Maven plugin assertions generator</a></strong><br>
+<li>a <strong><a href="https://github.com/joel-costigliola/assertj-assertions-generator#readme">CLI assertions generator</a></strong> </li>
+<li>A <strong><a href="https://github.com/joel-costigliola/assertj-assertions-generator-maven-plugin#readme">Maven plugin assertions generator</a></strong><br>
 </li>
 <li>An Eclipe plugin assertions generator (available soon)</li>
 </ul><h2>
-<a name="junit-to-assertj-assertions"></a>Replacing JUnit assertions by AssertJ Assertions</h2>
+<a name="replacing-junit-assertions-by-assertj-assertions" class="anchor" href="#replacing-junit-assertions-by-assertj-assertions"><span class="octicon octicon-link"></span></a><a name="junit-to-assertj-assertions"></a>Replacing JUnit assertions by AssertJ Assertions</h2>
 
-<p>To help you replace JUnit assertions by AssertJ ones, follow the steps described <a href="Converting-JUnit-assertions-to-AssertJ-Assertions.html" target="_blank"><strong>here</strong></a>, they are based on regex search and replace.</p>
+<p>To help you replace JUnit assertions by AssertJ ones, follow the steps described <a href="https://github.com/joel-costigliola/assertj-core/wiki/Converting-JUnit-assertions-to-AssertJ-Assertions"><strong>here</strong></a>, they are based on regex search and replace.</p>
 
 <h2>
-<a name="fest-assertj"></a>Why having forked Fest Assert ?</h2>
+<a name="why-having-forked-fest-assert-" class="anchor" href="#why-having-forked-fest-assert-"><span class="octicon octicon-link"></span></a><a name="fest-assertj"></a>Why having forked Fest Assert ?</h2>
 
 <p>AssertJ is a fork of FEST Assert a great project I have contributed to during 3 years, so why having forked it ?  </p>
 
@@ -201,40 +209,41 @@ Moreover, to ease your work, we provide assertions generator that can take a bun
 <li>FEST is not enough open to users demands and contributions.</li>
 </ul><p>On the contrary <strong>AssertJ goal is to provide a rich set of assertions</strong> and any resonable requests to enrich AssertJ assertions is welcome as we know it will be useful to someone. Said otherwise, AssertJ is <strong>community driven</strong>, we listen to our users because AssertJ is built for them. </p>
 
-<p>If you feel that some assertion is missing, please <a href="https://github.com/joel-costigliola/assertj-core/issues" target="_blank"><strong>fill a ticket</strong></a> or even better make a contribution ! </p>
+<p>If you feel that some assertion is missing, please <a href="https://github.com/joel-costigliola/assertj-core/issues"><strong>fill a ticket</strong></a> or even better make a contribution ! </p>
 
 <p><em>Joel Costigliola  (AssertJ creator)</em></p>
 
 <h2>
-<a name="migrating-from-fest"></a>Migrating from Fest assertions</h2>
+<a name="migrating-from-fest-assertions" class="anchor" href="#migrating-from-fest-assertions"><span class="octicon octicon-link"></span></a><a name="migrating-from-fest"></a>Migrating from Fest assertions</h2>
 
 <p>As AssertJ starts where Fest 2.0M10 has left, migrating from Fest to AssertJ Assertions is easy, you only have to change your static import, just replace :</p>
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">fest</span><span class="o">.</span><span class="na">assertions</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span>
+<div class="highlight highlight-java"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">fest</span><span class="o">.</span><span class="na">assertions</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span>
 </pre></div>
 
 <p>by :</p>
 
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span>
+<div class="highlight highlight-java"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">assertj</span><span class="o">.</span><span class="na">core</span><span class="o">.</span><span class="na">api</span><span class="o">.</span><span class="na">Assertions</span>
 </pre></div>
 
 <p>This should be all, if not please fill a ticket so that I can update this section.</p>
 
-<p>If you are using Fest Assert 1.x, please read this <a href="https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4" target="_blank">migration guide</a>.</p>
+<p>If you are using Fest Assert 1.x, please read this <a href="https://github.com/joel-costigliola/assertj-core/wiki/Migrating-from-FEST-Assert-1.4">migration guide</a>.</p>
 
 <h2>
-<a name="doc"></a>Documentation &amp; Mailing list</h2>
+<a name="documentation--mailing-list" class="anchor" href="#documentation--mailing-list"><span class="octicon octicon-link"></span></a><a name="doc"></a>Documentation &amp; Mailing list</h2>
 
-<p>You can ask questions and make suggestions on <a href="https://groups.google.com/forum/?fromgroups=#!forum/assertj" target="_blank"><strong>AssertJ google group</strong></a>.<br>
-To directly jump to a more complete documentation please go to <strong><a href="https://github.com/joel-costigliola/AssertJ-core/wiki" target="_blank">AssertJ wiki</a></strong>.</p>
+<p>You can ask questions and make suggestions on <a href="https://groups.google.com/forum/?fromgroups=#!forum/assertj"><strong>AssertJ google group</strong></a>.<br>
+To directly jump to a more complete documentation please go to <strong><a href="https://github.com/joel-costigliola/AssertJ-core/wiki">AssertJ wiki</a></strong>.</p>
 
 <h2>
-<a name="contributing"></a>Want to contribute ?</h2>
+<a name="want-to-contribute-" class="anchor" href="#want-to-contribute-"><span class="octicon octicon-link"></span></a><a name="contributing"></a>Want to contribute ?</h2>
 
 <p>You are very welcome to contribute any missing useful assertions, please check the <a href="CONTRIBUTING.md">contributor guidelines</a>.</p>
       </section>
+
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		
+    
   </body>
 </html>
