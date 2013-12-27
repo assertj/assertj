@@ -20,7 +20,7 @@ To start using Guava assertions
  <dependency>
    <groupId>org.assertj</groupId>
    <artifactId>assertj-guava</artifactId>
-   <version>1.0.0</version>
+   <version>1.1.0</version>
    <scope>test</scope>
  </dependency>
 ```
@@ -52,10 +52,18 @@ Note that you can find working examples in [assertj-examples](https://github.com
 
 ## <a name="news"/>Latest News
 
+**2013-12-27 : 1.1.0 release, the first release after Fest fork.**
+
+**New features**
+* Guava ByeSource assertions *(Andrew Gaul)*
+
+**Improvements**
+* Javadoc improvements.
+
 **2013-03-26 : 1.0.0 release, the first release after Fest fork.**
 
-New features since Fest fork : 
-* Guava Table assertions 
+**New features since Fest fork**
+* Guava Table assertions *(Jan Gorman)*
 
 ## <a name="javadoc"/>Javadoc of latest release
 
@@ -106,3 +114,6 @@ assertThat("hello world").startsWith("hello");
 
 Thanks for your interest ! Please check our [contributor's guidelines](CONTRIBUTING.md).
 
+Special thanks to **Andrew Gaul** for its contributions to **assertj-guava 1.1.0**.
+
+Special thanks to **Jan Gorman** for its contributions to **assertj-guava 1.0.0**.
