@@ -29,7 +29,6 @@ import com.google.common.io.ByteSource;
  * Assertions for Guava {@link ByteSource}.
  *
  * @author Andrew Gaul
- *
  */
 public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSource> {
 
@@ -59,49 +58,58 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    *
    * @param other ByteSource to compare against.
    * @return this {@link ByteSourceAssert} for assertions chaining.
-   *
-   * @throws IOException if {@link ByteSource.contentEquals} throws
+   * @throws IOException    if {@link ByteSource#contentEquals} throws one.
    * @throws AssertionError if the actual {@link ByteSource} is {@code null}.
    * @throws AssertionError if the actual {@link ByteSource} does not contain the same content.
    */
   public ByteSourceAssert hasSameContentAs(ByteSource other) throws IOException {
     Objects.instance().assertNotNull(info, actual);
-    if (!actual.contentEquals(other)) {
-      throw failures.failure(info, shouldBeEqual(actual, other));
-    }
+    if (!actual.contentEquals(other)) throw failures.failure(info, shouldBeEqual(actual, other));
     return this;
   }
 
   /**
    * Verifies that the actual {@link ByteSource} is empty.
+   * <p>
+   * Example :
    *
-   * @throws IOException if {@link ByteSource.isEmpty} throws
+   * <pre>
+   * ByteSource actual = ByteSource.wrap(new byte[0]);
+   *
+   * assertThat(actual).isEmpty();
+   * </pre>
+   *
+   * @throws IOException    if {@link ByteSource#isEmpty} throws one.
    * @throws AssertionError if the actual {@link ByteSource} is {@code null}.
    * @throws AssertionError if the actual {@link ByteSource} is not empty.
    */
   public void isEmpty() throws IOException {
     Objects.instance().assertNotNull(info, actual);
-    if (!actual.isEmpty()) {
-      throw failures.failure(info, shouldBeEmpty(actual));
-    }
+    if (!actual.isEmpty()) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
    * Verifies that the size of the actual {@link ByteSource} is equal to the given one.
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * ByteSource actual = ByteSource.wrap(new byte[9]);
+   *
+   * assertThat(actual).hasSize(9);
+   * </pre>
    *
    * @param expectedSize the expected size of actual {@link ByteSource}.
    * @return this {@link ByteSourceAssert} for assertions chaining.
-   * @throws IOException if {@link ByteSource.size} throws
+   * @throws IOException    if {@link com.google.common.io.ByteSource#size()} throws one.
    * @throws AssertionError if the actual {@link ByteSource} is {@code null}.
    * @throws AssertionError if the number of values of the actual {@link ByteSource} is not equal to the given one.
    */
   public ByteSourceAssert hasSize(long expectedSize) throws IOException {
     Objects.instance().assertNotNull(info, actual);
     long sizeOfActual = actual.size();
-    if (sizeOfActual == expectedSize) {
-      return this;
-    }
-    throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    if (sizeOfActual != expectedSize) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+    return this;
   }
 
 }
