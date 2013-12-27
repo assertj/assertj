@@ -41,9 +41,10 @@ public class MultimapAssert_isEmpty_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
-      assertThat(e)
-          .hasMessage(
-              "expecting empty but was:<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>");
+      assertThat(e).hasMessage("\n" +
+                               "Expecting empty but was:<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], " +
+                               "Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan," +
+                               " Manu Ginobili]}>");
       return;
     }
     fail("Assertion error expected");

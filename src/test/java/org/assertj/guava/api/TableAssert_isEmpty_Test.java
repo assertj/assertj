@@ -45,7 +45,7 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
       Assertions.assertThat(e).hasMessage(
-          "expecting empty but was:<{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>");
+          "\nExpecting empty but was:<{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>");
       return;
     }
     fail("Assertion error expected");

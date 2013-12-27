@@ -50,7 +50,7 @@ public class ByteSourceAssert_isEmpty_Test extends BaseTest {
     try {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("expecting empty but was:<ByteSource.wrap(00)>");
+      assertThat(e).hasMessage("\nExpecting empty but was:<ByteSource.wrap(00)>");
       return;
     }
     fail("Assertion error expected");

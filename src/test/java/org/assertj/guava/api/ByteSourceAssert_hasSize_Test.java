@@ -23,6 +23,7 @@ import java.io.IOException;
 import com.google.common.io.ByteSource;
 
 import org.assertj.guava.api.ByteSourceAssert;
+
 import org.junit.Test;
 
 /**
@@ -50,7 +51,9 @@ public class ByteSourceAssert_hasSize_Test extends BaseTest {
     try {
       assertThat(ByteSource.wrap(new byte[9])).hasSize(3);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("expected size:<3L> but was:<9L> in:<ByteSource.wrap(000000000000000000)>");
+      assertThat(e).hasMessage("\n" +
+                               "Expected size:<3L> but was:<9L> in:\n" +
+                               "<ByteSource.wrap(000000000000000000)>");
       return;
     }
     fail("Assertion error expected");

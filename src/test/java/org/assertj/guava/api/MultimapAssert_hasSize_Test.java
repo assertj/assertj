@@ -20,11 +20,12 @@ import static org.assertj.guava.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
 import org.assertj.guava.api.MultimapAssert;
+
 import org.junit.Test;
 
 /**
  * Tests for <code>{@link MultimapAssert#hasSize(int)}</code>.
- * 
+ *
  * @author Joel Costigliola
  */
 public class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
@@ -46,9 +47,10 @@ public class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).hasSize(3);
     } catch (AssertionError e) {
-      assertThat(e)
-          .hasMessage(
-              "expected size:<3> but was:<9> in:<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>");
+      assertThat(e).hasMessage("\n" +
+                               "Expected size:<3> but was:<9> in:\n" +
+                               "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, " +
+                               "Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>");
       return;
     }
     fail("Assertion error expected");
