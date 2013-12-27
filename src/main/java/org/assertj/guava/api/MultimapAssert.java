@@ -34,13 +34,11 @@ import org.assertj.core.util.VisibleForTesting;
 import com.google.common.collect.Multimap;
 
 /**
- * 
  * Assertions for guava {@link Multimap}.
- * 
+ *
  * @author @marcelfalliere
  * @author @miralak
  * @author Joel Costigliola
- * 
  */
 public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, Multimap<K, V>> {
 
@@ -50,7 +48,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   protected MultimapAssert(Multimap<K, V> actual) {
     super(actual, MultimapAssert.class);
   }
-  
+
   // visible for test
   protected Multimap<K, V> getActual() {
     return actual;
@@ -60,26 +58,25 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * Verifies that the actual {@link Multimap} contains the given keys.<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * // add several values for each key.
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
    * 
+   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);
    * </pre>
-   * 
+   *
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
-   * 
+   *
    * @param keys the keys to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
-   * 
    * @throws IllegalArgumentException if no param keys have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given keys.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
    */
   public MultimapAssert<K, V> containsKeys(K... keys) {
     Objects.instance().assertNotNull(info, actual);
@@ -102,27 +99,26 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * Verifies that the actual {@link Multimap} contains the given entries.<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * // add several values for each entrie.
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
-   * 
+   *
+   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
    * // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;));
+   * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
    * </pre>
-   * 
+   *
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
-   * 
+   *
    * @param entries the entries to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
-   * 
    * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given entries.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
    */
   public MultimapAssert<K, V> contains(MapEntry... entries) {
     Objects.instance().assertNotNull(info, actual);
@@ -145,27 +141,26 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * Verifies that the actual {@link Multimap} contains the given values for any key.<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
-   * // add several values for each value.
-   * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
-   * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   * actual.putAll(&quot;Bulls&quot;, newArrayList(&quot;Michael Jordan&quot;, &quot;Scottie Pippen&quot;, &quot;Derrick Rose&quot;));
-   * 
+   *
+   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
    * // note that given values are not linked to same key
    * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);
    * </pre>
-   * 
+   *
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
-   * 
+   *
    * @param values the values to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
-   * 
    * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
+   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
    */
   public MultimapAssert<K, V> containsValues(V... values) {
     Objects.instance().assertNotNull(info, actual);
@@ -186,7 +181,16 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /**
    * Verifies that the actual {@link Multimap} is empty.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   *
+   * assertThat(actual).isEmpty();
+   * </pre>
+   *
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} is not empty.
    */
@@ -199,7 +203,20 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
   /**
    * Verifies that the number of values in the actual {@link Multimap} is equal to the given one.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   *
+   * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
+   * assertThat(actual).hasSize(9);
+   * </pre>
+   *
    * @param expectedSize the expected size of actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.

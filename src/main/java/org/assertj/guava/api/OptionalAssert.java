@@ -55,6 +55,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * 
    * <pre>
    * Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
+   *
    * assertThat(optional).hasValue(&quot;Test&quot;);
    * </pre>
    * 
@@ -82,6 +83,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * 
    * <pre>
    * Optional&lt;String&gt; optional = Optional.absent();
+   *
    * assertThat(optional).isAbsent();
    * </pre>
    * 
@@ -105,6 +107,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * 
    * <pre>
    * Optional&lt;String&gt; optional = Optional.of(&quot;value&quot;);
+   *
    * assertThat(optional).isPresent();
    * </pre>
    * 

@@ -1,13 +1,13 @@
 /**
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
+ *
  * Copyright 2012-2013 the original author or authors.
  */
 package org.assertj.guava.api;
@@ -45,16 +45,28 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   protected Table<R, C, V> getActual() {
     return actual;
   }
-  
+
   /**
    * Verifies that the actual {@link Table} contains the given rows.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * assertThat(actual).containsRows(1, 2);
+   * </pre>
+   *
    * @param rows The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
-   * 
    * @throws IllegalArgumentException if no param rows have been set.
-   * @throws AssertionError if the actual {@link Table} is {@code null}.
-   * @throws AssertionError if the actual {@link Table} does not contain the given rows.
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the actual {@link Table} does not contain the given rows.
    */
   public TableAssert<R, C, V> containsRows(R... rows) {
     Objects.instance().assertNotNull(info, actual);
@@ -76,13 +88,25 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /**
    * Verifies that the actual {@link Table} contains the given columns.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * assertThat(actual).containsColumns(3, 4);
+   * </pre>
+   *
    * @param columns The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
-   * 
    * @throws IllegalArgumentException if no param columns have been set.
-   * @throws AssertionError if the actual {@link Table} is {@code null}.
-   * @throws AssertionError if the actual {@link Table} does not contain the given columns.
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the actual {@link Table} does not contain the given columns.
    */
   public TableAssert<R, C, V> containsColumns(C... columns) {
     Objects.instance().assertNotNull(info, actual);
@@ -105,13 +129,25 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /**
    * Verifies that the actual {@link Table} contains the given values for any key.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * assertThat(actual).containsValues("Franklin Pierce", "Millard Fillmore");
+   * </pre>
+   *
    * @param values The values to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
-   * 
    * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError if the actual {@link Table} is {@code null}.
-   * @throws AssertionError if the actual {@link Table} does not contain the given values.
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the actual {@link Table} does not contain the given values.
    */
   public TableAssert<R, C, V> containsValues(V... values) {
     Objects.instance().assertNotNull(info, actual);
@@ -134,7 +170,16 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
   /**
    * Verifies that the actual {@link Table} is empty.
-   * 
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   *
+   * assertThat(actual).isEmpty();
+   * </pre>
+   *
    * @throws AssertionError if the actual {@link Table} is {@code null}.
    * @throws AssertionError if the actual {@link Table} is not empty.
    */
