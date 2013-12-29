@@ -14,12 +14,19 @@
  */
 package org.assertj.core.presentation;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import static org.assertj.core.util.Strings.concat;
+
 /**
  * Binary object representation instead of standard java representation.
  *
  * @author Mariusz Smykula
  */
 public class BinaryRepresentation implements Representation {
+
+  public static final String BYTE_PREFIX = "0b";
 
   /**
    * Returns binary the {@code toString} representation of the given object. It may or not
@@ -30,7 +37,85 @@ public class BinaryRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
-    return BinaryToString.toStringOf(this, object);
+    if (object instanceof Character) {
+      return toStringOf((Character) object);
+    }
+    if (object instanceof Number) {
+      return toStringOf((Number) object);
+    }
+    if (object instanceof String) {
+      return toStringOf(this, (String) object);
+    }
+    if (object instanceof Date || object instanceof Calendar) {
+      return objectToString(this, object);
+    }
+    return object == null ? null : CollectionToString.toStringOf(this, object);
+  }
+
+  private static String toStringOf(Representation representation, String s) {
+    return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
+  }
+
+  private static String toStringOf(Number number) {
+    if (number instanceof Byte) {
+      return toStringOf((Byte) number);
+    }
+    if (number instanceof Short) {
+      return toStringOf((Short) number);
+    }
+    if (number instanceof Integer) {
+      return toStringOf((Integer) number);
+    }
+    if (number instanceof Long) {
+      return toStringOf((Long) number);
+    }
+    if (number instanceof Float) {
+      return toStringOf((Float) number);
+    }
+    if (number instanceof Double) {
+      return toStringOf((Double) number);
+    }
+    return number == null ? null : number.toString();
+  }
+
+  private static String objectToString(Representation representation, Object object) {
+    return ObjectToString.toStringOf(representation, object);
+  }
+
+  private static String toStringOf(Byte b) {
+    return toGroupedBinary(Integer.toBinaryString(b & 0xFF), 8);
+  }
+
+  private static String toStringOf(Short s) {
+    return toGroupedBinary(Integer.toBinaryString(s & 0xFFFF), 16);
+  }
+
+  private static String toStringOf(Integer i) {
+    return toGroupedBinary(Integer.toBinaryString(i), 32);
+  }
+
+  private static String toStringOf(Long l) {
+    return toGroupedBinary(Long.toBinaryString(l), 64);
+  }
+
+  private static String toStringOf(Float f) {
+    return toGroupedBinary(Integer.toBinaryString(Float.floatToIntBits(f)), 32);
+  }
+
+  private static String toStringOf(Double d) {
+    return toGroupedBinary(Long.toBinaryString(Double.doubleToRawLongBits(d)), 64);
+  }
+
+  private static String toStringOf(Character character) {
+    return concat("'", toStringOf((short) (int) character), "'");
+  }
+
+  private static String toGroupedBinary(String value, int size) {
+    return BYTE_PREFIX + NumberGrouping.toBinaryLiteral(toBinary(value, size));
+  }
+
+  private static String toBinary(String value, int size) {
+    return String.format("%" + size + "s", value).replace(' ', '0');
   }
 
 }

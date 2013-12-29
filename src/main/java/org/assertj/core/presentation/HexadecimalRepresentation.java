@@ -14,6 +14,11 @@
  */
 package org.assertj.core.presentation;
 
+import java.util.Calendar;
+import java.util.Date;
+
+import static org.assertj.core.util.Strings.concat;
+
 /**
  * Hexadecimal object representation instead of standard java representation.
  *
@@ -21,6 +26,8 @@ package org.assertj.core.presentation;
  */
 public class HexadecimalRepresentation implements Representation {
 
+  public static final String PREFIX = "0x";
+  public static final int NIBBLE_SIZE = 4;
 
   /**
    * Returns hexadecimal the {@code toString} representation of the given object. It may or not
@@ -30,8 +37,86 @@ public class HexadecimalRepresentation implements Representation {
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public String toStringOf(Object object) {
-    return HexadecimalToString.toStringOf(this, object);
+  public  String toStringOf( Object object) {
+    if (object instanceof Number) {
+      return toStringOf((Number) object);
+    }
+    if (object instanceof String) {
+      return toStringOf(this, (String) object);
+    }
+    if (object instanceof Character) {
+      return toStringOf((Character) object);
+    }
+    if (object instanceof Date || object instanceof Calendar) {
+      return objectToString(this, object);
+    }
+    return object == null ? null : CollectionToString.toStringOf(this, object);
+  }
+
+  private static String objectToString(Representation representation, Object object) {
+    return ObjectToString.toStringOf(representation, object);
+  }
+
+  private static String toStringOf(Number number) {
+    if (number instanceof Byte) {
+      return toStringOf((Byte) number);
+    }
+    if (number instanceof Short) {
+      return toStringOf((Short) number);
+    }
+    if (number instanceof Integer) {
+      return toStringOf((Integer) number);
+    }
+    if (number instanceof Long) {
+      return toStringOf((Long) number);
+    }
+    if (number instanceof Float) {
+      return toStringOf((Float) number);
+    }
+    if (number instanceof Double) {
+      return toStringOf((Double) number);
+    }
+    return number == null ? null : number.toString();
+  }
+
+  private static String toStringOf(Byte b) {
+    return toGroupedHex(b, 8);
+  }
+
+  private static String toStringOf(Short s) {
+    return toGroupedHex(s, 16);
+  }
+
+  private static String toStringOf(Integer i) {
+    return toGroupedHex(i, 32);
+  }
+
+  private static String toStringOf(Long l) {
+    return toGroupedHex(l, 64);
+  }
+
+  private static String toStringOf(Float f) {
+    return toGroupedHex(Float.floatToIntBits(f), 32);
+  }
+
+  private static String toStringOf(Double d) {
+    return toGroupedHex(Double.doubleToRawLongBits(d), 64);
+  }
+
+  private static String toStringOf(Character character) {
+    return concat("'", toStringOf((short) (int) character), "'");
+  }
+
+  private static String toStringOf(Representation representation, String s) {
+    return concat("\"", representation.toStringOf(s.toCharArray()), "\"");
+  }
+
+  private static String toGroupedHex(Number value, int size) {
+    return PREFIX + NumberGrouping.toHexLiteral(toHex(value, size));
+  }
+
+  private static String toHex(Number value, int sizeInBits) {
+    return String.format("%0" + sizeInBits / NIBBLE_SIZE + "X", value);
   }
 
 }
