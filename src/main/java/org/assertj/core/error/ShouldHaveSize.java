@@ -28,11 +28,11 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSize(Object actual, Object actualSize, Object expectedSize) {
+  public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize) {
     return new ShouldHaveSize(actual, actualSize, expectedSize);
   }
 
-  private ShouldHaveSize(Object actual, Object actualSize, Object expectedSize) {
-    super("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, actual);
+  private ShouldHaveSize(Object actual, int actualSize, int expectedSize) {
+    super(String.format("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, "%s"), actual);
   }
 }
