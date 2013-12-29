@@ -1,15 +1,15 @@
 /*
  * Created on Dec 21, 2013
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2009-2012 the original author or authors.
  */
 package org.assertj.core.presentation;
@@ -30,7 +30,7 @@ import static org.assertj.core.util.Strings.quote;
 
 /**
  * Standard java object representation..
- *
+ * 
  * @author Mariusz Smykula
  */
 public class StandardRepresentation implements Representation {
@@ -38,40 +38,31 @@ public class StandardRepresentation implements Representation {
   /**
    * Returns standard the {@code toString} representation of the given object. It may or not the object's own
    * implementation of {@code toString}.
-   *
+   * 
    * @param object the given object.
    * @return the {@code toString} representation of the given object.
    */
   @Override
-  public  String toStringOf( Object object) {
+  public String toStringOf(Object object) {
     if (object instanceof Calendar) {
       return toStringOf((Calendar) object);
-    }
-    if (object instanceof Class<?>) {
+    } else if (object instanceof Class<?>) {
       return toStringOf((Class<?>) object);
-    }
-    if (object instanceof Date) {
+    } else if (object instanceof Date) {
       return toStringOf((Date) object);
-    }
-    if (object instanceof Number) {
+    } else if (object instanceof Number) {
       return toStringOf((Number) object, this);
-    }
-    if (object instanceof File) {
+    } else if (object instanceof File) {
       return toStringOf((File) object);
-    }
-    if (object instanceof String) {
+    } else if (object instanceof String) {
       return toStringOf((String) object);
-    }
-    if (object instanceof Character) {
+    } else if (object instanceof Character) {
       return toStringOf((Character) object);
-    }
-    if (object instanceof Comparator) {
+    } else if (object instanceof Comparator) {
       return toStringOf((Comparator<?>) object);
-    }
-    if (object instanceof SimpleDateFormat) {
+    } else if (object instanceof SimpleDateFormat) {
       return toStringOf((SimpleDateFormat) object);
-    }
-    if (object instanceof Tuple) {
+    } else if (object instanceof Tuple) {
       return toStringOf((Tuple) object, this);
     }
     return defaultToString(object, this);
@@ -135,8 +126,5 @@ public class StandardRepresentation implements Representation {
   private static String defaultToString(Object object, Representation representation) {
     return object == null ? null : CollectionToString.toStringOf(representation, object);
   }
-
-
-
 
 }
