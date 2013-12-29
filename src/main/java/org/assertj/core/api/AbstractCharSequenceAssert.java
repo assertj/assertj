@@ -244,6 +244,15 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Enable unicode string representation instead of standard java representation.
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
    * <p>
    * Example:

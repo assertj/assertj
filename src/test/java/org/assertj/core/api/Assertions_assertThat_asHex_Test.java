@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
+ * Tests for {@link org.assertj.core.presentation.HexadecimalRepresentation#toStringOf(Object)}.
+ *
  * @author Mariusz Smykula
  */
 public class Assertions_assertThat_asHex_Test {
@@ -141,6 +143,12 @@ public class Assertions_assertThat_asHex_Test {
   public void should_assert_collections_as_hex() {
     thrown.expectMessage("expected:<[0x0000_000[3]]> but was:<[0x0000_000[1, 0x0000_0002]]>");
     assertThat(Arrays.asList(1, 2)).asHex().isEqualTo(Arrays.asList(3));
+  }
+
+  @Test
+  public void should_assert_Character_as_hex() {
+    thrown.expectMessage("expected:<'0x006[2]'> but was:<'0x006[1]'>");
+    assertThat('a').asHex().isEqualTo('b');
   }
 
   @Test

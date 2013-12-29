@@ -151,6 +151,15 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
   }
 
   /**
+   * Enable unicode character representation instead of standard java representation.
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
+    return myself;
+  }
+
+  /**
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
@@ -195,6 +204,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a lowercase character.
    */
+
   public S isLowerCase() {
     characters.assertLowerCase(info, actual);
     return myself;

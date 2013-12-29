@@ -38,7 +38,9 @@ public class WritableAssertionInfo implements AssertionInfo {
   private Description description;
   private Representation representation;
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String overridingErrorMessage() {
     return overridingErrorMessage;
@@ -46,13 +48,16 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   /**
    * Sets the message that will replace the default message of an assertion failure.
+   *
    * @param newErrorMessage the new message. It can be {@code null}.
    */
   public void overridingErrorMessage(String newErrorMessage) {
     overridingErrorMessage = newErrorMessage;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Description description() {
     return description;
@@ -61,6 +66,7 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   /**
    * Returns the text of this object's description, or {@code null} if such description is {@code null}.
+   *
    * @return the text of this object's description, or {@code null} if such description is {@code null}.
    */
   public String descriptionText() {
@@ -69,8 +75,9 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   /**
    * Sets the description of an assertion.
+   *
    * @param newDescription the new description.
-   * @param args if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
+   * @param args           if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
    * @throws NullPointerException if the given description is {@code null}.
    * @see #description(Description)
    */
@@ -81,6 +88,7 @@ public class WritableAssertionInfo implements AssertionInfo {
   /**
    * Sets the description of an assertion. To remove or clear the description, pass a <code>{@link EmptyTextDescription}</code> as
    * argument.
+   *
    * @param newDescription the new description.
    * @throws NullPointerException if the given description is {@code null}.
    */
@@ -88,10 +96,12 @@ public class WritableAssertionInfo implements AssertionInfo {
     description = checkIsNotNull(newDescription);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Representation representation() {
-    if(representation == null){
+    if (representation == null) {
       representation = new StandardRepresentation();
     }
     return representation;
@@ -99,6 +109,10 @@ public class WritableAssertionInfo implements AssertionInfo {
 
   public void representationAsHexadecimal() {
     representation = new HexadecimalRepresentation();
+  }
+
+  public void representationAsUnicode() {
+    representation = new UnicodeRepresentation();
   }
 
   public void representationAsBinary() {
@@ -109,7 +123,9 @@ public class WritableAssertionInfo implements AssertionInfo {
     representation = newRepresentation;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public String toString() {
     String format = "%s[overridingErrorMessage=%s, description=%s]";

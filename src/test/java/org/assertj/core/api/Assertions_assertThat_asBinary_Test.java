@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Tests for {@link org.assertj.core.presentation.BinaryRepresentation#toStringOf(Object)}.
+ *
  * @author Mariusz Smykula
  */
 public class Assertions_assertThat_asBinary_Test {
