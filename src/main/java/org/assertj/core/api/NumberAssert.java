@@ -117,4 +117,5 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
   S isStrictlyBetween(A start, A end);
+
 }

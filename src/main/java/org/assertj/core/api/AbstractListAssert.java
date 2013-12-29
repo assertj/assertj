@@ -158,4 +158,23 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
         lists = new Lists(comparisonStrategy);
         return myself;
     }
+
+  /**
+   * Enable hexadecimal object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asHexadecimal() {
+    info.representationAsHexadecimal();
+    return myself;
+  }
+
+  /**
+   * Enable binary object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asBinary() {
+    info.representationAsBinary();
+    return myself;
+  }
+
 }

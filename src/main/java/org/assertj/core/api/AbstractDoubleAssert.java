@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> extends AbstractComparableAssert<S, Double> implements FloatingPointNumberAssert<S, Double> {
+public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> extends AbstractNumberAssert<S, Double> implements FloatingPointNumberAssert<S, Double> {
 
 	@VisibleForTesting
 	Doubles doubles = Doubles.instance();
@@ -220,4 +220,5 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 		doubles = Doubles.instance();
 		return myself;
 	}
+
 }

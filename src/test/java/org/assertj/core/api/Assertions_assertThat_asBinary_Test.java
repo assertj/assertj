@@ -112,14 +112,4 @@ public class Assertions_assertThat_asBinary_Test {
     assertThat("ab").asBinary().isEqualTo("a6");
   }
 
-  @Test
-  public void should_assert_Date_as_hex() throws ParseException {
-    thrown.expectMessage("expected:<...000, 0b00000000, 0b1[1001011, 0b00100111, 0b11010001, 0b011]10111, 0b00000000, 0...> " +
-        "but was:<...000, 0b00000000, 0b1[0110101, 0b00011011, 0b10010111, 0b100]10111, 0b00000000, 0...>");
-    assertThat(toDate("26/08/1994")).asBinary().isEqualTo(toDate("26/08/1997"));
-  }
-
-  private Date toDate(String source) throws ParseException {
-    return new SimpleDateFormat("dd/MM/yyyy").parse(source);
-  }
 }

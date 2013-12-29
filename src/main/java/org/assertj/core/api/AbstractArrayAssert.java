@@ -15,4 +15,23 @@ public abstract class AbstractArrayAssert<S extends AbstractArrayAssert<S, A, E>
   protected AbstractArrayAssert(final A actual, final Class<?> selfType) {
     super(actual, selfType);
   }
+
+  /**
+   * Enable hexadecimal object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asHexadecimal() {
+    info.representationAsHexadecimal();
+    return myself;
+  }
+
+  /**
+   * Enable binary object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asBinary() {
+    info.representationAsBinary();
+    return myself;
+  }
+
 }

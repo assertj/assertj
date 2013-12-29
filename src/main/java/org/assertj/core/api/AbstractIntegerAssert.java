@@ -36,7 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> extends
-    AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
+    AbstractNumberAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   @VisibleForTesting
   Integers integers = Integers.instance();
