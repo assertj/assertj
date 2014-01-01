@@ -29,22 +29,16 @@ public abstract class AbstractNumberAssert<S extends AbstractNumberAssert<S, A>,
     super(actual, selfType);
   }
 
-  /**
-   * Enable hexadecimal object representation instead of standard java representation in error messages.
-   * @return {@code this} assertion object.
-   */
+  /** {@inheritDoc} */
+  @Override
   public S asHexadecimal() {
-    info.representationAsHexadecimal();
-    return myself;
+    return super.asHexadecimal();
   }
 
-  /**
-   * Enable binary object representation instead of standard java representation in error messages.
-   * @return {@code this} assertion object.
-   */
+  /** {@inheritDoc} */
+  @Override
   public S asBinary() {
-    info.representationAsBinary();
-    return myself;
+    return super.asBinary();
   }
 
 }

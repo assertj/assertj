@@ -238,22 +238,17 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
     this.characters = Characters.instance();
     return myself;
   }
-  /**
-   * Enable hexadecimal object representation instead of standard java representation in error messages.
-   * @return {@code this} assertion object.
-   */
+
+  /** {@inheritDoc} */
+  @Override
   public S asHexadecimal() {
-    info.representationAsHexadecimal();
-    return myself;
+    return super.asHexadecimal();
   }
 
-  /**
-   * Enable binary object representation instead of standard java representation in error messages.
-   * @return {@code this} assertion object.
-   */
+  /** {@inheritDoc} */
+  @Override
   public S asBinary() {
-    info.representationAsBinary();
-    return myself;
+    return super.asBinary();
   }
 
   /**
