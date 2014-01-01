@@ -21,14 +21,9 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.Test;
-
 
 public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBaseTest {
 
@@ -45,7 +40,7 @@ public class IntArrays_assertHasSameSizeAs_with_Array_Test extends IntArraysBase
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

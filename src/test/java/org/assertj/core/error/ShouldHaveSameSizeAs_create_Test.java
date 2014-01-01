@@ -19,12 +19,11 @@ import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.*;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldHaveSameSizeAs;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldHaveSameSizeAs#create(Description)}</code>.
+ * Tests for <code>{@link ShouldHaveSameSizeAs#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -39,7 +38,7 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nActual and expected should have same size but actual size is:\n <2>\nwhile expected is:\n <8>\nActual was:\n<[\"Luke\", \"Yoda\"]>",
         message);

@@ -22,16 +22,15 @@ import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.*;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.ConstructorInvoker;
-import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -45,7 +44,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   @Before
   public void setUp() {
     description = new TestDescription("Jedi");
-    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda");
+    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
     constructorInvoker = mock(ConstructorInvoker.class);
     factory.constructorInvoker = constructorInvoker;
   }
@@ -53,14 +52,14 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   @Test
   public void should_create_AssertionError_if_created_ComparisonFailure_is_null() throws Exception {
     when(createComparisonFailure()).thenReturn(null);
-    AssertionError error = factory.newAssertionError(description);
+    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
     check(error);
   }
 
   @Test
   public void should_create_AssertionError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
-    AssertionError error = factory.newAssertionError(description);
+    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
     check(error);
   }
 

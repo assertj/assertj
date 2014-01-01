@@ -51,7 +51,8 @@ public class Strings_assertHasSameSizeAs_with_Iterable_Test extends StringsBaseT
     try {
       strings.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.size())
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -18,12 +18,11 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 
 import org.assertj.core.description.*;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotMatchPattern;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldNotMatchPattern#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotMatchPattern#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  */
@@ -38,7 +37,7 @@ public class ShouldNotMatchPattern_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n \"Yoda\"\nnot to match pattern:\n \"Luke\"", message);
   }
 }

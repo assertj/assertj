@@ -51,7 +51,8 @@ public class LongArrays_assertHasSameSizeAs_with_Array_Test extends LongArraysBa
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length)
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -56,7 +56,7 @@ public class Booleans_assertEqual_Test extends BooleansBaseTest {
     try {
       booleans.assertEqual(info, TRUE, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TRUE, expected));
+      verify(failures).failure(info, shouldBeEqual(TRUE, expected, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

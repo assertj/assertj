@@ -154,18 +154,18 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat('A').isGreaterThanOrEqualTo('A');
    * assertThat('b').isGreaterThanOrEqualTo('a');
-   * 
+   *
    * // assertion will fail
    * assertThat('a').isGreaterThanOrEqualTo('b');
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -190,11 +190,12 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * </pre>
    *
    * </p>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a lowercase character.
    */
+
   public S isLowerCase() {
     characters.assertLowerCase(info, actual);
     return myself;
@@ -204,17 +205,17 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is a uppercase character.
    * <p>
    * Example:
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat('A').isLowerCase();
-   * 
+   *
    * // assertion will fail
    * assertThat('a').isLowerCase();
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not a uppercase character.
@@ -235,6 +236,27 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
   public S usingDefaultComparator() {
     super.usingDefaultComparator();
     this.characters = Characters.instance();
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
+
+  /**
+   * Enable unicode character representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
     return myself;
   }
 }

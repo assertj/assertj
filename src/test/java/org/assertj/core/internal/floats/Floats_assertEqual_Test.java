@@ -19,12 +19,12 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 
@@ -53,7 +53,7 @@ public class Floats_assertEqual_Test extends FloatsBaseTest {
     try {
       floats.assertEqual(info, 6f, 8f);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, 8f));
+      verify(failures).failure(info, shouldBeEqual(6f, 8f, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +76,8 @@ public class Floats_assertEqual_Test extends FloatsBaseTest {
     try {
       floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, -8f);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6f, -8f, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual(6f, -8f, absValueComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

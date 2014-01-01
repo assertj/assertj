@@ -20,12 +20,13 @@ import static org.junit.Assert.assertEquals;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeGreaterOrEqual#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeGreaterOrEqual#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -41,14 +42,14 @@ public class ShouldBeGreaterOrEqual_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <6>\nto be greater than or equal to:\n <8> ", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldBeGreaterOrEqual(6, 8, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nExpecting:\n <6>\nto be greater than or equal to:\n <8> according to 'AbsValueComparator' comparator",
         message);

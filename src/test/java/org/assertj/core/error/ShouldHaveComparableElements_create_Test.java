@@ -18,15 +18,13 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeSorted;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 
 /**
- * Tests for <code>{@link ShouldBeSorted#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -42,6 +40,6 @@ public class ShouldHaveComparableElements_create_Test {
   @Test
   public void should_create_error_message() {
     assertEquals("[Test] \nsome elements are not mutually comparable in group:\n<[\"b\", 5, \"a\"]>",
-        factory.create(new TestDescription("Test")));
+        factory.create(new TestDescription("Test"), new StandardRepresentation()));
   }
 }

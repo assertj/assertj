@@ -158,4 +158,17 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
         lists = new Lists(comparisonStrategy);
         return myself;
     }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
+
 }

@@ -21,12 +21,12 @@ import static org.assertj.core.test.Maps.mapOf;
 
 import java.util.Map;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContainKey#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotContainKey#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -36,7 +36,7 @@ public class ShouldNotContainValue_create_Test {
   public void should_create_error_message() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldNotContainValue(map, "green");
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nnot to contain value:\n <\"green\">", message);
   }
 

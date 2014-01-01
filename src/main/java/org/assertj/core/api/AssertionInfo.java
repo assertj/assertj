@@ -15,6 +15,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.presentation.Representation;
 
 /**
  * Information about an assertion.
@@ -36,4 +37,5 @@ public interface AssertionInfo {
    */
   Description description();
 
+  Representation representation();
 }

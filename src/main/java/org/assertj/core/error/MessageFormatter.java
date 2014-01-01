@@ -16,14 +16,12 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.util.ToString;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -41,7 +39,8 @@ public class MessageFormatter {
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   @VisibleForTesting
-  MessageFormatter() {}
+  MessageFormatter() {
+  }
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to
@@ -50,7 +49,7 @@ public class MessageFormatter {
    * <li>the value of the given <code>{@link Description}</code> is used as the first argument referenced in the format
    * string</li>
    * <li>each of the arguments in the given array is converted to a {@code String} by invoking
-   * <code>{@link ToString#toStringOf(Object)}</code>.
+   * <code>{@link org.assertj.core.presentation.Representation#toStringOf(Object)}</code>.
    * </ol>
    * 
    * @param d the description of the failed assertion, may be {@code null}.
@@ -59,28 +58,28 @@ public class MessageFormatter {
    * @throws NullPointerException if the format string is {@code null}.
    * @return A formatted {@code String}.
    */
-  public String format(Description d, String format, Object... args) {
+  public String format(Description d, Representation p, String format, Object... args) {
     checkNotNull(format);
     checkNotNull(args);
-    return descriptionFormatter.format(d) + formatIfArgs(format, format(args));
+    return descriptionFormatter.format(d) + formatIfArgs(format, format(p, args));
   }
 
-  private Object[] format(Object[] args) {
+  private Object[] format(Representation p, Object[] args) {
     int argCount = args.length;
     String[] formatted = new String[argCount];
     for (int i = 0; i < argCount; i++) {
-      formatted[i] = asText(args[i]);
+      formatted[i] = asText(p, args[i]);
     }
     return formatted;
   }
 
-  private String asText(Object o) {
+  private String asText(Representation p, Object o) {
     if (o instanceof ComparatorBasedComparisonStrategy) {
       return "according to " + o + " comparator";
     }
     if (o instanceof StandardComparisonStrategy) {
       return "";
     }
-    return toStringOf(o);
+    return p.toStringOf(o);
   }
 }

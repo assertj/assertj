@@ -20,6 +20,7 @@ import static org.assertj.core.util.Lists.*;
 
 import java.util.List;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 import org.assertj.core.description.Description;
@@ -42,7 +43,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
                                                  newArrayList((Object) "Yoda", "blue"),
                                                  newArrayList((Object) "Yoda", "green"),
                                                  newArrayList("someIgnoredField"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \n" +
                                   "Expecting values:\n" +
                                   "  <[\"Yoda\", \"green\"]>\n" +
@@ -59,7 +60,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("lightSaberColor"),
                                                  newArrayList((Object) "blue"), newArrayList((Object) "green"),
                                                  newArrayList("someIgnoredField"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \n" +
                                   "Expecting value <\"green\"> in field <\"lightSaberColor\"> " +
                                   "but was <\"blue\"> in <Yoda the Jedi>.\n" +
@@ -72,7 +73,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("name", "lightSaberColor"),
                                                  newArrayList((Object) "Yoda", "blue"),
                                                  newArrayList((Object) "Yoda", "green"), ignoredFields);
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \nExpecting values:\n" +
                                   "  <[\"Yoda\", \"green\"]>\n" +
                                   "in fields:\n" +
@@ -89,7 +90,7 @@ public class ShouldBeEqualIgnoringGivenFields_create_Test {
     factory = shouldBeEqualToIgnoringGivenFields(new Jedi("Yoda", "blue"), newArrayList("lightSaberColor"),
                                                  newArrayList((Object) "blue"), newArrayList((Object) "green"),
                                                  ignoredFields);
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo("[Test] \nExpecting value <\"green\"> " +
                                   "in field <\"lightSaberColor\"> " +
                                   "but was <\"blue\"> in <Yoda the Jedi>.\n" +

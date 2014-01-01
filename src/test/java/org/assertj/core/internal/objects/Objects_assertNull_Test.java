@@ -47,7 +47,7 @@ public class Objects_assertNull_Test extends ObjectsBaseTest {
     try {
       objects.assertNull(info, actual);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(actual, null));
+      verify(failures).failure(info, shouldBeEqual(actual, null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

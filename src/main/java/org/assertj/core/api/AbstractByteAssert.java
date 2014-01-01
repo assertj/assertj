@@ -34,7 +34,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extends AbstractComparableAssert<S, Byte>
+public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extends AbstractNumberAssert<S, Byte>
     implements NumberAssert<S, Byte> {
 
   @VisibleForTesting

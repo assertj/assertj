@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 
@@ -58,7 +59,7 @@ public class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
     try {
       bigDecimals.assertEqual(info, ONE_WITH_3_DECIMALS, ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(ONE_WITH_3_DECIMALS, ONE));
+      verify(failures).failure(info, shouldBeEqual(ONE_WITH_3_DECIMALS, ONE, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -81,7 +82,8 @@ public class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
     try {
       bigDecimalsWithComparatorComparisonStrategy.assertEqual(info, TEN, ONE);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

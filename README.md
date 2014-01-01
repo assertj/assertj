@@ -52,7 +52,7 @@ To read details on the latest releases, please go to [**New and noteworthy**](ht
 **2013-05-12 : AssertJ core 1.2.0 release**  
 **2013-04-14 : AssertJ core 1.1.0 release**  
 
-**2013-03-28 : AssertJ quickie presentation at Devoxx France!**  
+**2013-03-28 : AssertJ quickie presentation at Devoxx France!**
 
 **2013-03-26 - AssertJ train releases:**  
 * **assertj-core 1.0.0**

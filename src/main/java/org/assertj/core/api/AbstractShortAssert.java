@@ -32,7 +32,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  */
-public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> extends AbstractComparableAssert<S, Short>
+public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> extends AbstractNumberAssert<S, Short>
 		implements NumberAssert<S, Short> {
 
 	@VisibleForTesting

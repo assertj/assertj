@@ -278,13 +278,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;gandalf&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;white&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -300,18 +300,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not contain the given sequence.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;fro&quot;);
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;gandalf&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -327,19 +327,19 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;Fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;Gandalf&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
@@ -355,17 +355,17 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).endsWith(&quot;do&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).endsWith(&quot;Fro&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
@@ -381,17 +381,17 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(&quot;..o.o&quot;);
-   * 
+   *
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).matches(&quot;.*d&quot;);
    * </pre>
-   * 
+   *
    * </p>
-   * 
+   *
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -408,7 +408,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
    * <p>
    * Example :
-   * 
+   *
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;.*d&quot;);
@@ -559,7 +559,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Do not use this method.
-   * 
+   *
    * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -571,7 +571,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
 
   /**
    * Do not use this method.
-   * 
+   *
    * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
    */
@@ -592,6 +592,27 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   public S usingDefaultComparator() {
     super.usingDefaultComparator();
     this.strings = Strings.instance();
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
+
+  /**
+   * Enable unicode string representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  public S asUnicode() {
+    info.representationAsUnicode();
     return myself;
   }
 }

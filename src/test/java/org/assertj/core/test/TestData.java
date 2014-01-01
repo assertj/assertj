@@ -32,10 +32,15 @@ import org.assertj.core.description.TextDescription;
 public final class TestData {
 
   private static final AssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
+  private static final AssertionInfo ASSERTION_INFO_AS_HEX = new WritableAssertionInfo();
   private static final TextDescription DESCRIPTION = new TextDescription(
       "who's the more foolish: the fool, or the fool who follows him?");
   private static final Index INDEX = atIndex(0);
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
+
+  static {
+    ((WritableAssertionInfo) ASSERTION_INFO_AS_HEX).representationAsHexadecimal();
+  }
 
   public static Pattern matchAnything() {
     return MATCH_ANYTHING;
@@ -47,6 +52,10 @@ public final class TestData {
 
   public static AssertionInfo someInfo() {
     return ASSERTION_INFO;
+  }
+
+  public static AssertionInfo someHexInfo() {
+    return ASSERTION_INFO_AS_HEX;
   }
 
   public static Description someDescription() {

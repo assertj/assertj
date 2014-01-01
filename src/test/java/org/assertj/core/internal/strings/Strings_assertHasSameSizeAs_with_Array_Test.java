@@ -23,7 +23,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.Test;
@@ -50,7 +49,8 @@ public class Strings_assertHasSameSizeAs_with_Array_Test extends StringsBaseTest
     try {
       strings.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.length).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.length)
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

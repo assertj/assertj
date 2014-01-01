@@ -15,4 +15,17 @@ public abstract class AbstractArrayAssert<S extends AbstractArrayAssert<S, A, E>
   protected AbstractArrayAssert(final A actual, final Class<?> selfType) {
     super(actual, selfType);
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asHexadecimal() {
+    return super.asHexadecimal();
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S asBinary() {
+    return super.asBinary();
+  }
+
 }

@@ -19,15 +19,13 @@ import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.util.Lists.newArrayList;
 
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotBeOfClassIn;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotBeOfClassIn#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotBeOfClassIn#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -43,7 +41,7 @@ public class ShouldNotBeOfClassIn_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nExpecting:\n <\"Yoda\">\nnot to be of any type in:\n <[java.lang.Long, java.lang.String]>\nbut was of type:<java.lang.String>",
         message);

@@ -368,4 +368,22 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return 1;
   }
 
+  /**
+   * Enable hexadecimal object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  protected S asHexadecimal() {
+    info.representationAsHexadecimal();
+    return myself;
+  }
+
+  /**
+   * Enable binary object representation instead of standard java representation in error messages.
+   * @return {@code this} assertion object.
+   */
+  protected S asBinary() {
+    info.representationAsBinary();
+    return myself;
+  }
+
 }

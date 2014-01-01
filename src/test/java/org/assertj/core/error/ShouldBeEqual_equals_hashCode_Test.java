@@ -19,8 +19,7 @@ import static junit.framework.Assert.assertFalse;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
-
-import org.assertj.core.error.ShouldBeEqual;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
@@ -34,7 +33,7 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   @BeforeClass
   public static void setUpOnce() {
-    factory = (ShouldBeEqual) shouldBeEqual("Yoda", "Luke");
+    factory = (ShouldBeEqual) shouldBeEqual("Yoda", "Luke", new StandardRepresentation());
   }
 
   @Test
@@ -44,17 +43,18 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   @Test
   public void should_have_symmetric_equals() {
-    assertEqualsIsSymmetric(factory, shouldBeEqual("Yoda", "Luke"));
+    assertEqualsIsSymmetric(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
   public void should_have_transitive_equals() {
-    assertEqualsIsTransitive(factory, shouldBeEqual("Yoda", "Luke"), shouldBeEqual("Yoda", "Luke"));
+    assertEqualsIsTransitive(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()),
+        shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
   public void should_maintain_equals_and_hashCode_contract() {
-    assertMaintainsEqualsAndHashCodeContract(factory, shouldBeEqual("Yoda", "Luke"));
+    assertMaintainsEqualsAndHashCodeContract(factory, shouldBeEqual("Yoda", "Luke", new StandardRepresentation()));
   }
 
   @Test
@@ -69,11 +69,11 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
-    assertFalse(factory.equals(shouldBeEqual("Leia", "Luke")));
+    assertFalse(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation())));
   }
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
-    assertFalse(factory.equals(shouldBeEqual("Yoda", "Leia")));
+    assertFalse(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation())));
   }
 }

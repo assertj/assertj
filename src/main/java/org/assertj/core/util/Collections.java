@@ -14,8 +14,9 @@
  */
 package org.assertj.core.util;
 
+import org.assertj.core.presentation.Representation;
+
 import static java.util.Collections.emptyList;
-import static org.assertj.core.util.ToString.toStringOf;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -74,21 +75,25 @@ public final class Collections {
    * Returns the {@code String} representation of the given {@code Collection}, or {@code null} if the given
    * {@code Collection} is {@code null}.
    * 
+   *
+   * @param p
    * @param c the {@code Collection} to format.
    * @return the {@code String} representation of the given {@code Collection}.
    */
-  public static String format(Collection<?> c) {
-    return format(c, DEFAULT_START, DEFAULT_END);
+  public static String format(Representation p, Collection<?> c) {
+    return format(p, c, DEFAULT_START, DEFAULT_END);
   }
 
   /**
    * Returns the {@code String} representation of the given {@code Collection}, or {@code null} if the given
    * {@code Collection} is {@code null}.
    * 
+   *
+   * @param p
    * @param c the {@code Collection} to format.
    * @return the {@code String} representation of the given {@code Collection}.
    */
-  public static String format(Collection<?> c, String start, String end) {
+  public static String format(Representation p, Collection<?> c, String start, String end) {
     if (c == null) {
       return null;
     }
@@ -100,14 +105,15 @@ public final class Collections {
     b.append(start);
     for (;;) {
       Object e = i.next();
-      b.append(e == c ? "(this Collection)" : toStringOf(e));
+      b.append(e == c ? "(this Collection)" : p.toStringOf(e));
       if (!i.hasNext()) {
         return b.append(end).toString();
       }
       b.append(", ");
     }
   }
-  
+
+
   /**
    * Returns all the non-{@code null} elements in the given {@link Collection}.
    * 
