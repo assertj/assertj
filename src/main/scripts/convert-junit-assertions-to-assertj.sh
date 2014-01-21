@@ -23,8 +23,8 @@ find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals(\(\".*\"\),
 find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isEqualTo(\1, offset(\3))/g' '{}' \;
 
 echo ' 4 - Replacing : assertEquals(expected, actual) ................. by : assertThat(actual).isEqualTo(expected)'
-find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\([^,]*\))/assertThat(\3).as(\1).isEqualTo(\2)/g' '{}' \;
-find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals([[:blank:]]*\(.*\),[[:blank:]]*\([^,]*\))/assertThat(\2).isEqualTo(\1)/g' '{}' \;
+find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isEqualTo(\2)/g' '{}' \;
+find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertEquals([[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\2).isEqualTo(\1)/g' '{}' \;
 
 echo ' 5 - Replacing : assertArrayEquals(expectedArray, actual) ....... by : assertThat(actual).isEqualTo(expectedArray)'
 find . -name "$FILES_PATTERN" -exec sed $SED_OPTIONS 's/assertArrayEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isEqualTo(\2)/g' '{}' \;
