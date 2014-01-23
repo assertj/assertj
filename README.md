@@ -1,4 +1,4 @@
-# AssertJ - a rich assertions library for java 
+# AssertJ - Fluent assertions for java 
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (either with JUnit or TestNG).  
 
@@ -10,7 +10,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [Migrating from FEST Assertions](#migrating-from-fest)
 * [Contributing](#contributing)
 
-Documentation of all AssertJ projects is maintained on **[assertj.org](http://assertj.org)**, AssertJ Core documentation is [here](http://joel-costigliola.github.io/assertj/assertj-core.html).
+Documentation of all AssertJ projects is maintained on **[assertj.org](http://assertj.org)**, AssertJ Core documentation is [**here**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
 You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
 
@@ -22,7 +22,7 @@ we are checking. If you're checking the value of a String, you use String-specif
 a Map? Use the Map-specific assertions, which make it easy to check on the contents of the map.
 
 AssertJ is composed of several modules:
-* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and  [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
+* A core module (this one) to provide assertions for JDK types (String, Collections, File, Map ...) - see [AssertJ Core documentation](http://joel-costigliola.github.io/assertj/assertj-core.html) and  [javadoc](http://joel-costigliola.github.io/assertj/core/api/index.html). 
 * A **[Guava module](https://github.com/joel-costigliola/assertj-guava#readme)** to provide assertions for Guava types (Multimap,Optional, ...) - see [AssertJ Guava documentation](http://joel-costigliola.github.io/assertj/assertj-guava.html) and  [javadoc](http://joel-costigliola.github.io/assertj/guava/api/index.html).
 * A **[Joda Time module](https://github.com/joel-costigliola/assertj-joda-time#readme)** to provide assertions for Joda Time types (DateTime, LocalDateTime) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](http://joel-costigliola.github.io/assertj/jodatime/api/index.html).
 * A **[Neo4J module](https://github.com/joel-costigliola/assertj-neo4j#readme)** to provide assertions for Neo4J types (Path, Node, Relastionship ...) - see [AssertJ Neo4J documentation](http://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](http://joel-costigliola.github.io/assertj/neo4j/api/index.html).
@@ -49,9 +49,8 @@ It is easy to start using AssertJ, follow the [**One minute starting guide**](ht
 
 ## <a name="custom types-assertions"/>Assertions for your own custom types 
 
-Having assertions for common types like `List` is great, but you might want some that are specific to your own types.  
+Having assertions for common types like `List` is great, but you might want some that are specific to your own types. This is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html).  
 
-This is possible with AssertJ because it is easily extensible so it's simple to [write assertions for your custom types](http://joel-costigliola.github.io/assertj/assertj-core-custom-assertions.html).  
 Moreover, to ease your work, we provide assertions generator that can take a set of custom types and create specific assertions. The tools provided are: 
 * A **[CLI assertions generator](http://joel-costigliola.github.io/assertj/assertj-assertions-generator.html)** 
 * A **[Maven plugin assertions generator](http://joel-costigliola.github.io/assertj/assertj-assertions-generator-maven-plugin.html)**  
