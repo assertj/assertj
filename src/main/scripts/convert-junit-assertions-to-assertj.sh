@@ -3,14 +3,16 @@
 function usage() {
   echo
   echo "NAME"
-  echo "$0 convert all JUnit assertions to AssertJ assertions"
+  echo "convert-junit-assertions-to-assertj.sh - Convert most of JUnit assertions to AssertJ assertions"
+  echo
+  echo "It is difficult to convert ALL JUnit assertions (e.g. the ones that are multiline) but it should be good for most of them."
   echo
   echo "SYNOPSIS"
-  echo "$0 [Pattern]\n"
+  echo "convert-junit-assertions-to-assertj.sh [Pattern]"
   echo
   echo "OPTIONS"
   echo " -h --help    this help"
-  echo " [Pattern]    a find pattern like *Test.java (by default)"
+  echo " [Pattern]    a find pattern, default to *Test.java if you don't provide a pattern"
   exit 0
 }
 
@@ -20,8 +22,12 @@ then
 fi
 
 SED_OPTIONS=-i
-FILES_PATTERN=${1:-*Test.java}
-# export FILES_PATTERN=Test.java
+FILES_PATTERN=*Test.java
+if [ -z "$1" ]
+  then
+    FILES_PATTERN=$1
+fi
+echo "FILES_PATTERN=$FILES_PATTERN"
 # echo "SED_OPTIONS = $SED_OPTIONS"
 
 echo ''
