@@ -1,7 +1,26 @@
 #!/bin/bash
 
-export SED_OPTIONS=-i
-export FILES_PATTERN=*Test.java
+function usage() {
+  echo
+  echo "NAME"
+  echo "$0 convert all JUnit assertions to AssertJ assertions"
+  echo
+  echo "SYNOPSIS"
+  echo "$0 [Pattern]\n"
+  echo
+  echo "OPTIONS"
+  echo " -h --help    this help"
+  echo " [Pattern]    a find pattern like *Test.java (by default)"
+  exit 0
+}
+
+if [ "$1" == "-h" -o "$1" == "--help" ] ;
+then
+ usage
+fi
+
+SED_OPTIONS=-i
+FILES_PATTERN=${1:-*Test.java}
 # export FILES_PATTERN=Test.java
 # echo "SED_OPTIONS = $SED_OPTIONS"
 
