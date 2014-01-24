@@ -5,6 +5,7 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 * [AssertJ's goals](#goals)
 * [Latest News](#news)
 * [Quick start](#quickstart)
+* [Features highlight](http://joel-costigliola.github.io/assertj/assertj-core-features-highlight.html)
 * [Assertions for your own custom types](#custom types-assertions)
 * [Replacing JUnit assertions by AssertJ Assertions](#junit-to-assertj-assertions)
 * [Migrating from FEST Assertions](#migrating-from-fest)
