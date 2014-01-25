@@ -14,10 +14,14 @@
  */
 package org.assertj.core.util.xml;
 
+import static java.util.Locale.ENGLISH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
+import java.util.Locale;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXParseException;
 
@@ -27,6 +31,12 @@ import org.xml.sax.SAXParseException;
  * @author Joel Costigliola
  */
 public class XmlStringPrettyFormatter_prettyFormat_Test {
+	
+  @Before
+  public void before() {
+	// Set locale to be able to check exception message in English.
+	Locale.setDefault(ENGLISH);
+  }
 
   private static final String EXPECTED_FORMATTED_XML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<rss version=\"2.0\">\n    <channel>\n"
       + "        <title>Java Tutorials and Examples 1</title>\n"

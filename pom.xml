@@ -88,7 +88,7 @@
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <argLine>${argLine} -Duser.language=en</argLine>
+          <argLine>${argLine}</argLine>
         </configuration>
       </plugin>
       <plugin>
