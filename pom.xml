@@ -84,13 +84,6 @@
             </execution>
           </executions>
       </plugin>
-      <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <argLine>${argLine} -Duser.language=en</argLine>
-        </configuration>
-      </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>jarjar-maven-plugin</artifactId>
