@@ -16,6 +16,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.ToString.toStringOf;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,6 +28,16 @@ import java.util.Map.Entry;
  * @author Alex Ruiz
  */
 public class Maps {
+
+  /**
+   * Returns a <em>mutable</em> {@code HashMap} that is empty.
+   * 
+   * @return the created {@code HashMap}.
+   */
+  public static <K, V> Map<K, V> newHashMap() {
+    return new HashMap<K, V>();
+  }
+
   /**
    * Indicates whether the given {@code Map} is {@code null} or empty.
    * 
@@ -69,5 +80,6 @@ public class Maps {
     return o == map ? "(this Map)" : toStringOf(o);
   }
 
-  private Maps() {}
+  private Maps() {
+  }
 }
