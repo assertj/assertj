@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Utility methods related to maps.
@@ -37,6 +39,15 @@ public class Maps {
    */
   public static <K, V> Map<K, V> newHashMap() {
     return new HashMap<K, V>();
+  }
+
+  /**
+   * Returns a <em>mutable</em> {@code ConcurrentMap} that is empty.
+   * 
+   * @return the created {@code ConcurrentMap}.
+   */
+  public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap() {
+    return new ConcurrentHashMap<K, V>();
   }
 
   /**
