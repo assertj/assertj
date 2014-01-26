@@ -16,6 +16,7 @@ package org.assertj.core.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -56,6 +57,24 @@ public final class Lists {
     ArrayList<T> list = newArrayList();
     for (T e : elements) {
       list.add(e);
+    }
+    return list;
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@link ArrayList} containing the given elements.
+   * 
+   * @param <T> the generic type of the {@code ArrayList} to create.
+   * @param elements the elements to store in the {@code ArrayList}.
+   * @return the created {@code ArrayList}, or {@code null} if the given {@code Iterator} is {@code null}.
+   */
+  public static <T> ArrayList<T> newArrayList(Iterator<? extends T> elements) {
+    if (elements == null) {
+      return null;
+    }
+    ArrayList<T> list = newArrayList();
+    while (elements.hasNext()) {
+      list.add(elements.next());
     }
     return list;
   }
