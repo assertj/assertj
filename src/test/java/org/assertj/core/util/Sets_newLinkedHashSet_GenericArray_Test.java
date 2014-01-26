@@ -26,7 +26,7 @@ import org.junit.Test;
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-public class Sets_newLinkedHashSet_Test {
+public class Sets_newLinkedHashSet_GenericArray_Test {
   @Test
   public void should_return_Set_containing_all_elements_in_array() {
     String[] expected = { "One", "Two" };
