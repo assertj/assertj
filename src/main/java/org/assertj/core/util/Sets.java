@@ -14,7 +14,9 @@
  */
 package org.assertj.core.util;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * Utility methods related to {@link Set}s.
@@ -22,22 +24,33 @@ import java.util.*;
  * @author alruiz
  */
 public final class Sets {
+
+  /**
+   * Creates a <em>mutable</em> {@code LinkedHashSet}.
+   * 
+   * @param <T> the generic type of the {@code LinkedHashSet} to create.
+   * @return the created {@code LinkedHashSet}.
+   */
+  public static <T> LinkedHashSet<T> newLinkedHashSet() {
+    return new LinkedHashSet<T>();
+  }
+
   /**
    * Creates a <em>mutable</em> {@link LinkedHashSet} containing the given elements.
    * 
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
    * @param elements the elements to store in the {@code LinkedHashSet}.
    * @return the created {@code LinkedHashSet}, of {@code null} if the given array of elements is {@code null}.
-   * @since 1.1.5
    */
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
     if (elements == null) {
       return null;
     }
-    LinkedHashSet<T> set = new LinkedHashSet<T>();
+    LinkedHashSet<T> set = newLinkedHashSet();
     java.util.Collections.addAll(set, elements);
     return set;
   }
 
-  private Sets() {}
+  private Sets() {
+  }
 }
