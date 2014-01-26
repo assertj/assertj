@@ -35,6 +35,24 @@ public final class Sets {
   }
 
   /**
+   * Creates a <em>mutable</em> {@code HashSet} containing the given elements.
+   * 
+   * @param <T> the generic type of the {@code HashSet} to create.
+   * @param elements the elements to store in the {@code HashSet}.
+   * @return the created {@code HashSet}, or {@code null} if the given array of elements is {@code null}.
+   */
+  public static <T> HashSet<T> newHashSet(Iterable<? extends T> elements) {
+    if (elements == null) {
+      return null;
+    }
+    HashSet<T> set = newHashSet();
+    for (T e : elements) {
+      set.add(e);
+    }
+    return set;
+  }
+
+  /**
    * Creates a <em>mutable</em> {@code LinkedHashSet}.
    * 
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
@@ -49,7 +67,7 @@ public final class Sets {
    * 
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
    * @param elements the elements to store in the {@code LinkedHashSet}.
-   * @return the created {@code LinkedHashSet}, of {@code null} if the given array of elements is {@code null}.
+   * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
    */
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
     if (elements == null) {
