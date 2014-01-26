@@ -15,6 +15,8 @@
 package org.assertj.core.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility methods related to {@code java.util.List}s.
@@ -66,6 +68,13 @@ public final class Lists {
    */
   public static <T> ArrayList<T> newArrayList() {
     return new ArrayList<T>();
+  }
+
+  /**
+   * @return an empty, <em>immutable</em> {@code List}.
+   */
+  public static <T> List<T> emptyList() {
+    return Collections.emptyList();
   }
 
   private Lists() {
