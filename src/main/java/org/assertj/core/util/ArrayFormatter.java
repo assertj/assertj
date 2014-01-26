@@ -16,7 +16,7 @@ package org.assertj.core.util;
 
 import static java.lang.reflect.Array.getLength;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.ToString.toStringOf;
+import static org.assertj.core.util.ElementSeparator.separatorFor;
 
 import java.lang.reflect.Array;
 import java.util.HashSet;
@@ -63,7 +63,7 @@ final class ArrayFormatter {
       }
       Object element = array[i];
       if (!isArray(element)) {
-        buffer.append(element == null ? NULL : toStringOf(element));
+        buffer.append(element == null ? NULL : SimpleToString.toStringOf(element));
         continue;
       }
       if (!isObjectArray(element)) {
@@ -97,11 +97,11 @@ final class ArrayFormatter {
     }
     StringBuilder buffer = new StringBuilder();
     buffer.append('[');
-    buffer.append(toStringOf(Array.get(o, 0)));
+    buffer.append(SimpleToString.toStringOf(Array.get(o, 0)));
     for (int i = 1; i < size; i++) {
       Object element = Array.get(o, i);
-      buffer.append(", ");
-      buffer.append(toStringOf(element));
+      buffer.append(separatorFor(element));
+      buffer.append(SimpleToString.toStringOf(element));
     }
     buffer.append("]");
     return buffer.toString();

@@ -92,7 +92,7 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
   }
 
   private <T extends Comparable<? super T>> ShouldBeBetween(T actual, T start, T end, boolean inclusiveStart, boolean inclusiveEnd,
-	 ComparisonStrategy comparisonStrategy) {
+	  ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n <%s>\nto be between:\n " + (inclusiveStart ? '[' : ']')
         +"%s, %s%s" + (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
   }
