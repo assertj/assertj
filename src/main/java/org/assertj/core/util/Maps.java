@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
 
 /**
  * Utility methods related to maps.
@@ -36,6 +37,15 @@ public class Maps {
    */
   public static <K, V> Map<K, V> newHashMap() {
     return new HashMap<K, V>();
+  }
+
+  /**
+   * Returns a <em>mutable</em> {@code WeakHashMap} that is empty.
+   * 
+   * @return the created {@code WeakHashMap}.
+   */
+  public static <K, V> WeakHashMap<K, V> newWeakHashMap() {
+    return new WeakHashMap<K, V>();
   }
 
   /**
