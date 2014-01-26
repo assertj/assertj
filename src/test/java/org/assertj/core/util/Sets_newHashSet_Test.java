@@ -16,19 +16,19 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for {@link Sets#newHashSet()}.
  * 
  * @author Christian Rösch
  */
-public class Sets_newLinkedHashSet_Test {
+public class Sets_newHashSet_Test {
   @Test
   public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
+    HashSet<Object> set = Sets.newHashSet();
     assertThat(set).isEmpty();
 
     set.add("element");
@@ -37,8 +37,8 @@ public class Sets_newLinkedHashSet_Test {
 
   @Test
   public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
+    HashSet<Object> set1 = Sets.newHashSet();
+    HashSet<Object> set2 = Sets.newHashSet();
     assertThat(set2).isNotSameAs(set1);
 
     // be sure they have nothing in common

@@ -24,6 +24,15 @@ import java.util.Set;
  * @author alruiz
  */
 public final class Sets {
+  /**
+   * Creates a <em>mutable</em> {@code HashSet}.
+   * 
+   * @param <T> the generic type of the {@code HashSet} to create.
+   * @return the created {@code HashSet}.
+   */
+  public static <T> HashSet<T> newHashSet() {
+    return new HashSet<T>();
+  }
 
   /**
    * Creates a <em>mutable</em> {@code LinkedHashSet}.
