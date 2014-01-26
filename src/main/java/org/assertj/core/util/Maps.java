@@ -16,9 +16,13 @@ package org.assertj.core.util;
 
 import org.assertj.core.presentation.Representation;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.WeakHashMap;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Utility methods related to maps.
@@ -27,6 +31,34 @@ import java.util.Map.Entry;
  * @author Alex Ruiz
  */
 public class Maps {
+
+  /**
+   * Returns a <em>mutable</em> {@code HashMap} that is empty.
+   * 
+   * @return the created {@code HashMap}.
+   */
+  public static <K, V> Map<K, V> newHashMap() {
+    return new HashMap<K, V>();
+  }
+
+  /**
+   * Returns a <em>mutable</em> {@code ConcurrentMap} that is empty.
+   * 
+   * @return the created {@code ConcurrentMap}.
+   */
+  public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap() {
+    return new ConcurrentHashMap<K, V>();
+  }
+
+  /**
+   * Returns a <em>mutable</em> {@code WeakHashMap} that is empty.
+   * 
+   * @return the created {@code WeakHashMap}.
+   */
+  public static <K, V> WeakHashMap<K, V> newWeakHashMap() {
+    return new WeakHashMap<K, V>();
+  }
+
   /**
    * Indicates whether the given {@code Map} is {@code null} or empty.
    * 
@@ -69,5 +101,6 @@ public class Maps {
     return o == map ? "(this Map)" : p.toStringOf(o);
   }
 
-  private Maps() {}
+  private Maps() {
+  }
 }

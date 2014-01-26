@@ -14,6 +14,7 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
 
 import java.io.File;
@@ -21,6 +22,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
@@ -31,14 +33,17 @@ import org.junit.Test;
  * @author Alex Ruiz
  */
 public class Maps_format_Test {
+
+  private final StandardRepresentation standardRepresentation = new StandardRepresentation();
+
   @Test
   public void should_return_null_if_Map_is_null() {
-    assertNull(Maps.format(new StandardRepresentation(), null));
+    assertNull(Maps.format(standardRepresentation, null));
   }
 
   @Test
   public void should_return_empty_braces_if_Map_is_empty() {
-    assertEquals(Maps.format(new StandardRepresentation(), new HashMap<String, String>()), "{}");
+    assertThat(Maps.format(standardRepresentation, new HashMap<String, String>())).isEqualTo("{}");
   }
 
   @Test
@@ -46,6 +51,14 @@ public class Maps_format_Test {
     Map<String, Class<?>> map = new LinkedHashMap<String, Class<?>>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertEquals("{\"One\"=java.lang.String, \"Two\"=java.io.File}", Maps.format(new StandardRepresentation(), map));
+    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
+  }
+
+  @Test
+  public void should_format_Map_containing_itself() {
+    Map<String, Object> map = Maps.newHashMap();
+    map.put("One", "First");
+    map.put("Myself", map);
+    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
   }
 }

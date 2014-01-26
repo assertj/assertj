@@ -1,5 +1,5 @@
 /*
- * Created on Oct 8, 2007
+ * Created on Apr 29, 2007
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -15,34 +15,33 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ExpectedException.none;
 
-import java.util.LinkedHashSet;
-
+import org.assertj.core.test.ExpectedException;
+import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for <code>{@link Preconditions#checkNotNull(Object)}</code>.
  * 
  * @author Christian Rösch
  */
-public class Sets_newLinkedHashSet_Test {
-  @Test
-  public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
-    assertThat(set).isEmpty();
+public class Preconditions_checkNotNull_GenericObject_Test {
+  @Rule
+  public ExpectedException thrown = none();
 
-    set.add("element");
-    assertThat(set).containsExactly("element");
+  @Test
+  public void should_throw_nullpointerexception_if_object_is_null() {
+    thrown.expect(NullPointerException.class);
+    Object object = null;
+    Preconditions.checkNotNull(object);
   }
 
   @Test
-  public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
-    assertThat(set2).isNotSameAs(set1);
+  public void should_return_object_if_it_is_not_null_nor_empty() {
+    String object = "4711";
+    String result = Preconditions.checkNotNull(object);
 
-    // be sure they have nothing in common
-    set1.add("element");
-    assertThat(set2).isEmpty();
+    assertThat(result).isEqualTo(object);
   }
 }

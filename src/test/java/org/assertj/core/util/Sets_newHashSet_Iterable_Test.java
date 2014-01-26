@@ -16,33 +16,29 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedHashSet;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for {@link Sets#newHashSet(Iterable)}.
  * 
  * @author Christian Rösch
  */
-public class Sets_newLinkedHashSet_Test {
+public class Sets_newHashSet_Iterable_Test {
   @Test
-  public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
-    assertThat(set).isEmpty();
+  public void should_return_Set_containing_iterable_elements() {
+    String[] array = new String[] { "A", "b", "C" };
+    Iterable<String> iterable = Arrays.asList(array);
 
-    set.add("element");
-    assertThat(set).containsExactly("element");
+    HashSet<String> set = Sets.newHashSet(iterable);
+    assertThat(set).containsOnly(array);
   }
 
   @Test
-  public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
-    assertThat(set2).isNotSameAs(set1);
-
-    // be sure they have nothing in common
-    set1.add("element");
-    assertThat(set2).isEmpty();
+  public void should_return_null_if_Iterable_is_null() {
+    Iterable<String> iterable = null;
+    assertThat(Sets.newHashSet(iterable)).isNull();
   }
 }
