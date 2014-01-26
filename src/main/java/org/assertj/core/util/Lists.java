@@ -35,7 +35,7 @@ public final class Lists {
     if (elements == null) {
       return null;
     }
-    ArrayList<T> list = new ArrayList<T>();
+    ArrayList<T> list = newArrayList();
     java.util.Collections.addAll(list, elements);
     return list;
   }
@@ -51,11 +51,21 @@ public final class Lists {
     if (elements == null) {
       return null;
     }
-    ArrayList<T> list = new ArrayList<T>();
+    ArrayList<T> list = newArrayList();
     for (T e : elements) {
       list.add(e);
     }
     return list;
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@link ArrayList}.
+   * 
+   * @param <T> the generic type of the {@code ArrayList} to create.
+   * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
+   */
+  public static <T> ArrayList<T> newArrayList() {
+    return new ArrayList<T>();
   }
 
   private Lists() {
