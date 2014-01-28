@@ -47,8 +47,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
    * to Date.<br> The format used can be overridden by invoking {@link #withDateFormat(DateFormat)}
    */
-  @VisibleForTesting
-  static DateFormat customDateFormat = null;
+  private static ThreadLocal<DateFormat> customDateFormat = new ThreadLocal<DateFormat>();
   @VisibleForTesting
   Dates dates = Dates.instance();
 
@@ -2059,7 +2058,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   public static void useDateFormat(DateFormat userCustomDateFormat) {
     if (userCustomDateFormat == null)
       throw new NullPointerException("The given date format should not be null");
-    customDateFormat = userCustomDateFormat;
+    customDateFormat.set(userCustomDateFormat);
   }
 
   /**
@@ -2122,7 +2121,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Use ISO 8601 date format ("yyyy-MM-dd") for String based Date assertions.
    */
   public static void useIsoDateFormat() {
-    customDateFormat = newIsoDateFormat();
+    customDateFormat.set(newIsoDateFormat());
   }
 
   /**
@@ -2143,7 +2142,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * </ul>
    */
   public static void useDefaultDateFormats() {
-    customDateFormat = null;
+    customDateFormat.remove();
   }
 
   /**
@@ -2158,17 +2157,15 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   @VisibleForTesting
   Date parse(String dateAsString) {
     if (dateAsString == null) return null;
-    // use synchronized block because SimpleDateFormat which is not thread safe (sigh).
-    // parse with date format specified by user
-    if (customDateFormat != null) {
-      synchronized (customDateFormat) {
+
+    if (customDateFormat.get() != null) {
+        DateFormat dateFormat = customDateFormat.get();
         try {
-          return customDateFormat.parse(dateAsString);
+          return dateFormat.parse(dateAsString);
         } catch (ParseException e) {
           throw new AssertionError("Failed to parse " + dateAsString + " with date format: "
-                                     + info.representation().toStringOf(customDateFormat));
+                                     + info.representation().toStringOf(dateFormat));
         }
-      }
     }
     // user has not set any specific date format, let's try our defaults ones.
     synchronized (defaultDateFormats) {
