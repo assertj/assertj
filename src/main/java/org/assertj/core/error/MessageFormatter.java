@@ -18,6 +18,7 @@ import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.internal.AbstractComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
@@ -74,11 +75,8 @@ public class MessageFormatter {
   }
 
   private String asText(Representation p, Object o) {
-    if (o instanceof ComparatorBasedComparisonStrategy) {
-      return "according to " + o + " comparator";
-    }
-    if (o instanceof StandardComparisonStrategy) {
-      return "";
+    if (o instanceof AbstractComparisonStrategy) {
+      return ((AbstractComparisonStrategy) o).asText();
     }
     return p.toStringOf(o);
   }

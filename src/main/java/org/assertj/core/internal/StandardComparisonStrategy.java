@@ -66,7 +66,12 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
                                });
   }
 
-  /**
+    @Override
+    public String asText() {
+        return "";
+    }
+
+    /**
    * Returns true if actual and other are equal based on {@link Objects#areEqual(Object, Object)}, false otherwise.
    * 
    * @param actual the object to compare to other

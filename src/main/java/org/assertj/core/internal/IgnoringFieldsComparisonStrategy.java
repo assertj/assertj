@@ -19,4 +19,14 @@ public class IgnoringFieldsComparisonStrategy extends FieldComparisonStrategy {
     public String[] getFields() {
         return fields;
     }
+
+    @Override
+    public String asText() {
+        return "when comparing elements field by field except the following fields : " + fieldsAsText() + "\n";
+    }
+
+    private String fieldsAsText() {
+        return org.assertj.core.util.Strings.join(fields).with(", ");
+    }
+
 }
