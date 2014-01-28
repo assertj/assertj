@@ -19,4 +19,13 @@ public class OnFieldsComparisonStrategy extends FieldComparisonStrategy {
     public String[] getFields() {
         return fields;
     }
+
+    @Override
+    public String asText() {
+        return "when comparing elements field by field on the following fields only : " + fieldsAsText() + "\n";
+    }
+
+    private String fieldsAsText() {
+        return org.assertj.core.util.Strings.join(fields).with(", ");
+    }
 }

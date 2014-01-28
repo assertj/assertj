@@ -86,4 +86,5 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     return isGreaterThan(actual, other);
   }
 
+    public abstract String asText();
 }
