@@ -15,10 +15,12 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.*;
+import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
@@ -33,14 +35,29 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldHaveSameSizeAs(newArrayList("Luke", "Yoda"), 2, 8);
+    factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), 2, 4);
   }
 
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \nActual and expected should have same size but actual size is:\n <2>\nwhile expected is:\n <8>\nActual was:\n<[\"Luke\", \"Yoda\"]>",
-        message);
+     assertThat(message).isEqualTo("[Test] \n" +
+                                   "Actual and expected should have same size but actual size is:\n" +
+                                   " <2>\n" +
+                                   "while expected is:\n" +
+                                   " <4>\n" +
+                                   "Actual was:\n" +
+                                   "<['a', 'b']>");
   }
+
+  @Test
+  public void should_create_error_message_with_hexadecimal_representation() {
+    String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
+    assertThat(message).isEqualTo("[Test] \n" +
+                                  "Actual and expected should have same size but actual size is:\n" +
+                                  " <2>\n" +
+                                  "while expected is:\n" +
+                                  " <4>\n" +
+                                  "Actual was:\n<['0x0061', '0x0062']>");
+}
 }

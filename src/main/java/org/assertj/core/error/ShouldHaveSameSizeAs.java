@@ -14,6 +14,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
  * 
@@ -33,7 +35,9 @@ public class ShouldHaveSameSizeAs extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSameSizeAs(Object actual, Object actualSize, Object expectedSize) {
-    super("\nActual and expected should have same size but actual size is:\n <%s>\nwhile expected is:\n <%s>\nActual was:\n<%s>",
-        actualSize, expectedSize, actual);
+     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
+     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
+    super(format("\nActual and expected should have same size but actual size is:\n <%s>\n" +
+        "while expected is:\n <%s>\nActual was:\n<%s>", actualSize, expectedSize, "%s"), actual);
   }
 }
