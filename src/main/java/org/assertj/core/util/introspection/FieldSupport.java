@@ -38,6 +38,8 @@ public class FieldSupport {
 
   private static final FieldSupport INSTANCE = new FieldSupport();
 
+  private static boolean allowExtractingPrivateFields = true;
+
   /**
    * Returns the singleton instance of this class.
    * 
@@ -49,6 +51,17 @@ public class FieldSupport {
 
   @VisibleForTesting
   FieldSupport() {
+  }
+
+  /**
+   * Globally set whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String)}</code> and
+   * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String)}</code>
+   * should extract private fields or fail with exception.
+   *
+   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   */
+  public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
+    FieldSupport.allowExtractingPrivateFields = allowExtractingPrivateFields;
   }
 
   /**
@@ -169,7 +182,7 @@ public class FieldSupport {
    */
   public <T> T fieldValue(String fieldName, Class<T> clazz, Object target) {
     try {
-      Object readField = FieldUtils.readField(target, fieldName);
+      Object readField = FieldUtils.readField(target, fieldName, allowExtractingPrivateFields);
       return clazz.cast(readField);
     } catch (ClassCastException e) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
