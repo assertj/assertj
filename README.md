@@ -1,4 +1,4 @@
-# AssertJ - Fluent assertions for java 
+# AssertJ - Fluent assertions for java
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (either with JUnit or TestNG).  
 
@@ -14,6 +14,8 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 Documentation of all AssertJ projects is maintained on **[assertj.org](http://assertj.org)**, AssertJ Core documentation is [**here**](http://joel-costigliola.github.io/assertj/assertj-core.html).
 
 You can ask questions and make suggestions on [**AssertJ google group**](https://groups.google.com/forum/?fromgroups=#!forum/assertj).  
+
+[![Build Status](https://assertj.ci.cloudbees.com/buildStatus/icon?job=assertj-core)](https://assertj.ci.cloudbees.com/job/assertj-core/)
 
 ## <a name="goals"/>AssertJ's goals
 
