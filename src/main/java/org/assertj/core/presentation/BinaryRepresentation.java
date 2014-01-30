@@ -43,8 +43,6 @@ public class BinaryRepresentation implements Representation {
       return toStringOf((Number) object);
     } else if (object instanceof String) {
       return toStringOf(this, (String) object);
-    } else if (object instanceof Date || object instanceof Calendar) {
-      return objectToString(this, object);
     }
     return object == null ? null : CollectionToString.toStringOf(this, object);
   }
@@ -68,10 +66,6 @@ public class BinaryRepresentation implements Representation {
       return toStringOf((Double) number);
     }
     return number == null ? null : number.toString();
-  }
-
-  private static String objectToString(Representation representation, Object object) {
-    return ObjectToString.toStringOf(representation, object);
   }
 
   private static String toStringOf(Byte b) {

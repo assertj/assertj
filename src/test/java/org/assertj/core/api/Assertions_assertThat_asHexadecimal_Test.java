@@ -155,12 +155,6 @@ public class Assertions_assertThat_asHexadecimal_Test {
     assertThat("a6c").asHexadecimal().isEqualTo("abc");
   }
 
-  @Test
-  public void should_assert_Date_as_hexadecimal() throws ParseException {
-    thrown.expectMessage("expected:<...0x00, 0x00, 0x00, 0x[CB, 0x27, 0xD1, 0x7]7, 0x00, 0x78]> but was:<...0x00, 0x00, 0x00, 0x[B5, 0x1B, 0x97, 0x9]7, 0x00, 0x78]>");
-    assertThat(toDate("26/08/1994")).asHexadecimal().isEqualTo(toDate("26/08/1997"));
-  }
-
   private Date toDate(String source) throws ParseException {
     return new SimpleDateFormat("dd/MM/yyyy").parse(source);
   }
