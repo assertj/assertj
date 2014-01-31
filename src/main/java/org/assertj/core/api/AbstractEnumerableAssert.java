@@ -42,13 +42,13 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
   }
 
   /**
-   * Enable hexadecimal object representation of Itearble elements instead of standard java representation in error messages.
+   * Enable hexadecimal object representation of Iterable elements instead of standard java representation in error messages.
    * <p/>
    * It can be useful to better understand what the error was with a more meaningful error message.
    * <p/>
    * Example
    * <pre>
-   * assertThat(new byte[]{0x10,0x20}).asHex().contains(new byte[]{0x30});
+   * assertThat(new byte[]{0x10,0x20}).asHexadecimal().contains(new byte[]{0x30});
    * </pre>
    *
    * With standard error message:

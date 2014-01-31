@@ -21,10 +21,7 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 /**
  * Tests for {@link org.assertj.core.presentation.HexadecimalRepresentation#toStringOf(Object)}.
@@ -155,7 +152,4 @@ public class Assertions_assertThat_asHexadecimal_Test {
     assertThat("a6c").asHexadecimal().isEqualTo("abc");
   }
 
-  private Date toDate(String source) throws ParseException {
-    return new SimpleDateFormat("dd/MM/yyyy").parse(source);
-  }
 }
