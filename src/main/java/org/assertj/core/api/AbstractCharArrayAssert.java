@@ -449,4 +449,32 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
     return myself;
   }
 
+  /**
+   * Use unicode character representation instead of standard representation in error messages.
+   * <p/>
+   * With standard error message:
+   * <pre>
+   * assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :['a', 'b', 'ó']
+   * Actual   :[a, 6, c]
+   * </pre>
+   *
+   * With unicode based error message:
+   * <pre>
+   * assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :[a, b, \u00f3]
+   * Actual   :[a, 6, c]
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S inUnicode() {
+    info.useUnicodeRepresentation();
+    return myself;
+  }
+
 }

@@ -25,7 +25,7 @@ public class UnicodeRepresentation implements Representation {
 
 
   /**
-   * Returns hexadecimal the {@code toString} representation of the given String or Character. 
+   * Returns hexadecimal the {@code toString} representation of the given String or Character.
    *
    * @param object the given object.
    * @return the {@code toString} representation of the given object.

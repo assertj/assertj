@@ -596,8 +596,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   @Override
-  public S asHexadecimal() {
-    return super.asHexadecimal();
+  public S inHexadecimal() {
+    return super.inHexadecimal();
   }
 
   /**
@@ -619,7 +619,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * With Hexadecimal message:
    * <pre>
-   * assertThat("µµµ").asUnicode().contains("μμμ");
+   * assertThat("µµµ").inUnicode().contains("μμμ");
    *
    * java.lang.AssertionError:
    * Expecting:
@@ -630,8 +630,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @return {@code this} assertion object.
    */
-  public S asUnicode() {
-    info.representationAsUnicode();
+  public S inUnicode() {
+    info.useUnicodeRepresentation();
     return myself;
   }
 

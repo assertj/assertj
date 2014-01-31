@@ -138,7 +138,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *
    * With Hexadecimal message:
    * <pre>
-   * assertThat("µµµ").asHexadecimal().contains("μμμ");
+   * assertThat("µµµ").inHexadecimal().contains("μμμ");
    *
    * java.lang.AssertionError:
    * Expecting:
@@ -149,8 +149,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *
    * @return {@code this} assertion object.
    */
-  protected S asHexadecimal() {
-    info.representationAsHexadecimal();
+  protected S inHexadecimal() {
+    info.useHexadecimalRepresentation();
     return myself;
   }
 
@@ -159,7 +159,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p/>
    * Example:
    * <pre>
-   * assertThat(1).asBinary().isEqualTo(2);
+   * assertThat(1).inBinary().isEqualTo(2);
    *
    * org.junit.ComparisonFailure:
    * Expected :0b00000000_00000000_00000000_00000010
@@ -167,8 +167,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *
    * @return {@code this} assertion object.
    */
-  protected S asBinary() {
-    info.representationAsBinary();
+  protected S inBinary() {
+    info.useBinaryRepresentation();
     return myself;
   }
 

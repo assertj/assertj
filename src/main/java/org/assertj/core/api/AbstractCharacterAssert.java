@@ -151,7 +151,6 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
   }
 
   /**
-   /**
    * Use unicode character representation instead of standard representation in error messages.
    * <p/>
    * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
@@ -168,7 +167,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    *
    * With unicode based error message:
    * <pre>
-   * assertThat('µ').asUnicode().isEqualTo('μ');
+   * assertThat('µ').inUnicode().isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
    * Expected :\u03bc
@@ -177,8 +176,8 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    *
    * @return {@code this} assertion object.
    */
-  public S asUnicode() {
-    info.representationAsUnicode();
+  public S inUnicode() {
+    info.useUnicodeRepresentation();
     return myself;
   }
 

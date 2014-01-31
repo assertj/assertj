@@ -82,12 +82,12 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
   }
 
   @Override
-  public S asHexadecimal() {
-    return super.asHexadecimal();
+  public S inHexadecimal() {
+    return super.inHexadecimal();
   }
 
   @Override
-  public S asBinary() {
-    return super.asBinary();
+  public S inBinary() {
+    return super.inBinary();
   }
 }

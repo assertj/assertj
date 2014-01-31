@@ -39,7 +39,7 @@ public final class TestData {
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
 
   static {
-    ((WritableAssertionInfo) ASSERTION_INFO_AS_HEX).representationAsHexadecimal();
+    ((WritableAssertionInfo) ASSERTION_INFO_AS_HEX).useHexadecimalRepresentation();
   }
 
   public static Pattern matchAnything() {

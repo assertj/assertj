@@ -29,7 +29,7 @@ import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 
 /**
- * Standard java object representation..
+ * Standard java object representation.
  * 
  * @author Mariusz Smykula
  */

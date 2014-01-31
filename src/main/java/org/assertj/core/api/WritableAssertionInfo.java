@@ -107,19 +107,19 @@ public class WritableAssertionInfo implements AssertionInfo {
     return representation;
   }
 
-  public void representationAsHexadecimal() {
+  public void useHexadecimalRepresentation() {
     representation = new HexadecimalRepresentation();
   }
 
-  public void representationAsUnicode() {
+  public void useUnicodeRepresentation() {
     representation = new UnicodeRepresentation();
   }
 
-  public void representationAsBinary() {
+  public void useBinaryRepresentation() {
     representation = new BinaryRepresentation();
   }
 
-  public void representation(Representation newRepresentation) {
+  public void useRepresentation(Representation newRepresentation) {
     representation = newRepresentation;
   }
 

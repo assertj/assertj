@@ -48,7 +48,7 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * <p/>
    * Example
    * <pre>
-   * assertThat(new byte[]{0x10,0x20}).asHexadecimal().contains(new byte[]{0x30});
+   * assertThat(new byte[]{0x10,0x20}).inHexadecimal().contains(new byte[]{0x30});
    * </pre>
    *
    * With standard error message:
@@ -74,13 +74,13 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * @return {@code this} assertion object.
    */
   @Override
-  public S asHexadecimal() {
-    return super.asHexadecimal();
+  public S inHexadecimal() {
+    return super.inHexadecimal();
   }
 
   @Override
-  public S asBinary() {
-    return super.asBinary();
+  public S inBinary() {
+    return super.inBinary();
   }
 
 }

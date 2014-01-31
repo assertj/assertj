@@ -18,11 +18,6 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -31,20 +26,26 @@ import static org.assertj.core.test.ExpectedException.none;
  *
  * @author Mariusz Smykula
  */
-public class Assertions_assertThat_asUnicode_Test {
+public class Assertions_assertThat_inUnicode_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_assert_String_as_unicode() {
+  public void should_assert_String_in_unicode() {
     thrown.expectMessage("expected:<a[b\\u00f3]> but was:<a[6c]>");
-    assertThat("a6c").asUnicode().isEqualTo("abó");
-  }
-  @Test
-  public void should_assert_Character_as_unicode() {
-    thrown.expectMessage("expected:<[\\u00f3]> but was:<[o]>");
-    assertThat('o').asUnicode().isEqualTo('ó');
+    assertThat("a6c").inUnicode().isEqualTo("abó");
   }
 
+  @Test
+  public void should_assert_Character_in_unicode() {
+    thrown.expectMessage("expected:<[\\u00f3]> but was:<[o]>");
+    assertThat('o').inUnicode().isEqualTo('ó');
+  }
+
+  @Test
+  public void should_assert_char_array_in_unicode_representation() {
+    thrown.expectMessage("expected:<[a, [b, \\u00f3]]> but was:<[a, [6, c]]>");
+    assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
+  }
 }

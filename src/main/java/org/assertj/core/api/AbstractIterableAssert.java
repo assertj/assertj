@@ -788,7 +788,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * With Hexadecimal error message:
    * <pre>
-   * assertThat(bytes).asHexadecimal().contains((byte)0x30);
+   * assertThat(bytes).inHexadecimal().contains((byte)0x30);
    *
    * Expecting:
    *  <[0x10, 0x20]>
@@ -801,8 +801,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   @Override
-  public S asHexadecimal() { // TODO rename to asHexadecimalElements() ?
-    return super.asHexadecimal();
+  public S inHexadecimal() { // TODO rename to asHexadecimalElements() ?
+    return super.inHexadecimal();
   }
 
   /**
@@ -827,7 +827,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * With binary error message:
    * <pre>
-   * assertThat(bytes).asBinary().contains((byte)0x30);
+   * assertThat(bytes).inBinary().contains((byte)0x30);
    *
    * Expecting:
    *  <[0b00010000, 0b00100000]>
@@ -840,7 +840,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   @Override
-  public S asBinary() {
-    return super.asBinary();
+  public S inBinary() {
+    return super.inBinary();
   }
 }
