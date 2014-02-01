@@ -22,7 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.BeforeClass;
@@ -34,7 +33,7 @@ import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 
 /**
- * Tests for <code>{@link FieldSupport#fieldValues(String, Collection)}</code>.
+ * Tests for <code>{@link FieldSupport#fieldValues(String, Class, Iterable)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -101,10 +100,21 @@ public class FieldSupport_fieldValues_Test {
   }
 
   @Test
-  public void should_throw_error_if_field_not_public() {
-    thrown.expect(IntrospectionError.class,
-                  "Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
-    fieldSupport.fieldValues("age", Integer.class, employees);
+  public void should_return_values_of_private_field() {
+    List<Integer> ages = fieldSupport.fieldValues("age", Integer.class, employees);
+    assertEquals(newArrayList(800, 26), ages);
+  }
+
+  @Test
+  public void should_throw_error_if_field_not_public_and_allowExtractingPrivateFields_set_to_false() {
+    FieldSupport.setAllowExtractingPrivateFields(false);
+    try {
+      thrown.expect(IntrospectionError.class,
+              "Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
+      fieldSupport.fieldValues("age", Integer.class, employees);
+    } finally { // back to default value
+      FieldSupport.setAllowExtractingPrivateFields(true);
+    }
   }
 
   @Test
