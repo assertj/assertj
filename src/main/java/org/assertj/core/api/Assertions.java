@@ -37,6 +37,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Dates;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
+import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -549,6 +550,17 @@ public class Assertions {
    */
   public static Tuple tuple(Object... values) {
     return Tuple.tuple(values);
+  }
+
+  /**
+   * Globally set whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
+   * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
+   * should be allowed to extract private fields, if not and they try it fails with exception.
+   *
+   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   */
+  public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
+    FieldSupport.setAllowExtractingPrivateFields(allowExtractingPrivateFields);
   }
 
   // ------------------------------------------------------------------------------------------------------

@@ -75,8 +75,7 @@ public class FieldUtils {
     for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
       try {
         Field field = acls.getDeclaredField(fieldName);
-        // getDeclaredField checks for non-public scopes as well
-        // and it returns accurate results
+        // getDeclaredField checks for non-public scopes as well and it returns accurate results
         if (!Modifier.isPublic(field.getModifiers())) {
           if (forceAccess) {
             field.setAccessible(true);
@@ -95,7 +94,7 @@ public class FieldUtils {
     Field match = null;
     for (Class<?> class1 : ClassUtils.getAllInterfaces(cls)) {
       try {
-        Field test = ((Class<?>) class1).getField(fieldName);
+        Field test = class1.getField(fieldName);
         if (match != null) {
           throw new IllegalArgumentException("Reference to field " + fieldName + " is ambiguous relative to " + cls
               + "; a matching field exists on two or more implemented interfaces.");
@@ -106,41 +105,6 @@ public class FieldUtils {
       }
     }
     return match;
-  }
-
-  /**
-   * Gets an accessible <code>Field</code> by name breaking scope if requested. Only the specified class will be
-   * considered.
-   * 
-   * @param cls the class to reflect, must not be null
-   * @param fieldName the field name to obtain
-   * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method. False will only
-   *          match public fields.
-   * @return the Field object
-   * @throws IllegalArgumentException if the class or field name is null
-   */
-  static Field getDeclaredField(Class<?> cls, String fieldName, boolean forceAccess) {
-    if (cls == null) {
-      throw new IllegalArgumentException("The class must not be null");
-    }
-    if (fieldName == null) {
-      throw new IllegalArgumentException("The field name must not be null");
-    }
-    try {
-      // only consider the specified class by using getDeclaredField()
-      Field field = cls.getDeclaredField(fieldName);
-      if (!MemberUtils.isAccessible(field)) {
-        if (forceAccess) {
-          field.setAccessible(true);
-        } else {
-          return null;
-        }
-      }
-      return field;
-    } catch (NoSuchFieldException e) { // NOPMD
-      // ignore
-    }
-    return null;
   }
 
   /**
@@ -179,19 +143,6 @@ public class FieldUtils {
   }
 
   /**
-   * Reads the named public field. Superclasses will be considered.
-   * 
-   * @param target the object to reflect, must not be null
-   * @param fieldName the field name to obtain
-   * @return the value of the field
-   * @throws IllegalArgumentException if the class or field name is null
-   * @throws IllegalAccessException if the named field is not public
-   */
-  static Object readField(Object target, String fieldName) throws IllegalAccessException {
-    return readField(target, fieldName, false);
-  }
-
-  /**
    * Reads the named field. Superclasses will be considered.
    * 
    * @param target the object to reflect, must not be null
@@ -210,44 +161,6 @@ public class FieldUtils {
     Field field = getField(cls, fieldName, forceAccess);
     if (field == null) {
       throw new IllegalArgumentException("Cannot locate field " + fieldName + " on " + cls);
-    }
-    // already forced access above, don't repeat it here:
-    return readField(field, target);
-  }
-
-  /**
-   * Reads the named public field. Only the class of the specified object will be considered.
-   * 
-   * @param target the object to reflect, must not be null
-   * @param fieldName the field name to obtain
-   * @return the value of the field
-   * @throws IllegalArgumentException if the class or field name is null
-   * @throws IllegalAccessException if the named field is not public
-   */
-  static Object readDeclaredField(Object target, String fieldName) throws IllegalAccessException {
-    return readDeclaredField(target, fieldName, false);
-  }
-
-  /**
-   * <p<>Gets a Field value by name. Only the class of the specified object will be considered.
-   * 
-   * @param target the object to reflect, must not be null
-   * @param fieldName the field name to obtain
-   * @param forceAccess whether to break scope restrictions using the <code>setAccessible</code> method.
-   *          <code>False</code> will only match public fields.
-   * @return the Field object
-   * @throws IllegalArgumentException if <code>target</code> or <code>fieldName</code> is null
-   * @throws IllegalAccessException if the field is not made accessible
-   */
-  static Object readDeclaredField(Object target, String fieldName, boolean forceAccess)
-      throws IllegalAccessException {
-    if (target == null) {
-      throw new IllegalArgumentException("target object must not be null");
-    }
-    Class<?> cls = target.getClass();
-    Field field = getDeclaredField(cls, fieldName, forceAccess);
-    if (field == null) {
-      throw new IllegalArgumentException("Cannot locate declared field " + cls.getName() + "." + fieldName);
     }
     // already forced access above, don't repeat it here:
     return readField(field, target);
