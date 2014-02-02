@@ -144,6 +144,21 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has a length that's the same as the length of the given
+   * {@code CharSequence}.
+   * 
+   * @param other the given {@code CharSequence} to be used for size comparison.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the length of the
+   *           given {@code CharSequence}.
+   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
+   */
+  public S hasSameSizeAs(CharSequence other) {
+    strings.assertHasSize(info, actual, other.length());
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the number of elements in the given
    * array.
    *
