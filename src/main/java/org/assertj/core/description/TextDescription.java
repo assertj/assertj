@@ -14,7 +14,6 @@
  */
 package org.assertj.core.description;
 
-import java.util.regex.Pattern;
 import org.assertj.core.util.Arrays;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
@@ -57,7 +56,7 @@ public class TextDescription extends Description {
 
   @Override
   public int hashCode() {
-    return HASH_CODE_PRIME * 1 + hashCodeFor(value) + hashCodeFor(args);
+    return HASH_CODE_PRIME + hashCodeFor(value) + hashCodeFor(args);
   }
 
   @Override

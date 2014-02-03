@@ -773,10 +773,7 @@ public class Iterables {
   private <E> boolean conditionIsSatisfiedAtLeastNTimes(Iterable<? extends E> actual, int n,
       Condition<? super E> condition) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-    if (satisfiesCondition.size() >= n) {
-      return true;
-    }
-    return false;
+    return satisfiesCondition.size() >= n;
   }
 
   /**
@@ -837,10 +834,7 @@ public class Iterables {
 
   private <E> boolean conditionIsSatisfiedNTimes(Iterable<? extends E> actual, Condition<? super E> condition, int times) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
-    if (satisfiesCondition.size() == times) {
-      return true;
-    }
-    return false;
+    return satisfiesCondition.size() == times;
   }
 
   /**
