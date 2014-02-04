@@ -19,8 +19,10 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.assertj.core.api.xml.XmlNodeSetAssert;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.assertj.core.internal.Xmls;
 import org.assertj.core.util.VisibleForTesting;
 
 import static org.assertj.core.api.Assertions.contentOf;
@@ -633,6 +635,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   public S inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
+  }
+
+  public XmlNodeSetAssert asXml() {
+    return new XmlNodeSetAssert(actual);
   }
 
 }
