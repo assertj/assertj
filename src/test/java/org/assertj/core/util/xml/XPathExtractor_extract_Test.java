@@ -134,6 +134,18 @@ public class XPathExtractor_extract_Test {
     assertThat(extracted.item(1).getNodeType()).isEqualTo(Node.ELEMENT_NODE);
     assertThat(extracted.item(2).getNodeType()).isEqualTo(Node.ELEMENT_NODE);
   }
+
+  @Test
+  public void should_chain() throws Exception {
+    
+    XPathExtractor extractor = new XPathExtractor("<x><a>A</a><b>B</b><c>C</c></x>");
+    
+    NodeList firstLevel = extractor.extract("/x");
+    NodeList secondLevel = new XPathExtractor(firstLevel).extract("//c");
+    
+    assertThat(secondLevel.getLength()).isEqualTo(1);
+    
+  }
   
   //    assertThat(xml).asXml().extractingNodesByXPath("").hasSize(x)
   //                                                      .isElement()

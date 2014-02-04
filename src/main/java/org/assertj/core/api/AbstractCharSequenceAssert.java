@@ -24,6 +24,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.Xmls;
 import org.assertj.core.util.VisibleForTesting;
+import org.w3c.dom.NodeList;
 
 import static org.assertj.core.api.Assertions.contentOf;
 
@@ -638,7 +639,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   public XmlNodeSetAssert asXml() {
-    return new XmlNodeSetAssert(actual);
+    NodeList convertedActual = Xmls.instance().assertIsXml(info, actual);
+    return new XmlNodeSetAssert(convertedActual);
   }
 
 }

@@ -26,7 +26,7 @@ import org.junit.Test;
  * <li><code>{@link XmlNodeSetAssert#hasSize(Integer)}</code>
  * </ul>
  * 
- * @author Lukasz Strzelecki
+ * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
 public class XmlNodeSetAssert_hasSize_Test {

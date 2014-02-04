@@ -5,29 +5,24 @@ import org.assertj.core.internal.Xmls;
 import org.assertj.core.util.xml.XPathExtractor;
 import org.w3c.dom.NodeList;
 
-public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, CharSequence> {
+public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList> {
 
   private Xmls xmls = Xmls.instance();
 
-  private NodeList nodeList;
-
-  public XmlNodeSetAssert(CharSequence actual) {
-    super(actual, XmlNodeSetAssert.class);
-    xmls.assertIsXml(info, actual);
+  public XmlNodeSetAssert(NodeList nodeList) {
+    super(nodeList, XmlNodeSetAssert.class);
   }
 
   public XmlNodeSetAssert extractingXPath(String xpath) {
-
-    nodeList = new XPathExtractor(actual.toString()).extract(xpath);
-    return this;
+    return new XmlNodeSetAssert(new XPathExtractor(actual).extract(xpath));
   }
 
   public void isEmpty() {
-    xmls.assertIsEmpty(info, nodeList);
+    xmls.assertIsEmpty(info, actual);
   }
 
   public void hasSize(int expectedSize) {
-    xmls.assertHasSize(info, nodeList, expectedSize);
+    xmls.assertHasSize(info, actual, expectedSize);
   }
 
 }
