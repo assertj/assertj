@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeEmpty;
+import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.error.ShouldBeSingleXmlNode;
 import org.assertj.core.error.ShouldBeXml;
 import org.assertj.core.error.ShouldBeXmlAttribute;
@@ -15,6 +16,7 @@ import org.assertj.core.error.ShouldBeXmlElement;
 import org.assertj.core.error.ShouldBeXmlTextNode;
 import org.assertj.core.util.xml.XmlStringPrettyFormatter;
 import org.assertj.core.util.xml.XmlUtil;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class Xmls {
@@ -42,9 +44,17 @@ public class Xmls {
   private String prettyXml(NodeList nodeList) {
     List<String> list = new ArrayList<String>();
     for (int i = 0; i < nodeList.getLength(); i++) {
-      list.add(XmlStringPrettyFormatter.prettyFormat(nodeList.item(i)).trim());
+      list.add(prettyXml(nodeList.item(i)));
     }
     return list.toString();
+  }
+
+  private String prettyXml(Node node) {
+    return XmlStringPrettyFormatter.prettyFormat(node).trim();
+  }
+
+  private String prettyXmlAttribute(Node node) {
+    return String.format("@%s='%s'", node.getNodeName(), node.getNodeValue());
   }
 
   public NodeList assertIsXml(AssertionInfo info, CharSequence actual)
@@ -81,6 +91,14 @@ public class Xmls {
     return new ShouldBeSingleXmlNode(reason);
   }
 
+  private AssertionErrorFactory shouldBeEqual(Node actual, Node expected, AssertionInfo info) {
+    return shouldBeEqual(prettyXml(actual), prettyXml(expected), info);
+  }
+
+  private AssertionErrorFactory shouldBeEqual(String actual, String expected, AssertionInfo info) {
+    return ShouldBeEqual.shouldBeEqual(actual, expected, info.representation());
+  }
+  
   public void assertIsSingleNode(AssertionInfo info, NodeList actual) {
 
     if (actual.getLength() > 1 ){
@@ -98,11 +116,40 @@ public class Xmls {
     throw failures.failure(info, shouldBeAttributeBut(reason));
   }
 
-  public void failNotCommentBut(WritableAssertionInfo info, String reason) {
+  public void failNotCommentBut(AssertionInfo info, String reason) {
     throw failures.failure(info, shouldBeCommentBut(reason));
   }
 
-  public void failNotTextNodeBut(WritableAssertionInfo info, String reason) {
+  public void failNotTextNodeBut(AssertionInfo info, String reason) {
     throw failures.failure(info, shouldBeTextNodeBut(reason));
   }
+
+  public void assertEqual(AssertionInfo info, Node actual, String expectedXml) {
+    Node expected = asXml(expectedXml).item(0).getFirstChild();
+    if(!actual.isEqualNode(expected)){
+      throw failures.failure(info, shouldBeEqual(actual, expected, info));
+    }
+  }
+
+  public void assertAttributeEqual(AssertionInfo info, Node actual, String attributeName, String attributeValue) {
+    Node expectedAttribute = asXml(String.format("<element %s=\"%s\"/>",attributeName, attributeValue)).item(0).getFirstChild().getAttributes().item(0);
+    if(!actual.isEqualNode(expectedAttribute)){
+      throw failures.failure(info, shouldBeEqual(prettyXmlAttribute(actual), prettyXmlAttribute(expectedAttribute), info));
+    }
+  }
+
+  public void assertTextNodeEqual(AssertionInfo info, Node actual, String expectedText) {
+    Node expectedTextNode = asXml(String.format("<element>%s</element>", expectedText)).item(0).getFirstChild().getFirstChild();
+    if(!actual.isEqualNode(expectedTextNode)){
+      throw failures.failure(info, shouldBeEqual(actual.getTextContent(), expectedText, info));
+    }
+  }
+
+  public void assertCommentEqual(AssertionInfo info, Node actual, String expectedComment) {
+    Node expectedCommentNode = asXml(String.format("<element>%s</element>", expectedComment)).item(0).getFirstChild().getFirstChild();
+    if(!actual.isEqualNode(expectedCommentNode)){
+      throw failures.failure(info, shouldBeEqual(String.format("<!-- %s -->", actual.getNodeValue()), expectedComment, info));
+    }
+  }
+
 }

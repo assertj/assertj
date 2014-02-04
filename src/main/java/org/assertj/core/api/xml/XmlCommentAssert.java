@@ -18,4 +18,9 @@ public class XmlCommentAssert extends AbstractXmlNodeAssert {
     // success
   }
   
+  @Override
+  public void isEqualTo(String expectedXml) {
+    xmls.assertCommentEqual(info, actual, expectedXml);
+  }
+  
 }

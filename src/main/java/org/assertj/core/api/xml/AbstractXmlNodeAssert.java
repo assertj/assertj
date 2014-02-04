@@ -33,4 +33,9 @@ public abstract class AbstractXmlNodeAssert extends AbstractAssert<AbstractXmlNo
   public void isTextNode() {
     xmls.failNotTextNodeBut(info, type());
   }
+  
+  @Override
+  public void isEqualTo(String expectedXml) {
+    xmls.assertEqual(info, actual, expectedXml);
+  }
 }

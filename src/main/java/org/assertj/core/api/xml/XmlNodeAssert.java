@@ -10,4 +10,6 @@ public interface XmlNodeAssert {
   
   public void isTextNode();
 
+  public void isEqualTo(String expectedXml);
+
 }

@@ -57,6 +57,11 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
     assertFor(singleNode()).isTextNode();
   }
   
+  public void isEqualTo(String expectedXml) {
+    
+    assertFor(singleNode()).isEqualTo(expectedXml);
+  }
+  
   public Node singleNode() {
     xmls.assertIsSingleNode(info, actual);
     Node item = actual.item(0);
