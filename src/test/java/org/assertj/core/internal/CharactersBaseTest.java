@@ -16,7 +16,7 @@ import org.junit.Rule;
 /**
  * Base class for Characters unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Characters#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Characters#failures} appropriately.
  * 
  * @author Joel Costigliola
  * 

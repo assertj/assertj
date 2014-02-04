@@ -19,14 +19,13 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.internal.LongsBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Longs#assertEqual(AssertionInfo, Long, long)}</code>.
@@ -53,7 +52,7 @@ public class Longs_assertEqual_Test extends LongsBaseTest {
     try {
       longs.assertEqual(info, 6L, 8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L));
+      verify(failures).failure(info, shouldBeEqual(6L, 8L, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +75,7 @@ public class Longs_assertEqual_Test extends LongsBaseTest {
     try {
       longsWithAbsValueComparisonStrategy.assertEqual(info, 6L, 8L);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual(6L, 8L, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual(6L, 8L, absValueComparisonStrategy, new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

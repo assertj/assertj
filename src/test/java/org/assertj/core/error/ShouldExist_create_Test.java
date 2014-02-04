@@ -18,14 +18,12 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldExist;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldExist#create(Description)}</code>.
+ * Tests for <code>{@link ShouldExist#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  */
@@ -40,7 +38,7 @@ public class ShouldExist_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting file:<xyz> to exist", message);
   }
 }

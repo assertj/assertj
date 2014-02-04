@@ -55,7 +55,8 @@ public class BooleanArrays_assertHasSameSizeAs_with_Iterable_Test extends Boolea
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size())
+          .create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

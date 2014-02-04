@@ -59,7 +59,7 @@ public class Failures_failure_with_AssertionErrorFactory_Test {
     MyOwnAssertionError expectedError = new MyOwnAssertionError("[description] my message");
     Description description = new TestDescription("description");
     info.description(description);
-    when(errorFactory.newAssertionError(description)).thenReturn(expectedError);
+    when(errorFactory.newAssertionError(description, info.representation())).thenReturn(expectedError);
     AssertionError failure = failures.failure(info, errorFactory);
     assertSame(expectedError, failure);
   }

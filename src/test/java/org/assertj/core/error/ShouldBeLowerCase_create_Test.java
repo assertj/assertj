@@ -18,12 +18,11 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 
 import org.assertj.core.description.*;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeLowerCase;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBeLowerCase#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeLowerCase#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  */
@@ -38,7 +37,7 @@ public class ShouldBeLowerCase_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting <A> to be a lowercase character", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting <'A'> to be a lowercase character", message);
   }
 }

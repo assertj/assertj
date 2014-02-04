@@ -8,9 +8,7 @@ import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAssert<S>>
-    extends AbstractAssert<S, float[]>
-    implements EnumerableAssert<AbstractFloatArrayAssert<S>, Float>,
-    ArraySortedAssert<AbstractFloatArrayAssert<S>, Float> {
+  extends AbstractArrayAssert<S, float[], Float> {
 
   @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
@@ -42,13 +40,6 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
-    return myself;
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 

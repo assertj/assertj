@@ -21,11 +21,12 @@ import java.io.File;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeExactlyInstanceOf#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeExactlyInstanceOf#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -40,9 +41,9 @@ public class ShouldBeExactlyInstance_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
-        "[Test] \nExpecting:\n <'Yoda'>\nto be exactly an instance of:\n <java.io.File>\nbut was an instance of:\n <java.lang.String>",
+        "[Test] \nExpecting:\n <\"Yoda\">\nto be exactly an instance of:\n <java.io.File>\nbut was an instance of:\n <java.lang.String>",
         message);
   }
 }

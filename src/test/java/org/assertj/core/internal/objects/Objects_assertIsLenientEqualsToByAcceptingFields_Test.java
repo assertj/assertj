@@ -80,9 +80,10 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
       objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Blue");
+      List<Object> rejected = newArrayList((Object) "Green");
       verify(failures).failure(
           info,
-          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("lightSaberColor"), expected,
+          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("lightSaberColor"), rejected, expected,
                                                 newArrayList("name", "lightSaberColor")));
       return;
     }
@@ -98,9 +99,10 @@ public class Objects_assertIsLenientEqualsToByAcceptingFields_Test extends Objec
       objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
     } catch (AssertionError err) {
       List<Object> expected = newArrayList((Object) "Luke");
+      List<Object> rejected = newArrayList((Object) "Yoda");
       verify(failures).failure(
           info,
-          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("name"), expected,
+          shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("name"), rejected, expected,
                                                 newArrayList("name", "lightSaberColor")));
       return;
     }

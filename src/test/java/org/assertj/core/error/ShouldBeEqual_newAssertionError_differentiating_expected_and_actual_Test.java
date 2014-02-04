@@ -27,11 +27,12 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
  */
@@ -50,10 +51,10 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   public void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() {
     Float actual = 42f;
     Double expected = 42d;
-    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected);
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
-    AssertionError error = shouldBeEqual.newAssertionError(description);
+    AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
     assertEquals("[my test] expected:<42.0[]> but was:<42.0[f]>", error.getMessage());
   }
 
@@ -61,12 +62,12 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
   public void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() {
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
-    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected);
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
-    AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] \nExpecting:\n <'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")'>\nto be equal to:\n <'Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")'>\nbut was not.",
+    AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
+    assertEquals("[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")\">\nbut was not.",
         error.getMessage());
   }
 
@@ -75,13 +76,14 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
     ComparisonStrategy ageComparisonStrategy = new ComparatorBasedComparisonStrategy(new PersonComparator());
-    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, ageComparisonStrategy);
+    shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, ageComparisonStrategy,
+        new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
-    AssertionError error = shouldBeEqual.newAssertionError(description);
-    assertEquals("[my test] \nExpecting:\n <'Person[name=Jake] (Person@" + toHexString(actual.hashCode())
-        + ")'>\nto be equal to:\n <'Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")'>\naccording to 'PersonComparator' comparator but was not.", error.getMessage());
+    AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
+    assertEquals("[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+        + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+        + ")\">\naccording to 'PersonComparator' comparator but was not.", error.getMessage());
   }
 
   private static class Person {

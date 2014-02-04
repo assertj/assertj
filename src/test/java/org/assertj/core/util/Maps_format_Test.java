@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
@@ -32,12 +33,12 @@ import org.junit.Test;
 public class Maps_format_Test {
   @Test
   public void should_return_null_if_Map_is_null() {
-    assertNull(Maps.format(null));
+    assertNull(Maps.format(new StandardRepresentation(), null));
   }
 
   @Test
   public void should_return_empty_braces_if_Map_is_empty() {
-    assertEquals(Maps.format(new HashMap<String, String>()), "{}");
+    assertEquals(Maps.format(new StandardRepresentation(), new HashMap<String, String>()), "{}");
   }
 
   @Test
@@ -45,6 +46,6 @@ public class Maps_format_Test {
     Map<String, Class<?>> map = new LinkedHashMap<String, Class<?>>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertEquals("{'One'=java.lang.String, 'Two'=java.io.File}", Maps.format(map));
+    assertEquals("{\"One\"=java.lang.String, \"Two\"=java.io.File}", Maps.format(new StandardRepresentation(), map));
   }
 }

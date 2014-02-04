@@ -57,7 +57,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
-  // let's keep compiler warning internal to fest (when we can) and not expose them to our end users.
+  // let's keep compiler warning internal (when we can) and not expose them to our end users.
   @SuppressWarnings("unchecked")
   protected AbstractAssert(A actual, Class<?> selfType) {
     myself = (S) selfType.cast(this);
@@ -77,7 +77,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Utility method to ease write write custom assertions classes, you can use format specifiers in error message, they
+   * Utility method to ease writing custom assertions classes, you can use format specifiers in error message, they
    * will be replaced by the given arguments.
    * <p>
    * Moreover, this method honors any description ({@link #as(String, Object...)} or overridden error message defined by the user (
@@ -117,6 +117,59 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   @Override
   public S as(Description description) {
     return describedAs(description);
+  }
+
+  /**
+   * Use hexadecimal object representation instead of standard representation in error messages.
+   * <p/>
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
+   * it is thus impossible to find differences from the standard error message:
+   * <p/>
+   * With standard message:
+   * <pre>
+   * assertThat("µµµ").contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <"µµµ">
+   * to contain:
+   *   <"μμμ">
+   * </pre>
+   *
+   * With Hexadecimal message:
+   * <pre>
+   * assertThat("µµµ").inHexadecimal().contains("μμμ");
+   *
+   * java.lang.AssertionError:
+   * Expecting:
+   *   <"['00B5', '00B5', '00B5']">
+   * to contain:
+   *   <"['03BC', '03BC', '03BC']">
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  protected S inHexadecimal() {
+    info.useHexadecimalRepresentation();
+    return myself;
+  }
+
+  /**
+   * Use binary object representation instead of standard representation in error messages.
+   * <p/>
+   * Example:
+   * <pre>
+   * assertThat(1).inBinary().isEqualTo(2);
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :0b00000000_00000000_00000000_00000010
+   * Actual   :0b00000000_00000000_00000000_00000001
+   *
+   * @return {@code this} assertion object.
+   */
+  protected S inBinary() {
+    info.useBinaryRepresentation();
+    return myself;
   }
 
   /** {@inheritDoc} */
@@ -310,7 +363,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Overrides Fest default error message by the given one.
+   * Overrides AssertJ default error message by the given one.
    * <p>
    * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
    * don't, the error message is taken as it is).
@@ -322,10 +375,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    *                              .isTrue();
    * </pre>
    * 
-   * @param newErrorMessage the error message that will replace the default one provided by Fest.
+   * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
-   * @throws exception see {@link String#format(String, Object...)} exception clause.
+   * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
     info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));
@@ -354,7 +407,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   @Override
   @Deprecated
-  public final boolean equals(Object obj) {
+  public boolean equals(Object obj) {
     throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
@@ -364,7 +417,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @return 1.
    */
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return 1;
   }
 

@@ -14,6 +14,8 @@
  */
 package org.assertj.core.util;
 
+import org.assertj.core.presentation.Representation;
+
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -63,12 +65,13 @@ public class Arrays {
   /**
    * Returns the {@code String} representation of the given array, or {@code null} if the given object is either
    * {@code null} or not an array. This method supports arrays having other arrays as elements.
-   * 
+   *
+   * @param representation
    * @param array the object that is expected to be an array.
    * @return the {@code String} representation of the given array.
    */
-  public static String format(Object array) {
-    return FORMATTER.format(array);
+  public static String format(Representation representation, Object array) {
+    return FORMATTER.format(representation, array);
   }
 
   /**

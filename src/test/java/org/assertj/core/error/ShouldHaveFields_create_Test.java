@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 import org.assertj.core.description.TextDescription;
@@ -34,28 +35,28 @@ public class ShouldHaveFields_create_Test {
   @Test
   public void should_create_error_message_for_fields() {
     ErrorMessageFactory factory = shouldHaveFields(Person.class, newLinkedHashSet("name", "address"), newLinkedHashSet("address"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(
                                   "[Test] \n"
                                       + "Expecting\n"
                                       + "  <org.assertj.core.test.Person>\n"
                                       + "to have fields:\n"
-                                      + "  <['name', 'address']>\n"
+                                      + "  <[\"name\", \"address\"]>\n"
                                       + "but it doesn't have:\n"
-                                      + "  <['address']>");
+                                      + "  <[\"address\"]>");
   }
   
   @Test
   public void should_create_error_message_for_declared_fields() {
     ErrorMessageFactory factory = shouldHaveDeclaredFields(Person.class, newLinkedHashSet("name", "address"), newLinkedHashSet("address"));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(
                                   "[Test] \n"
                                       + "Expecting\n"
                                       + "  <org.assertj.core.test.Person>\n"
                                       + "to have declared fields:\n"
-                                      + "  <['name', 'address']>\n"
+                                      + "  <[\"name\", \"address\"]>\n"
                                       + "but it doesn't have:\n"
-                                      + "  <['address']>");
+                                      + "  <[\"address\"]>");
   }
 }

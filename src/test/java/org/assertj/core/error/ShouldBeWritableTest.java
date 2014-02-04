@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class ShouldBeWritableTest {
   }
 
   @Test public void createExpectedMessage() {
-    String actualMessage = factory.create(new TestDescription("Test"));
+    String actualMessage = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nFile:\n <pathname>\nshould be writable", actualMessage);
   }
 }

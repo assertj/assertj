@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
+import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
@@ -41,7 +42,6 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -167,7 +167,7 @@ public class Strings {
 
   /**
    * Asserts that the number of entries in the given {@code CharSequence} has the same size as the other array.
-   * 
+   *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @param other the group to compare
@@ -175,8 +175,9 @@ public class Strings {
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of entries in the given {@code CharSequence} does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object[] other) {
+  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object other) {
     Objects.instance().assertNotNull(info, actual);
+    assertIsArray(info, other);
     hasSameSizeAsCheck(info, actual, other, actual.length());
   }
 
@@ -513,6 +514,7 @@ public class Strings {
     final String formattedActualXml = xmlPrettyFormat(actualXml.toString());
     final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
     if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
-      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy));
+      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
+          info.representation()));
   }
 }

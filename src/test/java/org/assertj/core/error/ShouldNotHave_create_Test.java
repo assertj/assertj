@@ -20,12 +20,11 @@ import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.*;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotHave;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldNotHave#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotHave#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  */
@@ -40,7 +39,7 @@ public class ShouldNotHave_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to have:\n <red lightsaber>", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to have:\n <red lightsaber>", message);
   }
 }

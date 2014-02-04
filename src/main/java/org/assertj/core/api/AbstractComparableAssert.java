@@ -80,4 +80,14 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
     this.comparables = Comparables.instance();
     return myself;
   }
+
+  @Override
+  public S inHexadecimal() {
+    return super.inHexadecimal();
+  }
+
+  @Override
+  public S inBinary() {
+    return super.inBinary();
+  }
 }

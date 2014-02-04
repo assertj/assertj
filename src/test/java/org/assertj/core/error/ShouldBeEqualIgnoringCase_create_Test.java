@@ -19,12 +19,13 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldBeEqualIgnoringCase#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeEqualIgnoringCase#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -40,7 +41,7 @@ public class ShouldBeEqualIgnoringCase_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto be equal to:\n <'Luke'>\nignoring case considerations", message);
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be equal to:\n <\"Luke\">\nignoring case considerations", message);
   }
 }

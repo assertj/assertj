@@ -11,7 +11,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link Bytes} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Bytes#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Bytes#failures} appropriately.
  * 
  * @author Joel Costigliola
  * 

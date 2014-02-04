@@ -19,13 +19,13 @@ import static org.mockito.Mockito.*;
 
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link BasicErrorMessageFactory#create(Description)}</code>.
+ * Tests for <code>{@link BasicErrorMessageFactory#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  */
@@ -44,8 +44,9 @@ public class BasicErrorMessageFactory_create_Test {
   @Test
   public void should_implement_toString() {
     Description description = new TestDescription("Test");
+    Representation representation = new StandardRepresentation();
     String formattedMessage = "[Test] Hello Yoda";
-    when(formatter.format(description, "Hello %s", "Yoda")).thenReturn(formattedMessage);
-    assertEquals(formattedMessage, factory.create(description));
+    when(formatter.format(description, representation, "Hello %s", "Yoda")).thenReturn(formattedMessage);
+    assertEquals(formattedMessage, factory.create(description, representation));
   }
 }

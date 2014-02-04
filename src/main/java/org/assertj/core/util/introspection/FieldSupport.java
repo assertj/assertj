@@ -38,6 +38,8 @@ public class FieldSupport {
 
   private static final FieldSupport INSTANCE = new FieldSupport();
 
+  private static boolean allowExtractingPrivateFields = true;
+
   /**
    * Returns the singleton instance of this class.
    * 
@@ -49,6 +51,17 @@ public class FieldSupport {
 
   @VisibleForTesting
   FieldSupport() {
+  }
+
+  /**
+   * Globally set whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
+   * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
+   * should be allowed to extract private fields, if not and they try it fails with exception.
+   *
+   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   */
+  public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
+    FieldSupport.allowExtractingPrivateFields = allowExtractingPrivateFields;
   }
 
   /**
@@ -98,24 +111,6 @@ public class FieldSupport {
    */
   public <T> List<T> fieldValues(String fieldName, Class<T> fieldClass, Object[] target) {
     return fieldValues(fieldName, fieldClass, wrap(target));
-  }
-  
-  public List<Object> fieldValues(String fieldName, Object[] target) {
-    return fieldValues(fieldName, Object.class, wrap(target));
-  }
-  
-  /**
-   * Static variant of {@link #fieldValue(String, Class, Object)} for syntactic sugar.
-   * <p>
-   * 
-   * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
-   *          {@code null} or empty.
-   * @param target the given object
-   * @return a the values of the given field name
-   * @throws IntrospectionError if the given target does not have a field with a matching name.
-   */
-  public static <T> T fieldValueOf(String fieldName, Object target, Class<T> clazz) {
-    return instance().fieldValue(fieldName, clazz, target);
   }
 
   private <T> List<T> simpleFieldValues(String fieldName, Class<T> clazz, Iterable<?> target) {
@@ -169,7 +164,7 @@ public class FieldSupport {
    */
   public <T> T fieldValue(String fieldName, Class<T> clazz, Object target) {
     try {
-      Object readField = FieldUtils.readField(target, fieldName);
+      Object readField = FieldUtils.readField(target, fieldName, allowExtractingPrivateFields);
       return clazz.cast(readField);
     } catch (ClassCastException e) {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
@@ -183,33 +178,6 @@ public class FieldSupport {
       String msg = format("Unable to obtain the value of the field <'%s'> from <%s>", fieldName, target);
       throw new IntrospectionError(msg, unexpected);
     }
-  }
-
-  /**
-   * Returns the value of the given field name given target. If the given object is {@code null}, this method will
-   * return null.<br>
-   * This method supports nested fields (e.g. "address.street.number").
-   * 
-   * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
-   *          {@code null} or empty.
-   * @param clazz the class of field.
-   * @param target the given Object to extract field from.
-   * @return the value of the given field name given target.
-   * @throws IntrospectionError if target object does not have a field with a matching name.
-   */
-  public <T> T fieldValueOf(String fieldName, Class<T> clazz, Object target) {
-    // returns null if target is null as we can't extract a field from a null object
-    if (target == null) {
-      return null;
-    }
-
-    if (isNestedField(fieldName)) {
-      String firstFieldName = popFieldNameFrom(fieldName);
-      Object fieldValue = fieldValue(firstFieldName, Object.class, target);
-      // extract next sub-field values until reaching the last sub-field
-      return fieldValueOf(nextFieldNameFrom(fieldName), clazz, fieldValue);
-    }
-    return fieldValue(fieldName, clazz, target);
   }
 
 }

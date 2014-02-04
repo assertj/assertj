@@ -19,14 +19,14 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.util.Lists.*;
 import static org.assertj.core.util.Sets.*;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContain#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -38,8 +38,8 @@ public class ShouldNotContain_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
         newLinkedHashSet("Yoda"));
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting\n <['Yoda']>\nnot to contain\n <['Luke', 'Yoda']>\nbut found\n <['Yoda']>\n",
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\nbut found\n <[\"Yoda\"]>\n",
         message);
   }
 
@@ -47,8 +47,8 @@ public class ShouldNotContain_create_Test {
   public void should_create_error_message_with_custom_comparison_strategy() {
     ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
         newLinkedHashSet("Yoda"), new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting\n <['Yoda']>\nnot to contain\n <['Luke', 'Yoda']>\n"
-        + "but found\n <['Yoda']>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\n"
+        + "but found\n <[\"Yoda\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

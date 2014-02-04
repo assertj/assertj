@@ -21,15 +21,13 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.io.File;
 
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeOfClassIn;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeOfClassIn#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeOfClassIn#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -45,8 +43,8 @@ public class ShouldBeOfClassIn_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nto be of one these types:\n <[java.lang.Long, java.io.File]>\nbut was:\n <java.lang.String>",
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be of one these types:\n <[java.lang.Long, java.io.File]>\nbut was:\n <java.lang.String>",
         message);
   }
 }

@@ -19,7 +19,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link Dates} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Dates#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Dates#failures} appropriately.
  * 
  * @author Joel Costigliola
  */
@@ -66,6 +66,15 @@ public abstract class DatesBaseTest {
    */
   protected static Date parseDatetime(String dateAsString) {
     return org.assertj.core.util.Dates.parseDatetime(dateAsString);
+  }
+
+  /**
+   * Simply delegate to {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
+   * @param dateAsString see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)} }
+   * @return see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
+   */
+  protected static Date parseDatetimeWithMs(String dateAsString) {
+    return org.assertj.core.util.Dates.parseDatetimeWithMs(dateAsString);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

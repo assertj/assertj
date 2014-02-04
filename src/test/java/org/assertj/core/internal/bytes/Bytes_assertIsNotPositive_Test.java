@@ -14,8 +14,11 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.Test;
 
@@ -44,15 +47,33 @@ public class Bytes_assertIsNotPositive_Test extends BytesBaseTest {
   }
 
   @Test
+  public void should_fail_since_actual_is_positive_in_hex_representation() {
+    thrown.expectAssertionError("\nExpecting:\n <0x06>\nto be less than or equal to:\n <0x00>");
+    bytes.assertIsNotPositive(someHexInfo(), (byte) 0x06);
+  }
+
+  @Test
   public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("\nExpecting:\n <-1>\nto be less than or equal to:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) -1);
   }
 
   @Test
+  public void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy_in_hex_representation() {
+    thrown.expectAssertionError("\nExpecting:\n <0xFF>\nto be less than or equal to:\n <0x00> according to 'AbsValueComparator' comparator");
+    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0xFF);
+  }
+
+  @Test
   public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     thrown.expectAssertionError("\nExpecting:\n <1>\nto be less than or equal to:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), (byte) 1);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy_in_hex_representation() {
+    thrown.expectAssertionError("\nExpecting:\n <0x01>\nto be less than or equal to:\n <0x00> according to 'AbsValueComparator' comparator");
+    bytesWithAbsValueComparisonStrategy.assertIsNotPositive(someHexInfo(), (byte) 0x01);
   }
 
 }

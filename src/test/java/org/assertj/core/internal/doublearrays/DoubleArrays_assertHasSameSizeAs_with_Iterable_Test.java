@@ -21,13 +21,9 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-
-import static org.mockito.Mockito.verify;
-
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.Test;
 
@@ -49,7 +45,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

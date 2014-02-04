@@ -15,7 +15,7 @@
 package org.assertj.core.api.fail;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToFest;
+import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
 
 
 import org.assertj.core.api.Fail;
@@ -35,7 +35,7 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
     try {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToFest(assertionError)).isFalse();
+      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isFalse();
     }
   }
 
@@ -45,7 +45,7 @@ public class Fail_fest_elements_stack_trace_filtering_Test {
     try {
       assertThat(5).isLessThan(0);
     } catch (AssertionError assertionError) {
-      assertThat(hasStackTraceElementRelatedToFest(assertionError)).isTrue();
+      assertThat(hasStackTraceElementRelatedToAssertJ(assertionError)).isTrue();
     }
   }
 

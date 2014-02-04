@@ -27,31 +27,36 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
 
   /**
    * Creates a new </code>{@link ShouldBeEqualByComparingOnlyGivenFields}</code>.
-   * 
+   *
+   *
    * @param actual the actual value in the failed assertion.
-   * @param rejectedFields fields name not matching
-   * @param expectedValues fields value not matching
+   * @param rejectedFields fields names not matching
+   * @param rejectedValues fields values not matching
+   * @param expectedValues expected fields values
    * @param acceptedFields fields on which is based the lenient equality
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualComparingOnlyGivenFields(Object actual, List<String> rejectedFields,
-      List<Object> expectedValues, List<String> acceptedFields) {
+                                                                          List<Object> rejectedValues, List<Object> expectedValues,
+                                                                          List<String> acceptedFields) {
     if (rejectedFields.size() == 1) {
-      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields.get(0), expectedValues.get(0), acceptedFields);
+      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0),
+          acceptedFields);
     } else {
-      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields, expectedValues, acceptedFields);
+      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields, rejectedValues, expectedValues, acceptedFields);
     }
   }
 
-  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> expectedValue,
-                                                   List<String> acceptedFields) {
-    super("\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nof <%s>.\nComparison was performed on fields:\n  <%s>",
-        expectedValue, rejectedFields, actual, acceptedFields);
+  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
+                                                  List<Object> expectedValue, List<String> acceptedFields) {
+    super("\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nbut were:\n  <%s>\nin <%s>.\nComparison was performed on fields:\n  <%s>",
+        expectedValue, rejectedFields, rejectedValues, actual, acceptedFields);
   }
 
-  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, String rejectedField, Object rejectedValue,
+  private ShouldBeEqualByComparingOnlyGivenFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
                                                    List<String> acceptedFields) {
-    super("\nExpecting value <%s> in field <%s> of <%s>", rejectedValue, rejectedField, actual, acceptedFields);
+    super("\nExpecting value <%s> in field <%s> but was <%s> in <%s>", expectedValue, rejectedField, rejectedValue, actual,
+        acceptedFields);
   }
 
 }

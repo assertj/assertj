@@ -1,30 +1,37 @@
 package org.assertj.core.internal;
 
+import java.util.concurrent.TimeUnit;
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
+import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
 import static org.assertj.core.error.ShouldBeInSameMinute.shouldBeInSameMinute;
+import static org.assertj.core.error.ShouldBeInSameHourWindow.shouldBeInSameHourWindow;
+import static org.assertj.core.error.ShouldBeInSameMinuteWindow.shouldBeInSameMinuteWindow;
 import static org.assertj.core.error.ShouldBeInSameMonth.shouldBeInSameMonth;
 import static org.assertj.core.error.ShouldBeInSameSecond.shouldBeInSameSecond;
+import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.util.Dates.dayOfMonthOf;
 import static org.assertj.core.util.Dates.dayOfWeekOf;
-import static org.assertj.core.util.Dates.hourOfDay;
+import static org.assertj.core.util.Dates.hourOfDayOf;
 import static org.assertj.core.util.Dates.millisecondOf;
 import static org.assertj.core.util.Dates.minuteOf;
 import static org.assertj.core.util.Dates.monthOf;
 import static org.assertj.core.util.Dates.secondOf;
+import static org.assertj.core.util.Dates.timeDifference;
 import static org.assertj.core.util.Dates.today;
 import static org.assertj.core.util.Dates.truncateTime;
 import static org.assertj.core.util.Dates.yearOf;
@@ -32,6 +39,7 @@ import static org.assertj.core.util.Dates.yearOf;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -41,6 +49,7 @@ import org.assertj.core.util.VisibleForTesting;
  * Reusable assertions for <code>{@link Date}</code>s.
  * 
  * @author Joel Costigliola
+ * @author William Delanoue
  */
 public class Dates {
 
@@ -137,6 +146,45 @@ public class Dates {
     dateParameterIsNotNull(other);
     if (isAfterOrEqualTo(actual, other)) return;
     throw failures.failure(info, shouldBeAfterOrEqualsTo(actual, other, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is equal to the given one with precision.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param other the given Date.
+   * @param precision maximum precision for the comparison.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} is not equal to the given one.
+   */
+  public void assertIsEqualWithPrecision(AssertionInfo info, Date actual, Date other, TimeUnit precision) {
+    assertNotNull(info, actual);
+    Calendar calendarActual = Calendar.getInstance();
+    calendarActual.setTime(actual);
+    Calendar calendarOther = Calendar.getInstance();
+    calendarOther.setTime(other);
+    switch (precision) {
+      case DAYS:
+        calendarActual.set(Calendar.DAY_OF_WEEK, 0);
+        calendarOther.set(Calendar.DAY_OF_WEEK, 0);
+      case HOURS:
+        calendarActual.set(Calendar.HOUR, 0);
+        calendarOther.set(Calendar.HOUR, 0);
+      case MINUTES:
+        calendarActual.set(Calendar.MINUTE, 0);
+        calendarOther.set(Calendar.MINUTE, 0);
+      case SECONDS:
+        calendarActual.set(Calendar.SECOND, 0);
+        calendarOther.set(Calendar.SECOND, 0);
+      case MILLISECONDS:
+        calendarActual.set(Calendar.MILLISECOND, 0);
+        calendarOther.set(Calendar.MILLISECOND, 0);
+      case MICROSECONDS:
+        break;
+    }
+    if(calendarActual.compareTo(calendarOther) != 0)
+    throw failures.failure(info, ShouldBeEqualWithTimePrecision.shouldBeEqual(actual, other, precision));
   }
 
   /**
@@ -328,7 +376,7 @@ public class Dates {
    */
   public void assertIsWithinHourOfDay(AssertionInfo info, Date actual, int hourOfDay) {
     assertNotNull(info, actual);
-    if (hourOfDay(actual) == hourOfDay) return;
+    if (hourOfDayOf(actual) == hourOfDay) return;
     throw failures.failure(info, shouldBeWithin(actual, "hour", hourOfDay));
   }
 
@@ -454,7 +502,7 @@ public class Dates {
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same hour (and thus in the same day of month, month
+   * Verifies that actual and given {@code Date} are in the same hour (and thus in the same day of month, month
    * and year).
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
@@ -471,18 +519,44 @@ public class Dates {
   }
 
   /**
+   * Verifies that actual and given {@code Date} are chronologically in the same hour, day of month, month and year.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param other the given {@code Date} to compare actual {@code Date} to.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same hour.
+   */
+  public void assertIsInSameHourWindowAs(AssertionInfo info, Date actual, Date other) {
+    assertNotNull(info, actual);
+    dateParameterIsNotNull(other);
+    if (areInSameHourWindow(actual, other)) return;
+    throw failures.failure(info, shouldBeInSameHourWindow(actual, other));
+  }
+
+  /**
+   * Returns true if both date are in the same year, month and day of month, hour, minute and second, false otherwise.
+   * @param actual the actual date. expected not be null
+   * @param other the other date. expected not be null
+   * @return true if both date are in the same year, month and day of month, hour, minute and second, false otherwise.
+   */
+  private static boolean areInSameHourWindow(Date actual, Date other) {
+    return timeDifference(actual, other) < TimeUnit.HOURS.toMillis(1);
+  }
+
+  /**
    * Returns true if both date are in the same year, month, day of month and hour, false otherwise.
    * @param actual the actual date. expected not be null
    * @param other the other date. expected not be null
    * @return true if both date are in the same year, month, day of month and hour, false otherwise.
    */
   private static boolean areInSameHour(Date actual, Date other) {
-    return areInSameDayOfMonth(actual, other) && hourOfDay(actual) == hourOfDay(other);
+    return areInSameDayOfMonth(actual, other) && hourOfDayOf(actual) == hourOfDayOf(other);
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same minute (and thus in the same hour, day of month,
-   * month and year).
+   * Verifies that actual and given {@code Date} are in the same minute, hour, day of month, month and year.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -498,6 +572,22 @@ public class Dates {
   }
 
   /**
+   * Verifies that actual and given {@code Date} are chronologically in the same minute.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param other the given {@code Date} to compare actual {@code Date} to.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same minute.
+   */
+  public void assertIsInSameMinuteWindowAs(AssertionInfo info, Date actual, Date other) {
+    assertNotNull(info, actual);
+    dateParameterIsNotNull(other);
+    if (areInSameMinuteWindow(actual, other)) return;
+    throw failures.failure(info, shouldBeInSameMinuteWindow(actual, other));
+  }
+
+  /**
    * Returns true if both date are in the same year, month, day of month, hour and minute, false otherwise.
    * @param actual the actual date. expected not be null
    * @param other the other date. expected not be null
@@ -507,9 +597,12 @@ public class Dates {
     return areInSameHour(actual, other) && minuteOf(actual) == minuteOf(other);
   }
 
+  private static boolean areInSameMinuteWindow(Date actual, Date other) {
+    return timeDifference(actual, other) < TimeUnit.MINUTES.toMillis(1);
+  }
+
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same second (and thus in the same minute, hour, day of
-   * month, month and year).
+   * Verifies that actual and given {@code Date} are in the same second, minute, hour, day of month, month and year.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
    * @param other the given {@code Date} to compare actual {@code Date} to.
@@ -522,6 +615,32 @@ public class Dates {
     dateParameterIsNotNull(other);
     if (areInSameSecond(actual, other)) return;
     throw failures.failure(info, shouldBeInSameSecond(actual, other));
+  }
+
+  /**
+   * Verifies that actual and given {@code Date} are chronologically in the same second.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param other the given {@code Date} to compare actual {@code Date} to.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   * @throws AssertionError if actual and given {@code Date} are not chronologically speaking in the same second.
+   */
+  public void assertIsInSameSecondWindowAs(AssertionInfo info, Date actual, Date other) {
+    assertNotNull(info, actual);
+    dateParameterIsNotNull(other);
+    if (areInSameSecondWindow(actual, other)) return;
+    throw failures.failure(info, shouldBeInSameSecondWindow(actual, other));
+  }
+
+  /**
+   * Returns true if both date are in the same year, month and day of month, hour, minute and second, false otherwise.
+   * @param actual the actual date. expected not be null
+   * @param other the other date. expected not be null
+   * @return true if both date are in the same year, month and day of month, hour, minute and second, false otherwise.
+   */
+  private static boolean areInSameSecondWindow(Date actual, Date other) {
+    return timeDifference(actual, other) < TimeUnit.SECONDS.toMillis(1);
   }
 
   /**

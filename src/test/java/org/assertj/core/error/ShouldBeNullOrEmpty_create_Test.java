@@ -19,12 +19,11 @@ import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.description.*;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeNullOrEmpty;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBeNullOrEmpty#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeNullOrEmpty#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -40,7 +39,7 @@ public class ShouldBeNullOrEmpty_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting null or empty but was:<['Luke', 'Yoda']>", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting null or empty but was:<[\"Luke\", \"Yoda\"]>", message);
   }
 }

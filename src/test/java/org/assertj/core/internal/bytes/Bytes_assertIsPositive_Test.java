@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal.bytes;
 
+import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
@@ -36,8 +37,14 @@ public class Bytes_assertIsPositive_Test extends BytesBaseTest {
 
   @Test
   public void should_fail_since_actual_is_not_positive() {
-    thrown.expectAssertionError("\nExpecting:\n <-6>\nto be greater than:\n <0>");
-    bytes.assertIsPositive(someInfo(), (byte) -6);
+    thrown.expectAssertionError("\nExpecting:\n <-1>\nto be greater than:\n <0>");
+    bytes.assertIsPositive(someInfo(), (byte) -1);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_not_positive_in_hex_representation() {
+    thrown.expectAssertionError("\nExpecting:\n <0xFA>\nto be greater than:\n <0x00>");
+    bytes.assertIsPositive(someHexInfo(), (byte) 0xFA);
   }
 
   @Test
@@ -50,5 +57,12 @@ public class Bytes_assertIsPositive_Test extends BytesBaseTest {
     thrown
         .expectAssertionError("\nExpecting:\n <0>\nto be greater than:\n <0> according to 'AbsValueComparator' comparator");
     bytesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (byte) 0);
+  }
+
+  @Test
+  public void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy_in_hex_representation() {
+    thrown
+        .expectAssertionError("\nExpecting:\n <0x00>\nto be greater than:\n <0x00> according to 'AbsValueComparator' comparator");
+    bytesWithAbsValueComparisonStrategy.assertIsPositive(someHexInfo(), (byte) 0x00);
   }
 }

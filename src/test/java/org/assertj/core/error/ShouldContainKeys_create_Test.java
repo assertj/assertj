@@ -22,13 +22,14 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Map;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 
 /**
- * Tests for <code>{@link ShoulContainKey#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainKeys#create(Description)}</code>.
  * 
  * @author Nicolas François
  * @author Willima Telloue
@@ -40,15 +41,15 @@ public class ShouldContainKeys_create_Test {
   public void should_create_error_message() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name"));
-    String message = factory.create(new TextDescription("Test"));
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain key:\n <'name'>");
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain key:\n <\"name\">");
   }
 
   @Test
   public void should_create_error_message_with_multiple_keys() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
     ErrorMessageFactory factory = shouldContainKeys(map, newLinkedHashSet("name", "color"));
-    String message = factory.create(new TextDescription("Test"));
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{'name'='Yoda', 'color'='green'}>\nto contain keys:\n <['name', 'color']>");
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertThat(message).isEqualTo("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain keys:\n <[\"name\", \"color\"]>");
   }
 }

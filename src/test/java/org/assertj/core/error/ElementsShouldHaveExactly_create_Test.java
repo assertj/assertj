@@ -21,8 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ElementsShouldHaveAtLeast;
-import org.assertj.core.error.ErrorMessageFactory;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,8 +42,8 @@ public class ElementsShouldHaveExactly_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting elements:\n<['Yoda', 'Solo', 'Leia']>\n to have at least 2 times <Jedi power>", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting elements:\n<[\"Yoda\", \"Solo\", \"Leia\"]>\n to have at least 2 times <Jedi power>", message);
   }
 
 }

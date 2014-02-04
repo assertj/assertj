@@ -19,13 +19,12 @@ import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldBeAbsolutePath;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldBeAbsolutePath#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeAbsolutePath#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Yvonne Wang
  */
@@ -40,7 +39,7 @@ public class ShouldBeAbsolutePath_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <xyz>\nto be an absolute path", message);
   }
 }

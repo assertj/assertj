@@ -8,9 +8,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<S>>
-    extends AbstractAssert<S, char[]>
-    implements EnumerableAssert<AbstractCharArrayAssert<S>, Character>,
-    ArraySortedAssert<AbstractCharArrayAssert<S>, Character> {
+  extends AbstractArrayAssert<S, char[], Character> {
 
   @VisibleForTesting
   protected CharArrays arrays = CharArrays.instance();
@@ -57,27 +55,6 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
   @Override
   public S hasSize(int expected) {
     arrays.assertHasSize(info, actual, expected);
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   * <p>
-   * Example:
-   * 
-   * <pre>
-   * // assertion will pass
-   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(new int[] { 1, 2 });
-   * 
-   * // assertion will fail
-   * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(new int[] { 1, 2, 3 });
-   * </pre>
-   * 
-   * </p>
-   */
-  @Override
-  public S hasSameSizeAs(Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
@@ -469,6 +446,34 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    */
   public S containsExactly(char... values) {
     objects.assertEqual(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Use unicode character representation instead of standard representation in error messages.
+   * <p/>
+   * With standard error message:
+   * <pre>
+   * assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :['a', 'b', 'ó']
+   * Actual   :[a, 6, c]
+   * </pre>
+   *
+   * With unicode based error message:
+   * <pre>
+   * assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
+   *
+   * org.junit.ComparisonFailure:
+   * Expected :[a, b, \u00f3]
+   * Actual   :[a, 6, c]
+   * </pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S inUnicode() {
+    info.useUnicodeRepresentation();
     return myself;
   }
 

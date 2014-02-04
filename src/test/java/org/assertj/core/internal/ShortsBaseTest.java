@@ -17,7 +17,7 @@ import org.junit.Rule;
  * 
  * Base class for {@link Shorts} tests.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Shorts#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Shorts#failures} appropriately.
  * 
  * @author Joel Costigliola
  * 

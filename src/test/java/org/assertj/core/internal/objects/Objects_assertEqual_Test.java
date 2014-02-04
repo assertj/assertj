@@ -18,14 +18,13 @@ import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link Objects#assertEqual(AssertionInfo, Object, Object)}</code>.
@@ -46,7 +45,7 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
     try {
       objects.assertEqual(info, "Luke", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda"));
+      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -63,7 +62,8 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
     try {
       objectsWithCustomComparisonStrategy.assertEqual(info, "Luke", "Yoda");
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual("Luke", "Yoda", customComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

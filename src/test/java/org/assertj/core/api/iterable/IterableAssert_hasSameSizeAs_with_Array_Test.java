@@ -24,7 +24,7 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#hasSameSizeAs(Object[])}</code>.
+ * Tests for <code>{@link AbstractIterableAssert#hasSameSizeAs(Object)}</code>.
  * 
  * @author Nicolas François
  */

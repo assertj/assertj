@@ -43,4 +43,8 @@ public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIt
     iterables = mock(Iterables.class);
     assertions.iterables = iterables;
   }
+
+  protected Iterables getIterables(ConcreteIterableAssert<Object> assertions) {
+    return assertions.iterables;
+  }
 }

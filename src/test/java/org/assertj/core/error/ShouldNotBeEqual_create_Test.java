@@ -18,17 +18,15 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotBeEqual;
 import org.assertj.core.internal.*;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldNotBeEqual#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotBeEqual#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -44,15 +42,15 @@ public class ShouldNotBeEqual_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Jedi"));
-    assertEquals("[Jedi] \nExpecting:\n <'Yoda'>\nnot to be equal to:\n <'Luke'>\n", message);
+    String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
+    assertEquals("[Jedi] \nExpecting:\n <\"Yoda\">\nnot to be equal to:\n <\"Luke\">\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldNotBeEqual("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TestDescription("Jedi"));
+    String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
     assertEquals(
-        "[Jedi] \nExpecting:\n <'Yoda'>\nnot to be equal to:\n <'Luke'>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+        "[Jedi] \nExpecting:\n <\"Yoda\">\nnot to be equal to:\n <\"Luke\">\naccording to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

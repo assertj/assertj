@@ -21,7 +21,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Doubles#assertIsNotPositive(org.fest.assertions.core.AssertionInfo, Double))}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Doubles#assertIsNotPositive(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
  * 
  * @author Nicolas François
  */

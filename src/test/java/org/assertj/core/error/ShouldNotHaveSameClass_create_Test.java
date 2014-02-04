@@ -18,15 +18,13 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotHaveSameClass;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotHaveSameClass#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotHaveSameClass#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  */
@@ -41,7 +39,7 @@ public class ShouldNotHaveSameClass_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'Yoda'>\nnot to have not the same class as:\n <'Luke'> (java.lang.String)", message);
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to have not the same class as:\n <\"Luke\"> (java.lang.String)", message);
   }
 }

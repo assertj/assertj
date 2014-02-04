@@ -9,6 +9,7 @@ import static org.mockito.Mockito.spy;
 
 import java.util.Map;
 
+import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.test.ExpectedException;
@@ -19,7 +20,7 @@ import org.junit.Rule;
 /**
  * Base class for {@link Maps} unit tests
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link Maps} attributes appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Maps} attributes appropriately.
  * 
  * @author Joel Costigliola
  * 
@@ -41,4 +42,7 @@ public class MapsBaseTest {
     maps.failures = failures;
   }
 
+  protected static MapEntry[] emptyEntries() {
+    return new MapEntry[0];
+  }
 }

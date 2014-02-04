@@ -20,17 +20,15 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldContainOnly;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldContainOnly#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainOnly#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -47,18 +45,18 @@ public class ShouldContainOnly_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Han']>\nto contain only:\n <['Luke', 'Yoda']>\n"
-        + "elements not found:\n <['Luke']>\nand elements not expected:\n <['Han']>\n", message);
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
+        + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <['Yoda', 'Han']>\nto contain only:\n <['Luke', 'Yoda']>\n"
-        + "elements not found:\n <['Luke']>\nand elements not expected:\n <['Han']>\n"
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
+        + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 }

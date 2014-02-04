@@ -57,7 +57,7 @@ public class Booleans {
   public void assertEqual(AssertionInfo info, Boolean actual, boolean expected) {
     assertNotNull(info, actual);
     if (actual == expected) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected));
+    throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
   }
 
   /**

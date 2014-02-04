@@ -118,19 +118,6 @@ public class ByteArrays {
   }
 
   /**
-   * Assert that the actual array has the same size as the other array.
-   * @param info contains information about the assertion.
-   * @param actual the given array.
-   * @param other the group to compare
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the other group is {@code null}.
-   * @throws AssertionError if the actual group does not have the same size.
-   */
-  public void assertHasSameSizeAs(AssertionInfo info, byte[] actual, Object[] other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-  }
-
-  /**
    * Asserts that the given array contains the given values, in any order.
    * @param info contains information about the assertion.
    * @param actual the given array.

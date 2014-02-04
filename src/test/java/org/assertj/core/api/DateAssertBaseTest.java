@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import java.text.DateFormat;
 import java.util.Date;
 
-import org.assertj.core.api.DateAssert;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
 import org.junit.Before;
@@ -32,8 +31,8 @@ public abstract class DateAssertBaseTest {
     assertions.objects = objects;
   }
   
-  protected DateFormat dateFormat() {
-    return DateAssert.dateFormat;
+  protected Date parse(String dateAsString) {
+    return assertions.parse(dateAsString);
   }
 
   protected AssertionInfo getInfo(DateAssert someAssertions) {

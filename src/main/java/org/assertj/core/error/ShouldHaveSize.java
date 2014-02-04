@@ -14,6 +14,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain size failed.
  * 
@@ -28,11 +30,13 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
    * @param expectedSize the expected size.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveSize(Object actual, Object actualSize, Object expectedSize) {
+  public static ErrorMessageFactory shouldHaveSize(Object actual, int actualSize, int expectedSize) {
     return new ShouldHaveSize(actual, actualSize, expectedSize);
   }
 
-  private ShouldHaveSize(Object actual, Object actualSize, Object expectedSize) {
-    super("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, actual);
+  private ShouldHaveSize(Object actual, int actualSize, int expectedSize) {
+    // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
+    // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
+    super(format("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, "%s"), actual);
   }
 }

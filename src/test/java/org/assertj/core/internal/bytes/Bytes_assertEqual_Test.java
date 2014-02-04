@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 
@@ -53,7 +54,7 @@ public class Bytes_assertEqual_Test extends BytesBaseTest {
     try {
       bytes.assertEqual(info, (byte) 6, (byte) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8));
+      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -76,7 +77,8 @@ public class Bytes_assertEqual_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertEqual(info, (byte) 6, (byte) 8);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy));
+      verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
+          new StandardRepresentation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

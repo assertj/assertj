@@ -17,15 +17,15 @@ package org.assertj.core.error;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
 import static org.junit.Assert.assertEquals;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeLess#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeLess#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -41,14 +41,14 @@ public class ShouldBeLess_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <8>\nto be less than:\n <6> ", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldBeLess(8, 6, new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>()));
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <8>\nto be less than:\n <6> according to 'AbsValueComparator' comparator", message);
   }
 }

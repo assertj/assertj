@@ -14,7 +14,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.hourOfDay;
+import static org.assertj.core.util.Dates.hourOfDayOf;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.rules.ExpectedException.none;
@@ -26,7 +26,7 @@ import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#hourOfDay(Date)}</code>.
+ * Tests for <code>{@link Dates#hourOfDayOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -39,13 +39,13 @@ public class Dates_hourOfDayOf_Test {
   public void should_return_hour_of_day_of_date() throws ParseException {
     String dateAsString = "26/08/1994T22:35:00";
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
-    assertEquals(22, hourOfDay(date));
+    assertEquals(22, hourOfDayOf(date));
   }
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
     thrown.expect(NullPointerException.class);
-    hourOfDay(null);
+    hourOfDayOf(null);
   }
 
 }

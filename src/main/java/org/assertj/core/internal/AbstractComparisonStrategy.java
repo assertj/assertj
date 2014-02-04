@@ -31,7 +31,6 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-    // To optimize the search - see https://github.com/alexruiz/fest-assert-2.x/issues/122
     if (isNullOrEmpty(iterable)) return EMPTY_SET;
 
     Set<Object> duplicates = newSetUsingComparisonStrategy();
@@ -87,4 +86,5 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
     return isGreaterThan(actual, other);
   }
 
+    public abstract String asText();
 }

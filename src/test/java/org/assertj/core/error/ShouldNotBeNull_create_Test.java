@@ -18,14 +18,12 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 
-import org.assertj.core.description.Description;
-import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.error.ShouldNotBeNull;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
 
 /**
- * Tests for <code>{@link ShouldNotBeNull#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotBeNull#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -41,7 +39,7 @@ public class ShouldNotBeNull_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting actual not to be null", message);
   }
 }

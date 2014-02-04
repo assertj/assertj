@@ -19,13 +19,13 @@ import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExa
 
 import java.io.File;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotBeExactlyInstanceOf#create(Description)}</code>.
+ * Tests for <code>{@link ShouldNotBeExactlyInstanceOf#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Nicolas François
  * @author Joel Costigliola
@@ -41,8 +41,8 @@ public class ShouldNotBeExactlyInstance_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
-    assertEquals("[Test] \nExpecting\n <'Yoda'>\nnot to be of exact type:\n <java.io.File>\nbut was:<java.lang.String>",
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting\n <\"Yoda\">\nnot to be of exact type:\n <java.io.File>\nbut was:<java.lang.String>",
         message);
   }
 }

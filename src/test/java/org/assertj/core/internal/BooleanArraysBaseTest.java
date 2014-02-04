@@ -18,7 +18,7 @@ import org.junit.Rule;
  * Base class for testing <code>{@link BooleanArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
  * another with {@link ComparatorBasedComparisonStrategy}.
  * <p>
- * Is in <code>org.fest.assertions.internal</code> package to be able to set {@link BooleanArrays#failures} appropriately.
+ * Is in <code>org.assertj.core.internal</code> package to be able to set {@link BooleanArrays#failures} appropriately.
  * 
  * @author Joel Costigliola
  */

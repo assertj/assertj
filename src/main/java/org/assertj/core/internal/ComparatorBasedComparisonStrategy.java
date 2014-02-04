@@ -120,6 +120,11 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   }
 
   @Override
+  public String asText() {
+      return "according to " + this + " comparator";
+  }
+
+    @Override
   public String toString() {
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
     return quote(comparatorSimpleClassName.length() > 0 ? comparatorSimpleClassName : "anonymous comparator class");

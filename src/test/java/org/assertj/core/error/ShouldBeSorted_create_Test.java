@@ -19,15 +19,15 @@ import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.util.Arrays.array;
 import static org.junit.rules.ExpectedException.none;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link ShouldBeSorted#create(Description)}</code>.
+ * Tests for <code>{@link ShouldBeSorted#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -44,9 +44,9 @@ public class ShouldBeSorted_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"));
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     assertEquals(
-        "[Test] \ngroup is not sorted because element 1:\n <'c'>\nis not less or equal than element 2:\n <'a'>\ngroup was:\n <['b', 'c', 'a']>",
+        "[Test] \ngroup is not sorted because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"a\">\ngroup was:\n <[\"b\", \"c\", \"a\"]>",
         message);
   }
 

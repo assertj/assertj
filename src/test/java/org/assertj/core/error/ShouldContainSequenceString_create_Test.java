@@ -18,15 +18,15 @@ import static junit.framework.Assert.assertEquals;
 
 import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 
 /**
- * Tests for <code>{@link ShouldContainCharSequenceSequence#create(Description)}</code>.
+ * Tests for <code>{@link ShouldContainCharSequenceSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -40,11 +40,11 @@ public class ShouldContainSequenceString_create_Test {
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 
     factory = shouldContainSequence(actual, sequenceValues, 1);
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'" + actual + "'>\n"
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"" + actual + "\">\n"
         + "to contain the following CharSequences in this order:\n"
-        + " <['{', 'author', 'title', '}']>\n"
-        + "but <'title'> was found before <'author'>\n", message);
+        + " <[\"{\", \"author\", \"title\", \"}\"]>\n"
+        + "but <\"title\"> was found before <\"author\">\n", message);
   }
 
   @Test
@@ -54,11 +54,11 @@ public class ShouldContainSequenceString_create_Test {
 
     factory = shouldContainSequence(actual, sequenceValues, 1,
                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"));
-    assertEquals("[Test] \nExpecting:\n <'" + actual + "'>\n"
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    assertEquals("[Test] \nExpecting:\n <\"" + actual + "\">\n"
         + "to contain the following CharSequences in this order:\n"
-        + " <['{', 'author', 'title', '}']>\n"
-        + "but <'title'> was found before <'author'>\n"
+        + " <[\"{\", \"author\", \"title\", \"}\"]>\n"
+        + "but <\"title\"> was found before <\"author\">\n"
         + "according to 'CaseInsensitiveStringComparator' comparator", message);
   }
 

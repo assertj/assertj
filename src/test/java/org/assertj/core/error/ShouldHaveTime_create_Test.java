@@ -21,15 +21,14 @@ import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import java.text.ParseException;
 import java.util.Date;
 
-import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.error.ShouldHaveTime;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.Dates;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link ShouldHaveTime#create(Description)}</code>.
+ * Tests for <code>{@link ShouldHaveTime#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Guillaume Girou
  * @author Nicolas François
@@ -41,7 +40,7 @@ public class ShouldHaveTime_create_Test {
   @Test
   public void should_create_error_message() throws ParseException {
     Date date = Dates.parseDatetime("2011-01-01T05:01:00");
-    String message = shouldHaveTime(date, 123).create(new TextDescription("Test"));
+    String message = shouldHaveTime(date, 123).create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting\n <2011-01-01T05:01:00>\nto have time:\n <123L>\nbut was:\n <" + date.getTime() + "L>", message);
   }
 }
