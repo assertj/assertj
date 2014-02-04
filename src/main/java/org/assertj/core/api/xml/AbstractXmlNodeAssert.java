@@ -4,7 +4,7 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Xmls;
 import org.w3c.dom.Node;
 
-public class AbstractXmlNodeAssert extends AbstractAssert<AbstractXmlNodeAssert, Node> implements XmlNodeAssert {
+public abstract class AbstractXmlNodeAssert extends AbstractAssert<AbstractXmlNodeAssert, Node> implements XmlNodeAssert {
 
   protected Xmls xmls = Xmls.instance();
   
@@ -12,9 +12,25 @@ public class AbstractXmlNodeAssert extends AbstractAssert<AbstractXmlNodeAssert,
     super(actual, selfType);
   }
 
+  protected abstract String type();
+
   @Override
   public void isElement() {
-    
+    xmls.failNotElementBut(info, type());
   }
 
+  @Override
+  public void isAttribute() {
+    xmls.failNotAttributeBut(info, type());
+  }
+  
+  @Override
+  public void isComment() {
+    xmls.failNotCommentBut(info, type());
+  }
+
+  @Override
+  public void isTextNode() {
+    xmls.failNotTextNodeBut(info, type());
+  }
 }

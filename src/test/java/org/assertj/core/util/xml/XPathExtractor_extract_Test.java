@@ -146,14 +146,5 @@ public class XPathExtractor_extract_Test {
     assertThat(secondLevel.getLength()).isEqualTo(1);
     
   }
-  
-  //    assertThat(xml).asXml().extractingNodesByXPath("").hasSize(x)
-  //                                                      .isElement()
-  //                                                      .isAttribute()
-  //                                                      .isComment()
-  //                                                      .isDocument()
-  //                                                      .isTextNode()
-  
-  //
 
 }

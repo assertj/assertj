@@ -17,29 +17,29 @@ package org.assertj.core.api.xml;
 import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.test.ExpectedException;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
 /**
  * Tests for:
  * <ul>
- * <li><code>{@link XmlNodeSetAssert#extractingXPath(String)}</code>
+ * <li><code>{@link XmlNodeSetAssert#isTextNode()}</code>
  * </ul>
  * 
- * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
-public class XmlNodeSetAssert_extractingXPath_Test {
+public class XmlNodeSetAssert_isTextNode_Test {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
   private String xml = "<continents>" +
                           "<continent name='Europe' inhabited='true'>" +
+                            "<!-- AssertJ was created here! -->" + 
                             "<area>10180000</area>" +
                           "</continent>" + 
                           "<continent name='Asia' inhabited='true'>" +
+                            "<!-- Largest continent -->" + 
                             "<area>43820000</area>" +
                           "</continent>" + 
                           "<continent name='North America' inhabited='true'>" +
@@ -60,72 +60,60 @@ public class XmlNodeSetAssert_extractingXPath_Test {
   		               "</continents>";
   
   @Test
-  public void should_extract_zero_elements() throws Exception {
+  public void should_fail_if_no_extracted_nodes() throws Exception {
 
-    assertThat(xml).asXml().extractingXPath("//atlantis").hasSize(0);
+    // expect:
+    thrown.expectAssertionError("Expected to contain single node, but no nodes have been found!");
+    
+    // when:
+    assertThat(xml).asXml().extractingXPath("//atlantis/text()").isTextNode();
   }
 
   @Test
-  public void should_extract_some_elements() throws Exception {
-
-    assertThat(xml).asXml().extractingXPath("//continent").hasSize(7);
-    assertThat(xml).asXml().extractingXPath("//continent[@inhabited='true']").hasSize(6);
-    assertThat(xml).asXml().extractingXPath("//continent[@inhabited='false']").hasSize(1);
-  }
-
-  @Test
-  public void should_fail_meaningfully_if_invalid_xpath() throws Exception {
+  public void should_fail_if_more_than_one_extracted_node() throws Exception {
     
     // expect:
-    thrown.expectIllegalArgumentException("Invalid xpath:<\"invalidXpath!\">");
+    thrown.expectAssertionError("Expected to contain single node, but multiple nodes have been found!");
+    
     // when:
-    assertThat(xml).asXml().extractingXPath("invalidXpath!");
+    assertThat(xml).asXml().extractingXPath("//continent/area/text()").isTextNode();
   }
   
   @Test
-  public void should_fail_meaningfully_if_xpath_is_null() throws Exception {
+  public void should_pass_if_exacly_one_extracted_text_node() throws Exception {
     
+    // when:
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/area/text()").isTextNode();
+  }
+  
+  @Test
+  public void should_fail_if_attribute_extracted() throws Exception {
+
     // expect:
-    thrown.expectNullPointerException("XPath expression cannot be empty!");
-    // when:
-    assertThat(xml).asXml().extractingXPath(null);
-  }
-  
-  @Test
-  public void should_fail_meaningfully_if_xpath_is_empty() throws Exception {
-    
-    // expect:
-    thrown.expectIllegalArgumentException("XPath expression cannot be empty!");
-    // when:
-    assertThat(xml).asXml().extractingXPath("");
-  }
-  
-  @Test
-  public void should_be_immutable() throws Exception {
-    
-    // given:
-    XmlNodeSetAssert xmlAssert = assertThat(xml).asXml();
+    thrown.expectAssertionError("Expected to contain single Text node, but attribute have been found!");
 
     // when:
-    XmlNodeSetAssert expression1 = xmlAssert.extractingXPath("//continent[@inhabited='true']");
-    XmlNodeSetAssert expression2 = xmlAssert.extractingXPath("//continent[@inhabited='false']");
-    
-    // then:
-    expression1.hasSize(6);
-    expression2.hasSize(1);
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/@name").isTextNode();
   }
   
-  @Ignore
   @Test
-  public void should_be_chainable() throws Exception {
+  public void should_fail_if_element_extracted() throws Exception {
     
-    // given:
-    XmlNodeSetAssert xmlAssert = assertThat(xml).asXml();
+    // expect:
+    thrown.expectAssertionError("Expected to contain single Text node, but element have been found!");
     
     // when:
-    xmlAssert.extractingXPath("//continent[@name='Europe']").extractingXPath("//area").hasSize(1);
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']").isTextNode();
+  }
+  
+  @Test
+  public void should_fail_if_comment_extracted() throws Exception {
     
-    // then:
+    // expect:
+    thrown.expectAssertionError("Expected to contain single Text node, but comment have been found!");
+    
+    // when:
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/comment()").isTextNode();
   }
   
 }

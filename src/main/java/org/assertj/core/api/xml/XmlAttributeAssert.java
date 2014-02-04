@@ -9,8 +9,13 @@ public class XmlAttributeAssert extends AbstractXmlNodeAssert {
   }
 
   @Override
-  public void isElement() {
-    xmls.failNotElementBut(info, "attribute found");
+  protected String type() {
+    return "attribute";
+  }
+  
+  @Override
+  public void isAttribute() {
+    // success
   }
 
 }
