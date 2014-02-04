@@ -29,7 +29,7 @@ import org.junit.Test;
  * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
-public class XmlElementAssert_isElement_Test {
+public class XmlNodeSetAssert_isElement_Test {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -59,26 +59,50 @@ public class XmlElementAssert_isElement_Test {
   		               "</continents>";
   
   @Test
-  public void should_extract_zero_elements() throws Exception {
+  public void should_fail_if_no_extracted_elements() throws Exception {
 
-    assertThat(xml).asXml().extractingXPath("//atlantida").hasSize(0);
+    // expect:
+    thrown.expectAssertionError("Expected to contain single Element, but no elements found!");
+    
+    // when:
+    assertThat(xml).asXml().extractingXPath("//atlantida").isElement();
   }
 
   @Test
-  public void should_extract_some_elements() throws Exception {
-
-    assertThat(xml).asXml().extractingXPath("//continent").hasSize(7);
-    assertThat(xml).asXml().extractingXPath("//continent[@inhabited='true']").hasSize(6);
-    assertThat(xml).asXml().extractingXPath("//continent[@inhabited='false']").hasSize(1);
-  }
-
-  @Test
-  public void should_fail_meaningfully_if_invalid_xpath() throws Exception {
+  public void should_fail_if_more_than_one_extracted_element() throws Exception {
     
     // expect:
-    thrown.expectIllegalArgumentException("Invalid xpath:<\"invalidXpath!\">");
+    thrown.expectAssertionError("Expected to contain single Element, but multiple were found!");
+    
     // when:
-    assertThat(xml).asXml().extractingXPath("invalidXpath!");
+    assertThat(xml).asXml().extractingXPath("//continent").isElement();
+  }
+  
+  @Test
+  public void should_pass_if_exacly_one_extracted_element() throws Exception {
+    
+    // when:
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']").isElement();
+  }
+  
+  @Test
+  public void should_fail_if_attribute_extracted() throws Exception {
+
+    // expect:
+    thrown.expectAssertionError("Expected to contain single Element, but attribute found!");
+
+    // when:
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/@name").isElement();
+  }
+  
+  @Test
+  public void should_fail_if_text_extracted() throws Exception {
+    
+    // expect:
+    thrown.expectAssertionError("Expected to contain single Element, but text found!");
+    
+    // when:
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/area/text()").isElement();
   }
   
 }
