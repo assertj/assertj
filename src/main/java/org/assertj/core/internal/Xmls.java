@@ -146,10 +146,14 @@ public class Xmls {
   }
 
   public void assertCommentEqual(AssertionInfo info, Node actual, String expectedComment) {
-    Node expectedCommentNode = asXml(String.format("<element>%s</element>", expectedComment)).item(0).getFirstChild().getFirstChild();
+    Node expectedCommentNode = asXml(String.format("<element>%s</element>", comment(expectedComment))).item(0).getFirstChild().getFirstChild();
     if(!actual.isEqualNode(expectedCommentNode)){
-      throw failures.failure(info, shouldBeEqual(String.format("<!-- %s -->", actual.getNodeValue()), expectedComment, info));
+      throw failures.failure(info, shouldBeEqual(comment(actual.getNodeValue()), comment(expectedComment), info));
     }
+  }
+
+  public String comment(String body) {
+    return String.format("<!--%s-->", body);
   }
 
 }

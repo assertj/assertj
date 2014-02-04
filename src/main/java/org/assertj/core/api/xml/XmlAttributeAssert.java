@@ -7,6 +7,8 @@ import org.w3c.dom.Node;
 
 public class XmlAttributeAssert extends AbstractXmlNodeAssert {
 
+  private static final Pattern ATTRIBUTE_FORMAT = Pattern.compile("^@([^=]+)='(.*)'$");
+
   public XmlAttributeAssert(Node actual) {
     super(actual, XmlAttributeAssert.class);
   }
@@ -24,9 +26,11 @@ public class XmlAttributeAssert extends AbstractXmlNodeAssert {
   @Override
   public void isEqualTo(String expected) {
     
-    Matcher matcher = Pattern.compile("^@([^=]+)='(.*)'$").matcher(expected);
+    Matcher matcher = ATTRIBUTE_FORMAT.matcher(expected);
 
-    matcher.matches();
+    if(!matcher.matches()){
+      throw new IllegalArgumentException(String.format("Invalid format of expected attribute:<\"%s\">. Use: @attribute-name='attribute-value' instead.", expected));
+    }
     
     String attributeName = matcher.group(1);
     String attributeValue = matcher.group(2);

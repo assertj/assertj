@@ -79,5 +79,9 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
     }
   }
 
+  public void contains(String string) {
+    
+  }
+
 
 }
