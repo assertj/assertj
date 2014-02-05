@@ -164,7 +164,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    */
   public S hasSameSizeAs(CharSequence other) {
-    strings.assertHasSize(info, actual, other.length());
+    strings.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 

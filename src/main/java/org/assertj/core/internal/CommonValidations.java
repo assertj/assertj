@@ -94,11 +94,11 @@ final class CommonValidations {
     checkSameSizes(info, actual, sizeOfActual, sizeOf(other));
   }
 
-  private static void checkOtherIsNotNull(Object other, String otherType) {
+  static void checkOtherIsNotNull(Object other, String otherType) {
     if (other == null) throw new NullPointerException("The "+ otherType +" to compare actual size with should not be null");
   }
 
-  private static void checkSameSizes(AssertionInfo info, Object actual, int sizeOfActual, int sizeOfOther) {
+  static void checkSameSizes(AssertionInfo info, Object actual, int sizeOfActual, int sizeOfOther) {
     if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSameSizeAs(actual, sizeOfActual, sizeOfOther));
   }
 

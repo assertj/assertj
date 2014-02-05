@@ -38,6 +38,6 @@ public class CharSequenceAssert_hasSameSizeAs_with_CharSequence_Test extends Cha
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertHasSize(getInfo(assertions), getActual(assertions), other.length());
+    verify(strings).assertHasSameSizeAs(getInfo(assertions), getActual(assertions), other);
   }
 }

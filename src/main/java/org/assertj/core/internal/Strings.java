@@ -31,8 +31,11 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.util.Comparator;
@@ -170,15 +173,21 @@ public class Strings {
    *
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
-   * @param other the group to compare
+   * @param array the array to compare
    * @throws AssertionError if the given {@code CharSequence} is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the number of entries in the given {@code CharSequence} does not have the same size.
    */
-  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object other) {
+  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, Object array) {
     Objects.instance().assertNotNull(info, actual);
-    assertIsArray(info, other);
-    hasSameSizeAsCheck(info, actual, other, actual.length());
+    assertIsArray(info, array);
+    hasSameSizeAsCheck(info, actual, array, actual.length());
+  }
+
+  public void assertHasSameSizeAs(AssertionInfo info, CharSequence actual, CharSequence other) {
+    Objects.instance().assertNotNull(info, actual);
+    checkOtherIsNotNull(other, "CharSequence or String");
+    checkSameSizes(info, actual, actual.length(), other.length());
   }
 
   /**
