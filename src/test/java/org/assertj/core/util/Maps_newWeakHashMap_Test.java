@@ -1,5 +1,5 @@
 /*
- * Created on Oct 8, 2007
+ * Created on Apr 29, 2007
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,33 +16,36 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.WeakHashMap;
 
+import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for <code>{@link Maps#newWeakHashMap()}</code>.
  * 
  * @author Christian Rösch
  */
-public class Sets_newLinkedHashSet_Test {
+public class Maps_newWeakHashMap_Test {
   @Test
-  public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
-    assertThat(set).isEmpty();
+  public void should_return_empty_mutable_WeakHashMap() {
+    Map<String, Integer> map = Maps.newWeakHashMap();
+    assertThat(map).isInstanceOf(WeakHashMap.class);
+    assertThat(map).isEmpty();
+    map.put("abc", 123);
 
-    set.add("element");
-    assertThat(set).containsExactly("element");
+    assertThat(map).containsExactly(MapEntry.entry("abc", 123));
   }
 
   @Test
-  public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
-    assertThat(set2).isNotSameAs(set1);
+  public void should_return_new_WeakHashMap() {
+    Map<String, Integer> map1 = Maps.newWeakHashMap();
+    Map<String, Integer> map2 = Maps.newWeakHashMap();
+    assertThat(map2).isNotSameAs(map1);
 
     // be sure they have nothing in common
-    set1.add("element");
-    assertThat(set2).isEmpty();
+    map1.put("abc", 123);
+    assertThat(map2).isEmpty();
   }
 }

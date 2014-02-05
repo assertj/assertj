@@ -14,35 +14,35 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.*;
 
 import java.util.LinkedHashSet;
 
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for {@link Sets#newLinkedHashSet(Object...)}.
  * 
- * @author Christian Rösch
+ * @author Yvonne Wang
+ * @author Alex Ruiz
  */
-public class Sets_newLinkedHashSet_Test {
+public class Sets_newLinkedHashSet_GenericArray_Test {
   @Test
-  public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
-    assertThat(set).isEmpty();
-
-    set.add("element");
-    assertThat(set).containsExactly("element");
+  public void should_return_Set_containing_all_elements_in_array() {
+    String[] expected = { "One", "Two" };
+    LinkedHashSet<String> set = Sets.newLinkedHashSet(expected);
+    assertArrayEquals(expected, set.toArray());
   }
 
   @Test
-  public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
-    assertThat(set2).isNotSameAs(set1);
+  public void should_return_null_if_array_is_null() {
+    Object[] elements = null;
+    assertNull(Sets.newLinkedHashSet(elements));
+  }
 
-    // be sure they have nothing in common
-    set1.add("element");
-    assertThat(set2).isEmpty();
+  @Test
+  public void should_return_empty_Set_if_array_is_empty() {
+    LinkedHashSet<Object> set = Sets.newLinkedHashSet(new Object[0]);
+    assertTrue(set.isEmpty());
   }
 }

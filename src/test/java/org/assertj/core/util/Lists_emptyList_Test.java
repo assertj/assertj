@@ -1,5 +1,5 @@
 /*
- * Created on Oct 8, 2007
+ * Created on Apr 29, 2007
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
@@ -16,33 +16,19 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.LinkedHashSet;
+import java.util.ArrayList;
 
 import org.junit.Test;
 
 /**
- * Tests for {@link Sets#newLinkedHashSet()}.
+ * Tests for <code>{@link Lists#newArrayList()}</code>.
  * 
  * @author Christian Rösch
  */
-public class Sets_newLinkedHashSet_Test {
+public class Lists_emptyList_Test {
   @Test
-  public void should_return_empty_mutable_Set() {
-    LinkedHashSet<Object> set = Sets.newLinkedHashSet();
-    assertThat(set).isEmpty();
-
-    set.add("element");
-    assertThat(set).containsExactly("element");
-  }
-
-  @Test
-  public void should_return_new_HashSet() {
-    LinkedHashSet<Object> set1 = Sets.newLinkedHashSet();
-    LinkedHashSet<Object> set2 = Sets.newLinkedHashSet();
-    assertThat(set2).isNotSameAs(set1);
-
-    // be sure they have nothing in common
-    set1.add("element");
-    assertThat(set2).isEmpty();
+  public void should_return_empty_List() {
+    ArrayList<String> list = Lists.newArrayList();
+    assertThat(list).isEmpty();
   }
 }

@@ -20,6 +20,8 @@ package org.assertj.core.util;
  * @author alruiz@google.com (Alex Ruiz)
  */
 public final class Preconditions {
+  private static final String ARGUMENT_EMPTY = "Argument expected not to be empty!";
+
   /**
    * Verifies that the given {@code String} is not {@code null} or empty.
    * 
@@ -29,7 +31,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given {@code String} is empty.
    */
   public static String checkNotNullOrEmpty(String s) {
-    return checkNotNullOrEmpty(s, "Argument expected not to be empty!");
+    return checkNotNullOrEmpty(s, ARGUMENT_EMPTY);
   }
 
   /**
@@ -44,9 +46,25 @@ public final class Preconditions {
   public static String checkNotNullOrEmpty(String s, String message) {
     checkNotNull(s, message);
     if (s.isEmpty()) {
-      throw new IllegalArgumentException(message);
+      throwExceptionForBeingEmpty(message);
     }
     return s;
+  }
+
+  /**
+   * Verifies that the given array is not {@code null} or empty.
+   * 
+   * @param array the given array.
+   * @return the validated array.
+   * @throws NullPointerException if the given array is {@code null}.
+   * @throws IllegalArgumentException if the given array is empty.
+   */
+  public static <T> T[] checkNotNullOrEmpty(T[] array) {
+    T[] checked = checkNotNull(array);
+    if (checked.length == 0) {
+      throwExceptionForBeingEmpty();
+    }
+    return checked;
   }
 
   /**
@@ -62,7 +80,7 @@ public final class Preconditions {
     }
     return reference;
   }
-  
+
   /**
    * Verifies that the given object reference is not {@code null}.
    * 
@@ -78,5 +96,14 @@ public final class Preconditions {
     return reference;
   }
 
-  private Preconditions() {}
+  private Preconditions() {
+  }
+
+  private static void throwExceptionForBeingEmpty() {
+    throwExceptionForBeingEmpty(ARGUMENT_EMPTY);
+  }
+
+  private static void throwExceptionForBeingEmpty(String message) {
+    throw new IllegalArgumentException(message);
+  }
 }

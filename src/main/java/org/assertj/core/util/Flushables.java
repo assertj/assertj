@@ -15,6 +15,8 @@
 package org.assertj.core.util;
 
 import java.io.Flushable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Utility methods related to <code>{@link Flushable}</code>.
@@ -22,6 +24,8 @@ import java.io.Flushable;
  * @author Yvonne Wang
  */
 public class Flushables {
+  private static Logger logger = Logger.getLogger(Flushables.class.getCanonicalName());
+
   /**
    * Flushes the given <code>{@link Flushable}</code>s, ignoring any thrown exceptions.
    * 
@@ -40,6 +44,7 @@ public class Flushables {
     try {
       f.flush();
     } catch (Exception e) {
+      logger.log(Level.WARNING, "Error occurred while flushing " + f, e);
     }
   }
 
