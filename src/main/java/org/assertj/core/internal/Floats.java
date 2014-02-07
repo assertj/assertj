@@ -68,6 +68,11 @@ public class Floats extends RealNumbers<Float> {
     return abs(expected - actual) <= offset.value.floatValue();
   }
 
+  public void assertIsCloseTo(final AssertionInfo info, final Float actual, final Float expected,
+                              final Offset<Float> offset) {
+    assertEqual(info, actual, expected, offset);
+  }
+
   /**
    * Verifies that two floats are equal within a positive offset.<br>
    * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison

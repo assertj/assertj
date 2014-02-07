@@ -14,8 +14,12 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+
 import java.math.BigDecimal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
 import org.assertj.core.util.*;
 
 
@@ -50,4 +54,18 @@ public class BigDecimals extends Numbers<BigDecimal> {
   protected BigDecimal zero() {
     return BigDecimal.ZERO;
   }
+
+  public void assertIsCloseTo(final AssertionInfo info, final BigDecimal actual, final BigDecimal other, final Offset<BigDecimal> offset) {
+    assertNotNull(info, actual);
+    final BigDecimal differenceAbsoluteValue = abs(actual.subtract(other));
+    if (differenceAbsoluteValue.subtract(offset.value).compareTo(BigDecimal.ZERO) <= 0) return;
+    throw failures.failure(info, shouldBeEqual(actual, other, offset, differenceAbsoluteValue));
+  }
+
+  // borrowed from java 7 API ... to remove when we will be using Java 7 instead of java 6.
+  private BigDecimal abs(final BigDecimal bigDecimal) {
+    return (bigDecimal.signum() < 0 ? bigDecimal.negate() : bigDecimal);
+  }
+
+
 }

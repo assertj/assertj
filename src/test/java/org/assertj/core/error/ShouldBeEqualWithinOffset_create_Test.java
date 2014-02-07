@@ -16,9 +16,11 @@ package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -43,6 +45,12 @@ public class ShouldBeEqualWithinOffset_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <8.0f>\nto be close to:\n <6.0f>\nwithin offset <1.0f> but offset was <2.0f>", message);
+    assertThat(message).isEqualTo("[Test] \n" +
+                                  "Expecting:\n" +
+                                  "  <8.0f>\n" +
+                                  "to be close to:\n" +
+                                  "  <6.0f>\n" +
+                                  "by less than <1.0f> but difference was <2.0f>.\n" +
+                                  "(a difference of exactly <1.0f> being considered valid)");
   }
 }

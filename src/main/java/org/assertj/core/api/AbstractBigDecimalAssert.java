@@ -17,6 +17,7 @@ package org.assertj.core.api;
 import java.math.BigDecimal;
 import java.util.Comparator;
 
+import org.assertj.core.data.Offset;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
@@ -245,7 +246,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * Example:
    * 
    * <pre>
-   * // assertion will pass
+   * // assertions will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
    * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
@@ -253,8 +254,6 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;2.0&quot;);
    * </pre>
-   * 
-   * </p>
    */
   public S isEqualByComparingTo(String expected) {
     return isEqualByComparingTo(new BigDecimal(expected));
@@ -271,6 +270,34 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   public S usingDefaultComparator() {
     super.usingDefaultComparator();
     this.bigDecimals = BigDecimals.instance();
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * final BigDecimal actual = new BigDecimal("8.1");
+   * final BigDecimal other =  new BigDecimal("8.0");
+   *
+   * // valid assertion
+   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.2")));
+   *
+   * // if difference is exactly equals to given offset value, it's ok
+   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.1")));
+   *
+   * // BidDecimal format has no impact on the assertion, this assertion is valid:
+   * assertThat(actual).isCloseTo(new BigDecimal("8.00"), within(new BigDecimal("0.100")));
+   *
+   * // but if difference is greater than given offset value assertion will fail :
+   * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.01")));
+   * </pre>
+   */
+  public S isCloseTo(final BigDecimal other, final Offset<BigDecimal> offset) {
+    bigDecimals.assertIsCloseTo(info, actual, other, offset);
     return myself;
   }
 }

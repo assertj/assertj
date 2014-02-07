@@ -100,7 +100,47 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 		return myself;
 	}
 
-	/**
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // assertion will pass
+   * assertThat(8.1).isCloseTo(8.0, within(0.2));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1).isCloseTo(8.0, offset(0.2));
+   *
+   * // if difference is exactly equals to 0.1, it's ok
+   * assertThat(8.1).isCloseTo(8.0, within(0.1));
+   *
+   * // assertion will fail
+   * assertThat(8.1).isCloseTo(8.0, within(0.01));
+   * </pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  // duplicate javadoc of isCloseTo(double other, Offset<Double> offset but can't define it in super class
+  public S isCloseTo(final double other, final Offset<Double> offset) {
+    doubles.assertIsCloseTo(info, actual, other, offset);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isCloseTo(Double other, Offset<Double> offset) {
+    doubles.assertIsCloseTo(info, actual, other, offset);
+    return myself;
+  }
+
+  /**
 	 * Verifies that the actual value is equal to the given one.
 	 * @param expected the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
@@ -120,13 +160,31 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 	}
 
 	/**
-	 * Verifies that the actual value is equal to the given one, within a positive offset.
-	 * @param expected the given value to compare the actual value to.
-	 * @param offset the given positive offset.
-	 * @return {@code this} assertion object.
-	 * @throws NullPointerException if the given offset is {@code null}.
-	 * @throws AssertionError if the actual value is {@code null}.
-	 * @throws AssertionError if the actual value is not equal to the given one.
+   * Verifies that the actual value is close to the given one by less than the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre>
+   * // assertion will pass:
+   * assertThat(8.1).isEqualTo(8.0, offset(0.2));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
+   *
+   * // within is an alias of offset
+   * assertThat(8.1).isEqualTo(8.0, within(0.1));
+   *
+   * // assertion will fail
+   * assertThat(8.1).isEqualTo(8.0, offset(0.01));
+   * </pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
 	 */
 	public S isEqualTo(double expected, Offset<Double> offset) {
 		doubles.assertEqual(info, actual, expected, offset);

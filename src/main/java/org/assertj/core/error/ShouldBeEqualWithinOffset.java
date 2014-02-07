@@ -18,7 +18,7 @@ import org.assertj.core.data.Offset;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two numbers are equal within a positive offset failed.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -37,7 +37,11 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
     return new ShouldBeEqualWithinOffset(actual, expected, offset, difference);
   }
 
-  private ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<?> offset, Number difference) {
-    super("\nExpecting:\n <%s>\nto be close to:\n <%s>\nwithin offset <%s> but offset was <%s>", actual, expected, offset.value, difference);
+  private <T extends Number> ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<T> offset,
+                                                       Number difference) {
+    super("\nExpecting:\n  <%s>\nto be close to:\n  <%s>\n" +
+          "by less than <%s> but difference was <%s>.\n" +
+          "(a difference of exactly <%s> being considered valid)",
+          actual, expected, offset.value, difference, offset.value);
   }
 }

@@ -110,7 +110,114 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 		return myself;
 	}
 
-	/** {@inheritDoc} */
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre>
+   * // assertion will pass:
+   * assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1f).isCloseTo(8.2f, offset(0.2f));
+   *
+   * // if difference is exactly equals to 0.1, it's ok
+   * assertThat(8.1f).isCloseTo(8.2f, within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isCloseTo(8.2f, within(0.01f));
+   * </pre>
+   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
+   * <pre>
+   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.1f));
+   * </pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
+  public S isCloseTo(final float other, final Offset<Float> offset) {
+    floats.assertIsCloseTo(info, actual, other, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // assertion will pass:
+   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.2f));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1f).isCloseTo(new Float(8.2f), offset(0.2f));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.01f));
+   * </pre>
+   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
+   * <pre>
+   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isCloseTo(new Float(8.0f), within(0.1f));
+   * </pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(Float other, Offset<Float> offset) {
+    floats.assertIsCloseTo(info, actual, other, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual value is close to the given one by less than the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // assertion will pass
+   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.2f));
+   *
+   * // if difference is exactly equals to the offset (0.1f), it's ok
+   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.1f));
+   *
+   * // within is an alias of offset
+   * assertThat(8.1f).isEqualTo(new Float(8.2f), within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.01f));
+   * </pre>
+   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
+   * <pre>
+   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isEqualTo(new Float(8.0f), offset(0.1f));
+   * </pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
 	@Override
 	public S isEqualTo(Float expected, Offset<Float> offset) {
 		floats.assertEqual(info, actual, expected, offset);
@@ -118,7 +225,28 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 	}
 
 	/**
-	 * Verifies that the actual value is equal to the given one, within a positive offset.
+	 * Verifies that the actual value is close to the given one by less than the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre>
+   * // assertion will pass
+   * assertThat(8.1f).isEqualTo(8.2f, offset(0.1f));
+   *
+   * // within is an alias of offset
+   * assertThat(8.1f).isEqualTo(8.2f, within(0.1f));
+   *
+   * // assertion will fail
+   * assertThat(8.1f).isEqualTo(8.2f, offset(0.01f));
+   * </pre>
+   *
+   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
+   * <pre>
+   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isEqualTo(8.0f, offset(0.1f));
+   * </pre>
+   *
 	 * @param expected the given value to compare the actual value to.
 	 * @param offset the given positive offset.
 	 * @return {@code this} assertion object.
@@ -218,4 +346,5 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
 		floats = Floats.instance();
 		return myself;
 	}
+
 }

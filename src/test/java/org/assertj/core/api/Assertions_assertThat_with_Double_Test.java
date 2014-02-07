@@ -14,10 +14,10 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.DoubleAssert;
 import org.junit.Test;
 
 /**
@@ -39,5 +39,25 @@ public class Assertions_assertThat_with_Double_Test {
     Double eight = 8d;
     DoubleAssert assertions = Assertions.assertThat(eight);
     assertSame(eight, assertions.actual);
+  }
+
+  @Test
+  public void isCloseTo_within_offset_should_pass() {
+    assertThat(8.1).isCloseTo(8.0, within(0.2));
+    assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
+    // you can use offset if you prefer
+    assertThat(8.1).isCloseTo(8.0, offset(0.2));
+    // if difference is exactly equals to 0.1, it's ok
+    assertThat(8.1).isCloseTo(8.0, within(0.1));
+  }
+
+  @Test
+  public void isEqualTo_with_offset_should_pass() {
+    assertThat(8.1).isEqualTo(8.0, offset(0.2));
+    assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
+    // if difference is exactly equals to the offset (0.1), it's ok
+    assertThat(8.1).isEqualTo(8.0, offset(0.1));
+    // within is an alias of offset
+    assertThat(8.1).isEqualTo(8.0, within(0.1));
   }
 }

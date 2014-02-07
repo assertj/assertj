@@ -17,6 +17,8 @@ package org.assertj.core.data;
 import static org.assertj.core.util.Objects.*;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
+import java.math.BigDecimal;
+
 /**
  * A positive offset.
  *
@@ -76,6 +78,20 @@ public class Offset<T extends Number> {
     return new Offset<Integer>(value);
   }
 
+  /**
+   * Creates a new {@link Offset}.
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   */
+  public static Offset<BigDecimal> offset(final BigDecimal value) {
+    checkNotNull(value);
+    if (value.compareTo(BigDecimal.ZERO) < 0) throw valueNotPositive();
+    return new Offset<BigDecimal>(value);
+  }
+
   private static IllegalArgumentException valueNotPositive() {
     return new IllegalArgumentException("The value of the offset should be greater than zero");
   }
@@ -110,4 +126,5 @@ public class Offset<T extends Number> {
   public String toString() {
     return String.format("%s[value=%s]", getClass().getSimpleName(), value);
   }
+
 }

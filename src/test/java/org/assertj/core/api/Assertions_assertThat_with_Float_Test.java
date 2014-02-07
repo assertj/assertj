@@ -14,10 +14,10 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.FloatAssert;
 import org.junit.Test;
 
 /**
@@ -39,5 +39,25 @@ public class Assertions_assertThat_with_Float_Test {
     Float eight = 8f;
     FloatAssert assertions = Assertions.assertThat(eight);
     assertSame(eight, assertions.actual);
+  }
+
+  @Test
+  public void isCloseTo_within_offset_should_pass() {
+    assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
+    assertThat(8f).isCloseTo(new Float(8.2f), within(0.5f));
+    // you can use offset if you prefer
+    assertThat(8.1f).isCloseTo(8.2f, offset(0.2f));
+    // if difference is exactly equals to 0.1, it's ok
+    assertThat(8.1f).isCloseTo(8.2f, within(0.1f));
+  }
+
+  @Test
+  public void isEqualTo_with_offset_should_pass() {
+    assertThat(8.1f).isEqualTo(8.2f, offset(0.2f));
+    assertThat(8.1f).isEqualTo(new Float(8.2), offset(0.2f));
+    // within is an alias of offset
+    assertThat(8.1f).isEqualTo(8.2f, within(0.1f));
+    // if difference is exactly equals to the offset (0.1), it's ok
+    assertThat(8.1f).isEqualTo(new Float(8.2), offset(0.1f));
   }
 }

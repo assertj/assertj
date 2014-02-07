@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.CommonValidations.*;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
@@ -91,4 +92,8 @@ public class Doubles extends RealNumbers<Double> {
     return abs(expected - actual) <= offset.value.doubleValue();
   }
 
+  public void assertIsCloseTo(final WritableAssertionInfo info, final Double actual, final double other,
+                              final Offset<Double> offset) {
+    assertEqual(info, actual, other, offset);
+  }
 }

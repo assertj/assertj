@@ -29,7 +29,25 @@ import org.assertj.core.data.Offset;
 public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<S, A>, A extends Number> extends NumberAssert<S, A> {
 
   /**
-   * Verifies that the actual value is equal to the given one, within a positive offset.
+   * Verifies that the actual value is close to the given one by less than the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre>
+   * // assertion will pass:
+   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.1));
+   *
+   * // within is an alias of offset
+   * assertThat(8.1).isEqualTo(new Double(8.0), within(0.1));
+   *
+   * // assertion will fail
+   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));
+   * </pre>
+   *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
@@ -38,6 +56,35 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   S isEqualTo(A expected, Offset<A> offset);
+
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre>
+   * // assertions will pass:
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1).isCloseTo(new Double(8.0), offset(0.2));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.1));
+   *
+   * // assertion will fail
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));
+   * </pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  S isCloseTo(A expected, Offset<A> offset);
 
   /**
    * Verifies that the actual value is equal to {@code NaN}.

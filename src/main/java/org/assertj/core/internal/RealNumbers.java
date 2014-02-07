@@ -1,5 +1,7 @@
 package org.assertj.core.internal;
 
+import static java.lang.Math.abs;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
 

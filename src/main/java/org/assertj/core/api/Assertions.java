@@ -598,8 +598,7 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Double)} so that Assertions offers a full feature entry point to all AssertJ
-   * features (but you can use {@link Offset} if you prefer).
+   * Assertions entry point for double {@link Offset}.
    * <p/>
    * Typical usage :
    * <p/>
@@ -612,16 +611,54 @@ public class Assertions {
   }
 
   /**
-   * Only delegate to {@link Offset#offset(Float)} so that Assertions offers a full feature entry point to all AssertJ
-   * features (but you can use {@link Offset} if you prefer).
+   * Assertions entry point for float {@link Offset}.
    * <p/>
    * Typical usage :
    * <p/>
    * <pre>
-   * assertThat(8.2f).isEqualTo(8.0f, offset(0.2f));
+   * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
    * </pre>
    */
   public static Offset<Float> offset(Float value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * <pre>
+   * assertThat(8.1).isCloseTo(8.0, within(0.1));
+   * </pre>
+   */
+  public static Offset<Double> within(Double value) {
+    return Offset.offset(value);
+  }
+
+  /**
+   * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * <pre>
+   * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
+   * </pre>
+   */
+  public static Offset<Float> within(Float value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Alias for {@link #offset(BigDecimal)} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * <pre>
+   * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
+   * </pre>
+   */
+  public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
   }
 
