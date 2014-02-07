@@ -3,6 +3,7 @@
 #IntelliJ project files
 /.idea
 /*.iml
+out
 #Eclipse project files
 /.settings
 /.classpath
