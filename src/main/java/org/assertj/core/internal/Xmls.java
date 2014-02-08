@@ -14,6 +14,7 @@ import org.assertj.core.error.ShouldBeXmlAttribute;
 import org.assertj.core.error.ShouldBeXmlComment;
 import org.assertj.core.error.ShouldBeXmlElement;
 import org.assertj.core.error.ShouldBeXmlTextNode;
+import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.xml.XmlStringPrettyFormatter;
 import org.assertj.core.util.xml.XmlUtil;
 import org.w3c.dom.Node;
@@ -23,6 +24,19 @@ public class Xmls {
 
   private Objects objects = Objects.instance();
   private Failures failures = Failures.instance();
+  private Iterables iterables = new Iterables(new StandardComparisonStrategy(){
+    
+    public boolean areEqual(Object actual, Object other) {
+      
+      if(actual instanceof Node){
+        Node left = (Node) actual;
+        Node right = (Node) other;
+        return XmlUtil.areEqual(left, right);
+      }
+      return super.areEqual(actual, other);
+    };
+    
+  });
 
   public NodeList asXml(CharSequence actual) {
     return XmlUtil.nodeList(XmlStringPrettyFormatter.toXmlDocument(actual.toString()));
@@ -154,6 +168,38 @@ public class Xmls {
 
   public String comment(String body) {
     return String.format("<!--%s-->", body);
+  }
+
+  public void assertContains(AssertionInfo info, NodeList actual, String... nodes) {
+    
+    Preconditions.checkNotNull(nodes, "Expected node cannot be null!");
+
+    List<Node> actualNodes = actualNodes(actual);
+    List<Node> expectedNodes = expectedNodes(nodes);
+    
+    iterables.assertContains(info, actualNodes, expectedNodes.toArray());
+    
+  }
+
+  public List<Node> expectedNodes(String... nodes) {
+   
+    List<Node> expectedNodes = new ArrayList<Node>();
+   
+    for (String xml : nodes) {
+      Preconditions.checkNotNull(xml, "Expected node cannot be null!");
+      expectedNodes.add(XmlUtil.parseNode(xml));
+    }
+    return expectedNodes;
+  }
+
+  private List<Node> actualNodes(NodeList nodeList) {
+
+    List<Node> result = new ArrayList<Node>();
+    
+    for(int i=0; i<nodeList.getLength(); i++){
+      result.add(nodeList.item(i));
+    }
+    return result;
   }
 
 }

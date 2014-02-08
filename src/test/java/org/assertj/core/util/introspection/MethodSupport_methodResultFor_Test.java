@@ -108,12 +108,10 @@ public class MethodSupport_methodResultFor_Test {
       this.archenemy = archenemy;
     }
 
-    @SuppressWarnings("unused")
     public Person archenemy() {
       return archenemy;
     }
 
-    @SuppressWarnings("unused")
     public void saveTheDay() {
       // do some superheroic stuff
     }

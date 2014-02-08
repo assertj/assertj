@@ -14,7 +14,7 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
   private Xmls xmls = Xmls.instance();
   
   @SuppressWarnings("serial")
-  private Map<Short, Class<? extends XmlNodeAssert>> mapping = new HashMap<Short, Class<? extends XmlNodeAssert>>(){{
+  private Map<Short, Class<? extends XmlNodeAssert>> supportedAssertions = new HashMap<Short, Class<? extends XmlNodeAssert>>(){{
     put(Node.ATTRIBUTE_NODE, XmlAttributeAssert.class);
     put(Node.TEXT_NODE, XmlTextNodeAssert.class);
     put(Node.ELEMENT_NODE, XmlElementAssert.class);
@@ -63,25 +63,25 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
   }
   
   public Node singleNode() {
+    
     xmls.assertIsSingleNode(info, actual);
-    Node item = actual.item(0);
-    return item;
+    return actual.item(0);
   }
 
   private XmlNodeAssert assertFor(Node item) {
     
     try {
       
-      return mapping.get(item.getNodeType()).getConstructor(Node.class).newInstance(item);
+      return supportedAssertions.get(item.getNodeType()).getConstructor(Node.class).newInstance(item);
       
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void contains(String string) {
+  public void contains(String... expectedNode) {
     
+    xmls.assertContains(info, actual, expectedNode);
   }
-
 
 }

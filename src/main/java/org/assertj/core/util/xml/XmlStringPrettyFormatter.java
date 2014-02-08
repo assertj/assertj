@@ -1,19 +1,13 @@
 package org.assertj.core.util.xml;
 
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
-import org.xml.sax.InputSource;
 
 /**
  * Format an XML String with indent = 2 space.
@@ -57,11 +51,9 @@ public class XmlStringPrettyFormatter {
       return prettyFormat(node, false);
   }
 
-  public static Document toXmlDocument(String xmlString) {
+  public static Node toXmlDocument(String xmlString) {
     try {
-      InputSource xmlInputSource = new InputSource(new StringReader(xmlString));
-      DocumentBuilder xmlDocumentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-      return xmlDocumentBuilder.parse(xmlInputSource);
+      return XmlUtil.doParse(xmlString);
     } catch (Exception e) {
       throw new RuntimeException(PARSE_ERROR, e);
     }
