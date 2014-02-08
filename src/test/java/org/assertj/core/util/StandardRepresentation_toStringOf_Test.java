@@ -174,7 +174,7 @@ public class StandardRepresentation_toStringOf_Test {
   @Test
   public void should_format_xml_elements() throws Exception {
 
-    assertThat(toStringOf(XmlUtil.parseNode("<element>content</element>"))).isEqualTo("<element>content</element>\n");
+    assertThat(toStringOf(XmlUtil.parseNode("<element>content</element>"))).isEqualTo("\n<element>content</element>\n");
   }
   
   private String toStringOf(Object o) {

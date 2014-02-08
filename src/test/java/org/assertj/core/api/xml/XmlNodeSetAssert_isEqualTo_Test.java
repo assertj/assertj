@@ -83,7 +83,10 @@ public class XmlNodeSetAssert_isEqualTo_Test {
   public void should_fail_if_element_is_not_equal() throws Exception {
     
     // expect:
-    thrown.expectAssertionError("expected:<\"<area>10[]</area>\"> but was:<\"<area>10[180000]</area>\">");
+    thrown.expectAssertionError("expected:<\n" +
+    		"<area>10[]</area>\n" +
+    		"> but was:<\n" +
+    		"<area>10[180000]</area>\n");
     
     // when:
     assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/area").isEqualTo("<area>10</area>");
@@ -100,20 +103,10 @@ public class XmlNodeSetAssert_isEqualTo_Test {
   public void should_fail_if_attribute_is_not_equal() throws Exception {
     
     // expect:
-    thrown.expectAssertionError("expected:<\"@inhabited='[tru]e'\"> but was:<\"@inhabited='[fals]e'\">");
+    thrown.expectAssertionError("expected:<@inhabited=\"[tru]e\"> but was:<@inhabited=\"[fals]e\">");
     
     // when:
     assertThat(xml).asXml().extractingXPath("//continent[@name='Antarctica']/@inhabited").isEqualTo("@inhabited='true'");
-  }
-  
-  @Test
-  public void should_fail_meaningfully_if_expected_attribute_not_in_valid_format() throws Exception {
-    
-    // expect:
-    thrown.expectIllegalArgumentException("Invalid format of expected attribute:<\"invalidFormat\">. Use: @attribute-name='attribute-value' instead.");
-    
-    // when:
-    assertThat(xml).asXml().extractingXPath("//continent[@name='Antarctica']/@inhabited").isEqualTo("invalidFormat");
   }
   
   @Test
@@ -127,7 +120,11 @@ public class XmlNodeSetAssert_isEqualTo_Test {
   public void should_fail_if_comment_is_not_equal() throws Exception {
     
     // expect:
-    thrown.expectAssertionError("expected:<\"<!-- [Not that big] -->\"> but was:<\"<!-- [Largest continent] -->\">");
+    thrown.expectAssertionError("expected:<\n" +
+    		"<!-- [Not that big] -->\n" +
+    		"> but was:<\n" +
+    		"<!-- [Largest continent] -->\n" +
+    		">");
     
     // when:
     assertThat(xml).asXml().extractingXPath("//continent[@name='Asia']/comment()").isEqualTo("<!-- Not that big -->");
@@ -141,20 +138,14 @@ public class XmlNodeSetAssert_isEqualTo_Test {
   }
 
   @Test
-  public void should_fail_meaningfully_if_expected_comment_not_in_valid_format() throws Exception {
-    
-    // expect:
-    thrown.expectIllegalArgumentException("Invalid format of expected comment:<\"invalidFormat\">. Use: <!-- comment-body --> instead.");
-    
-    // when:
-    assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/comment()").isEqualTo("invalidFormat");
-  }
-  
-  @Test
   public void should_fail_if_text_node_is_not_equal() throws Exception {
     
     // expect:
-    thrown.expectAssertionError("expected:<\"10[]\"> but was:<\"10[180000]\">");
+    thrown.expectAssertionError("expected:<\n" +
+    		"10[]\n" +
+    		"> but was:<\n" +
+    		"10[180000]\n" +
+    		">");
     
     // when:
     assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/area/text()").isEqualTo("10");

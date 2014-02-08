@@ -18,8 +18,4 @@ public class XmlTextNodeAssert extends AbstractXmlNodeAssert {
     // success
   }
   
-  @Override
-  public void isEqualTo(String expectedXml) {
-    xmls.assertTextNodeEqual(info, actual, expectedXml);
-  }
 }

@@ -35,14 +35,15 @@ public class XmlUtil_toStringOf_Test {
   public void should_print_simple_element() throws Exception {
 
     Node node = parseNode("<element>this is element</element>");
-    assertThat(toStringOf(node)).isEqualTo("<element>this is element</element>\n");
+    assertThat(toStringOf(node)).isEqualTo("\n" +
+    		"<element>this is element</element>\n");
   }
   
   @Test
   public void should_pretty_print_nested_element() throws Exception {
     
     Node node = parseNode("<complexElement><element>abc</element></complexElement>");
-    assertThat(toStringOf(node)).isEqualTo(
+    assertThat(toStringOf(node)).isEqualTo("\n" +
         "<complexElement>\n" +
         "    <element>abc</element>\n" +
         "</complexElement>\n");
@@ -52,7 +53,8 @@ public class XmlUtil_toStringOf_Test {
   public void should_print_element_with_attribute() throws Exception {
 
     Node node = parseNode("<element attribute=\"value\"/>");
-    assertThat(toStringOf(node)).isEqualTo("<element attribute=\"value\"/>\n");
+    assertThat(toStringOf(node)).isEqualTo("\n" +
+    		"<element attribute=\"value\"/>\n");
   }
   
 
@@ -67,14 +69,16 @@ public class XmlUtil_toStringOf_Test {
   public void should_print_comment() throws Exception {
     
     Node node = XmlUtil.parseNode("<!-- some comment -->");
-    assertThat(toStringOf(node)).isEqualTo("<!-- some comment -->\n");
+    assertThat(toStringOf(node)).isEqualTo("\n" +
+    		"<!-- some comment -->\n");
   }
 
   @Test
   public void should_print_text_node() throws Exception {
     
     Node node = XmlUtil.parseNode("text");
-    assertThat(toStringOf(node)).isEqualTo("text\n");
+    assertThat(toStringOf(node)).isEqualTo("\n" +
+    		"text\n");
   }
 
 }

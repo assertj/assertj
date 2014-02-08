@@ -106,13 +106,9 @@ public class Xmls {
   }
 
   private AssertionErrorFactory shouldBeEqual(Node actual, Node expected, AssertionInfo info) {
-    return shouldBeEqual(prettyXml(actual), prettyXml(expected), info);
-  }
-
-  private AssertionErrorFactory shouldBeEqual(String actual, String expected, AssertionInfo info) {
     return ShouldBeEqual.shouldBeEqual(actual, expected, info.representation());
   }
-  
+
   public void assertIsSingleNode(AssertionInfo info, NodeList actual) {
 
     if (actual.getLength() > 1 ){
@@ -139,35 +135,10 @@ public class Xmls {
   }
 
   public void assertEqual(AssertionInfo info, Node actual, String expectedXml) {
-    Node expected = asXml(expectedXml).item(0).getFirstChild();
-    if(!actual.isEqualNode(expected)){
+    Node expected = XmlUtil.parseNode(expectedXml);
+    if(!XmlUtil.areEqual(expected, actual)){
       throw failures.failure(info, shouldBeEqual(actual, expected, info));
     }
-  }
-
-  public void assertAttributeEqual(AssertionInfo info, Node actual, String attributeName, String attributeValue) {
-    Node expectedAttribute = asXml(String.format("<element %s=\"%s\"/>",attributeName, attributeValue)).item(0).getFirstChild().getAttributes().item(0);
-    if(!actual.isEqualNode(expectedAttribute)){
-      throw failures.failure(info, shouldBeEqual(prettyXmlAttribute(actual), prettyXmlAttribute(expectedAttribute), info));
-    }
-  }
-
-  public void assertTextNodeEqual(AssertionInfo info, Node actual, String expectedText) {
-    Node expectedTextNode = asXml(String.format("<element>%s</element>", expectedText)).item(0).getFirstChild().getFirstChild();
-    if(!actual.isEqualNode(expectedTextNode)){
-      throw failures.failure(info, shouldBeEqual(actual.getTextContent(), expectedText, info));
-    }
-  }
-
-  public void assertCommentEqual(AssertionInfo info, Node actual, String expectedComment) {
-    Node expectedCommentNode = asXml(String.format("<element>%s</element>", comment(expectedComment))).item(0).getFirstChild().getFirstChild();
-    if(!actual.isEqualNode(expectedCommentNode)){
-      throw failures.failure(info, shouldBeEqual(comment(actual.getNodeValue()), comment(expectedComment), info));
-    }
-  }
-
-  public String comment(String body) {
-    return String.format("<!--%s-->", body);
   }
 
   public void assertContains(AssertionInfo info, NodeList actual, String... nodes) {

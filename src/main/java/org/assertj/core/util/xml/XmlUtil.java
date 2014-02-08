@@ -121,7 +121,7 @@ public class XmlUtil {
       return String.format("@%s=\"%s\"", node.getNodeName(), node.getNodeValue());
     }
     
-    return XmlStringPrettyFormatter.prettyFormat(node);
+    return "\n" + XmlStringPrettyFormatter.prettyFormat(node);
   }
 
 }
