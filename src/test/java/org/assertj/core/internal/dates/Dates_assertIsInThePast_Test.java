@@ -56,7 +56,8 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_today() {
     AssertionInfo info = someInfo();
     try {
-      actual = new Date();
+      int oneSecond = 1000;
+      actual = new Date(System.currentTimeMillis() + oneSecond);
       dates.assertIsInThePast(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeInThePast(actual));
