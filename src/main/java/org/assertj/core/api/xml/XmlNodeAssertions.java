@@ -51,7 +51,7 @@ class XmlNodeAssertions {
       return SUPPORTED_ASSERTIONS.get(node.getNodeType()).getConstructor(Node.class).newInstance(node);
       
     } catch (Exception e) {
-      throw new IllegalStateException(String.format("This node type <%s> is not supported!", node.getNodeType()), e);
+      throw new IllegalArgumentException(String.format("This node type <%s> is not supported!", node.getNodeType()), e);
     }
   }
   

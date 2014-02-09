@@ -44,7 +44,7 @@ public class XmlUtil {
   private static final Pattern ATTRIBUTE_FORMAT = Pattern.compile("^@([^=]+)=(?:'|\")(.*)(?:'|\")$");
   
   private XmlUtil() {
-    // utility class
+    // utility class 
   }
   
   public static NodeList nodeList(final Node node) {
@@ -69,8 +69,9 @@ public class XmlUtil {
 
       xmlString = xmlString.trim();
 
-      if(ATTRIBUTE_FORMAT.matcher(xmlString).matches()){
-        return parseAttribute(xmlString);
+      Matcher matcher = ATTRIBUTE_FORMAT.matcher(xmlString);
+      if(matcher.matches()){
+        return parseAttribute(matcher);
       }
     
       String wrappedXml = String.format("<wrapper>%s</wrapper>", xmlString);
@@ -81,17 +82,12 @@ public class XmlUtil {
     }
   }
 
-  private static Node parseAttribute(String xmlString) throws Exception {
+  private static Node parseAttribute(Matcher matcher) throws Exception {
     
-    Matcher matcher = ATTRIBUTE_FORMAT.matcher(xmlString);
-    if(matcher.matches()){
-      String attributeName = matcher.group(1);  
-      String attributeValue = matcher.group(2);  
-      String wrappedXml = String.format("<wrapper %s=\"%s\"/>", attributeName, attributeValue);
-      return unwrap(wrappedXml).getAttributes().item(0);
-    }
-      
-    return null;
+    String attributeName = matcher.group(1);  
+    String attributeValue = matcher.group(2);  
+    String wrappedXml = String.format("<wrapper %s=\"%s\"/>", attributeName, attributeValue);
+    return unwrap(wrappedXml).getAttributes().item(0);
   }
 
   public static Node unwrap(String wrappedXml) throws Exception {
