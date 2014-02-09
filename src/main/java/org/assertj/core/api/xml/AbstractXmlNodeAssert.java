@@ -15,27 +15,32 @@ public abstract class AbstractXmlNodeAssert extends AbstractAssert<AbstractXmlNo
   protected abstract String type();
 
   @Override
-  public void isElement() {
+  public XmlNodeAssert isElement() {
     xmls.failNotElementBut(info, type());
+    return null;
   }
 
   @Override
-  public void isAttribute() {
+  public XmlNodeAssert isAttribute() {
     xmls.failNotAttributeBut(info, type());
+    return null;
   }
   
   @Override
-  public void isComment() {
+  public XmlNodeAssert isComment() {
     xmls.failNotCommentBut(info, type());
+    return null;
   }
 
   @Override
-  public void isTextNode() {
+  public XmlNodeAssert isTextNode() {
     xmls.failNotTextNodeBut(info, type());
+    return null;
   }
   
   @Override
-  public void isEqualTo(String expectedXml) {
+  public XmlNodeAssert isEqualTo(String expectedXml) {
     xmls.assertEqual(info, actual, expectedXml);
+    return myself;
   }
 }

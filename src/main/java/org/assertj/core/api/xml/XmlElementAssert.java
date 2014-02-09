@@ -7,15 +7,17 @@ public class XmlElementAssert extends AbstractXmlNodeAssert {
   public XmlElementAssert(Node actual) {
     super(actual, XmlElementAssert.class);
   }
-
-  @Override
-  public void isElement() {
-    // success 
-  }
   
   @Override
   protected String type() {
     return "element";
+  }
+
+  @Override
+  public XmlNodeAssert isElement() {
+
+    // success 
+    return myself;
   }
 
 }

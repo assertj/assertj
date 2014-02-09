@@ -9,13 +9,15 @@ public class XmlTextNodeAssert extends AbstractXmlNodeAssert {
   }
   
   @Override
+  public XmlNodeAssert isTextNode() {
+    
+    // success
+    return myself;
+  }
+  
+  @Override
   protected String type() {
     return "text node";
-  }
-
-  @Override
-  public void isTextNode() {
-    // success
   }
   
 }

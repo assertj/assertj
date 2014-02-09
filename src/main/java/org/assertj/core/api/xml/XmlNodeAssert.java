@@ -1,15 +1,16 @@
 package org.assertj.core.api.xml;
 
+
 public interface XmlNodeAssert {
 
-  public void isElement();
+  public XmlNodeAssert isElement();
   
-  public void isAttribute();
+  public XmlNodeAssert isAttribute();
   
-  public void isComment();
+  public XmlNodeAssert isComment();
   
-  public void isTextNode();
+  public XmlNodeAssert isTextNode();
 
-  public void isEqualTo(String expectedXml);
+  public XmlNodeAssert isEqualTo(String expectedXml);
 
 }

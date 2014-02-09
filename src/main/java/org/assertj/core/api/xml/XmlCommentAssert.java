@@ -14,8 +14,10 @@ public class XmlCommentAssert extends AbstractXmlNodeAssert {
   }
   
   @Override
-  public void isComment() {
+  public XmlNodeAssert isComment() {
+
     // success
+    return myself;
   }
     
 }
