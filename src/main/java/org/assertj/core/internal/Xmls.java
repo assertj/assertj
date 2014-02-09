@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeEmpty;
@@ -24,55 +25,22 @@ public class Xmls {
 
   private Objects objects = Objects.instance();
   private Failures failures = Failures.instance();
-  private Iterables iterables = new Iterables(new StandardComparisonStrategy(){
-    
-    public boolean areEqual(Object actual, Object other) {
-      
-      if(actual instanceof Node){
-        Node left = (Node) actual;
-        Node right = (Node) other;
-        return XmlUtil.areEqual(left, right);
-      }
-      return super.areEqual(actual, other);
-    };
-    
-  });
-
-  public NodeList asXml(CharSequence actual) {
-    return XmlUtil.nodeList(XmlStringPrettyFormatter.toXmlDocument(actual.toString()));
-  }
+  private Iterables iterables = new Iterables(new XmlNodesComparisionStrategy());
 
   public static Xmls instance() {
     return new Xmls();
   }
 
   public void assertHasSize(AssertionInfo info, NodeList nodeList, int expectedSize) {
-    CommonValidations.checkSizes(prettyXml(nodeList), nodeList.getLength(), expectedSize, info);
+    CommonValidations.checkSizes(actualNodes(nodeList), nodeList.getLength(), expectedSize, info);
   }
 
   public void assertIsEmpty(AssertionInfo info, NodeList nodeList) throws AssertionError {
     if (nodeList.getLength() != 0)
-      throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(prettyXml(nodeList)));
+      throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actualNodes(nodeList)));
   }
 
-  private String prettyXml(NodeList nodeList) {
-    List<String> list = new ArrayList<String>();
-    for (int i = 0; i < nodeList.getLength(); i++) {
-      list.add(prettyXml(nodeList.item(i)));
-    }
-    return list.toString();
-  }
-
-  private String prettyXml(Node node) {
-    return XmlStringPrettyFormatter.prettyFormat(node).trim();
-  }
-
-  private String prettyXmlAttribute(Node node) {
-    return String.format("@%s='%s'", node.getNodeName(), node.getNodeValue());
-  }
-
-  public NodeList assertIsXml(AssertionInfo info, CharSequence actual)
-      throws AssertionError {
+  public NodeList assertIsXml(AssertionInfo info, CharSequence actual) throws AssertionError {
     objects.assertNotNull(info, actual);
     try {
       return asXml(actual);
@@ -81,6 +49,10 @@ public class Xmls {
     }
   }
   
+  private NodeList asXml(CharSequence actual) {
+    return XmlUtil.nodeList(XmlStringPrettyFormatter.toXmlDocument(actual.toString()));
+  }
+
   private ErrorMessageFactory shouldBeXml(CharSequence actual) {
     return new ShouldBeXml(actual);
   }
@@ -143,8 +115,6 @@ public class Xmls {
 
   public void assertContains(AssertionInfo info, NodeList actual, String... nodes) {
     
-    Preconditions.checkNotNull(nodes, "Expected node cannot be null!");
-
     List<Node> actualNodes = actualNodes(actual);
     List<Node> expectedNodes = expectedNodes(nodes);
     
@@ -152,8 +122,25 @@ public class Xmls {
     
   }
 
+  public void assertContainsExactly(AssertionInfo info, NodeList actual, String... nodes) {
+    
+    List<Node> actualNodes = actualNodes(actual);
+    List<Node> expectedNodes = expectedNodes(nodes);
+    
+    iterables.assertContainsExactly(info, actualNodes, expectedNodes.toArray());
+  }
+  
+  public void assertContainsOnly(WritableAssertionInfo info, NodeList actual, String... nodes) {
+    
+    List<Node> actualNodes = actualNodes(actual);
+    List<Node> expectedNodes = expectedNodes(nodes);
+    
+    iterables.assertContainsOnly(info, actualNodes, expectedNodes.toArray());
+  }
+  
   public List<Node> expectedNodes(String... nodes) {
    
+    Preconditions.checkNotNull(nodes, "Expected node cannot be null!");
     List<Node> expectedNodes = new ArrayList<Node>();
    
     for (String xml : nodes) {
@@ -162,7 +149,6 @@ public class Xmls {
     }
     return expectedNodes;
   }
-
   private List<Node> actualNodes(NodeList nodeList) {
 
     List<Node> result = new ArrayList<Node>();
@@ -172,5 +158,20 @@ public class Xmls {
     }
     return result;
   }
+
+  private final class XmlNodesComparisionStrategy extends StandardComparisonStrategy {
+    
+    public boolean areEqual(Object actual, Object other) {
+      
+      if(actual instanceof Node){
+        Node left = (Node) actual;
+        Node right = (Node) other;
+        return XmlUtil.areEqual(left, right);
+      }
+    
+      return super.areEqual(actual, other);
+    }
+  }
+
 
 }

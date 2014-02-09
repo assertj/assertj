@@ -47,7 +47,11 @@ public class XmlNodeSetAssert_hasSize_Test {
 
     // expect:
     thrown.expectAssertionError("Expected size:<1> but was:<2> in:\n" 
-        + "<\"[<number>1</number>, <number>2</number>]\">");
+        + "<[\n" +
+        "<number>1</number>\n" +
+        ", \n" +
+        "<number>2</number>\n" +
+        "]>");
 
     // when:
     assertThat("<numbers><number>1</number><number>2</number></numbers>").asXml().extractingXPath("//number").hasSize(1);
@@ -58,7 +62,7 @@ public class XmlNodeSetAssert_hasSize_Test {
 
     // expect:
     thrown.expectAssertionError("Expected size:<1> but was:<0> in:\n" 
-        + "<\"[]\">");
+        + "<[]>");
 
     // when:
     assertThat("<numbers><number>1</number></numbers>").asXml().extractingXPath("//matchingNothing").hasSize(1);

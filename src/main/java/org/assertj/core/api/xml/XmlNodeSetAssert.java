@@ -79,9 +79,19 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
     }
   }
 
-  public void contains(String... expectedNode) {
+  public void contains(String... expectedNodes) {
     
-    xmls.assertContains(info, actual, expectedNode);
+    xmls.assertContains(info, actual, expectedNodes);
+  }
+
+  public void containsExactly(String... expectedNodes) {
+    
+    xmls.assertContainsExactly(info, actual, expectedNodes);
+  }
+
+  public void containsOnly(String... expectedNodes) {
+    
+    xmls.assertContainsOnly(info, actual, expectedNodes);
   }
 
 }

@@ -38,7 +38,9 @@ public class XmlNodeSetAssert_isEmpty_Test {
   public void should_fail_if_result_not_empty() throws Exception {
 
     // expect:
-    thrown.expectAssertionError("Expecting empty but was:<\"[<node>value</node>]\">");
+    thrown.expectAssertionError("Expecting empty but was:<[\n" +
+    		"<node>value</node>\n" +
+    		"]>");
 
     // when:
     assertThat("<node>value</node>").asXml().extractingXPath("/*").isEmpty();
