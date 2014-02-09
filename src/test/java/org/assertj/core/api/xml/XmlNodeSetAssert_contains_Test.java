@@ -28,6 +28,11 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_contains_Test extends AbstractXmlNodeSetAssertTest {
 
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.contains(xml);
+  }
+  
   @Test
   public void should_fail_if_node_has_not_been_extracted() throws Exception {
 
@@ -73,5 +78,5 @@ public class XmlNodeSetAssert_contains_Test extends AbstractXmlNodeSetAssertTest
     
     assertThat(xml).asXml().extractingXPath("//continent").contains(australia, atlantis);
   }
-  
+
 }

@@ -29,37 +29,46 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
     return new XmlNodeSetAssert(new XPathExtractor(actual).extract(xpath));
   }
 
-  public void isEmpty() {
+  public XmlNodeSetAssert isEmpty() {
+    
     xmls.assertIsEmpty(info, actual);
+    return myself;
   }
 
-  public void hasSize(int expectedSize) {
+  public XmlNodeSetAssert hasSize(int expectedSize) {
+    
     xmls.assertHasSize(info, actual, expectedSize);
+    return myself;
   }
 
-  public void isElement() {
+  public XmlNodeSetAssert isElement() {
     
     assertFor(singleNode()).isElement();
+    return myself;
   }
 
-  public void isAttribute() {
+  public XmlNodeSetAssert isAttribute() {
     
     assertFor(singleNode()).isAttribute();
+    return myself;
   }
 
-  public void isComment() {
+  public XmlNodeSetAssert isComment() {
     
     assertFor(singleNode()).isComment();
+    return myself;
   }
   
-  public void isTextNode() {
+  public XmlNodeSetAssert isTextNode() {
     
     assertFor(singleNode()).isTextNode();
+    return myself;
   }
   
-  public void isEqualTo(String expectedXml) {
+  public XmlNodeSetAssert isEqualTo(String expectedXml) {
     
     assertFor(singleNode()).isEqualTo(expectedXml);
+    return myself;
   }
   
   public Node singleNode() {
@@ -79,19 +88,22 @@ public class XmlNodeSetAssert extends AbstractAssert<XmlNodeSetAssert, NodeList>
     }
   }
 
-  public void contains(String... expectedNodes) {
+  public XmlNodeSetAssert contains(String... expectedNodes) {
     
     xmls.assertContains(info, actual, expectedNodes);
+    return myself;
   }
 
-  public void containsExactly(String... expectedNodes) {
+  public XmlNodeSetAssert containsExactly(String... expectedNodes) {
     
     xmls.assertContainsExactly(info, actual, expectedNodes);
+    return myself;
   }
 
-  public void containsOnly(String... expectedNodes) {
+  public XmlNodeSetAssert containsOnly(String... expectedNodes) {
     
     xmls.assertContainsOnly(info, actual, expectedNodes);
+    return myself;
   }
 
 }

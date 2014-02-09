@@ -19,13 +19,13 @@ import org.w3c.dom.ls.LSSerializer;
 public class XmlStringPrettyFormatter {
 
   private static final String FORMAT_ERROR = "Unable to format XML string";
-  private static final String PARSE_ERROR = "Unable to parse XML";
+  static final String PARSE_ERROR = "Unable to parse XML";
 
   public static String xmlPrettyFormat(String xmlStringToFormat) {
     if (xmlStringToFormat == null)
       throw new IllegalArgumentException("Expecting XML String not to be null");
     // convert String to an XML Document and then back to String but prettily formatted.
-    return prettyFormat(toXmlDocument(xmlStringToFormat), xmlStringToFormat.startsWith("<?xml"));
+    return prettyFormat(XmlUtil.toXml(xmlStringToFormat), xmlStringToFormat.startsWith("<?xml"));
   }
 
   private static String prettyFormat(Node node, boolean keepXmlDeclaration) {
@@ -49,14 +49,6 @@ public class XmlStringPrettyFormatter {
   
   public static String prettyFormat(Node node){
       return prettyFormat(node, false);
-  }
-
-  public static Node toXmlDocument(String xmlString) {
-    try {
-      return XmlUtil.doParse(xmlString);
-    } catch (Exception e) {
-      throw new RuntimeException(PARSE_ERROR, e);
-    }
   }
 
   private XmlStringPrettyFormatter() {

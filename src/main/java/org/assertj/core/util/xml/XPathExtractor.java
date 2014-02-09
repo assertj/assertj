@@ -1,7 +1,6 @@
 package org.assertj.core.util.xml;
 
 import static java.lang.String.format;
-import static org.assertj.core.util.xml.XmlStringPrettyFormatter.toXmlDocument;
 import static org.assertj.core.util.xml.XmlUtil.nodeList;
 
 import java.util.ArrayList;
@@ -54,7 +53,7 @@ public class XPathExtractor {
   private NodeList xml;
 
   public XPathExtractor(String actual) {
-    this(nodeList(toXmlDocument(actual)));
+    this(nodeList(XmlUtil.toXml(actual)));
   }
 
   public XPathExtractor(NodeList actual) {

@@ -28,6 +28,11 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_isEqualTo_Test extends AbstractXmlNodeSetAssertTest{
   
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.isEqualTo(xml);
+  }
+  
   @Test
   public void should_fail_if_no_extracted_nodes() throws Exception {
 

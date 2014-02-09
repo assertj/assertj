@@ -28,6 +28,16 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_isAttribute_Test extends AbstractXmlNodeSetAssertTest{
 
+  @Override
+  protected XmlNodeSetAssert create_original_xml_assertion() {
+    return super.create_original_xml_assertion().extractingXPath("//continent[@name='Europe']/@name");
+  }
+  
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.isAttribute();
+  }
+  
   @Test
   public void should_fail_if_no_extracted_nodes() throws Exception {
 
@@ -73,5 +83,5 @@ public class XmlNodeSetAssert_isAttribute_Test extends AbstractXmlNodeSetAssertT
     
     assertThat(xml).asXml().extractingXPath("//continent[@name='Europe']/comment()").isAttribute();
   }
-  
+
 }

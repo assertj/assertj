@@ -14,16 +14,19 @@
  */
 package org.assertj.core.api.xml;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.xml.XmlStringPrettyFormatter;
 import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Test data for {@link XmlNodeSetAssert} tests.  
  * 
  * @author Michał Piotrkowski
  */
-public class AbstractXmlNodeSetAssertTest {
+public abstract class AbstractXmlNodeSetAssertTest {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -77,5 +80,28 @@ public class AbstractXmlNodeSetAssertTest {
   private String xml(String xml) {
     return XmlStringPrettyFormatter.xmlPrettyFormat(xml);
   }
+  
+  @Test
+  public void should_support_fluent_chaining() throws Exception {
+
+    XmlNodeSetAssert originalAssertion = create_original_xml_assertion();
+    
+    XmlNodeSetAssert assertionToChain = invoke_successfully_method_under_test(originalAssertion);
+    
+    verify_chained_assertion(originalAssertion, assertionToChain);
+    
+  }
+
+  protected XmlNodeSetAssert create_original_xml_assertion() {
+    XmlNodeSetAssert originalAssertion = assertThat(xml).asXml();
+    return originalAssertion;
+  }
+
+  protected void verify_chained_assertion(XmlNodeSetAssert originalAssertion, XmlNodeSetAssert assertionToChain) {
+    assertThat(originalAssertion).isSameAs(assertionToChain);
+  }
+
+  protected abstract XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion);
+
 
 }

@@ -16,7 +16,6 @@ import org.assertj.core.error.ShouldBeXmlComment;
 import org.assertj.core.error.ShouldBeXmlElement;
 import org.assertj.core.error.ShouldBeXmlTextNode;
 import org.assertj.core.util.Preconditions;
-import org.assertj.core.util.xml.XmlStringPrettyFormatter;
 import org.assertj.core.util.xml.XmlUtil;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -50,7 +49,7 @@ public class Xmls {
   }
   
   private NodeList asXml(CharSequence actual) {
-    return XmlUtil.nodeList(XmlStringPrettyFormatter.toXmlDocument(actual.toString()));
+    return XmlUtil.nodeList(XmlUtil.toXml(actual.toString()));
   }
 
   private ErrorMessageFactory shouldBeXml(CharSequence actual) {

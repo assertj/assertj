@@ -30,6 +30,21 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_extractingXPath_Test extends AbstractXmlNodeSetAssertTest{
   
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.extractingXPath("/");
+  }
+  
+  @Override
+  protected void verify_chained_assertion(XmlNodeSetAssert originalAssertion, XmlNodeSetAssert assertionToChain) {
+
+    // in this case we want to change 'actual' value of assertion,
+    // so we have to return new assertion with other actual
+    
+    assertThat(assertionToChain).isNotNull();
+    assertThat(originalAssertion).isNotSameAs(assertionToChain);
+  }
+  
   @Test
   public void should_extract_zero_elements() throws Exception {
 
@@ -89,5 +104,5 @@ public class XmlNodeSetAssert_extractingXPath_Test extends AbstractXmlNodeSetAss
     xmlAssert.extractingXPath("//continent[@name='Europe']").extractingXPath("//area").hasSize(1);
     
   }
-  
+
 }

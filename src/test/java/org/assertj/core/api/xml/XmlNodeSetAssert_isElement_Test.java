@@ -29,6 +29,11 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_isElement_Test extends AbstractXmlNodeSetAssertTest{
 
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.isElement();
+  }
+  
   @Test
   public void should_fail_if_no_extracted_elements() throws Exception {
 

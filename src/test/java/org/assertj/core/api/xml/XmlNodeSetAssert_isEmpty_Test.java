@@ -29,6 +29,16 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_isEmpty_Test extends AbstractXmlNodeSetAssertTest{
 
+  @Override
+  protected XmlNodeSetAssert create_original_xml_assertion() {
+    return super.create_original_xml_assertion().extractingXPath("//continent[@name='Atlantis']");
+  }
+  
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.isEmpty();
+  }
+  
   @Test
   public void should_fail_if_result_not_empty() throws Exception {
 

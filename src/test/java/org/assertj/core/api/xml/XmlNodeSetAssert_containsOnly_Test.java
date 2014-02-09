@@ -28,6 +28,11 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_containsOnly_Test extends AbstractXmlNodeSetAssertTest {
 
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.containsOnly(xml);
+  }
+  
   @Test
   public void should_fail_meaningfully_if_null_passed() throws Exception {
 

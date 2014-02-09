@@ -29,6 +29,11 @@ import org.junit.Test;
  */
 public class XmlNodeSetAssert_hasSize_Test extends AbstractXmlNodeSetAssertTest{
 
+  @Override
+  protected XmlNodeSetAssert invoke_successfully_method_under_test(XmlNodeSetAssert originalAssertion) {
+    return originalAssertion.hasSize(1);
+  }
+  
   @Test
   public void should_pass_if_size_is_equal_to_expected() throws Exception {
 

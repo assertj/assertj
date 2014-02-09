@@ -18,6 +18,10 @@ public class XmlUtil {
 
   private static final Pattern ATTRIBUTE_FORMAT = Pattern.compile("^@([^=]+)=(?:'|\")(.*)(?:'|\")$");
   
+  private XmlUtil() {
+    // utility class
+  }
+  
   public static NodeList nodeList(final Node node) {
     
     return new NodeList() {
@@ -66,24 +70,19 @@ public class XmlUtil {
   }
 
   public static Node unwrap(String wrappedXml) throws Exception {
-    return doParse(wrappedXml).getFirstChild();
+    return doParse(wrappedXml);
   }
   
   public static Node doParse(String xmlString) throws Exception {
 
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-//    dbf.setNamespaceAware(true);
-//    dbf.setCoalescing(true);
-//    dbf.setIgnoringElementContentWhitespace(true);
-//    dbf.setIgnoringComments(false);
-    
     DocumentBuilder db = dbf.newDocumentBuilder();
     Document document = db.parse(new InputSource(new StringReader(xmlString)));
     
     // normalize xml document by removing text nodes with whitespaces only  
     removeEmptyTextNodes(document.getDocumentElement());
     
-    return document;
+    return document.getDocumentElement();
       
   }
   
@@ -122,6 +121,14 @@ public class XmlUtil {
     }
     
     return "\n" + XmlStringPrettyFormatter.prettyFormat(node);
+  }
+
+  public static Node toXml(String xmlString) {
+    try {
+      return doParse(xmlString);
+    } catch (Exception e) {
+      throw new RuntimeException(XmlStringPrettyFormatter.PARSE_ERROR, e);
+    }
   }
 
 }
