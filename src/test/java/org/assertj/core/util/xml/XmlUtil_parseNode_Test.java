@@ -37,76 +37,56 @@ public class XmlUtil_parseNode_Test {
   @Test
   public void should_parse_simple_element() throws Exception {
 
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("<element>this is element</element>");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.ELEMENT_NODE);
   }
   
   @Test
   public void should_parse_nested_element() throws Exception {
     
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("<complexElement><element>abc</element></complexElement>");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.ELEMENT_NODE);
   }
   
   @Test
   public void should_parse_attribute() throws Exception {
     
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("@attribute='value'");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.ATTRIBUTE_NODE);
   }
   
   @Test
   public void should_parse_attribute_double_quotation() throws Exception {
     
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("@attribute=\"value\"");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.ATTRIBUTE_NODE);
   }
   
   @Test
   public void should_parse_comment() throws Exception {
     
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("<!-- some comment -->");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.COMMENT_NODE);
   }
 
   @Test
   public void should_parse_text_node() throws Exception {
     
-    // given:
-    // when:
     Node node = XmlUtil.parseNode("text");
     
-    // then:
     assertThat(node.getNodeType()).isEqualTo(Node.TEXT_NODE);
   }
 
   @Test
   public void should_fail_meaningfully_on_invalid_format() throws Exception {
-    
-    // expect:
+
     thrown.expectIllegalArgumentException("Invalid format of '@text<>'!");
     
-    // when:
     XmlUtil.parseNode("@text<>");
   }
 }

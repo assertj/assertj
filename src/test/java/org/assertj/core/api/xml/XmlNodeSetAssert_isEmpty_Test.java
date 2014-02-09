@@ -16,8 +16,6 @@ package org.assertj.core.api.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -29,28 +27,20 @@ import org.junit.Test;
  * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
-public class XmlNodeSetAssert_isEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+public class XmlNodeSetAssert_isEmpty_Test extends AbstractXmlNodeSetAssertTest{
 
   @Test
   public void should_fail_if_result_not_empty() throws Exception {
 
-    // expect:
-    thrown.expectAssertionError("Expecting empty but was:<[\n" +
-    		"<node>value</node>\n" +
-    		"]>");
+    thrown.expect(AssertionError.class);
 
-    // when:
-    assertThat("<node>value</node>").asXml().extractingXPath("/*").isEmpty();
+    assertThat(xml).asXml().extractingXPath("//continent").isEmpty();
   }
 
   @Test
   public void should_pass_if_result_is_empty() throws Exception {
 
-    // when:
-    assertThat("<node>value</node>").asXml().extractingXPath("/otherNode").isEmpty();
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Atlantis']").isEmpty();
   }
 
 }

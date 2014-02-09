@@ -30,7 +30,7 @@ public class AbstractXmlNodeSetAssertTest {
   
   protected String europe = xml(
       "<continent name='Europe' inhabited='true'>" +
-          "<!-- AssertJ was created here! -->" + 
+          "<!-- Actually, it is not considered as real a continent by some people.  -->" + 
           "<area>10180000</area>" +
       "</continent>");
   protected String asia = xml(
@@ -56,6 +56,7 @@ public class AbstractXmlNodeSetAssertTest {
       "</continent>");
   protected String antarctica = xml(
         "<continent name='Antarctica' inhabited='false'>" +
+            "<!-- Coldest continent -->" + 
             "<area>13720000</area>" +
         "</continent>");
   protected String atlantis = xml(

@@ -16,8 +16,6 @@ package org.assertj.core.api.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -29,43 +27,30 @@ import org.junit.Test;
  * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
-public class XmlNodeSetAssert_hasSize_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+public class XmlNodeSetAssert_hasSize_Test extends AbstractXmlNodeSetAssertTest{
 
   @Test
   public void should_pass_if_size_is_equal_to_expected() throws Exception {
 
-    // when:
-    assertThat("<numbers><number>1</number></numbers>").asXml().extractingXPath("//number").hasSize(1);
-    assertThat("<numbers><number>1</number><number>2</number><number>3</number></numbers>").asXml().extractingXPath("//number").hasSize(3);
+    assertThat(xml).asXml().extractingXPath("//continent").hasSize(7);
+    assertThat(xml).asXml().extractingXPath("//continent[@inhabited='true']").hasSize(6);
   }
 
   @Test
   public void should_fail_if_size_is_not_equal_to_expected() throws Exception {
 
-    // expect:
-    thrown.expectAssertionError("Expected size:<1> but was:<2> in:\n" 
-        + "<[\n" +
-        "<number>1</number>\n" +
-        ", \n" +
-        "<number>2</number>\n" +
-        "]>");
+    thrown.expect(AssertionError.class); 
 
-    // when:
-    assertThat("<numbers><number>1</number><number>2</number></numbers>").asXml().extractingXPath("//number").hasSize(1);
+    assertThat(xml).asXml().extractingXPath("//continent").hasSize(8);
   }
 
   @Test
   public void should_fail_if_size_is_not_equal_to_expected_empty_list() throws Exception {
 
-    // expect:
     thrown.expectAssertionError("Expected size:<1> but was:<0> in:\n" 
         + "<[]>");
 
-    // when:
-    assertThat("<numbers><number>1</number></numbers>").asXml().extractingXPath("//matchingNothing").hasSize(1);
+    assertThat(xml).asXml().extractingXPath("//continent[@name='Atlantis']").hasSize(1);
   }
 
 }

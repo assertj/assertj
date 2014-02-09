@@ -14,11 +14,9 @@
  */
 package org.assertj.core.api.xml;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.ExpectedException;
 import org.junit.Ignore;
-import org.junit.Rule;
 import org.junit.Test;
 
 /**
@@ -30,34 +28,7 @@ import org.junit.Test;
  * @author Łukasz Strzelecki
  * @author Michał Piotrkowski
  */
-public class XmlNodeSetAssert_extractingXPath_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
-
-  private String xml = "<continents>" +
-                          "<continent name='Europe' inhabited='true'>" +
-                            "<area>10180000</area>" +
-                          "</continent>" + 
-                          "<continent name='Asia' inhabited='true'>" +
-                            "<area>43820000</area>" +
-                          "</continent>" + 
-                          "<continent name='North America' inhabited='true'>" +
-                            "<area>24490000</area>" +
-                          "</continent>" + 
-                          "<continent name='South america' inhabited='true'>" +
-                            "<area>17840000</area>" +
-                          "</continent>" + 
-                          "<continent name='Australia' inhabited='true'>" +
-                            "<area>9008500</area>" +
-                          "</continent>" + 
-                          "<continent name='Africa' inhabited='true'>" +
-                            "<area>30370000</area>" +
-                          "</continent>" + 
-                          "<continent name='Antarctica' inhabited='false'>" +
-                            "<area>13720000</area>" +
-                          "</continent>" + 
-  		               "</continents>";
+public class XmlNodeSetAssert_extractingXPath_Test extends AbstractXmlNodeSetAssertTest{
   
   @Test
   public void should_extract_zero_elements() throws Exception {
@@ -76,41 +47,35 @@ public class XmlNodeSetAssert_extractingXPath_Test {
   @Test
   public void should_fail_meaningfully_if_invalid_xpath() throws Exception {
     
-    // expect:
     thrown.expectIllegalArgumentException("Invalid xpath:<\"invalidXpath!\">");
-    // when:
+
     assertThat(xml).asXml().extractingXPath("invalidXpath!");
   }
   
   @Test
   public void should_fail_meaningfully_if_xpath_is_null() throws Exception {
     
-    // expect:
     thrown.expectNullPointerException("XPath expression cannot be empty!");
-    // when:
+
     assertThat(xml).asXml().extractingXPath(null);
   }
   
   @Test
   public void should_fail_meaningfully_if_xpath_is_empty() throws Exception {
     
-    // expect:
     thrown.expectIllegalArgumentException("XPath expression cannot be empty!");
-    // when:
+
     assertThat(xml).asXml().extractingXPath("");
   }
   
   @Test
   public void should_be_immutable() throws Exception {
     
-    // given:
     XmlNodeSetAssert xmlAssert = assertThat(xml).asXml();
 
-    // when:
     XmlNodeSetAssert expression1 = xmlAssert.extractingXPath("//continent[@inhabited='true']");
     XmlNodeSetAssert expression2 = xmlAssert.extractingXPath("//continent[@inhabited='false']");
     
-    // then:
     expression1.hasSize(6);
     expression2.hasSize(1);
   }
@@ -119,13 +84,10 @@ public class XmlNodeSetAssert_extractingXPath_Test {
   @Test
   public void should_be_chainable() throws Exception {
     
-    // given:
     XmlNodeSetAssert xmlAssert = assertThat(xml).asXml();
     
-    // when:
     xmlAssert.extractingXPath("//continent[@name='Europe']").extractingXPath("//area").hasSize(1);
     
-    // then:
   }
   
 }

@@ -32,70 +32,55 @@ public class XmlUtil_areEqual_Test {
   @Test
   public void should_be_true_if_differ_only_on_white_spaces() throws Exception {
 
-    // given:
     Node node1 = XmlUtil.parseNode("<element> <c>abc</c></element>");
     Node node2 = XmlUtil.parseNode(" <element><c>abc</c>  </element>");
     
-    // when:
     boolean areEqual = XmlUtil.areEqual(node1, node2);
 
-    // then:
     assertThat(areEqual).isTrue();
   }
   
   @Test
   public void should_be_true_if_differ_only_on_white_spaces_2() throws Exception {
     
-    // given:
     Node node1 = XmlUtil.parseNode("<element> <c> <d/></c></element>");
     Node node2 = XmlUtil.parseNode("<element><c><d/></c></element>");
     
-    // when:
     boolean areEqual = XmlUtil.areEqual(node1, node2);
     
-    // then:
     assertThat(areEqual).isTrue();
   }
 
   @Test
   public void should_be_false_if_differ_only_on_white_spaces_in_text_nodes() throws Exception {
     
-    // given:
     Node node1 = XmlUtil.parseNode("<element><c>abc</c></element>");
     Node node2 = XmlUtil.parseNode("<element><c>abc </c></element>");
     
-    // when:
     boolean areEqual = XmlUtil.areEqual(node1, node2);
     
-    // then:
     assertThat(areEqual).isFalse();
   }
   
   @Test
   public void should_be_true_if_differ_only_on_quotation_marks() throws Exception {
     
-    // given:
     Node node1 = XmlUtil.parseNode("@attribute='value'");
     Node node2 = XmlUtil.parseNode("@attribute=\"value\"");
-    
-    // when:
+
     boolean areEqual = XmlUtil.areEqual(node1, node2);
     
-    // then:
     assertThat(areEqual).isTrue();
   }
   
   @Test
   public void should_be_true_if_differ_only_on_closing_style() throws Exception {
     
-    // given:
     Node node1 = XmlUtil.parseNode("<element></element>");
     Node node2 = XmlUtil.parseNode("<element/>");
     
-    // when:
     boolean areEqual = XmlUtil.areEqual(node1, node2);
     
-    // then:
     assertThat(areEqual).isTrue();
   }
   
