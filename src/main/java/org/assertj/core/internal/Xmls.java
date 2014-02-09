@@ -14,21 +14,20 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeSingleXmlNode.shouldBeSingleXmlNodeBut;
+import static org.assertj.core.error.ShouldBeXmlAttribute.shouldBeAttributeBut;
+import static org.assertj.core.error.ShouldBeXmlComment.shouldBeCommentBut;
+import static org.assertj.core.error.ShouldBeXmlElement.shouldBeElementBut;
+import static org.assertj.core.error.ShouldBeXmlTextNode.shouldBeTextNodeBut;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.core.error.AssertionErrorFactory;
-import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeEmpty;
-import org.assertj.core.error.ShouldBeEqual;
-import org.assertj.core.error.ShouldBeSingleXmlNode;
 import org.assertj.core.error.ShouldBeXml;
-import org.assertj.core.error.ShouldBeXmlAttribute;
-import org.assertj.core.error.ShouldBeXmlComment;
-import org.assertj.core.error.ShouldBeXmlElement;
-import org.assertj.core.error.ShouldBeXmlTextNode;
 import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.xml.XmlUtil;
 import org.w3c.dom.Node;
@@ -41,12 +40,14 @@ import org.w3c.dom.NodeList;
  */
 public class Xmls {
 
+  private static final Xmls INSTANCE = new Xmls();
+  
   private Objects objects = Objects.instance();
   private Failures failures = Failures.instance();
   private Iterables iterables = new Iterables(new XmlNodesComparisionStrategy());
 
   public static Xmls instance() {
-    return new Xmls();
+    return INSTANCE;
   }
 
   public void assertHasSize(AssertionInfo info, NodeList nodeList, int expectedSize) {
@@ -63,40 +64,12 @@ public class Xmls {
     try {
       return asXml(actual);
     } catch (Exception e) {
-      throw failures.failure(info, shouldBeXml(actual));
+      throw failures.failure(info, ShouldBeXml.shouldBeXml(actual));
     }
   }
   
   private NodeList asXml(CharSequence actual) {
     return XmlUtil.nodeList(XmlUtil.toXml(actual.toString()));
-  }
-
-  private ErrorMessageFactory shouldBeXml(CharSequence actual) {
-    return new ShouldBeXml(actual);
-  }
-  
-  private ErrorMessageFactory shouldBeElementBut(String reason) {
-    return new ShouldBeXmlElement(reason);
-  }
-
-  private ErrorMessageFactory shouldBeAttributeBut(String reason) {
-    return new ShouldBeXmlAttribute(reason);
-  }
-
-  private ErrorMessageFactory shouldBeCommentBut(String reason) {
-    return new ShouldBeXmlComment(reason);
-  }
-  
-  private ErrorMessageFactory shouldBeTextNodeBut(String reason) {
-    return new ShouldBeXmlTextNode(reason);
-  }
-  
-  private ErrorMessageFactory shouldBeSingleXmlNodeBut(String reason) {
-    return new ShouldBeSingleXmlNode(reason);
-  }
-
-  private AssertionErrorFactory shouldBeEqual(Node actual, Node expected, AssertionInfo info) {
-    return ShouldBeEqual.shouldBeEqual(actual, expected, info.representation());
   }
 
   public void assertIsSingleNode(AssertionInfo info, NodeList actual) {
@@ -127,7 +100,7 @@ public class Xmls {
   public void assertEqual(AssertionInfo info, Node actual, String expectedXml) {
     Node expected = XmlUtil.parseNode(expectedXml);
     if(!XmlUtil.areEqual(expected, actual)){
-      throw failures.failure(info, shouldBeEqual(actual, expected, info));
+      throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
     }
   }
 
@@ -190,6 +163,5 @@ public class Xmls {
       return super.areEqual(actual, other);
     }
   }
-
 
 }

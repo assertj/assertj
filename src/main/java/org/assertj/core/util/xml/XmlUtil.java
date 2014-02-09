@@ -29,7 +29,7 @@ import org.w3c.dom.Text;
 import org.xml.sax.InputSource;
 
 /**
- * Helper class with convinent methods for:
+ * Helper class with convenient methods for:
  * <ul>
  *  <li>parsing,</li>
  *  <li>printing,</li> 
