@@ -299,7 +299,7 @@ public class Dates {
     return cal.getTime();
   }
 
-  public static Date today() {
+  public static Date now() {
     return new Date();
   }
 

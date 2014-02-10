@@ -30,7 +30,7 @@ import static org.assertj.core.util.Dates.minuteOf;
 import static org.assertj.core.util.Dates.monthOf;
 import static org.assertj.core.util.Dates.secondOf;
 import static org.assertj.core.util.Dates.timeDifference;
-import static org.assertj.core.util.Dates.today;
+import static org.assertj.core.util.Dates.now;
 import static org.assertj.core.util.Dates.truncateTime;
 import static org.assertj.core.util.Dates.yearOf;
 
@@ -245,7 +245,7 @@ public class Dates {
    */
   public void assertIsInThePast(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (isBefore(actual, today())) return;
+    if (isBefore(actual, now())) return;
     throw failures.failure(info, shouldBeInThePast(actual, comparisonStrategy));
   }
 
@@ -259,7 +259,7 @@ public class Dates {
    */
   public void assertIsToday(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    Date todayWithoutTime = truncateTime(today());
+    Date todayWithoutTime = truncateTime(now());
     Date actualWithoutTime = truncateTime(actual);
     if (areEqual(actualWithoutTime, todayWithoutTime)) return;
     throw failures.failure(info, shouldBeToday(actual, comparisonStrategy));
@@ -274,7 +274,7 @@ public class Dates {
    */
   public void assertIsInTheFuture(AssertionInfo info, Date actual) {
     assertNotNull(info, actual);
-    if (isAfter(actual, today())) return;
+    if (isAfter(actual, now())) return;
     throw failures.failure(info, shouldBeInTheFuture(actual, comparisonStrategy));
   }
 

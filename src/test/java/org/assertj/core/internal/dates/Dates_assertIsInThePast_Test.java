@@ -43,20 +43,9 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_the_past() {
     AssertionInfo info = someInfo();
     try {
-      actual = parseDate("2111-01-01");
-      dates.assertIsInThePast(info, actual);
-    } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeInThePast(actual));
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_if_actual_is_today() {
-    AssertionInfo info = someInfo();
-    try {
-      actual = new Date();
+      // init actual so that it is in the future compared to the instant when we call dates.assertIsInThePast
+      long oneSecond = 1000;
+      actual = new Date(System.currentTimeMillis() + oneSecond);
       dates.assertIsInThePast(info, actual);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeInThePast(actual));
@@ -81,6 +70,7 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_not_in_the_past_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
+      // set actual to a date in the future according to our comparison strategy (that compares only month and year)
       actual = parseDate("2111-01-01");
       datesWithCustomComparisonStrategy.assertIsInThePast(info, actual);
     } catch (AssertionError e) {
@@ -94,8 +84,7 @@ public class Dates_assertIsInThePast_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_today_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     try {
-      // we want actual to be different from today but still in the same month so that it is = today according to our
-      // comparison strategy (that compares only month and year)
+      // we want actual to "now" according to our comparison strategy (that compares only month and year)
       // => if we are at the end of the month we subtract one day instead of adding one
       Calendar cal = Calendar.getInstance();
       cal.add(Calendar.DAY_OF_MONTH, 1);
