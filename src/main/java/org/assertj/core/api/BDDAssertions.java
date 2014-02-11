@@ -31,19 +31,18 @@ import java.util.Map;
  * <p>
  * For example:
  * <pre>
- * // given
- * Mansion mansion = new Mansion();
+ * {@literal @}Test
+ * public void bdd_assertions_examples() {
  *
- * // when
- * mansion.hostPotentiallyMurderousDinnerParty();
+ *   //given
+ *   List&lt;BasketBallPlayer&gt; bulls = new ArrayList&lt;BasketBallPlayer&gt;();
  *
- * then(mansion.guests()).isEqualTo(6);
- * then(mansion.kitchen()).isEqualTo("clean");
- * then(mansion.library()).isEqualTo("messy");
- * then(mansion.revolverAmmo()).isEqualTo(6);
- * then(mansion.candlestick()).isEqualTo("bent");
- * then(mansion.colonel()).isEqualTo("well kempt");
- * then(mansion.professor()).isEqualTo("bloodied and disheveled");
+ *   //when
+ *   bulls.add(rose);
+ *   bulls.add(noah);
+ *
+ *   then(bulls).contains(rose, noah).doesNotContain(james);
+ * }
  * </pre>
  *
  * @author Alex Ruiz
