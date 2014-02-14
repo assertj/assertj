@@ -41,7 +41,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static final DateFormat[] defaultDateFormats = {newIsoDateTimeWithMsFormat(), newIsoDateTimeFormat(),
+  private static final DateFormat[] defaultDateFormats = {newIsoDateTimeWithMsFormat(),
+                                                           newIsoDateTimeFormat(),
                                                            newIsoDateFormat()};
   /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
@@ -61,6 +62,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * String either with one of the supported defaults date format or a user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -69,7 +72,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo("2002-12-19");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -97,6 +100,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * either with one of the default supported date format or user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // OK : all dates fields are the same up to minutes excluded
@@ -105,7 +110,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // KO : fail as day fields differ
    * assertThat("2003-04-26T14:01:35").isEqualToIgnoringHours("2003-04-27T13:02:35");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -133,6 +138,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)}}} but given Date is represented as String either with
    * one of the default supported date format or user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
+   * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
    * <p/>
    * Example:
    * <pre>
@@ -163,6 +170,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * String either with one of the default supported date format or user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * withDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -172,7 +181,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // KO : fail as hour fields differ
    * assertThat("2003-04-26T14:01:35").isEqualToIgnoringMinutes("2003-04-26T13:02:35");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -230,6 +239,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * either with one of the default supported date format or user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * Date date1 = parseDatetime("2003-04-26T13:01:35");
@@ -240,7 +251,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // KO : fail as minute fields differ
    * assertThat(date1).isEqualToIgnoringMinutes("2003-04-26T13:02:00");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -297,6 +308,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * either with one of the default supported date format or user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * Date date1 = parseDatetimeWithMs("2003-04-26T13:01:35.998");
@@ -307,7 +320,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // KO : fail as seconds fields differ
    * assertThat("2003-04-26T13:01:35.998").isEqualToIgnoringMinutes("2003-04-26T13:01:36.998");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -362,6 +375,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * represented as String either with one of the supported defaults date format or a user custom date format (set with
    * method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -370,7 +385,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-18");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -397,6 +412,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link Assert#isIn(Object...)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -405,7 +422,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-19", "2002-12-20");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -436,6 +453,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link Assert#isIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -446,7 +465,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(
    *     Arrays.asList("2002-12-17", "2002-12-19", "2002-12-20"));
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -480,6 +499,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link Assert#isNotIn(Object...)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -488,7 +509,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-18");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -519,6 +540,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link Assert#isNotIn(Iterable)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -529,7 +552,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17",
    * "2002-12-18"));
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -585,6 +608,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isBefore(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -594,7 +619,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-17");
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-18");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -638,6 +663,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isBeforeOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -647,7 +674,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-17");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -700,6 +727,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isAfter(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -709,7 +738,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-18");
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-19");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -753,6 +782,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isAfterOrEqualsTo(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -762,7 +793,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-19");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -818,6 +849,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -826,7 +859,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-15", "2002-12-17");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -878,6 +911,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * with one of the supported defaults date format or a user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -887,7 +922,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, false);
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -942,6 +977,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * either with one of the supported defaults date format or a user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -954,7 +991,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true,
    * false);
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1003,6 +1040,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isNotBetween(Date, Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * // assertion will pass
@@ -1011,7 +1050,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * // assertion will fail
    * assertThat(theFellowshipOfTheRing.getReleaseDate()).isNotBetween("2002-12-01", "2002-12-19");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1357,12 +1396,14 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameYearAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameYearAs("2003-05-27");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1414,12 +1455,14 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameMonthAs(Date)}but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * Date date1 = parse("2003-04-26");
    * assertThat(date1).isInSameMonthAs("2003-04-27");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1470,12 +1513,14 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameDayAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
    * Example:
    * <pre>
    * Date date1 = parseDatetime("2003-04-26T23:17:00");
    * assertThat(date1).isInSameDayAs("2003-04-26");
    * </pre>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1546,7 +1591,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * with one of the supported defaults date format or a user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1613,7 +1660,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameHourAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1683,7 +1732,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * the supported defaults date format or a user custom date format (set with method {@link
    * #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1754,7 +1805,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameMinuteAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1828,7 +1881,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * the supported defaults date format or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1894,7 +1949,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isInSameSecondAs(Date)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -1948,7 +2005,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Same assertion as {@link #isCloseTo(Date, long)} but given date is represented as String either with one of the
    * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -2097,7 +2156,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Use the defaults date formats to parse string as date.
    * <p/>
-   * Defaults date format are:
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
@@ -2128,7 +2187,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Use the defaults date formats to parse string as date.
    * <p/>
-   * Defaults date format are:
+   * Beware that the default formats are expressed in the current local timezone.
+   * <p/>
+   * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>

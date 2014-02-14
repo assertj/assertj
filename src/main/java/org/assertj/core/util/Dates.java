@@ -39,11 +39,11 @@ public class Dates {
    */
   private static final DateFormat ISO_DATE_FORMAT = newIsoDateFormat();
   /**
-   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   * ISO 8601 local date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
    */
   private static final DateFormat ISO_DATE_TIME_FORMAT = newIsoDateTimeFormat();
   /**
-   * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
+   * ISO 8601 local date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
    * <code>2003-04-26T03:01:02.999</code>
    */
   private static final DateFormat ISO_DATE_TIME_FORMAT_WITH_MS = newIsoDateTimeWithMsFormat();
