@@ -15,7 +15,7 @@ import java.util.Date;
  * {@link #withDateFormat(DateFormat)}.<br>
  * The user custom format will then be used for all next Date assertions (i.e not limited to the current assertion) in the test
  * suite.<br>
- * To turn back to default format, simply call {@link #withIsoDateFormat()}.
+ * To turn back to default format, simply call {@link #withDefaultDateFormatsOnly()}.
  * 
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)
  * @author Joel Costigliola

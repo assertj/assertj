@@ -33,7 +33,7 @@ public abstract class DateAssertBaseTest {
 
   @After
   public void tearDown() {
-    AbstractDateAssert.useDefaultDateFormats();
+    AbstractDateAssert.useDefaultDateFormatsOnly();
   }
 
   protected Date parse(String dateAsString) {
