@@ -358,6 +358,67 @@ public class Assertions {
   }
 
   /**
+   * Returns the given assertion. This method improves code readability by surrounding the given assertion with
+   * <code>assertThat</code>.
+   * <p>
+   * Consider for example the following MyButton and MyButtonAssert classes:
+   *
+   * <pre>
+   * public class MyButton extends JButton {
+   *
+   *   private boolean blinking;
+   *
+   *   public boolean isBlinking() { return this.blinking; }
+   *
+   *   public void setBlinking(boolean blink) { this.blinking = blink; }
+   *
+   * }
+   *
+   * private static class MyButtonAssert implements AssertDelegateTarget {
+   *
+   *   private MyButton button;
+   *   MyButtonAssert(MyButton button) { this.button = button; }
+   *
+   *   void isBlinking() {
+   *     // standard assertion from core Assertions.assertThat
+   *     assertThat(button.isBlinking()).isTrue();
+   *   }
+   *
+   *   void isNotBlinking() {
+   *     // standard assertion from core Assertions.assertThat
+   *     assertThat(button.isBlinking()).isFalse();
+   *   }
+   * }
+   * </pre>
+   *
+   * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
+   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
+   *
+   * <pre>
+   * {@literal @}Test
+   * public void AssertDelegateTarget_example() {
+   *
+   *   MyButton button = new MyButton();
+   *   MyButtonAssert buttonAssert = new MyButtonAssert(button);
+   *
+   *   // you can encapsulate MyButtonAssert assertions methods within assertThat
+   *   assertThat(buttonAssert).isNotBlinking(); // same as : buttonAssert.isNotBlinking();
+   *
+   *   button.setBlinking(true);
+   *
+   *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
+   * }
+   * </pre>
+   * 
+   * @param <T> the generic type of the user-defined assert.
+   * @param assertion the assertion to return.
+   * @return the given assertion.
+   */
+  public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
+    return assertion;
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
    * @param actual the actual value.
