@@ -2,11 +2,11 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.Objects;
+import org.junit.After;
 import org.junit.Before;
 
 /**
@@ -30,7 +30,12 @@ public abstract class DateAssertBaseTest {
     assertions.dates = dates;
     assertions.objects = objects;
   }
-  
+
+  @After
+  public void tearDown() {
+    AbstractDateAssert.useDefaultDateFormats();
+  }
+
   protected Date parse(String dateAsString) {
     return assertions.parse(dateAsString);
   }
