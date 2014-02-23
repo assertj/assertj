@@ -29,71 +29,84 @@ public class Arrays_format_Test {
 
   @Test
   public void should_return_null_if_array_is_null() {
-    assertNull(Arrays.format(new StandardRepresentation(), null));
+    final Object array = null;
+    assertNull(Arrays.format(new StandardRepresentation(), array));
+    assertNull(Arrays.format(array));
   }
 
   @Test
   public void should_return_empty_brackets_if_array_is_empty() {
-    assertEquals("[]", Arrays.format(new StandardRepresentation(), new Object[0]));
+    final Object[] array = new Object[0];
+    assertEquals("[]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[]", Arrays.format(array));
   }
 
   @Test
   public void should_format_Object_array() {
-    Object o = new Object[] { "First", 3 };
-    assertEquals("[\"First\", 3]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new Object[] { "First", 3 };
+    assertEquals("[\"First\", 3]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[\"First\", 3]", Arrays.format(array));
   }
 
   @Test
   public void should_format_boolean_array() {
-    Object o = new boolean[] { true, false };
-    assertEquals("[true, false]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new boolean[] { true, false };
+    assertEquals("[true, false]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[true, false]", Arrays.format(array));
   }
 
   @Test
   public void should_format_byte_array() {
-    Object o = new byte[] { (byte) 3, (byte) 8 };
-    assertEquals("[3, 8]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new byte[] { (byte) 3, (byte) 8 };
+    assertEquals("[3, 8]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[3, 8]", Arrays.format(array));
   }
 
   @Test
   public void should_format_byte_array_in_hex_representation() {
-    Object o = new byte[] { (byte) 3, (byte) 8 };
-    assertEquals("[0x03, 0x08]", Arrays.format(new HexadecimalRepresentation(), o));
+    Object array = new byte[] { (byte) 3, (byte) 8 };
+    assertEquals("[0x03, 0x08]", Arrays.format(new HexadecimalRepresentation(), array));
   }
 
   @Test
   public void should_format_char_array() {
-    Object o = new char[] { 'a', 'b' };
-    assertEquals("['a', 'b']", Arrays.format(new StandardRepresentation(), o));
+    Object array = new char[] { 'a', 'b' };
+    assertEquals("['a', 'b']", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("['a', 'b']", Arrays.format(array));
   }
 
   @Test
   public void should_format_double_array() {
-    Object o = new double[] { 6.8, 8.3 };
-    assertEquals("[6.8, 8.3]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new double[] { 6.8, 8.3 };
+    assertEquals("[6.8, 8.3]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[6.8, 8.3]", Arrays.format(array));
   }
 
   @Test
   public void should_format_float_array() {
-    Object o = new float[] { 6.1f, 8.6f };
-    assertEquals("[6.1f, 8.6f]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new float[] { 6.1f, 8.6f };
+    assertEquals("[6.1f, 8.6f]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[6.1f, 8.6f]", Arrays.format(array));
   }
 
   @Test
   public void should_format_int_array() {
-    Object o = new int[] { 78, 66 };
-    assertEquals("[78, 66]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new int[] { 78, 66 };
+    assertEquals("[78, 66]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[78, 66]", Arrays.format(array));
   }
 
   @Test
   public void should_format_long_array() {
-    Object o = new long[] { 160l, 98l };
-    assertEquals("[160L, 98L]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new long[] { 160l, 98l };
+    assertEquals("[160L, 98L]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[160L, 98L]", Arrays.format(array));
   }
 
   @Test
   public void should_format_short_array() {
-    Object o = new short[] { (short) 5, (short) 8 };
-    assertEquals("[5, 8]", Arrays.format(new StandardRepresentation(), o));
+    Object array = new short[] { (short) 5, (short) 8 };
+    assertEquals("[5, 8]", Arrays.format(new StandardRepresentation(), array));
+    assertEquals("[5, 8]", Arrays.format(array));
   }
 }

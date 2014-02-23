@@ -15,6 +15,7 @@
 package org.assertj.core.util;
 
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -29,6 +30,7 @@ import java.util.*;
  */
 public class Arrays {
   private static final ArrayFormatter FORMATTER = new ArrayFormatter();
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   /**
    * Indicates whether the given object is not {@code null} and is an array.
@@ -72,6 +74,18 @@ public class Arrays {
    */
   public static String format(Representation representation, Object array) {
     return FORMATTER.format(representation, array);
+  }
+
+  /**
+   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
+   * the given array, or {@code null} if the given object is either {@code null} or not an array.
+   * This method supports arrays having other arrays as elements.
+   *
+   * @param array the object that is expected to be an array.
+   * @return the {@code String} standard representation of the given array.
+   */
+  public static Object format(final Object array) {
+    return format(STANDARD_REPRESENTATION, array);
   }
 
   /**
@@ -124,4 +138,5 @@ public class Arrays {
   }
 
   private Arrays() {}
+
 }
