@@ -14,8 +14,6 @@
  */
 package org.assertj.core.util;
 
-import org.assertj.core.presentation.Representation;
-
 import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
@@ -25,6 +23,9 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Utility methods related to {@code Collection}s.
@@ -72,10 +73,22 @@ public final class Collections {
   }
 
   /**
+   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
+   * the given {@code Collection}, or {@code null} if the given {@code Collection} is {@code null}.
+   * 
+   * 
+   * @param c the {@code Collection} to format.
+   * @return the {@code String} representation of the given {@code Collection}.
+   */
+  public static String format(Collection<?> c) {
+    return format(new StandardRepresentation(), c);
+  }
+
+  /**
    * Returns the {@code String} representation of the given {@code Collection}, or {@code null} if the given
    * {@code Collection} is {@code null}.
    * 
-   *
+   * 
    * @param p
    * @param c the {@code Collection} to format.
    * @return the {@code String} representation of the given {@code Collection}.
@@ -85,10 +98,22 @@ public final class Collections {
   }
 
   /**
+   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
+   * the given {@code Collection}, or {@code null} if the given {@code Collection} is {@code null}.
+   * 
+   * 
+   * @param c the {@code Collection} to format.
+   * @return the {@code String} representation of the given {@code Collection}.
+   */
+  public static String format(Collection<?> c, String start, String end) {
+    return format(new StandardRepresentation(), c, start, end);
+  }
+
+  /**
    * Returns the {@code String} representation of the given {@code Collection}, or {@code null} if the given
    * {@code Collection} is {@code null}.
    * 
-   *
+   * 
    * @param p
    * @param c the {@code Collection} to format.
    * @return the {@code String} representation of the given {@code Collection}.
@@ -113,14 +138,13 @@ public final class Collections {
     }
   }
 
-
   /**
    * Returns all the non-{@code null} elements in the given {@link Collection}.
    * 
    * @param <T> the type of elements of the {@code Collection}.
    * @param c the given {@code Collection}.
-   * @return all the non-{@code null} elements in the given {@code Collection}. An empty list is returned if the
-   *         given {@code Collection} is {@code null}.
+   * @return all the non-{@code null} elements in the given {@code Collection}. An empty list is returned if the given
+   *         {@code Collection} is {@code null}.
    * @since 1.1.3
    */
   public static <T> List<T> nonNullElementsIn(Collection<T> c) {
@@ -136,6 +160,7 @@ public final class Collections {
     return nonNull;
   }
 
-  private Collections() {}
+  private Collections() {
+  }
 
 }

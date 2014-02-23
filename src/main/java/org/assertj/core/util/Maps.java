@@ -14,8 +14,6 @@
  */
 package org.assertj.core.util;
 
-import org.assertj.core.presentation.Representation;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -23,6 +21,9 @@ import java.util.Map.Entry;
 import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Utility methods related to maps.
@@ -67,6 +68,17 @@ public class Maps {
    */
   public static boolean isNullOrEmpty(Map<?, ?> map) {
     return map == null || map.isEmpty();
+  }
+
+  /**
+   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
+   * the given map, or {@code null} if the given map is {@code null}.
+   * 
+   * @param map the map to format.
+   * @return the {@code String} representation of the given map.
+   */
+  public static String format(Map<?, ?> map) {
+    return format(new StandardRepresentation(), map);
   }
 
   /**
