@@ -134,15 +134,64 @@ public class XPathExtractor_extract_Test {
   }
 
   @Test
-  public void should_chain() throws Exception {
+  public void should_chain_extract_element_from_element() throws Exception {
     
-    XPathExtractor extractor = new XPathExtractor("<x><a>A</a><b>B</b><c>C</c></x>");
+    XPathExtractor extractor = new XPathExtractor(
+        "<document>" +
+            "<element attribute='abc'/>" +
+            "<otherElement attribute='def'/>" +
+        "</document>");
     
-    NodeList firstLevel = extractor.extract("/x");
-    NodeList secondLevel = new XPathExtractor(firstLevel).extract("//c");
+    NodeList firstLevel = extractor.extract("/document/element");
+    NodeList secondLevel = new XPathExtractor(firstLevel).extract("/element");
     
     assertThat(secondLevel.getLength()).isEqualTo(1);
     
+  }
+  
+  @Test
+  public void should_chain_extract_attribute_from_element() throws Exception {
+    
+    XPathExtractor extractor = new XPathExtractor(
+        "<document>" +
+            "<element attribute='abc'/>" +
+            "<otherElement attribute='def'/>" +
+        "</document>");
+    
+    NodeList firstLevel = extractor.extract("/document/element");
+    NodeList secondLevel = new XPathExtractor(firstLevel).extract("@attribute");
+    
+    assertThat(secondLevel.getLength()).isEqualTo(1);
+  }
+  
+  @Test
+  public void should_chain_extract_text_from_element() throws Exception {
+    
+    XPathExtractor extractor = new XPathExtractor(
+        "<document>" +
+            "<element attribute='abc'>text</element>" +
+            "<otherElement attribute='def'/>" +
+        "</document>");
+    
+    NodeList firstLevel = extractor.extract("/document/element");
+    NodeList secondLevel = new XPathExtractor(firstLevel).extract("text()");
+    
+    assertThat(secondLevel.getLength()).isEqualTo(1);
+  }
+  
+  @Test
+  public void should_chain_extract_comment_from_element() throws Exception {
+    
+    XPathExtractor extractor = new XPathExtractor(
+        "<document>" +
+            "<element attribute='abc'><!--comment--></element>" +
+            "<otherElement attribute='def'/>" +
+        "</document>");
+    
+    NodeList firstLevel = extractor.extract("/document/element");
+    NodeList secondLevel = new XPathExtractor(firstLevel).extract("comment()");
+    
+    assertThat(secondLevel.getLength()).isEqualTo(1);
   }
   
 }

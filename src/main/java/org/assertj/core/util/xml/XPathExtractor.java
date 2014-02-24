@@ -20,12 +20,16 @@ import static org.assertj.core.util.xml.XmlUtil.nodeList;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.assertj.core.util.Preconditions;
+import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -90,13 +94,61 @@ public class XPathExtractor {
       
       for (int index=0; index<xml.getLength(); index++) {
         Node x = xml.item(index);
-        list.append((NodeList) path.compile(xpath).evaluate(x, XPathConstants.NODESET));
+        list.append(extractNodeList(xpath, path, x));
       }
       return list;
       
     } catch (XPathExpressionException e) {
 
       throw new IllegalArgumentException(format("Invalid xpath:<\"%s\">", xpath));
+    }
+  }
+
+  public NodeList extractNodeList(String xpath, XPath path, Node x) throws XPathExpressionException {
+
+    NodeList result = (NodeList) path.compile(xpath).evaluate(x, XPathConstants.NODESET);
+    
+    final List<Node> copy = new ArrayList<Node>();
+    
+    for (int i=0; i<result.getLength(); i++) {
+      copy.add(cloneToSeparateDocument(result.item(i)));
+    }
+
+    return new NodeList() {
+      
+      @Override
+      public Node item(int index) {
+        return copy.get(index);
+      }
+      
+      @Override
+      public int getLength() {
+        return copy.size();
+      }
+    };
+  }
+
+  private Node cloneToSeparateDocument(Node n) {
+
+    if(n.getNodeType() == Node.DOCUMENT_NODE){
+      n = ((Document)n).getDocumentElement();   // document cannot be imported, import document element instead
+    }
+    
+    try {
+      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+      DocumentBuilder db = dbf.newDocumentBuilder();
+      Document document = db.newDocument();
+            
+      Node copy = document.importNode(n, true);
+      
+      if(n.getNodeType() == Node.ELEMENT_NODE){
+        document.appendChild(copy);
+      }
+      
+      return copy;
+      
+    } catch (ParserConfigurationException e) {
+      throw new RuntimeException(e);
     }
   }
 

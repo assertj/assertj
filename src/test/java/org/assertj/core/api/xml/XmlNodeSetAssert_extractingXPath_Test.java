@@ -16,7 +16,6 @@ package org.assertj.core.api.xml;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -95,14 +94,13 @@ public class XmlNodeSetAssert_extractingXPath_Test extends AbstractXmlNodeSetAss
     expression2.hasSize(1);
   }
   
-  @Ignore
   @Test
   public void should_be_chainable() throws Exception {
     
     XmlNodeSetAssert xmlAssert = assertThat(xml).asXml();
     
-    xmlAssert.extractingXPath("//continent[@name='Europe']").extractingXPath("//area").hasSize(1);
-    
+    xmlAssert.extractingXPath("//continent[@name='Europe']").extractingXPath("/continent/area").hasSize(1);
+    xmlAssert.extractingXPath("//continent[@name='Antarctica']").extractingXPath("@inhabited").containsOnly("@inhabited='false'");
   }
 
 }
