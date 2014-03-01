@@ -34,6 +34,7 @@ import java.nio.charset.Charset;
  * @author Olivier Michallat
  * @author Olivier Demeijer
  * @author Mikhail Mazursky
+ * @author Jean-Christophe Gay
  */
 public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extends AbstractAssert<S, File> {
 
@@ -221,6 +222,61 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    */
   public S canRead() {
     files.assertCanRead(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code File} has given parent.
+   * 
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * File xFile = new File(&quot;mulder/xFile&quot;);
+   * 
+   * // assertion will pass
+   * assertThat(xFile).hasParent(new File(&quot;mulder&quot;));
+   * 
+   * // assertion will fail
+   * assertThat(xFile).hasParent(new File(&quot;scully&quot;));
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param expected the expected parent {@code File}.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected parent {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have a parent.
+   * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
+   * 
+   * @see java.io.File#getParentFile() parent definition.
+   */
+  public S hasParent(File expected) {
+    files.assertHasParent(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Same as {@link #hasParent(java.io.File)} but takes care of converting given {@code String} as {@code File} for you
+   * 
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * File xFile = new File(&quot;mulder/xFile&quot;);
+   * 
+   * // assertion will pass
+   * assertThat(xFile).hasParent(&quot;mulder&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(xFile).hasParent(&quot;scully&quot;);
+   * </pre>
+   * 
+   * </p>
+   */
+  public S hasParent(String expected) {
+    files.assertHasParent(info, actual, expected != null ? new File(expected) : null);
     return myself;
   }
 }
