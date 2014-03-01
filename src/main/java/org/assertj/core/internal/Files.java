@@ -14,6 +14,15 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.FilesException;
+import org.assertj.core.util.VisibleForTesting;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.util.List;
+
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -24,16 +33,11 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.List;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.FilesException;
-import org.assertj.core.util.VisibleForTesting;
+import static org.assertj.core.util.Objects.areEqual;
 
 
 /**
@@ -236,7 +240,6 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
    */
-
   public void assertCanWrite(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canWrite()) return;
@@ -250,11 +253,69 @@ public class Files {
    * @throws AssertionError if the given file is {@code null}.
    * @throws AssertionError if the given file can not be modified.
    */
-
   public void assertCanRead(AssertionInfo info, File actual) {
     assertNotNull(info, actual);
     if (actual.canRead()) return;
     throw failures.failure(info, shouldBeReadable(actual));
+  }
+
+  /**
+   * Asserts that the given {@code File} has the given parent.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @param expected the expected parent {@code File}.
+   * @throws NullPointerException if the expected parent {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} is {@code null}.
+   * @throws AssertionError if the given {@code File} does not have a parent.
+   * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
+   */
+  public void assertHasParent(AssertionInfo info, File actual, File expected) {
+    assertNotNull(info, actual);
+    if (areEqual(actual.getParentFile(), expected)) return;
+    throw failures.failure(info, shouldHaveParent(actual, expected));
+  }
+
+  /**
+   * Asserts that the given {@code File} has the given extension.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @param expected the expected extension, it does not contains the {@code '.'}
+   * @throws NullPointerException if the expected extension is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
+   * @throws AssertionError if the actual {@code File} does not have the expected extension.
+   */
+  public void assertHasExtension(AssertionInfo info, File actual, String expected) {
+    if (expected == null) throw new NullPointerException("The expected extension should not be null.");
+    assertIsFile(info, actual);
+    String actualExtension = getFileExtension(actual);
+    if (expected.equals(actualExtension)) return;
+    throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expected));
+  }
+
+  private String getFileExtension(File file) {
+    String name = file.getName();
+    int dotAt = name.lastIndexOf('.');
+    return (dotAt == -1) ? null : name.substring(dotAt + 1);
+  }
+
+  /**
+   * Asserts that the given {@code File} has the given name.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @param expected the expected file name.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   */
+  public void assertHasName(AssertionInfo info, File actual, String expected) {
+    assertNotNull(info, actual);
+    if (expected == null) throw new NullPointerException("The expected name should not be null.");
+    if (expected.equals(actual.getName())) return;
+    throw failures.failure(info, shouldHaveName(actual, expected));
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {
