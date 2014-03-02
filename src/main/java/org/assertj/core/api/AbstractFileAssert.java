@@ -279,4 +279,36 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
     files.assertHasParent(info, actual, expected != null ? new File(expected) : null);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code File} has given extension.
+   * 
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * File xFile = new File(&quot;xFile.java&quot;);
+   * 
+   * // assertion will pass
+   * assertThat(xFile).hasExtension(&quot;java&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(xFile).hasExtension(&quot;png&quot;);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param expected the expected extension, it does not contains the {@code '.'}
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected extension is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
+   * @throws AssertionError if the actual {@code File} does not have the expected extension.
+   * 
+   * @see <a href="http://en.wikipedia.org/wiki/Filename_extension">Filename extension</a>
+   */
+  public S hasExtension(String expected) {
+    files.assertHasExtension(info, actual, expected);
+    return myself;
+  }
 }

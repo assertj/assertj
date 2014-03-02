@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
+import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 
@@ -273,6 +274,31 @@ public class Files {
     if (actual.getParentFile() == null) throw failures.failure(info, shouldHaveParent(actual, expected));
     if (actual.getParentFile().equals(expected)) return;
     throw failures.failure(info, shouldHaveParent(actual, expected));
+  }
+
+  /**
+   * Asserts that the given {@code File} has the given extension.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @param expected the expected extension, it does not contains the {@code '.'}
+   * @throws NullPointerException if the expected extension is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
+   * @throws AssertionError if the actual {@code File} does not have the expected extension.
+   */
+  public void assertHasExtension(AssertionInfo info, File actual, String expected) {
+    if (expected == null) throw new NullPointerException("The expected extension should not be null.");
+    assertIsFile(info, actual);
+    String actualExtension = getFileExtension(actual);
+    if (expected.equals(actualExtension)) return;
+    throw failures.failure(info, shouldHaveExtension(actual, actualExtension, expected));
+  }
+
+  private String getFileExtension(File file) {
+    String name = file.getName();
+    int dotAt = name.lastIndexOf('.');
+    return (dotAt == -1) ? null : name.substring(dotAt + 1);
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {
