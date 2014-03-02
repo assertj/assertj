@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryCon
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
+import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 
@@ -299,6 +300,23 @@ public class Files {
     String name = file.getName();
     int dotAt = name.lastIndexOf('.');
     return (dotAt == -1) ? null : name.substring(dotAt + 1);
+  }
+
+  /**
+   * Asserts that the given {@code File} has the given name.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @param expected the expected file name.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   */
+  public void assertHasName(AssertionInfo info, File actual, String expected) {
+    assertNotNull(info, actual);
+    if (expected == null) throw new NullPointerException("The expected name should not be null.");
+    if (expected.equals(actual.getName())) return;
+    throw failures.failure(info, shouldHaveName(actual, expected));
   }
 
   private static void assertNotNull(AssertionInfo info, File actual) {

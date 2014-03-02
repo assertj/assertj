@@ -311,4 +311,38 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
     files.assertHasExtension(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code File} has given name.
+   * 
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
+   * 
+   * // assertion will pass
+   * assertThat(xFile).hasName(&quot;xFile.java&quot;);
+   * assertThat(xDirectory).hasName(&quot;xDirectory&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(xFile).hasName(&quot;xFile&quot;);
+   * assertThat(xDirectory).hasName(&quot;somewhere&quot;);
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param expected the expected {@code File} name.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected name is {@code null}.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} does not have the expected name.
+   * 
+   * @see java.io.File#getName() name definition.
+   */
+  public S hasName(String expected) {
+    files.assertHasName(info, actual, expected);
+    return myself;
+  }
 }
