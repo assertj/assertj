@@ -68,4 +68,45 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+
+  @Test
+  public void should_fail_with_my_exception_if_compared_with_null() {
+    try {
+      objects.assertEqual(someInfo(), new MyObject(), null);
+    } catch (MyObject.NullEqualsException e) {
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_with_my_exception_if_compared_with_other_object() {
+    try {
+      objects.assertEqual(someInfo(), new MyObject(), "Yoda");
+    } catch (MyObject.DifferentClassesException e) {
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  private static class MyObject {
+    private final int anInt = 0;
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null) throw new NullEqualsException();
+      if (getClass() != o.getClass()) throw new DifferentClassesException();
+      MyObject myObject = (MyObject) o;
+      if (anInt != myObject.anInt) return false;
+      return true;
+    }
+
+    private class NullEqualsException extends RuntimeException {
+    }
+
+    private class DifferentClassesException extends RuntimeException {
+    }
+  }
 }
