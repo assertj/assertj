@@ -167,8 +167,8 @@ public class Dates {
         calendarActual.set(Calendar.DAY_OF_WEEK, 0);
         calendarOther.set(Calendar.DAY_OF_WEEK, 0);
       case HOURS:
-        calendarActual.set(Calendar.HOUR, 0);
-        calendarOther.set(Calendar.HOUR, 0);
+        calendarActual.set(Calendar.HOUR_OF_DAY, 0);
+        calendarOther.set(Calendar.HOUR_OF_DAY, 0);
       case MINUTES:
         calendarActual.set(Calendar.MINUTE, 0);
         calendarOther.set(Calendar.MINUTE, 0);
