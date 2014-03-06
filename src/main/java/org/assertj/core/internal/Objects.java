@@ -331,7 +331,7 @@ public class Objects {
    * @return true if actual and other are equal (null safe equals check), false otherwise.
    */
   private boolean areEqual(Object actual, Object other) {
-    return comparisonStrategy.areEqual(other, actual);
+    return comparisonStrategy.areEqual(actual, other);
   }
 
   /**
