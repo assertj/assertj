@@ -272,8 +272,9 @@ public class Files {
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
    */
   public void assertHasParent(AssertionInfo info, File actual, File expected) {
+    if (expected == null) throw new NullPointerException("The expected parent file should not be null.");
     assertNotNull(info, actual);
-    if (areEqual(actual.getParentFile(), expected)) return;
+    if (areEqual(expected, actual.getParentFile())) return;
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }
 

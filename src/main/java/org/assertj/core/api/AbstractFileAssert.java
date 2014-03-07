@@ -227,9 +227,6 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
 
   /**
    * Verifies that the actual {@code File} has given parent.
-   * <p>
-   * Pass null if you want to assert that a file has no parent.
-   * </p>
    *
    * <p>
    * Example:
@@ -239,8 +236,6 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * // assertion will pass
    * assertThat(xFile).hasParent(new File(&quot;mulder&quot;));
-   * // need to cast to avoid ambiguous call between hasParent(File) and hasParent(String)
-   * assertThat(fileWithoutParent)).hasParent((File) null);
    *
    * // assertion will fail
    * assertThat(xFile).hasParent(new File(&quot;scully&quot;));
@@ -250,6 +245,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the expected parent {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
    * 
@@ -271,8 +267,6 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * // assertion will pass
    * assertThat(xFile).hasParent(&quot;mulder&quot;);
-   * // need to cast to avoid ambiguous call between hasParent(File) and hasParent(String)
-   * assertThat(fileWithoutParent)).hasParent((String) null);
    *
    * // assertion will fail
    * assertThat(xFile).hasParent(&quot;scully&quot;);
