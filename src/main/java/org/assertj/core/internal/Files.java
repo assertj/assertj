@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
 import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
+import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
@@ -320,5 +321,19 @@ public class Files {
 
   private static void assertNotNull(AssertionInfo info, File actual) {
     Objects.instance().assertNotNull(info, actual);
+  }
+
+  /**
+   * Asserts that the given {@code File} does not have a parent.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} has a parent.
+   */
+  public void assertHasNoParent(AssertionInfo info, File actual) {
+    assertNotNull(info, actual);
+    if (actual.getParentFile() == null) return;
+    throw failures.failure(info, shouldHaveNoParent(actual));
   }
 }

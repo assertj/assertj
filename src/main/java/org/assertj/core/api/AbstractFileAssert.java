@@ -350,4 +350,33 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
     files.assertHasName(info, actual, expected);
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@code File} does not have a parent.
+   * 
+   * <p>
+   * Example:
+   * 
+   * <pre>
+   * File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * File xDirectory = new File(&quot;xDirectory&quot;);
+   * 
+   * // assertion will pass
+   * assertThat(xDirectory).hasNoParent();
+   * 
+   * // assertion will fail
+   * assertThat(xFile).hasNoParent();
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @return {@code this} assertion object.
+   * 
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} has a parent.
+   */
+  public S hasNoParent() {
+    files.assertHasNoParent(info, actual);
+    return myself;
+  }
 }
