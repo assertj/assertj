@@ -32,6 +32,12 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   }
 
   @Test
+  public void should_throw_npe_if_expected_is_null() throws Exception {
+    thrown.expectNullPointerException("The expected parent file should not be null.");
+    files.assertHasParent(someInfo(), actual, null);
+  }
+
+  @Test
   public void should_fail_if_actual_has_no_parent() throws Exception {
     AssertionInfo info = someInfo();
     when(actual.getParentFile()).thenReturn(null);
@@ -62,11 +68,5 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   public void should_pass_if_actual_has_expected_parent() throws Exception {
     when(actual.getParentFile()).thenReturn(expectedParent);
     files.assertHasParent(someInfo(), actual, expectedParent);
-  }
-
-  @Test
-  public void should_pass_if_actual_has_no_parent_and_expected_parent_is_null() throws Exception {
-    when(actual.getParentFile()).thenReturn(null);
-    files.assertHasParent(someInfo(), actual, null);
   }
 }
