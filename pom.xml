@@ -11,7 +11,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>1.2.2</version>
+    <version>1.2.3-SNAPSHOT</version>
   </parent>
   <mailingLists>
     <mailingList>
@@ -77,10 +77,19 @@
                 <goal>check</goal>
               </goals>
               <configuration>
-                <check>
-                  <classRatio>99</classRatio>
-                </check>
-              </configuration>
+		<rules>
+                  <rule implementation="org.jacoco.maven.RuleConfiguration">
+                    <element>BUNDLE</element>
+                    <limits>
+                      <limit implementation="org.jacoco.report.check.Limit">
+                        <counter>CLASS</counter>
+                        <value>COVEREDRATIO</value>
+                        <minimum>0.99</minimum>
+                      </limit>
+              	   </limits>
+		  </rule>
+                </rules>
+	      </configuration>
             </execution>
           </executions>
       </plugin>
