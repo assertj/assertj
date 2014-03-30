@@ -29,9 +29,10 @@ public class ShouldHaveNoParent_create_Test {
 
     when(actual.getParentFile()).thenReturn(new FakeFile("unexpected.parent"));
 
-    assertThat(createMessage()).isEqualTo("[TEST] \n" +
-                                          "Expecting file (or directory) without parent, but parent was:\n" +
-                                          "  <" + actual.getParentFile() + ">");
+    assertThat(createMessage()).isEqualTo(String.format(
+      "[TEST] %n" +
+      "Expecting file (or directory) without parent, but parent was:%n" +
+      "  <" + actual.getParentFile() + ">"));
   }
 
   private String createMessage() {

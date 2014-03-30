@@ -18,17 +18,17 @@ public class ShouldHaveName_create_Test {
 
   private final String expectedName = "java";
 
-  private File actual = new FakeFile("somewhere/actual-file");
+  private File actual = new FakeFile("somewhere/actual-file".replace("/", File.separator));
 
   @Test
   public void should_create_error_message() throws Exception {
-    assertThat(createMessage()).isEqualTo("[TEST] \n" +
-                                          "Expecting\n" +
-                                          "  <" + actual + ">\n" +
-                                          "to have name:\n" +
-                                          "  <\"" + expectedName + "\">\n" +
-                                          "but had:\n" +
-                                          "  <\"actual-file\">.");
+    assertThat(createMessage()).isEqualTo(String.format("[TEST] %n" +
+                                                        "Expecting%n" +
+                                                        "  <" + actual + ">%n" +
+                                                        "to have name:%n" +
+                                                        "  <\"" + expectedName + "\">%n" +
+                                                        "but had:%n" +
+                                                        "  <\"actual-file\">."));
   }
 
   private String createMessage() {

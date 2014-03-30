@@ -32,12 +32,12 @@ public class ShouldHaveParent_create_Test {
 
     when(actual.getParentFile()).thenReturn(null);
 
-    assertThat(createMessage()).isEqualTo("[TEST] \n" +
-                                          "Expecting file\n" +
-                                          "  <" + actual + ">\n" +
-                                          "to have parent:\n" +
-                                          "  <" + expectedParent + ">\n" +
-                                          "but did not have one.");
+    assertThat(createMessage()).isEqualTo(String.format("[TEST] %n" +
+                                                        "Expecting file%n" +
+                                                        "  <" + actual + ">%n" +
+                                                        "to have parent:%n" +
+                                                        "  <" + expectedParent + ">%n" +
+                                                        "but did not have one."));
   }
 
   @Test
@@ -45,13 +45,13 @@ public class ShouldHaveParent_create_Test {
 
     when(actual.getParentFile()).thenReturn(new FakeFile("not.expected.parent"));
 
-    assertThat(createMessage()).isEqualTo("[TEST] \n" +
-                                          "Expecting file\n" +
-                                          "  <" + actual + ">\n" +
-                                          "to have parent:\n" +
-                                          "  <" + expectedParent + ">\n" +
-                                          "but had:\n" +
-                                          "  <" + actual.getParentFile() + ">.");
+    assertThat(createMessage()).isEqualTo(String.format("[TEST] %n" +
+                                                        "Expecting file%n" +
+                                                        "  <" + actual + ">%n" +
+                                                        "to have parent:%n" +
+                                                        "  <" + expectedParent + ">%n" +
+                                                        "but had:%n" +
+                                                        "  <" + actual.getParentFile() + ">."));
   }
 
   private String createMessage() {
