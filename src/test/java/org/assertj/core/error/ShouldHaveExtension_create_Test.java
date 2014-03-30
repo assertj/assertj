@@ -22,23 +22,23 @@ public class ShouldHaveExtension_create_Test {
 
   @Test
   public void should_create_error_message() throws Exception {
-    assertThat(createMessage("png")).isEqualTo("[TEST] \n" +
-                                               "Expecting\n" +
-                                               "  <" + actual + ">\n" +
-                                               "to have extension:\n" +
-                                               "  <\"" + expectedExtension            + "\">\n" +
-                                               "but had:\n" +
-                                               "  <\"png\">.");
+    assertThat(createMessage("png")).isEqualTo(String.format("[TEST] %n" +
+                                                             "Expecting%n" +
+                                                             "  <" + actual + ">%n" +
+                                                             "to have extension:%n" +
+                                                             "  <\"" + expectedExtension            + "\">%n" +
+                                                             "but had:%n" +
+                                                             "  <\"png\">."));
   }
 
   @Test
   public void should_create_error_message_when_actual_does_not_have_extension() throws Exception {
-    assertThat(createMessage(null)).isEqualTo("[TEST] \n" +
-                                              "Expecting\n" +
-                                              "  <" + actual + ">\n" +
-                                              "to have extension:\n" +
-                                              "  <\"" + expectedExtension + "\">\n" +
-                                              "but had no extension.");
+    assertThat(createMessage(null)).isEqualTo(String.format("[TEST] %n" +
+                                                            "Expecting%n" +
+                                                            "  <" + actual + ">%n" +
+                                                            "to have extension:%n" +
+                                                            "  <\"" + expectedExtension + "\">%n" +
+                                                            "but had no extension."));
   }
 
   private String createMessage(String actualExtension) {
