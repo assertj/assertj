@@ -1,0 +1,3 @@
+utf8.txt		text eol=lf
+utf8_win.txt	text eol=crlf
+utf8_mac.txt	text eol=cr
