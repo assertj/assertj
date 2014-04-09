@@ -14,11 +14,11 @@
  */
 package org.assertj.core.util;
 
-import static java.io.File.separator;
+import static java.io.File.*;
 import static java.lang.String.*;
-import static org.assertj.core.util.Arrays.isNullOrEmpty;
-import static org.assertj.core.util.Closeables.closeQuietly;
-import static org.assertj.core.util.Flushables.flush;
+import static org.assertj.core.util.Arrays.*;
+import static org.assertj.core.util.Closeables.*;
+import static org.assertj.core.util.Flushables.*;
 import static org.assertj.core.util.Strings.*;
 
 import java.io.BufferedReader;
@@ -110,6 +110,7 @@ public class Files {
 
   /**
    * Creates a new file in the system's temporary directory. The name of the file will be the result of:
+   * <p/>
    * 
    * <pre>
    * concat(String.valueOf(System.currentTimeMillis()), &quot;.txt&quot;);
@@ -124,6 +125,7 @@ public class Files {
 
   /**
    * Creates a new directory in the system's temporary directory. The name of the directory will be the result of:
+   * <p/>
    * 
    * <pre>
    * System.currentTimeMillis();
@@ -322,8 +324,7 @@ public class Files {
         try {
           reader.close();
         } catch (IOException e) {
-          if (!threw)
-          {
+          if (!threw) {
             throw e; // if there was an initial exception, don't hide it
           }
         }
@@ -331,5 +332,75 @@ public class Files {
     }
   }
 
-  private Files() {}
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   * 
+   * @param file the file.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(File file, Charset charset) {
+    if (charset == null) {
+      throw new NullPointerException("The charset should not be null");
+    }
+    try {
+      return loadLines(file, charset);
+    } catch (IOException e) {
+      throw new FilesException("Unable to read " + file.getAbsolutePath(), e);
+    }
+  }
+
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   * 
+   * @param file the file.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(File file, String charsetName) {
+    if (!Charset.isSupported(charsetName)) {
+      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
+    }
+    return linesOf(file, Charset.forName(charsetName));
+  }
+
+  private static List<String> loadLines(File file, Charset charset) throws IOException {
+    BufferedReader reader = null;
+    boolean threw = true;
+    try {
+      reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+
+      List<String> strings = Lists.newArrayList();
+
+      String line = reader.readLine();
+      while (line != null) {
+        strings.add(line);
+        line = reader.readLine();
+      }
+
+      threw = false;
+      return strings;
+    } finally {
+      if (reader != null) {
+        try {
+          reader.close();
+        } catch (IOException e) {
+          if (!threw) {
+            throw e; // if there was an initial exception, don't hide it
+          }
+        }
+      }
+    }
+
+  }
+
+  private Files() {
+  }
+
 }
