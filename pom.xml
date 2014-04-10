@@ -77,7 +77,7 @@
                 <goal>check</goal>
               </goals>
               <configuration>
-		<rules>
+		        <rules>
                   <rule implementation="org.jacoco.maven.RuleConfiguration">
                     <element>BUNDLE</element>
                     <limits>
@@ -87,7 +87,7 @@
                         <minimum>0.99</minimum>
                       </limit>
               	   </limits>
-		  </rule>
+		          </rule>
                 </rules>
 	      </configuration>
             </execution>

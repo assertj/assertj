@@ -22,8 +22,10 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Files.linesOf;
+import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Tests for {@link Files#linesOf(File, Charset)} and {@link Files#linesOf(File, String)}.
@@ -36,8 +38,8 @@ public class Files_linesOf_Test {
   private static final File SAMPLE_WIN_FILE = new File("src/test/resources/utf8_win.txt");
   private static final File SAMPLE_MAC_FILE = new File("src/test/resources/utf8_mac.txt");
 
-  private static final List<String> EXPECTED_CONTENT = Lists.newArrayList(
-      "A text file encoded in UTF-8, with diacritics:", "é à");
+  private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
+  public static final String UTF_8 = "UTF-8";
 
   @Rule
   public ExpectedException thrown = none();
@@ -46,51 +48,51 @@ public class Files_linesOf_Test {
   public void should_throw_exception_when_charset_is_null() {
     Charset charset = null;
     thrown.expect(NullPointerException.class);
-    Files.linesOf(SAMPLE_UNIX_FILE, charset);
+    linesOf(SAMPLE_UNIX_FILE, charset);
   }
 
   @Test
   public void should_throw_exception_if_charset_name_does_not_exist() {
     thrown.expect(IllegalArgumentException.class);
-    Files.linesOf(new File("test"), "Klingon");
+    linesOf(new File("test"), "Klingon");
   }
 
   @Test
   public void should_throw_exception_if_file_not_found() {
     File missingFile = new File("missing.txt");
-    assertFalse(missingFile.exists());
+    assertThat(missingFile).doesNotExist();
 
     thrown.expect(FilesException.class);
-    Files.linesOf(missingFile, Charset.defaultCharset());
+    linesOf(missingFile, Charset.defaultCharset());
   }
 
   @Test
   public void should_pass_if_unix_file_is_split_into_lines() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_UNIX_FILE, Charset.forName("UTF-8")));
+    assertThat(linesOf(SAMPLE_UNIX_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_unix_file_is_split_into_lines_using_charset() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_UNIX_FILE, "UTF-8"));
+    assertThat(linesOf(SAMPLE_UNIX_FILE, UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_windows_file_is_split_into_lines() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_WIN_FILE, Charset.forName("UTF-8")));
+    assertThat(linesOf(SAMPLE_WIN_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_windows_file_is_split_into_lines_using_charset() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_WIN_FILE, "UTF-8"));
+    assertThat(linesOf(SAMPLE_WIN_FILE, UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_mac_file_is_split_into_lines() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_MAC_FILE, Charset.forName("UTF-8")));
+    assertThat(linesOf(SAMPLE_MAC_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
   public void should_pass_if_mac_file_is_split_into_lines_using_charset() {
-    assertEquals(EXPECTED_CONTENT, Files.linesOf(SAMPLE_MAC_FILE, "UTF-8"));
+    assertThat(linesOf(SAMPLE_MAC_FILE, UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 }
