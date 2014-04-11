@@ -714,7 +714,7 @@ public class Assertions {
   }
   
   /**
-   * Alias for {@link #offset(BigDecimal)} to use with isCloseTo assertions.
+   * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
    * <p/>
@@ -902,24 +902,27 @@ public class Assertions {
     return Files.contentOf(file, Charset.defaultCharset());
   }
 
+  // --------------------------------------------------------------------------------------------------
+  // Date formatting methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
 
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
-   * {@link #isEqualTo(String)}.
+   * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
    * User date formats are used before default ones in the order they have been registered (first registered, first used).
    * <p/>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
-   * <li>{@link #withDateFormat(String)}</li>
-   * <li>{@link #withDateFormat(java.text.DateFormat)}</li>
+   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
+   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
    * <p/>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p/>
-   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link #withDefaultDateFormatsOnly()}.
+   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
    * <pre>
@@ -950,21 +953,21 @@ public class Assertions {
 
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
-   * {@link #isEqualTo(String)}.
+   * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
    * User date formats are used before default ones in the order they have been registered (first registered, first used).
    * <p/>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
-   * <li>{@link #withDateFormat(String)}</li>
-   * <li>{@link #withDateFormat(java.text.DateFormat)}</li>
+   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
+   * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(java.text.DateFormat)}</li>
    * <li>{@link #registerCustomDateFormat(String)}</li>
    * </ul>
    * <p/>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p/>
-   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link #withDefaultDateFormatsOnly()}.
+   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
    * <pre>
