@@ -902,6 +902,47 @@ public class Assertions {
     return Files.contentOf(file, Charset.defaultCharset());
   }
 
+  /**
+   * Loads the text content of a file into a list of strings with the default charset, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param file the file.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(File file) {
+    return Files.linesOf(file, Charset.defaultCharset());
+  }
+
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param file the file.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(File file, Charset charset) {
+    return Files.linesOf(file, charset);
+  }
+
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param file the file.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(File file, String charsetName) {
+    return Files.linesOf(file, charsetName);
+  }
+
   // --------------------------------------------------------------------------------------------------
   // Date formatting methods : not assertions but here to have a single entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------
