@@ -10,9 +10,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests for
@@ -23,7 +21,8 @@ import static org.mockito.Mockito.when;
  */
 public class Files_assertHasParent_Test extends FilesBaseTest {
 
-  private File expectedParent = mock(File.class);
+  private File actual = new File("./some/test");
+  private File expectedParent = new File("./some");
 
   @Test
   public void should_throw_error_if_actual_is_null() throws Exception {
@@ -40,11 +39,11 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   @Test
   public void should_fail_if_actual_has_no_parent() throws Exception {
     AssertionInfo info = someInfo();
-    when(actual.getParentFile()).thenReturn(null);
+    File withoutParent = new File("without-parent");
     try {
-      files.assertHasParent(info, actual, expectedParent);
+      files.assertHasParent(info, withoutParent, expectedParent);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveParent(actual, expectedParent));
+      verify(failures).failure(info, shouldHaveParent(withoutParent, expectedParent));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -53,8 +52,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
   @Test
   public void should_fail_if_actual_does_not_have_the_expected_parent() throws Exception {
     AssertionInfo info = someInfo();
-    File notExpectedParent = mock(File.class);
-    when(actual.getParentFile()).thenReturn(notExpectedParent);
+    File expectedParent = new File("./expected-parent");
     try {
       files.assertHasParent(info, actual, expectedParent);
     } catch (AssertionError e) {
@@ -66,7 +64,6 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_pass_if_actual_has_expected_parent() throws Exception {
-    when(actual.getParentFile()).thenReturn(expectedParent);
     files.assertHasParent(someInfo(), actual, expectedParent);
   }
 }
