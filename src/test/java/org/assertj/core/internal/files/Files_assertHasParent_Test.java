@@ -2,15 +2,19 @@ package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.FilesException;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for
@@ -64,6 +68,39 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_pass_if_actual_has_expected_parent() throws Exception {
+    files.assertHasParent(someInfo(), actual, expectedParent);
+  }
+
+  @Test
+  public void should_pass_if_actual_has_expected_parent_when_actual_form_is_absolute() throws Exception {
+    files.assertHasParent(someInfo(), actual.getAbsoluteFile(), expectedParent);
+  }
+
+  @Test
+  public void should_pass_if_actual_has_expected_parent_when_actual_form_is_canonical() throws Exception {
+    files.assertHasParent(someInfo(), actual.getCanonicalFile(), expectedParent);
+  }
+
+  @Test
+  public void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
+    thrown.expect(FilesException.class);
+
+    File actual = mock(File.class);
+    File expectedParent = mock(File.class);
+
+    when(actual.getParentFile()).thenReturn(expectedParent);
+    when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
+
+    files.assertHasParent(someInfo(), actual, expectedParent);
+  }
+
+  @Test
+  public void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
+    thrown.expect(FilesException.class);
+
+    File expectedParent = mock(File.class);
+    when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
+
     files.assertHasParent(someInfo(), actual, expectedParent);
   }
 }

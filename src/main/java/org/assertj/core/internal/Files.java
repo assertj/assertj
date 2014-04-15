@@ -267,6 +267,7 @@ public class Files {
    * @param actual the given file.
    * @param expected the expected parent {@code File}.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
+   * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the given {@code File} is {@code null}.
    * @throws AssertionError if the given {@code File} does not have a parent.
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
@@ -274,7 +275,13 @@ public class Files {
   public void assertHasParent(AssertionInfo info, File actual, File expected) {
     if (expected == null) throw new NullPointerException("The expected parent file should not be null.");
     assertNotNull(info, actual);
-    if (areEqual(expected, actual.getParentFile())) return;
+    try {
+      if (actual.getParentFile() != null
+          && areEqual(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
+        return;
+    } catch (IOException e) {
+      throw new FilesException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+    }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }
 

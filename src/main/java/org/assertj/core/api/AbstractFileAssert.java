@@ -246,6 +246,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
+   * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
    * 
