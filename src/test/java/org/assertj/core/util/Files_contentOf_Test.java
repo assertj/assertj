@@ -35,7 +35,8 @@ public class Files_contentOf_Test {
   public ExpectedException thrown = none();
 
   private final File sampleFile = new File("src/test/resources/utf8.txt");
-  private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
+  private final String expectedContent = "A text file encoded in UTF-8, with diacritics:"
+                                           + System.getProperty("line.separator") + "é à";
 
   @Test
   public void should_throw_exception_if_charset_is_null() {
