@@ -1,13 +1,13 @@
 /**
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
+ *
  * Copyright 2012-2013 the original author or authors.
  */
 package org.assertj.guava.api;
@@ -16,17 +16,19 @@ import org.assertj.core.data.MapEntry;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Range;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
 /**
  * The entry point for all Guava assertions.
- * 
+ *
  * @author @marcelfalliere
  * @author @miralak
  * @author Kornel
  * @author Jan Gorman
  * @author Joel Costigliola
+ * @author Marcin Kwaczyński
  */
 public class Assertions {
 
@@ -42,6 +44,10 @@ public class Assertions {
     return new OptionalAssert<T>(actual);
   }
 
+  public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
+    return new RangeAssert<T>(actual);
+  }
+
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
     return new TableAssert<R, C, V>(actual);
   }
@@ -55,12 +61,12 @@ public class Assertions {
    * AssertJ Guava features (but you can use {@link MapEntry} if you prefer).
    * <p>
    * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
-   * 
+   *
    * <pre>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
    * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
-   * 
+   *
    * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;));
    * </pre>
    */
