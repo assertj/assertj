@@ -62,7 +62,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <pre>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
-   * assertThat(range).contains(11, 12);
+   * assertThat(range).contains(10, 11, 12);
    * </pre>
    *
    * @param values the values to look for in actual {@link com.google.common.collect.Range}.
@@ -73,6 +73,9 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
   public RangeAssert<T> contains(final T... values) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
+
+    // if both actual and values are empty, then assertion passes.
+    if (values.length == 0 && actual.isEmpty()) return this;
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
     final List<T> valuesNotFound = newArrayList();

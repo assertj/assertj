@@ -35,7 +35,37 @@ public class RangeAssert_contains_Test extends BaseTest {
   }
 
   @Test
-  public void should_fail_when_range_does_not_contain_expected_value() {
+  public void should_fail_if_expected_values_are_null() {
+    // given
+    Range<Integer> actual = Range.closedOpen(1, 10);
+    // expect
+    expectException(IllegalArgumentException.class, "The values to look for should not be null");
+    // when
+    assertThat(actual).contains(null);
+  }
+
+  @Test
+  public void should_fail_if_expected_values_group_is_empty_and_actual_is_not() {
+    // given
+    Range<Integer> actual = Range.openClosed(1, 2);
+    // expect
+    expectException(IllegalArgumentException.class, "The values to look for should not be empty");
+    // when
+    assertThat(actual).contains();
+  }
+
+  @Test
+  public void should_pass_if_both_actual_and_expected_values_are_empty() {
+    // given
+    Range<Integer> actual = Range.openClosed(1, 1);
+    // when
+    assertThat(actual).contains();
+    // then
+    // pass
+  }
+
+  @Test
+  public void should_fail_when_range_does_not_contain_expected_values() {
     // given
     final Range<Integer> actual = Range.closedOpen(1, 10);
     // expect
@@ -49,10 +79,8 @@ public class RangeAssert_contains_Test extends BaseTest {
   public void should_pass_if_range_contains_values() throws Exception {
     // given
     final Range<Integer> actual = Range.closed(1, 10);
-
     // when
     assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-
     // then
     // pass
   }

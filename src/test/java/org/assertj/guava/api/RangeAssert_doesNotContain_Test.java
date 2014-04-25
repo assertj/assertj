@@ -49,10 +49,8 @@ public class RangeAssert_doesNotContain_Test extends BaseTest {
   public void should_pass_if_range_does_not_contain_values() throws Exception {
     // given
     final Range<Integer> actual = Range.closedOpen(1, 10);
-
     // when
     assertThat(actual).doesNotContain(10);
-
     // then
     // pass
   }
