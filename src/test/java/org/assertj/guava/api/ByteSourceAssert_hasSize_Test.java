@@ -27,7 +27,7 @@ import org.assertj.guava.api.ByteSourceAssert;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ByteSource#hasSize(long)}</code>.
+ * Tests for <code>{@link org.assertj.guava.api.ByteSourceAssert#hasSize(long)}</code>.
  *
  * @author Andrew Gaul
  */
@@ -52,7 +52,7 @@ public class ByteSourceAssert_hasSize_Test extends BaseTest {
       assertThat(ByteSource.wrap(new byte[9])).hasSize(3);
     } catch (AssertionError e) {
       assertThat(e).hasMessage("\n" +
-                               "Expected size:<3L> but was:<9L> in:\n" +
+                               "Expected size:<3> but was:<9> in:\n" +
                                "<ByteSource.wrap(000000000000000000)>");
       return;
     }

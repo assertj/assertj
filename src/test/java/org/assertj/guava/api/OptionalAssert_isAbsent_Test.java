@@ -41,7 +41,7 @@ public class OptionalAssert_isAbsent_Test extends BaseTest {
     // given
     final Optional<String> testedOptional = Optional.of("X");
     // expect
-    expectException(AssertionError.class, "Expecting Optional to contain nothing (absent Optional) but contained <'X'>");
+    expectException(AssertionError.class, "Expecting Optional to contain nothing (absent Optional) but contained <\"X\">");
     // when
     assertThat(testedOptional).isAbsent();
   }

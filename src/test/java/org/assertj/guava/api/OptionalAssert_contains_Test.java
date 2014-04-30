@@ -42,7 +42,7 @@ public class OptionalAssert_contains_Test extends BaseTest {
     final Optional<String> testedOptional = Optional.of("Test");
     // expect
     expectException(AssertionError.class,
-        "\nExpecting Optional to contain value \n<'Test 2'>\n but contained \n<'Test'>");
+        "\nExpecting Optional to contain value \n<\"Test 2\">\n but contained \n<\"Test\">");
     // when
     assertThat(testedOptional).contains("Test 2");
   }
@@ -53,7 +53,7 @@ public class OptionalAssert_contains_Test extends BaseTest {
     final Optional<String> testedOptional = Optional.absent();
     // expect
     expectException(AssertionError.class,
-        "Expecting Optional to contain <'Test'> but contained nothing (absent Optional)");
+        "Expecting Optional to contain <\"Test\"> but contained nothing (absent Optional)");
     // when
     assertThat(testedOptional).contains("Test");
   }

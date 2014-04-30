@@ -56,7 +56,7 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
           .hasMessage(
               "expecting:\n"
                   + "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
-                  + " to contain keys:\n<['Nets', 'Bulls', 'Knicks']>\n but could not find:\n<['Nets', 'Knicks']>");
+                  + " to contain keys:\n<[\"Nets\", \"Bulls\", \"Knicks\"]>\n but could not find:\n<[\"Nets\", \"Knicks\"]>");
       return;
     }
     fail("Assertion error expected");
@@ -72,7 +72,7 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
           .hasMessage(
               "expecting:\n"
                   + "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
-                  + " to contain key:\n<'Nets'>");
+                  + " to contain key:\n<\"Nets\">");
       return;
     }
     fail("Assertion error expected");
