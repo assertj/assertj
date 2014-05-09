@@ -14,19 +14,17 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.*;
-
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.Arrays.array;
-
-import static org.mockito.Mockito.*;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.ComparisonFailure;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -69,8 +67,9 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
 
   private void check(AssertionError error) throws Exception {
     createComparisonFailure(verify(constructorInvoker));
-    assertFalse(error instanceof ComparisonFailure);
-    assertEquals("[Jedi] \nExpecting:\n <\"Yoda\">\nto be equal to:\n <\"Luke\">\nbut was not.", error.getMessage());
+    assertThat(error).isNotInstanceOf(ComparisonFailure.class);
+    assertThat(error.getMessage())
+        .isEqualTo("[Jedi] \nExpecting:\n <\"Luke\">\nto be equal to:\n <\"Yoda\">\nbut was not.");
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {

@@ -17,15 +17,17 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.Integer.toHexString;
-
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Objects.*;
-
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
+
+import static java.lang.Integer.toHexString;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Objects.*;
 
 
 /**
@@ -154,7 +156,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter
                .format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, actual, expected, comparisonStrategy);
-    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, expected, actual);
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, actual, expected);
   }
 
   /**
@@ -170,7 +172,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy)
       return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, detailedActual(),
                                      detailedExpected(), comparisonStrategy);
-    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedExpected(), detailedActual());
+    return messageFormatter.format(description, representation, EXPECTED_BUT_WAS_MESSAGE, detailedActual(), detailedExpected());
   }
 
   private AssertionError comparisonFailure(Description description) {
