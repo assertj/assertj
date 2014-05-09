@@ -14,15 +14,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.Integer.toHexString;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.Strings.concat;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.Comparator;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -30,6 +21,15 @@ import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Comparator;
+
+import static java.lang.Integer.toHexString;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.util.Strings.concat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -54,8 +54,10 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
-    assertEquals("[my test] expected:<42.0[]> but was:<42.0[f]>", error.getMessage());
+
+    assertThat(error.getMessage()).isEqualTo("[my test] expected:<42.0[]> but was:<42.0[f]>");
   }
 
   @Test
@@ -65,10 +67,14 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
     shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
-    assertEquals("[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode()) + ")\">\nbut was not.",
-        error.getMessage());
+
+    assertThat(error.getMessage()).isEqualTo(
+        "[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+            + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+            + ")\">\nbut was not."
+    );
   }
 
   @Test
@@ -80,10 +86,13 @@ public class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual
         new StandardRepresentation());
     shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
     when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+
     AssertionError error = shouldBeEqual.newAssertionError(description, new StandardRepresentation());
-    assertEquals("[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
-        + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
-        + ")\">\naccording to 'PersonComparator' comparator but was not.", error.getMessage());
+
+    assertThat(error.getMessage())
+        .isEqualTo("[my test] \nExpecting:\n <\"Person[name=Jake] (Person@" + toHexString(actual.hashCode())
+            + ")\">\nto be equal to:\n <\"Person[name=Jake] (Person@" + toHexString(expected.hashCode())
+            + ")\">\naccording to 'PersonComparator' comparator but was not.");
   }
 
   private static class Person {
