@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.InputStream;
