@@ -187,10 +187,11 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link IterableAssert}</code> by consuming the given <code>{@link Iterator}</code>
-   * to build an <code>{@link Iterable}</code>
+   * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p/>
-   * <b>Be aware thar the given Iterator can't be use anymore since it has been consumed !</b>
+   * <b>Be aware that calls to most methods on returned IterableAssert will consume Iterator so it won't be possible to
+   * iterate over it again.</b> Calling multiple methods on returned IterableAssert is safe as Iterator's elements are
+   * cached by IterableAssert first time Iterator is consumed.
    *
    * @param actual the actual value.
    * @return the created assertion object.

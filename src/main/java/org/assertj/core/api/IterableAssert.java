@@ -14,8 +14,8 @@
  */
 package org.assertj.core.api;
 
+import java.util.AbstractCollection;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 
 /**
@@ -39,18 +39,49 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
   
   protected IterableAssert(Iterator<T> actual) {
-    this(toIterable(actual));
+    this(toLazyIterable(actual));
   }
 
-  private static <T> Iterable<T> toIterable(Iterator<T> actual) {
+  private static <T> Iterable<T> toLazyIterable(Iterator<T> actual) {
     if (actual == null) {
       return null;
     }
-    Collection<T> actualList = new ArrayList<T>();
-    while(actual.hasNext()) {
-      actualList.add(actual.next());
-    }
-    return actualList;
+    return new LazyIteratorToIterableWrapper<T>(actual);
   }
 
+  private static class LazyIteratorToIterableWrapper<T> extends AbstractCollection<T> {
+    private Iterator<T> iterator;
+    private Iterable<T> iterable;
+
+    public LazyIteratorToIterableWrapper(Iterator<T> iterator) {
+      this.iterator = iterator;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+      if (iterable == null) {
+        iterable = toIterable(iterator);
+      }
+      return iterable.iterator();
+    }
+
+    @Override
+    public int size() {
+      int size = 0;
+      Iterator<T> localIterator = iterator();
+      while (localIterator.hasNext()) {
+        localIterator.next();
+        size++;
+      }
+      return size;
+    }
+  }
+
+  private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
+    ArrayList<T> list = new ArrayList<T>();
+    while (iterator.hasNext()) {
+      list.add(iterator.next());
+    }
+    return list;
+  }
 }
