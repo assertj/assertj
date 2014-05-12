@@ -14,14 +14,12 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +35,6 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Dates;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.introspection.FieldSupport;
