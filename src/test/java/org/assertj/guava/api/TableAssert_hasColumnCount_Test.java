@@ -24,36 +24,36 @@ import org.junit.Test;
 /**
  * @author David Harris
  */
-public class TableAssert_hasSize_Test extends TableAssertBaseTest {
+public class TableAssert_hasColumnCount_Test extends TableAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_has_0_rows() {
+  public void should_pass_if_actual_has_0_columns() {
     actual.clear();
-    assertThat(actual).hasRowCount(0);
+    assertThat(actual).hasColumnCount(0);
   }
 
   @Test
-  public void should_pass_if_actual_has_2_rows() {
-    assertThat(actual).hasRowCount(2);
+  public void should_pass_if_actual_has_3_columns() {
+    assertThat(actual).hasColumnCount(3);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     expectException(AssertionError.class, actualIsNull());
     actual = null;
-    assertThat(actual).hasRowCount(2);
+    assertThat(actual).hasColumnCount(3);
   }
 
   @Test
-  public void shoudl_fail_if_expected_is_negative() {
+  public void should_fail_if_expected_is_negative() {
     expectException(IllegalArgumentException.class, "The expected size should not be negative.");
-    assertThat(actual).hasRowCount(-1);
+    assertThat(actual).hasColumnCount(-1);
   }
 
   @Test(expected = AssertionError.class)
-  public void should_fail_if_actual_does_not_have_2_rows() {
+  public void should_fail_if_actual_does_not_have_3_columns() {
     actual.clear();
-    assertThat(actual).hasRowCount(2);
+    assertThat(actual).hasColumnCount(3);
   }
 
 }
