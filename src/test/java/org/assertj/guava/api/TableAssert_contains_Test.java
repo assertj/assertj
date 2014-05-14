@@ -132,4 +132,39 @@ public class TableAssert_contains_Test extends TableAssertBaseTest {
     }
     fail("Assertion error expected.");
   }
+
+  @Test
+  public void should_pass_if_actual_contains_cell() {
+    assertThat(actual).containsCell(1,3,"Millard Fillmore");
+  }
+
+  @Test
+  public void should_fail_if_actual_does_not_contain_cell() {
+    try {
+      assertThat(actual).containsCell(1,4,"Millard Fillmore");
+      fail("Assertion error expected.");
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage("\nExpected row:<1> and column:<4> to have value:<Millard Fillmore> but was:<Franklin Pierce> in:\n" +
+                               "<{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>");
+      return;
+    }
+  }
+
+  @Test
+  public void should_fail_if_row_is_null() {
+    expectException(IllegalArgumentException.class, "The row to look for should not be null.");
+    assertThat(actual).containsCell(null,3,"Millard Fillmore");
+  }
+
+  @Test
+  public void should_fail_if_colun_is_null() {
+    expectException(IllegalArgumentException.class, "The column to look for should not be null.");
+    assertThat(actual).containsCell(1,null,"Millard Fillmore");
+  }
+
+  @Test
+  public void should_fail_if_value_is_null() {
+    expectException(IllegalArgumentException.class, "The value to look for should not be null.");
+    assertThat(actual).containsCell(1,3,null);
+  }
 }
