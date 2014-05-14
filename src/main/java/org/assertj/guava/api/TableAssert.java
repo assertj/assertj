@@ -17,6 +17,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.error.TableShouldContainColumns.tableShouldContainColumns;
 import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainRows;
+import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
 import java.util.Set;
 
@@ -44,6 +45,38 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
   // visible for test
   protected Table<R, C, V> getActual() {
     return actual;
+  }
+
+  /**
+   * Verifies that the actual {@link Table} has the expected number of rows.
+   *
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * assertThat(actual).hasRowCount(2);
+   * </pre>
+   *
+   * @param rows The columns to look for in the actual {@link Table}
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws IllegalArgumentException if the expected size is negative
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the actual {@link Table} does not have the expected row size.
+   */  
+  public TableAssert<R, C, V> hasRowCount(int expectedSize) {
+    Objects.instance().assertNotNull(info, actual);
+    checkArgument(expectedSize >= 0, "The expected size should not be negative.");
+
+    if (actual.rowKeySet().size() != expectedSize) {
+      throw failures.failure(info, tableShouldHaveRowCount(actual, actual.rowKeySet().size(), expectedSize));
+    }
+    return myself;
   }
 
   /**
