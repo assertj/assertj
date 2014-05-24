@@ -57,7 +57,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -89,7 +89,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -121,7 +121,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -153,7 +153,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -193,7 +193,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -234,7 +234,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -275,7 +275,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
@@ -314,7 +314,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * Example :
    *
    * <pre>
-   * Table<Integer, Integer, String> actual actual = HashBasedTable.create();;
+   * Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * assertThat(actual).isEmpty();
    * </pre>
