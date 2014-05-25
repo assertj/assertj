@@ -41,7 +41,7 @@ public class RangeAssert_contains_Test extends BaseTest {
     // expect
     expectException(IllegalArgumentException.class, "The values to look for should not be null");
     // when
-    assertThat(actual).contains(null);
+    assertThat(actual).contains((Integer[])null);
   }
 
   @Test

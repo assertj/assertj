@@ -15,16 +15,13 @@ package org.assertj.guava.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
 
-import com.google.common.io.ByteSource;
-
-import org.assertj.guava.api.ByteSourceAssert;
-
 import org.junit.Test;
+
+import com.google.common.io.ByteSource;
 
 /**
  * Tests for <code>{@link org.assertj.guava.api.ByteSourceAssert#hasSize(long)}</code>.

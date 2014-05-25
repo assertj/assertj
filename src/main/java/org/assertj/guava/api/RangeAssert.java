@@ -174,14 +174,14 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
   }
 
   /**
-   * Verifies that the actual {@link com.google.common.collect.Range} lower endpoint is equal to given value.<br>
+   * Verifies that the actual {@link com.google.common.collect.Range} lower endpoint is equal to the given value.<br>
    * <p>
    * Example :
    *
    * <pre>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
-   * assertThat(range).hasLowerEndpoint(10);
+   * assertThat(range).hasLowerEndpointEqualTo(10);
    * </pre>
    *
    * @param value {@link com.google.common.collect.Range} expected lower bound value.
@@ -251,14 +251,14 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
   }
 
   /**
-   * Verifies that the actual {@link com.google.common.collect.Range} upper endpoint is equal to given value.<br>
+   * Verifies that the actual {@link com.google.common.collect.Range} upper endpoint is equal to the given value.<br>
    * <p>
    * Example :
    *
    * <pre>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
-   * assertThat(range).hasUpperEndpoint(12);
+   * assertThat(range).hasUpperEndpointEqualTo(12);
    * </pre>
    *
    * @param value {@link com.google.common.collect.Range} expected upper bound value.

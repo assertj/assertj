@@ -40,11 +40,6 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
     super(actual, ByteSourceAssert.class);
   }
 
-  // visible for test
-  protected ByteSource getActual() {
-    return actual;
-  }
-
   /**
    * Verifies that the actual {@link ByteSource} contains has the same content as the provided one.<br>
    * <p>

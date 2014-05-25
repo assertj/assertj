@@ -1,13 +1,13 @@
 /**
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright 2012-2013 the original author or authors.
  */
 package org.assertj.guava.api;
@@ -15,7 +15,6 @@ package org.assertj.guava.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
 
 import static org.junit.Assert.fail;
 
@@ -52,11 +51,12 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).containsKeys("Nets", "Bulls", "Knicks");
     } catch (AssertionError e) {
-      assertThat(e)
-          .hasMessage(
-              "expecting:\n"
-                  + "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
-                  + " to contain keys:\n<[\"Nets\", \"Bulls\", \"Knicks\"]>\n but could not find:\n<[\"Nets\", \"Knicks\"]>");
+      assertThat(e).hasMessage("\nExpecting:\n"
+                                   + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
+                                   + "to contain keys:\n"
+                                   + "  <[\"Nets\", \"Bulls\", \"Knicks\"]>\n"
+                                   + "but could not find:\n"
+                                   + "  <[\"Nets\", \"Knicks\"]>");
       return;
     }
     fail("Assertion error expected");
@@ -68,11 +68,10 @@ public class MultimapAssert_containsKeys_Test extends MultimapAssertBaseTest {
       assertThat(actual).containsKeys("Nets");
     } catch (AssertionError e) {
       // error message shows that we were looking for a unique key (not many)
-      assertThat(e)
-          .hasMessage(
-              "expecting:\n"
-                  + "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
-                  + " to contain key:\n<\"Nets\">");
+      assertThat(e).hasMessage("\nExpecting:\n"
+                                   + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
+                                   + "to contain key:\n"
+                                   + "  <\"Nets\">");
       return;
     }
     fail("Assertion error expected");
