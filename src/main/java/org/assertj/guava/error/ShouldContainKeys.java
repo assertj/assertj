@@ -26,11 +26,11 @@ import org.assertj.core.error.ErrorMessageFactory;
 public class ShouldContainKeys extends BasicErrorMessageFactory {
 
   private ShouldContainKeys(Object actual, Object key) {
-    super("expecting:\n<%s>\n to contain key:\n<%s>", actual, key);
+    super("\nExpecting:\n  <%s>\nto contain key:\n  <%s>", actual, key);
   }
 
   private ShouldContainKeys(Object actual, Object[] keys, Set<?> keysNotFound) {
-    super("expecting:\n<%s>\n to contain keys:\n<%s>\n but could not find:\n<%s>", actual, keys, keysNotFound);
+    super("\nExpecting:\n  <%s>\nto contain keys:\n  <%s>\nbut could not find:\n  <%s>", actual, keys, keysNotFound);
   }
 
   /**

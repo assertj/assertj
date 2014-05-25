@@ -45,11 +45,6 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     super(actual, TableAssert.class);
   }
 
-  // visible for test
-  protected Table<R, C, V> getActual() {
-    return actual;
-  }
-
   /**
    * Verifies that the actual {@link Table} has the expected number of rows.
    *

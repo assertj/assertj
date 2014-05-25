@@ -15,10 +15,6 @@ package org.assertj.guava.api;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
-
-import static org.junit.Assert.fail;
-
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
