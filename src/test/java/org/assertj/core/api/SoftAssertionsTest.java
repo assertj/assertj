@@ -14,20 +14,19 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.test.Maps;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.Maps;
-import org.assertj.core.util.Lists;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -73,7 +72,9 @@ public class SoftAssertionsTest {
       softly.assertThat(8.0d).isEqualTo(9.0d);
       softly.assertThat(new double[]{10.0d}).isEqualTo(new double[]{11.0d});
 
-      softly.assertThat(new File("a")).isEqualTo(new File("b"));
+      softly.assertThat(new File("a"))
+          .overridingErrorMessage("expected:<File(b)> but was:<File(a)>")
+          .isEqualTo(new File("b"));
 
       softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
       softly.assertThat(14f).isEqualTo(15f);
@@ -159,8 +160,7 @@ public class SoftAssertionsTest {
       assertThat(errors.get(14)).isEqualTo("expected:<[9].0> but was:<[8].0>");
       assertThat(errors.get(15)).isEqualTo("expected:<[1[1].0]> but was:<[1[0].0]>");
 
-      // can't check complete error message as it displays the file's path that depend on where you run the test.
-      assertThat(errors.get(16)).containsSequence("expected:<...", "[b]> but was:<...", "[a]>");
+      assertThat(errors.get(16)).isEqualTo("expected:<File(b)> but was:<File(a)>");
 
       assertThat(errors.get(17)).isEqualTo("expected:<1[3].0f> but was:<1[2].0f>");
       assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
