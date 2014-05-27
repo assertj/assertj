@@ -69,7 +69,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    */  
   public TableAssert<R, C, V> hasRowCount(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
-    checkArgument(expectedSize >= 0, "The expected size should not be negative.");
+    checkExpectedSizeArgument(expectedSize);
 
     if (actual.rowKeySet().size() != expectedSize) {
       throw failures.failure(info, tableShouldHaveRowCount(actual, actual.rowKeySet().size(), expectedSize));
@@ -101,7 +101,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    */  
   public TableAssert<R, C, V> hasColumnCount(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
-    checkArgument(expectedSize >= 0, "The expected size should not be negative.");
+    checkExpectedSizeArgument(expectedSize);
 
     if (actual.columnKeySet().size() != expectedSize) {
       throw failures.failure(info, tableShouldHaveColumnCount(actual, actual.columnKeySet().size(), expectedSize));
@@ -133,7 +133,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    */  
   public TableAssert<R, C, V> hasSize(int expectedSize) {
     Objects.instance().assertNotNull(info, actual);
-    checkArgument(expectedSize >= 0, "The expected size should not be negative.");
+    checkExpectedSizeArgument(expectedSize);
 
     if (actual.size() != expectedSize) {
       throw failures.failure(info, shouldHaveSize(actual, actual.size(), expectedSize));
@@ -322,5 +322,9 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     if (!actual.isEmpty()) {
       throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
     }
+  }
+  
+  private void checkExpectedSizeArgument(int expectedSize) {
+    checkArgument(expectedSize >= 0, "The expected size should not be negative.");
   }
 }
