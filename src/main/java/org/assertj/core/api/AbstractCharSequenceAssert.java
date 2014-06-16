@@ -1,20 +1,21 @@
 /*
  * Created on Dec 22, 2010
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- *
+ * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.io.File;
+import java.io.LineNumberReader;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -57,10 +58,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isEmpty()} instead.
    * <p>
    * Both of these assertions will succeed:
+   * 
    * <pre>
    * String emptyString = &quot;&quot;
    * assertThat(emptyString).isNullOrEmpty();
-   *
+   * 
    * String nullString = null;
    * assertThat(nullString).isNullOrEmpty();
    * </pre>
@@ -79,11 +81,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isNullOrEmpty()} instead.
    * <p>
    * This assertion will succeed:
+   * 
    * <pre>
    * String emptyString = &quot;&quot;
    * assertThat(emptyString).isEmpty();
    * </pre>
+   * 
    * Whereas this assertion will fail:
+   * 
    * <pre>
    * String nullString = null;
    * assertThat(nullString).isEmpty();
@@ -97,14 +102,18 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is not empty, i.e., is not {@code null} and has a length of 1 or more.
+   * Verifies that the actual {@code CharSequence} is not empty, i.e., is not {@code null} and has a length of 1 or
+   * more.
    * <p>
    * This assertion will succeed:
+   * 
    * <pre>
    * String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).isNotEmpty();
    * </pre>
+   * 
    * Whereas this assertion will fail:
+   * 
    * <pre>
    * String emptyString = &quot;&quot;
    * assertThat(emptyString).isNotEmpty();
@@ -123,11 +132,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
    * This assertion will succeed:
+   * 
    * <pre>
    * String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSize(17);
    * </pre>
+   * 
    * Whereas this assertion will fail:
+   * 
    * <pre>
    * String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSize(4);
@@ -140,6 +152,34 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   @Override
   public S hasSize(int expected) {
     strings.assertHasSize(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} has the expected line count.
+   * <p/>
+   * A line is considered to be <a name="lt">terminated</a> by any one of a line feed ('\n'), a carriage return ('\r'),
+   * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
+   * <p>
+   * This assertion will succeed:
+   * 
+   * <pre>
+   * String multiLine = &quot;First line\n&quot; +
+   *                    &quot;Last line&quot;;
+   * assertThat(multiLine).hasLineCount(2);
+   * </pre>
+   * Whereas this assertion will fail:
+   * <pre>
+   * String bookName = &quot;A Clash of Kings&quot;;
+   * assertThat(bookName).hasLineCount(3);
+   * </pre>
+   *
+   * @param expectedLineCount the expected line count of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual line count is not equal to the expected one.
+   */
+  public S hasLineCount(int expectedLineCount) {
+    strings.assertHasLineCount(info, actual, expectedLineCount);
     return myself;
   }
 
@@ -174,7 +214,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @param other the given array to be used for size comparison.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements in the array.
+   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
+   *           in the array.
    * @throws NullPointerException if the given array is {@code null}.
    */
   public S hasSameSizeAs(Object other) {
@@ -188,7 +229,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * @param other the given {@code Iterable} to be used for size comparison.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements in the {@code Iterable}.
+   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
+   *           in the {@code Iterable}.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    */
   @Override
@@ -239,7 +281,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} either does not contain the given one at all, or contains it more than once.
+   * @throws AssertionError if the actual {@code CharSequence} either does not contain the given one at all, or contains
+   *           it more than once.
    */
   public S containsOnlyOnce(CharSequence sequence) {
     strings.assertContainsOnlyOnce(info, actual, sequence);
@@ -275,10 +318,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * <pre>
    * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
-   *
+   * 
    * // this assertion succeeds ...
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
-   *
+   * 
    * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * </pre>
@@ -288,7 +331,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws NullPointerException if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
+   *           order</b>.
    */
   public S containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
@@ -437,7 +481,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;.*d&quot;);
-   *
+   * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);
    * </pre>
@@ -464,7 +508,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;..o.o&quot;));
-   *
+   * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));
    * </pre>
@@ -490,7 +534,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;.*d&quot;));
-   *
+   * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));
    * </pre>
@@ -508,7 +552,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been formatted the same way.
+   * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
+   * formatted the same way.
    * <p>
    * Example :
    * </p>
@@ -516,34 +561,34 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre>
    * String expectedXml =
    *     &quot;&lt;rings&gt;\n&quot; +
-   *     &quot;  &lt;bearer&gt;\n&quot; +
-   *     &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *     &quot;    &lt;ring&gt;\n&quot; +
-   *     &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *     &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *     &quot;    &lt;/ring&gt;\n&quot; +
-   *     &quot;  &lt;/bearer&gt;\n&quot; +
-   *     &quot;&lt;/rings&gt;&quot;;
-   *
+   *         &quot;  &lt;bearer&gt;\n&quot; +
+   *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
+   *         &quot;    &lt;ring&gt;\n&quot; +
+   *         &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
+   *         &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
+   *         &quot;    &lt;/ring&gt;\n&quot; +
+   *         &quot;  &lt;/bearer&gt;\n&quot; +
+   *         &quot;&lt;/rings&gt;&quot;;
+   * 
    * // Whatever how formatted your xml string is, isXmlEqualTo assertion is able to compare it with another xml String.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
-   *
+   * 
    * String xmlWithNewLine =
    *     &quot;&lt;rings&gt;\n&quot; +
-   *     &quot;&lt;bearer&gt;   \n&quot; +
-   *     &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *     &quot;  &lt;ring&gt;\n&quot; +
-   *     &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *     &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *     &quot;  &lt;/ring&gt;\n&quot; +
-   *     &quot;&lt;/bearer&gt;\n&quot; +
-   *     &quot;&lt;/rings&gt;&quot;;
+   *         &quot;&lt;bearer&gt;   \n&quot; +
+   *         &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
+   *         &quot;  &lt;ring&gt;\n&quot; +
+   *         &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
+   *         &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
+   *         &quot;  &lt;/ring&gt;\n&quot; +
+   *         &quot;&lt;/bearer&gt;\n&quot; +
+   *         &quot;&lt;/rings&gt;&quot;;
    * assertThat(xmlWithNewLine).isXmlEqualTo(expectedXml);
-   *
+   * 
    * // You can compare it with oneLineXml
    * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
-   *
+   * 
    * // Tip : use isXmlEqualToContentOf assertion to compare your XML String with the content of an XML file :
    * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
    * </pre>
@@ -551,7 +596,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
    * @return {@code this} assertion object to chain other assertions.
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML {@code CharSequence}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
+   *           {@code CharSequence}.
    */
   public S isXmlEqualTo(CharSequence expectedXml) {
     strings.assertXmlEqualsTo(info, actual, expectedXml);
@@ -572,10 +618,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
    * </pre>
+   * 
    * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
    * @return {@code this} assertion object to chain other assertions.
    * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of given {@code File}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
+   *           given {@code File}.
    */
   public S isXmlEqualToContentOf(File xmlFile) {
     isXmlEqualTo(contentOf(xmlFile));
@@ -628,13 +676,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Use unicode character representation instead of standard representation in error messages.
    * <p/>
-   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
-   * it is thus impossible to find differences from the standard error message:
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
+   * thus impossible to find differences from the standard error message:
    * <p/>
    * With standard message:
+   * 
    * <pre>
    * assertThat("µµµ").contains("μμμ");
-   *
+   * 
    * java.lang.AssertionError:
    * Expecting:
    *   <"µµµ">
@@ -643,9 +692,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * </pre>
    *
    * With Hexadecimal message:
+   * 
    * <pre>
    * assertThat("µµµ").inUnicode().contains("μμμ");
-   *
+   * 
    * java.lang.AssertionError:
    * Expecting:
    *   <\u00b5\u00b5\u00b5>

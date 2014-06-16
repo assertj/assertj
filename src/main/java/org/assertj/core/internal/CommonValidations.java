@@ -15,6 +15,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
+import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
@@ -104,6 +105,11 @@ final class CommonValidations {
 
   public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
     if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
+  }
+
+  public static void checkLineCounts(Object actual, int lineCountOfActual, int lineCountOfOther, AssertionInfo info) {
+    if (lineCountOfActual != lineCountOfOther)
+      throw failures.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
   }
 
   public static void checkTypeIsNotNull(Class<?> expectedType) {
