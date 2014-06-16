@@ -144,6 +144,30 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} has the expected lines count (separated by value of 'line.separator').
+   * <p>
+   * This assertion will succeed:
+   * <pre>
+   * String multiline = &quot;First line\n&quot;
+   *                  + &quot;Last line&quot;;
+   * assertThat(bookName).hasLinesCount(2);
+   * </pre>
+   * Whereas this assertion will fail:
+   * <pre>
+   * String bookName = &quot;A Clash of Kings&quot;;
+   * assertThat(bookName).hasLinesCount(3);
+   * </pre>
+   *
+   * @param expected the expected lines count of the actual {@code CharSequence}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual lines count is not equal to the expected lines count.
+   */
+	public S hasLinesCount(int expected) {
+		strings.assertHasLinesCount(info, actual, expected);
+		return myself;
+	}
+
+	/**
    * Verifies that the actual {@code CharSequence} has a length that's the same as the length of the given
    * {@code CharSequence}.
    * <p>

@@ -32,10 +32,11 @@ import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkLinesCount;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Iterables.sizeOf;
+
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.util.Comparator;
@@ -150,6 +151,21 @@ public class Strings {
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.length(), expectedSize, info);
+  }
+
+  /**
+   * Asserts that the lines count of the given {@code CharSequence} is equal to the expected one.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @param expectedLinesCount the expected lines count of {@code actual}.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the lines count of the given {@code CharSequence} is different than the expected one.
+   */
+  public void assertHasLinesCount(AssertionInfo info, CharSequence actual, int expectedLinesCount) {
+    assertNotNull(info, actual);
+    int lines = actual.toString().split(System.getProperty("line.separator")).length;
+    checkLinesCount(actual, lines, expectedLinesCount, info);
   }
 
   /**
@@ -526,4 +542,5 @@ public class Strings {
       throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
           info.representation()));
   }
+
 }
