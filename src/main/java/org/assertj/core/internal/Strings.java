@@ -14,6 +14,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -39,6 +40,9 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
+import java.io.IOException;
+import java.io.LineNumberReader;
+import java.io.StringReader;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -164,8 +168,14 @@ public class Strings {
    */
   public void assertHasLinesCount(AssertionInfo info, CharSequence actual, int expectedLinesCount) {
     assertNotNull(info, actual);
-    int lines = actual.toString().split(System.getProperty("line.separator")).length;
-    checkLinesCount(actual, lines, expectedLinesCount, info);
+    LineNumberReader reader = new LineNumberReader(new StringReader(actual.toString()));
+    try {
+        while ((reader.readLine()) != null);
+    } catch (IOException e) {
+      String msg = format("Unable to count lines in `%s`", actual);
+      throw new InputStreamsException(msg, e);
+    }
+    checkLinesCount(actual, reader.getLineNumber(), expectedLinesCount, info);
   }
 
   /**

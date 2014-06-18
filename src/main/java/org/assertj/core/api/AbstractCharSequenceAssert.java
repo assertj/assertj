@@ -144,7 +144,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} has the expected lines count (separated by value of 'line.separator').
+   * Verifies that the actual {@code CharSequence} has the expected lines count. A line is considered to be
+   * <a name="lt">terminated</a> by any one of a line feed ('\n'), a carriage return ('\r'), or a carriage return
+   * followed immediately by a linefeed.
    * <p>
    * This assertion will succeed:
    * <pre>
