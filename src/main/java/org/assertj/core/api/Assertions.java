@@ -175,6 +175,17 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T extends Comparable<T>> GenericComparableAssert<T> assertThat(T actual) {
+    return new GenericComparableAssert<T>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    *
    * @param actual the actual value.
