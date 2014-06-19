@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -37,7 +36,6 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Dates;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.introspection.FieldSupport;
@@ -175,6 +173,17 @@ public class Assertions {
    */
   public static ClassAssert assertThat(Class<?> actual) {
     return new ClassAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T extends Comparable<T>> GenericComparableAssert<T> assertThat(T actual) {
+    return new GenericComparableAssert<T>(actual);
   }
 
   /**
