@@ -40,6 +40,14 @@ public final class ErrorMessages {
   public static String descriptionIsNull() {
     return "The description to set should not be null";
   }
+  
+  public static String keysToLookForIsEmpty() {
+    return "The array of keys to look for should not be empty";
+  }
+  
+  public static String keysToLookForIsNull() {
+    return "The array of keys to look for should not be null";
+  }
 
   public static String entriesToLookForIsEmpty() {
     return "The array of entries to look for should not be empty";
