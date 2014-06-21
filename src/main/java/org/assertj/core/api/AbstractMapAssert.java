@@ -218,6 +218,20 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     maps.assertDoesNotContainKey(info, actual, key);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual map contains only the given keys and nothing else, in any order.
+   * 
+   * @param keys the given keys that should be in the actual map.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given keys, i.e. the actual map contains some or
+   *           none of the given keys, or the actual map contains more entries than the given ones.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   */
+  public S containsOnlyKeys(K... keys) {
+    maps.assertContainsOnlyKeys(info, actual, keys);
+    return myself;
+  }
 
   /**
    * Verifies that the actual map contains the given value.

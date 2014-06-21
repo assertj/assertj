@@ -35,7 +35,6 @@ import java.util.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.error.ShouldContainExactly;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -254,6 +253,38 @@ public class Maps {
   }
 
   /**
+   * Verifies that the actual map contains only the given keys and nothing else, in any order.
+   * 
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param keys the keys that are expected to be in the given {@code Map}.
+   * @throws NullPointerException if the array of keys is {@code null}.
+   * @throws IllegalArgumentException if the array of keys is empty.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
+   *           contains keys that are not in the given array.
+   */
+  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, K... keys) {
+    assertNotNull(info, actual);
+    isNotNull(keys);
+    if (actual.isEmpty() && keys.length == 0) {
+      return;
+    }
+    isNotEmpty(keys);
+
+    Set<K> notFound = new LinkedHashSet<K>();
+    Set<K> notExpected = new LinkedHashSet<K>();
+
+    compareActualMapAndExpectedKeys(actual, keys, notExpected, notFound);
+
+    if (notFound.isEmpty() && notExpected.isEmpty()) {
+      return;
+    }
+
+    throw failures.failure(info, shouldContainOnly(actual, keys, notFound, notExpected));
+  }
+
+  /**
    * Verifies that the actual map contain the given value.
    * 
    * @param info contains information about the assertion.
@@ -363,6 +394,26 @@ public class Maps {
     throw failures.failure(info, shouldContainExactly(actual, entries, notFound, notExpected));
   }
 
+  private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
+
+    Map<K, V> actualEntries = new LinkedHashMap<K, V>(actual);
+
+    for (K key : keys) {
+      if (actualEntries.containsKey(key)) {
+        // this is an expected key
+        actualEntries.remove(key);
+      } else {
+        // this is a not found key
+        notFound.add(key);
+      }
+    }
+
+    // All remaining keys from actual copy are not expected entries.
+    for (K key : actualEntries.keySet()) {
+      notExpected.add(key);
+    }
+  }
+
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, MapEntry[] entries,
       Set<MapEntry> notExpected, Set<MapEntry> notFound) {
 
@@ -399,6 +450,12 @@ public class Maps {
     return expectedEntries;
   }
 
+  private static <K> void isNotEmpty(K[] keys) {
+    if (keys.length == 0) {
+      throw new IllegalArgumentException("The array of keys to look for should not be empty");
+    }
+  }
+
   private static void isNotEmpty(MapEntry[] entries) {
     if (entries.length == 0) {
       throw new IllegalArgumentException("The array of entries to look for should not be empty");
@@ -408,6 +465,12 @@ public class Maps {
   private static void isNotNullOrEmpty(MapEntry[] entries) {
     isNotNull(entries);
     isNotEmpty(entries);
+  }
+
+  private static <K> void isNotNull(K[] keys) {
+    if (keys == null) {
+      throw new NullPointerException("The array of keys to look for should not be null");
+    }
   }
 
   private static void isNotNull(MapEntry[] entries) {
