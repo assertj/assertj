@@ -45,4 +45,8 @@ public class MapsBaseTest {
   protected static MapEntry[] emptyEntries() {
     return new MapEntry[0];
   }
+  
+  protected static String[] emptyKeys() {
+    return new String[0];
+  }
 }
