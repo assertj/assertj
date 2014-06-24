@@ -221,6 +221,19 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
+   *
+   * <p>
+   * Examples :
+   *
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   *
+   * // assertion will pass
+   * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya, narya, vilya);
+   *
+   * // assertion will fail
+   * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya);
+   * </pre>
    * 
    * @param keys the given keys that should be in the actual map.
    * @throws AssertionError if the actual map is {@code null}.
