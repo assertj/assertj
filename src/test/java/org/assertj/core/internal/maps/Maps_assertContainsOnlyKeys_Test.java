@@ -16,29 +16,22 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
+import static org.assertj.core.test.ErrorMessages.keysToLookForIsEmpty;
+import static org.assertj.core.test.ErrorMessages.keysToLookForIsNull;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
 import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
-
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-
 import org.assertj.core.internal.MapsBaseTest;
-
-import static org.assertj.core.test.ErrorMessages.keysToLookForIsEmpty;
-import static org.assertj.core.test.ErrorMessages.keysToLookForIsNull;
-
 import org.assertj.core.test.Maps;
-
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-
 import org.junit.Test;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for
@@ -84,7 +77,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     try {
       maps.assertContainsOnlyKeys(info, actual, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expectedKeys, emptySet(), newHashSet("color")));
+      verify(failures).failure(info, shouldContainOnlyKeys(actual, expectedKeys, emptySet(), newHashSet("color")));
       return;
     }
     failBecauseExceptionWasNotThrown(AssertionError.class);
@@ -99,7 +92,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(underTest, expectedKeys, newHashSet("color"), emptySet()));
+      verify(failures).failure(info, shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"), emptySet()));
       return;
     }
     failBecauseExceptionWasNotThrown(AssertionError.class);
@@ -115,7 +108,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(underTest, expectedKeys, newHashSet("color"), newHashSet("job")));
+      verify(failures).failure(info, shouldContainOnlyKeys(underTest, expectedKeys, newHashSet("color"), newHashSet("job")));
       return;
     }
     failBecauseExceptionWasNotThrown(AssertionError.class);

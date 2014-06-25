@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
+import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
@@ -31,7 +32,10 @@ import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.Objects.areEqual;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
@@ -281,7 +285,7 @@ public class Maps {
       return;
     }
 
-    throw failures.failure(info, shouldContainOnly(actual, keys, notFound, notExpected));
+    throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
   }
 
   /**
