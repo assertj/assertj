@@ -662,6 +662,26 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
     return containsExactly(toArray(iterable));
   }
+  
+  /**
+   * Same as {@link #containsOnly(Object[])} but handle the {@link Iterable} to array conversion.
+   * <p/>
+   * Example :
+   * <pre>
+   * Iterable&lt;Ring&gt; rings = newArrayList(vilya, nenya);
+   *
+   * // assertion will pass
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
+   *
+   * // assertion will fail as actual has fewer elements than expected.
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
+   * </pre>
+   * 
+   * @param iterable the given {@code Iterable} we will get elements from.
+   */
+  public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+      return containsOnly(toArray(iterable));
+  }
 
     /**
      * Use field by field comparison (including inherited fields) instead of relying
