@@ -40,6 +40,13 @@ public class FieldsOrPropertiesExtractor_extract_test {
   private static Employee luke;
   private static List<Employee> employees;
 
+  final Extractor<Employee, String> firstNameExtractor = new Extractor<Employee, String>() {
+    @Override
+    public String extract(Employee input) {
+      return input.getName().getFirst();
+    }
+  };
+
   
   @BeforeClass
   public static void setUpOnce() {
@@ -112,14 +119,19 @@ public class FieldsOrPropertiesExtractor_extract_test {
   
   @Test
   public void should_extract_single_property_using_extractor() throws Exception {
-    List<String> names = extract(employees, new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    });
+    List<String> names = extract(employees, firstNameExtractor);
     
     assertThat(names).containsExactly("Yoda", "Luke");
+  }
+  
+  @Test
+  public void should_extract_single_value_from_array_using_extractor() throws Exception {
+    Employee[] employeesArray = new Employee[employees.size()];
+    employees.toArray(employeesArray);
+    
+    String[] firstNames = extract(employeesArray, firstNameExtractor);
+    
+    assertThat(firstNames).containsExactly("Yoda", "Luke");
   }
 
   // --

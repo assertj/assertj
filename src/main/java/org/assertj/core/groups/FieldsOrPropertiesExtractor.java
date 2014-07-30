@@ -14,11 +14,10 @@
  */
 package org.assertj.core.groups;
 
-import static java.lang.String.format;
-import static org.assertj.core.groups.Tuple.buildTuples;
-import static org.assertj.core.util.Lists.newArrayList;
+import static java.lang.String.*;
+import static org.assertj.core.groups.Tuple.*;
+import static org.assertj.core.util.Lists.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
@@ -47,7 +46,7 @@ public class FieldsOrPropertiesExtractor {
    * Behavior is described in javadoc {@link AbstractIterableAssert#extracting(String)}
    */
   public static Object[] extract(Object[] objects, String fieldOrPropertyName) {
-    ArrayList<Object> newArrayList = Lists.newArrayList(objects);
+    List<Object> newArrayList = Lists.newArrayList(objects);
     List<Object> extractedValues = extract(newArrayList, fieldOrPropertyName);
     return extractedValues.toArray();
   }
@@ -58,9 +57,18 @@ public class FieldsOrPropertiesExtractor {
    * Behavior is described in javadoc {@link AbstractIterableAssert#extracting(String...)}
    */
   public static Tuple[] extract(Object[] objects, String... fieldsOrPropertiesNames) {
-    ArrayList<Object> newArrayList = Lists.newArrayList(objects);
+    List<Object> newArrayList = Lists.newArrayList(objects);
     List<Tuple> extractedValues = extract(newArrayList, fieldsOrPropertiesNames);
     return extractedValues.toArray(new Tuple[extractedValues.size()]);
+  }
+  
+  @SuppressWarnings("unchecked")
+  public static <F, T> T[] extract(F[] objects, Extractor<F, T> extractor) {
+    List<F> objectsList = Lists.newArrayList(objects);
+    
+    List<T> extractedValues = extract(objectsList, extractor);
+    
+    return (T[]) extractedValues.toArray();
   }
 
   /**
