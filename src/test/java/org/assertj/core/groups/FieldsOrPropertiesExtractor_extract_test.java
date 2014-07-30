@@ -14,22 +14,22 @@
  */
 package org.assertj.core.groups;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.groups.FieldsOrPropertiesExtractor.*;
+import static org.assertj.core.test.ExpectedException.*;
+import static org.assertj.core.util.Lists.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-
+import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.BeforeClass;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class FieldsOrPropertiesExtractor_extract_test {
   
@@ -108,6 +108,18 @@ public class FieldsOrPropertiesExtractor_extract_test {
     
     List<Employee> employees = Arrays.<Employee>asList(brokenEmployee());
     extract("adult", employees);
+  }
+  
+  @Test
+  public void should_extract_single_property_using_extractor() throws Exception {
+    List<String> names = extract(employees, new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        return input.getName().getFirst();
+      }
+    });
+    
+    assertThat(names).containsExactly("Yoda", "Luke");
   }
 
   // --

@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.test.ExpectedException.*;
+import static org.assertj.core.util.Lists.*;
 
 import java.util.Comparator;
 
@@ -102,4 +101,13 @@ public class IterableAssert_extracting_Test {
                          .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
+  @Test
+  public void should_allow_extracting_single_values_using_extractor() throws Exception {
+    assertThat(employees).extracting(new Extractor<Employee, String>() {
+      @Override
+      public String extract(Employee input) {
+        return input.getName().getFirst();
+      }
+    }).containsOnly("Yoda", "Luke");
+  }
 }

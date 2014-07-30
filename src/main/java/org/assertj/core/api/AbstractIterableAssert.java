@@ -14,6 +14,7 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.MethodInvocationResultExtractor;
 import org.assertj.core.groups.Tuple;
@@ -641,6 +642,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public ListAssert<Tuple> extracting(String... propertiesOrFields) {
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, propertiesOrFields);
     return new ListAssert<Tuple>(values);
+  }
+
+  public <V> ListAssert<V> extracting(Extractor<T, V> extractor) {
+    List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
+    return new ListAssert<V>(values);
   }
 
   /**
