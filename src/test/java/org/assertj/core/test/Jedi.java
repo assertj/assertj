@@ -23,7 +23,6 @@ package org.assertj.core.test;
 public class Jedi extends Person {
 
   public String lightSaberColor;
-  @SuppressWarnings("unused")
   private Object strangeNotReadablePrivateField;
 
   public Jedi(String name, String lightSaberColor) {

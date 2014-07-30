@@ -21,6 +21,7 @@ import static org.assertj.core.util.Lists.*;
 import java.util.Comparator;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -34,6 +35,7 @@ import org.junit.Test;
  * <code>{@link AbstractIterableAssert#extracting(String...)}</code>.
  * 
  * @author Joel Costigliola
+ * @author Mateusz Haligowski
  */
 public class IterableAssert_extracting_Test {
 
@@ -90,15 +92,15 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_multiple_extracted_values_from_given_iterable() throws Exception {
-    assertThat(employees).extracting("name.first", "age", "id")
-                         .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(employees).extracting("name.first", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
+        tuple("Luke", 26, 2L));
   }
 
   @Test
   public void should_throw_error_if_one_property_or_field_can_not_be_extracted() throws Exception {
     thrown.expect(IntrospectionError.class);
     assertThat(employees).extracting("unknown", "age", "id")
-                         .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+        .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test
@@ -109,5 +111,15 @@ public class IterableAssert_extracting_Test {
         return input.getName().getFirst();
       }
     }).containsOnly("Yoda", "Luke");
+  }
+
+  @Test
+  public void sohuld_allow_extracting_multiple_values_using_extractor() throws Exception {
+    assertThat(employees).extracting(new Extractor<Employee, Tuple>() {
+      @Override
+      public Tuple extract(Employee input) {
+        return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
+      }
+    }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 }
