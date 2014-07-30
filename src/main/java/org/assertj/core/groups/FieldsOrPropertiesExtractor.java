@@ -42,13 +42,13 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public class FieldsOrPropertiesExtractor {
 
   /**
-   * Call {@link #extract(String, Iterable)} after converting objects to an iterable.
+   * Call {@link #extract(Iterable, String)} after converting objects to an iterable.
    * <p>
    * Behavior is described in javadoc {@link AbstractIterableAssert#extracting(String)}
    */
-  public static Object[] extract(String fieldOrPropertyName, Object[] objects) {
+  public static Object[] extract(Object[] objects, String fieldOrPropertyName) {
     ArrayList<Object> newArrayList = Lists.newArrayList(objects);
-    List<Object> extractedValues = extract(fieldOrPropertyName, newArrayList);
+    List<Object> extractedValues = extract(newArrayList, fieldOrPropertyName);
     return extractedValues.toArray();
   }
 
@@ -66,7 +66,7 @@ public class FieldsOrPropertiesExtractor {
   /**
    * Behavior is described in {@link AbstractIterableAssert#extracting(String)}
    */
-  public static List<Object> extract(String propertyOrFieldName, Iterable<?> objects) {
+  public static List<Object> extract(Iterable<?> objects, String propertyOrFieldName) {
     if (propertyOrFieldName == null)
       throw new IllegalArgumentException("The name of the field/property to read should not be null");
     if (propertyOrFieldName.length() == 0)
@@ -105,7 +105,7 @@ public class FieldsOrPropertiesExtractor {
     List<Object> objectsAsList = newArrayList(objects);
     List<Tuple> extractedTuples = buildTuples(objectsAsList.size());
     for (String fieldOrPropertyName : fieldsOrPropertiesNames) {
-      List<Object> extractValues = extract(fieldOrPropertyName, objectsAsList);
+      List<Object> extractValues = extract(objectsAsList, fieldOrPropertyName);
       for (int i = 0; i < objectsAsList.size(); i++) {
         extractedTuples.get(i).addData(extractValues.get(i));
       }

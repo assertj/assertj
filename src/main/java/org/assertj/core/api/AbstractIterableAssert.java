@@ -425,7 +425,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           in one of the initial Iterable's element.
    */
   public ListAssert<Object> extracting(String propertyOrField) {
-    List<Object> values = FieldsOrPropertiesExtractor.extract(propertyOrField, actual);
+    List<Object> values = FieldsOrPropertiesExtractor.extract(actual, propertyOrField);
     return new ListAssert<Object>(values);
   }
 
@@ -579,7 +579,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
-    List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(propertyOrField, actual);
+    List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, propertyOrField);
     return new ListAssert<P>(values);
   }
 
