@@ -21,6 +21,7 @@ import static org.assertj.core.util.Lists.*;
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.AbstractObjectArrayAssert;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.util.Lists;
@@ -62,6 +63,11 @@ public class FieldsOrPropertiesExtractor {
     return extractedValues.toArray(new Tuple[extractedValues.size()]);
   }
   
+  /**
+   * Call {@link #extract(Iterable, Extractor)} after converting objects to an iterable.
+   * <p>
+   * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Extractor)}
+   */
   @SuppressWarnings("unchecked")
   public static <F, T> T[] extract(F[] objects, Extractor<F, T> extractor) {
     List<F> objectsList = Lists.newArrayList(objects);
