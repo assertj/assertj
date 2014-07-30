@@ -16,6 +16,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.Index;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.MethodInvocationResultExtractor;
@@ -566,5 +567,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   @Override
   public S inBinary() {
     return super.inBinary();
+  }
+
+  public <U> ObjectArrayAssert<U> extracting(Extractor<T, U> extractor) {
+    U[] extract = FieldsOrPropertiesExtractor.extract(actual, extractor);
+    return new ObjectArrayAssert<U>(extract);
   }
 }
