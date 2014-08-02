@@ -14,7 +14,6 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.description.Description;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements is not empty failed. A group of

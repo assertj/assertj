@@ -14,7 +14,6 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.util.Lists.newArrayList;

@@ -14,12 +14,10 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.description.*;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.StandardRepresentation;

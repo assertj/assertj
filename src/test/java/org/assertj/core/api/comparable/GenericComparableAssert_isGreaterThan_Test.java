@@ -25,7 +25,7 @@ import org.assertj.core.api.GenericComparableAssertBaseTest;
  */
 public class GenericComparableAssert_isGreaterThan_Test extends GenericComparableAssertBaseTest {
   @Override
-  protected GenericComparableAssert invoke_api_method() {
+  protected GenericComparableAssert<Integer> invoke_api_method() {
     return assertions.isGreaterThan(6);
   }
 

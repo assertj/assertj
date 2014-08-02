@@ -24,6 +24,7 @@ import java.util.List;
  * 
  */
 public class SoftAssertionError extends AssertionError {
+  private static final long serialVersionUID = 5034494920024670595L;
   private final List<String> errors;
 
   /**

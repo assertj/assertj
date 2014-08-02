@@ -19,8 +19,6 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.AbstractComparisonStrategy;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
 

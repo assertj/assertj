@@ -6,11 +6,10 @@ import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
 import static org.assertj.core.error.ShouldBeInSameHour.shouldBeInSameHour;
-import static org.assertj.core.error.ShouldBeInSameMinute.shouldBeInSameMinute;
 import static org.assertj.core.error.ShouldBeInSameHourWindow.shouldBeInSameHourWindow;
+import static org.assertj.core.error.ShouldBeInSameMinute.shouldBeInSameMinute;
 import static org.assertj.core.error.ShouldBeInSameMinuteWindow.shouldBeInSameMinuteWindow;
 import static org.assertj.core.error.ShouldBeInSameMonth.shouldBeInSameMonth;
 import static org.assertj.core.error.ShouldBeInSameSecond.shouldBeInSameSecond;
@@ -28,9 +27,9 @@ import static org.assertj.core.util.Dates.hourOfDayOf;
 import static org.assertj.core.util.Dates.millisecondOf;
 import static org.assertj.core.util.Dates.minuteOf;
 import static org.assertj.core.util.Dates.monthOf;
+import static org.assertj.core.util.Dates.now;
 import static org.assertj.core.util.Dates.secondOf;
 import static org.assertj.core.util.Dates.timeDifference;
-import static org.assertj.core.util.Dates.now;
 import static org.assertj.core.util.Dates.truncateTime;
 import static org.assertj.core.util.Dates.yearOf;
 
@@ -40,6 +39,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 
 
@@ -180,9 +180,11 @@ public class Dates {
         calendarOther.set(Calendar.MILLISECOND, 0);
       case MICROSECONDS:
         break;
+      default:
+        break;
     }
-    if(calendarActual.compareTo(calendarOther) != 0)
-    throw failures.failure(info, ShouldBeEqualWithTimePrecision.shouldBeEqual(actual, other, precision));
+    if (calendarActual.compareTo(calendarOther) != 0)
+      throw failures.failure(info, ShouldBeEqualWithTimePrecision.shouldBeEqual(actual, other, precision));
   }
 
   /**

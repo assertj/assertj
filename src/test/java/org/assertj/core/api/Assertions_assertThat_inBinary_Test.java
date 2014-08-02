@@ -21,10 +21,6 @@ import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Tests for {@link org.assertj.core.presentation.BinaryRepresentation#toStringOf(Object)}.
  *

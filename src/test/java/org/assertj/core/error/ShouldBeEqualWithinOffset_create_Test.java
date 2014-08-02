@@ -14,13 +14,10 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;

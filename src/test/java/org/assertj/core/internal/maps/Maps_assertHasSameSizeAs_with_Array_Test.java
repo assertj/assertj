@@ -23,9 +23,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
-import static org.mockito.Mockito.verify;
-
 import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;

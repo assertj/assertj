@@ -20,7 +20,6 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.util.Lists.*;
-import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -28,7 +27,6 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Jedi;
 
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeEqualToIgnoringFields#create(Description)}</code>.

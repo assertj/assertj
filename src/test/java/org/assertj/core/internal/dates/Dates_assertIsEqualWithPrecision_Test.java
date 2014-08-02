@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.Test;
 

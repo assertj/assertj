@@ -17,7 +17,6 @@ package org.assertj.core.internal.objects;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -104,9 +103,11 @@ public class Objects_assertEqual_Test extends ObjectsBaseTest {
     }
 
     private class NullEqualsException extends RuntimeException {
+      private static final long serialVersionUID = 6906581676690444515L;
     }
 
     private class DifferentClassesException extends RuntimeException {
+      private static final long serialVersionUID = -7330747471795712311L;
     }
   }
 }

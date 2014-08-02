@@ -16,8 +16,6 @@ package org.assertj.core.api.comparable;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AbstractComparableAssertBaseTest;
-import org.assertj.core.api.ConcreteComparableAssert;
 import org.assertj.core.api.GenericComparableAssert;
 import org.assertj.core.api.GenericComparableAssertBaseTest;
 
@@ -28,7 +26,7 @@ import org.assertj.core.api.GenericComparableAssertBaseTest;
 public class GenericComparableAssert_isLessThanOrEqualTo_Test extends GenericComparableAssertBaseTest {
 
   @Override
-  protected GenericComparableAssert invoke_api_method() {
+  protected GenericComparableAssert<Integer> invoke_api_method() {
     return assertions.isLessThanOrEqualTo(8);
   }
 

@@ -1,18 +1,10 @@
 package org.assertj.core.api;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
-
+import org.assertj.core.util.VisibleForTesting;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
-
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * the same as {@link SoftAssertions}, but with the following differences:

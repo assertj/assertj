@@ -14,17 +14,15 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-import org.junit.Test;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)}</code>.

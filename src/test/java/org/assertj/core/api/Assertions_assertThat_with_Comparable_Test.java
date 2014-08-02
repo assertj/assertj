@@ -27,14 +27,14 @@ public class Assertions_assertThat_with_Comparable_Test {
   @Test
   public void should_create_Assert() {
     SomeComparable comparable = new SomeComparable();
-    GenericComparableAssert assertions = Assertions.assertThat(comparable);
+    GenericComparableAssert<SomeComparable> assertions = Assertions.assertThat(comparable);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     SomeComparable comparable = new SomeComparable();
-    GenericComparableAssert assertions = Assertions.assertThat(comparable);
+    GenericComparableAssert<SomeComparable> assertions = Assertions.assertThat(comparable);
     assertSame(comparable, assertions.actual);
   }
 

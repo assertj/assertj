@@ -56,7 +56,7 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -66,12 +66,10 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
-import org.assertj.core.error.ShouldBeAnArray;
 import org.assertj.core.util.ArrayWrapperList;
 import org.assertj.core.util.VisibleForTesting;
 
