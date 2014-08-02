@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
@@ -32,7 +31,6 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 
 /**
