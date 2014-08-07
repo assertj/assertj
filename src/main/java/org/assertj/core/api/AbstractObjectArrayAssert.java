@@ -16,6 +16,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.extractor.Extractors.*;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 
@@ -44,10 +45,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  */
-public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAssert<S, T>, T>
-    extends AbstractAssert<S, T[]>
-    implements
-    IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<S, T>, T>,
+public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAssert<S, T>, T> extends
+    AbstractAssert<S, T[]> implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<S, T>, T>,
     ArraySortedAssert<AbstractObjectArrayAssert<S, T>, T> {
 
   @VisibleForTesting
@@ -59,6 +58,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * {@inheritDoc}
+   * 
    * @throws AssertionError {@inheritDoc}
    */
   @Override
@@ -68,6 +68,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * {@inheritDoc}
+   * 
    * @throws AssertionError {@inheritDoc}
    */
   @Override
@@ -77,6 +78,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * {@inheritDoc}
+   * 
    * @throws AssertionError {@inheritDoc}
    */
   @Override
@@ -87,6 +89,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /**
    * {@inheritDoc}
+   * 
    * @throws AssertionError {@inheritDoc}
    */
   @Override
@@ -153,7 +156,6 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
-
 
   /** {@inheritDoc} */
   @Override
@@ -424,8 +426,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   // TODO : write javadoc !
   public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
-    Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldsOrProperties));
-    return new ObjectArrayAssert<Tuple>(values);
+    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldsOrProperties));
+    Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
+    
+    return new ObjectArrayAssert<Tuple>(result);
   }
 
   /**
@@ -479,46 +483,41 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can
-   * be sometimes much less work!
+   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can be
+   * sometimes much less work!
    * <p>
-   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() or public String status() instead
-   * of public String getStatus()). 
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
    * 
    * <pre>
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
-   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] {
-   *   new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
-   *   new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
-   *   new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
-   *   new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
-   *   new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
-   *   new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;)
-   * };
+   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] { new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
+   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
+   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
+   *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) };
    * 
    * // let's verify the words of great houses in Westeros:
    * 
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;)
-   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
-   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   *     .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;).doesNotContain(&quot;Lannisters always pay their debts&quot;);
    * </pre>
    * 
    * <p>
    * Following requirements have to be met to extract method results:
    * <ul>
-   *    <li>method has to be public,</li>
-   *    <li>method cannot accept any arguments,</li>
-   *    <li>method cannot return void.</li>
+   * <li>method has to be public,</li>
+   * <li>method cannot accept any arguments,</li>
+   * <li>method cannot return void.</li>
    * </ul>
    * <p>
    * Note that the order of extracted values is consistent with the order of the array under test.
    * 
    * @param method the name of the method which result is to be extracted from the array under test
    * @return a new assertion object whose object under test is the array of extracted values.
-   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
-   *    or method does return void, or method accepts arguments.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
+   *           return void, or method accepts arguments.
    */
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
     Object[] values = MethodInvocationResultExtractor.extractResultOf(method, actual);
@@ -529,38 +528,33 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can
-   * be sometimes much less work!
+   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can be
+   * sometimes much less work!
    * <p>
-   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String toString() or public String status() instead
-   * of public String getStatus()). 
+   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
    * 
    * <pre>
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
-   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] {
-   *   new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
-   *   new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;),
-   *   new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
-   *   new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;),
-   *   new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
-   *   new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;)
-   * };
+   * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] { new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
+   *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
+   *     new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;), new WesterosHouse(&quot;Martell&quot;, &quot;Unbowed, Unbent, Unbroken&quot;),
+   *     new WesterosHouse(&quot;Tyrell&quot;, &quot;Growing Strong&quot;) };
    * 
    * // let's verify the words of great houses in Westeros:
    * 
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;, String.class)
-   *           .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
-   *           .doesNotContain(&quot;Lannisters always pay their debts&quot;);
+   *     .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;).doesNotContain(&quot;Lannisters always pay their debts&quot;);
    * </pre>
    * 
    * <p>
    * Following requirements have to be met to extract method results:
    * <ul>
-   *    <li>method has to be public,</li>
-   *    <li>method can not accept any arguments,</li>
-   *    <li>method can not return void.</li>
+   * <li>method has to be public,</li>
+   * <li>method can not accept any arguments,</li>
+   * <li>method can not return void.</li>
    * </ul>
    * <p>
    * Note that the order of extracted values is consistent with the order of the array under test.
@@ -568,8 +562,8 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @param method the name of the method which result is to be extracted from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted values.
-   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, 
-   *    or method does return void, or method accepts arguments.
+   * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
+   *           return void, or method accepts arguments.
    */
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
@@ -577,18 +571,20 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return new ObjectArrayAssert<P>(values);
   }
 
-
   /**
-   * Enable hexadecimal object representation of Itearble elements instead of standard java representation in error messages.
+   * Enable hexadecimal object representation of Itearble elements instead of standard java representation in error
+   * messages.
    * <p/>
    * It can be useful to better understand what the error was with a more meaningful error message.
    * <p/>
    * Example
+   * 
    * <pre>
-   * assertThat(new Byte[]{0x10,0x20}).inHexadecimal().contains(new Byte[]{0x30});
+   * assertThat(new Byte[] { 0x10, 0x20 }).inHexadecimal().contains(new Byte[] { 0x30 });
    * </pre>
    *
    * With standard error message:
+   * 
    * <pre>
    * Expecting:
    *  <[16, 32]>
@@ -599,6 +595,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * </pre>
    *
    * With Hexadecimal error message:
+   * 
    * <pre>
    * Expecting:
    *  <[0x10, 0x20]>

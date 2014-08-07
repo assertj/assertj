@@ -44,7 +44,7 @@ public class FieldsOrPropertiesExtractor {
     List<F> objectsList = Lists.newArrayList(objects);
     
     List<T> extractedValues = extract(objectsList, extractor);
-    
+        
     return (T[]) extractedValues.toArray();
   }
 
