@@ -14,6 +14,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.extractor.Extractors.*;
+
 import java.util.Comparator;
 import java.util.HashSet;
 
@@ -361,7 +363,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    */
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
-    Object[] values = FieldsOrPropertiesExtractor.extract(actual, fieldOrProperty);
+    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     return new ObjectArrayAssert<Object>(values);
   }
 
@@ -416,13 +418,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
-    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, fieldOrProperty);
+    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     return new ObjectArrayAssert<P>(values);
   }
 
   // TODO : write javadoc !
   public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
-    Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, fieldsOrProperties);
+    Tuple[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldsOrProperties));
     return new ObjectArrayAssert<Tuple>(values);
   }
 
