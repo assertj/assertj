@@ -648,8 +648,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           public) in one of the initial Iterable's element.
    */
   public ListAssert<Tuple> extracting(String... propertiesOrFields) {
-    List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, propertiesOrFields);
-    return new ListAssert<Tuple>(values);
+    return extracting(byName(propertiesOrFields));
   }
 
   /**

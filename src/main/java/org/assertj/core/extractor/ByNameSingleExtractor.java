@@ -11,7 +11,7 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
   private final String propertyOrFieldName;
 
   @Override
-  public Object extract(Object input) {
+  public Object extract(T input) {
     if (propertyOrFieldName == null)
       throw new IllegalArgumentException("The name of the field/property to read should not be null");
     if (propertyOrFieldName.length() == 0)
