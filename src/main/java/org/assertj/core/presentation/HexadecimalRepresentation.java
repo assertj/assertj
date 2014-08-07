@@ -14,9 +14,6 @@
  */
 package org.assertj.core.presentation;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import static org.assertj.core.util.Strings.concat;
 
 /**

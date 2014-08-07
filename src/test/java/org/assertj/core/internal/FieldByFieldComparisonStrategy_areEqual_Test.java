@@ -1,25 +1,10 @@
 package org.assertj.core.internal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-
-import java.util.List;
-
-import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.verify;
+
+import org.junit.Before;
+import org.junit.Test;
 
 
 public class FieldByFieldComparisonStrategy_areEqual_Test {

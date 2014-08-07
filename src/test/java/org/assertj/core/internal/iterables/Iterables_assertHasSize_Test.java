@@ -21,9 +21,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-
-import static org.mockito.Mockito.verify;
-
 import java.util.Collection;
 
 import org.assertj.core.api.AssertionInfo;

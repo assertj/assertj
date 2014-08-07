@@ -15,14 +15,12 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
 import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Arrays;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.VisibleForTesting;
 

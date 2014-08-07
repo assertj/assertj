@@ -17,8 +17,6 @@ package org.assertj.core.internal.bytes;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.Test;
 

@@ -18,8 +18,6 @@ import static org.assertj.core.util.Dates.formatTimeDifference;
 
 import java.util.Date;
 
-import org.assertj.core.util.Dates;
-
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is in second window as
  * another one failed.

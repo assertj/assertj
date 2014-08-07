@@ -27,7 +27,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.test.ExpectedException;
 
 
@@ -38,7 +37,6 @@ import org.assertj.core.test.ExpectedException;
  */
 public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
 
-  private final String[] other = array("Yoda");
   @Rule
   public ExpectedException thrown = none();
 

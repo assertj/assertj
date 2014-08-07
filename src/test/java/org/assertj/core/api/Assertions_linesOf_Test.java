@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.assertj.core.groups.Tuple;
 import org.junit.Test;
 
 import java.io.File;

@@ -16,21 +16,20 @@ package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
+
+import java.awt.Rectangle;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.Test;
-
-import java.awt.Rectangle;
 
 /**
  * Tests for <code>{@link ObjectArrays#assertContainsOnlyOnce(AssertionInfo, Object[], Object[])}</code>.

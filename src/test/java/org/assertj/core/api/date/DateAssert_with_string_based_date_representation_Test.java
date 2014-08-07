@@ -26,11 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.Dates;

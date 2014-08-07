@@ -15,7 +15,6 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.util.Lists;
 import org.junit.Test;

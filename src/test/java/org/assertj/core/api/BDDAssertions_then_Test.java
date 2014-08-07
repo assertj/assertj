@@ -16,13 +16,10 @@ package org.assertj.core.api;
 
 import org.junit.Test;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.*;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
