@@ -22,4 +22,11 @@ public class Extractors {
   public static Extractor<Object, String> toStringMethod() {
     return new ToStringExtractor();
   }
+  
+  /**
+   * Provides extractor for extracting fields or properties from any object using reflection
+   */
+  public static Extractor<Object, Object> byName(String fieldsOrProperties) {
+    return new ByNameSingleExtractor(fieldsOrProperties);
+  }
 }
