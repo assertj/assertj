@@ -14,20 +14,26 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.iterable.Extractor;
-import org.assertj.core.groups.FieldsOrPropertiesExtractor;
-import org.assertj.core.groups.MethodInvocationResultExtractor;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.*;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.introspection.IntrospectionError;
+import static org.assertj.core.extractor.Extractors.*;
+import static org.assertj.core.util.Iterables.*;
 
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.assertj.core.util.Iterables.toArray;
+import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.groups.MethodInvocationResultExtractor;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparisonStrategy;
+import org.assertj.core.internal.IgnoringFieldsComparisonStrategy;
+import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.OnFieldsComparisonStrategy;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -425,8 +431,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           in one of the initial Iterable's element.
    */
   public ListAssert<Object> extracting(String propertyOrField) {
-    List<Object> values = FieldsOrPropertiesExtractor.extract(actual, propertyOrField);
-    return new ListAssert<Object>(values);
+    return extracting(byName(propertyOrField));
   }
 
   /**
@@ -689,7 +694,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> extracting(Extractor<T, V> extractor) {
+  public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return new ListAssert<V>(values);
   }

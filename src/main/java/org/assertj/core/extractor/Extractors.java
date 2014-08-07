@@ -26,7 +26,7 @@ public class Extractors {
   /**
    * Provides extractor for extracting fields or properties from any object using reflection
    */
-  public static Extractor<Object, Object> byName(String fieldsOrProperties) {
-    return new ByNameSingleExtractor(fieldsOrProperties);
+  public static <T> Extractor<T, Object> byName(String fieldsOrProperties) {
+    return new ByNameSingleExtractor<T>(fieldsOrProperties);
   }
 }

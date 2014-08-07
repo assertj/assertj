@@ -7,7 +7,7 @@ import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-class ByNameSingleExtractor implements Extractor<Object, Object> {
+class ByNameSingleExtractor<T> implements Extractor<T, Object> {
   private final String propertyOrFieldName;
 
   @Override

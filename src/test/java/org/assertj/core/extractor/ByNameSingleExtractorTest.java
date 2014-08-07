@@ -40,21 +40,21 @@ public class ByNameSingleExtractorTest {
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
     thrown.expect(IntrospectionError.class);
 
-    new ByNameSingleExtractor("unknown").extract(yoda);
+    new ByNameSingleExtractor<Employee>("unknown").extract(yoda);
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     thrown.expectIllegalArgumentException("The name of the field/property to read should not be null");
 
-    new ByNameSingleExtractor(null).extract(yoda);
+    new ByNameSingleExtractor<Employee>(null).extract(yoda);
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
 
-    new ByNameSingleExtractor("").extract(yoda);
+    new ByNameSingleExtractor<Employee>("").extract(yoda);
   }
 
   @Test
@@ -117,20 +117,20 @@ public class ByNameSingleExtractorTest {
     };
   }
 
-  private ByNameSingleExtractor idExtractor() {
-    return new ByNameSingleExtractor("id");
+  private ByNameSingleExtractor<Employee> idExtractor() {
+    return new ByNameSingleExtractor<Employee>("id");
   }
 
-  private ByNameSingleExtractor ageExtractor() {
-    return new ByNameSingleExtractor("age");
+  private ByNameSingleExtractor<Employee> ageExtractor() {
+    return new ByNameSingleExtractor<Employee>("age");
   }
 
-  private ByNameSingleExtractor adultExtractor() {
-    return new ByNameSingleExtractor("adult");
+  private ByNameSingleExtractor<Employee> adultExtractor() {
+    return new ByNameSingleExtractor<Employee>("adult");
   }
 
-  private ByNameSingleExtractor nameExtractor() {
-    return new ByNameSingleExtractor("name");
+  private ByNameSingleExtractor<Employee> nameExtractor() {
+    return new ByNameSingleExtractor<Employee>("name");
   }
 
 }
