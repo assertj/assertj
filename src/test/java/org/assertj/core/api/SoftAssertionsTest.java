@@ -168,7 +168,7 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
                                            + System.getProperty("line.separator")
-                                           + "line:<0>, expected:<B> but was:<A>");
+                                           + "line:<1>, expected:<B> but was:<A>");
 
       assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
