@@ -10,6 +10,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
 class ByNameSingleExtractor<T> implements Extractor<T, Object> {
   private final String propertyOrFieldName;
 
+  ByNameSingleExtractor(String propertyOrFieldName) {
+    this.propertyOrFieldName = propertyOrFieldName;
+  }
+
   @Override
   public Object extract(T input) {
     if (propertyOrFieldName == null)
@@ -34,10 +38,6 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
         throw new IntrospectionError(message);
       }
     }
-  }
-
-  ByNameSingleExtractor(String propertyOrFieldName) {
-    this.propertyOrFieldName = propertyOrFieldName;
   }
 
 }

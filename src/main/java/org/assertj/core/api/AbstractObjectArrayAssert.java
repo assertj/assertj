@@ -23,7 +23,6 @@ import java.util.HashSet;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.Index;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
-import org.assertj.core.groups.MethodInvocationResultExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
@@ -520,7 +519,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *           return void, or method accepts arguments.
    */
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
-    Object[] values = MethodInvocationResultExtractor.extractResultOf(method, actual);
+    Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     return new ObjectArrayAssert<Object>(values);
   }
 
@@ -567,7 +566,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
     @SuppressWarnings("unchecked")
-    P[] values = (P[]) MethodInvocationResultExtractor.extractResultOf(method, actual);
+    P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     return new ObjectArrayAssert<P>(values);
   }
 

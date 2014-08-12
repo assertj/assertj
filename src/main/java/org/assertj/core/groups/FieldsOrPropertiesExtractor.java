@@ -40,7 +40,7 @@ public class FieldsOrPropertiesExtractor {
    * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Extractor)}
    */
   @SuppressWarnings("unchecked")
-  public static <F, T> T[] extract(F[] objects, Extractor<F, T> extractor) {
+  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {
     List<F> objectsList = Lists.newArrayList(objects);
     
     List<T> extractedValues = extract(objectsList, extractor);

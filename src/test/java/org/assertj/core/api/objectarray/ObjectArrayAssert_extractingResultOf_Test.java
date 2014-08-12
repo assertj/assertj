@@ -76,13 +76,6 @@ public class ObjectArrayAssert_extractingResultOf_Test {
     thrown.expectMessage("Can't find method 'unknown' in class FluentJedi.class. Make sure public method exists and accepts no arguments!");
     assertThat(jedis).extractingResultOf("unknown");
   }
-  
-  @Test
-  public void should_ignore_nulls_while_extracting() throws Exception {
-    FluentJedi[] jedis = array(null, yoda, null, vader);
-    assertThat(jedis).extractingResultOf("toString").containsOnly("Yoda", "Darth Vader");
-  }
-
 
 }
 

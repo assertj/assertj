@@ -14,12 +14,9 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Lists.newArrayList;
-
-import java.util.Arrays;
-import java.util.List;
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.test.ExpectedException.*;
+import static org.assertj.core.util.Lists.*;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.test.ExpectedException;
@@ -80,12 +77,5 @@ public class IterableAssert_extractingResultOf_Test {
     assertThat(jedis).extractingResultOf("unknown");
   }
   
-  @Test
-  public void should_ignore_nulls_while_extracting() throws Exception {
-    List<FluentJedi> jedis = Arrays.asList(null, yoda, null, vader);
-    assertThat(jedis).extractingResultOf("toString").containsOnly("Yoda", "Darth Vader");
-  }
-
-
 }
 

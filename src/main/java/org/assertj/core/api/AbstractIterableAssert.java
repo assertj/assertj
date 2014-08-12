@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
-import org.assertj.core.groups.MethodInvocationResultExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -478,7 +477,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           return void, or method accepts arguments.
    */
   public ListAssert<Object> extractingResultOf(String method) {
-    List<Object> values = MethodInvocationResultExtractor.extractResultOf(method, actual);
+    List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     return new ListAssert<Object>(values);
   }
 
@@ -527,7 +526,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
     @SuppressWarnings("unchecked")
-    List<P> values = (List<P>) MethodInvocationResultExtractor.extractResultOf(method, actual);
+    List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     return new ListAssert<P>(values);
   }
 

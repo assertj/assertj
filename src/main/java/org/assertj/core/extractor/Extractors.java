@@ -4,7 +4,7 @@ import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
 
 /**
- * Extractors factory, providing a convenient method of creating common extractors.
+ * Extractors factory, providing convenient methods of creating common extractors.
  * <p>
  * 
  * For example:
@@ -19,25 +19,30 @@ import org.assertj.core.groups.Tuple;
 public class Extractors {
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
-   * @return extractor
    */
-  public static Extractor<? extends Object, String> toStringMethod() {
+  public static Extractor<?, String> toStringMethod() {
     return new ToStringExtractor();
   }
   
   /**
-   * Provides extractor for extracting fields or properties from any object using reflection
+   * Provides extractor for extracting single field or property from any object using reflection
    */
-  public static <T> Extractor<T, Object> byName(String fieldOrProperty) {
-    return new ByNameSingleExtractor<T>(fieldOrProperty);
+  public static <F> Extractor<F, Object> byName(String fieldOrProperty) {
+    return new ByNameSingleExtractor<F>(fieldOrProperty);
   }
   
   /**
-   * Provides extractor for 
-   * @param fieldsOrProperties
-   * @return
+   * Provides extractor for extracting multiple fields or properties from any object using reflection
    */
-  public static <T> Extractor<T, Tuple> byName(String... fieldsOrProperties) {
-    return new ByNameMultipleExtractor<T>(fieldsOrProperties);
+  public static <F> Extractor<F, Tuple> byName(String... fieldsOrProperties) {
+    return new ByNameMultipleExtractor<F>(fieldsOrProperties);
   }
+
+  /**
+   * Provides extractor for extracting values by method name from any object using reflection
+   */
+  public static <F> Extractor<F, Object> resultOf(String methodName) {
+    return new ResultOfExtractor<F>(methodName);
+  }
+  
 }
