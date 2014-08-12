@@ -378,7 +378,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Let's take an example to make things clearer :
    * 
    * <pre>
-   * // Build a array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
+   * // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
    * // they can be public field or properties, both works when extracting their values.
    * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
    *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
@@ -423,11 +423,68 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
     return new ObjectArrayAssert<P>(values);
   }
 
-  // TODO : write javadoc !
-  public ObjectArrayAssert<Tuple> extracting(String... fieldsOrProperties) {
-    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldsOrProperties));
+  /**
+   * Extract the values of given fields/properties from the array's elements under test into a new array composed of
+   * Tuple (a simple data structure), this new array becoming the array under test.
+   * <p/>
+   * It allows you to test fields/properties of the the array's elements instead of testing the elements themselves, it
+   * can be sometimes much less work !
+   * <p/>
+   * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
+   * extract "id", "name" and "email" then each Tuple data will be composed of id, name and email extracted from the
+   * element of the initial array (the Tuple's data order is the same as the given fields/properties order).
+   * <p/>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre>
+   * // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
+   * // they can be public field or properties, both works when extracting their values.
+   * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
+   *   new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT),
+   *   new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT),
+   *   new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA),
+   *   new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF),
+   *   new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT),
+   *   new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF),
+   *   new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN,
+   *   new TolkienCharacter(&quot;Boromir&quot;, 37, MAN)
+   * };
+   * 
+   * // let's verify 'name' and 'age' of some TolkienCharacter in fellowshipOfTheRing :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;)
+   *                                .contains(tuple(&quot;Boromir&quot;, 37),
+   *                                          tuple(&quot;Sam&quot;, 38),
+   *                                          tuple(&quot;Legolas&quot;, 1000));
+   * 
+   * 
+   * // extract 'name', 'age' and Race name values.
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
+   *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
+   *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
+   *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));
+   * </pre>
+   * 
+   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
+   * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
+   * <p/>
+   * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
+   * won't work if half of the objects have the field and the other the property.
+   * <p/>
+   * Note that the order of extracted property/field values is consistent with the iteration order of the array under
+   * test.
+   *
+   * @param propertiesOrFields the properties/fields to extract from the initial array under test
+   * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
+   *         as data.
+   * @throws IntrospectionError if one of the given name does not match a field or property (or field exists but is not
+   *           public) in one of the initial Iterable's element.
+   */
+  public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
+    Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
-    
+
     return new ObjectArrayAssert<Tuple>(result);
   }
 

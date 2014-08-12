@@ -617,18 +617,18 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * // let's verify 'name' and 'age' of some TolkienCharacter in fellowshipOfTheRing :
    * 
-   * assertThat(fellowshipOfTheRing).extracting("name", "age")
-   *                                .contains(tuple("Boromir", 37),
-   *                                          tuple("Sam", 38),
-   *                                          tuple("Legolas", 1000));
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;)
+   *                                .contains(tuple(&quot;Boromir&quot;, 37),
+   *                                          tuple(&quot;Sam&quot;, 38),
+   *                                          tuple(&quot;Legolas&quot;, 1000));
    * 
    * 
    * // extract 'name', 'age' and Race name values.
    * 
-   * assertThat(fellowshipOfTheRing).extracting("name", "age", "race.name")
-   *                                .contains(tuple("Boromir", 37, "Man"),
-   *                                          tuple("Sam", 38, "Hobbit"),
-   *                                          tuple("Legolas", 1000, "Elf"));
+   * assertThat(fellowshipOfTheRing).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
+   *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
+   *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
+   *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));
    * </pre>
    * 
    * A property with the given name is looked for first, if it does'nt exist then a field with the given name is looked
