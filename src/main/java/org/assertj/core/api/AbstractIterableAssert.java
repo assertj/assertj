@@ -14,8 +14,10 @@
  */
 package org.assertj.core.api;
 
+
 import static org.assertj.core.extractor.Extractors.*;
 import static org.assertj.core.util.Iterables.*;
+import static org.assertj.core.util.Lists.*;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -593,7 +595,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * of Tuple (a simple data structure), this new Iterable becoming the Iterable under test.
    * <p/>
    * It allows you to test fields/properties of the the Iterable's elements instead of testing the elements themselves,
-   * it can be sometimes much less work !
+   * it can be sometimes much less work!
    * <p/>
    * The Tuple data corresponds to the extracted values of the given fields/properties, for instance if you ask to
    * extract "id", "name" and "email" then each Tuple data will be composed of id, name and email extracted from the
@@ -652,7 +654,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Extract the values from Iterable's elements after test by applying an extracting function on them. The returned
+   * Extract the values from Iterable's elements under test by applying an extracting function on them. The returned
    * iterable becomes a new object under test.
    * <p/>
    * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
@@ -661,6 +663,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Let's take a look an example
    * 
    * <pre>
+   * List&lt;
+   * 
    * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -696,6 +700,57 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return new ListAssert<V>(values);
+  }
+
+  /**
+   * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function on them
+   * and concatenating the result lists. The returned iterable becomes a new object under test.
+   * <p/>
+   * It allows testing the results of extracting values that are represented by Iterables.
+   * <p/>
+   * For example:
+   * 
+   * <pre>
+   * List&lt;CartoonCharacter&gt; cartoonCharacters = newArrayList();
+   * 
+   * CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+   * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+   * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+   * 
+   * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+   * homer.getChildren().add(bart);
+   * homer.getChildren().add(lisa);
+   * homer.getChildren().add(maggie);
+   * 
+   * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+   * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+   * fred.getChildren().add(pebbles);
+   * 
+   * Extractor&lt;CartoonCharacter, List&lt;CartoonCharacter&gt;&gt; childrenOf = new Extractor&lt;CartoonChildren, List&lt;CartoonChildren&gt;&gt;() {
+   *    &commat;Override
+   *    public List&lt;CartoonChildren&gt; extract(CartoonCharacter input) {
+   *        return input.getChildren();
+   *    }
+   * }
+   * 
+   * assertThat(Lists.newArrayList(homer, fred)).flatExtracting(childrenOf).containsOnly(bart, lisa, maggie, pebbles);
+   * </pre>
+   * 
+   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * collections.
+   * 
+   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @return a new assertion object whose object under test is the list of values extracted
+   */
+  public <V> ListAssert<V> flatExtracting(Extractor<? super T, ? extends Collection<V>> extractor) {
+    List<V> result = newArrayList();
+    final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
+    
+    for (Collection<? extends V> iterable : extractedValues) {
+      result.addAll(iterable);
+    }
+    
+    return new ListAssert<V>(result);
   }
 
   /**
