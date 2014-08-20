@@ -29,6 +29,7 @@ import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 
 import java.lang.reflect.Array;
+import java.util.Map;
 
 /**
  * @author Alex Ruiz
@@ -93,6 +94,11 @@ final class CommonValidations {
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Iterable<?> other, int sizeOfActual) {
     checkOtherIsNotNull(other, "Iterable");
     checkSameSizes(info, actual, sizeOfActual, sizeOf(other));
+  }
+
+  public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Map<?, ?> other, int sizeOfActual) {
+    checkOtherIsNotNull(other, "Map");
+    checkSameSizes(info, actual, sizeOfActual, other.size());
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {

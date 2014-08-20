@@ -159,6 +159,21 @@ public class Maps {
   }
 
   /**
+   * Asserts that the size of the given {@code Map} is equal to the size of the other {@code Map}.
+   *
+   * @param info contains information about the assertion.
+   * @param map the given {@code Map}.
+   * @param other the other {@code Map} to compare
+   * @throws NullPointerException if the other {@code Map} is {@code null}.
+   * @throws AssertionError if the given {@code Map} is {@code null}.
+   * @throws AssertionError if the size of the given {@code Map} is not equal to the other {@code Map} size
+   */
+  public void assertHasSameSizeAs(AssertionInfo info, Map<?, ?> map, Map<?, ?> other) {
+    assertNotNull(info, map);
+    hasSameSizeAsCheck(info, map, other, map.size());
+  }
+
+  /**
    * Asserts that the given {@code Map} contains the given entries, in any order.
    * 
    * @param info contains information about the assertion.
