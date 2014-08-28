@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_Integer_Test {
   @Test
   public void should_create_Assert() {
     Integer zero = 0;
-    IntegerAssert assertions = Assertions.assertThat(zero);
+    AbstractIntegerAssert<?> assertions = Assertions.assertThat(zero);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Integer eight = 8;
-    IntegerAssert assertions = Assertions.assertThat(eight);
+    AbstractIntegerAssert<?> assertions = Assertions.assertThat(eight);
     assertSame(eight, assertions.actual);
   }
 }

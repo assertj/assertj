@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_DoubleArray_Test {
 
   @Test
   public void should_create_Assert() {
-    DoubleArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractDoubleArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     double[] actual = emptyArray();
-    DoubleArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractDoubleArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

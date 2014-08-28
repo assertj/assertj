@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_Character_Test {
   @Test
   public void should_create_Assert() {
     Character a = 'a';
-    CharacterAssert assertions = Assertions.assertThat(a);
+    AbstractCharacterAssert<?> assertions = Assertions.assertThat(a);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Character b = 'b';
-    CharacterAssert assertions = Assertions.assertThat(b);
+    AbstractCharacterAssert<?> assertions = Assertions.assertThat(b);
     assertSame(b, assertions.actual);
   }
 }

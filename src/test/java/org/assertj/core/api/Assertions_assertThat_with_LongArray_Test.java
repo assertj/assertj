@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_LongArray_Test {
 
   @Test
   public void should_create_Assert() {
-    LongArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractLongArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     long[] actual = emptyArray();
-    LongArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractLongArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_long_Test {
 
   @Test
   public void should_create_Assert() {
-    LongAssert assertions = Assertions.assertThat(0L);
+    AbstractLongAssert<?> assertions = Assertions.assertThat(0L);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    LongAssert assertions = Assertions.assertThat(8L);
+    AbstractLongAssert<?> assertions = Assertions.assertThat(8L);
     assertEquals(new Long(8), assertions.actual);
   }
 }

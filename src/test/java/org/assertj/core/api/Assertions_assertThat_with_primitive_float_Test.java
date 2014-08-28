@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_float_Test {
 
   @Test
   public void should_create_Assert() {
-    FloatAssert assertions = Assertions.assertThat(0f);
+    AbstractFloatAssert<?> assertions = Assertions.assertThat(0f);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    FloatAssert assertions = Assertions.assertThat(8f);
+    AbstractFloatAssert<?> assertions = Assertions.assertThat(8f);
     assertEquals(new Float(8), assertions.actual);
   }
 }

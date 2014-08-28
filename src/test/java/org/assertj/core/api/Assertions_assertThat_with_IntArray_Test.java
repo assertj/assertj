@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_IntArray_Test {
 
   @Test
   public void should_create_Assert() {
-    IntArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractIntArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     int[] actual = emptyArray();
-    IntArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractIntArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

@@ -38,13 +38,13 @@ public class Assertions_assertThat_with_File_Test {
 
   @Test
   public void should_create_Assert() {
-    FileAssert assertions = Assertions.assertThat(actual);
+    AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    FileAssert assertions = Assertions.assertThat(actual);
+    AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

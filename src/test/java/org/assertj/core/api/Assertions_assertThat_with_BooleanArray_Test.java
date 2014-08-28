@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_BooleanArray_Test {
 
   @Test
   public void should_create_Assert() {
-    BooleanArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractBooleanArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     boolean[] actual = emptyArray();
-    BooleanArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractBooleanArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

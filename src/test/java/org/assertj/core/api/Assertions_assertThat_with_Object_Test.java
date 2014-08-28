@@ -31,14 +31,14 @@ public class Assertions_assertThat_with_Object_Test {
   @Test
   public void should_create_Assert() {
     Object actual = new Object();
-    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
+    AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Object actual = new Object();
-    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
+    AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

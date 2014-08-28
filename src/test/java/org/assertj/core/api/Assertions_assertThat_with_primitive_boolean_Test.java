@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_boolean_Test {
 
   @Test
   public void should_create_Assert() {
-    BooleanAssert assertions = Assertions.assertThat(true);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    BooleanAssert assertions = Assertions.assertThat(true);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
     assertEquals(true, assertions.actual);
   }
 }

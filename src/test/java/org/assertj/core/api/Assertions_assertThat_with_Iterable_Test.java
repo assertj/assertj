@@ -32,14 +32,14 @@ public class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   public void should_create_Assert() {
-    IterableAssert<Object> assertions = Assertions.assertThat(newLinkedHashSet());
+    AbstractIterableAssert<?, Iterable<Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Iterable<String> names = newLinkedHashSet("Luke");
-    IterableAssert<String> assertions = Assertions.assertThat(names);
+    AbstractIterableAssert<?, Iterable<String>, String> assertions = Assertions.assertThat(names);
     assertSame(names, assertions.actual);
   }
 }

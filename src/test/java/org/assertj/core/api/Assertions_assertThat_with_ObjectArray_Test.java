@@ -31,14 +31,14 @@ public class Assertions_assertThat_with_ObjectArray_Test {
 
   @Test
   public void should_create_Assert() {
-    ObjectArrayAssert<Object> assertions = Assertions.assertThat(emptyArray());
+    AbstractObjectArrayAssert<?, Object> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Object[] actual = emptyArray();
-    ObjectArrayAssert<Object> assertions = Assertions.assertThat(actual);
+    AbstractObjectArrayAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }
