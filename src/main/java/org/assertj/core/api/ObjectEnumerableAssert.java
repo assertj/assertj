@@ -309,6 +309,17 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areExactly(int n, Condition<? super T> condition);
 
   /**
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * <p>
+   * This method is an alias for {@code haveAtLeast(1, condition)}.
+   *
+   * @see #haveAtLeast(int, Condition)
+   */
+  S haveAtLeastOne(Condition<? super T> condition);
+
+  /**
+   * Verifies that there is <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
+   * <p>
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
   S haveAtLeast(int n, Condition<? super T> condition);
