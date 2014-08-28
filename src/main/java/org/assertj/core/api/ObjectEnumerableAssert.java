@@ -309,6 +309,13 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areExactly(int n, Condition<? super T> condition);
 
   /**
+   * This method is an alias for {@code haveAtLeast(1, condition)}.
+   *
+   * @see #haveAtLeast(int, Condition)
+   */
+  S haveAtLeastOne(Condition<? super T> condition);
+
+  /**
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
   S haveAtLeast(int n, Condition<? super T> condition);
