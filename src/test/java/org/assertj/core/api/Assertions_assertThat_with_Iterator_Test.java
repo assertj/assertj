@@ -24,20 +24,20 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-    IterableAssert<Object> assertions = Assertions.assertThat(newLinkedHashSet());
+    AbstractIterableAssert<?, ? extends Iterable<Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    IterableAssert<String> assertions = assertThat(names);
+    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat(names);
     assertThat(assertions.actual, hasItems("Leia", "Luke"));
   }
 
   @Test
   public void should_allow_null() {
-    IterableAssert<?> assertions = assertThat((Iterator<?>) null);
+    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat((Iterator<String>) null);
     assertThat(assertions.actual).isNull();
   }
 

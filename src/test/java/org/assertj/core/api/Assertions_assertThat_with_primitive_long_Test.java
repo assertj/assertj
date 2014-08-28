@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.LongAssert;
 import org.junit.Test;
 
 /**
@@ -29,13 +28,13 @@ public class Assertions_assertThat_with_primitive_long_Test {
 
   @Test
   public void should_create_Assert() {
-    LongAssert assertions = Assertions.assertThat(0L);
+    AbstractLongAssert<?> assertions = Assertions.assertThat(0L);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    LongAssert assertions = Assertions.assertThat(8L);
+    AbstractLongAssert<?> assertions = Assertions.assertThat(8L);
     assertEquals(new Long(8), assertions.actual);
   }
 }

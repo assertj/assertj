@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.assertj.core.api.InputStreamAssert;
 import org.assertj.core.internal.InputStreams;
 
 

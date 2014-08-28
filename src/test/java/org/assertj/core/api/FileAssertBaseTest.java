@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import java.io.File;
 import java.nio.charset.Charset;
 
-import org.assertj.core.api.FileAssert;
 import org.assertj.core.internal.Files;
 
 

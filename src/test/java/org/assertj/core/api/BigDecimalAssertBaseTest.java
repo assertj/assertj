@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.Comparables;
 

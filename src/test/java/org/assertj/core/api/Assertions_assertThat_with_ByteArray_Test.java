@@ -15,10 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.ByteArrays.emptyArray;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ByteArrayAssert;
 import org.junit.Test;
 
 /**
@@ -30,14 +29,14 @@ public class Assertions_assertThat_with_ByteArray_Test {
 
   @Test
   public void should_create_Assert() {
-    ByteArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractByteArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     byte[] actual = emptyArray();
-    ByteArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractByteArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

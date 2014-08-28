@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.AbstractAssert;
 
 /**
  * Base class to test the concrete methods of {@link AbstractAssert} (using a dummy implementation).

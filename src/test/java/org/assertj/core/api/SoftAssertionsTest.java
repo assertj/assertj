@@ -14,19 +14,19 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.Maps;
-import org.assertj.core.util.Lists;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.test.Maps;
+import org.assertj.core.util.Lists;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.

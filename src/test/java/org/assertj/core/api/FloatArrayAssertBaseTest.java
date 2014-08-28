@@ -15,11 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.FloatArrays.emptyArray;
-
-import org.assertj.core.api.FloatArrayAssert;
-import org.assertj.core.internal.FloatArrays;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.FloatArrays;
 
 
 /**

@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Collection;
 
-import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.internal.Iterables;
 
 

@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Map;
 
-import org.assertj.core.api.MapAssert;
 import org.assertj.core.internal.Maps;
 
 

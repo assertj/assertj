@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import java.util.List;
 
 import org.assertj.core.util.Lists;
-
 import org.junit.Test;
 import org.junit.runners.model.MultipleFailureException;
 

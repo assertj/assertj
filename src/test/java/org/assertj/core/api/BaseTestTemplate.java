@@ -17,9 +17,6 @@ package org.assertj.core.api;
 import static junit.framework.Assert.assertSame;
 import static org.mockito.Mockito.mock;
 
-
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.BigDecimalAssert;
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;

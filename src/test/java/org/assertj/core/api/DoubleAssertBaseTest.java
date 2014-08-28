@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.DoubleAssert;
-import org.assertj.core.internal.Doubles;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.Doubles;
 
 
 /**

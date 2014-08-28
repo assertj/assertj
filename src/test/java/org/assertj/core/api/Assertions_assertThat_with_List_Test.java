@@ -23,8 +23,6 @@ import static org.junit.Assert.assertSame;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ListAssert;
 import org.junit.Test;
 
 /**
@@ -52,7 +50,7 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert() {
-    ListAssert<Object> assertions = Assertions.assertThat(emptyList());
+    AbstractListAssert<?, ? extends List<Object>, Object> assertions = Assertions.assertThat(emptyList());
     assertNotNull(assertions);
   }
 
@@ -86,7 +84,7 @@ public class Assertions_assertThat_with_List_Test {
   @Test
   public void should_pass_actual() {
     List<String> names = singletonList("Luke");
-    ListAssert<String> assertions = Assertions.assertThat(names);
+    AbstractListAssert<?, ? extends List<String>, String> assertions = Assertions.assertThat(names);
     assertSame(names, assertions.actual);
   }
 }

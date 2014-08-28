@@ -18,11 +18,11 @@ import static junit.framework.Assert.assertSame;
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 
-
-import org.assertj.core.api.Condition;
-import org.assertj.core.description.*;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#Condition(Description)}</code>

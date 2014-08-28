@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.Condition;
 
 /**
  * A <code>{@link Condition}</code> for testing.

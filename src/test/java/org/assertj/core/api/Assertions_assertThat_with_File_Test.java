@@ -14,13 +14,13 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 import java.io.File;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.FileAssert;
-import org.junit.*;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(File)}</code>.
@@ -38,13 +38,13 @@ public class Assertions_assertThat_with_File_Test {
 
   @Test
   public void should_create_Assert() {
-    FileAssert assertions = Assertions.assertThat(actual);
+    AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    FileAssert assertions = Assertions.assertThat(actual);
+    AbstractFileAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

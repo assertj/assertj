@@ -16,8 +16,6 @@ package org.assertj.core.api;
 
 import java.util.Collection;
 
-import org.assertj.core.api.AbstractIterableAssert;
-
 /**
  * @author Alex Ruiz
  * @author Mikhail Mazursky

@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.IntegerAssert;
 import org.junit.Test;
 
 /**
@@ -29,13 +28,13 @@ public class Assertions_assertThat_with_primitive_int_Test {
 
   @Test
   public void should_create_Assert() {
-    IntegerAssert assertions = Assertions.assertThat(0);
+    AbstractIntegerAssert<?> assertions = Assertions.assertThat(0);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    IntegerAssert assertions = Assertions.assertThat(8);
+    AbstractIntegerAssert<?> assertions = Assertions.assertThat(8);
     assertEquals(new Integer(8), assertions.actual);
   }
 }

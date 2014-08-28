@@ -19,7 +19,6 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-import org.assertj.core.api.ByteAssert;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.Objects;
 import org.junit.Before;

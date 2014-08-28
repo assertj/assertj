@@ -16,7 +16,6 @@ package org.assertj.core.api;
 
 import static junit.framework.Assert.assertEquals;
 
-import org.assertj.core.api.Condition;
 import org.junit.Test;
 
 /**

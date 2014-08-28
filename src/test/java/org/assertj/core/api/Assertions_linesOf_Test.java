@@ -4,11 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import org.junit.Test;
-
 import java.io.File;
 import java.nio.charset.Charset;
 import java.util.List;
+
+import org.junit.Test;
 
 public class Assertions_linesOf_Test {
 

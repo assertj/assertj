@@ -15,11 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.ByteArrays.emptyArray;
-
-import org.assertj.core.api.ByteArrayAssert;
-import org.assertj.core.internal.ByteArrays;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.ByteArrays;
 
 
 /**

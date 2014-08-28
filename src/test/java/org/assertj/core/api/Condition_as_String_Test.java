@@ -16,12 +16,13 @@ package org.assertj.core.api;
 
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someTextDescription;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-
-import org.assertj.core.api.Condition;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#as(String)}</code>.

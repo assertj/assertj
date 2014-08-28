@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.ByteAssert;
-import org.assertj.core.internal.Bytes;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.Bytes;
 
 
 /**

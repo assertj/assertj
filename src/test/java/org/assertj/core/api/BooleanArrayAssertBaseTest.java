@@ -15,11 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.BooleanArrays.emptyArray;
-
-import org.assertj.core.api.BooleanArrayAssert;
-import org.assertj.core.internal.BooleanArrays;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.BooleanArrays;
 
 
 /**

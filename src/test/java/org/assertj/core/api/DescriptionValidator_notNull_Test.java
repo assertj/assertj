@@ -16,13 +16,14 @@ package org.assertj.core.api;
 
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
-
-import org.assertj.core.api.DescriptionValidations;
-import org.assertj.core.description.*;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link DescriptionValidations#checkIsNotNull(org.assertj.core.description.Description)}</code> and

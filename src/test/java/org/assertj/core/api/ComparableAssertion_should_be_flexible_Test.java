@@ -1,6 +1,5 @@
 package org.assertj.core.api;
 
-import org.assertj.core.api.AbstractUnevenComparableAssert;
 import org.junit.Test;
 
 public class ComparableAssertion_should_be_flexible_Test {

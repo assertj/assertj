@@ -15,11 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.LongArrays.emptyArray;
-
-import org.assertj.core.api.LongArrayAssert;
-import org.assertj.core.internal.LongArrays;
-
 import static org.mockito.Mockito.mock;
+
+import org.assertj.core.internal.LongArrays;
 
 
 /**

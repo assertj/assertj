@@ -15,10 +15,9 @@
 package org.assertj.core.api;
 
 import static java.lang.Boolean.TRUE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.BooleanAssert;
 import org.junit.Test;
 
 /**
@@ -30,13 +29,13 @@ public class Assertions_assertThat_with_Boolean_Test {
 
   @Test
   public void should_create_Assert() {
-    BooleanAssert assertions = Assertions.assertThat(TRUE);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    BooleanAssert assertions = Assertions.assertThat(TRUE);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertSame(TRUE, assertions.actual);
   }
 }

@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ObjectAssert;
 import org.junit.Test;
 
 /**
@@ -31,14 +30,14 @@ public class Assertions_assertThat_with_Object_Test {
   @Test
   public void should_create_Assert() {
     Object actual = new Object();
-    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
+    AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Object actual = new Object();
-    ObjectAssert<Object> assertions = Assertions.assertThat(actual);
+    AbstractObjectAssert<?, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

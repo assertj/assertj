@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.AbstractComparableAssert;
 
 /**
  * @author Alex Ruiz

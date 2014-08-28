@@ -16,9 +16,9 @@ package org.assertj.core.api;
 
 import static org.junit.Assert.assertEquals;
 
-import org.assertj.core.api.Condition;
 import org.assertj.core.description.TextDescription;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#description()}</code>.

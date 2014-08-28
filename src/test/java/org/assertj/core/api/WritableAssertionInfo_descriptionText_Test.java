@@ -14,12 +14,14 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.*;
-import static org.mockito.Mockito.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link WritableAssertionInfo#descriptionText()}</code>.

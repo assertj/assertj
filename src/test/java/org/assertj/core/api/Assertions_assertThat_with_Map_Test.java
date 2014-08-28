@@ -21,8 +21,6 @@ import static org.junit.Assert.assertSame;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.MapAssert;
 import org.junit.Test;
 
 /**
@@ -35,14 +33,14 @@ public class Assertions_assertThat_with_Map_Test {
 
   @Test
   public void should_create_Assert() {
-    MapAssert<Object, Object> assertions = Assertions.assertThat(emptyMap());
+    AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(emptyMap());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Map<Object, Object> actual = new HashMap<Object, Object>();
-    MapAssert<Object, Object> assertions = Assertions.assertThat(actual);
+    AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

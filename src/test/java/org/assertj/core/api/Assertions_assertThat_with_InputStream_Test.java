@@ -14,13 +14,12 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.InputStreamAssert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -40,13 +39,13 @@ public class Assertions_assertThat_with_InputStream_Test {
 
   @Test
   public void should_create_Assert() {
-    InputStreamAssert assertions = Assertions.assertThat(actual);
+    AbstractInputStreamAssert<?, ? extends InputStream> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    InputStreamAssert assertions = Assertions.assertThat(actual);
+    AbstractInputStreamAssert<?, ? extends InputStream> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

@@ -18,10 +18,9 @@ import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.junit.Assert.assertEquals;
 
-
-import org.assertj.core.api.Condition;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Condition#Condition(String)}</code>.

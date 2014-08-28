@@ -14,12 +14,15 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Test;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import static org.assertj.core.api.BDDAssertions.then;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.

@@ -17,11 +17,11 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
+import java.util.Arrays;
+
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-
-import java.util.Arrays;
 
 /**
  * Tests for {@link org.assertj.core.presentation.HexadecimalRepresentation#toStringOf(Object)}.

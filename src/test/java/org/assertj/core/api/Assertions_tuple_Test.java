@@ -2,9 +2,8 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
-
 import org.assertj.core.groups.Tuple;
+import org.junit.Test;
 
 public class Assertions_tuple_Test {
 

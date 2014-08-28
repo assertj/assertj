@@ -14,7 +14,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.offset;
+import static org.assertj.core.api.Assertions.within;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
@@ -30,14 +32,14 @@ public class Assertions_assertThat_with_Double_Test {
   @Test
   public void should_create_Assert() {
     Double zero = 0d;
-    DoubleAssert assertions = Assertions.assertThat(zero);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(zero);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Double eight = 8d;
-    DoubleAssert assertions = Assertions.assertThat(eight);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(eight);
     assertSame(eight, assertions.actual);
   }
 

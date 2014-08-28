@@ -15,10 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.BooleanArrays.emptyArray;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.BooleanArrayAssert;
 import org.junit.Test;
 
 /**
@@ -30,14 +29,14 @@ public class Assertions_assertThat_with_BooleanArray_Test {
 
   @Test
   public void should_create_Assert() {
-    BooleanArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractBooleanArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     boolean[] actual = emptyArray();
-    BooleanArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractBooleanArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

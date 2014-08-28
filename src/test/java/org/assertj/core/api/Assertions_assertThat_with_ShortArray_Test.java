@@ -15,10 +15,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.ShortArrays.emptyArray;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.ShortArrayAssert;
 import org.junit.Test;
 
 /**
@@ -30,14 +29,14 @@ public class Assertions_assertThat_with_ShortArray_Test {
 
   @Test
   public void should_create_Assert() {
-    ShortArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractShortArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     short[] actual = emptyArray();
-    ShortArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractShortArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

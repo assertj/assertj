@@ -16,7 +16,6 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.assertj.core.api.BaseTestTemplate;
 import org.assertj.core.internal.Comparables;
 
 /**

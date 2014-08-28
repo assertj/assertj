@@ -14,10 +14,9 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
-import org.assertj.core.api.Assertions;
-import org.assertj.core.api.DoubleAssert;
 import org.junit.Test;
 
 /**
@@ -29,13 +28,13 @@ public class Assertions_assertThat_with_primitive_double_Test {
 
   @Test
   public void should_create_Assert() {
-    DoubleAssert assertions = Assertions.assertThat(0d);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(0d);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    DoubleAssert assertions = Assertions.assertThat(8d);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(8d);
     assertEquals(new Double(8d), assertions.actual);
   }
 }

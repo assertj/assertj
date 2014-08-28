@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.internal.Objects;
 
 /**
