@@ -316,6 +316,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S haveAtLeastOne(Condition<? super T> condition) {
+    return haveAtLeast(1, condition);
+  }
+
   /**
    * {@inheritDoc}
    */
