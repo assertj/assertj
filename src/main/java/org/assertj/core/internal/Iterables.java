@@ -36,6 +36,7 @@ import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
+import static org.assertj.core.error.ShouldHaveSameElementsAs.shouldHaveSameElementsAs;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
@@ -936,6 +937,26 @@ public class Iterables {
       return;
     }
     throw failures.failure(info, shouldContainExactly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  /**
+   * Asserts that the given {@code Iterable} contains the given values and nothing else, <b>in any order</b>.
+   *
+   * @param info contains information about the assertion
+   * @param actual the given {@code Iterable}
+   * @param expected the values that are expected to be in the given {@code Iterable}, in any order
+   * @throws NullPointerException if {@code expected} is {@code null}
+   * @throws AssertionError if the given {@code Iterable} is {@code null}
+   * @throws AssertionError if the given {@code Iterable} does not contain all the values in {@code expected} or if the
+   *           given {@code Iterable} contains values that are not in {@code expected}, in any order
+   */
+  public void assertHasSameElementsAs(AssertionInfo info, Iterable<?> actual, Iterable<?> expected) {
+     assertNotNull(info, actual);
+     checkNotNull(info, expected);
+     Set<Object> actualSet = setFromIterable(actual);
+     Set<Object> expectedSet = setFromIterable(expected);
+     if (!actualSet.equals(expectedSet))
+         throw failures.failure(info, shouldHaveSameElementsAs(actual, expected, comparisonStrategy));
   }
 
   private void assertNotNull(AssertionInfo info, Iterable<?> actual) {

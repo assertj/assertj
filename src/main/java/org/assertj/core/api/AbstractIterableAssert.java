@@ -144,6 +144,37 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
+   * Verifies that the actual {@code Iterable} has the same elements as the given {@code Iterable}, in any order.
+   * <p>
+   * 
+   * <pre>
+   * Example:
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
+   * 
+   * // assertions will fail
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param values the values to verify against
+   * @return this assertion object
+   * @throws AssertionError if the actual group is {@code null}
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}
+   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *           {@code Iterable}
+   */
+  public S hasSameElementsAs(Iterable<? extends T> values) {
+    iterables.assertHasSameElementsAs(info, actual, values);
+    return myself;
+  }
+
+  /**
    * Verifies that all the elements of the actual {@code Iterable} are present in the given {@code Iterable}.
    *
    * @param values the {@code Iterable} that should contain all actual elements.
