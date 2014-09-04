@@ -43,6 +43,21 @@ public class IterableAssert_extracting_Test {
   private static Employee luke;
   private static Iterable<Employee> employees;
 
+  private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
+    @Override
+    public String extract(Employee input) {
+      return input.getName().getFirst();
+    }
+  };
+  
+  private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
+    @Override
+    public Integer extract(Employee input) {
+      return input.getAge();
+    }
+  };
+
+  
   @BeforeClass
   public static void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
@@ -105,12 +120,8 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_extracting_single_values_using_extractor() throws Exception {
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(firstName).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(age).containsOnly(26, 800);
   }
 
   @Test
@@ -122,4 +133,5 @@ public class IterableAssert_extracting_Test {
       }
     }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
+  
 }

@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-
 import static org.assertj.core.extractor.Extractors.*;
 import static org.assertj.core.util.Iterables.*;
 import static org.assertj.core.util.Lists.*;
@@ -745,11 +744,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <V> ListAssert<V> flatExtracting(Extractor<? super T, ? extends Collection<V>> extractor) {
     List<V> result = newArrayList();
     final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    
+
     for (Collection<? extends V> iterable : extractedValues) {
       result.addAll(iterable);
     }
-    
+
     return new ListAssert<V>(result);
   }
 
