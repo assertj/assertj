@@ -88,6 +88,31 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     return myself;
   }
 
+  /**
+   * Verifies that the actual map has the same size as the given {@link Map}.
+   * <p>
+   * Example :
+   *
+   * <pre>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * 
+   * assertThat(ringBearers).hasSameSizeAs(mapOf(entry(oneRing, frodo),
+   *                                             entry(narya, gandalf),
+   *                                             entry(nenya, galadriel),
+   *                                             entry(vilya, elrond)));
+   * </pre>
+   * 
+   * @param other the {@code Map} to compare size with actual map
+   * @return {@code this} assertion object
+   * @throws NullPointerException if the other {@code Map} is {@code null}
+   * @throws AssertionError if the actual map is {@code null}
+   * @throws AssertionError if the actual map and the given {@code Map} don't have the same size
+   */
+  public S hasSameSizeAs(Map<?, ?> other) {
+    maps.assertHasSameSizeAs(info, actual, other);
+    return myself;
+  }
+
 	/**
 	 * Verifies that the actual map contains the given entries, in any order.
 	 * <p>

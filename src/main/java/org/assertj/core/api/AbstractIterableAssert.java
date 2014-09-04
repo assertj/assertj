@@ -324,6 +324,12 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S haveAtLeastOne(Condition<? super T> condition) {
+    return haveAtLeast(1, condition);
+  }
+
   /**
    * {@inheritDoc}
    */
@@ -754,6 +760,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   /**
    * Same as {@link #containsExactly(Object[])} but handle the {@link Iterable} to array conversion.
+   * Same semantic as {@link #containsExactly(Object...)} : verifies that actual contains all the elements of the given
+   * iterable and nothing else <b>in the same order</b>.
    * <p/>
    * Example :
    * 
@@ -774,7 +782,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Same as {@link #containsOnly(Object[])} but handle the {@link Iterable} to array conversion.
+   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
+   * iterable and nothing else, <b>in any order</b>.
    * <p/>
    * Example :
    * 
@@ -783,22 +792,55 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * // assertion will pass
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
    * 
-   * // assertion will fail as actual has fewer elements than expected.
+   * // assertion will fail as actual does not contqin narya.
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
    * </pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    */
   public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+      return containsOnly(toArray(iterable));
+  }
+
+  /**
+   * Same semantic as {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
+   * given iterable and nothing else, <b>in any order</b>.
+   * 
+   * <pre>
+   * Example:
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * 
+   * // assertions will pass
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
+   * 
+   * // assertions will fail
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));
+   * </pre>
+   * 
+   * </p>
+   * 
+   * @param values the values to verify against
+   * @return this assertion object
+   * @throws AssertionError if the actual group is {@code null}
+   * @throws NullPointerException if the given {@code Iterable} is {@code null}
+   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *           {@code Iterable}
+   */
+  public S hasSameElementsAs(Iterable<? extends T> iterable) {
     return containsOnly(toArray(iterable));
   }
 
   /**
-   * Use field by field comparison (including inherited fields) instead of relying on actual type A <code>equals</code>
-   * method to compare group elements for incoming assertion checks.
+   * Use field by field comparison (including inherited fields) instead of relying
+   * on actual type A <code>equals</code> method to compare group elements
+   * for incoming assertion checks.
    *
-   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
+   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
+   * </p>
    * <p>
    * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
    * (e.g. public) or fields with an accessible getter.
@@ -806,13 +848,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * <pre>
    * Example:
-   * 
+   *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * 
+   *
    * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
    * assertThat(newArrayList(frodo)).contains(frodoClone);
-   * 
+   *
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(newArrayList(frodo)).usingFieldByFieldElementComparator().contains(frodoClone);
    *
@@ -930,7 +972,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   @Override
-  public S inHexadecimal() { // TODO rename to asHexadecimalElements() ?
+  public S inHexadecimal() {
     return super.inHexadecimal();
   }
 

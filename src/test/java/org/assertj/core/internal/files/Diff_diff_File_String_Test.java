@@ -73,7 +73,7 @@ public class Diff_diff_File_String_Test {
     String expected = "Touché";
     List<String> diffs = diff.diff(actual, expected, ISO_8859_1);
     assertEquals(1, diffs.size());
-    assertEquals("line:<0>, expected:<Touché> but was:<TouchÃ©>", diffs.get(0));
+    assertEquals("line:<1>, expected:<Touché> but was:<TouchÃ©>", diffs.get(0));
   }
 
   @Test
@@ -83,7 +83,7 @@ public class Diff_diff_File_String_Test {
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     System.out.println(diffs);
     assertEquals(1, diffs.size());
-    assertEquals("line:<1>, expected:<line_1> but was:<EOF>", diffs.get(0));
+    assertEquals("line:<2>, expected:<line_1> but was:<EOF>", diffs.get(0));
   }
 
   @Test
@@ -92,6 +92,6 @@ public class Diff_diff_File_String_Test {
     String expected = "line_0";
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     assertEquals(1, diffs.size());
-    assertEquals("line:<1>, expected:<EOF> but was:<line_1>", diffs.get(0));
+    assertEquals("line:<2>, expected:<EOF> but was:<line_1>", diffs.get(0));
   }
 }
