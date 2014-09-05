@@ -78,18 +78,15 @@ public class FieldSupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a field with a matching name.
    */
   public <T> List<T> fieldValues(String fieldName, Class<T> fieldClass, Iterable<?> target) {
-    // ignore null elements as we can't extract a field from a null object
-    Iterable<?> cleanedUp = nonNullElementsIn(target);
-    if (isNullOrEmpty(cleanedUp)) {
-      return emptyList();
-    }
+    if (isNullOrEmpty(target)) return emptyList();
+    
     if (isNestedField(fieldName)) {
       String firstFieldName = popFieldNameFrom(fieldName);
-      Iterable<Object> fieldValues = fieldValues(firstFieldName, Object.class, cleanedUp);
+      Iterable<Object> fieldValues = fieldValues(firstFieldName, Object.class, target);
       // extract next sub-field values until reaching the last sub-field
       return fieldValues(nextFieldNameFrom(fieldName), fieldClass, fieldValues);
     }
-    return simpleFieldValues(fieldName, fieldClass, cleanedUp);
+    return simpleFieldValues(fieldName, fieldClass, target);
   }
 
   public List<Object> fieldValues(String fieldName, Iterable<?>  target) {
@@ -116,7 +113,7 @@ public class FieldSupport {
   private <T> List<T> simpleFieldValues(String fieldName, Class<T> clazz, Iterable<?> target) {
     List<T> fieldValues = new ArrayList<T>();
     for (Object e : target) {
-      fieldValues.add(fieldValue(fieldName, clazz, e));
+      fieldValues.add(e == null ? null : fieldValue(fieldName, clazz, e));
     }
     return unmodifiableList(fieldValues);
   }

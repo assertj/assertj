@@ -22,36 +22,61 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 public class FieldsOrPropertiesExtractor_extract_test {
   
   @Rule
   public ExpectedException thrown = none();
   
-  private static Employee yoda;
-  private static Employee luke;
-  private static List<Employee> employees;
+  private Employee yoda;
+  private Employee luke;
+  private List<Employee> employees;
 
-  
-  @BeforeClass
-  public static void setUpOnce() {
+  @Before
+  public void setUpOnce() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
+    yoda.surname = new Name("Master", "Jedi");
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     employees = newArrayList(yoda, luke);
   }
 
   @Test
-  public void should_extract_field_values_even_if_property_exist() {
+  public void should_extract_field_values_in_absence_of_properties() {
     List<Object> extractedValues = extract("id", employees);
     assertThat(extractedValues).containsOnly(1L, 2L);
+  }
+  
+  @Test
+  public void should_extract_null_valuesfor_null_property_values() {
+    yoda.setName(null);
+    List<Object> extractedValues = extract("name", employees);
+    assertThat(extractedValues).containsOnly(null, new Name("Luke", "Skywalker"));
+  }
+  
+  @Test
+  public void should_extract_null_values_for_null_nested_property_values() {
+    yoda.setName(null);
+    List<Object> extractedValues = extract("name.first", employees);
+    assertThat(extractedValues).containsOnly(null, "Luke");
+  }
+  
+  @Test
+  public void should_extract_null_valuesfor_null_field_values() {
+    List<Object> extractedValues = extract("surname", employees);
+    assertThat(extractedValues).containsOnly(new Name("Master", "Jedi"), null);
+  }
+  
+  @Test
+  public void should_extract_null_values_for_null_nested_field_values() {
+    List<Object> extractedValues = extract("surname.first", employees);
+    assertThat(extractedValues).containsOnly("Master", null);
   }
   
   @Test

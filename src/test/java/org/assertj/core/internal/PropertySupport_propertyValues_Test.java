@@ -1,38 +1,36 @@
 /*
  * Created on Feb 22, 2011
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
- * License. You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
  * 
  * Copyright @2011 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.VehicleFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.
@@ -44,17 +42,15 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 public class PropertySupport_propertyValues_Test {
 
-  private static Employee yoda;
-  private static Employee luke;
-  private static Iterable<Employee> employees;
-  private static PropertySupport propertySupport;
+  private Employee yoda;
+  private Employee luke;
+  private Iterable<Employee> employees;
 
-  @BeforeClass
-  public static void setUpOnce() {
+  @Before
+  public void setUpOnce() {
     yoda = new Employee(6000L, new Name("Yoda"), 800);
     luke = new Employee(8000L, new Name("Luke", "Skywalker"), 26);
     employees = newArrayList(yoda, luke);
-    propertySupport = new PropertySupport();
   }
 
   @Rule
@@ -62,74 +58,72 @@ public class PropertySupport_propertyValues_Test {
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
-    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, null);
-    assertEquals(emptyList(), ages);
+    Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, null);
+    assertThat(ages).isEmpty();
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
-    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, emptySet());
-    assertEquals(emptyList(), ages);
+    Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, emptySet());
+    assertThat(ages).isEmpty();
   }
 
   @Test
-  public void should_return_empty_List_if_given_Iterable_contains_only_nulls() {
-    Iterable<Integer> ages = propertySupport.propertyValues("ages", Integer.class, newArrayList(null, null));
-    assertEquals(emptyList(), ages);
-  }
-
-  @Test
-  public void should_remove_null_values_from_given_Iterable() {
-    List<Employee> anotherList = newArrayList(yoda, null, luke, null);
-    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, anotherList);
-    assertEquals(newArrayList(800, 26), ages);
+  public void should_return_null_elements_for_null_property_value() {
+    List<Employee> list = newArrayList(null, null);
+    Iterable<Integer> ages = PropertySupport.instance().propertyValues("ages", Integer.class, list);
+    assertThat(ages).containsExactly(null, null);
+    
+    list = newArrayList(yoda, luke, null, null);
+    ages = PropertySupport.instance().propertyValues("age", Integer.class, list);
+    assertThat(ages).containsExactly(800, 26,null, null);
   }
 
   @Test
   public void should_return_values_of_simple_property() {
-    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, employees);
-    assertEquals(newArrayList(800, 26), ages);
+    Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
+    assertThat(ages).containsExactly(800, 26);
   }
 
   @Test
   public void should_return_values_of_simple_property_as_objects() {
-    Iterable<Integer> ages = propertySupport.propertyValues("age", Integer.class, employees);
-    Iterable<Object> agesAsObjects = propertySupport.propertyValues("age", employees);
+    Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
+    Iterable<Object> agesAsObjects = PropertySupport.instance().propertyValues("age", employees);
     assertEquals(agesAsObjects, ages);
-    Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
-    Iterable<Object> firstNamesAsObjects = propertySupport.propertyValues("name.first", employees);
+    Iterable<String> firstNames = PropertySupport.instance().propertyValues("name.first", String.class, employees);
+    Iterable<Object> firstNamesAsObjects = PropertySupport.instance().propertyValues("name.first", employees);
     assertEquals(firstNamesAsObjects, firstNames);
   }
-  
+
   @Test
   public void should_return_values_of_nested_property() {
-    Iterable<String> firstNames = propertySupport.propertyValues("name.first", String.class, employees);
-    assertEquals(newArrayList("Yoda", "Luke"), firstNames);
+    Iterable<String> firstNames = PropertySupport.instance().propertyValues("name.first", String.class, employees);
+    assertThat(firstNames).containsExactly("Yoda", "Luke");
   }
 
   @Test
   public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
-    propertySupport.propertyValues("foo", Integer.class, employees);
+    PropertySupport.instance().propertyValues("foo", Integer.class, employees);
   }
 
   @Test
   public void should_extract_property() {
-    Integer age = propertySupport.propertyValue("age", Integer.class, yoda);
-    assertEquals(Integer.valueOf(800), age);
+    Integer age = PropertySupport.instance().propertyValue("age", Integer.class, yoda);
+    assertThat(age).isEqualTo(800);
   }
-  
+
   @Test
   public void should_return_properties_of_inner_class() {
     VehicleFactory vehicleFactory = new VehicleFactory();
-    List<String> names = propertySupport.propertyValues("name", String.class, vehicleFactory.getVehicles());
-    assertEquals(Arrays.asList("Toyota", "Honda", "Audi"), names);
+    List<String> names = PropertySupport.instance().propertyValues("name", String.class, vehicleFactory.getVehicles());
+    assertThat(names).containsExactly("Toyota", "Honda", "Audi");
   }
-  
+
   @Test
   public void should_return_property_from_superclass() {
-    assertThat(propertySupport.propertyValues("class", Class.class, employees)).containsExactly(Employee.class,
-                                                                                                Employee.class);
+    assertThat(PropertySupport.instance().propertyValues("class", Class.class, employees)).containsExactly(Employee.class,
+                                                                                                           Employee.class);
   }
-  
+
 }

@@ -14,13 +14,12 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
-
-import org.assertj.core.groups.Properties;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Properties#extractProperty(String, Class)}</code>.
@@ -36,7 +35,7 @@ public class Properties_extractProperty_Test {
   @Test
   public void should_create_a_new_Properties() {
     Properties<Object> properties = Properties.extractProperty("id", Object.class);
-    assertEquals("id", properties.propertyName);
+    assertThat(properties.propertyName).isEqualTo("id");
   }
 
   @Test

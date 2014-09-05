@@ -24,8 +24,10 @@ public class Employee {
 
   // intentionally public to test retrieval of a public field that is not a property
   public long id;
-  // name is both a public field and a property 
+  // name is both a public field and a property => will be accessed as a property by extracting code
   public Name name;
+  // surname is only a public field
+  public Name surname;
   // keep private to test we are able to read property that is not a public field
   private int age;
 
@@ -44,7 +46,7 @@ public class Employee {
   public void setName(Name name) {
     this.name = name;
   }
-
+  
   public int getAge() {
     return age;
   }

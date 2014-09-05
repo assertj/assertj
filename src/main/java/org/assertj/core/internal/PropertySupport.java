@@ -17,7 +17,6 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Collections.*;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Iterables.nonNullElementsIn;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;
@@ -67,18 +66,16 @@ public class PropertySupport {
    * @throws IntrospectionError if an element in the given {@code Iterable} does not have a property with a matching name.
    */
   public <T> List<T> propertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
-    // ignore null elements as we can't extract a property from a null object
-    Iterable<?> cleanedUp = nonNullElementsIn(target);
-    if (isNullOrEmpty(cleanedUp)) {
+    if (isNullOrEmpty(target)) {
       return emptyList();
     }
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);
-      Iterable<Object> propertyValues = propertyValues(firstPropertyName, Object.class, cleanedUp);
+      Iterable<Object> propertyValues = propertyValues(firstPropertyName, Object.class, target);
       // extract next sub-property values until reaching the last sub-property
       return propertyValues(nextPropertyNameFrom(propertyName), clazz, propertyValues);
     }
-    return simplePropertyValues(propertyName, clazz, cleanedUp);
+    return simplePropertyValues(propertyName, clazz, target);
   }
 
   /**
@@ -98,7 +95,7 @@ public class PropertySupport {
   private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
     List<T> propertyValues = new ArrayList<T>();
     for (Object e : target) {
-      propertyValues.add(propertyValue(propertyName, clazz, e));
+      propertyValues.add(e == null ? null : propertyValue(propertyName, clazz, e));
     }
     return unmodifiableList(propertyValues);
   }
