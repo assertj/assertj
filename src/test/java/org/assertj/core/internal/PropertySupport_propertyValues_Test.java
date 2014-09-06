@@ -114,6 +114,20 @@ public class PropertySupport_propertyValues_Test {
   }
 
   @Test
+  public void should_extract_nested_property() {
+    String firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
+    assertThat(firstName).isEqualTo("Yoda");
+    
+    yoda.name.first = null;
+    firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
+    assertThat(firstName).isNull();
+    
+    yoda.name = null;
+    firstName = PropertySupport.instance().propertyValueOf("name.first", String.class, yoda);
+    assertThat(firstName).isNull();
+  }
+  
+  @Test
   public void should_return_properties_of_inner_class() {
     VehicleFactory vehicleFactory = new VehicleFactory();
     List<String> names = PropertySupport.instance().propertyValues("name", String.class, vehicleFactory.getVehicles());
