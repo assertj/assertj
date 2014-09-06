@@ -15,6 +15,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.test.ExpectedException.none;
@@ -42,7 +43,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_test {
   private List<Employee> employees;
 
   @Before
-  public void setUpOnce() {
+  public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     yoda.surname = new Name("Master", "Jedi");
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
@@ -51,40 +52,40 @@ public class FieldsOrPropertiesExtractor_extract_tuples_test {
 
   @Test
   public void should_extract_tuples_from_fields_or_properties() {
-    List<Tuple> extractedValues = extract(employees, "id", "age");
+    List<Tuple> extractedValues = extract(employees, byName("id", "age"));
     assertThat(extractedValues).containsOnly(tuple(1L, 800), tuple(2L, 26));
   }
 
   @Test
   public void should_extract_tuples_with_consistent_iteration_order() {
     Set<Employee> employeeSet = new HashSet<Employee>(employees);
-    List<Tuple> extractedValues = extract(employeeSet, "id", "name.first", "age");
+    List<Tuple> extractedValues = extract(employeeSet, byName("id", "name.first", "age"));
     assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, "Luke", 26));
   }
 
   @Test
   public void should_extract_tuples_with_null_value_for_null_nested_field_or_property() {
     luke.setName(null);
-    assertThat(extract(employees, "id", "name.first", "age")).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, null, 26));
-    assertThat(extract(employees, "name.first")).containsOnly(tuple("Yoda"), tuple((String)null));
-    assertThat(extract(employees, "id", "surname.first")).containsOnly(tuple(1L, "Master"), tuple(2L, null));
+    assertThat(extract(employees, byName("id", "name.first", "age"))).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, null, 26));
+    assertThat(extract(employees, byName("name.first"))).containsOnly("Yoda", null);
+    assertThat(extract(employees, byName("id", "surname.first"))).containsOnly(tuple(1L, "Master"), tuple(2L, null));
   }
 
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_one_of_given_names() {
     thrown.expect(IntrospectionError.class);
-    extract(employees, "id", "age", "unknown");
+    extract(employees, byName("id", "age", "unknown"));
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be null");
-    extract(employees, (String[]) null);
+    extract(employees, byName((String[]) null));
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     thrown.expectIllegalArgumentException("The names of the fields/properties to read should not be empty");
-    extract(employees, new String[0]);
+    extract(employees, byName(new String[0]));
   }
 }

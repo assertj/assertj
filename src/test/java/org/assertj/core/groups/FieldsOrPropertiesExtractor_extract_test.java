@@ -15,6 +15,7 @@
 package org.assertj.core.groups;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -40,7 +41,7 @@ public class FieldsOrPropertiesExtractor_extract_test {
   private List<Employee> employees;
 
   @Before
-  public void setUpOnce() {
+  public void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
     yoda.surname = new Name("Master", "Jedi");
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
@@ -49,71 +50,71 @@ public class FieldsOrPropertiesExtractor_extract_test {
 
   @Test
   public void should_extract_field_values_in_absence_of_properties() {
-    List<Object> extractedValues = extract("id", employees);
+    List<Object> extractedValues = extract(employees, byName("id"));
     assertThat(extractedValues).containsOnly(1L, 2L);
   }
   
   @Test
   public void should_extract_null_valuesfor_null_property_values() {
     yoda.setName(null);
-    List<Object> extractedValues = extract("name", employees);
+    List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(null, new Name("Luke", "Skywalker"));
   }
   
   @Test
   public void should_extract_null_values_for_null_nested_property_values() {
     yoda.setName(null);
-    List<Object> extractedValues = extract("name.first", employees);
+    List<Object> extractedValues = extract(employees, byName("name.first"));
     assertThat(extractedValues).containsOnly(null, "Luke");
   }
   
   @Test
   public void should_extract_null_valuesfor_null_field_values() {
-    List<Object> extractedValues = extract("surname", employees);
+    List<Object> extractedValues = extract(employees, byName("surname"));
     assertThat(extractedValues).containsOnly(new Name("Master", "Jedi"), null);
   }
   
   @Test
   public void should_extract_null_values_for_null_nested_field_values() {
-    List<Object> extractedValues = extract("surname.first", employees);
+    List<Object> extractedValues = extract(employees, byName("surname.first"));
     assertThat(extractedValues).containsOnly("Master", null);
   }
   
   @Test
   public void should_extract_property_values_when_no_public_field_match_given_name() {
-    List<Object> extractedValues = extract("age", employees);
+    List<Object> extractedValues = extract(employees, byName("age"));
     assertThat(extractedValues).containsOnly(800, 26);
   }
   
   @Test
   public void should_extract_pure_property_values() {
-    List<Object> extractedValues = extract("adult", employees);
+    List<Object> extractedValues = extract(employees, byName("adult"));
     assertThat(extractedValues).containsOnly(true);
   }
   
   @Test
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
     thrown.expect(IntrospectionError.class);
-    extract("unknown", employees);
+    extract(employees, byName("unknown"));
   }
   
   @Test
   public void should_throw_exception_when_given_name_is_null() {
     thrown.expectIllegalArgumentException("The name of the field/property to read should not be null");
-    extract((String)null, employees);
+    extract(employees, byName((String)null));
   }
   
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
     thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
-    extract("", employees);
+    extract(employees, byName(""));
   }
   
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
 
     List<Employee> employees = Arrays.<Employee>asList(employeeWithBrokenName("Name"));
-    List<Object> extractedValues = extract("name", employees);
+    List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Name"));
   }
 
@@ -122,7 +123,7 @@ public class FieldsOrPropertiesExtractor_extract_test {
   public void should_prefer_properties_over_fields() throws Exception {
     
     List<Employee> employees = Arrays.<Employee>asList(employeeWithOverridenName("Overriden Name"));
-    List<Object> extractedValues = extract("name", employees);
+    List<Object> extractedValues = extract(employees, byName("name"));
     assertThat(extractedValues).containsOnly(new Name("Overriden Name"));
   }
 
@@ -132,7 +133,7 @@ public class FieldsOrPropertiesExtractor_extract_test {
     thrown.expect(IntrospectionError.class);
     
     List<Employee> employees = Arrays.<Employee>asList(brokenEmployee());
-    extract("adult", employees);
+    extract(employees, byName("adult"));
   }
 
   // --

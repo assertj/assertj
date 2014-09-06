@@ -149,19 +149,6 @@ public class FieldSupport {
     return fieldName.contains(SEPARATOR) && !fieldName.startsWith(SEPARATOR) && !fieldName.endsWith(SEPARATOR);
   }
 
-  // returns null if target is null as we can't extract a property from a null object
-  // if (target == null) {
-  // return null;
-  // }
-  //
-  // if (isNestedProperty(propertyName)) {
-  // String firstPropertyName = popPropertyNameFrom(propertyName);
-  // Object propertyValue = propertyValue(firstPropertyName, Object.class, target);
-  // // extract next sub-property values until reaching the last sub-property
-  // return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
-  // }
-  // return propertyValue(propertyName, clazz, target);
-
   /**
    * Return the value of field from a target object.
    * <p>

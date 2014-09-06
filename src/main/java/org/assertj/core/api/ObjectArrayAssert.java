@@ -15,6 +15,7 @@
 package org.assertj.core.api;
 
 
+
 /**
  * Assertion methods for arrays of objects.
  * <p>
