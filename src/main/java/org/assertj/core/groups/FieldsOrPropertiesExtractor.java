@@ -14,12 +14,14 @@
  */
 package org.assertj.core.groups;
 
+import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.Lists.newArrayList;
+
 import java.util.List;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectArrayAssert;
 import org.assertj.core.api.iterable.Extractor;
-import org.assertj.core.util.Iterables;
 import org.assertj.core.util.Lists;
 
 /**
@@ -40,15 +42,9 @@ public class FieldsOrPropertiesExtractor {
    * <p>
    * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Extractor)}
    */
-  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {
-    List<T> result = Lists.newArrayList();
-            
-    for (F object : objects) {
-      final T newValue = extractor.extract(object);
-      result.add(newValue);
-    }
-    
-    return result.toArray(Iterables.toArray(result));
+  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {    
+    List<T> result = extract(newArrayList(objects), extractor);
+    return toArray(result);
   }
 
   /**
