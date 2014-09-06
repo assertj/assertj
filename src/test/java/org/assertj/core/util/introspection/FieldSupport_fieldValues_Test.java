@@ -118,6 +118,20 @@ public class FieldSupport_fieldValues_Test {
   }
 
   @Test
+  public void should_extract_nested_field() {
+    String firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
+    assertThat(firstName).isEqualTo("Yoda");
+    
+    yoda.name.first = null;
+    firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
+    assertThat(firstName).isNull();
+    
+    yoda.name = null;
+    firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
+    assertThat(firstName).isNull();
+  }
+  
+  @Test
   public void should_handle_array_as_iterable() {
     List<Long> fieldValuesFromIterable = FieldSupport.instance().fieldValues("id", Long.class, employees);
     List<Long> fieldValuesFromArray = FieldSupport.instance().fieldValues("id", Long.class,

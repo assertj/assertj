@@ -17,10 +17,8 @@ package org.assertj.core.util.introspection;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
-
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Iterables.nonNullElementsIn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,9 @@ public class FieldSupport {
   }
 
   /**
-   * Globally set whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
+   * Globally set whether
+   * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
+   * and
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
@@ -79,7 +79,7 @@ public class FieldSupport {
    */
   public <T> List<T> fieldValues(String fieldName, Class<T> fieldClass, Iterable<?> target) {
     if (isNullOrEmpty(target)) return emptyList();
-    
+
     if (isNestedField(fieldName)) {
       String firstFieldName = popFieldNameFrom(fieldName);
       Iterable<Object> fieldValues = fieldValues(firstFieldName, Object.class, target);
@@ -89,10 +89,10 @@ public class FieldSupport {
     return simpleFieldValues(fieldName, fieldClass, target);
   }
 
-  public List<Object> fieldValues(String fieldName, Iterable<?>  target) {
+  public List<Object> fieldValues(String fieldName, Iterable<?> target) {
     return fieldValues(fieldName, Object.class, target);
   }
-  
+
   /**
    * Returns a <code>{@link List}</code> containing the values of the given field name, from the elements of the given
    * <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will return an
@@ -149,8 +149,27 @@ public class FieldSupport {
     return fieldName.contains(SEPARATOR) && !fieldName.startsWith(SEPARATOR) && !fieldName.endsWith(SEPARATOR);
   }
 
+  // returns null if target is null as we can't extract a property from a null object
+  // if (target == null) {
+  // return null;
+  // }
+  //
+  // if (isNestedProperty(propertyName)) {
+  // String firstPropertyName = popPropertyNameFrom(propertyName);
+  // Object propertyValue = propertyValue(firstPropertyName, Object.class, target);
+  // // extract next sub-property values until reaching the last sub-property
+  // return propertyValueOf(nextPropertyNameFrom(propertyName), clazz, propertyValue);
+  // }
+  // return propertyValue(propertyName, clazz, target);
+
   /**
    * Return the value of field from a target object.
+   * <p>
+   * Return null if field is nested and one of the nested value is null, ex :
+   * 
+   * <pre>
+   * fieldValue(race.name, String.class, frodo) will return null if frodo.race is null
+   * </pre>
    * 
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.
@@ -159,7 +178,19 @@ public class FieldSupport {
    * @return a the values of the given field name
    * @throws IntrospectionError if the given target does not have a field with a matching name.
    */
-  public <T> T fieldValue(String fieldName, Class<T> clazz, Object target) {
+  public <T> T fieldValue(String fieldName, Class<T> fieldClass, Object target) {
+    if (target == null) return null;
+
+    if (isNestedField(fieldName)) {
+      String outerFieldName = popFieldNameFrom(fieldName);
+      Object outerFieldValue = readSimpleField(outerFieldName, Object.class, target);
+      // extract next sub-field values until reaching the last sub-field
+      return fieldValue(nextFieldNameFrom(fieldName), fieldClass, outerFieldValue);
+    }
+    return readSimpleField(fieldName, fieldClass, target);
+  }
+
+  private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
     try {
       Object readField = FieldUtils.readField(target, fieldName, allowExtractingPrivateFields);
       return clazz.cast(readField);
