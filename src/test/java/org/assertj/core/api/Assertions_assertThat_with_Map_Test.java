@@ -35,14 +35,14 @@ public class Assertions_assertThat_with_Map_Test {
 
   @Test
   public void should_create_Assert() {
-    MapAssert<Object, Object> assertions = Assertions.assertThat(emptyMap());
+    AbstractMapAssert<?, Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(emptyMap());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Map<Object, Object> actual = new HashMap<Object, Object>();
-    MapAssert<Object, Object> assertions = Assertions.assertThat(actual);
+    AbstractMapAssert<?, Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

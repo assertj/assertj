@@ -70,7 +70,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BigDecimalAssert assertThat(BigDecimal actual) {
+  public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return new BigDecimalAssert(actual);
   }
 
@@ -80,7 +80,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert assertThat(boolean actual) {
+  public static AbstractBooleanAssert<?> assertThat(boolean actual) {
     return new BooleanAssert(actual);
   }
 
@@ -90,7 +90,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanAssert assertThat(Boolean actual) {
+  public static AbstractBooleanAssert<?> assertThat(Boolean actual) {
     return new BooleanAssert(actual);
   }
 
@@ -100,7 +100,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static BooleanArrayAssert assertThat(boolean[] actual) {
+  public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
     return new BooleanArrayAssert(actual);
   }
 
@@ -110,7 +110,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert assertThat(byte actual) {
+  public static AbstractByteAssert<?> assertThat(byte actual) {
     return new ByteAssert(actual);
   }
 
@@ -120,7 +120,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteAssert assertThat(Byte actual) {
+  public static AbstractByteAssert<?> assertThat(Byte actual) {
     return new ByteAssert(actual);
   }
 
@@ -130,7 +130,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ByteArrayAssert assertThat(byte[] actual) {
+  public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
     return new ByteArrayAssert(actual);
   }
 
@@ -140,7 +140,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert assertThat(char actual) {
+  public static AbstractCharacterAssert<?> assertThat(char actual) {
     return new CharacterAssert(actual);
   }
 
@@ -150,7 +150,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharArrayAssert assertThat(char[] actual) {
+  public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
     return new CharArrayAssert(actual);
   }
 
@@ -160,7 +160,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharacterAssert assertThat(Character actual) {
+  public static AbstractCharacterAssert<?> assertThat(Character actual) {
     return new CharacterAssert(actual);
   }
 
@@ -170,7 +170,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ClassAssert assertThat(Class<?> actual) {
+  public static AbstractClassAssert<?> assertThat(Class<?> actual) {
     return new ClassAssert(actual);
   }
 
@@ -181,7 +181,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T extends Comparable<T>> GenericComparableAssert<T> assertThat(T actual) {
+  public static <T extends Comparable<T>> AbstractComparableAssert<?, T> assertThat(T actual) {
     return new GenericComparableAssert<T>(actual);
   }
 
@@ -191,7 +191,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> IterableAssert<T> assertThat(Iterable<T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<T>, T> assertThat(Iterable<T> actual) {
     return new IterableAssert<T>(actual);
   }
 
@@ -205,7 +205,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> IterableAssert<T> assertThat(Iterator<T> actual) {
+  public static <T> AbstractIterableAssert<?, Iterable<T>, T> assertThat(Iterator<T> actual) {
     return new IterableAssert<T>(actual);
   }
 
@@ -215,7 +215,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert assertThat(double actual) {
+  public static AbstractDoubleAssert<?> assertThat(double actual) {
     return new DoubleAssert(actual);
   }
 
@@ -225,7 +225,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleAssert assertThat(Double actual) {
+  public static AbstractDoubleAssert<?> assertThat(Double actual) {
     return new DoubleAssert(actual);
   }
 
@@ -235,7 +235,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DoubleArrayAssert assertThat(double[] actual) {
+  public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
     return new DoubleArrayAssert(actual);
   }
 
@@ -245,7 +245,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FileAssert assertThat(File actual) {
+  public static AbstractFileAssert<?> assertThat(File actual) {
     return new FileAssert(actual);
   }
 
@@ -255,7 +255,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static InputStreamAssert assertThat(InputStream actual) {
+  public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return new InputStreamAssert(actual);
   }
 
@@ -265,7 +265,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert assertThat(float actual) {
+  public static AbstractFloatAssert<?> assertThat(float actual) {
     return new FloatAssert(actual);
   }
 
@@ -275,7 +275,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatAssert assertThat(Float actual) {
+  public static AbstractFloatAssert<?> assertThat(Float actual) {
     return new FloatAssert(actual);
   }
 
@@ -285,7 +285,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FloatArrayAssert assertThat(float[] actual) {
+  public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
     return new FloatArrayAssert(actual);
   }
 
@@ -295,7 +295,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert assertThat(int actual) {
+  public static AbstractIntegerAssert<?> assertThat(int actual) {
     return new IntegerAssert(actual);
   }
 
@@ -305,7 +305,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntArrayAssert assertThat(int[] actual) {
+  public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
     return new IntArrayAssert(actual);
   }
 
@@ -315,7 +315,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static IntegerAssert assertThat(Integer actual) {
+  public static AbstractIntegerAssert<?> assertThat(Integer actual) {
     return new IntegerAssert(actual);
   }
 
@@ -325,7 +325,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ListAssert<T> assertThat(List<T> actual) {
+  public static <T> AbstractListAssert<?, List<T>, T> assertThat(List<T> actual) {
     return new ListAssert<T>(actual);
   }
 
@@ -335,7 +335,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert assertThat(long actual) {
+  public static AbstractLongAssert<?> assertThat(long actual) {
     return new LongAssert(actual);
   }
 
@@ -345,7 +345,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongAssert assertThat(Long actual) {
+  public static AbstractLongAssert<?> assertThat(Long actual) {
     return new LongAssert(actual);
   }
 
@@ -355,7 +355,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static LongArrayAssert assertThat(long[] actual) {
+  public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return new LongArrayAssert(actual);
   }
 
@@ -365,7 +365,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ObjectAssert<T> assertThat(T actual) {
+  public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
     return new ObjectAssert<T>(actual);
   }
 
@@ -436,7 +436,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> ObjectArrayAssert<T> assertThat(T[] actual) {
+  public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
     return new ObjectArrayAssert<T>(actual);
   }
 
@@ -446,7 +446,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+  public static <K, V> AbstractMapAssert<?, Map<K, V>, K, V> assertThat(Map<K, V> actual) {
     return new MapAssert<K, V>(actual);
   }
 
@@ -456,7 +456,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert assertThat(short actual) {
+  public static AbstractShortAssert<?> assertThat(short actual) {
     return new ShortAssert(actual);
   }
 
@@ -466,7 +466,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortAssert assertThat(Short actual) {
+  public static AbstractShortAssert<?> assertThat(Short actual) {
     return new ShortAssert(actual);
   }
 
@@ -476,7 +476,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ShortArrayAssert assertThat(short[] actual) {
+  public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
     return new ShortArrayAssert(actual);
   }
 
@@ -486,7 +486,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static CharSequenceAssert assertThat(CharSequence actual) {
+  public static AbstractCharSequenceAssert<?, ?> assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
   }
 
@@ -496,7 +496,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static StringAssert assertThat(String actual) {
+  public static AbstractCharSequenceAssert<?, ?> assertThat(String actual) {
     return new StringAssert(actual);
   }
 
@@ -506,7 +506,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static DateAssert assertThat(Date actual) {
+  public static AbstractDateAssert<?> assertThat(Date actual) {
     return new DateAssert(actual);
   }
 
@@ -516,7 +516,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  public static ThrowableAssert assertThat(Throwable actual) {
+  public static AbstractThrowableAssert<?, ?> assertThat(Throwable actual) {
     return new ThrowableAssert(actual);
   }
 

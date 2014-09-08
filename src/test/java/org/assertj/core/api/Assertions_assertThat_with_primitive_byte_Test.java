@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_byte_Test {
 
   @Test
   public void should_create_Assert() {
-    ByteAssert assertions = Assertions.assertThat((byte) 0);
+    AbstractByteAssert<?> assertions = Assertions.assertThat((byte) 0);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    ByteAssert assertions = Assertions.assertThat((byte) 8);
+    AbstractByteAssert<?> assertions = Assertions.assertThat((byte) 8);
     assertEquals(new Byte((byte) 8), assertions.actual);
   }
 }

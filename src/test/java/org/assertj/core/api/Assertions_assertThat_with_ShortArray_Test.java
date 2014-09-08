@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_ShortArray_Test {
 
   @Test
   public void should_create_Assert() {
-    ShortArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractShortArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     short[] actual = emptyArray();
-    ShortArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractShortArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

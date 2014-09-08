@@ -29,14 +29,14 @@ public class Assertions_assertThat_with_String_Test {
 
   @Test
   public void should_create_Assert() {
-    StringAssert assertions = Assertions.assertThat("Yoda");
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat("Yoda");
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     String actual = "Yoda";
-    StringAssert assertions = Assertions.assertThat(actual);
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_double_Test {
 
   @Test
   public void should_create_Assert() {
-    DoubleAssert assertions = Assertions.assertThat(0d);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(0d);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    DoubleAssert assertions = Assertions.assertThat(8d);
+    AbstractDoubleAssert<?> assertions = Assertions.assertThat(8d);
     assertEquals(new Double(8d), assertions.actual);
   }
 }

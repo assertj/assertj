@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_Byte_Test {
   @Test
   public void should_create_Assert() {
     Byte zero = 0;
-    ByteAssert assertions = Assertions.assertThat(zero);
+    AbstractByteAssert<?> assertions = Assertions.assertThat(zero);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     Byte eight = 8;
-    ByteAssert assertions = Assertions.assertThat(eight);
+    AbstractByteAssert<?> assertions = Assertions.assertThat(eight);
     assertSame(eight, assertions.actual);
   }
 }

@@ -30,26 +30,26 @@ public class Assertions_assertThat_with_CharSequence_Test {
 
   @Test
   public void should_create_Assert() {
-    CharSequenceAssert assertions = Assertions.assertThat((CharSequence) "Yoda");
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat((CharSequence) "Yoda");
     assertNotNull(assertions);
   }
 
   @Test
   public void should_create_Assert_with_StringBuilder() {
-    CharSequenceAssert assertions = Assertions.assertThat(new StringBuilder("Yoda"));
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(new StringBuilder("Yoda"));
     assertNotNull(assertions);
   }
 
   @Test
   public void should_create_Assert_with_StringBuffer() {
-    CharSequenceAssert assertions = Assertions.assertThat(new StringBuffer("Yoda"));
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat(new StringBuffer("Yoda"));
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     String actual = "Yoda";
-    CharSequenceAssert assertions = Assertions.assertThat((CharSequence) actual);
+    AbstractCharSequenceAssert<?, ?> assertions = Assertions.assertThat((CharSequence) actual);
     assertSame(actual, assertions.actual);
   }
 }

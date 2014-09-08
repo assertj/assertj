@@ -33,13 +33,13 @@ public class Assertions_assertThat_with_BigDecimal_Test {
 
   @Test
   public void should_create_Assert() {
-    BigDecimalAssert assertions = Assertions.assertThat(ZERO);
+    AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ZERO);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    BigDecimalAssert assertions = Assertions.assertThat(ONE);
+    AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ONE);
     assertSame(ONE, assertions.actual);
   }
 

@@ -29,13 +29,13 @@ public class Assertions_assertThat_with_primitive_short_Test {
 
   @Test
   public void should_create_Assert() {
-    ShortAssert assertions = Assertions.assertThat((short) 8);
+    AbstractShortAssert<?> assertions = Assertions.assertThat((short) 8);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    ShortAssert assertions = Assertions.assertThat((short) 8);
+    AbstractShortAssert<?> assertions = Assertions.assertThat((short) 8);
     assertEquals(new Short((short) 8), assertions.actual);
   }
 }

@@ -30,13 +30,13 @@ public class Assertions_assertThat_with_Boolean_Test {
 
   @Test
   public void should_create_Assert() {
-    BooleanAssert assertions = Assertions.assertThat(TRUE);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    BooleanAssert assertions = Assertions.assertThat(TRUE);
+    AbstractBooleanAssert<?> assertions = Assertions.assertThat(TRUE);
     assertSame(TRUE, assertions.actual);
   }
 }

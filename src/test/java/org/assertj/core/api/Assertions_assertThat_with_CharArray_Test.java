@@ -30,14 +30,14 @@ public class Assertions_assertThat_with_CharArray_Test {
 
   @Test
   public void should_create_Assert() {
-    CharArrayAssert assertions = Assertions.assertThat(emptyArray());
+    AbstractCharArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
     char[] actual = emptyArray();
-    CharArrayAssert assertions = Assertions.assertThat(actual);
+    AbstractCharArrayAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }
