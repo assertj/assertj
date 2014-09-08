@@ -21,7 +21,6 @@ import static org.mockito.Mockito.*;
 
 import java.util.List;
 
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;

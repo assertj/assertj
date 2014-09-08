@@ -33,20 +33,19 @@ import org.junit.Test;
  *
  * @author Brian Laframboise
  */
-public class SoftAssertionsTest {
+public class AutoCloseableSoftAssertionsTest {
 
   @Test
   public void all_assertions_should_pass() {
-	SoftAssertions softly = new SoftAssertions();
-	softly.assertThat(1).isEqualTo(1);
-	softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
-	softly.assertAll();
+	try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+	  softly.assertThat(1).isEqualTo(1);
+	  softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+	}
   }
 
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
-	try {
-	  SoftAssertions softly = new SoftAssertions();
+	try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
 
 	  softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -130,8 +129,6 @@ public class SoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-	  softly.assertAll();
-	  fail("Should not reach here");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
 	  assertThat(errors).hasSize(38);
@@ -200,6 +197,24 @@ public class SoftAssertionsTest {
 		                                   + " <\"NullPointerException message\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"IllegalArgumentException message\">");
+	  return;
+	}
+	fail("Should not reach here");
+  }
+
+  @Test
+  public void should_be_able_to_use_try_with_resources() {
+	try {
+	  try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+		softly.assertThat(false).isTrue();
+		softly.assertThat("48").isEqualTo("49");
+	  }
+	  fail("Should not reach here");
+	} catch (SoftAssertionError e) {
+	  List<String> errors = e.getErrors();
+	  assertThat(errors).hasSize(2);
+	  assertThat(errors.get(0)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
+	  assertThat(errors.get(1)).isEqualTo("expected:<\"4[9]\"> but was:<\"4[8]\">");
 	}
   }
 
