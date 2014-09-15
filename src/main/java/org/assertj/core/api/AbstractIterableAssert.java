@@ -31,6 +31,7 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.FieldByFieldComparisonStrategy;
 import org.assertj.core.internal.IgnoringFieldsComparisonStrategy;
 import org.assertj.core.internal.Iterables;
+import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -898,6 +899,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
   protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
     iterables = new Iterables(comparisonStrategy);
+    objects = new Objects(comparisonStrategy);
     return myself;
   }
 
