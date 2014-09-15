@@ -16,7 +16,6 @@ package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
 import static java.util.Collections.EMPTY_SET;
-
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 
 import java.lang.reflect.Array;
@@ -31,60 +30,67 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
-    if (isNullOrEmpty(iterable)) return EMPTY_SET;
+	if (isNullOrEmpty(iterable)) return EMPTY_SET;
 
-    Set<Object> duplicates = newSetUsingComparisonStrategy();
-    Set<Object> noDuplicates = newSetUsingComparisonStrategy();
-    for (Object element : iterable) {
-      if (noDuplicates.contains(element)) {
-        duplicates.add(element);
-      } else {
-        noDuplicates.add(element);
-      }
-    }
-    return duplicates;
+	Set<Object> duplicates = newSetUsingComparisonStrategy();
+	Set<Object> noDuplicates = newSetUsingComparisonStrategy();
+	for (Object element : iterable) {
+	  if (noDuplicates.contains(element)) {
+		duplicates.add(element);
+	  } else {
+		noDuplicates.add(element);
+	  }
+	}
+	return duplicates;
   }
-  
+
   /**
    * Returns a {@link Set} honoring the comparison strategy used.
+   * 
    * @return a {@link Set} honoring the comparison strategy used.
    */
   protected abstract Set<Object> newSetUsingComparisonStrategy();
 
   @Override
   public boolean arrayContains(Object array, Object value) {
-    for (int i = 0; i < getLength(array); i++) {
-      Object element = Array.get(array, i);
-      if (areEqual(element, value)) {
-        return true;
-      }
-    }
-    return false;
+	for (int i = 0; i < getLength(array); i++) {
+	  Object element = Array.get(array, i);
+	  if (areEqual(element, value)) {
+		return true;
+	  }
+	}
+	return false;
   }
 
   @Override
   public boolean isLessThan(Object actual, Object other) {
-    if (areEqual(actual, other)) {
-      return false;
-    }
-    return !isGreaterThan(actual, other);
+	if (areEqual(actual, other)) {
+	  return false;
+	}
+	return !isGreaterThan(actual, other);
   }
 
   @Override
   public boolean isLessThanOrEqualTo(Object actual, Object other) {
-    if (areEqual(actual, other)) {
-      return true;
-    }
-    return isLessThan(actual, other);
+	if (areEqual(actual, other)) {
+	  return true;
+	}
+	return isLessThan(actual, other);
   }
 
   @Override
   public boolean isGreaterThanOrEqualTo(Object actual, Object other) {
-    if (areEqual(actual, other)) {
-      return true;
-    }
-    return isGreaterThan(actual, other);
+	if (areEqual(actual, other)) {
+	  return true;
+	}
+	return isGreaterThan(actual, other);
   }
 
-    public abstract String asText();
+  public abstract String asText();
+  
+  @Override
+  public boolean isStandard() {
+    return false;
+  }
+  
 }

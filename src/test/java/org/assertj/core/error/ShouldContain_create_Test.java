@@ -56,7 +56,7 @@ public class ShouldContain_create_Test {
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain:\n <[\"Luke\", \"Yoda\"]>\nbut could not find:\n"
-        + " <[\"Luke\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+        + " <[\"Luke\"]>\nwhen comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 
 

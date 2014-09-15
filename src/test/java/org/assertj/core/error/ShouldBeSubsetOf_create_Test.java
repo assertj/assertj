@@ -53,7 +53,7 @@ public class ShouldBeSubsetOf_create_Test {
         newArrayList("Yoda"), new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals(
-        "[Test] \nExpecting according to 'CaseInsensitiveStringComparator' comparator:\n <[\"Yoda\", \"Luke\"]>\nto be subset of\n <[\"Han\", \"Luke\"]>\nbut found those extra elements:\n <[\"Yoda\"]>",
+        "[Test] \nExpecting when comparing values using 'CaseInsensitiveStringComparator':\n <[\"Yoda\", \"Luke\"]>\nto be subset of\n <[\"Han\", \"Luke\"]>\nbut found those extra elements:\n <[\"Yoda\"]>",
         message);
   }
 }

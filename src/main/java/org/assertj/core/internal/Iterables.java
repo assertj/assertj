@@ -519,7 +519,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} contains any of given values.
    */
   public <T> void assertDoesNotContainAnyElementsOf(AssertionInfo info, Iterable<T> actual,
-      Iterable<? extends T> iterable) {
+                                                    Iterable<? extends T> iterable) {
     checkIsNotNullAndNotEmpty(iterable);
     List<T> values = newArrayList(iterable);
     assertDoesNotContain(info, actual, values.toArray());
@@ -758,7 +758,7 @@ public class Iterables {
    * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
    */
   public <E> void assertAreAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
+                                   Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -771,7 +771,7 @@ public class Iterables {
   }
 
   private <E> boolean conditionIsSatisfiedAtLeastNTimes(Iterable<? extends E> actual, int n,
-      Condition<? super E> condition) {
+                                                        Condition<? super E> condition) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() >= n;
   }
@@ -789,7 +789,7 @@ public class Iterables {
    * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
    */
   public <E> void assertAreAtMost(AssertionInfo info, Iterable<? extends E> actual, int n,
-      Condition<? super E> condition) {
+                                  Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -802,7 +802,7 @@ public class Iterables {
   }
 
   private <E> boolean conditionIsSatisfiedAtMostNTimes(Iterable<? extends E> actual, Condition<? super E> condition,
-      int n) {
+                                                       int n) {
     List<E> satisfiesCondition = satisfiesCondition(actual, condition);
     return satisfiesCondition.size() <= n;
   }
@@ -820,7 +820,7 @@ public class Iterables {
    * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
    */
   public <E> void assertAreExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
+                                   Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -842,7 +842,7 @@ public class Iterables {
    * api (same logic, only error message differs).
    */
   public <E> void assertHaveAtLeast(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
+                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -859,7 +859,7 @@ public class Iterables {
    * (same logic, only error message differs).
    */
   public <E> void assertHaveAtMost(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
+                                   Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -876,7 +876,7 @@ public class Iterables {
    * api (same logic, only error message differs).
    */
   public <E> void assertHaveExactly(AssertionInfo info, Iterable<? extends E> actual, int times,
-      Condition<? super E> condition) {
+                                    Condition<? super E> condition) {
     assertNotNull(info, actual);
     conditions.assertIsNotNull(condition);
     try {
@@ -974,8 +974,8 @@ public class Iterables {
     return new IllegalArgumentException("The iterable to look for should not be empty");
   }
 
-    @VisibleForTesting
-    public ComparisonStrategy getComparisonStrategy() {
-        return comparisonStrategy;
-    }
+  @VisibleForTesting
+  public ComparisonStrategy getComparisonStrategy() {
+    return comparisonStrategy;
+  }
 }

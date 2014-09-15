@@ -168,5 +168,10 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
 	}
 	return Comparable.class.cast(actual).compareTo(other) < 0;
   }
-  
+
+  @Override
+  public boolean isStandard() {
+    return true;
+  }
+
 }

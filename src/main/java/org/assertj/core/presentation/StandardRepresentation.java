@@ -14,9 +14,8 @@
  */
 package org.assertj.core.presentation;
 
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Collections;
-import org.assertj.core.util.Dates;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -25,8 +24,10 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
-import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.Collections;
+import org.assertj.core.util.Dates;
 
 /**
  * Standard java object representation.
@@ -60,6 +61,8 @@ public class StandardRepresentation implements Representation {
       return toStringOf((Character) object);
     } else if (object instanceof Comparator) {
       return toStringOf((Comparator<?>) object);
+    } else if (object instanceof ComparatorBasedComparisonStrategy) {
+      return toStringOf((Comparator<?>) object);
     } else if (object instanceof SimpleDateFormat) {
       return toStringOf((SimpleDateFormat) object);
     } else if (object instanceof Tuple) {
@@ -78,9 +81,12 @@ public class StandardRepresentation implements Representation {
     return defaultToString(number, representation);
   }
 
-  private static String toStringOf(Comparator<?> comparator) {
-    String comparatorSimpleClassName = comparator.getClass().getSimpleName();
-    return quote(!comparatorSimpleClassName.isEmpty() ? comparatorSimpleClassName : "Anonymous Comparator class");
+  private static String toStringOf(Comparator<?> comparator) {	
+	String comparatorSimpleClassName = comparator.getClass().getSimpleName();
+	if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
+	// if toString has not been redefined, let's use comparator simple class name.
+	if (comparator.toString().contains(comparatorSimpleClassName + "@") ) return quote(comparatorSimpleClassName);
+	return quote(comparator.toString());
   }
 
   private static String toStringOf(Calendar c) {

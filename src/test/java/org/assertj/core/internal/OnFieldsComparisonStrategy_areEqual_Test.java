@@ -1,62 +1,70 @@
 package org.assertj.core.internal;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.test.ExpectedException.none;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-
 
 public class OnFieldsComparisonStrategy_areEqual_Test {
 
-    private OnFieldsComparisonStrategy onFieldsComparisonStrategy;
+  @Rule
+  public ExpectedException thrown = none();
 
-    @Before
-    public void setUp() {
-        onFieldsComparisonStrategy = new OnFieldsComparisonStrategy("telling");
-    }
+  private OnFieldsComparator onFieldsComparator;
 
-    @Test
-    public void should_return_true_if_both_Objects_are_null() {
-        assertTrue(onFieldsComparisonStrategy.areEqual(null, null));
-    }
+  @Before
+  public void setUp() {
+	onFieldsComparator = new OnFieldsComparator("telling");
+  }
 
-    @Test
-    public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
-        assertFalse(onFieldsComparisonStrategy.areEqual(null, new DarthVader("I like you", "I'll kill you")));
-    }
+  @Test
+  public void should_return_true_if_both_Objects_are_null() {
+	assertThat(onFieldsComparator.compare(null, null)).isZero();
+  }
 
-    @Test
-    public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
-        assertFalse(onFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), null));
-    }
+  @Test
+  public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
+	assertThat(onFieldsComparator.compare(null, new DarthVader("I like you", "I'll kill you"))).isNotZero();
+  }
 
-    @Test
-    public void should_return_true_if_given_fields_are_equal() {
-        assertTrue(onFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), new DarthVader("I like you", "I like you")));
-    }
+  @Test
+  public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
+	assertThat(onFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), null)).isNotZero();
+  }
 
-    @Test
-    public void should_return_false_if_given_fields_are_not_equal() {
-        assertFalse(onFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), new DarthVader("I'll kill you", "I'll kill you")));
-    }
+  @Test
+  public void should_return_true_if_given_fields_are_equal() {
+	DarthVader actual = new DarthVader("I like you", "I'll kill you");
+	DarthVader other = new DarthVader("I like you", "I like you");
+	assertThat(onFieldsComparator.compare(actual, other)).isZero();
+  }
 
-    @Test
-    public void should_return_are_not_equal_if_Objects_are_not_equal() {
-        assertFalse(onFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), 2));
-    }
+  @Test
+  public void should_return_false_if_given_fields_are_not_equal() {
+	DarthVader actual = new DarthVader("I like you", "I'll kill you");
+	DarthVader other = new DarthVader("I'll kill you", "I'll kill you");
+	assertThat(onFieldsComparator.compare(actual, other)).isNotZero();
+  }
 
-    public static class DarthVader {
+  @Test
+  public void should_throw_exception_if_Objects_have_not_the_same_properties() {
+	thrown.expect(IllegalArgumentException.class);
+	assertThat(onFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), 2)).isNotZero();
+  }
 
-        public final String telling;
-        public final String thinking;
+  public static class DarthVader {
 
-        public DarthVader(String telling, String thinking) {
-            this.telling = telling;
-            this.thinking = thinking;
-        }
+	public final String telling;
+	public final String thinking;
 
-    }
+	public DarthVader(String telling, String thinking) {
+	  this.telling = telling;
+	  this.thinking = thinking;
+	}
 
+  }
 
 }

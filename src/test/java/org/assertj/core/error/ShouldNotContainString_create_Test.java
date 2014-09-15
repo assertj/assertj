@@ -46,7 +46,7 @@ public class ShouldNotContainString_create_Test {
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od", new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> according to 'CaseInsensitiveStringComparator' comparator",
+    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> when comparing values using 'CaseInsensitiveStringComparator'",
         message);
   }
 }

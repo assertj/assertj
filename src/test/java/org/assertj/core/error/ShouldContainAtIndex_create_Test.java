@@ -47,6 +47,6 @@ public class ShouldContainAtIndex_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <\"Leia\">\nat index <1> but found:\n <\"Luke\">\nin:\n <[\"Yoda\", \"Luke\"]>\n"
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 }

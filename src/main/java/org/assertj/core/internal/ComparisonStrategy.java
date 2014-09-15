@@ -138,5 +138,11 @@ public interface ComparisonStrategy {
    * @return true if string ends with suffix according to the implemented comparison strategy, false otherwise.
    */
   boolean stringEndsWith(String string, String suffix);
+  
+  /**
+   * Return true if comparison strategy is default/standard, false otherwise
+   * @return true if comparison strategy is default/standard, false otherwise
+   */
+  boolean isStandard();
 
 }

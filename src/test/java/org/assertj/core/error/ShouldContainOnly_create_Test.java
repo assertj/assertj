@@ -57,6 +57,6 @@ public class ShouldContainOnly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
         + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n"
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 }

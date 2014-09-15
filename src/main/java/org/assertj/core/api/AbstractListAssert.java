@@ -152,6 +152,7 @@ public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, 
 		return myself;
 	}
 
+    // can't really honor basic assertion consistently with this comparisonStrategy
     @Override
     protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
         super.usingComparisonStrategy(comparisonStrategy);

@@ -59,7 +59,7 @@ public class ShouldContainSequenceString_create_Test {
         + "to contain the following CharSequences in this order:\n"
         + " <[\"{\", \"author\", \"title\", \"}\"]>\n"
         + "but <\"title\"> was found before <\"author\">\n"
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 
 }

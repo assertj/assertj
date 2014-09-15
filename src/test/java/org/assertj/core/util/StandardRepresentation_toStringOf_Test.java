@@ -143,7 +143,7 @@ public class StandardRepresentation_toStringOf_Test {
         return s1.length() - s2.length();
       }
     };
-    assertEquals("'Anonymous Comparator class'", new StandardRepresentation().toStringOf(anonymousComparator));
+    assertEquals("'anonymous comparator class'", new StandardRepresentation().toStringOf(anonymousComparator));
   }
 
   @Test

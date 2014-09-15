@@ -29,11 +29,13 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.FieldByFieldComparisonStrategy;
-import org.assertj.core.internal.IgnoringFieldsComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparator;
+import org.assertj.core.internal.IgnoringFieldsComparator;
+import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.internal.OnFieldsComparisonStrategy;
+import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -436,8 +438,11 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S usingElementComparator(Comparator<? super T> customComparator) {
-	this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(customComparator));
+  public S usingElementComparator(Comparator<? super T> elementComparator) {
+	this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
+	// to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
+	// elements with elementComparator parameter
+	objects = new Objects(new IterableElementComparisonStrategy<T>(elementComparator));
 	return myself;
   }
 
@@ -446,6 +451,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   @Override
   public S usingDefaultElementComparator() {
+	usingDefaultComparator();
 	this.iterables = Iterables.instance();
 	return myself;
   }
@@ -903,13 +909,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use field by field comparison (including inherited fields) instead of relying on actual type A <code>equals</code>
-   * method to compare group elements for incoming assertion checks.
-   *
+   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
+   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks.
+   * </p>
    * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
    * <p>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter.
+   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
+   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
    * </p>
    *
    * <pre>
@@ -929,17 +935,18 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   public S usingFieldByFieldElementComparator() {
-	return usingComparisonStrategy(new FieldByFieldComparisonStrategy());
+	return usingElementComparator(new FieldByFieldComparator());
   }
 
   /**
-   * Use field by field comparison on the given fields only (fields can be inherited fields) instead of relying on
-   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks.
-   *
+   * Use field/property by field/property comparison on the given fields/properties only (fields/properties can be
+   * inherited fields) instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * incoming assertion checks.
+   * </p>
    * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
    * <p>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter.
+   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
+   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
    * </p>
    *
    * <pre>
@@ -959,7 +966,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorOnFields(String... fields) {
-	return usingComparisonStrategy(new OnFieldsComparisonStrategy(fields));
+	return usingElementComparator(new OnFieldsComparator(fields));
   }
 
   protected S usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
@@ -968,14 +975,14 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use field by field comparison on all fields except for the given ones (inherited fields are taken into account)
-   * instead of relying on actual type A <code>equals</code> method to compare group elements for incoming assertion
-   * checks.
-   *
+   * Use field/property by field/property comparison on all fields/properties except the given ones (fields/properties can be
+   * inherited fields) instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * incoming assertion checks.
+   * </p>
    * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
    * <p>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter.
+   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
+   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
    * </p>
    *
    * <pre>
@@ -995,7 +1002,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @return {@code this} assertion object.
    */
   public S usingElementComparatorIgnoringFields(String... fields) {
-	return usingComparisonStrategy(new IgnoringFieldsComparisonStrategy(fields));
+	return usingElementComparator(new IgnoringFieldsComparator(fields));
   }
 
   /**

@@ -53,6 +53,6 @@ public class ShouldNotContainAtIndex_create_Test {
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\n"
-        + "at index <1>\n" + "according to 'CaseInsensitiveStringComparator' comparator", message);
+        + "at index <1>\n" + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 }

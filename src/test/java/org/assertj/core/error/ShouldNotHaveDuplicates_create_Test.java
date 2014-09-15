@@ -54,6 +54,6 @@ public class ShouldNotHaveDuplicates_create_Test {
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nFound duplicate(s):\n <[\"Yoda\"]>\nin:\n <[\"Yoda\", \"Yoda\", \"Luke\"]>\n"
-        + "according to 'CaseInsensitiveStringComparator' comparator", message);
+        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 }

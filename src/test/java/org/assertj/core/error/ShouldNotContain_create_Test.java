@@ -14,10 +14,10 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.util.Lists.*;
-import static org.assertj.core.util.Sets.*;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -26,7 +26,9 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldNotContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -36,19 +38,32 @@ public class ShouldNotContain_create_Test {
 
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
-        newLinkedHashSet("Yoda"));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\nbut found\n <[\"Yoda\"]>\n",
-        message);
+	ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+	                                               newLinkedHashSet("Yoda"));
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertThat(message).isEqualTo("[Test] \n" +
+	                              "Expecting\n" +
+	                              " <[\"Yoda\"]>\n" +
+	                              "not to contain\n" +
+	                              " <[\"Luke\", \"Yoda\"]>\n" +
+	                              "but found\n" +
+	                              " <[\"Yoda\"]>\n");
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
-        newLinkedHashSet("Yoda"), new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting\n <[\"Yoda\"]>\nnot to contain\n <[\"Luke\", \"Yoda\"]>\n"
-        + "but found\n <[\"Yoda\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+	ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"),
+	                                               newArrayList("Luke", "Yoda"),
+	                                               newLinkedHashSet("Yoda"),
+	                                               new ComparatorBasedComparisonStrategy(
+	                                                                                     CaseInsensitiveStringComparator.instance));
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertThat(message).isEqualTo("[Test] \n" +
+	                              "Expecting\n" +
+	                              " <[\"Yoda\"]>\n" +
+	                              "not to contain\n" +
+	                              " <[\"Luke\", \"Yoda\"]>\n" +
+	                              "but found\n <[\"Yoda\"]>\n" +
+	                              "when comparing values using 'CaseInsensitiveStringComparator'");
   }
 }

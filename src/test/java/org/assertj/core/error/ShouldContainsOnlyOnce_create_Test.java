@@ -69,7 +69,7 @@ public class ShouldContainsOnlyOnce_create_Test {
         " <[\"Luke\"]>\n" +
         "and others were found more than once:\n" +
         " <[\"Han\"]>\n" +
-        "according to 'CaseInsensitiveStringComparator' comparator", message);
+        "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 
   @Test

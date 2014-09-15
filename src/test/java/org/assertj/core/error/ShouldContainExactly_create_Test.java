@@ -60,7 +60,7 @@ public class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain exactly (and in same order):\n"
         + " <[\"Luke\", \"Yoda\"]>\nbut some elements were not found:\n <[\"Luke\"]>\nand others were not expected:\n"
-        + " <[\"Han\"]>\naccording to 'CaseInsensitiveStringComparator' comparator", message);
+        + " <[\"Han\"]>\nwhen comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 
   @Test
@@ -79,7 +79,7 @@ public class ShouldContainExactly_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertEquals(
         "[Test] \nActual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
-            + " <\"Luke\">\nwhereas expected element was:\n <\"Han\">\naccording to 'CaseInsensitiveStringComparator' comparator",
+            + " <\"Luke\">\nwhereas expected element was:\n <\"Han\">\nwhen comparing values using 'CaseInsensitiveStringComparator'",
         message);
   }
 }

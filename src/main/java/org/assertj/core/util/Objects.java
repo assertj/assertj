@@ -46,7 +46,7 @@ public final class Objects {
     return areEqualArrays(o1, o2);
   }
 
-  private static boolean areEqualArrays(Object o1, Object o2) {
+  public static boolean areEqualArrays(Object o1, Object o2) {
     if (!isArray(o1) || !isArray(o2)) {
       return false;
     }
