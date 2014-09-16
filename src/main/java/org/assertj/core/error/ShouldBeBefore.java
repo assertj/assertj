@@ -49,17 +49,6 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
     return new ShouldBeBefore(actual, other, StandardComparisonStrategy.instance());
   }
 
-  /**
-   * Creates a new </code>{@link ShouldBeBefore}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @param year the year to compare the actual date's year to.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldBeBefore(Date actual, int year) {
-    Date januaryTheFirstOfGivenYear = parse(year + "-01-01");
-    return new ShouldBeBefore(actual, januaryTheFirstOfGivenYear, StandardComparisonStrategy.instance());
-  }
-
   private ShouldBeBefore(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n <%s>\nto be strictly before:\n <%s>%s", actual, other, comparisonStrategy);
   }

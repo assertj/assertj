@@ -2,8 +2,10 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
+import static org.assertj.core.error.ShouldBeAfterYear.shouldBeAfterYear;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
+import static org.assertj.core.error.ShouldBeBeforeYear.shouldBeBeforeYear;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
@@ -39,6 +41,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldBeBeforeYear;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -291,7 +294,7 @@ public class Dates {
   public void assertIsBeforeYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) < year) return;
-    throw failures.failure(info, shouldBeBefore(actual, year));
+    throw failures.failure(info, shouldBeBeforeYear(actual, year));
   }
 
   /**
@@ -305,7 +308,7 @@ public class Dates {
   public void assertIsAfterYear(AssertionInfo info, Date actual, int year) {
     assertNotNull(info, actual);
     if (yearOf(actual) > year) return;
-    throw failures.failure(info, shouldBeAfter(actual, year));
+    throw failures.failure(info, shouldBeAfterYear(actual, year));
   }
 
   /**

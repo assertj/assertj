@@ -14,12 +14,10 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
+import static org.assertj.core.error.ShouldBeBeforeYear.shouldBeBeforeYear;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -44,7 +42,7 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
     try {
       dates.assertIsBeforeYear(info, actual, year);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBefore(actual, year));
+      verify(failures).failure(info, shouldBeBeforeYear(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -58,7 +56,7 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
     try {
       dates.assertIsBeforeYear(info, actual, year);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBefore(actual, year));
+      verify(failures).failure(info, shouldBeBeforeYear(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -82,7 +80,7 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
     try {
       datesWithCustomComparisonStrategy.assertIsBeforeYear(info, actual, year);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBefore(actual, year));
+      verify(failures).failure(info, shouldBeBeforeYear(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -96,7 +94,7 @@ public class Dates_assertIsBeforeYear_Test extends DatesBaseTest {
     try {
       datesWithCustomComparisonStrategy.assertIsBeforeYear(info, actual, year);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeBefore(actual, year));
+      verify(failures).failure(info, shouldBeBeforeYear(actual, year));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
