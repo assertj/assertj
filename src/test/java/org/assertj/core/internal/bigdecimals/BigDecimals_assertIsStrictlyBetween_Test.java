@@ -73,6 +73,18 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
   }
 
   @Test
+  public void should_fail_if_actual_is_equal_to_range_start_by_comparison() {
+	AssertionInfo info = someInfo();
+	try {
+	  bigDecimals.assertIsStrictlyBetween(info, ONE, new BigDecimal("1.00"), TEN);
+	} catch (AssertionError e) {
+	  verify(failures).failure(info, shouldBeBetween(ONE, new BigDecimal("1.00"), TEN, false, false));
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
+  @Test
   public void should_fail_if_actual_is_equal_to_range_end() {
     AssertionInfo info = someInfo();
     try {
@@ -84,6 +96,18 @@ public class BigDecimals_assertIsStrictlyBetween_Test extends BigDecimalsBaseTes
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_fail_if_actual_is_equal_to_range_end_by_comparison() {
+	AssertionInfo info = someInfo();
+	try {
+	  bigDecimals.assertIsStrictlyBetween(info, ONE, ZERO, new BigDecimal("1.00"));
+	} catch (AssertionError e) {
+	  verify(failures).failure(info, shouldBeBetween(ONE, ZERO, new BigDecimal("1.00"), false, false));
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+  
   @Test
   public void should_fail_if_actual_is_not_in_range_start() {
     AssertionInfo info = someInfo();

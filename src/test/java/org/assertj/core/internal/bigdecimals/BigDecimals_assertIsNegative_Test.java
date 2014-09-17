@@ -44,6 +44,12 @@ public class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
   }
 
   @Test
+  public void should_fail_since_actual_is_zero() {
+	thrown.expectAssertionError("\nExpecting:\n <0>\nto be less than:\n <0>");
+	bigDecimals.assertIsNegative(someInfo(), BigDecimal.ZERO);
+  }
+  
+  @Test
   public void should_succeed_since_actual_is_negative_according_to_custom_comparison_strategy() {
     bigDecimalsWithComparatorComparisonStrategy.assertIsNegative(someInfo(), new BigDecimal("-1.0"));
   }

@@ -173,21 +173,21 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   }
 
   /**
-   * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
-   *
+   * Verifies that the actual value is in [start, end] range (start and end included).
    * <p>
    * Example:
    * 
    * <pre>
    * // assertions will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;8.0&quot;), new BigDecimal(&quot;9.0&quot;));
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;7.0&quot;), new BigDecimal(&quot;8.0&quot;));
    * 
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));
    * </pre>
-   * 
+   * Note that comparison of {@link BigDecimal} id one by value without scale consideration, i.e 2.0 and 2.00 are considered equal in value (not like {@link BigDecimal#equals(Object)}.
    * </p>
    */
   @Override

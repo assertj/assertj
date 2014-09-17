@@ -160,4 +160,13 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     return Comparable.class.cast(actual).compareTo(other) > 0;
   }
 
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean isLessThan(Object actual, Object other) {
+	if (!(actual instanceof Comparable)) {
+	  throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
+	}
+	return Comparable.class.cast(actual).compareTo(other) < 0;
+  }
+  
 }

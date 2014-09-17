@@ -15,13 +15,10 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static java.math.BigDecimal.*;
-
 import static org.assertj.core.error.ShouldBeLessOrEqual.shouldBeLessOrEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
@@ -55,6 +52,11 @@ public class BigDecimals_assertLessThanOrEqualTo_Test extends BigDecimalsBaseTes
     bigDecimals.assertLessThanOrEqualTo(someInfo(), ONE, ONE);
   }
 
+  @Test
+  public void should_pass_if_actual_is_equal_to_other_by_comparison() {
+	bigDecimals.assertLessThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
+  }  
+ 
   @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();

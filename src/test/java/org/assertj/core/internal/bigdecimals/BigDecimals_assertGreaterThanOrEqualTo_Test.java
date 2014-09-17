@@ -56,6 +56,11 @@ public class BigDecimals_assertGreaterThanOrEqualTo_Test extends BigDecimalsBase
   }
 
   @Test
+  public void should_pass_if_actual_is_equal_to_other_by_comparison() {
+	bigDecimals.assertGreaterThanOrEqualTo(someInfo(), ONE, new BigDecimal("1.00"));
+  }
+  
+  @Test
   public void should_fail_if_actual_is_less_than_other() {
     AssertionInfo info = someInfo();
     try {
