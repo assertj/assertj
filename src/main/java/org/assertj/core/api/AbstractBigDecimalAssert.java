@@ -187,7 +187,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));
    * </pre>
-   * Note that comparison of {@link BigDecimal} id one by value without scale consideration, i.e 2.0 and 2.00 are considered equal in value (not like {@link BigDecimal#equals(Object)}.
+   * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are considered equal in value (not like {@link BigDecimal#equals(Object)}.
    * </p>
    */
   @Override
