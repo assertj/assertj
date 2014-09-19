@@ -71,7 +71,8 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertions will fail
    * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;);
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;Lannister&quot;);
-   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Aria&quot;);
+   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;,
+   *                                                                                              &quot;Aria&quot;);
    * </pre>
    * 
    * @param values the given values.
@@ -114,6 +115,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   /**
    * Verifies that the actual group contains the given sequence, without any other values between them.
    * <p>
+   * 
    * <pre>
    * Example:
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
@@ -125,6 +127,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(elvesRings).containsSequence(vilya, narya);
    * assertThat(elvesRings).containsSequence(nenya, vilya);
    * </pre>
+   * 
    * </p>
    * 
    * @param sequence the sequence of objects to look for.
@@ -344,4 +347,50 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain all the elements of given {@code Iterable}.
    */
   S containsAll(Iterable<? extends T> iterable);
+
+  /**
+   * Verifies that at least one element in the actual {@code Object} group belong to the specified type (matching
+   * includes subclasses of the given type).
+   * <p/>
+   * Example:
+   * 
+   * <pre>
+   * Number[] numbers = { 2, 6L, 8.0 };
+   * 
+   * // successful assertion:
+   * assertThat(numbers).hasAtLeastOneElementOfType(Long.class);
+   * 
+   * // assertion failure:
+   * assertThat(numbers).hasAtLeastOneElementOfType(Float.class);
+   * </pre>
+   *
+   * @param expectedType the expected type.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the actual {@code Object} group does not have any elements of the given type.
+   */
+  S hasAtLeastOneElementOfType(Class<?> expectedType);
+
+  /**
+   * Verifies that all the elements in the actual {@code Object} group belong to the specified type (matching includes
+   * subclasses of the given type).
+   * <p/>
+   * Example:
+   * 
+   * <pre>
+   * Number[] numbers = { 2, 6, 8 };
+   * 
+   * // successful assertion:
+   * assertThat(numbers).hasOnlyElementsOfType(Integer.class);
+   * 
+   * // assertion failure:
+   * assertThat(numbers).hasOnlyElementsOfType(Long.class);
+   * </pre>
+   *
+   * @param expectedType the expected type.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if one element is not of the expected type.
+   */
+  public S hasOnlyElementsOfType(Class<?> expectedType);
 }

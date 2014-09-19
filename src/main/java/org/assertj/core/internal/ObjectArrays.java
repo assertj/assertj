@@ -14,6 +14,9 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.error.ShouldHaveAtLeastOneElementOfType.shouldHaveAtLeastOneElementOfType;
+import static org.assertj.core.error.ShouldHaveOnlyElementsOfType.shouldHaveOnlyElementsOfType;
+
 import java.util.Comparator;
 
 import org.assertj.core.api.ArraySortedAssert;
@@ -455,6 +458,24 @@ public class ObjectArrays {
     arrays.assertHaveExactly(info, failures, conditions, actual, times, condition);
   }
 
+  public <E> void assertHasAtLeastOneElementOfType(AssertionInfo info, E[] actual, Class<?> type) {
+	Objects.instance().assertNotNull(info, actual);
+	boolean found = false;
+	for (Object o : actual) {
+	  if (!type.isInstance(o)) continue;
+	  found = true;
+	  break;
+	}
+	if (!found) throw failures.failure(info, shouldHaveAtLeastOneElementOfType(actual, type)); 
+  }
+  
+  public <E> void assertHasOnlyElementsOfType(AssertionInfo info, E[] actual, Class<?> type) {
+	Objects.instance().assertNotNull(info, actual);
+	for (Object o : actual) {
+	  if (!type.isInstance(o)) throw failures.failure(info, shouldHaveOnlyElementsOfType(actual, type, o.getClass()));
+	}
+  }
+  
   /**
    * Concrete implementation of {@link ArraySortedAssert#isSorted()}.
    * 
