@@ -41,7 +41,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldBeBeforeYear;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 

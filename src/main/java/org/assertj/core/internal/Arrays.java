@@ -703,9 +703,6 @@ public class Arrays {
       throw arrayOfValuesToLookForIsEmpty();
   }
 
-  /**
-   * @param values
-   */
   private static void checkIsNotNull(Object values) {
     if (values == null)
       throw arrayOfValuesToLookForIsNull();

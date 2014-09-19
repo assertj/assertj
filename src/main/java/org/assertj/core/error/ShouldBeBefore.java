@@ -14,8 +14,6 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Dates.parse;
-
 import java.util.Date;
 
 import org.assertj.core.internal.*;
