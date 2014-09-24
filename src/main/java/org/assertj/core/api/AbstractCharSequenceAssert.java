@@ -20,9 +20,12 @@ import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import org.assertj.core.api.xml.XmlNodeSetAssert;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.assertj.core.internal.Xmls;
 import org.assertj.core.util.VisibleForTesting;
+import org.w3c.dom.NodeList;
 
 import static org.assertj.core.api.Assertions.contentOf;
 
@@ -708,6 +711,24 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   public S inUnicode() {
     info.useUnicodeRepresentation();
     return myself;
+  }
+
+  /**
+   * Converts a current assertion to {@link XmlNodeSetAssert}, enabling rich set of xml specific assertions. 
+   * 
+   * <p>
+   * Example:
+   * <pre>
+   *    assertThat(&quot;&lt;element/&gt;&quot;).asXml().isElement();
+   *    assertThat(&quot;&lt;!-- comment --&gt;&quot;).asXml().isComment();
+   * </pre>
+   * 
+   * @throws AssertionError if <code>actual</code> value cannot be converted to xml.
+   * @return converted xml assertion
+   */
+  public XmlNodeSetAssert asXml() {
+    NodeList convertedActual = Xmls.instance().assertIsXml(info, actual);
+    return new XmlNodeSetAssert(convertedActual);
   }
 
 }

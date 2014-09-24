@@ -17,6 +17,8 @@ package org.assertj.core.presentation;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Collections;
 import org.assertj.core.util.Dates;
+import org.assertj.core.util.xml.XmlUtil;
+import org.w3c.dom.Node;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -64,6 +66,8 @@ public class StandardRepresentation implements Representation {
       return toStringOf((SimpleDateFormat) object);
     } else if (object instanceof Tuple) {
       return toStringOf((Tuple) object, this);
+    } else if (object instanceof Node) {
+      return toStringOf((Node) object);
     }
     return defaultToString(object, this);
   }
@@ -119,6 +123,10 @@ public class StandardRepresentation implements Representation {
     return dateFormat.toPattern();
   }
 
+  private static String toStringOf(Node object) {
+    return XmlUtil.toStringOf(object);
+  }
+  
   private static String toStringOf(Tuple tuple, Representation representation) {
     return Collections.format(representation, Arrays.asList(tuple.toArray()), "(", ")");
   }

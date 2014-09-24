@@ -1,18 +1,13 @@
 package org.assertj.core.util.xml;
 
-import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
-import org.xml.sax.InputSource;
 
 /**
  * Format an XML String with indent = 2 space.
@@ -24,15 +19,16 @@ import org.xml.sax.InputSource;
 public class XmlStringPrettyFormatter {
 
   private static final String FORMAT_ERROR = "Unable to format XML string";
+  static final String PARSE_ERROR = "Unable to parse XML";
 
   public static String xmlPrettyFormat(String xmlStringToFormat) {
     if (xmlStringToFormat == null)
       throw new IllegalArgumentException("Expecting XML String not to be null");
     // convert String to an XML Document and then back to String but prettily formatted.
-    return prettyFormat(toXmlDocument(xmlStringToFormat), xmlStringToFormat.startsWith("<?xml"));
+    return prettyFormat(XmlUtil.toXml(xmlStringToFormat), xmlStringToFormat.startsWith("<?xml"));
   }
 
-  private static String prettyFormat(Document document, boolean keepXmlDeclaration) {
+  private static String prettyFormat(Node node, boolean keepXmlDeclaration) {
 
     try {
       DOMImplementationRegistry registry = DOMImplementationRegistry.newInstance();
@@ -44,21 +40,15 @@ public class XmlStringPrettyFormatter {
       domSerializer.getDomConfig().setParameter("format-pretty-print", true);
       // Set this to true if the declaration is needed to be in the output.
       domSerializer.getDomConfig().setParameter("xml-declaration", keepXmlDeclaration);
-      domSerializer.write(document, formattedOutput);
+      domSerializer.write(node, formattedOutput);
       return stringWriter.toString();
     } catch (Exception e) {
       throw new RuntimeException(FORMAT_ERROR, e);
     }
   }
-
-  private static Document toXmlDocument(String xmlString) {
-    try {
-      InputSource xmlInputSource = new InputSource(new StringReader(xmlString));
-      DocumentBuilder xmlDocumentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-      return xmlDocumentBuilder.parse(xmlInputSource);
-    } catch (Exception e) {
-      throw new RuntimeException(FORMAT_ERROR, e);
-    }
+  
+  public static String prettyFormat(Node node){
+      return prettyFormat(node, false);
   }
 
   private XmlStringPrettyFormatter() {

@@ -15,12 +15,10 @@
 package org.assertj.core.util;
 
 import static junit.framework.Assert.assertFalse;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -36,6 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.xml.XmlUtil;
 import org.junit.Test;
 
 /**
@@ -172,6 +171,12 @@ public class StandardRepresentation_toStringOf_Test {
     assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, 3)");
   }
 
+  @Test
+  public void should_format_xml_elements() throws Exception {
+
+    assertThat(toStringOf(XmlUtil.parseNode("<element>content</element>"))).isEqualTo("\n<element>content</element>\n");
+  }
+  
   private String toStringOf(Object o) {
     return new StandardRepresentation().toStringOf(o);
   }
