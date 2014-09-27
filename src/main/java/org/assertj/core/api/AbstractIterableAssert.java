@@ -909,14 +909,15 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
-   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks.
-   * </p>
-   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
-   * <p>
-   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
-   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
-   * </p>
+   * Use field by field comparison (including inherited fields) instead of relying on actual type A <code>equals</code>
+   * method to compare group elements for incoming assertion checks.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.<br/>
+   * Moreover comparison is <b>not</b> recursive, if one the field is an Object, it will be compared to the other field
+   * using its <code>equals</code> method.
    *
    * <pre>
    * Example:
@@ -939,15 +940,15 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use field/property by field/property comparison on the given fields/properties only (fields/properties can be
-   * inherited fields) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks.
-   * </p>
-   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
-   * <p>
-   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
-   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
-   * </p>
+   * Use field by field comparison on the <b>given fields only</b> (fields can be inherited fields) instead of relying on
+   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.<br/>
+   * Moreover comparison is <b>not</b> recursive, if one the field is an Object, it will be compared to the other field
+   * using its <code>equals</code> method.
    *
    * <pre>
    * Example:
@@ -975,15 +976,15 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Use field/property by field/property comparison on all fields/properties except the given ones (fields/properties can be
-   * inherited fields) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks.
-   * </p>
-   * This can be handy if <code>equals</code> implementation of objects to compare does not suit you. </p>
-   * <p>
-   * Note that only <b>public</b> fields/properties values are compared and the comparison is <b>not</b> recursive, if
-   * one the field is an Object, it will be compared to the other field using its <code>equals</code> method.
-   * </p>
+   * Use field by field comparison on all fields <b>except</b> the given ones (fields can be inherited fields) instead of
+   * relying on actual type A <code>equals</code> method to compare group elements for incoming assertion checks.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
+   * (e.g. public) or fields with an accessible getter.<br/>
+   * Moreover comparison is <b>not</b> recursive, if one the field is an Object, it will be compared to the other field
+   * using its <code>equals</code> method.
    *
    * <pre>
    * Example:
