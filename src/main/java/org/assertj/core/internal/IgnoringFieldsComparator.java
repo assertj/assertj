@@ -24,6 +24,6 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   
   @Override
   public String toString() {
-	return "field by field comparator on all fields but " + REPRESENTATION.toStringOf(fields);
+	return "field by field comparator on all fields except " + REPRESENTATION.toStringOf(fields);
   }
 }

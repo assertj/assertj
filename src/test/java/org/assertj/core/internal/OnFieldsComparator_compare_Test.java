@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class OnFieldsComparisonStrategy_areEqual_Test {
+public class OnFieldsComparator_compare_Test {
 
   @Rule
   public ExpectedException thrown = none();

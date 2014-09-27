@@ -8,49 +8,49 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class IgnoringFieldsComparisonStrategy_areEqual_Test {
+public class IgnoringFieldsComparator_compareTo_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
-  private IgnoringFieldsComparisonStrategy ignoringFieldsComparisonStrategy;
+  private IgnoringFieldsComparator ignoringFieldsComparator;
 
   @Before
   public void setUp() {
-	ignoringFieldsComparisonStrategy = new IgnoringFieldsComparisonStrategy("thinking");
+	ignoringFieldsComparator = new IgnoringFieldsComparator("thinking");
   }
 
   @Test
   public void should_return_true_if_both_Objects_are_null() {
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(null, null)).isTrue();
+	assertThat(ignoringFieldsComparator.compare(null, null)).isZero();
   }
 
   @Test
   public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(null, new DarthVader("I like you", "I'll kill you"))).isFalse();
+	assertThat(ignoringFieldsComparator.compare(null, new DarthVader("I like you", "I'll kill you"))).isNotZero();
   }
 
   @Test
   public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), null)).isFalse();
+	assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), null)).isNotZero();
   }
 
   @Test
   public void should_return_true_if_all_but_ignored_fields_are_equal() {
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"),
-	                                                     new DarthVader("I like you", "I like you"))).isTrue();
+	assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"),
+	                                            new DarthVader("I like you", "I like you"))).isZero();
   }
 
   @Test
   public void should_return_false_if_all_but_ignored_fields_are_not_equal() {
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"),
-	                                                      new DarthVader("I'll kill you", "I'll kill you"))).isFalse();
+	assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"),
+	                                            new DarthVader("I'll kill you", "I'll kill you"))).isNotZero();
   }
 
   @Test
   public void should_throw_exception_if_Objects_have_not_the_same_properties() {
 	thrown.expect(IllegalArgumentException.class);
-	assertThat(ignoringFieldsComparisonStrategy.areEqual(new DarthVader("I like you", "I'll kill you"), 2)).isFalse();
+	assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), 2)).isNotZero();
   }
 
   public static class DarthVader {
