@@ -22,6 +22,7 @@ import static java.lang.String.format;
 public class Player {
 
   private Name name;
+  public Name nickname;
   private int pointsPerGame;
   private int assistsPerGame;
   private int reboundsPerGame;

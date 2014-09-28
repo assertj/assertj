@@ -114,7 +114,9 @@ public class FieldSupport_fieldValues_Test {
   @Test
   public void should_extract_field() {
     Long id = FieldSupport.instance().fieldValue("id", Long.class, yoda);
-    assertEquals(Long.valueOf(1L), id);
+    assertThat(id).isEqualTo(1L);
+    Object idObject = FieldSupport.instance().fieldValue("id", Object.class, yoda);
+    assertThat(idObject).isInstanceOf(Long.class).isEqualTo(1L);
   }
 
   @Test
