@@ -253,6 +253,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S areAtLeastOne(Condition<? super T> condition) {
+	areAtLeast(1, condition);
+	return myself;
+  }
+  
+  /** {@inheritDoc} */
+  @Override
   public S areAtMost(int times, Condition<? super T> condition) {
 	arrays.assertAreAtMost(info, actual, times, condition);
 	return myself;

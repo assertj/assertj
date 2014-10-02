@@ -288,6 +288,22 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S areAtLeast(int n, Condition<? super T> condition);
 
   /**
+   * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
+   * <p/>
+   * This method is an alias for {@code areAtLeast(1, condition)}.
+   * <p/>
+   * Example:
+   * <pre>
+   * // jedi is a Condition&lt;String&gt;
+   * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);
+   * </pre>
+   *
+   * @see #haveAtLeast(int, Condition)
+   */
+  S areAtLeastOne(Condition<? super T> condition);
+
+  
+  /**
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * 
    * @param n the number of times the condition should be at most verified.
@@ -313,8 +329,16 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
 
   /**
    * Verifies that there is <b>at least <i>one</i></b> element in the actual group satisfying the given condition.
-   * <p>
+   * <p/>
    * This method is an alias for {@code haveAtLeast(1, condition)}.
+   * <p/>
+   * Example:
+   * <pre>
+   * List&lt;BasketBallPlayer&gt; bullsPlayers = newArrayList(noah, rose);
+   * 
+   * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
+   * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);
+   * </pre>
    *
    * @see #haveAtLeast(int, Condition)
    */

@@ -305,11 +305,20 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
+  public S areAtLeastOne(Condition<? super T> condition) {
+	areAtLeast(1, condition);
+	return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public S areAtLeast(int times, Condition<? super T> condition) {
 	iterables.assertAreAtLeast(info, actual, times, condition);
 	return myself;
   }
-
+  
   /**
    * {@inheritDoc}
    */
@@ -862,14 +871,16 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Example :
    * 
    * <pre>
-   * Iterable&lt;Ring&gt; rings = newArrayList(vilya, nenya);
+   * Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
    * // assertion will pass
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
    * 
-   * // assertion will fail as actual does not contqin narya.
+   * // assertion will fail as actual does not contain narya.
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
+   * // assertion will fail as actual contain nenya.
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));
    * </pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
