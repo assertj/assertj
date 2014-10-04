@@ -40,12 +40,13 @@ public class FieldSupport_fieldValues_Test {
   private Employee yoda;
   private Employee luke;
   private List<Employee> employees;
+  private FieldSupport fieldSupport = FieldSupport.instance();
 
   @Before
   public void setUpOnce() {
-    yoda = new Employee(1L, new Name("Yoda"), 800);
-    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-    employees = newArrayList(yoda, luke);
+	yoda = new Employee(1L, new Name("Yoda"), 800);
+	luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+	employees = newArrayList(yoda, luke);
   }
 
   @Rule
@@ -53,91 +54,93 @@ public class FieldSupport_fieldValues_Test {
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
-    Iterable<Long> ids = FieldSupport.instance().fieldValues("ids", Long.class, (Iterable<Long>) null);
-    assertEquals(emptyList(), ids);
+	Iterable<Long> ids = fieldSupport.fieldValues("ids", Long.class, (Iterable<Long>) null);
+	assertEquals(emptyList(), ids);
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
-    Iterable<Long> ids = FieldSupport.instance().fieldValues("ids", Long.class, emptySet());
-    assertEquals(emptyList(), ids);
+	Iterable<Long> ids = fieldSupport.fieldValues("ids", Long.class, emptySet());
+	assertEquals(emptyList(), ids);
   }
 
   @Test
   public void should_return_null_elements_for_null_field_value() {
-    List<Employee> list = newArrayList(null, null);
-    Iterable<Long> ages = FieldSupport.instance().fieldValues("id", Long.class, list);
-    assertThat(ages).containsExactly(null, null);
+	List<Employee> list = newArrayList(null, null);
+	Iterable<Long> ages = fieldSupport.fieldValues("id", Long.class, list);
+	assertThat(ages).containsExactly(null, null);
 
-    list = newArrayList(yoda, luke, null, null);
-    ages = FieldSupport.instance().fieldValues("id", Long.class, list);
-    assertThat(ages).containsExactly(1L, 2L, null, null);
+	luke.setName(null);
+	list = newArrayList(yoda, luke, null, null);
+	Iterable<Name> names = fieldSupport.fieldValues("name", Name.class, list);
+	assertThat(names).containsExactly(new Name("Yoda"), null, null, null);
+	Iterable<String> firstNames = fieldSupport.fieldValues("name.first", String.class, list);
+	assertThat(firstNames).containsExactly("Yoda", null, null, null);
   }
 
   @Test
   public void should_return_values_of_simple_field() {
-    Iterable<Long> ids = FieldSupport.instance().fieldValues("id", Long.class, employees);
-    assertEquals(newArrayList(1L, 2L), ids);
+	Iterable<Long> ids = fieldSupport.fieldValues("id", Long.class, employees);
+	assertEquals(newArrayList(1L, 2L), ids);
   }
 
   @Test
   public void should_return_values_of_nested_field() {
-    Iterable<String> firstNames = FieldSupport.instance().fieldValues("name.first", String.class, employees);
-    assertEquals(newArrayList("Yoda", "Luke"), firstNames);
+	Iterable<String> firstNames = fieldSupport.fieldValues("name.first", String.class, employees);
+	assertEquals(newArrayList("Yoda", "Luke"), firstNames);
   }
 
   @Test
   public void should_throw_error_if_field_not_found() {
-    thrown.expect(IntrospectionError.class,
-                  "Unable to obtain the value of the field <'id.'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>");
-    FieldSupport.instance().fieldValues("id.", Long.class, employees);
+	thrown.expect(IntrospectionError.class,
+	              "Unable to obtain the value of the field <'id.'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>");
+	fieldSupport.fieldValues("id.", Long.class, employees);
   }
 
   @Test
   public void should_return_values_of_private_field() {
-    List<Integer> ages = FieldSupport.instance().fieldValues("age", Integer.class, employees);
-    assertEquals(newArrayList(800, 26), ages);
+	List<Integer> ages = fieldSupport.fieldValues("age", Integer.class, employees);
+	assertEquals(newArrayList(800, 26), ages);
   }
 
   @Test
   public void should_throw_error_if_field_not_public_and_allowExtractingPrivateFields_set_to_false() {
-    FieldSupport.setAllowExtractingPrivateFields(false);
-    try {
-      thrown.expect(IntrospectionError.class,
-                    "Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
-      FieldSupport.instance().fieldValues("age", Integer.class, employees);
-    } finally { // back to default value
-      FieldSupport.setAllowExtractingPrivateFields(true);
-    }
+	FieldSupport.setAllowExtractingPrivateFields(false);
+	try {
+	  thrown.expect(IntrospectionError.class,
+		            "Unable to obtain the value of the field <'age'> from <Employee[id=1, name=Name[first='Yoda', last='null'], age=800]>, check that field is public.");
+	  fieldSupport.fieldValues("age", Integer.class, employees);
+	} finally { // back to default value
+	  FieldSupport.setAllowExtractingPrivateFields(true);
+	}
   }
 
   @Test
   public void should_extract_field() {
-    Long id = FieldSupport.instance().fieldValue("id", Long.class, yoda);
-    assertThat(id).isEqualTo(1L);
-    Object idObject = FieldSupport.instance().fieldValue("id", Object.class, yoda);
-    assertThat(idObject).isInstanceOf(Long.class).isEqualTo(1L);
+	Long id = fieldSupport.fieldValue("id", Long.class, yoda);
+	assertThat(id).isEqualTo(1L);
+	Object idObject = fieldSupport.fieldValue("id", Object.class, yoda);
+	assertThat(idObject).isInstanceOf(Long.class).isEqualTo(1L);
   }
 
   @Test
   public void should_extract_nested_field() {
-    String firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
-    assertThat(firstName).isEqualTo("Yoda");
-    
-    yoda.name.first = null;
-    firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
-    assertThat(firstName).isNull();
-    
-    yoda.name = null;
-    firstName = FieldSupport.instance().fieldValue("name.first", String.class, yoda);
-    assertThat(firstName).isNull();
+	String firstName = fieldSupport.fieldValue("name.first", String.class, yoda);
+	assertThat(firstName).isEqualTo("Yoda");
+
+	yoda.name.first = null;
+	firstName = fieldSupport.fieldValue("name.first", String.class, yoda);
+	assertThat(firstName).isNull();
+
+	yoda.name = null;
+	firstName = fieldSupport.fieldValue("name.first", String.class, yoda);
+	assertThat(firstName).isNull();
   }
-  
+
   @Test
   public void should_handle_array_as_iterable() {
-    List<Long> fieldValuesFromIterable = FieldSupport.instance().fieldValues("id", Long.class, employees);
-    List<Long> fieldValuesFromArray = FieldSupport.instance().fieldValues("id", Long.class,
-                                                                          employees.toArray(new Employee[0]));
-    assertThat(fieldValuesFromArray).isEqualTo(fieldValuesFromIterable);
+	List<Long> fieldValuesFromIterable = fieldSupport.fieldValues("id", Long.class, employees);
+	List<Long> fieldValuesFromArray = fieldSupport.fieldValues("id", Long.class, employees.toArray(new Employee[0]));
+	assertThat(fieldValuesFromArray).isEqualTo(fieldValuesFromIterable);
   }
 }
