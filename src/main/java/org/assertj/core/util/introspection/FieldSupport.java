@@ -23,8 +23,6 @@ import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Utility methods for fields access.
  * 

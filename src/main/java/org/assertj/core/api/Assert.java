@@ -245,6 +245,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S isNotOfAnyClassIn(Class<?>... types);
 
   /**
+   * @deprecated
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
    * <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    * @throws UnsupportedOperationException if this method is called.
