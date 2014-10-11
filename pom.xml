@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.assertj</groupId>
   <artifactId>assertj-parent-pom</artifactId>
-  <version>1.2.9-SNAPSHOT</version>
+  <version>1.2.9</version>
   <packaging>pom</packaging>
   <name>AssertJ : Fluent assertions for java unit testing</name>
   <description>Parent POM for all AssertJ modules</description>
@@ -28,7 +28,7 @@
     <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</developerConnection>
     <connection>git://github.com/joel-costigliola/assertj-maven-parent-pom.git</connection>
     <url>https://github.com/joel-costigliola/assertj-maven-parent-pom</url>
-    <tag>HEAD</tag>
+    <tag>assertj-parent-pom-1.2.9</tag>
   </scm>
   <issueManagement>
     <system>github</system>
@@ -237,7 +237,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore></ignore>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
