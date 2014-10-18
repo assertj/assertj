@@ -58,17 +58,17 @@ for file in ${MATCHED_FILES}; do
    mv "$TMP_FILE" "$file"
 done
 
-echo ' 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isEqualTo(expectedDouble, offset(delta))'
+echo ' 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))'
 for file in ${MATCHED_FILES}; do
    TMP_FILE=`mktemp /tmp/convert.XXXXXXXXXX`
-   sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isEqualTo(\2, offset(\4))/g' "$file" > $TMP_FILE 
+   sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isCloseTo(\2, within(\4))/g' "$file" > $TMP_FILE
    mv "$TMP_FILE" "$file"
 done
 # must be done before assertEquals("description", expected, actual) -> assertThat(actual).as("description").isEqualTo(expected) 
 # will only replace triplet without double quote to avoid matching : assertEquals("description", expected, actual)
 for file in ${MATCHED_FILES}; do
    TMP_FILE=`mktemp /tmp/convert.XXXXXXXXXX`
-   sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isEqualTo(\1, offset(\3))/g' "$file" > $TMP_FILE 
+   sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isCloseTo(\1, within(\3))/g' "$file" > $TMP_FILE
    mv "$TMP_FILE" "$file"
 done
 
@@ -171,7 +171,7 @@ done
 echo ''
 echo '12 - Replacing JUnit static import by AssertJ ones, at this point you will probably need to :'
 echo '12 --- optimize imports with your IDE to remove unused imports'
-echo '12 --- add "import static org.assertj.core.api.Assertions.offset;" if you were using JUnit number assertions with delta'
+echo '12 --- add "import static org.assertj.core.api.Assertions.within;" if you were using JUnit number assertions with delta'
 for file in ${MATCHED_FILES}; do
    TMP_FILE=`mktemp /tmp/convert.XXXXXXXXXX`
    sed ${SED_OPTIONS} 's/import static org.junit.Assert.assertEquals;/import static org.assertj.core.api.Assertions.assertThat;/g' "$file" > $TMP_FILE 
