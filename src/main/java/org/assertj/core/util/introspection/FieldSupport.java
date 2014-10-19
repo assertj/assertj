@@ -15,63 +15,93 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
+import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Utility methods for fields access.
- * 
+ *
  * @author Joel Costigliola
  */
-public class FieldSupport {
+public enum FieldSupport {
+
+  EXTRACTION(true),
+  COMPARISON(true);
 
   private static final String SEPARATOR = ".";
 
-  private static final FieldSupport INSTANCE = new FieldSupport(true);
-
-  private boolean allowExtractingPrivateFields;
+  private boolean allowUsingPrivateFields;
 
   /**
-   * Returns the singleton instance of this class.
-   * 
-   * @return the singleton instance of this class.
+   * Returns the instance dedicated to extraction of fields.
+   *
+   * @return the instance dedicated to extraction of fields.
    */
-  public static FieldSupport instance() {
-	return INSTANCE;
+  public static FieldSupport extraction() {
+	return EXTRACTION;
   }
 
+  /**
+   * Returns the instance dedicated to comparison of fields.
+   *
+   * @return the instance dedicated to comparison of fields.
+   */
+  public static FieldSupport comparison() {
+	return COMPARISON;
+  }
+  
   /**
    * Build a new {@link FieldSupport}
-   * 
-   * @param allowExtractingPrivateFields wether to read private fields or not.
+   *
+   * @param allowUsingPrivateFields whether to read private fields or not.
    */
-  public FieldSupport(boolean allowExtractingPrivateFields) {
-	this.allowExtractingPrivateFields = allowExtractingPrivateFields;
+  FieldSupport(boolean allowUsingPrivateFields) {
+	this.allowUsingPrivateFields = allowUsingPrivateFields;
+  }
+  
+  public boolean isAllowedToUsePrivateFields() {
+	return allowUsingPrivateFields;
   }
 
   /**
-   * Globally set whether
+   * Globally sets whether
    * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
    * and
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
    * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
+   *
+   * @deprecated Use {@link #setAllowUsingPrivateFields(boolean)} instead
    */
+  @Deprecated
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
-	FieldSupport.INSTANCE.allowExtractingPrivateFields = allowExtractingPrivateFields;
+	EXTRACTION.setAllowUsingPrivateFields(allowExtractingPrivateFields);
+  }
+
+
+  /**
+   * Sets whether the use of private fields is allowed.
+   * If a method tries to extract/compare private fields and is not allowed to, it will fail with an exception.
+   *
+   * @param allowUsingPrivateFields allow private fields extraction and comparison. Default {@code true}.
+   */
+  public void setAllowUsingPrivateFields(boolean allowUsingPrivateFields) {
+	this.allowUsingPrivateFields = allowUsingPrivateFields;
   }
 
   /**
    * Returns a <code>{@link List}</code> containing the values of the given field name, from the elements of the given
    * <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will return an
    * empty {@code List}. This method supports nested fields (e.g. "address.street.number").
-   * 
+   *
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.
    * @param fieldClass the expected type of the given field.
@@ -100,7 +130,7 @@ public class FieldSupport {
    * Returns a <code>{@link List}</code> containing the values of the given field name, from the elements of the given
    * <code>{@link Iterable}</code>. If the given {@code Iterable} is empty or {@code null}, this method will return an
    * empty {@code List}. This method supports nested fields (e.g. "address.street.number").
-   * 
+   *
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.
    * @param fieldClass the expected type of the given field.
@@ -182,7 +212,7 @@ public class FieldSupport {
 
   private <T> T readSimpleField(String fieldName, Class<T> clazz, Object target) {
 	try {
-	  Object readField = FieldUtils.readField(target, fieldName, allowExtractingPrivateFields);
+	  Object readField = FieldUtils.readField(target, fieldName, allowUsingPrivateFields);
 	  return clazz.cast(readField);
 	} catch (ClassCastException e) {
 	  String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
@@ -196,6 +226,12 @@ public class FieldSupport {
 	  String msg = format("Unable to obtain the value of the field <'%s'> from <%s>", fieldName, target);
 	  throw new IntrospectionError(msg, unexpected);
 	}
+  }
+
+  public boolean isAllowedToRead(Field field) {
+	if (allowUsingPrivateFields) return true;
+	// only read public field
+    return isPublic(field.getModifiers()); 
   }
 
 }

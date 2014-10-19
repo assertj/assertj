@@ -29,7 +29,7 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
     } catch (IntrospectionError fieldIntrospectionError) {
       // no luck with properties, let's try fields
       try {
-        return FieldSupport.instance().fieldValue(propertyOrFieldName, Object.class, input);
+        return FieldSupport.extraction().fieldValue(propertyOrFieldName, Object.class, input);
       } catch (IntrospectionError propertyIntrospectionError) {
         // no field nor property found with given name, it is considered as an error
         String message = format(

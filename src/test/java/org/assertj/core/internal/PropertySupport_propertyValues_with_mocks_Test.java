@@ -14,23 +14,23 @@
  */
 package org.assertj.core.internal;
 
-import static junit.framework.Assert.*;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertSame;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
-
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.beans.PropertyDescriptor;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 
-
-import org.assertj.core.internal.JavaBeanDescriptor;
-import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-
-import org.junit.*;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link PropertySupport#propertyValues(String, Collection)}</code>.

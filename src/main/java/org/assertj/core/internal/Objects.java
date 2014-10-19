@@ -67,8 +67,7 @@ public class Objects {
   private final ComparisonStrategy comparisonStrategy;
   @VisibleForTesting
   Failures failures = Failures.instance();
-  // field support not reading private fields
-  private FieldSupport fieldSupport = new FieldSupport(false);
+  private final FieldSupport fieldSupport = FieldSupport.comparison();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
@@ -539,11 +538,11 @@ public class Objects {
 	List<String> nullFields = new LinkedList<String>();
 	for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
 	  try {
-		Object otherFieldValue = getFieldOrPropertyValue(other, field);
+		Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
 		if (otherFieldValue == null) {
 		  nullFields.add(field.getName());
 		} else {
-		  Object actualFieldValue = getFieldOrPropertyValue(actual, field);
+		  Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
 		  if (!otherFieldValue.equals(actualFieldValue)) {
 			fieldsNames.add(field.getName());
 			rejectedValues.add(actualFieldValue);
@@ -588,8 +587,8 @@ public class Objects {
 	List<Object> expectedValues = new LinkedList<Object>();
 	List<Object> rejectedValues = new LinkedList<Object>();
 	for (String fieldName : fields) {
-	  Object actualFieldValue = getNestedFieldOrPropertyValue(actual, fieldName);
-	  Object otherFieldValue = getNestedFieldOrPropertyValue(other, fieldName);
+	  Object actualFieldValue = getFieldOrPropertyValue(actual, fieldName);
+	  Object otherFieldValue = getFieldOrPropertyValue(other, fieldName);
 	  if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
 		rejectedFieldsNames.add(fieldName);
 		expectedValues.add(otherFieldValue);
@@ -631,21 +630,23 @@ public class Objects {
 	List<Object> rejectedValues = new LinkedList<Object>();
 	Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
 	for (Field field : declaredFieldsIncludingInherited) {
-	  try {
-		if (!ignoredFields.contains(field.getName())) {
-		  Object actualFieldValue = getFieldOrPropertyValue(actual, field);
-		  Object otherFieldValue = getFieldOrPropertyValue(other, field);
-		  if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-			fieldsNames.add(field.getName());
-			rejectedValues.add(actualFieldValue);
-			expectedValues.add(otherFieldValue);
-		  }
-		}
-	  } catch (IntrospectionError e) {
-		// Not readable field, skip.
+	  // ignore private field if user has decided not to use them in comparison
+	  if (ignoredFields.contains(field.getName()) || !canReadFieldValue(field, actual)) {
+		continue;
+	  }
+	  Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
+	  Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+	  if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+		fieldsNames.add(field.getName());
+		rejectedValues.add(actualFieldValue);
+		expectedValues.add(otherFieldValue);
 	  }
 	}
 	return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
+  }
+
+  private <A> boolean canReadFieldValue(Field field, A actual) {
+	return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
   }
 
   private <A> void verifyIgnoredFieldsExist(A actual, Set<Field> declaredFields, String[] ignoredFields) {
@@ -655,39 +656,22 @@ public class Objects {
 	}
 	if (!ignoredFieldsNotDefined.isEmpty()) {
 	  throw new IllegalArgumentException(format("Fields to ignore <%s> not defined for type <%s>",
-	                                            ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
+		                                        ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
 	}
   }
 
   /**
-   * Get field value first and in case of error try its value from property getter (property name being field name)
-   *
-   * @param a the object to get field value from
-   * @param field Field to read
-   * @param <A> the type of object a
-   * @return field value or property value if field was not accessible.
-   * @throws IntrospectionError is field value can't get retrieved.
-   */
-  private <A> Object getFieldOrPropertyValue(A a, Field field) {
-	try {
-	  // read field value
-	  return field.get(a);
-	} catch (IllegalAccessException e) {
-	  // field is not accessible, let's try to get its value from its getter if any.
-	  return propertySupport.propertyValue(field.getName(), Object.class, a);
-	}
-  }
-
-  /**
-   * Get nested field value first and in case of error try its value from property getter (property name being field
+   * Get field value first and in case of error try its value from property getter (property name being field
    * name)
+   * <p>
+   * This method supports nested field/property (e.g. "address.street.number").
    *
    * @param a the object to get field value from
    * @param fieldName Field name to read, can be nested
    * @return (nested) field value or property value if field was not accessible.
    * @throws IntrospectionError is field value can't get retrieved.
    */
-  private <A> Object getNestedFieldOrPropertyValue(A a, String fieldName) {
+  private <A> Object getFieldOrPropertyValue(A a, String fieldName) {
 	try {
 	  return fieldSupport.fieldValue(fieldName, Object.class, a);
 	} catch (IntrospectionError e) {

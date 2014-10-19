@@ -2,8 +2,11 @@ package org.assertj.core.internal;
 
 import java.util.Comparator;
 
+import org.assertj.core.api.Assertions;
+
 /**
- * Compare Object field by field
+ * Compare Object field by field including private fields unless
+ * {@link Assertions#setAllowComparingPrivateFields(boolean)}has been called with false.
  */
 public class FieldByFieldComparator implements Comparator<Object> {
 

@@ -12,7 +12,7 @@
  * 
  * Copyright @2011 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.util.introspection;
 
 import static java.util.Collections.emptySet;
 import static junit.framework.Assert.assertEquals;
@@ -23,6 +23,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;

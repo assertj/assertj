@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -47,7 +48,7 @@ public class FieldByFieldComparator_compareTo_Test {
 
   @Test
   public void should_throw_exception_if_Objects_have_not_the_same_properties() {
-	thrown.expect(IllegalArgumentException.class);
+	thrown.expect(IntrospectionError.class);
 	assertThat(fieldByFieldComparator.compare(new JarJar("Yoda"), 2)).isNotZero();
   }
 
