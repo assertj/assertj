@@ -188,7 +188,7 @@ public enum FieldSupport {
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.
    * @param target the given object
-   * @param clazz type of field
+   * @param fieldClass type of field
    * @return a the values of the given field name
    * @throws IntrospectionError if the given target does not have a field with a matching name.
    */
