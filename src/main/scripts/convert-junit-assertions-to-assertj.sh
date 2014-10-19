@@ -40,11 +40,11 @@ echo ' 2 - Replacing : assertEquals(expectedSize, myList.size()) ...... by : ass
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\([[:digit:]]*\),[[:blank:]]*\(.*\).size())/assertThat(\3).as(\1).hasSize(\2)/g' '{}' \;
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([[:digit:]]*\),[[:blank:]]*\(.*\).size())/assertThat(\2).hasSize(\1)/g' '{}' \;
 
-echo ' 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isEqualTo(expectedDouble, offset(delta))'
-find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isEqualTo(\2, offset(\4))/g' '{}' \;
+echo ' 3 - Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))'
+find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isCloseTo(\2, within(\4))/g' '{}' \;
 # must be done before assertEquals("description", expected, actual) -> assertThat(actual).as("description").isEqualTo(expected) 
 # will only replace triplet without double quote to avoid matching : assertEquals("description", expected, actual)
-find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isEqualTo(\1, offset(\3))/g' '{}' \;
+find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals([[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\),[[:blank:]]*\([^"]*\))/assertThat(\2).isCloseTo(\1, within(\3))/g' '{}' \;
 
 echo ' 4 - Replacing : assertEquals(expected, actual) ................. by : assertThat(actual).isEqualTo(expected)'
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertEquals(\(\".*\"\),[[:blank:]]*\(.*\),[[:blank:]]*\(.*\))/assertThat(\3).as(\1).isEqualTo(\2)/g' '{}' \;
@@ -81,7 +81,7 @@ find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/assertNotSame([[:blank
 echo ''
 echo '12 - Replacing JUnit static import by AssertJ ones, at this point you will probably need to :'
 echo '12 --- optimize imports with your IDE to remove unused imports'
-echo '12 --- add "import static org.assertj.core.api.Assertions.offset;" if you were using JUnit number assertions with delta'
+echo '12 --- add "import static org.assertj.core.api.Assertions.within;" if you were using JUnit number assertions with delta'
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/import static org.junit.Assert.assertEquals;/import static org.assertj.core.api.Assertions.assertThat;/g' '{}' \;
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/import static org.junit.Assert.fail;/import static org.assertj.core.api.Assertions.fail;/g' '{}' \;
 find . -name "$FILES_PATTERN" -exec sed ${SED_OPTIONS} 's/import static org.junit.Assert.\*;/import static org.assertj.core.api.Assertions.*;/g' '{}' \;
