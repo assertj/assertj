@@ -40,7 +40,7 @@ public class FieldSupport_fieldValues_Test {
   private Employee yoda;
   private Employee luke;
   private List<Employee> employees;
-  private FieldSupport fieldSupport = FieldSupport.instance();
+  private FieldSupport fieldSupport = FieldSupport.extraction();
 
   @Before
   public void setUpOnce() {

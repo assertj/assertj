@@ -67,8 +67,7 @@ public class Objects {
   private final ComparisonStrategy comparisonStrategy;
   @VisibleForTesting
   Failures failures = Failures.instance();
-  // field support not reading private fields
-  private FieldSupport fieldSupport = new FieldSupport(false);
+  private final FieldSupport fieldSupport = FieldSupport.comparison();
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
