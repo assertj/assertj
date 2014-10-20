@@ -526,7 +526,7 @@ public class Assertions {
    * @param runnable the runnable to check for exceptions.
    * @return the created assertion object.
    */
-  public static ExceptionalRunnableAssert assertThat(ExceptionalRunnable runnable) {
+  public static ExceptionalRunnableAssert expect(ExceptionalRunnable runnable) {
     return new ExceptionalRunnableAssert(runnable);
   }
 

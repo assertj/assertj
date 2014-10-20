@@ -5,7 +5,7 @@ import org.junit.Test;
 public class ExceptionalRunnableAssertTest {
   @Test
   public void testCorrectExceptionThrown() throws Exception {
-    assertThat(new ExceptionalRunnable() {
+    Assertions.expect(new ExceptionalRunnable() {
       @Override
       public void run() throws Exception {
         throw new IllegalArgumentException("something was wrong");
@@ -15,7 +15,7 @@ public class ExceptionalRunnableAssertTest {
 
   @Test(expected = AssertionError.class)
   public void testNoExceptionThrown() throws Exception {
-    assertThat(new ExceptionalRunnable() {
+    Assertions.expect(new ExceptionalRunnable() {
       @Override
       public void run() throws Exception {
         // no exception
@@ -25,7 +25,7 @@ public class ExceptionalRunnableAssertTest {
 
   @Test(expected = IllegalArgumentException.class)
   public void testWrongExceptionThrown() throws Exception {
-    assertThat(new ExceptionalRunnable() {
+    Assertions.expect(new ExceptionalRunnable() {
       @Override
       public void run() throws Exception {
         throw new IllegalArgumentException();
