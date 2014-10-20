@@ -56,7 +56,7 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <pre>
    * Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
    *
-   * assertThat(optional).hasValue(&quot;Test&quot;);
+   * assertThat(optional).contains(&quot;Test&quot;);
    * </pre>
    * 
    * @param value the value to look for in actual {@link Optional}.
