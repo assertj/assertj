@@ -119,7 +119,7 @@ import java.util.List;
  * 
  * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
  */
-public class SoftAssertions extends AbstractSoftAssertions {
+public class SoftAssertions extends AbstractSoftAssertions implements AutoCloseable {
 
     /**
      * Creates a new </code>{@link SoftAssertions}</code>.
@@ -140,4 +140,8 @@ public class SoftAssertions extends AbstractSoftAssertions {
     }
   }
 
+  @Override
+  public void close() throws SoftAssertionError {
+    assertAll();
+  }
 }

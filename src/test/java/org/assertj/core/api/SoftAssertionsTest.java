@@ -203,4 +203,20 @@ public class SoftAssertionsTest {
 	}
   }
 
+    @Test
+    public void should_be_able_to_use_try_with_resources() {
+        try {
+            try (SoftAssertions softly = new SoftAssertions()) {
+                softly.assertThat(false).isTrue();
+                softly.assertThat("48").isEqualTo("49");
+            }
+            fail("Should not reach here");
+        } catch (SoftAssertionError e) {
+            List<String> errors = e.getErrors();
+            assertThat(errors).hasSize(2);
+            assertThat(errors.get(0)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
+            assertThat(errors.get(1)).isEqualTo("expected:<\"4[9]\"> but was:<\"4[8]\">");
+        }
+    }
+
 }
