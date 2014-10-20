@@ -8,9 +8,9 @@ public class ExceptionalRunnableAssertTest {
     assertThat(new ExceptionalRunnable() {
       @Override
       public void run() throws Exception {
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("something was wrong");
       }
-    }).toThrow(IllegalArgumentException.class);
+    }).toThrow(IllegalArgumentException.class).hasMessage("something was wrong");
   }
 
   @Test(expected = AssertionError.class)
@@ -31,5 +31,15 @@ public class ExceptionalRunnableAssertTest {
         throw new IllegalArgumentException();
       }
     }).toThrow(IllegalStateException.class);
+  }
+
+  @Test(expected = AssertionError.class)
+  public void testWrongMessage() throws Exception {
+    Assertions.expect(new ExceptionalRunnable() {
+      @Override
+      public void run() throws Exception {
+        throw new IllegalArgumentException("something was wrong");
+      }
+    }).toThrow(IllegalArgumentException.class).hasMessage("something was not wrong?!");
   }
 }

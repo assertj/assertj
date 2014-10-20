@@ -7,7 +7,9 @@ public class ExceptionalRunnableAssert {
     this.runnable = runnable;
   }
 
-  public <T extends Throwable> void toThrow(Class<T> exceptionClass) throws Exception {
+  public <T extends Throwable> AbstractThrowableAssert<?, ? extends Throwable> toThrow(Class<T> exceptionClass)
+      throws Exception {
+
     try {
       // run the ExceptionalRunnable
       runnable.run();
@@ -15,10 +17,15 @@ public class ExceptionalRunnableAssert {
       // fail if the expected exception was *not* thrown
       Fail.failBecauseExceptionWasNotThrown(exceptionClass);
 
+      // this will *never* happen...
+      return null;
+
     } catch (Throwable e) {
       // ignore expected exceptions and rethrow others
       if (!exceptionClass.isInstance(e))
         throw e;
+
+      return Assertions.assertThat(e);
     }
   }
 }
