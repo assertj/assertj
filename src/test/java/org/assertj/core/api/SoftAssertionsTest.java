@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
@@ -130,11 +131,18 @@ public class SoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
+	  softly.assertThatExceptionThrownBy(new Callable<Void>() {
+		@Override
+		public Void call() throws Exception {
+		  throw new Exception("something was wrong");
+		}
+
+	  }).hasMessage("something was good");
 	  softly.assertAll();
 	  fail("Should not reach here");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(38);
+	  assertThat(errors).hasSize(39);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -200,6 +208,10 @@ public class SoftAssertionsTest {
 		                                   + " <\"NullPointerException message\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"IllegalArgumentException message\">");
+	  assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
+		                                   + " <\"something was good\">\n"
+		                                   + "but was:\n"
+		                                   + " <\"something was wrong\">");
 	}
   }
 

@@ -14,7 +14,6 @@
  */
 package org.assertj.core.api;
 
-
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -24,6 +23,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.AllOf;
@@ -41,7 +41,11 @@ import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable. <p> For example: <p/>
+ * type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * <p>
+ * For example:
+ * <p/>
+ * 
  * <pre><code class='java'>
  * int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
@@ -49,7 +53,8 @@ import org.assertj.core.util.introspection.FieldSupport;
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
  * </code></pre>
- * <p/> </p>
+ * <p/>
+ * </p>
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -71,7 +76,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
-    return new BigDecimalAssert(actual);
+	return new BigDecimalAssert(actual);
   }
 
   /**
@@ -81,7 +86,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanAssert<?> assertThat(boolean actual) {
-    return new BooleanAssert(actual);
+	return new BooleanAssert(actual);
   }
 
   /**
@@ -91,7 +96,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanAssert<?> assertThat(Boolean actual) {
-    return new BooleanAssert(actual);
+	return new BooleanAssert(actual);
   }
 
   /**
@@ -101,7 +106,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractBooleanArrayAssert<?> assertThat(boolean[] actual) {
-    return new BooleanArrayAssert(actual);
+	return new BooleanArrayAssert(actual);
   }
 
   /**
@@ -111,7 +116,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteAssert<?> assertThat(byte actual) {
-    return new ByteAssert(actual);
+	return new ByteAssert(actual);
   }
 
   /**
@@ -121,7 +126,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteAssert<?> assertThat(Byte actual) {
-    return new ByteAssert(actual);
+	return new ByteAssert(actual);
   }
 
   /**
@@ -131,7 +136,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractByteArrayAssert<?> assertThat(byte[] actual) {
-    return new ByteArrayAssert(actual);
+	return new ByteArrayAssert(actual);
   }
 
   /**
@@ -141,7 +146,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharacterAssert<?> assertThat(char actual) {
-    return new CharacterAssert(actual);
+	return new CharacterAssert(actual);
   }
 
   /**
@@ -151,7 +156,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharArrayAssert<?> assertThat(char[] actual) {
-    return new CharArrayAssert(actual);
+	return new CharArrayAssert(actual);
   }
 
   /**
@@ -161,7 +166,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharacterAssert<?> assertThat(Character actual) {
-    return new CharacterAssert(actual);
+	return new CharacterAssert(actual);
   }
 
   /**
@@ -171,7 +176,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractClassAssert<?> assertThat(Class<?> actual) {
-    return new ClassAssert(actual);
+	return new ClassAssert(actual);
   }
 
   /**
@@ -182,7 +187,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-    return new GenericComparableAssert<T>(actual);
+	return new GenericComparableAssert<T>(actual);
   }
 
   /**
@@ -192,7 +197,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterable<T> actual) {
-    return new IterableAssert<T>(actual);
+	return new IterableAssert<T>(actual);
   }
 
   /**
@@ -206,7 +211,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterator<T> actual) {
-    return new IterableAssert<T>(actual);
+	return new IterableAssert<T>(actual);
   }
 
   /**
@@ -216,7 +221,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleAssert<?> assertThat(double actual) {
-    return new DoubleAssert(actual);
+	return new DoubleAssert(actual);
   }
 
   /**
@@ -226,7 +231,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleAssert<?> assertThat(Double actual) {
-    return new DoubleAssert(actual);
+	return new DoubleAssert(actual);
   }
 
   /**
@@ -236,7 +241,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractDoubleArrayAssert<?> assertThat(double[] actual) {
-    return new DoubleArrayAssert(actual);
+	return new DoubleArrayAssert(actual);
   }
 
   /**
@@ -246,7 +251,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractFileAssert<?> assertThat(File actual) {
-    return new FileAssert(actual);
+	return new FileAssert(actual);
   }
 
   /**
@@ -256,7 +261,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
-    return new InputStreamAssert(actual);
+	return new InputStreamAssert(actual);
   }
 
   /**
@@ -266,7 +271,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatAssert<?> assertThat(float actual) {
-    return new FloatAssert(actual);
+	return new FloatAssert(actual);
   }
 
   /**
@@ -276,7 +281,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatAssert<?> assertThat(Float actual) {
-    return new FloatAssert(actual);
+	return new FloatAssert(actual);
   }
 
   /**
@@ -286,7 +291,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractFloatArrayAssert<?> assertThat(float[] actual) {
-    return new FloatArrayAssert(actual);
+	return new FloatArrayAssert(actual);
   }
 
   /**
@@ -296,7 +301,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntegerAssert<?> assertThat(int actual) {
-    return new IntegerAssert(actual);
+	return new IntegerAssert(actual);
   }
 
   /**
@@ -306,7 +311,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntArrayAssert<?> assertThat(int[] actual) {
-    return new IntArrayAssert(actual);
+	return new IntArrayAssert(actual);
   }
 
   /**
@@ -316,7 +321,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractIntegerAssert<?> assertThat(Integer actual) {
-    return new IntegerAssert(actual);
+	return new IntegerAssert(actual);
   }
 
   /**
@@ -326,7 +331,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(List<T> actual) {
-    return new ListAssert<T>(actual);
+	return new ListAssert<T>(actual);
   }
 
   /**
@@ -336,7 +341,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongAssert<?> assertThat(long actual) {
-    return new LongAssert(actual);
+	return new LongAssert(actual);
   }
 
   /**
@@ -346,7 +351,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongAssert<?> assertThat(Long actual) {
-    return new LongAssert(actual);
+	return new LongAssert(actual);
   }
 
   /**
@@ -356,7 +361,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
-    return new LongArrayAssert(actual);
+	return new LongArrayAssert(actual);
   }
 
   /**
@@ -366,7 +371,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
-    return new ObjectAssert<T>(actual);
+	return new ObjectAssert<T>(actual);
   }
 
   /**
@@ -427,7 +432,7 @@ public class Assertions {
    * @return the given assertion.
    */
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
-    return assertion;
+	return assertion;
   }
 
   /**
@@ -437,7 +442,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
-    return new ObjectArrayAssert<T>(actual);
+	return new ObjectArrayAssert<T>(actual);
   }
 
   /**
@@ -447,7 +452,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <K, V> AbstractMapAssert<?, ? extends Map<K, V>, K, V> assertThat(Map<K, V> actual) {
-    return new MapAssert<K, V>(actual);
+	return new MapAssert<K, V>(actual);
   }
 
   /**
@@ -457,7 +462,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortAssert<?> assertThat(short actual) {
-    return new ShortAssert(actual);
+	return new ShortAssert(actual);
   }
 
   /**
@@ -467,7 +472,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortAssert<?> assertThat(Short actual) {
-    return new ShortAssert(actual);
+	return new ShortAssert(actual);
   }
 
   /**
@@ -477,7 +482,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractShortArrayAssert<?> assertThat(short[] actual) {
-    return new ShortArrayAssert(actual);
+	return new ShortArrayAssert(actual);
   }
 
   /**
@@ -487,7 +492,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
-    return new CharSequenceAssert(actual);
+	return new CharSequenceAssert(actual);
   }
 
   /**
@@ -497,7 +502,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharSequenceAssert<?, String> assertThat(String actual) {
-    return new StringAssert(actual);
+	return new StringAssert(actual);
   }
 
   /**
@@ -507,17 +512,42 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractDateAssert<?> assertThat(Date actual) {
-    return new DateAssert(actual);
+	return new DateAssert(actual);
   }
 
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
    * @param actual the actual value.
-   * @return the created assertion Throwable.
-   */
+   * @return the created {@link ThrowableAssert}.
+   */ 
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
-    return new ThrowableAssert(actual);
+	return new ThrowableAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> with the exception thrown by the given
+   * {@link Callable} execution.
+   * <p>
+   * Example :
+   * 
+   * <pre><code class='java'>
+   * assertThatExceptionThrownBy(new Callable&lt;Void&gt;()
+   * 
+   *   {@literal @}Override
+   *   public Void call() throws Exception {
+   *     throw new Exception("something was wrong");
+   *   }
+   *   
+   * }).isInstanceOf(Exception.class)
+   *   .hasMessage("something was wrong");
+   * </code></pre>
+   *
+   * @param callable the callable whose execution throws an exception we want to check.
+   * @return the created {@link ThrowableAssert}.
+   */
+  public static <V> ThrowableAssert assertThatExceptionThrownBy(Callable<V> callable) {
+	return new ThrowableAssert(callable);
   }
 
   // -------------------------------------------------------------------------------------------------
@@ -529,7 +559,7 @@ public class Assertions {
    * full feature entry point to all AssertJ Assert features (but you can use {@link Fail} if you prefer).
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
+	Fail.setRemoveAssertJRelatedElementsFromStackTrace(removeAssertJRelatedElementsFromStackTrace);
   }
 
   /**
@@ -537,7 +567,7 @@ public class Assertions {
    * Assert features (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage) {
-    Fail.fail(failureMessage);
+	Fail.fail(failureMessage);
   }
 
   /**
@@ -545,7 +575,7 @@ public class Assertions {
    * AssertJ features (but you can use Fail if you prefer).
    */
   public static void fail(String failureMessage, Throwable realCause) {
-    Fail.fail(failureMessage, realCause);
+	Fail.fail(failureMessage, realCause);
   }
 
   /**
@@ -553,7 +583,7 @@ public class Assertions {
    * entry point to all AssertJ features (but you can use Fail if you prefer).
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-    Fail.failBecauseExceptionWasNotThrown(exceptionClass);
+	Fail.failBecauseExceptionWasNotThrown(exceptionClass);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -567,6 +597,7 @@ public class Assertions {
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
+   * 
    * <pre><code class='java'>
    * // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
@@ -584,7 +615,7 @@ public class Assertions {
    * </code></pre>
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
-    return Properties.extractProperty(propertyName, propertyType);
+	return Properties.extractProperty(propertyName, propertyType);
   }
 
   /**
@@ -594,6 +625,7 @@ public class Assertions {
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
+   * 
    * <pre><code class='java'>
    * // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
@@ -611,7 +643,7 @@ public class Assertions {
    * </code></pre>
    */
   public static Properties<Object> extractProperty(String propertyName) {
-    return Properties.extractProperty(propertyName);
+	return Properties.extractProperty(propertyName);
   }
 
   /**
@@ -622,26 +654,30 @@ public class Assertions {
    * @return the built {@link Tuple}
    */
   public static Tuple tuple(Object... values) {
-    return Tuple.tuple(values);
+	return Tuple.tuple(values);
   }
 
   /**
-   * Globally sets whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
+   * Globally sets whether
+   * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
+   * and
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
    * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
    */
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
-    FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
+	FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
   }
 
   /**
    * Globally sets whether the use of private fields is allowed for comparison.
    * The following (incomplete) list of methods will be impacted by this change :
    * <ul>
-   *   <li><code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code></li>
-   *   <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * <li>
+   * <code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
+   * </li>
+   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
    * </ul>
    *
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
@@ -649,8 +685,9 @@ public class Assertions {
    * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
    */
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
-    FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
+	FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
   }
+
   // ------------------------------------------------------------------------------------------------------
   // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -662,12 +699,13 @@ public class Assertions {
    * <p/>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </code></pre>
    */
   public static MapEntry entry(Object key, Object value) {
-    return MapEntry.entry(key, value);
+	return MapEntry.entry(key, value);
   }
 
   /**
@@ -676,13 +714,14 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
    * </code></pre>
    */
   public static Index atIndex(int index) {
-    return Index.atIndex(index);
+	return Index.atIndex(index);
   }
 
   /**
@@ -690,12 +729,13 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * </code></pre>
    */
   public static Offset<Double> offset(Double value) {
-    return Offset.offset(value);
+	return Offset.offset(value);
   }
 
   /**
@@ -703,12 +743,13 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
    * </code></pre>
    */
   public static Offset<Float> offset(Float value) {
-    return Offset.offset(value);
+	return Offset.offset(value);
   }
 
   /**
@@ -716,12 +757,13 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * </code></pre>
    */
   public static Offset<Double> within(Double value) {
-    return Offset.offset(value);
+	return Offset.offset(value);
   }
 
   /**
@@ -729,25 +771,27 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
    * </code></pre>
    */
   public static Offset<Float> within(Float value) {
-    return Offset.offset(value);
+	return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
    * </code></pre>
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
-    return Offset.offset(value);
+	return Offset.offset(value);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -757,7 +801,7 @@ public class Assertions {
   /**
    * Creates a new <code>{@link AllOf}</code>
    *
-   * @param <T>        the type of object the given condition accept.
+   * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given array is {@code null}.
@@ -765,20 +809,20 @@ public class Assertions {
    */
   @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
-    return AllOf.allOf(conditions);
+	return AllOf.allOf(conditions);
   }
 
   /**
    * Creates a new <code>{@link AllOf}</code>
    *
-   * @param <T>        the type of object the given condition accept.
+   * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AllOf.allOf(conditions);
+	return AllOf.allOf(conditions);
   }
 
   /**
@@ -787,26 +831,27 @@ public class Assertions {
    * <p/>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));
    * </code></pre>
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
-    return AnyOf.anyOf(conditions);
+	return AnyOf.anyOf(conditions);
   }
 
   /**
    * Creates a new <code>{@link AnyOf}</code>
    *
-   * @param <T>        the type of object the given condition accept.
+   * @param <T> the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
-    return AnyOf.anyOf(conditions);
+	return AnyOf.anyOf(conditions);
   }
 
   /**
@@ -816,7 +861,7 @@ public class Assertions {
    * @return The Not condition created.
    */
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
-    return DoesNotHave.doesNotHave(condition);
+	return DoesNotHave.doesNotHave(condition);
   }
 
   /**
@@ -826,7 +871,7 @@ public class Assertions {
    * @return The Not condition created.
    */
   public static <T> Not<T> not(Condition<? super T> condition) {
-    return Not.not(condition);
+	return Not.not(condition);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -841,12 +886,14 @@ public class Assertions {
    * <p/>
    * Typical usage with {@link Condition} :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
    * </code></pre>
    * <p/>
    * and with filter language based on java bean property :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    * .greaterThan(7).get())
@@ -854,7 +901,7 @@ public class Assertions {
    * </code></pre>
    */
   public static <E> Filters<E> filter(E[] array) {
-    return Filters.filter(array);
+	return Filters.filter(array);
   }
 
   /**
@@ -865,12 +912,14 @@ public class Assertions {
    * <p/>
    * Typical usage with {@link Condition} :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
    * </code></pre>
    * <p/>
    * and with filter language based on java bean property :
    * <p/>
+   * 
    * <pre><code class='java'>
    * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    * .greaterThan(7).get())
@@ -878,7 +927,7 @@ public class Assertions {
    * </code></pre>
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
-    return Filters.filter(iterableToFilter);
+	return Filters.filter(iterableToFilter);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -886,50 +935,58 @@ public class Assertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire file in memory; for larger files, there might be a more efficient alternative with {@link
-   * #assertThat(File)}. </p>
+   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative
+   * with {@link #assertThat(File)}.
+   * </p>
    *
-   * @param file    the file.
+   * @param file the file.
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException       if an I/O exception occurs.
+   * @throws FilesException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
-    return Files.contentOf(file, charset);
+	return Files.contentOf(file, charset);
   }
 
   /**
-   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire file in memory; for larger files, there might be a more efficient alternative with {@link
-   * #assertThat(File)}. </p>
+   * Loads the text content of a file, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative
+   * with {@link #assertThat(File)}.
+   * </p>
    *
-   * @param file        the file.
+   * @param file the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws FilesException           if an I/O exception occurs.
+   * @throws FilesException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
-    return Files.contentOf(file, charsetName);
+	return Files.contentOf(file, charsetName);
   }
 
   /**
-   * Loads the text content of a file with the default character set, so that it can be passed to {@link
-   * #assertThat(String)}. <p> Note that this will load the entire file in memory; for larger files, there might be a
-   * more efficient alternative with {@link #assertThat(File)}. </p>
+   * Loads the text content of a file with the default character set, so that it can be passed to
+   * {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative
+   * with {@link #assertThat(File)}.
+   * </p>
    *
    * @param file the file.
    * @return the content of the file.
    * @throws FilesException if an I/O exception occurs.
    */
   public static String contentOf(File file) {
-    return Files.contentOf(file, Charset.defaultCharset());
+	return Files.contentOf(file, Charset.defaultCharset());
   }
 
   /**
-   * Loads the text content of a file into a list of strings with the default charset, each string corresponding to a line.
+   * Loads the text content of a file into a list of strings with the default charset, each string corresponding to a
+   * line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param file the file.
@@ -938,7 +995,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file) {
-    return Files.linesOf(file, Charset.defaultCharset());
+	return Files.linesOf(file, Charset.defaultCharset());
   }
 
   /**
@@ -952,7 +1009,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
-    return Files.linesOf(file, charset);
+	return Files.linesOf(file, charset);
   }
 
   /**
@@ -966,7 +1023,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
-    return Files.linesOf(file, charsetName);
+	return Files.linesOf(file, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------
@@ -977,7 +1034,8 @@ public class Assertions {
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
-   * User date formats are used before default ones in the order they have been registered (first registered, first used).
+   * User date formats are used before default ones in the order they have been registered (first registered, first
+   * used).
    * <p/>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
@@ -989,9 +1047,11 @@ public class Assertions {
    * <p/>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p/>
-   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
+   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
+   * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
+   * 
    * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -1015,14 +1075,15 @@ public class Assertions {
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
-    AbstractDateAssert.registerCustomDateFormat(userCustomDateFormat);
+	AbstractDateAssert.registerCustomDateFormat(userCustomDateFormat);
   }
 
   /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
-   * User date formats are used before default ones in the order they have been registered (first registered, first used).
+   * User date formats are used before default ones in the order they have been registered (first registered, first
+   * used).
    * <p/>
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
@@ -1034,9 +1095,11 @@ public class Assertions {
    * <p/>
    * Beware that AssertJ will use the newly registered format for <b>all remaining Date assertions in the test suite</b>
    * <p/>
-   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
+   * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or
+   * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
+   * 
    * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -1060,7 +1123,7 @@ public class Assertions {
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
-    AbstractDateAssert.registerCustomDateFormat(userCustomDateFormatPattern);
+	AbstractDateAssert.registerCustomDateFormat(userCustomDateFormatPattern);
   }
 
   /**
@@ -1083,7 +1146,7 @@ public class Assertions {
    * </ul>
    */
   public static void useDefaultDateFormatsOnly() {
-    AbstractDateAssert.useDefaultDateFormatsOnly();
+	AbstractDateAssert.useDefaultDateFormatsOnly();
   }
 
   /**
@@ -1091,7 +1154,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useDateFormat(final DateFormat userCustomDateFormat) {
-    registerCustomDateFormat(userCustomDateFormat);
+	registerCustomDateFormat(userCustomDateFormat);
   }
 
   /**
@@ -1099,7 +1162,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useDateFormat(final String userCustomDateFormatPattern) {
-    registerCustomDateFormat(userCustomDateFormatPattern);
+	registerCustomDateFormat(userCustomDateFormatPattern);
   }
 
   /**
@@ -1107,7 +1170,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useIsoDateFormat() {
-    useDefaultDateFormatsOnly();
+	useDefaultDateFormatsOnly();
   }
 
   /**
@@ -1115,7 +1178,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useIsoDateTimeFormat() {
-    useDefaultDateFormatsOnly();
+	useDefaultDateFormatsOnly();
   }
 
   /**
@@ -1123,7 +1186,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useIsoDateTimeWithMsFormat() {
-    useDefaultDateFormatsOnly();
+	useDefaultDateFormatsOnly();
   }
 
   /**
@@ -1131,7 +1194,7 @@ public class Assertions {
    */
   @Deprecated
   public static void useDefaultDateFormats() {
-    useDefaultDateFormatsOnly();
+	useDefaultDateFormatsOnly();
   }
 
   /**
