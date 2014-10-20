@@ -21,11 +21,8 @@ public class ExceptionalRunnableAssert {
       return null;
 
     } catch (Throwable e) {
-      // ignore expected exceptions and rethrow others
-      if (!exceptionClass.isInstance(e))
-        throw e;
-
-      return Assertions.assertThat(e);
+      // check if the right exception was thrown
+      return Assertions.assertThat(e).isInstanceOf(exceptionClass);
     }
   }
 }

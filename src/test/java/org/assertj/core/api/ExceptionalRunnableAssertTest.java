@@ -23,7 +23,7 @@ public class ExceptionalRunnableAssertTest {
     }).toThrow(IllegalArgumentException.class);
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test(expected = AssertionError.class)
   public void testWrongExceptionThrown() throws Exception {
     Assertions.expect(new ExceptionalRunnable() {
       @Override
