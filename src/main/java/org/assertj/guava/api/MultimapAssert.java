@@ -59,7 +59,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * 
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
@@ -67,7 +67,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
    * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);
-   * </pre>
+   * </code></pre>
    *
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -100,7 +100,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
@@ -109,7 +109,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
    * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
-   * </pre>
+   * </code></pre>
    *
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -142,7 +142,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
@@ -151,7 +151,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    *
    * // note that given values are not linked to same key
    * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);
-   * </pre>
+   * </code></pre>
    *
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -185,11 +185,11 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * assertThat(actual).isEmpty();
-   * </pre>
+   * </code></pre>
    *
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} is not empty.
@@ -207,13 +207,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; nba = ArrayListMultimap.create();
    * nba.put("Bulls", "Derrick Rose");
    * nba.put("Bulls", "Joachim Noah");
    * 
    * assertThat(nba).isNotEmpty();
-   * </pre>
+   * </code></pre>
    *
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} is empty.
@@ -231,7 +231,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
@@ -239,7 +239,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
    * assertThat(actual).hasSize(9);
-   * </pre>
+   * </code></pre>
    *
    * @param expectedSize the expected size of actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.

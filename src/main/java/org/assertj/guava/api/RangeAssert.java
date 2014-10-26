@@ -59,11 +59,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).contains(10, 11, 12);
-   * </pre>
+   * </code></pre>
    *
    * @param values the values to look for in actual {@link com.google.common.collect.Range}.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -96,11 +96,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).doesNotContain(13);
-   * </pre>
+   * </code></pre>
    *
    * @param values the values to look for in actual {@link com.google.common.collect.Range}.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -128,11 +128,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).hasClosedLowerBound();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
@@ -153,11 +153,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).hasClosedUpperBound();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
@@ -178,11 +178,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).hasLowerEndpointEqualTo(10);
-   * </pre>
+   * </code></pre>
    *
    * @param value {@link com.google.common.collect.Range} expected lower bound value.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -205,11 +205,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.openedClosed(10, 12);
    *
    * assertThat(range).hasOpenedLowerBound();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
@@ -230,11 +230,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closedOpen(10, 12);
    *
    * assertThat(range).hasOpenedUpperBound();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
@@ -255,11 +255,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closed(10, 12);
    *
    * assertThat(range).hasUpperEndpointEqualTo(12);
-   * </pre>
+   * </code></pre>
    *
    * @param value {@link com.google.common.collect.Range} expected upper bound value.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -282,11 +282,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closedOpen(10, 12);
    *
    * assertThat(range).isEmpty();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.
@@ -307,11 +307,11 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Range&lt;Integer&gt; range = Range.closedOpen(10, 12);
    *
    * assertThat(range).isNotEmpty();
-   * </pre>
+   * </code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link com.google.common.collect.Range} is {@code null}.

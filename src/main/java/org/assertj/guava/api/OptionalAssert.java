@@ -53,11 +53,11 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
    *
    * assertThat(optional).contains(&quot;Test&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * @param value the value to look for in actual {@link Optional}.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -81,11 +81,11 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.absent();
    *
    * assertThat(optional).isAbsent();
-   * </pre>
+   * </code></pre>
    * 
    * @return this {@link OptionalAssert} for assertions chaining.
    * 
@@ -105,11 +105,11 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.of(&quot;value&quot;);
    *
    * assertThat(optional).isPresent();
-   * </pre>
+   * </code></pre>
    * 
    * @return this {@link OptionalAssert} for assertions chaining.
    * 

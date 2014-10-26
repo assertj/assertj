@@ -83,6 +83,30 @@
           <argLine>${argLine}</argLine>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.1</version>
+        <configuration>
+       
+          <!-- (1) CSS file location -->
+          <stylesheetfile>src/main/javadoc/assertj-javadoc-code.css</stylesheetfile>
+       
+          <!-- (2) SyntaxHighlighter Javascript files -->
+          <top><![CDATA[
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+          ]]></top>
+       
+          <!--
+          -->
+          <footer><![CDATA[
+            <script type="text/javascript">
+              hljs.initHighlightingOnLoad();
+            </script>
+          ]]></footer>
+       
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 

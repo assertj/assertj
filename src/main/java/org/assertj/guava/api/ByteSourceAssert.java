@@ -45,12 +45,12 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * ByteSource actual = ByteSource.wrap(new byte[1]);
    * ByteSource other = ByteSource.wrap(new byte[1]);
    *
    * assertThat(actual).hasSameContentAs(other);
-   * </pre>
+   * </code></pre>
    *
    * @param other ByteSource to compare against.
    * @return this {@link ByteSourceAssert} for assertions chaining.
@@ -69,11 +69,11 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * ByteSource actual = ByteSource.wrap(new byte[0]);
    *
    * assertThat(actual).isEmpty();
-   * </pre>
+   * </code></pre>
    *
    * @throws IOException    if {@link ByteSource#isEmpty} throws one.
    * @throws AssertionError if the actual {@link ByteSource} is {@code null}.
@@ -89,11 +89,11 @@ public class ByteSourceAssert extends AbstractAssert<ByteSourceAssert, ByteSourc
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * ByteSource actual = ByteSource.wrap(new byte[9]);
    *
    * assertThat(actual).hasSize(9);
-   * </pre>
+   * </code></pre>
    *
    * @param expectedSize the expected size of actual {@link ByteSource}.
    * @return this {@link ByteSourceAssert} for assertions chaining.
