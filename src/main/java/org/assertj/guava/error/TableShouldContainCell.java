@@ -27,8 +27,10 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
   /**
    * Creates a new </code>{@link TableShouldContainCell}</code>.
    * @param actual the actual value in the failed assertion.
-   * @param actualSize the number of row keys in {@code actual}.
-   * @param expectedSize the expected number of row keys.
+   * @param row the row where actualValue was read.
+   * @param column the column where actualValue was read.
+   * @param expectedValue the expected value of the cell.
+   * @param actualValue the expected actual value of the cell.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <R,C,V> ErrorMessageFactory tableShouldContainCell(Table<R,C,V> actual, R row, C column, V expectedValue, V actualValue) {
@@ -36,8 +38,7 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
   }
 
   private <R,C,V> TableShouldContainCell(Table<R,C,V> actual, R row, C column, V expectedValue, V actualValue) {
-    // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
-    // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
+    // Except for actual, format values using the standard representation instead of a specific one like Hexadecimal
     super(format("\nExpecting row:<%s> and column:<%s> to have value:\n  <%s>\nbut was:\n  <%s>\nin:\n  <%s>", row, column, expectedValue, actualValue, "%s"), actual);
   }
 

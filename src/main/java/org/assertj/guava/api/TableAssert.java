@@ -281,7 +281,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    *
    * @param row The row key to lookup in the actual {@link Table}
    * @param column The column key to lookup in the actual {@link Table}
-   * @param value The value to look for in the actual {@link Table}
+   * @param expectedValue The value to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
    * @throws AssertionError if the actual {@link Table} is {@code null}.
    * @throws AssertionError if the row key is {@code null}.

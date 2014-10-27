@@ -25,7 +25,6 @@ public class TableShouldContainColumns extends BasicErrorMessageFactory {
   public static ErrorMessageFactory tableShouldContainColumns(Object actual, Object[] columns, Set<?> columnsNotFound) {
     return columns.length == 1 ? new TableShouldContainColumns(actual, columns[0]) : new TableShouldContainColumns(actual, columns,
         columnsNotFound);
-
   }
 
   private TableShouldContainColumns(Object actual, Object row) {
