@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>1.2.3</version>
+    <version>1.2.6</version>
   </parent>
 
   <scm>
@@ -33,7 +33,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>[1.6.0,)</version>
+      <version>[1.6.0, 2.0.0)</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>
@@ -55,7 +55,7 @@
           <properties>
             <!-- Values to be substituted in template -->
             <inceptionYear>2012</inceptionYear>
-            <currentYear>2013</currentYear>
+            <currentYear>2014</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
           <includes>
@@ -88,23 +88,18 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.10.1</version>
         <configuration>
-       
           <!-- (1) CSS file location -->
           <stylesheetfile>src/main/javadoc/assertj-javadoc-code.css</stylesheetfile>
-       
-          <!-- (2) SyntaxHighlighter Javascript files -->
+          <!-- (2) Highlight Javascript file -->
           <top><![CDATA[
             <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
           ]]></top>
-       
-          <!--
-          -->
+          <!-- init Highlight -->
           <footer><![CDATA[
             <script type="text/javascript">
               hljs.initHighlightingOnLoad();
             </script>
           ]]></footer>
-       
         </configuration>
       </plugin>
     </plugins>
