@@ -46,9 +46,9 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>com.mycila.maven-license-plugin</groupId>
-        <artifactId>maven-license-plugin</artifactId>
-        <version>1.9.0</version>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>2.6</version>
         <configuration>
           <!-- Template location -->
           <header>licence-header.txt</header>
@@ -59,7 +59,7 @@
           </properties>
           <strictCheck>true</strictCheck>
           <includes>
-            <include>src/**</include>
+            <include>src/**/*.java</include>
           </includes>
         </configuration>
         <executions>
