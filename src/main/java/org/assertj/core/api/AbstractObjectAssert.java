@@ -48,7 +48,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Example:
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -60,7 +60,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // ... but the lenient equality is not reversible !
    * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL
    * 
-   * </pre>
+   * </code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or other object is {@code null}.
@@ -91,7 +91,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * 
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
    * 
@@ -104,7 +104,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // ... but not when comparing both name and race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL
    * 
-   * </pre>
+   * </code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @param fieldsUsedInComparison accepted fieldsUsedInComparison for lenient equality.
@@ -136,7 +136,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Example:
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -148,7 +148,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // ... but they are not equals if only age is ignored as their names differ.
    * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL
    * 
-   * </pre>
+   * </code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @param fieldsToIgnore ignored fieldsToIgnore for lenient equality.
@@ -178,7 +178,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Example:
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -190,7 +190,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);
    * 
-   * </pre>
+   * </code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or given object is {@code null}.

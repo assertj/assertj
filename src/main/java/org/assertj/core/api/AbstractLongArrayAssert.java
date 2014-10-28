@@ -86,7 +86,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new long[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
    * 
@@ -94,7 +94,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * assertThat(new long[] { 1, 2, 1 }).containsOnlyOnce(1);
    * assertThat(new long[] { 1, 2, 3 }).containsOnlyOnce(4);
    * assertThat(new long[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -114,14 +114,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 2);
    * 
    * // assertion will fail
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new long[] { 1, 2, 3 }).containsSequence(2, 1);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -141,14 +141,14 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(1, 2);
    * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(1, 3);
    * 
    * // assertion will fail
    * assertThat(new long[] { 1, 2, 3 }).containsSubsequence(2, 1);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -289,7 +289,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * long[] longs = { 1, 2, 3 };
    * 
    * // assertion will pass
@@ -297,7 +297,7 @@ public abstract class AbstractLongArrayAssert<S extends AbstractLongArrayAssert<
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(longs).containsExactly(2, 1, 3);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

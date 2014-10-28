@@ -34,7 +34,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * <p>
    * Example with double:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass:
    * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
    *
@@ -46,7 +46,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    *
    * // assertion will fail
    * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));
-   * </pre>
+   * </code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -63,7 +63,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * <p>
    * Example with double:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertions will pass:
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
    *
@@ -75,7 +75,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    *
    * // assertion will fail
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));
-   * </pre>
+   * </code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.

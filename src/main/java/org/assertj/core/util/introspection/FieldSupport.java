@@ -136,7 +136,7 @@ public class FieldSupport {
   }
 
   /**
-   * <pre>
+   * <pre><code class='java'>
    * isNestedField(&quot;address.street&quot;); // true
    * isNestedField(&quot;address.street.name&quot;); // true
    * isNestedField(&quot;person&quot;); // false
@@ -146,7 +146,7 @@ public class FieldSupport {
    * isNestedField(&quot;.person.name&quot;); // false
    * isNestedField(&quot;.&quot;); // false
    * isNestedField(&quot;&quot;); // false
-   * </pre>
+   * </code></pre>
    */
   private boolean isNestedField(String fieldName) {
 	return fieldName.contains(SEPARATOR) && !fieldName.startsWith(SEPARATOR) && !fieldName.endsWith(SEPARATOR);
@@ -157,15 +157,15 @@ public class FieldSupport {
    * <p>
    * Return null if field is nested and one of the nested value is null, ex :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * fieldValue(race.name, String.class, frodo) will return null if frodo.race is null
-   * </pre>
+   * </code></pre>
    * 
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.
    * @param target the given object
-   * @param clazz type of field
-   * @return a the values of the given field name
+   * @param fieldClass type of field
+   * @return the value of the given field name
    * @throws IntrospectionError if the given target does not have a field with a matching name.
    */
   public <T> T fieldValue(String fieldName, Class<T> fieldClass, Object target) {

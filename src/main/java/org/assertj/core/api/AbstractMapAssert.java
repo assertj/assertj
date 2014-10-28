@@ -94,14 +94,14 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).hasSameSizeAs(mapOf(entry(oneRing, frodo),
    *                                             entry(narya, gandalf),
    *                                             entry(nenya, galadriel),
    *                                             entry(vilya, elrond)));
-   * </pre>
+   * </code></pre>
    * 
    * @param other the {@code Map} to compare size with actual map
    * @return {@code this} assertion object
@@ -119,11 +119,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
-   * </pre>
+   * </code></pre>
    *
    * @param entries the given entries.
    * @return {@code this} assertion object.
@@ -143,11 +143,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).containsEntry(oneRing, frodo).containsEntry(nenya, galadriel);
-   * </pre>
+   * </code></pre>
    * 
    * @param key the given key to check.
    * @param value the given value to check.
@@ -168,10 +168,10 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
    * assertThat(ringBearers).doesNotContain(entry(oneRing, aragorn));
-   * </pre>
+   * </code></pre>
    * 
    * @param entries the given entries.
    * @return {@code this} assertion object.
@@ -190,11 +190,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).doesNotContainEntry(oneRing, aragorn);
-   * </pre>
+   * </code></pre>
    * 
    * @param key key of the entry.
    * @param value value of the entry.
@@ -252,7 +252,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Examples :
    *
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * // assertion will pass
@@ -260,7 +260,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * 
    * // assertion will fail
    * assertThat(ringBearers).containsOnlyKeys(oneRing, nenya);
-   * </pre>
+   * </code></pre>
    * 
    * @param keys the given keys that should be in the actual map.
    * @throws AssertionError if the actual map is {@code null}.
@@ -276,11 +276,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   /**
    * Verifies that the actual map contains the given value.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).containsValue(frodo);
-   * </pre>
+   * </code></pre>
    * 
    * @param value the value to look for.
    * @throws AssertionError if the actual map is {@code null}.
@@ -294,11 +294,11 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   /**
    * Verifies that the actual map does not contain the given value.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * assertThat(ringBearers).doesNotContainValue(aragorn);
-   * </pre>
+   * </code></pre>
    * 
    * @param value the value that should not be in actual map.
    * @throws AssertionError if the actual map is {@code null}.
@@ -315,7 +315,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
    * 
    * // assertion will pass
@@ -323,7 +323,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * 
    * // assertion will fail
    * assertThat(ringBearers).containsOnly(entry(oneRing, frodo), entry(nenya, galadriel));
-   * </pre>
+   * </code></pre>
    * 
    * @param entries the entries that should be in the actual map.
    * @throws AssertionError if the actual map is {@code null}.
@@ -344,7 +344,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Map&lt;Ring, TolkienCharacter&gt; ringBearers = newLinkedHashMap(entry(oneRing, frodo), entry(nenya, galadriel),
    *                                                            entry(narya, gandalf));
    * 
@@ -353,7 +353,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(ringBearers).containsExactly(entry(nenya, galadriel), entry(narya, gandalf), entry(oneRing, frodo));
-   * </pre>
+   * </code></pre>
    * 
    * @param entries the given entries.
    * @throws NullPointerException if the given entries array is {@code null}.

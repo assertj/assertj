@@ -87,7 +87,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // compares invoices by payee 
    * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList).
    * 
@@ -105,7 +105,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * // ... but if we compare only races, Sauron is in fellowshipOfTheRing because he's a Maia like Gandalf.
    * assertThat(fellowshipOfTheRing).usingElementComparator(raceComparator)
    *                                .contains(sauron);
-   * </pre>
+   * </code></pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.

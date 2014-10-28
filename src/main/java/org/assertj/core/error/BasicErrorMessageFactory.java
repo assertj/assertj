@@ -130,7 +130,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
    * Return a string who will be unquoted in message format (without '')
    * 
    * @param string the string who will be unquoted.
-   * @return an unquoted string in message format. {@see ToString.quote}
+   * @return an unquoted string in message format.
    */
   protected static CharSequence unquotedString(String string) {
     return new UnquotedString(string);

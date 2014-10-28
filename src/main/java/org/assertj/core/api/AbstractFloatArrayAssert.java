@@ -86,7 +86,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(1.0f, 2.0f);
    * 
@@ -94,7 +94,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).containsOnlyOnce(1.0f);
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(4.0f);
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 3.0f }).containsOnlyOnce(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -114,14 +114,14 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new float[] { 1, 2, 3 }).containsSequence(1, 2);
    * 
    * // assertion will fail
    * assertThat(new float[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new float[] { 1, 2, 3 }).containsSequence(2, 1);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -141,14 +141,14 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(1, 2);
    * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(1, 3);
    * 
    * // assertion will fail
    * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(2, 1);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -288,7 +288,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * float[] floats = { 1.0f, 2.0f, 3.0f };
    * 
    * // assertion will pass
@@ -296,7 +296,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(floats).containsExactly(2.0f, 1.0f, 3.0f);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

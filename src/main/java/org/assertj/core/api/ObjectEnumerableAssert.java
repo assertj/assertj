@@ -63,7 +63,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;coming&quot;, &quot;winter&quot;);
@@ -73,7 +73,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;Lannister&quot;);
    * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;,
    *                                                                                              &quot;Aria&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -92,7 +92,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
@@ -100,7 +100,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(elvesRings).containsExactly(nenya, vilya, narya);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -116,7 +116,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given sequence, without any other values between them.
    * <p>
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Example:
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
@@ -126,7 +126,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will fail
    * assertThat(elvesRings).containsSequence(vilya, narya);
    * assertThat(elvesRings).containsSequence(nenya, vilya);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -142,7 +142,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given subsequence (possibly with other values between them).
    * <p>
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Example:
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
@@ -152,7 +152,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion will fail
    * assertThat(elvesRings).containsSubsequence(nenya, vilya);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -293,10 +293,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * This method is an alias for {@code areAtLeast(1, condition)}.
    * <p/>
    * Example:
-   * <pre>
+   * <pre><code class='java'>
    * // jedi is a Condition&lt;String&gt;
    * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);
-   * </pre>
+   * </code></pre>
    *
    * @see #haveAtLeast(int, Condition)
    */
@@ -333,12 +333,12 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * This method is an alias for {@code haveAtLeast(1, condition)}.
    * <p/>
    * Example:
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;BasketBallPlayer&gt; bullsPlayers = newArrayList(noah, rose);
    * 
    * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
    * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);
-   * </pre>
+   * </code></pre>
    *
    * @see #haveAtLeast(int, Condition)
    */
@@ -378,7 +378,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <p/>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Number[] numbers = { 2, 6L, 8.0 };
    * 
    * // successful assertion:
@@ -386,7 +386,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion failure:
    * assertThat(numbers).hasAtLeastOneElementOfType(Float.class);
-   * </pre>
+   * </code></pre>
    *
    * @param expectedType the expected type.
    * @return this assertion object.
@@ -401,7 +401,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * <p/>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Number[] numbers = { 2, 6, 8 };
    * 
    * // successful assertion:
@@ -409,7 +409,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertion failure:
    * assertThat(numbers).hasOnlyElementsOfType(Long.class);
-   * </pre>
+   * </code></pre>
    *
    * @param expectedType the expected type.
    * @return this assertion object.

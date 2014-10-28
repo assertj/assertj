@@ -42,13 +42,13 @@ import org.assertj.core.util.introspection.FieldSupport;
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
  * type-specific assertion objects. The purpose of this class is to make test code more readable. <p> For example: <p/>
- * <pre>
+ * <pre><code class='java'>
  * int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
- * </pre>
+ * </code></pre>
  * <p/> </p>
  *
  * @author Alex Ruiz
@@ -375,7 +375,7 @@ public class Assertions {
    * <p>
    * Consider for example the following MyButton and MyButtonAssert classes:
    *
-   * <pre>
+   * <pre><code class='java'>
    * public class MyButton extends JButton {
    *
    *   private boolean blinking;
@@ -401,12 +401,12 @@ public class Assertions {
    *     assertThat(button.isBlinking()).isFalse();
    *   }
    * }
-   * </pre>
+   * </code></pre>
    *
    * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
    * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
    *
-   * <pre>
+   * <pre><code class='java'>
    * {@literal @}Test
    * public void AssertDelegateTarget_example() {
    *
@@ -420,7 +420,7 @@ public class Assertions {
    *
    *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
    * }
-   * </pre>
+   * </code></pre>
    * 
    * @param <T> the generic type of the user-defined assert.
    * @param assertion the assertion to return.
@@ -567,7 +567,7 @@ public class Assertions {
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;,
@@ -581,7 +581,7 @@ public class Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Hobbit&quot;, &quot;Elf&quot;)
    *     .doesNotContain(&quot;Orc&quot;);
-   * </pre>
+   * </code></pre>
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -594,7 +594,7 @@ public class Assertions {
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
    * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing)).contains(&quot;Boromir&quot;,
@@ -608,7 +608,7 @@ public class Assertions {
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;,
    * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);
-   * </pre>
+   * </code></pre>
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -647,9 +647,9 @@ public class Assertions {
    * <p/>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
-   * </pre>
+   * </code></pre>
    */
   public static MapEntry entry(Object key, Object value) {
     return MapEntry.entry(key, value);
@@ -661,10 +661,10 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
-   * </pre>
+   * </code></pre>
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -675,9 +675,9 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
-   * </pre>
+   * </code></pre>
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -688,9 +688,9 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
-   * </pre>
+   * </code></pre>
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -701,9 +701,9 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
-   * </pre>
+   * </code></pre>
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -714,9 +714,9 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
-   * </pre>
+   * </code></pre>
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -727,9 +727,9 @@ public class Assertions {
    * <p/>
    * Typical usage :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
-   * </pre>
+   * </code></pre>
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -771,9 +771,9 @@ public class Assertions {
    * <p/>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));
-   * </pre>
+   * </code></pre>
    */
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
     return AnyOf.anyOf(conditions);
@@ -824,17 +824,17 @@ public class Assertions {
    * <p/>
    * Typical usage with {@link Condition} :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
-   * </pre>
+   * </code></pre>
    * <p/>
    * and with filter language based on java bean property :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    * .greaterThan(7).get())
    *     .containsOnly(james, rose);
-   * </pre>
+   * </code></pre>
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -848,17 +848,17 @@ public class Assertions {
    * <p/>
    * Typical usage with {@link Condition} :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
-   * </pre>
+   * </code></pre>
    * <p/>
    * and with filter language based on java bean property :
    * <p/>
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
    * .greaterThan(7).get())
    *     .containsOnly(james, rose);
-   * </pre>
+   * </code></pre>
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
@@ -975,7 +975,7 @@ public class Assertions {
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   * <pre>
+   * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -993,7 +993,7 @@ public class Assertions {
    *
    * // the default formats are still available and should work
    * assertThat(date).isEqualTo("2003-04-26");
-   * </pre>
+   * </code></pre>
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
@@ -1020,7 +1020,7 @@ public class Assertions {
    * To revert to default formats only, call {@link #useDefaultDateFormatsOnly()} or {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   * <pre>
+   * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
@@ -1038,7 +1038,7 @@ public class Assertions {
    *
    * // the default formats are still available and should work
    * assertThat(date).isEqualTo("2003-04-26");
-   * </pre>
+   * </code></pre>
    *
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */

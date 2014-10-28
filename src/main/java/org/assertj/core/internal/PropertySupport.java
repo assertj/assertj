@@ -120,7 +120,7 @@ public class PropertySupport {
   }
 
   /**
-   * <pre>
+   * <pre><code class='java'>
    * isNestedProperty(&quot;address.street&quot;); // true
    * isNestedProperty(&quot;address.street.name&quot;); // true
    * isNestedProperty(&quot;person&quot;); // false
@@ -130,7 +130,7 @@ public class PropertySupport {
    * isNestedProperty(&quot;.person.name&quot;); // false
    * isNestedProperty(&quot;.&quot;); // false
    * isNestedProperty(&quot;&quot;); // false
-   * </pre>
+   * </code></pre>
    */
   private boolean isNestedProperty(String propertyName) {
     return propertyName.contains(SEPARATOR) && !propertyName.startsWith(SEPARATOR) && !propertyName.endsWith(SEPARATOR);

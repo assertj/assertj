@@ -41,13 +41,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).hasSize(3);
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c', 'd' }).hasSize(3);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -63,13 +63,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2));
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b' }).hasSameSizeAs(Arrays.asList(1, 2, 3));
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -84,7 +84,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'b');
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('c', 'a');
@@ -93,7 +93,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', 'd');
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', 'f');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -114,7 +114,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('b', 'c', 'a');
@@ -122,7 +122,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('a', 'b', 'c', 'd');
    * * assertThat(new char[] { 'a', 'b', 'c' }).containsOnly('d', 'f');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -144,7 +144,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce('a', 'b');
    * 
@@ -152,7 +152,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'a' }).containsOnlyOnce('a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsOnlyOnce('d');
    * assertThat(new char[] { 'a', 'b', 'c', 'c' }).containsOnlyOnce(0, 'a', 'b', 'c', 'd', 'e');
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -172,7 +172,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('a', 'b');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('a', 'b', 'c');
@@ -181,7 +181,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSequence('d', 'f');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -201,7 +201,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('a', 'b');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('a', 'c');
@@ -211,7 +211,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('c', 'a');
    * assertThat(new char[] { 'a', 'b', 'c' }).containsSubsequence('d', 'f');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -231,7 +231,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(O));
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('c', atIndex(2));
@@ -239,7 +239,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('a', atIndex(1));
    * assertThat(new char[] { 'a', 'b', 'c' }).contains('d', atIndex(2));
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -262,13 +262,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('d');
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -289,7 +289,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(1));
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(0));
@@ -297,7 +297,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * // assertion will fail
    * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('a', atIndex(0));
    * * assertThat(new char[] { 'a', 'b', 'c' }).doesNotContain('b', atIndex(1));
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -318,13 +318,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotHaveDuplicates();
    * 
    * // assertion will fail
    * assertThat(new byte[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -344,13 +344,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('a', 'b');
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).startsWith('b', 'c');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -373,13 +373,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('b', 'c');
    * 
    * // assertion will fail
    * assertThat(new char[] { 'a', 'b', 'c' }).endsWith('c', 'd');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -428,13 +428,13 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('a', 'b', 'c');
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(new char[] { 'a', 'b', 'c' }).containsExactly('b', 'a', 'c');
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -453,22 +453,22 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * Use unicode character representation instead of standard representation in error messages.
    * <p/>
    * With standard error message:
-   * <pre>
+   * <pre><code class='java'>
    * assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
    *
    * org.junit.ComparisonFailure:
    * Expected :['a', 'b', 'ó']
    * Actual   :[a, 6, c]
-   * </pre>
+   * </code></pre>
    *
    * With unicode based error message:
-   * <pre>
+   * <pre><code class='java'>
    * assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
    *
    * org.junit.ComparisonFailure:
    * Expected :[a, b, \u00f3]
    * Actual   :[a, 6, c]
-   * </pre>
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    */

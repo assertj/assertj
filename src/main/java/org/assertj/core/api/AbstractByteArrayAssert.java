@@ -41,13 +41,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).hasSize(3);
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3, 4 }).hasSize(3);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    */
@@ -61,13 +61,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * {@inheritDoc}
    * <p/>
    * Examples:
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2 }).hasSameSizeAs(Arrays.asList(2, 3));
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2 }).hasSameSizeAs(Arrays.asList(1, 2, 3));
-   * </pre>
+   * </code></pre>
    */
   @Override
   public S hasSameSizeAs(Iterable<?> other) {
@@ -80,7 +80,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, 2);
    * assertThat(new byte[] { 1, 2, 3 }).contains(3, 1);
@@ -89,7 +89,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, 4);
    * assertThat(new byte[] { 1, 2, 3 }).contains(4, 7);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -110,7 +110,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(1, 2, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(2, 3, 1);
@@ -118,7 +118,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(1, 2, 3, 4);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnly(4, 7);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -142,7 +142,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Examples :
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
    *
@@ -150,7 +150,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * assertThat(new byte[] { 1, 2, 1 }).containsOnlyOnce(1);
    * assertThat(new byte[] { 1, 2, 3 }).containsOnlyOnce(4);
    * assertThat(new byte[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);
-   * </pre>
+   * </code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -172,7 +172,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(1, 2);
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(1, 2, 3);
@@ -181,7 +181,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(1, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSequence(4, 7);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -201,7 +201,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2, 3);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(1, 2);
@@ -211,7 +211,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(2, 1);
    * assertThat(new byte[] { 1, 2, 3 }).containsSubsequence(4, 7);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -231,7 +231,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, atIndex(O));
    * assertThat(new byte[] { 1, 2, 3 }).contains(3, atIndex(2));
@@ -239,7 +239,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).contains(1, atIndex(1));
    * assertThat(new byte[] { 1, 2, 3 }).contains(4, atIndex(2));
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -262,13 +262,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(4);
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(2);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -289,7 +289,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(1, atIndex(1));
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(2, atIndex(0));
@@ -297,7 +297,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(1, atIndex(0));
    * assertThat(new byte[] { 1, 2, 3 }).doesNotContain(2, atIndex(1));
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -318,13 +318,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).doesNotHaveDuplicates();
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 1, 2, 3 }).doesNotHaveDuplicates();
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -344,13 +344,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).startsWith(1, 2);
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).startsWith(2, 3);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -373,13 +373,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).endsWith(2, 3);
    *
    * // assertion will fail
    * assertThat(new byte[] { 1, 2, 3 }).endsWith(3, 4);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    *
@@ -428,13 +428,13 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
    * <p>
    * Example :
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly(1, 2, 3);
    *
    * // assertion will fail as actual and expected orders differ.
    * assertThat(new byte[] { 1, 2, 3 }).containsExactly(2, 1, 3);
-   * </pre>
+   * </code></pre>
    *
    * @param values the given values.
    * @return {@code this} assertion object.

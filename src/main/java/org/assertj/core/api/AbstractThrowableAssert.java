@@ -108,7 +108,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * <p>
 	 * Example:
 	 *
-	 * <pre>
+	 * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new NullPointerException());
 	 *
 	 * // assertion will pass
@@ -117,7 +117,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 *
 	 * // assertion will fail
 	 * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
-	 * </pre>
+	 * </code></pre>
 	 *
 	 * </p>
 	 *
@@ -138,7 +138,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * <p>
 	 * Example:
 	 *
-	 * <pre>
+	 * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new NullPointerException());
 	 *
 	 * // assertion will pass
@@ -147,7 +147,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);
-	 * </pre>
+	 * </code></pre>
 	 *
 	 * </p>
 	 *
@@ -169,7 +169,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * <p>
 	 * Example:
 	 *
-	 * <pre>
+	 * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
@@ -178,7 +178,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 *
 	 * // assertion will fail
 	 * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);
-	 * </pre>
+	 * </code></pre>
 	 *
 	 * </p>
 	 *
@@ -199,7 +199,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * <p>
 	 * Example:
 	 *
-	 * <pre>
+	 * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
@@ -208,7 +208,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);
-	 * </pre>
+	 * </code></pre>
 	 *
 	 * </p>
 	 *

@@ -355,7 +355,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Let's take an example to make things clearer :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build a array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
    * // they can be public field or properties, both works when extracting their values.
    * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
@@ -380,7 +380,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
    * a property with the given name is looked for.
@@ -408,7 +408,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Let's take an example to make things clearer :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
    * // they can be public field or properties, both works when extracting their values.
    * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
@@ -433,7 +433,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * A field with the given name is looked for first, if it is not accessible (ie. does not exist or is not public) then
    * a property with the given name is looked for.
@@ -467,7 +467,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p/>
    * Let's take an example to make things clearer :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build an array of TolkienCharacter, a TolkienCharacter has a name (String) and a Race (a class)
    * // they can be public field or properties, both works when extracting their values.
    * TolkienCharacter[] fellowshipOfTheRing = new TolkienCharacter[] {
@@ -495,7 +495,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));
-   * </pre>
+   * </code></pre>
    * 
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
@@ -528,7 +528,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p/>
    * Let's take a look an example
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -552,7 +552,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * 
    * // fellowship has hobbitses, right, my presioussss?
    * assertThat(fellowshipOfTheRing).extracting(race).contains(HOBBIT);
-   * </pre>
+   * </code></pre>
    * 
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
@@ -590,7 +590,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Let's take an example to make things clearer :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] { new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
    *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
@@ -602,7 +602,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;)
    *                                  .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                                  .doesNotContain(&quot;Lannisters always pay their debts&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * <p>
    * Following requirements have to be met to extract method results:
@@ -636,7 +636,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Let's take an example to make things clearer :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * WesterosHouse[] greatHousesOfWesteros = new WesterosHouse[] { new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;),
    *     new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;), new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;),
@@ -648,7 +648,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * assertThat(greatHousesOfWesteros).extractingResultOf(&quot;sayTheWords&quot;, String.class)
    *                                  .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                                  .doesNotContain(&quot;Lannisters always pay their debts&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * <p>
    * Following requirements have to be met to extract method results:
@@ -680,31 +680,31 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p/>
    * Example
    * 
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(new Byte[] { 0x10, 0x20 }).inHexadecimal().contains(new Byte[] { 0x30 });
-   * </pre>
+   * </code></pre>
    *
    * With standard error message:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Expecting:
    *  <[16, 32]>
    * to contain:
    *  <[48]>
    * but could not find:
    *  <[48]>
-   * </pre>
+   * </code></pre>
    *
    * With Hexadecimal error message:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * Expecting:
    *  <[0x10, 0x20]>
    * to contain:
    *  <[0x30]>
    * but could not find:
    *  <[0x30]>
-   * </pre>
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    */

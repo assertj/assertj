@@ -5,7 +5,7 @@ package org.assertj.core.api;
  * <p>
  * Consider the following MyButton and MyButtonAssert classes:
  * 
- * <pre>
+ * <pre><code class='java'>
  * public class MyButton extends JButton {
  *
  *   private boolean blinking;
@@ -31,12 +31,12 @@ package org.assertj.core.api;
  *     assertThat(button.isBlinking()).isFalse();
  *   }
  * }
- * </pre>
+ * </code></pre>
  *
  * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
  * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
  *
- * <pre>
+ * <pre><code class='java'>
  * {@literal @}Test
  * public void AssertDelegateTarget_example() {
  *
@@ -50,7 +50,7 @@ package org.assertj.core.api;
  *
  *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
  * }
- * </pre>
+ * </code></pre>
  *
  * @author Christian Rösch
  */

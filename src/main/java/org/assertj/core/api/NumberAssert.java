@@ -76,7 +76,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
   
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
-   * <pre>
+   * <pre><code class='java'>
    * // these assertions succeed ... 
    * assertThat(12).isBetween(10, 14);
    * assertThat(12).isBetween(12, 14);
@@ -84,7 +84,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * 
    * // ... but these one fails
    * assertThat(12).isBetween(14, 16);
-   * </pre>
+   * </code></pre>
    * @param start the start value (inclusive), expected not to be null.
    * @param end the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -98,7 +98,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // this assertion succeeds ... 
    * assertThat(12).isBetween(10, 14);
    * 
@@ -106,7 +106,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * assertThat(12).isBetween(12, 14);
    * assertThat(12).isBetween(10, 12);
    * assertThat(12).isBetween(16, 18);
-   * </pre>
+   * </code></pre>
    * 
    * @param start the start value (exclusive), expected not to be null.
    * @param end the end value (exclusive), expected not to be null.

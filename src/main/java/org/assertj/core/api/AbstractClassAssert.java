@@ -39,17 +39,16 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} is assignable from others {@code Class}
    * 
-   * <pre>
-   *     class Jedi {}
-   *     class HumanJedi extends Jedi {}
+   * <pre><code class='java'>
+   * class Jedi {}
+   * class HumanJedi extends Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(Jedi.class).isAssignableFrom(HumanJedi.class);
+   * // Should pass if :
+   * assertThat(Jedi.class).isAssignableFrom(HumanJedi.class);
    * 
-   * Should fail if :
-   *     assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(HumanJedi.class).isAssignableFrom(Jedi.class);
+   * </code></pre>
    * 
    * @see Class#isAssignableFrom(Class)
    * @param others {@code Class} who can be assignable from.
@@ -66,17 +65,16 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} is not an interface.
    * 
-   * <pre>
-   *     interface Jedi {}
-   *     class HumanJedi implements Jedi {}
+   * <pre><code class='java'>
+   * interface Jedi {}
+   * class HumanJedi implements Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(HumanJedi.class).isNotInterface();
+   * // Should pass if :
+   * assertThat(HumanJedi.class).isNotInterface();
    * 
-   * Should fail if :
-   *     assertThat(Jedi.class).isNotInterface();
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(Jedi.class).isNotInterface();
+   * </code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
@@ -89,17 +87,16 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} is an interface.
    * 
-   * <pre>
-   *     interface Jedi {}
-   *     class HumanJedi implements Jedi {}
+   * <pre><code class='java'>
+   * interface Jedi {}
+   * class HumanJedi implements Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(Jedi.class).isInterface();
+   * // Should pass if :
+   * assertThat(Jedi.class).isInterface();
    * 
-   * Should fail if :
-   *     assertThat(HumanJedi.class).isInterface();
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(HumanJedi.class).isInterface();
+   * </code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is not an interface.
@@ -112,18 +109,17 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} is an annotation.
    * 
-   * <pre>
-   *     public @interface Jedi {}
+   * <pre><code class='java'>
+   * public @interface Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(Jedi.class).isAnnotation();
-   *     assertThat(Override.class).isAnnotation();
-   *     assertThat(Deprecated.class).isAnnotation();
+   * // Should pass if :
+   * assertThat(Jedi.class).isAnnotation();
+   * assertThat(Override.class).isAnnotation();
+   * assertThat(Deprecated.class).isAnnotation();
    * 
-   * Should fail if :
-   *     assertThat(String.class).isAnnotation();
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(String.class).isAnnotation();
+   * </code></pre>
    * 
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -137,18 +133,17 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} is not an annotation.
    * 
-   * <pre>
-   *     public @interface Jedi {}
+   * <pre><code class='java'>
+   * public @interface Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(String.class).isNotAnnotation();
+   * // Should pass if :
+   * assertThat(String.class).isNotAnnotation();
    * 
-   * Should fail if :
-   *     assertThat(Jedi.class).isNotAnnotation();
-   *     assertThat(Override.class).isNotAnnotation();
-   *     assertThat(Deprecated.class).isNotAnnotation();
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(Jedi.class).isNotAnnotation();
+   * assertThat(Override.class).isNotAnnotation();
+   * assertThat(Deprecated.class).isNotAnnotation();
+   * </code></pre>
    * 
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} is an annotation.
@@ -161,29 +156,28 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * 
-   * <pre>
-   *     @Target(ElementType.TYPE)
-   *     @Retention(RetentionPolicy.RUNTIME)
-   *     private static @interface Force { }
-   *     
-   *     @Target(ElementType.TYPE)
-   *     @Retention(RetentionPolicy.RUNTIME)
-   *     private static @interface Hero { }
-   *     
-   *     @Target(ElementType.TYPE)
-   *     @Retention(RetentionPolicy.RUNTIME)
-   *     private static @interface DarkSide { }
-   *     
-   *     @Hero @Force
-   *     class Jedi implements Jedi {}
+   * <pre><code class='java'>
+   * &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * private static @interface Force { }
    * 
-   * Should pass if :
-   *     assertThat(Jedi.class).containsAnnotations(Force.class, hero.class);
+   * &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * private static @interface Hero { }
    * 
-   * Should fail if :
-   *     assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);
+   * &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * private static @interface DarkSide { }
    * 
-   * </pre>
+   * &#64;Hero &#64;Force
+   * class Jedi implements Jedi {}
+   * 
+   * // Should pass if :
+   * assertThat(Jedi.class).containsAnnotations(Force.class, hero.class);
+   * 
+   * // Should fail if :
+   * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);
+   * </code></pre>
    * 
    * @param annotations annotations who must be attached to the class
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -197,20 +191,19 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}.
    * 
-   * <pre>
-   *     @Target(ElementType.TYPE)
-   *     @Retention(RetentionPolicy.RUNTIME)
-   *     private static @interface Force { }
-   *     @Force
-   *     class Jedi implements Jedi {}
+   * <pre><code class='java'>
+   * &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * private static @interface Force { }
+   * &#64;Force
+   * class Jedi implements Jedi {}
    * 
-   * Should pass if :
-   *     assertThat(Jedi.class).containsAnnotation(Force.class);
+   * // Should pass if :
+   * assertThat(Jedi.class).containsAnnotation(Force.class);
    * 
-   * Should fail if :
-   *     assertThat(Jedi.class).containsAnnotation(DarkSide.class);
-   * 
-   * </pre>
+   * // Should fail if :
+   * assertThat(Jedi.class).containsAnnotation(DarkSide.class);
+   * </code></pre>
    * 
    * @param annotation annotations who must be attached to the class
    * @throws AssertionError if {@code actual} is {@code null}.
@@ -225,19 +218,19 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} has the {@code fields}.
    * 
-   * <pre>
-   *     class MyClass {
-   *         public String fieldOne;
-   *         private String fieldTwo;
-   *     }
+   * <pre><code class='java'>
+   * class MyClass {
+   *     public String fieldOne;
+   *     private String fieldTwo;
+   * }
    * 
-   * This one should pass :
-   *    assertThat(MyClass.class).hasFields("fieldOne");
+   * // This one should pass :
+   * assertThat(MyClass.class).hasFields("fieldOne");
    * 
-   * This one should fail :
-   *    assertThat(MyClass.class).hasFields("fieldTwo");
-   *    assertThat(MyClass.class).hasDeclaredFields("fieldThree");
-   * </pre>
+   * // This one should fail :
+   * assertThat(MyClass.class).hasFields("fieldTwo");
+   * assertThat(MyClass.class).hasDeclaredFields("fieldThree");
+   * </code></pre>
    * 
    * @see Class#getField(String)
    * @param fields the fields who must be in the class.
@@ -252,18 +245,18 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   /**
    * Verifies that the actual {@code Class} has the declared {@code fields}.
    * 
-   * <pre>
-   *     class MyClass {
-   *         public String fieldOne;
-   *         private String fieldTwo;
-   *     }
+   * <pre><code class='java'>
+   * class MyClass {
+   *     public String fieldOne;
+   *     private String fieldTwo;
+   * }
    * 
-   * This one should pass :
-   *    assertThat(MyClass.class).hasDeclaredFields("fieldOne", "fieldTwo");
+   * // This one should pass :
+   * assertThat(MyClass.class).hasDeclaredFields("fieldOne", "fieldTwo");
    * 
-   * This one should fail :
-   *    assertThat(MyClass.class).hasDeclaredFields("fieldThree");
-   * </pre>
+   * // This one should fail :
+   * assertThat(MyClass.class).hasDeclaredFields("fieldThree");
+   * </code></pre>
    * 
    * @see Class#getDeclaredField(String)
    * @param fields the fields who must be declared in the class.

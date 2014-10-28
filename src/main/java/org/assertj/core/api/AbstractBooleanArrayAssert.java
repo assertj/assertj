@@ -40,13 +40,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).hasSize(2);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true }).hasSize(2);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -62,13 +62,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).hasSameSizeAs(Arrays.asList(1, 2));
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).hasSameSizeAs(Arrays.asList(1, 2, 3));
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -83,7 +83,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).contains(true, false);
    * assertThat(new boolean[] { false, true }).contains(true, false);
@@ -91,7 +91,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    *
    * // assertion will fail
    * assertThat(new boolean[] { true, true }).contains(false);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -112,14 +112,14 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).containsOnly(true, false);
    * assertThat(new boolean[] { true, false, false, true }).containsOnly(true, false);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).containsOnly(false);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -141,7 +141,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).containsOnlyOnce(true, false);
    * 
@@ -149,7 +149,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * assertThat(new boolean[] { true, false, true }).containsOnlyOnce(true);
    * assertThat(new boolean[] { true }).containsOnlyOnce(false);
    * assertThat(new boolean[] { true }).containsOnlyOnce(true, false);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -169,14 +169,14 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).containsSequence(true, false);
    * assertThat(new boolean[] { true, false, false, true }).containsSequence(false, true);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSequence(false, true);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -196,14 +196,14 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).containsSubsequence(true, false);
    * assertThat(new boolean[] { true, false, false, true }).containsSubsequence(true, true);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).containsSubsequence(false, true);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -223,7 +223,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).contains(true, atIndex(O));
    * assertThat(new boolean[] { true, false }).contains(false, atIndex(1));
@@ -231,7 +231,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).contains(false, atIndex(0));
    * assertThat(new boolean[] { true, false }).contains(true, atIndex(1));
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -254,13 +254,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, true }).doesNotContain(false);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotContain(false);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -281,7 +281,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).doesNotContain(true, atIndex(1));
    * assertThat(new boolean[] { true, false }).doesNotContain(false, atIndex(0));
@@ -289,7 +289,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * // assertion will fail
    * assertThat(new boolean[] { true, false }).doesNotContain(false, atIndex(1));
    * assertThat(new boolean[] { true, false }).doesNotContain(true, atIndex(0));
-   * </pre>
+   * </code></pre>
    *
    * </p>
    * 
@@ -310,13 +310,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false }).doesNotHaveDuplicates();
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, true, false }).doesNotHaveDuplicates();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -336,13 +336,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false, false, true }).startsWith(true, false);
    * 
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).startsWith(false, false, true);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -365,13 +365,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false, false, true }).endsWith(false, false, true);
    *
    * // assertion will fail
    * assertThat(new boolean[] { true, false, false, true }).endsWith(true, false);
-   * </pre>
+   * </code></pre>
    *
    * </p>
    * @param sequence the sequence of values to look for.
@@ -429,13 +429,13 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
    * <p>
    * Example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(new boolean[] { true, false, true }).containsExactly(true, false, true);
    * 
    * // assertion will fail as actual and expected orders differ.
    * assertThat(new boolean[] { true, false, true }).containsExactly(false, true, true);
-   * </pre>
+   * </code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

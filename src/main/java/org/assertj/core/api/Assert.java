@@ -122,11 +122,11 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * <p>
    * Examples :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // frodo and sam are instances of Character with Hobbit race (obviously :).
    * // raceComparator implements Comparator&lt;Character&gt; 
    * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam); 
-   * </pre>
+   * </code></pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.

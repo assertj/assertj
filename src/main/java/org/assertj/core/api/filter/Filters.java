@@ -36,7 +36,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * <p>
  * With {@link Condition} :
  * 
- * <pre>
+ * <pre><code class='java'>
  * List&lt;Player&gt; players = ...; 
  *   
  * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
@@ -47,14 +47,14 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * 
  * // use filter static method to build Filters
  * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose)
- * </pre>
+ * </code></pre>
  * 
  * With pseudo filter language on element properties :
  * 
- * <pre>
+ * <pre><code class='java'>
  * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
  *                           .and("assistsPerGame").greaterThan(7)
- *                           .get()).containsOnly(james, rose);</pre>
+ *                           .get()).containsOnly(james, rose);</code></pre>
  * 
  * @param <E> the type of element of group to filter.
  * 
@@ -84,7 +84,7 @@ public class Filters<E> {
    * <p>
    * - With {@link Condition} :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;Player&gt; players = ...; 
    *   
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
@@ -95,14 +95,14 @@ public class Filters<E> {
    * 
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose)
-   * </pre>
+   * </code></pre>
    * 
    * - With pseudo filter language on element properties :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7).get())
-   *                           .containsOnly(james, rose);</pre>
+   *                           .containsOnly(james, rose);</code></pre>
    * 
    * @param iterable the {@code Iterable} to filter.
    * @throws NullPointerException if the given iterable is {@code null}.
@@ -122,7 +122,7 @@ public class Filters<E> {
    * <p>
    * With {@link Condition} :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;Player&gt; players = ...; 
    *   
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
@@ -133,14 +133,14 @@ public class Filters<E> {
    * 
    * // use filter static method to build Filters
    * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
-   * </pre>
+   * </code></pre>
    * 
    * With pseudo filter language on element properties :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(filter(players).with("pointsPerGame").greaterThan(20)
    *                           .and("assistsPerGame").greaterThan(7)
-   *                           .get()).containsOnly(james, rose);</pre>
+   *                           .get()).containsOnly(james, rose);</code></pre>
    * @param array the array to filter.
    * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
@@ -170,7 +170,7 @@ public class Filters<E> {
    * Filter the underlying group, keeping only elements satisfying the given {@link Condition}.<br>
    * Same as {@link #having(Condition)} - pick the method you prefer to have the most readable code.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;Player&gt; players = ...; 
    *   
    * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP") {
@@ -180,7 +180,7 @@ public class Filters<E> {
    * };
    * 
    * // use filter static method to build Filters
-   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</pre>
+   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * 
    * @param condition the filter {@link Condition}.
    * @return this {@link Filters} to chain other filter operations.
@@ -195,7 +195,7 @@ public class Filters<E> {
    * Filter the underlying group, keeping only elements satisfying the given {@link Condition}.<br>
    * Same as {@link #being(Condition)} - pick the method you prefer to have the most readable code.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * List&lt;Player&gt; players = ...; 
    *   
    * Condition&lt;Player&gt; mvpStats = new Condition&lt;Player&gt;("is a possible MVP") {
@@ -205,7 +205,7 @@ public class Filters<E> {
    * };
    * 
    * // use filter static method to build Filters
-   * assertThat(filter(players).having(mvpStats).get()).containsOnly(james, rose);</pre>
+   * assertThat(filter(players).having(mvpStats).get()).containsOnly(james, rose);</code></pre>
    * 
    * @param condition the filter {@link Condition}.
    * @return this {@link Filters} to chain other filter operations.
@@ -232,14 +232,14 @@ public class Filters<E> {
    * <p>
    * Let's, for example, filter Employees with name "Alex" :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name", "Alex").get();
-   * </pre>
+   * </code></pre>
    * which is shortcut of :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyName the name of the property whose value will compared to given value. It may be a nested property.
    * @param propertyValue the expected property value.
@@ -258,9 +258,9 @@ public class Filters<E> {
    * <p>
    * The typical usage is to chain this call with a comparison method, for example :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyName the name of the property used for filtering. It may be a nested property.
    * @return this {@link Filters} to chain other filter operation.
@@ -275,9 +275,9 @@ public class Filters<E> {
   /**
    * Alias of {@link #with(String)} for synthetic sugar to write things like :.
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Alex").and("job").notEqualsTo("lawyer").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyName the name of the property used for filtering. It may be a nested property.
    * @return this {@link Filters} to chain other filter operation.
@@ -293,9 +293,9 @@ public class Filters<E> {
    * <p>
    * Typical usage :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name").equalsTo("Luke").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyValue the filter value.
    * @return this {@link Filters} to chain other filter operation.
@@ -322,9 +322,9 @@ public class Filters<E> {
    * <p>
    * Typical usage :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(employees).with("name").notEqualsTo("Vader").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyValue the filter value.
    * @return this {@link Filters} to chain other filter operation.
@@ -355,9 +355,9 @@ public class Filters<E> {
    * <p>
    * Typical usage :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(players).with("team").in("Bulls", "Lakers").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyValues the filter values.
    * @return this {@link Filters} to chain other filter operation.
@@ -383,9 +383,9 @@ public class Filters<E> {
    * <p>
    * Typical usage :
    * 
-   * <pre>
+   * <pre><code class='java'>
    * filter(players).with("team").notIn("Heat", "Lakers").get();
-   * </pre>
+   * </code></pre>
    * 
    * @param propertyValues the filter values.
    * @return this {@link Filters} to chain other filter operation.

@@ -111,9 +111,9 @@ public class Files {
    * Creates a new file in the system's temporary directory. The name of the file will be the result of:
    * <p/>
    * 
-   * <pre>
+   * <pre><code class='java'>
    * concat(String.valueOf(System.currentTimeMillis()), &quot;.txt&quot;);
-   * </pre>
+   * </code></pre>
    * 
    * @return the created file.
    */
@@ -126,9 +126,9 @@ public class Files {
    * Creates a new directory in the system's temporary directory. The name of the directory will be the result of:
    * <p/>
    * 
-   * <pre>
+   * <pre><code class='java'>
    * System.currentTimeMillis();
-   * </pre>
+   * </code></pre>
    * 
    * @return the created file.
    */

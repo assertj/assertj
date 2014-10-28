@@ -75,7 +75,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('A').isLessThan('a');
    * assertThat('a').isLessThan('b');
@@ -83,7 +83,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * // assertion will fail
    * assertThat('a').isLessThan('A');
    * assertThat('b').isLessThan('a');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -102,14 +102,14 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('A').isLessThanOrEqualTo('a');
    * assertThat('A').isLessThanOrEqualTo('A');
    *
    * // assertion will fail
    * assertThat('b').isLessThanOrEqualTo('a');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -128,7 +128,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('a').isGreaterThan('A');
    * assertThat('b').isGreaterThan('a');
@@ -136,7 +136,7 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * // assertion will fail
    * assertThat('A').isGreaterThan('a');
    * assertThat('a').isGreaterThan('b');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -157,22 +157,22 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * it is thus impossible to find differences from the standard error message:
    * <p/>
    * With standard error message:
-   * <pre>
+   * <pre><code class='java'>
    * assertThat('µ').isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
    * Expected :'μ'
    * Actual   :'µ'
-   * </pre>
+   * </code></pre>
    *
    * With unicode based error message:
-   * <pre>
+   * <pre><code class='java'>
    * assertThat('µ').inUnicode().isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
    * Expected :\u03bc
    * Actual   :\u00b5
-   * </pre>
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -186,14 +186,14 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('A').isGreaterThanOrEqualTo('A');
    * assertThat('b').isGreaterThanOrEqualTo('a');
    * 
    * // assertion will fail
    * assertThat('a').isGreaterThanOrEqualTo('b');
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -212,13 +212,13 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('a').isLowerCase();
    *
    * // assertion will fail
    * assertThat('A').isLowerCase();
-   * </pre>
+   * </code></pre>
    *
    * </p>
    * 
@@ -237,13 +237,13 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat('A').isLowerCase();
    * 
    * // assertion will fail
    * assertThat('a').isLowerCase();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 

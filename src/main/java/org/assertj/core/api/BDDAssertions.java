@@ -30,7 +30,7 @@ import java.util.Map;
  * <code>assertThat</code>.
  * <p>
  * For example:
- * <pre>
+ * <pre><code class='java'>
  * {@literal @}Test
  * public void bdd_assertions_examples() {
  *
@@ -43,7 +43,7 @@ import java.util.Map;
  *
  *   then(bulls).contains(rose, noah).doesNotContain(james);
  * }
- * </pre>
+ * </code></pre>
  *
  * @author Alex Ruiz
  * @author Yvonne Wang

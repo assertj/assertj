@@ -127,9 +127,9 @@ public class Dates {
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
    * <p> Example:
-   * <pre>
+   * <pre><code class='java'>
    * Date date = parseDatetime("2003-04-26T03:01:02");
-   * </pre>
+   * </code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
@@ -147,9 +147,9 @@ public class Dates {
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}, returns null if the given String is
    * null. <p> Example:
-   * <pre>
+   * <pre><code class='java'>
    * Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");
-   * </pre>
+   * </code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}
@@ -271,7 +271,7 @@ public class Dates {
    * Compute the time difference between the two given dates in milliseconds, it always gives a positive result.
    *
    * @param date1 the first date.
-   * @param date1 the second date.
+   * @param date2 the second date.
    * @return the difference between the two given dates in milliseconds
    * @throws IllegalArgumentException if one a the given Date is null.
    */

@@ -106,7 +106,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
    *
@@ -118,9 +118,9 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    *
    * // assertion will fail
    * assertThat(8.1).isCloseTo(8.0, within(0.01));
-   * </pre>
+   * </code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -165,7 +165,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * <p>
    * Example with double:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass:
    * assertThat(8.1).isEqualTo(8.0, offset(0.2));
    *
@@ -177,7 +177,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    *
    * // assertion will fail
    * assertThat(8.1).isEqualTo(8.0, offset(0.01));
-   * </pre>
+   * </code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.

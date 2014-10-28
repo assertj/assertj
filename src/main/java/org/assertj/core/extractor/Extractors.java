@@ -8,10 +8,10 @@ import org.assertj.core.groups.Tuple;
  * <p>
  * 
  * For example:
- * <pre>
+ * <pre><code class='java'>
  * assertThat(objectsList).extracting(toStringMethod()).contains("toString 1", "toString 2");
  * assertThat(objectsList).extracting(byName("field")).contains("someResult1", "someResult2");
- * </pre>
+ * </code></pre>
  * 
  * @author Mateusz Haligowski
  *

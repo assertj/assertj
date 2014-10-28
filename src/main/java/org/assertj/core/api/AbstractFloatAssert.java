@@ -116,7 +116,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * <p>
    * Example with double:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass:
    * assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
    *
@@ -128,14 +128,14 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    *
    * // assertion will fail
    * assertThat(8.1f).isCloseTo(8.2f, within(0.01f));
-   * </pre>
+   * </code></pre>
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
-   * <pre>
+   * <pre><code class='java'>
    *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
    * assertThat(8.1f).isCloseTo(8.0f, within(0.1f));
-   * </pre>
+   * </code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -154,7 +154,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass:
    * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.2f));
    *
@@ -166,14 +166,14 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    *
    * // assertion will fail
    * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.01f));
-   * </pre>
+   * </code></pre>
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
-   * <pre>
+   * <pre><code class='java'>
    *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
    * assertThat(8.1f).isCloseTo(new Float(8.0f), within(0.1f));
-   * </pre>
+   * </code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
@@ -192,7 +192,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.2f));
    *
@@ -204,12 +204,12 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    *
    * // assertion will fail
    * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.01f));
-   * </pre>
+   * </code></pre>
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
-   * <pre>
+   * <pre><code class='java'>
    *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
    * assertThat(8.1f).isEqualTo(new Float(8.0f), offset(0.1f));
-   * </pre>
+   * </code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -230,7 +230,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * <p>
    * Example:
    *
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat(8.1f).isEqualTo(8.2f, offset(0.1f));
    *
@@ -239,13 +239,13 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    *
    * // assertion will fail
    * assertThat(8.1f).isEqualTo(8.2f, offset(0.01f));
-   * </pre>
+   * </code></pre>
    *
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
-   * <pre>
+   * <pre><code class='java'>
    *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
    * assertThat(8.1f).isEqualTo(8.0f, offset(0.1f));
-   * </pre>
+   * </code></pre>
    *
 	 * @param expected the given value to compare the actual value to.
 	 * @param offset the given positive offset.

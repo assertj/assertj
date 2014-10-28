@@ -83,13 +83,13 @@ public class Properties<T> {
    * Specifies the target type of an instance that was previously created with {@link #extractProperty(String)}.
    * <p>
    * This is so that you can write:
-   * <pre>
+   * <pre><code class='java'>
    * extractProperty("name").ofType(String.class).from(fellowshipOfTheRing)
-   * </pre>
+   * </code></pre>
    * instead of:
-   * <pre>
+   * <pre><code class='java'>
    * extractProperty("name", String.class).from(fellowshipOfTheRing)
-   * </pre>
+   * </code></pre>
    * </p>
    * @param propertyType the type of property to extract.
    * @return a new {@code Properties} with the given type.

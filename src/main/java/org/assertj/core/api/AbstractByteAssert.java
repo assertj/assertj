@@ -89,13 +89,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 1).isPositive();
    * 
    * // assertion will fail
    * assertThat((byte) -1).isPositive();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -110,13 +110,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) -1).isNegative();
    * 
    * // assertion will fail
    * assertThat((byte) 1).isNegative();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -131,13 +131,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 1).isNotNegative();
    * 
    * // assertion will fail
    * assertThat((byte) -1).isNotNegative();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -152,13 +152,13 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) -1).isNotPositive();
    * 
    * // assertion will fail
    * assertThat((byte) 1).isNotPositive();
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -173,14 +173,14 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 1).isLessThan(2);
    * 
    * // assertion will fail
    * assertThat((byte) 1).isLessThan(0);
    * assertThat((byte) 1).isLessThan(1);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -199,14 +199,14 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 1).isLessThanOrEqualTo(2);
    * assertThat((byte) 1).isLessThanOrEqualTo(1);
    * 
    * // assertion will fail
    * assertThat((byte) 1).isLessThanOrEqualTo(0);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -225,14 +225,14 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 2).isGreaterThan(1);
    * 
    * // assertion will fail
    * assertThat((byte) 2).isGreaterThan(3);
    * assertThat((byte) 2).isGreaterThan(2);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -251,14 +251,14 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 2).isGreaterThanOrEqualTo(1);
    * assertThat((byte) 2).isGreaterThanOrEqualTo(2);
    *
    * // assertion will fail
    * assertThat((byte) 2).isGreaterThanOrEqualTo(3);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    * 
@@ -278,7 +278,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertions will pass
    * assertThat((byte) 1).isBetween((byte) -1, (byte) 2);
    * assertThat((byte) 1).isBetween((byte) 1, (byte) 2);
@@ -286,7 +286,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * 
    * // assertion will fail
    * assertThat((byte) 1).isBetween((byte) 2, (byte) 3);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */
@@ -302,7 +302,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * <p>
    * Example:
    * 
-   * <pre>
+   * <pre><code class='java'>
    * // assertion will pass
    * assertThat((byte) 1).isStrictlyBetween((byte) -1, (byte) 2);
    * 
@@ -310,7 +310,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * assertThat((byte) 1).isStrictlyBetween((byte) 1, (byte) 2);
    * assertThat((byte) 1).isStrictlyBetween((byte) 0, (byte) 1);
    * assertThat((byte) 1).isStrictlyBetween((byte) 2, (byte) 3);
-   * </pre>
+   * </code></pre>
    * 
    * </p>
    */

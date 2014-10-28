@@ -451,7 +451,7 @@ public class Iterables {
    * @param actualAsList the list to look sequance in
    * @param sequence the sequence to look for
    * @param startingIndex the index of actual list at which we start looking for sequence.
-   * @return
+   * @return true if actualAsList contains exactly the given sequence at given starting index, false otherwise.
    */
   private boolean containsSequenceAtGivenIndex(List<?> actualAsList, Object[] sequence, int startingIndex) {
     // check that, starting from given index, actualAsList has enough remaining elements to contain sequence

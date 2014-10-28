@@ -11,19 +11,19 @@ import org.junit.runners.model.Statement;
  * First, it's a junit rule, which can be used without having to call {@link SoftAssertions#assertAll() assertAll()},
  * example:
  *
- * <pre>
- * public class SoftlyTest {
- * 
- *   &#064;Rule
- *   public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
- * 
- *   &#064;Test
- *   public void testSoftly() throws Exception {
- * 	softly.assertThat(1).isEqualTo(2);
- * 	softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
- *   }
- * }
- * </pre>
+ * <pre><code class='java'>
+ *   public class SoftlyTest {
+ *
+ *     &#064;Rule
+ *     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+ *
+ *     &#064;Test
+ *     public void testSoftly() throws Exception {
+ *       softly.assertThat(1).isEqualTo(2);
+ *       softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+ *     }
+ *  }
+ * </code></pre>
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */

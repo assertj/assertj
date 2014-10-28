@@ -36,7 +36,7 @@ public interface Descriptable<S extends Descriptable<S>> {
    * Example :
    * </p>
    * 
-   * <pre>
+   * <pre><code class='java'>
    * try {
    *   // set a bad age to Mr Frodo which is really 33 years old.
    *   frodo.setAge(50);
@@ -46,7 +46,7 @@ public interface Descriptable<S extends Descriptable<S>> {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
    * }
    * 
-   * </pre>
+   * </code></pre>
    * 
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.

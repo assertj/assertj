@@ -20,7 +20,7 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * {@inheritDoc}
    * <p>
    * Example with byte array:
-   * <pre>
+   * <pre><code class='java'>
    * // assertions will pass
    * assertThat(new byte[]{1, 2}).hasSameSizeAs(new byte[]{2, 3});
    * assertThat(new byte[]{1, 2}).hasSameSizeAs(new Byte[]{2, 3});
@@ -29,7 +29,7 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    *
    * // assertion will fail
    * assertThat(new byte[]{ 1, 2 }).hasSameSizeAs(new byte[]{ 1, 2, 3 });
-   * </pre>
+   * </code></pre>
    */
   public S hasSameSizeAs(Object other) {
     assertIsArray(info, other);
@@ -47,29 +47,29 @@ public abstract class AbstractEnumerableAssert<S extends AbstractEnumerableAsser
    * It can be useful to better understand what the error was with a more meaningful error message.
    * <p/>
    * Example
-   * <pre>
+   * <pre><code class='java'>
    * assertThat(new byte[]{0x10,0x20}).inHexadecimal().contains(new byte[]{0x30});
-   * </pre>
+   * </code></pre>
    *
    * With standard error message:
-   * <pre>
+   * <pre><code class='java'>
    * Expecting:
    *  <[16, 32]>
    * to contain:
    *  <[48]>
    * but could not find:
    *  <[48]>
-   * </pre>
+   * </code></pre>
    *
    * With Hexadecimal error message:
-   * <pre>
+   * <pre><code class='java'>
    * Expecting:
    *  <[0x10, 0x20]>
    * to contain:
    *  <[0x30]>
    * but could not find:
    *  <[0x30]>
-   * </pre>
+   * </code></pre>
    *
    * @return {@code this} assertion object.
    */

@@ -25,7 +25,7 @@ import java.util.List;
  * disturbed:
  * </p>
  * 
- * <pre>
+ * <pre><code class='java'>
  * &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
@@ -38,15 +38,15 @@ import java.util.List;
  *   assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  * }
- * </pre>
+ * </code></pre>
  * 
  * <p>
  * After running the test, JUnit provides us with the following exception message:
  * </p>
  * 
- * <pre>
+ * <pre><code class='java'>
  * org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
- * </pre>
+ * </code></pre>
  * 
  * <p>
  * Oh no! A guest has been murdered! But where, how, and by whom?
@@ -63,7 +63,7 @@ import java.util.List;
  * by using a SoftAssertions instance instead of the static methods on {@link Assertions} as follows:
  * </p>
  * 
- * <pre>
+ * <pre><code class='java'>
  * &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
@@ -78,19 +78,19 @@ import java.util.List;
  *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.assertAll();
  * }
- * </pre>
+ * </code></pre>
  * 
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
  * </p>
  * 
- * <pre>
+ * <pre><code class='java'>
  * org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
  * 1) [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
  * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
  * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
  * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;
- * </pre>
+ * </code></pre>
  * 
  * <p>
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
@@ -117,7 +117,7 @@ import java.util.List;
  * 
  * @author Brian Laframboise
  * 
- * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the inspiration
  */
 public class SoftAssertions extends AbstractSoftAssertions {
 
