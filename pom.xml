@@ -128,6 +128,24 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- (1) CSS file location -->
+          <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
+          <!-- (2) Highlight Javascript file -->
+          <top><![CDATA[
+            <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+          ]]></top>
+          <!-- init Highlight -->
+          <footer><![CDATA[
+            <script type="text/javascript">
+              hljs.initHighlightingOnLoad();
+            </script>
+          ]]></footer>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
