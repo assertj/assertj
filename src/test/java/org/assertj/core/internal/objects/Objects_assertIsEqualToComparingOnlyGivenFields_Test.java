@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
@@ -140,9 +141,17 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
   }
 
   @Test
-  public void should_fail_when_selected_field_is_not_accessible() {
+  public void should_fail_when_selected_field_is_not_accessible_and_private_field_use_is_forbidden() {
+    Assertions.setAllowComparingPrivateFields(false);
 	thrown.expect(IntrospectionError.class,
 		"Unable to obtain the value of <'strangeNotReadablePrivateField'> field/property from <Yoda the Jedi>, expecting a public field or getter");
+	Jedi actual = new Jedi("Yoda", "Green");
+	Jedi other = new Jedi("Yoda", "Blue");
+	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
+  }
+
+  @Test
+  public void should_pass_when_selected_field_is_private_and_private_field_use_is_allowed() {
 	Jedi actual = new Jedi("Yoda", "Green");
 	Jedi other = new Jedi("Yoda", "Blue");
 	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
