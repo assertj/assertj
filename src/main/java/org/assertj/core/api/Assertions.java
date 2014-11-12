@@ -526,8 +526,12 @@ public class Assertions {
    * @param runnable the runnable to check for exceptions.
    * @return the created assertion object.
    */
-  public static ThrowingRunnableAssert expect(ThrowingRunnable runnable) {
+  public static ThrowingRunnableAssert assertThatExceptionThrownBy(ThrowingRunnable runnable) {
     return new ThrowingRunnableAssert(runnable);
+  }
+
+  public static ThrowingRunnableAssert assertThatThrowableThrownBy(ThrowingRunnable runnable) {
+    return assertThatExceptionThrownBy(runnable);
   }
 
   // -------------------------------------------------------------------------------------------------

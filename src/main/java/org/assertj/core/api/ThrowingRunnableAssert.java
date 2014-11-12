@@ -7,7 +7,7 @@ public class ThrowingRunnableAssert {
     this.runnable = runnable;
   }
 
-  public <T extends Throwable> AbstractThrowableAssert<?, ? extends Throwable> toThrow(Class<T> exceptionClass)
+  public <T extends Throwable> AbstractThrowableAssert<?, ? extends Throwable> isInstanceOf(Class<T> exceptionClass)
       throws Exception {
 
     try {
