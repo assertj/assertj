@@ -20,6 +20,10 @@ public class ThrowingRunnableAssert {
       // this will *never* happen...
       return null;
 
+    } catch (AssertionError e) {
+      // do not handle AssertionErrors in the next catch block!
+      throw e;
+
     } catch (Throwable e) {
       // check if the right exception was thrown
       return Assertions.assertThat(e).isInstanceOf(exceptionClass);
