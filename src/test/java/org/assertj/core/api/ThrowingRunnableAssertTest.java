@@ -4,7 +4,7 @@ import org.junit.Test;
 
 public class ThrowingRunnableAssertTest {
   @Test
-  public void testCorrectExceptionThrown() throws Exception {
+  public void should_pass_if_correct_exception_is_thrown() throws Exception {
     Assertions.assertThatExceptionThrownBy(new ThrowingRunnable() {
       @Override
       public void run() throws Exception {
@@ -14,7 +14,7 @@ public class ThrowingRunnableAssertTest {
   }
 
   @Test
-  public void testNoExceptionThrown() throws Exception {
+  public void should_fail_if_no_exception_is_thrown() throws Exception {
     try {
       Assertions.assertThatExceptionThrownBy(new ThrowingRunnable() {
         @Override
@@ -31,7 +31,7 @@ public class ThrowingRunnableAssertTest {
   }
 
   @Test
-  public void testWrongExceptionThrown() throws Exception {
+  public void should_fail_if_wrong_exception_is_thrown() throws Exception {
     try {
       Assertions.assertThatExceptionThrownBy(new ThrowingRunnable() {
         @Override
@@ -54,7 +54,7 @@ public class ThrowingRunnableAssertTest {
   }
 
   @Test
-  public void testWrongMessage() throws Exception {
+  public void should_fail_if_thrown_exception_has_wrong_message() throws Exception {
     try {
       Assertions.assertThatExceptionThrownBy(new ThrowingRunnable() {
         @Override
