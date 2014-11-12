@@ -1,9 +1,9 @@
 package org.assertj.core.api;
 
-public class ExceptionalRunnableAssert {
-  private final ExceptionalRunnable runnable;
+public class ThrowingRunnableAssert {
+  private final ThrowingRunnable runnable;
 
-  public ExceptionalRunnableAssert(ExceptionalRunnable runnable) {
+  public ThrowingRunnableAssert(ThrowingRunnable runnable) {
     this.runnable = runnable;
   }
 

@@ -521,13 +521,13 @@ public class Assertions {
   }
 
   /**
-   * Creates a new instance of <code>{@link ExceptionalRunnableAssert}</code>.
+   * Creates a new instance of <code>{@link ThrowingRunnableAssert}</code>.
    *
    * @param runnable the runnable to check for exceptions.
    * @return the created assertion object.
    */
-  public static ExceptionalRunnableAssert expect(ExceptionalRunnable runnable) {
-    return new ExceptionalRunnableAssert(runnable);
+  public static ThrowingRunnableAssert expect(ThrowingRunnable runnable) {
+    return new ThrowingRunnableAssert(runnable);
   }
 
   // -------------------------------------------------------------------------------------------------

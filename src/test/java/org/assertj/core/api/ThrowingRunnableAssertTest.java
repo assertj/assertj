@@ -2,10 +2,10 @@ package org.assertj.core.api;
 
 import org.junit.Test;
 
-public class ExceptionalRunnableAssertTest {
+public class ThrowingRunnableAssertTest {
   @Test
   public void testCorrectExceptionThrown() throws Exception {
-    Assertions.expect(new ExceptionalRunnable() {
+    Assertions.expect(new ThrowingRunnable() {
       @Override
       public void run() throws Exception {
         throw new IllegalArgumentException("something was wrong");
@@ -15,7 +15,7 @@ public class ExceptionalRunnableAssertTest {
 
   @Test(expected = AssertionError.class)
   public void testNoExceptionThrown() throws Exception {
-    Assertions.expect(new ExceptionalRunnable() {
+    Assertions.expect(new ThrowingRunnable() {
       @Override
       public void run() throws Exception {
         // no exception
@@ -25,7 +25,7 @@ public class ExceptionalRunnableAssertTest {
 
   @Test(expected = AssertionError.class)
   public void testWrongExceptionThrown() throws Exception {
-    Assertions.expect(new ExceptionalRunnable() {
+    Assertions.expect(new ThrowingRunnable() {
       @Override
       public void run() throws Exception {
         throw new IllegalArgumentException();
@@ -35,7 +35,7 @@ public class ExceptionalRunnableAssertTest {
 
   @Test(expected = AssertionError.class)
   public void testWrongMessage() throws Exception {
-    Assertions.expect(new ExceptionalRunnable() {
+    Assertions.expect(new ThrowingRunnable() {
       @Override
       public void run() throws Exception {
         throw new IllegalArgumentException("something was wrong");
