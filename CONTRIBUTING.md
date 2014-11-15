@@ -5,6 +5,7 @@ Thank you for your interest in contributing to AssertJ assertions!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines:
 
+* If you contribute to Java 8 feature, please work in java-8 branch.
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it)
 * Write complete Javadocs for each assertion method and include a code example.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
@@ -39,7 +40,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  * <p>
  * Example:
  *
- * <pre>
+ * <pre><code class='java'>
  * String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
  *
  * // this assertion succeeds ...
@@ -47,7 +48,7 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  *
  * // ... but this one fails as "author" must come after "A Game of Thrones"
  * assertThat(book).containsSequence("{", "author", "A Game of Thrones", "}");
- * </pre>
+ * </code></pre>
  *
  * @param values the Strings to look for, in order.
  * @return {@code this} assertion object.
