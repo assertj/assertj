@@ -14,3 +14,4 @@ out
 /expected.txt
 #jEnv configuration
 .java-version
+/bin/
