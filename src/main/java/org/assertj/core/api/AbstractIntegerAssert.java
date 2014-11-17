@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.Comparator;
+import java.util.function.IntPredicate;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
@@ -20,11 +21,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
- * 
+ *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- * 
+ *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -34,133 +35,133 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> extends
-    AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
+AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   @VisibleForTesting
   Integers integers = Integers.instance();
 
   protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {
-    super(actual, selfType);
+	super(actual, selfType);
   }
 
   /**
    * Verifies that the actual value is equal to the given one.
-   * 
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public S isEqualTo(int expected) {
-    integers.assertEqual(info, actual, expected);
-    return myself;
+	integers.assertEqual(info, actual, expected);
+	return myself;
   }
 
   /**
    * Verifies that the actual value is not equal to the given one.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public S isNotEqualTo(int other) {
-    integers.assertNotEqual(info, actual, other);
-    return myself;
+	integers.assertNotEqual(info, actual, other);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isZero() {
-    integers.assertIsZero(info, actual);
-    return myself;
+	integers.assertIsZero(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotZero() {
-    integers.assertIsNotZero(info, actual);
-    return myself;
+	integers.assertIsNotZero(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isPositive() {
-    integers.assertIsPositive(info, actual);
-    return myself;
+	integers.assertIsPositive(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNegative() {
-    integers.assertIsNegative(info, actual);
-    return myself;
+	integers.assertIsNegative(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotNegative() {
-    integers.assertIsNotNegative(info, actual);
-    return myself;
+	integers.assertIsNotNegative(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotPositive() {
-    integers.assertIsNotPositive(info, actual);
-    return myself;
+	integers.assertIsNotPositive(info, actual);
+	return myself;
   }
 
   /**
    * Verifies that the actual value is less than the given one.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public S isLessThan(int other) {
-    integers.assertLessThan(info, actual, other);
-    return myself;
+	integers.assertLessThan(info, actual, other);
+	return myself;
   }
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public S isLessThanOrEqualTo(int other) {
-    integers.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+	integers.assertLessThanOrEqualTo(info, actual, other);
+	return myself;
   }
 
   /**
    * Verifies that the actual value is greater than the given one.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public S isGreaterThan(int other) {
-    integers.assertGreaterThan(info, actual, other);
-    return myself;
+	integers.assertGreaterThan(info, actual, other);
+	return myself;
   }
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
-   * 
+   *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is less than the given one.
    */
   public S isGreaterThanOrEqualTo(int other) {
-    integers.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+	integers.assertGreaterThanOrEqualTo(info, actual, other);
+	return myself;
   }
 
   /**
@@ -168,8 +169,8 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    */
   @Override
   public S isBetween(Integer start, Integer end) {
-    integers.assertIsBetween(info, actual, start, end);
-    return myself;
+	integers.assertIsBetween(info, actual, start, end);
+	return myself;
   }
 
   /**
@@ -177,21 +178,30 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    */
   @Override
   public S isStrictlyBetween(Integer start, Integer end) {
-    integers.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+	integers.assertIsStrictlyBetween(info, actual, start, end);
+	return myself;
   }
 
   @Override
   public S usingComparator(Comparator<? super Integer> customComparator) {
-    super.usingComparator(customComparator);
-    integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
+	super.usingComparator(customComparator);
+	integers = new Integers(new ComparatorBasedComparisonStrategy(customComparator));
+	return myself;
   }
 
   @Override
   public S usingDefaultComparator() {
-    super.usingDefaultComparator();
-    integers = Integers.instance();
-    return myself;
+	super.usingDefaultComparator();
+	integers = Integers.instance();
+	return myself;
+  }
+
+  /**
+   * Handle a lambda as a condition
+   * @param lambda
+   * @return
+   */
+  public S is(IntPredicate lambda) {
+	return super.is(Lambdas.toCondition(lambda));
   }
 }
