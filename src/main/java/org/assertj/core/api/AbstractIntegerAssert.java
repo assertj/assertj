@@ -21,11 +21,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
- *
+ * 
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
- *
+ * 
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Ansgar Konermann
@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  */
 public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> extends
-AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
+    AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   @VisibleForTesting
   Integers integers = Integers.instance();
@@ -46,7 +46,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is equal to the given one.
-   *
+   * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -59,7 +59,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is not equal to the given one.
-   *
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -114,7 +114,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is less than the given one.
-   *
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -127,7 +127,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
-   *
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -140,7 +140,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is greater than the given one.
-   *
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -153,7 +153,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
-   *
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -198,6 +198,7 @@ AbstractComparableAssert<S, Integer> implements NumberAssert<S, Integer> {
 
   /**
    * Handle a lambda as a condition
+   * 
    * @param lambda
    * @return
    */
