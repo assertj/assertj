@@ -15,10 +15,9 @@ package org.assertj.core.api;
 import java.util.function.IntPredicate;
 import java.util.function.Predicate;
 
-import org.assertj.core.api.Condition;
-
 /**
  * A utility class for handling Java 8 lambdas
+ * 
  * @author arothkopf
  *
  */
@@ -26,6 +25,7 @@ public class Lambdas {
 
   /**
    * Conversion from lambda to Condition for non-primitive types
+   * 
    * @param lambda
    * @return Condition which tests the predicate
    */
@@ -40,6 +40,7 @@ public class Lambdas {
 
   /**
    * Conversion from lambda to Condition for int
+   * 
    * @param lambda
    * @return Condition which tests the predicate
    */

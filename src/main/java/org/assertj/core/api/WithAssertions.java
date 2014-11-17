@@ -537,27 +537,27 @@ public interface WithAssertions {
 	Assertions.useDefaultDateFormatsOnly();
   }
 
-  //  TODO : uncomment once Java 8 classes are all integrated in the branch
-  //  /**
-  //   * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(ZonedDateTime)}
-  //   */
-  //  default public ZonedDateTimeAssert assertThat(final ZonedDateTime actual) {
-  //	return Assertions.assertThat(actual);
-  //  }
+  // TODO : uncomment once Java 8 classes are all integrated in the branch
+  // /**
+  // * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(ZonedDateTime)}
+  // */
+  // default public ZonedDateTimeAssert assertThat(final ZonedDateTime actual) {
+  // return Assertions.assertThat(actual);
+  // }
   //
-  //  /**
-  //   * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(Optional)}
-  //   */
-  //  default public <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
-  //	return Assertions.assertThat(optional);
-  //  }
+  // /**
+  // * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(Optional)}
+  // */
+  // default public <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
+  // return Assertions.assertThat(optional);
+  // }
   //
-  //  /**
-  //   * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(LocalDateTime)}
-  //   */
-  //  default public LocalDateTimeAssert assertThat(final LocalDateTime localDateTime) {
-  //	return Assertions.assertThat(localDateTime);
-  //  }
+  // /**
+  // * Delegate call to {@link org.assertj.core8.api.Assertions#assertThat(LocalDateTime)}
+  // */
+  // default public LocalDateTimeAssert assertThat(final LocalDateTime localDateTime) {
+  // return Assertions.assertThat(localDateTime);
+  // }
 
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a complete entry point to all AssertJ features.
