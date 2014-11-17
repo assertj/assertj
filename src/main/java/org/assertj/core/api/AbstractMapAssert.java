@@ -52,14 +52,16 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /** {@inheritDoc} */
   @Override
-  public void isNullOrEmpty() {
-	maps.assertNullOrEmpty(info, actual);
+  public S isNullOrEmpty() {
+    maps.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void isEmpty() {
-	maps.assertEmpty(info, actual);
+  public S isEmpty() {
+    maps.assertEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */

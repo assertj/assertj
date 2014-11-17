@@ -19,14 +19,16 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
 
   /** {@inheritDoc} */
   @Override
-  public void isNullOrEmpty() {
+  public AbstractEnumerableAssert<S, double[], Double> isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void isEmpty() {
+  public AbstractEnumerableAssert<S, double[], Double> isEmpty() {
     arrays.assertEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */

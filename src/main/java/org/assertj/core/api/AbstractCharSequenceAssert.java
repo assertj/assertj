@@ -70,8 +70,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length.
    */
   @Override
-  public void isNullOrEmpty() {
+  public S isNullOrEmpty() {
     strings.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /**
@@ -97,8 +98,9 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length or is null.
    */
   @Override
-  public void isEmpty() {
+  public S isEmpty() {
     strings.assertEmpty(info, actual);
+    return myself;
   }
 
   /**

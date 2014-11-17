@@ -65,8 +65,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @throws AssertionError {@inheritDoc}
    */
   @Override
-  public void isNullOrEmpty() {
-	arrays.assertNullOrEmpty(info, actual);
+  public AbstractObjectArrayAssert<S, T> isNullOrEmpty() {
+    arrays.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /**
@@ -75,8 +76,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @throws AssertionError {@inheritDoc}
    */
   @Override
-  public void isEmpty() {
-	arrays.assertEmpty(info, actual);
+  public AbstractObjectArrayAssert<S, T> isEmpty() {
+    arrays.assertEmpty(info, actual);
+    return myself;
   }
 
   /**
