@@ -19,14 +19,16 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
 
   /** {@inheritDoc} */
   @Override
-  public void isNullOrEmpty() {
+  public AbstractEnumerableAssert<S, int[], Integer> isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void isEmpty() {
+  public AbstractEnumerableAssert<S, int[], Integer> isEmpty() {
     arrays.assertEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */

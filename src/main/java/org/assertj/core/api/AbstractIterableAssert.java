@@ -60,16 +60,18 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public void isNullOrEmpty() {
+  public S isNullOrEmpty() {
     iterables.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void isEmpty() {
+  public S isEmpty() {
     iterables.assertEmpty(info, actual);
+    return myself;
   }
 
   /**

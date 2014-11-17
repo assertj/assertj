@@ -19,14 +19,16 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
 
   /** {@inheritDoc} */
   @Override
-  public void isNullOrEmpty() {
+  public AbstractEnumerableAssert<S, float[], Float> isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void isEmpty() {
+  public AbstractEnumerableAssert<S, float[], Float> isEmpty() {
     arrays.assertEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */

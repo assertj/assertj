@@ -18,14 +18,16 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
 
   /** {@inheritDoc} */
   @Override
-  public void isNullOrEmpty() {
+  public AbstractEnumerableAssert<S, boolean[], Boolean> isNullOrEmpty() {
     arrays.assertNullOrEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public void isEmpty() {
+  public AbstractEnumerableAssert<S, boolean[], Boolean> isEmpty() {
     arrays.assertEmpty(info, actual);
+    return myself;
   }
 
   /** {@inheritDoc} */
