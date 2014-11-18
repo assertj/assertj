@@ -50,8 +50,7 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractListAssert<?, ? extends List<Object>, Object> assertions = Assertions.assertThat(emptyList());
-    assertNotNull(assertions);
+    assertNotNull(Assertions.assertThat(emptyList()));
   }
 
   @Test

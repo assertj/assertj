@@ -24,21 +24,18 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractIterableAssert<?, ? extends Iterable<Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
-    assertNotNull(assertions);
+    assertNotNull(Assertions.assertThat(newLinkedHashSet()));
   }
 
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat(names);
-    assertThat(assertions.actual, hasItems("Leia", "Luke"));
+    assertThat(assertThat(names).actual, hasItems("Leia", "Luke"));
   }
 
   @Test
   public void should_allow_null() {
-    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat((Iterator<String>) null);
-    assertThat(assertions.actual).isNull();
+    assertThat(assertThat((Iterator<String>) null).actual).isNull();
   }
 
   @Test
