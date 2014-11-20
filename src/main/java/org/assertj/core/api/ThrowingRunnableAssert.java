@@ -26,7 +26,22 @@ public class ThrowingRunnableAssert {
 
     } catch (Throwable e) {
       // check if the right exception was thrown
-      return Assertions.assertThat(e).isInstanceOf(exceptionClass);
+      return new ThrowableAssertProxy(e).isInstanceOf(exceptionClass);
+    }
+  }
+
+  public <T extends Throwable> ThrowableAssertProxy toThrow(Class<T> exceptionClass)
+      throws Exception {
+    return (ThrowableAssertProxy) isInstanceOf(exceptionClass);
+  }
+
+  public static class ThrowableAssertProxy extends ThrowableAssert {
+    protected ThrowableAssertProxy(Throwable actual) {
+      super(actual);
+    }
+
+    public ThrowableAssert that() {
+      return this;
     }
   }
 }

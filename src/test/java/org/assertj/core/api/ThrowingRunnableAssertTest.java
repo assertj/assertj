@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
+import static org.assertj.core.api.Assertions.expect;
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 
 public class ThrowingRunnableAssertTest {
@@ -15,6 +16,13 @@ public class ThrowingRunnableAssertTest {
         throw new IllegalArgumentException("something was wrong");
       }
     }).isInstanceOf(IllegalArgumentException.class).hasMessage("something was wrong");
+
+    expect(new ThrowingRunnable() {
+      @Override
+      public void run() throws Exception {
+        throw new IllegalArgumentException("something was wrong");
+      }
+    }).toThrow(IllegalArgumentException.class).that().hasMessage("something was wrong");
   }
 
   @Test
@@ -26,6 +34,20 @@ public class ThrowingRunnableAssertTest {
           // no exception
         }
       }).isInstanceOf(IllegalArgumentException.class);
+
+      failBecauseExceptionWasNotThrown(AssertionError.class);
+
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage("Expected IllegalArgumentException to be thrown");
+    }
+
+    try {
+      expect(new ThrowingRunnable() {
+        @Override
+        public void run() throws Exception {
+          // no exception
+        }
+      }).toThrow(IllegalArgumentException.class);
 
       failBecauseExceptionWasNotThrown(AssertionError.class);
 
@@ -55,6 +77,26 @@ public class ThrowingRunnableAssertTest {
           "but was instance of:\n" +
           " <java.lang.IllegalArgumentException>");
     }
+
+    try {
+      expect(new ThrowingRunnable() {
+        @Override
+        public void run() throws Exception {
+          throw new IllegalArgumentException();
+        }
+      }).toThrow(IllegalStateException.class);
+
+      failBecauseExceptionWasNotThrown(AssertionError.class);
+
+    } catch (AssertionError e) {
+      assertThat(e).hasMessageContaining(
+          "Expecting:\n" +
+          " <java.lang.IllegalArgumentException>\n" +
+          "to be an instance of:\n" +
+          " <java.lang.IllegalStateException>\n" +
+          "but was instance of:\n" +
+          " <java.lang.IllegalArgumentException>");
+    }
   }
 
   @Test
@@ -66,6 +108,24 @@ public class ThrowingRunnableAssertTest {
           throw new IllegalArgumentException("something was wrong");
         }
       }).isInstanceOf(IllegalArgumentException.class).hasMessage("something was not wrong?!");
+
+      failBecauseExceptionWasNotThrown(AssertionError.class);
+
+    } catch (AssertionError e) {
+      assertThat(e).hasMessageContaining(
+          "Expecting message:\n" +
+          " <\"something was not wrong?!\">\n" +
+          "but was:\n" +
+          " <\"something was wrong\">");
+    }
+
+    try {
+      expect(new ThrowingRunnable() {
+        @Override
+        public void run() throws Exception {
+          throw new IllegalArgumentException("something was wrong");
+        }
+      }).toThrow(IllegalArgumentException.class).that().hasMessage("something was not wrong?!");
 
       failBecauseExceptionWasNotThrown(AssertionError.class);
 

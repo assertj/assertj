@@ -534,6 +534,10 @@ public class Assertions {
     return assertThatExceptionThrownBy(runnable);
   }
 
+  public static ThrowingRunnableAssert expect(ThrowingRunnable runnable) {
+    return assertThatExceptionThrownBy(runnable);
+  }
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
