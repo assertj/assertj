@@ -43,10 +43,11 @@ public class FieldSupport_fieldValues_Test {
   private FieldSupport fieldSupport = FieldSupport.instance();
 
   @Before
-  public void setUpOnce() {
+  public void setUp() {
 	yoda = new Employee(1L, new Name("Yoda"), 800);
 	luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
 	employees = newArrayList(yoda, luke);
+	FieldSupport.setAllowExtractingPrivateFields(true);
   }
 
   @Rule
