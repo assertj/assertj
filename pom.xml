@@ -31,6 +31,9 @@
     <system>github</system>
     <url>https://github.com/joel-costigliola/assertj-core/issues</url>
   </issueManagement>
+  <properties>
+    <additionalparam>-Xdoclint:none</additionalparam>
+  </properties>  
   <dependencies>
     <dependency>
       <groupId>org.mockito</groupId>
