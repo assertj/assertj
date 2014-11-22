@@ -12,6 +12,7 @@
  */
 package org.assertj.core.presentation;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 
@@ -65,6 +66,8 @@ public class StandardRepresentation implements Representation {
       return toStringOf((SimpleDateFormat) object);
     } else if (object instanceof Tuple) {
       return toStringOf((Tuple) object, this);
+    } else if (object instanceof PredicateDescription) {
+      return toStringOf((PredicateDescription) object);
     }
     return defaultToString(object, this);
   }
@@ -103,6 +106,11 @@ public class StandardRepresentation implements Representation {
     return concat("'", c, "'");
   }
 
+  private static String toStringOf(PredicateDescription p) {
+	// don't enclose default description with '' 
+	return p.isDefault() ? format("%s", p.description) : format("'%s'", p.description);
+  }
+  
   private static String toStringOf(Date d) {
     return Dates.formatAsDatetime(d);
   }

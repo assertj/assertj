@@ -121,6 +121,9 @@ public final class ErrorMessages {
     return "The array of values to look for should not be empty";
   }
 
+  public static String predicateIsNull() {
+    return "The predicate must not be null";
+  }
   private ErrorMessages() {
   }
 }
