@@ -46,16 +46,53 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param expected values expected to be contained in {@code actual}.
    * @param notFound values in {@code expected} not found in {@code actual}.
    * @param notExpected values in {@code actual} that were not in {@code expected}.
+   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
+                                                      Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+    if (isEmpty(notExpected)) {
+      return new ShouldContainOnly(actual, expected, notFound, comparisonStrategy);
+    }
+
+    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldContainOnly}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param notFound values in {@code expected} not found in {@code actual}.
+   * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected) {
-    return new ShouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+    return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  }
+
+  /**
+   * Creates a new </code>{@link ShouldContainOnly}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param notFound values in {@code expected} not found in {@code actual}.
+   * @param notExpected values in {@code actual} that were not in {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
+                                                      Iterable<?> notExpected) {
+    return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
   private ShouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected,
       ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n <%s>\nto contain only:\n <%s>\nelements not found:\n <%s>\nand elements not expected:\n <%s>\n%s", actual,
         expected, notFound, notExpected, comparisonStrategy);
+  }
+
+  private ShouldContainOnly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n <%s>\nto contain only:\n <%s>\nbut could not find the following elements:\n"
+          + " <%s>\n%s",
+          actual, expected, notFound, comparisonStrategy);
   }
 
 }

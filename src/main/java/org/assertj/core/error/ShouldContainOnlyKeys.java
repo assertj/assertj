@@ -37,10 +37,31 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
     return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
+  /**
+   * Creates a new </code>{@link ShouldContainOnlyKeys}</code>.
+   * @param actual the actual value in the failed assertion.
+   * @param expected values expected to be contained in {@code actual}.
+   * @param notFound values in {@code expected} not found in {@code actual}.
+   * @param notExpected values in {@code actual} that were not in {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainOnlyKeys(Object actual, Object expected, Object notFound,
+                                                          Iterable<?> notExpected) {
+    if (isEmpty(notExpected)) {
+      return new ShouldContainOnlyKeys(actual, expected, notFound, StandardComparisonStrategy.instance());
+    }
+    return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  }
+
   private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, Object notExpected,
       ComparisonStrategy comparisonStrategy) {
     super("\nExpecting:\n  <%s>\nto contain only following keys:\n  <%s>\nkeys not found:\n  <%s>\nand keys not expected:\n  <%s>\n%s", actual,
         expected, notFound, notExpected, comparisonStrategy);
+  }
+
+  private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n  <%s>\nto contain only following keys:\n  <%s>\nbut could not find the following keys:\n  <%s>\n%s",
+          actual, expected, notFound, comparisonStrategy);
   }
 
 }
