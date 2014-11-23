@@ -27,6 +27,7 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
 
 /**
  * Tests for <code>{@link ShouldContainExactly#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -35,38 +36,63 @@ import org.junit.Test;
  */
 public class ShouldContainExactly_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @Before
-  public void setUp() {
-    factory = shouldContainExactly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"),
-        newLinkedHashSet("Han"));
-  }
-
   @Test
   public void should_create_error_message() {
+    ErrorMessageFactory factory = shouldContainExactly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
+                                                       newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain exactly (and in same order):\n"
-            + " <[\"Luke\", \"Yoda\"]>\nbut some elements were not found:\n <[\"Luke\"]>\nand others were not expected:\n <[\"Han\"]>\n",
-        message);
+
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain exactly (and in same order):\n"
+                 + " <[\"Luke\", \"Yoda\"]>\nbut some elements were not found:\n <[\"Luke\"]>\nand others were not "
+                 + "expected:\n <[\"Han\"]>\n",
+                 message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     ErrorMessageFactory factory = shouldContainExactly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
-        newLinkedHashSet("Luke"), newLinkedHashSet("Han"), new ComparatorBasedComparisonStrategy(
-            CaseInsensitiveStringComparator.instance));
+                                                       newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
+                                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain exactly (and in same order):\n"
         + " <[\"Luke\", \"Yoda\"]>\nbut some elements were not found:\n <[\"Luke\"]>\nand others were not expected:\n"
         + " <[\"Han\"]>\nwhen comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 
   @Test
-  public void should_create_error_message_when_only_elements_order_differs() {
-    factory = shouldContainExactly("Luke", "Han", 1);
+  public void should_not_display_unexpected_elements_when_there_are_none() {
+    ErrorMessageFactory factory = shouldContainExactly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+                                                       newLinkedHashSet("Luke"), Collections.emptySet());
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain exactly (and in same order):\n"
+                 + " <[\"Luke\", \"Yoda\"]>\nbut could not find the following elements:\n <[\"Luke\"]>\n",
+                 message);
+  }
+
+  @Test
+  public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
+    ErrorMessageFactory factory = shouldContainExactly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+                                                       newLinkedHashSet("Luke"), Collections.emptySet(),
+                                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain exactly (and in same order):\n"
+                 + " <[\"Luke\", \"Yoda\"]>\nbut could not find the following elements:\n <[\"Luke\"]>\n"
+                 + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+  }
+
+  @Test
+  public void should_create_error_message_when_only_elements_order_differs() {
+    ErrorMessageFactory factory = shouldContainExactly("Luke", "Han", 1);
+
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
     assertEquals(
         "[Test] \nActual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
             + " <\"Luke\">\nwhereas expected element was:\n <\"Han\">\n", message);
@@ -74,9 +100,11 @@ public class ShouldContainExactly_create_Test {
 
   @Test
   public void should_create_error_message_when_only_elements_order_differs_according_to_custom_comparison_strategy() {
-    factory = shouldContainExactly("Luke", "Han", 1, new ComparatorBasedComparisonStrategy(
-        CaseInsensitiveStringComparator.instance));
+    ErrorMessageFactory factory = shouldContainExactly("Luke", "Han", 1,
+                                                       new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
     assertEquals(
         "[Test] \nActual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
             + " <\"Luke\">\nwhereas expected element was:\n <\"Han\">\nwhen comparing values using 'CaseInsensitiveStringComparator'",
