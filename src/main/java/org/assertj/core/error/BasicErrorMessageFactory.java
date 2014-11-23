@@ -43,6 +43,10 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   @VisibleForTesting
   MessageFormatter formatter = MessageFormatter.instance();
 
+  protected static boolean isEmpty(Iterable<?> notExpected) {
+    return notExpected != null && !notExpected.iterator().hasNext();
+  }
+
   /**
    * To avoid quoted String in message format.
    */

@@ -27,6 +27,8 @@ import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collections;
+
 /**
  * Tests for <code>{@link ShouldContainOnly#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  * 
@@ -36,27 +38,51 @@ import org.junit.Test;
  */
 public class ShouldContainOnly_create_Test {
 
-  private ErrorMessageFactory factory;
-
-  @Before
-  public void setUp() {
-    factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
-  }
-
   @Test
   public void should_create_error_message() {
+    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
+                                                    newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
         + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n", message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
-        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
+                                                    newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
+                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
     assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
         + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n"
         + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+  }
+
+  @Test
+  public void should_not_display_unexpected_elements_when_there_are_none() {
+    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+                                                    newLinkedHashSet("Luke"), Collections.emptySet());
+
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
+                 + "but could not find the following elements:\n <[\"Luke\"]>\n", message);
+  }
+
+  @Test
+  public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
+    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+                                                    newLinkedHashSet("Luke"), Collections.emptySet(),
+                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
+    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
+                 + "but could not find the following elements:\n <[\"Luke\"]>\n"
+                 + "when comparing values using 'CaseInsensitiveStringComparator'", message);
   }
 }
