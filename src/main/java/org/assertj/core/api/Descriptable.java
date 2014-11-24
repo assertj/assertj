@@ -43,7 +43,6 @@ public interface Descriptable<S extends Descriptable<S>> {
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
    * }
-   * 
    * </code></pre>
    * 
    * @param description the new description to set.

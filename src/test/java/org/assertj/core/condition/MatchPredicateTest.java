@@ -10,12 +10,13 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.condition;
 
 import static org.assertj.core.test.ErrorMessages.predicateIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
+import org.assertj.core.api.WithAssertions;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Jedi;
 import org.junit.Before;
