@@ -367,7 +367,28 @@ public class Files {
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
-   * 
+   *
+   * @param url the URL.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(URL url, Charset charset) {
+    if (charset == null) {
+      throw new NullPointerException("The charset should not be null");
+    }
+    try {
+      return loadLines(url.openStream(), charset);
+    } catch (IOException e) {
+      throw new FilesException("Unable to read " + url, e);
+    }
+  }
+
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
    * @param file the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
@@ -379,6 +400,23 @@ public class Files {
       throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
     }
     return linesOf(file, Charset.forName(charsetName));
+  }
+
+  /**
+   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   * 
+   * @param url the URL.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(URL url, String charsetName) {
+    if (!Charset.isSupported(charsetName)) {
+      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
+    }
+    return linesOf(url, Charset.forName(charsetName));
   }
 
   private static List<String> loadLines(File file, Charset charset) throws IOException {

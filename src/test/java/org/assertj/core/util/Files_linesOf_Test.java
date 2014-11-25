@@ -19,6 +19,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class Files_linesOf_Test {
   private static final File SAMPLE_UNIX_FILE = new File("src/test/resources/utf8.txt");
   private static final File SAMPLE_WIN_FILE = new File("src/test/resources/utf8_win.txt");
   private static final File SAMPLE_MAC_FILE = new File("src/test/resources/utf8_mac.txt");
+  private static final URL SAMPLE_RESOURCE_URL = ClassLoader.getSystemResource("utf8.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";
@@ -67,6 +70,15 @@ public class Files_linesOf_Test {
   }
 
   @Test
+  public void should_throw_exception_if_url_not_found() throws MalformedURLException {
+    File missingFile = new File("missing.txt");
+    assertThat(missingFile).doesNotExist();
+
+    thrown.expect(FilesException.class);
+    linesOf(missingFile.toURI().toURL(), Charset.defaultCharset());
+  }
+
+  @Test
   public void should_pass_if_unix_file_is_split_into_lines() {
     assertThat(linesOf(SAMPLE_UNIX_FILE, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
   }
@@ -74,6 +86,16 @@ public class Files_linesOf_Test {
   @Test
   public void should_pass_if_unix_file_is_split_into_lines_using_charset() {
     assertThat(linesOf(SAMPLE_UNIX_FILE, UTF_8)).isEqualTo(EXPECTED_CONTENT);
+  }
+
+  @Test
+  public void should_pass_if_resource_file_is_split_into_lines() {
+    assertThat(linesOf(SAMPLE_RESOURCE_URL, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+  }
+
+  @Test
+  public void should_pass_if_resource_file_is_split_into_lines_using_charset() {
+    assertThat(linesOf(SAMPLE_RESOURCE_URL, UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }
 
   @Test
