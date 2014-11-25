@@ -42,6 +42,8 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -623,12 +625,14 @@ public class Objects {
 	                                                                  newArrayList(fields)));
   }
 
-  private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] fields) {
+  private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] givenIgnoredFields) {
+	Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+	verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, givenIgnoredFields);
 	List<String> fieldsNames = new LinkedList<String>();
 	List<Object> expectedValues = new LinkedList<Object>();
 	List<Object> rejectedValues = new LinkedList<Object>();
-	Set<String> ignoredFields = newLinkedHashSet(fields);
-	for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
+	Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
+	for (Field field : declaredFieldsIncludingInherited) {
 	  try {
 		if (!ignoredFields.contains(field.getName())) {
 		  Object actualFieldValue = getFieldOrPropertyValue(actual, field);
@@ -644,6 +648,17 @@ public class Objects {
 	  }
 	}
 	return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
+  }
+
+  private <A> void verifyIgnoredFieldsExist(A actual, Set<Field> declaredFields, String[] ignoredFields) {
+	Set<String> ignoredFieldsNotDefined = newLinkedHashSet(ignoredFields);
+	for (Field f : declaredFields) {
+	  ignoredFieldsNotDefined.remove(f.getName());
+	}
+	if (!ignoredFieldsNotDefined.isEmpty()) {
+	  throw new IllegalArgumentException(format("Fields to ignore <%s> not defined for type <%s>",
+	                                            ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
+	}
   }
 
   /**
