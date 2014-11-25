@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -260,6 +261,22 @@ public class Files {
   }
 
   /**
+   * Loads the text content of a URL into a character string.
+   *
+   * @param url the URL.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws IllegalArgumentException if the given character set is not supported on this platform.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static String contentOf(URL url, String charsetName) {
+    if (!Charset.isSupported(charsetName)) {
+      throw new IllegalArgumentException(String.format("Charset:<'%s'> is not supported on this system", charsetName));
+    }
+    return contentOf(url, Charset.forName(charsetName));
+  }
+
+  /**
    * Loads the text content of a file into a character string.
    * 
    * @param file the file.
@@ -278,6 +295,27 @@ public class Files {
       throw new FilesException("Unable to read " + file.getAbsolutePath(), e);
     }
   }
+
+  /**
+   * Loads the text content of a URL into a character string.
+   *
+   * @param url the URL.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws FilesException if an I/O exception occurs.
+   */
+  public static String contentOf(URL url, Charset charset) {
+    if (charset == null) {
+      throw new NullPointerException("The charset should not be null");
+    }
+    try {
+      return loadContents(url.openStream(), charset);
+    } catch (IOException e) {
+      throw new FilesException("Unable to read " + url, e);
+    }
+  }
+
 
   private static String loadContents(File file, Charset charset) throws IOException {
     return loadContents(new FileInputStream(file), charset);
