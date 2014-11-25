@@ -25,6 +25,7 @@ import static org.assertj.core.util.Strings.quote;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
@@ -279,7 +280,11 @@ public class Files {
   }
 
   private static String loadContents(File file, Charset charset) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    return loadContents(new FileInputStream(file), charset);
+  }
+
+  private static String loadContents(InputStream stream, Charset charset) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
     boolean threw = true;
     try {
       StringWriter writer = new StringWriter();
@@ -339,7 +344,11 @@ public class Files {
   }
 
   private static List<String> loadLines(File file, Charset charset) throws IOException {
-    BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    return loadLines(new FileInputStream(file), charset);
+  }
+
+  private static List<String> loadLines(InputStream stream, Charset charset) throws IOException {
+    BufferedReader reader = new BufferedReader(new InputStreamReader(stream, charset));
 
     boolean threw = true;
     try {
