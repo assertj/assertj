@@ -17,16 +17,29 @@ package org.assertj.core.error;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Reader;
 import java.util.List;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two files/inputStreams have equal content failed.
- * 
+ * Creates an error message indicating that an assertion that verifies that two files/inputStreams/readers have equal content failed.
+ *
  * @author Yvonne Wang
  * @author Matthieu Baechler
  * @author Joel Costigliola
+ * @author Bartosz Bierkowski
  */
 public class ShouldHaveEqualContent extends AbstractShouldHaveTextContent {
+
+  /**
+   * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
+   * @param actual the actual reader in the failed assertion.
+   * @param expected the expected reader in the failed assertion.
+   * @param diffs the differences between {@code actual} and {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveEqualContent(Reader actual, Reader expected, List<String> diffs) {
+    return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
+  }
 
   /**
    * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
@@ -57,6 +70,11 @@ public class ShouldHaveEqualContent extends AbstractShouldHaveTextContent {
 
   private ShouldHaveEqualContent(InputStream actual, InputStream expected, String diffs) {
     super("\nInputStreams do not have equal content:", actual, expected);
+    this.diffs = diffs;
+  }
+
+  private ShouldHaveEqualContent(Reader actual, Reader expected, String diffs) {
+    super("\nReaders do not have equal content:", actual, expected);
     this.diffs = diffs;
   }
 }

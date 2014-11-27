@@ -19,13 +19,7 @@ import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Closeables.closeQuietly;
 import static org.assertj.core.util.Objects.areEqual;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 
 /**
- * Compares the contents of two files or two streams.
+ * Compares the contents of two files, two streams or two readers.
  * 
  * @author David DIDIER
  * @author Alex Ruiz
@@ -42,6 +36,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Matthieu Baechler
  * @author Olivier Michallat
  * @author Joel Costigliola
+ * @author Bartosz Bierkowski
  */
 @VisibleForTesting
 public class Diff {
@@ -87,8 +82,27 @@ public class Diff {
     }
   }
 
+  @VisibleForTesting
+  public List<String> diff(Reader actual, Reader expected) throws IOException {
+    BufferedReader reader1 = null;
+    BufferedReader reader2 = null;
+    try {
+      reader1 = readerFor(actual);
+      reader2 = readerFor(expected);
+      return unmodifiableList(diff(reader1, reader2));
+    } finally {
+      closeQuietly(reader1);
+      closeQuietly(reader2);
+    }
+  }
+
+
   private BufferedReader readerFor(InputStream stream) {
     return new BufferedReader(new InputStreamReader(stream));
+  }
+
+  private BufferedReader readerFor(Reader reader) {
+    return new BufferedReader(reader);
   }
 
   private BufferedReader readerFor(InputStream stream, Charset charset) {

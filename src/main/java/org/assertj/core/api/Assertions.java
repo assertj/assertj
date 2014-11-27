@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
@@ -259,6 +260,7 @@ public class Assertions {
     return new InputStreamAssert(actual);
   }
 
+
   /**
    * Creates a new instance of <code>{@link FloatAssert}</code>.
    *
@@ -357,6 +359,16 @@ public class Assertions {
    */
   public static AbstractLongArrayAssert<?> assertThat(long[] actual) {
     return new LongArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ReaderAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractReaderAssert<?, ? extends Reader> assertThat(Reader actual) {
+    return new ReaderAssert(actual);
   }
 
   /**
