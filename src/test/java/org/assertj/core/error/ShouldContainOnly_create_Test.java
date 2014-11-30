@@ -1,36 +1,39 @@
 /*
  * Created on Sep 17, 2010
  * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the
  * License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  * 
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language
  * governing permissions and limitations under the License.
  * 
  * Copyright @2010-2011 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
 
 /**
- * Tests for <code>{@link ShouldContainOnly#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldContainOnly#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -38,51 +41,82 @@ import java.util.Collections;
  */
 public class ShouldContainOnly_create_Test {
 
+  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(
+	                                                                                                                                  CaseInsensitiveStringComparator.instance);;
+
   @Test
   public void should_create_error_message() {
-    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
-                                                    newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
+	ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
+	                                                newLinkedHashSet("Luke"), newLinkedHashSet("Han"));
 
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
-        + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n", message);
+	assertThat(message).isEqualTo("[Test] \n"
+	                              + "Expecting:\n"
+	                              + "  <[\"Yoda\", \"Han\"]>\n"
+	                              + "to contain only:\n"
+	                              + "  <[\"Luke\", \"Yoda\"]>\n"
+	                              + "elements not found:\n"
+	                              + "  <[\"Luke\"]>\n"
+	                              + "and elements not expected:\n"
+	                              + "  <[\"Han\"]>\n");
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"), newArrayList("Luke", "Yoda"),
-                                                    newLinkedHashSet("Luke"), newLinkedHashSet("Han"),
-                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+	ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda", "Han"),
+	                                                newArrayList("Luke", "Yoda"),
+	                                                newLinkedHashSet("Luke"),
+	                                                newLinkedHashSet("Han"),
+	                                                CASE_INSENSITIVE_COMPARISON_STRATEGY);
 
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Han\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
-        + "elements not found:\n <[\"Luke\"]>\nand elements not expected:\n <[\"Han\"]>\n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+	assertThat(message).isEqualTo("[Test] \n"
+	                              + "Expecting:\n"
+	                              + "  <[\"Yoda\", \"Han\"]>\n"
+	                              + "to contain only:\n"
+	                              + "  <[\"Luke\", \"Yoda\"]>\n"
+	                              + "elements not found:\n"
+	                              + "  <[\"Luke\"]>\n"
+	                              + "and elements not expected:\n"
+	                              + "  <[\"Han\"]>\n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
   }
 
   @Test
   public void should_not_display_unexpected_elements_when_there_are_none() {
-    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
-                                                    newLinkedHashSet("Luke"), Collections.emptySet());
+	ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
+	                                                newLinkedHashSet("Luke"), Collections.emptySet());
 
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
-                 + "but could not find the following elements:\n <[\"Luke\"]>\n", message);
+	assertThat(message).isEqualTo("[Test] \n"
+	                              + "Expecting:\n"
+	                              + "  <[\"Yoda\"]>\n"
+	                              + "to contain only:\n"
+	                              + "  <[\"Luke\", \"Yoda\"]>\n"
+	                              + "but could not find the following elements:\n"
+	                              + "  <[\"Luke\"]>\n");
   }
 
   @Test
   public void should_not_display_unexpected_elements_when_there_are_none_with_custom_comparison_strategy() {
-    ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
-                                                    newLinkedHashSet("Luke"), Collections.emptySet(),
-                                                    new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
+	ErrorMessageFactory factory = shouldContainOnly(newArrayList("Yoda"),
+	                                                newArrayList("Luke", "Yoda"),
+	                                                newLinkedHashSet("Luke"),
+	                                                Collections.emptySet(),
+	                                                CASE_INSENSITIVE_COMPARISON_STRATEGY);
 
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\"]>\nto contain only:\n <[\"Luke\", \"Yoda\"]>\n"
-                 + "but could not find the following elements:\n <[\"Luke\"]>\n"
-                 + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+	assertThat(message).isEqualTo("[Test] \n"
+	                              + "Expecting:\n"
+	                              + "  <[\"Yoda\"]>\n"
+	                              + "to contain only:\n"
+	                              + "  <[\"Luke\", \"Yoda\"]>\n"
+	                              + "but could not find the following elements:\n"
+	                              + "  <[\"Luke\"]>\n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
   }
 }

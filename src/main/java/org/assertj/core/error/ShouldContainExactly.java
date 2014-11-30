@@ -14,6 +14,8 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Iterables.isNullOrEmpty;
+
 import org.assertj.core.internal.*;
 
 /**
@@ -36,8 +38,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-      Object notExpected, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
+	                                                     Object notExpected, ComparisonStrategy comparisonStrategy) {
+	return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   /**
@@ -51,12 +53,12 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
-    if (isEmpty(notExpected)) {
-      return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
-    }
+	                                                     Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+	if (isNullOrEmpty(notExpected)) {
+	  return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
+	}
 
-    return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
+	return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   /**
@@ -69,8 +71,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-      Object notExpected) {
-    return new ShouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+	                                                     Object notExpected) {
+	return new ShouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
   /**
@@ -83,21 +85,34 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actual, Object expected, Object notFound,
-                                                         Iterable<?> notExpected) {
+	                                                     Iterable<?> notExpected) {
 
-    return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+	return shouldContainExactly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
-                               ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain exactly (and in same order):\n <%s>\nbut some elements were not found:\n <%s>\n"
-          + "and others were not expected:\n <%s>\n%s",
-          actual, expected, notFound, notExpected, comparisonStrategy);
+	                           ComparisonStrategy comparisonStrategy) {
+	super("\n" +
+	      "Expecting:\n" +
+	      "  <%s>\n" +
+	      "to contain exactly (and in same order):\n" +
+	      "  <%s>\n" +
+	      "but some elements were not found:\n" +
+	      "  <%s>\n" +
+	      "and others were not expected:\n" +
+	      "  <%s>\n%s",
+	      actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain exactly (and in same order):\n <%s>\nbut could not find the following elements:\n <%s>\n%s",
-          actual, expected, notFound, comparisonStrategy);
+	super("\n" +
+	      "Expecting:\n" +
+	      "  <%s>\n" +
+	      "to contain exactly (and in same order):\n" +
+	      "  <%s>\n" +
+	      "but could not find the following elements:\n" +
+	      "  <%s>\n%s",
+	      actual, expected, notFound, comparisonStrategy);
   }
 
   /**
@@ -111,8 +126,9 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actualElement, Object expectedElement,
-      int indexOfDifferentElements, ComparisonStrategy comparisonStrategy) {
-    return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements, comparisonStrategy);
+	                                                     int indexOfDifferentElements,
+	                                                     ComparisonStrategy comparisonStrategy) {
+	return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements, comparisonStrategy);
   }
 
   /**
@@ -125,16 +141,19 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainExactly(Object actualElement, Object expectedElement,
-      int indexOfDifferentElements) {
-    return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements,
-        StandardComparisonStrategy.instance());
+	                                                     int indexOfDifferentElements) {
+	return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements,
+	                                StandardComparisonStrategy.instance());
   }
 
   private ShouldContainExactly(Object actualElement, Object expectedElement, int indexOfDifferentElements,
-      ComparisonStrategy comparisonStrategy) {
-    super(
-        "\nActual and expected have the same elements but not in the same order, at index %s actual element was:\n <%s>\nwhereas expected element was:\n <%s>\n%s",
-        indexOfDifferentElements, actualElement, expectedElement, comparisonStrategy);
+	                           ComparisonStrategy comparisonStrategy) {
+	super("\n" +
+	      "Actual and expected have the same elements but not in the same order, at index %s actual element was:\n" +
+	      "  <%s>\n" + 
+	      "whereas expected element was:\n" +
+	      "  <%s>\n%s",
+	      indexOfDifferentElements, actualElement, expectedElement, comparisonStrategy);
   }
 
 }
