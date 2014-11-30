@@ -42,6 +42,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -624,11 +625,13 @@ public class Objects {
   }
 
   private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] fields) {
+	Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+	verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, newLinkedHashSet(fields));
 	List<String> fieldsNames = new LinkedList<String>();
 	List<Object> expectedValues = new LinkedList<Object>();
 	List<Object> rejectedValues = new LinkedList<Object>();
 	Set<String> ignoredFields = newLinkedHashSet(fields);
-	for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
+	for (Field field : declaredFieldsIncludingInherited) {
 	  try {
 		if (!ignoredFields.contains(field.getName())) {
 		  Object actualFieldValue = getFieldOrPropertyValue(actual, field);
@@ -646,6 +649,18 @@ public class Objects {
 	return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
   }
 
+	private <A> void verifyIgnoredFieldsExist(A actual, Set<Field> declaredFields, Set<String> ignoredFields) {
+		Set<String> legalFieldNames = new HashSet<>();
+		for (Field f : declaredFields) {
+			legalFieldNames.add(f.getName());
+		}
+
+		ignoredFields.removeAll(legalFieldNames);
+		if (!ignoredFields.isEmpty()) {
+			throw new IllegalArgumentException(format("Declared fields to ignore <%s> not found on the target object of type <%s>",
+							ignoredFields, actual.getClass().getCanonicalName()));
+		}
+	}
   /**
    * Get field value first and in case of error try its value from property getter (property name being field name)
    *

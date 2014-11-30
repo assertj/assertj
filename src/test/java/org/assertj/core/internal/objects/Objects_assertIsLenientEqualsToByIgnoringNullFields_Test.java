@@ -110,4 +110,14 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
+  @Test
+  public void should_fail_when_asked_to_ignore_non_existent_fields() {
+    thrown.expect(RuntimeException.class, "Declared fields to ignore <[no-such-field]> not found on the target object of type <org.assertj.core.test.Jedi>");
+
+    AssertionInfo info = someInfo();
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "no-such-field");
+  }
+
 }
