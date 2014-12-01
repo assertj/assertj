@@ -748,6 +748,7 @@ public class Assertions {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
+  @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
     return AllOf.allOf(conditions);
   }
@@ -775,6 +776,7 @@ public class Assertions {
    * assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));
    * </code></pre>
    */
+  @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
     return AnyOf.anyOf(conditions);
   }

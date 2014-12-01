@@ -69,6 +69,7 @@ public final class Sets {
    * @param elements the elements to store in the {@code LinkedHashSet}.
    * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
    */
+  @SafeVarargs
   public static <T> LinkedHashSet<T> newLinkedHashSet(T... elements) {
     if (elements == null) {
       return null;

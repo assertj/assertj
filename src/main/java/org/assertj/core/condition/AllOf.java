@@ -33,6 +33,7 @@ public class AllOf<T> extends Join<T> {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
+  @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
     return new AllOf<T>(conditions);
   }
@@ -49,6 +50,7 @@ public class AllOf<T> extends Join<T> {
     return new AllOf<T>(conditions);
   }
 
+  @SafeVarargs
   private AllOf(Condition<? super T>... conditions) {
     super(conditions);
   }

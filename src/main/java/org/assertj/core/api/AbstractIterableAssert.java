@@ -122,7 +122,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S contains(T... values) {
+  public S contains(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContains(info, actual, values);
 	return myself;
   }
@@ -131,7 +131,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S containsOnly(T... values) {
+  public S containsOnly(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsOnly(info, actual, values);
 	return myself;
   }
@@ -140,7 +140,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S containsOnlyOnce(T... values) {
+  public S containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsOnlyOnce(info, actual, values);
 	return myself;
   }
@@ -149,7 +149,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S containsExactly(T... values) {
+  public S containsExactly(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsExactly(info, actual, values);
 	return myself;
   }
@@ -172,7 +172,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S containsSequence(T... sequence) {
+  public S containsSequence(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertContainsSequence(info, actual, sequence);
 	return myself;
   }
@@ -181,13 +181,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S containsSubsequence(T... sequence) {
+  public S containsSubsequence(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertContainsSubsequence(info, actual, sequence);
 	return myself;
   }
 
   @Override
-  public S doesNotContain(T... values) {
+  public S doesNotContain(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertDoesNotContain(info, actual, values);
 	return myself;
   }
@@ -233,7 +233,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S startsWith(T... sequence) {
+  public S startsWith(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertStartsWith(info, actual, sequence);
 	return myself;
   }
@@ -242,7 +242,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * {@inheritDoc}
    */
   @Override
-  public S endsWith(T... sequence) {
+  public S endsWith(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertEndsWith(info, actual, sequence);
 	return myself;
   }

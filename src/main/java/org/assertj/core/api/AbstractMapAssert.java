@@ -229,7 +229,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given key.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public S containsKeys(K... keys) {
+  public S containsKeys(@SuppressWarnings("unchecked") K... keys) {
 	maps.assertContainsKeys(info, actual, keys);
 	return myself;
   }
@@ -268,7 +268,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *           of the given keys, or the actual map contains more entries than the given ones.
    * @throws IllegalArgumentException if the given argument is an empty array.
    */
-  public S containsOnlyKeys(K... keys) {
+  public S containsOnlyKeys(@SuppressWarnings("unchecked") K... keys) {
 	maps.assertContainsOnlyKeys(info, actual, keys);
 	return myself;
   }

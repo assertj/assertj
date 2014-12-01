@@ -43,7 +43,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values.
    */
-  S contains(T... values);
+  S contains(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, in any order.
@@ -56,7 +56,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more values than the given ones.
    */
-  S containsOnly(T... values);
+  S containsOnly(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual array contains the given values only once.
@@ -83,7 +83,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
    */
-  S containsOnlyOnce(T... values);
+  S containsOnlyOnce(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.<br>
@@ -110,7 +110,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
    */
-  S containsExactly(T... values);
+  S containsExactly(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual group contains the given sequence, without any other values between them.
@@ -136,7 +136,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given sequence.
    */
-  S containsSequence(T... sequence);
+  S containsSequence(@SuppressWarnings("unchecked") T... sequence);
 
   /**
    * Verifies that the actual group contains the given subsequence (possibly with other values between them).
@@ -162,7 +162,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the given array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given subsequence.
    */
-  S containsSubsequence(T... sequence);
+  S containsSubsequence(@SuppressWarnings("unchecked") T... sequence);
 
   /**
    * Verifies that the actual group does not contain the given values.
@@ -174,7 +174,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains any of the given values.
    */
-  S doesNotContain(T... values);
+  S doesNotContain(@SuppressWarnings("unchecked") T... values);
 
   /**
    * Verifies that the actual group does not contain duplicates.
@@ -197,7 +197,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not start with the given sequence of objects.
    */
-  S startsWith(T... sequence);
+  S startsWith(@SuppressWarnings("unchecked") T... sequence);
 
   /**
    * Verifies that the actual group ends with the given sequence of objects, without any other objects between them.
@@ -211,7 +211,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group does not end with the given sequence of objects.
    */
-  S endsWith(T... sequence);
+  S endsWith(@SuppressWarnings("unchecked") T... sequence);
 
   /**
    * Verifies that the actual group contains at least a null element.

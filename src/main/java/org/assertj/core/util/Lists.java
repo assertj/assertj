@@ -34,6 +34,7 @@ public final class Lists {
    * @param elements the elements to store in the {@code ArrayList}.
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
    */
+  @SafeVarargs
   public static <T> ArrayList<T> newArrayList(T... elements) {
     if (elements == null) {
       return null;

@@ -60,6 +60,7 @@ public class Arrays {
    * @param values the values to store in the array.
    * @return an array containing the given arguments.
    */
+  @SafeVarargs
   public static <T> T[] array(T... values) {
     return values;
   }

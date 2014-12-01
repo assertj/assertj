@@ -120,42 +120,42 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
-  public S contains(T... values) {
+  public S contains(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContains(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S containsOnly(T... values) {
+  public S containsOnly(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContainsOnly(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S containsOnlyOnce(T... values) {
+  public S containsOnlyOnce(@SuppressWarnings("unchecked")T... values) {
 	arrays.assertContainsOnlyOnce(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S containsExactly(T... values) {
+  public S containsExactly(@SuppressWarnings("unchecked")T... values) {
 	objects.assertEqual(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S containsSequence(T... sequence) {
+  public S containsSequence(@SuppressWarnings("unchecked")T... sequence) {
 	arrays.assertContainsSequence(info, actual, sequence);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S containsSubsequence(T... subsequence) {
+  public S containsSubsequence(@SuppressWarnings("unchecked")T... subsequence) {
 	arrays.assertContainsSubsequence(info, actual, subsequence);
 	return myself;
   }
@@ -176,7 +176,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
-  public S doesNotContain(T... values) {
+  public S doesNotContain(@SuppressWarnings("unchecked")T... values) {
 	arrays.assertDoesNotContain(info, actual, values);
 	return myself;
   }
@@ -190,14 +190,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
-  public S startsWith(T... sequence) {
+  public S startsWith(@SuppressWarnings("unchecked")T... sequence) {
 	arrays.assertStartsWith(info, actual, sequence);
 	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
-  public S endsWith(T... sequence) {
+  public S endsWith(@SuppressWarnings("unchecked")T... sequence) {
 	arrays.assertEndsWith(info, actual, sequence);
 	return myself;
   }
