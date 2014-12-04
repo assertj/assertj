@@ -432,6 +432,19 @@ public class Assertions {
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
 	return assertion;
   }
+  
+  /**
+   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
+   * 
+   * <p>Read the comments on {@link AssertProvider} for an example of its usage.</p>
+   * 
+   * @param component
+   *          the component that creates its own assert
+   * @return the associated {@link Assert} of the given component
+   */
+  public static <T> T assertThat(final AssertProvider<T> component) {
+    return component.assertThat();
+  }  
 
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
