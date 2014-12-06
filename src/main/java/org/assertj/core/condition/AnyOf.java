@@ -31,6 +31,7 @@ public class AnyOf<T> extends Join<T> {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
+  @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
     return new AnyOf<T>(conditions);
   }
@@ -47,6 +48,7 @@ public class AnyOf<T> extends Join<T> {
     return new AnyOf<T>(conditions);
   }
 
+  @SafeVarargs
   private AnyOf(Condition<? super T>... conditions) {
     super(conditions);
   }

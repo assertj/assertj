@@ -624,16 +624,31 @@ public class Assertions {
   }
 
   /**
-   * Globally set whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
+   * Globally sets whether <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code> and
    * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
    * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
    */
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
-    FieldSupport.setAllowExtractingPrivateFields(allowExtractingPrivateFields);
+    FieldSupport.extraction().setAllowUsingPrivateFields(allowExtractingPrivateFields);
   }
 
+  /**
+   * Globally sets whether the use of private fields is allowed for comparison.
+   * The following (incomplete) list of methods will be impacted by this change :
+   * <ul>
+   *   <li><code><code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code></li>
+   *   <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(A)}</code></li>
+   * </ul>
+   *
+   * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
+   *
+   * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
+   */
+  public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
+    FieldSupport.comparison().setAllowUsingPrivateFields(allowComparingPrivateFields);
+  }
   // ------------------------------------------------------------------------------------------------------
   // Data utility methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -746,6 +761,7 @@ public class Assertions {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
+  @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
     return AllOf.allOf(conditions);
   }
@@ -773,6 +789,7 @@ public class Assertions {
    * assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));
    * </code></pre>
    */
+  @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
     return AnyOf.anyOf(conditions);
   }

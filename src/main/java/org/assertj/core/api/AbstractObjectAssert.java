@@ -203,6 +203,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * @deprecated : use {@link #isEqualToComparingFieldByField(Object)} instead.
    */
+  @Deprecated
   public S isEqualsToByComparingFields(A other) {
 	objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
 	return myself;

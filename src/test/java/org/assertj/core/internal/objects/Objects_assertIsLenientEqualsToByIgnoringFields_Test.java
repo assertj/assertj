@@ -14,23 +14,24 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.TestClassWithRandomId;
+import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.Test;
 
 
@@ -46,6 +47,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
   public void should_pass_when_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Green");
+	// strangeNotReadablePrivateField fields are compared and are null in both actual and other
     objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other);
   }
 
@@ -53,6 +55,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
   public void should_pass_when_not_ignored_fields_are_equal() {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", "Blue");
+	// strangeNotReadablePrivateField fields are compared and are null in both actual and other
     objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "lightSaberColor");
   }
 
@@ -143,6 +146,16 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
   }
 
   @Test
+  public void should_fail_when_asked_to_ignore_non_existent_fields() {
+	thrown.expect(RuntimeException.class,
+	              "Fields to ignore <[field1, field2]> not defined for type <org.assertj.core.test.Jedi>");
+	AssertionInfo info = someInfo();
+	Jedi actual = new Jedi("Yoda", "Green");
+	Jedi other = new Jedi("Yoda", "Green");
+	objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "field1", "field2");
+  }
+  
+  @Test
   public void should_fail_when_some_field_value_is_null_on_one_object_only() {
     AssertionInfo info = someInfo();
     Jedi actual = new Jedi("Yoda", null);
@@ -157,6 +170,18 @@ public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends Object
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_pass_when_private_fields_differ_but_are_not_compared_or_are_ignored() {
+	boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
+    Assertions.setAllowComparingPrivateFields(false);
+	TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
+	TestClassWithRandomId other = new TestClassWithRandomId("1", 2);
+	// 
+	objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "n");
+	// reset
+	Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
 
 }

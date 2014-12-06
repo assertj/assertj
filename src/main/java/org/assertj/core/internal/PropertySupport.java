@@ -193,4 +193,13 @@ public class PropertySupport {
     return propertyValues(fieldOrPropertyName, Object.class, objects);
   }
 
+  public boolean publicGetterExistsFor(String fieldName, Object actual) {
+	try {
+	  getProperty(fieldName, actual);
+    } catch (IntrospectionError e) {
+      return false;
+    }
+	return true;
+  }
+
 }

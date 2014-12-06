@@ -20,10 +20,7 @@ import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
@@ -61,6 +58,7 @@ public class ObjectsBaseTest {
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     objectsWithCustomComparisonStrategy = new Objects(customComparisonStrategy);
     objectsWithCustomComparisonStrategy.failures = failures;
+    Assertions.setAllowComparingPrivateFields(true); //reverts to default value
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

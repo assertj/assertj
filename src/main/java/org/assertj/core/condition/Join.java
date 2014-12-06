@@ -38,6 +38,7 @@ public abstract class Join<T> extends Condition<T> {
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
    */
+  @SafeVarargs
   protected Join(Condition<? super T>... conditions) {
     if (conditions == null) throw conditionsIsNull();
     this.conditions = new ArrayList<Condition<? super T>>();
