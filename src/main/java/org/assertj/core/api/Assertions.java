@@ -520,6 +520,24 @@ public class Assertions {
     return new ThrowableAssert(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link ThrowingRunnableAssert}</code>.
+   *
+   * @param runnable the runnable to check for exceptions.
+   * @return the created assertion object.
+   */
+  public static ThrowingRunnableAssert assertThatExceptionThrownBy(ThrowingRunnable runnable) {
+    return new ThrowingRunnableAssert(runnable);
+  }
+
+  public static ThrowingRunnableAssert assertThatThrowableThrownBy(ThrowingRunnable runnable) {
+    return assertThatExceptionThrownBy(runnable);
+  }
+
+  public static ThrowingRunnableAssert expect(ThrowingRunnable runnable) {
+    return assertThatExceptionThrownBy(runnable);
+  }
+
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
