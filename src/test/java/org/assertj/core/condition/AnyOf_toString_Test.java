@@ -32,7 +32,6 @@ public class AnyOf_toString_Test {
   private TestCondition<Object> condition2;
   private Condition<Object> anyOf;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     condition1 = new TestCondition<Object>("Condition 1");

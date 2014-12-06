@@ -35,7 +35,6 @@ public class AllOf_allOf_with_array_Test {
   @Rule
   public ExpectedException thrown = none();
 
-  @SuppressWarnings("unchecked")
   @Test
   public void should_create_new_AllOf_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());

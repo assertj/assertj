@@ -24,6 +24,7 @@ import org.assertj.core.api.Condition;
  */
 public class ConcreteJoin extends Join<Object> {
 
+  @SafeVarargs
   public ConcreteJoin(Condition<Object>... conditions) {
     super(conditions);
   }

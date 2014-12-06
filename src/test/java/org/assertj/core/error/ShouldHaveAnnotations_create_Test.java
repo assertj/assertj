@@ -35,7 +35,6 @@ public class ShouldHaveAnnotations_create_Test {
 
   private ErrorMessageFactory factory;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     factory = shouldHaveAnnotations(ShouldHaveAnnotations_create_Test.class,

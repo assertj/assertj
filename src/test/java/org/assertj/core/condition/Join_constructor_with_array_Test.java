@@ -42,7 +42,6 @@ public class Join_constructor_with_array_Test {
     new ConcreteJoin(conditions);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_array_contains_nulls() {
     thrown.expectNullPointerException("The given conditions should not have null entries");
@@ -50,7 +49,6 @@ public class Join_constructor_with_array_Test {
     new ConcreteJoin(conditions);
   }
 
-  @SuppressWarnings("unchecked")
   @Test
   public void should_create_new_Join_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());

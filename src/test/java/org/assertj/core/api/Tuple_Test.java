@@ -27,7 +27,6 @@ public class Tuple_Test {
 	assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
   }
   
-  @SuppressWarnings("unchecked")
   @Test
   public void convert_tuple_to_an_array() {
 	Tuple tuple = new Tuple("Yoda", 800, "Jedi");
