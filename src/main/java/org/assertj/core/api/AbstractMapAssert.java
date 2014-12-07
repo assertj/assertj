@@ -39,6 +39,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
+ * @author dorzey
  */
 public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
     extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry> {
@@ -241,8 +242,16 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
    */
-  public S doesNotContainKey(K key) {
-	maps.assertDoesNotContainKey(info, actual, key);
+  public S doesNotContainKey(K key) { return doesNotContainKeys(key);}
+
+  /**
+   * TODO
+   * 
+   * @param keys
+   * @return
+   */
+  public S doesNotContainKeys(@SuppressWarnings("unchecked") K... keys) {
+	maps.assertDoesNotContainKeys(info, actual, keys);
 	return myself;
   }
 

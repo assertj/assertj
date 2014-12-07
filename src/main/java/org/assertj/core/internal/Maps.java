@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
+import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
@@ -46,6 +47,7 @@ import org.assertj.core.util.VisibleForTesting;
  * 
  * @author Alex Ruiz
  * @author Nicolas François
+ * @author dorzey
  */
 public class Maps {
 
@@ -270,6 +272,28 @@ public class Maps {
 	}
 	throw failures.failure(info, shouldNotContainKey(actual, key));
   }
+
+    /**
+     * Verifies that the actual map not contains the given keys.
+     *
+     * @param info contains information about the assertion.
+     * @param actual the given {@code Map}.
+     * @param keys the given keys
+     * @throws AssertionError if the actual map is {@code null}.
+     * @throws AssertionError if the actual map contains the given key.
+     */
+    public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K... keys) {
+        assertNotNull(info, actual);
+        Set<K> found = new LinkedHashSet<K>();
+        for (K key : keys) {
+            if (key !=null && actual.containsKey(key)) {
+                found.add(key);
+            }
+        }
+        if (!found.isEmpty()) {
+            throw failures.failure(info, shouldNotContainKeys(actual, found));
+        }
+    }
 
   /**
    * Verifies that the actual map contains only the given keys and nothing else, in any order.
