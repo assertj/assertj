@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.util.concurrent.Callable;
+
 /**
  * Assertion methods for {@link Throwable}s.
  * <p>
@@ -26,6 +28,27 @@ package org.assertj.core.api;
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
 
   protected ThrowableAssert(Throwable actual) {
-    super(actual, ThrowableAssert.class);
+	super(actual, ThrowableAssert.class);
+  }
+
+  protected <V> ThrowableAssert(Callable<V> runnable) {
+	super(buildThrowableAssertFromCallable(runnable), ThrowableAssert.class);
+  }
+
+  private static <V> Throwable buildThrowableAssertFromCallable(Callable<V> callable)
+	  throws AssertionError {
+	try {
+	  callable.call();
+	  // fail if the expected exception was *not* thrown
+	  Fail.fail("Expecting code to throw an exception.");
+	  // this will *never* happen...
+	  return null;
+	} catch (AssertionError e) {
+	  // do not handle AssertionErrors in the next catch block!
+	  throw e;
+	} catch (Throwable throwable) {
+	  // the throwable we will check
+	  return throwable;
+	}
   }
 }

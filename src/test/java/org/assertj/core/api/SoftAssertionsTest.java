@@ -1,16 +1,14 @@
-/*
- * Created on Sep 1, 2013
- * 
+/**
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
- * 
- * Copyright @2013 the original author or authors.
+ *
+ * Copyright 2012-2014 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
@@ -130,11 +129,18 @@ public class SoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
+	  softly.assertThatExceptionThrownBy(new Callable<Void>() {
+		@Override
+		public Void call() throws Exception {
+		  throw new Exception("something was wrong");
+		}
+
+	  }).hasMessage("something was good");
 	  softly.assertAll();
 	  fail("Should not reach here");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(38);
+	  assertThat(errors).hasSize(39);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -200,6 +206,10 @@ public class SoftAssertionsTest {
 		                                   + " <\"NullPointerException message\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"IllegalArgumentException message\">");
+	  assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
+		                                   + " <\"something was good\">\n"
+		                                   + "but was:\n"
+		                                   + " <\"something was wrong\">");
 	}
   }
 
