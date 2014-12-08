@@ -362,6 +362,9 @@
           <includes>
             <include>src/**/*.java</include>
           </includes>
+          <excludes>
+            <exclude>src/ide-support/**/*.*</exclude>
+          </excludes>
         </configuration>
         <executions>
           <execution>
