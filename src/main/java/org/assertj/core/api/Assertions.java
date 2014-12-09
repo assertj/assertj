@@ -518,7 +518,7 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @return the created {@link ThrowableAssert}.
-   */ 
+   */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
 	return new ThrowableAssert(actual);
   }
@@ -527,7 +527,16 @@ public class Assertions {
    * Creates a new instance of <code>{@link ThrowableAssert}</code> with the exception thrown by the given
    * {@link Callable} execution.
    * <p>
-   * Example :
+   * Example with lambda:
+   * 
+   * <pre><code class='java'>
+   * Jedi yoda = new Jedi("Yoda", "Green");
+   * assertThatExceptionThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
+   *                           .isInstanceOf(Exception.class)
+   *                           .hasMessage(yoda + " is no Sith");
+   * </code></pre>
+   * 
+   * Example with {@link Callable}:
    * 
    * <pre><code class='java'>
    * assertThatExceptionThrownBy(new Callable&lt;Void&gt;()
