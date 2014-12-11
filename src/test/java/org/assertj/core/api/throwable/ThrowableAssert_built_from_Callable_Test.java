@@ -23,7 +23,7 @@ import org.junit.Test;
 public class ThrowableAssert_built_from_Callable_Test {
 
   @Test
-  public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_runnable_code() {
+  public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_callable_code() {
 	// check that actual exception is the one thrown by Callable<Void>#run
 	assertThatExceptionThrownBy(new Callable<Void>() {
 	  @Override
@@ -34,7 +34,7 @@ public class ThrowableAssert_built_from_Callable_Test {
   }
 
   @Test
-  public void should_build_ThrowableAssert_with_throwable_thrown_by_runnable_code() {
+  public void should_build_ThrowableAssert_with_throwable_thrown_by_callable_code() {
 	assertThatExceptionThrownBy(new Callable<Void>() {
 	  @Override
 	  public Void call() throws Exception {
@@ -44,7 +44,7 @@ public class ThrowableAssert_built_from_Callable_Test {
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_runnable_code() throws Exception {
+  public void should_fail_if_nothing_is_thrown_by_callable_code() throws Exception {
 	try {
 	  assertThatExceptionThrownBy(new Callable<Void>() {
 		@Override
