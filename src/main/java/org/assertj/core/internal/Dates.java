@@ -53,6 +53,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -700,6 +701,21 @@ public class Dates {
     assertNotNull(info, actual);
     if (actual.getTime() == timestamp) return;
     throw failures.failure(info, shouldHaveTime(actual, timestamp));
+  }
+
+  /**
+   * Verifies that the actual {@code Date} is equal to the given date by comparing their time.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param date the date to compare actual time to
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the given date time.
+   * @throws NullPointerException if other {@code Date} is {@code null}.
+   */
+  public void hasSameTimeAs(WritableAssertionInfo info, Date actual, Date date) {
+    assertNotNull(info, actual);
+    dateParameterIsNotNull(date);
+    assertHasTime(info, actual, date.getTime());
   }
 
   /**
