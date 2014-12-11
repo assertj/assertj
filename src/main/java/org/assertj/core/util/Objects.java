@@ -93,7 +93,7 @@ public final class Objects {
    */
   public static int hashCodeFor(Object o) {
     if (o == null) return 0;
-    return isArray(o) ? java.util.Arrays.deepHashCode((Object[]) o) : o.hashCode() ;
+    return isArray(o) && !o.getClass().getComponentType().isPrimitive() ? java.util.Arrays.deepHashCode((Object[]) o) : o.hashCode() ;
   }
 
   /**

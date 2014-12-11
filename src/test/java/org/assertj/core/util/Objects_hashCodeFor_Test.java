@@ -14,9 +14,10 @@
  */
 package org.assertj.core.util;
 
+import static java.util.Arrays.deepHashCode;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
-
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.util.Objects.hashCodeFor;
 
 import org.junit.Test;
 
@@ -31,20 +32,25 @@ public class Objects_hashCodeFor_Test {
 
   @Test
   public void should_return_hashCode_of_given_Object() {
-    String s = "Yoda";
-    assertEquals(s.hashCode(), Objects.hashCodeFor(s));
+    assertThat(hashCodeFor("Yoda")).isEqualTo("Yoda".hashCode());
+  }
+
+  @Test
+  public void should_return_hashCode_of_intarray(){
+    int[] intArray = new int[] { 1,2,3 };
+    assertThat(hashCodeFor(intArray)).isEqualTo(intArray.hashCode());
   }
 
   @Test
   public void should_return_Arrays_deepHashCode_of_given_array() {
     String[][] array = new String[][] { array("Yoda") };
-    assertEquals(java.util.Arrays.deepHashCode(array), Objects.hashCodeFor(array));
+    assertThat(hashCodeFor(array)).isEqualTo(deepHashCode(array));
     int[][] intArray = new int[][] { new int[] { 5 } };
-    assertEquals(java.util.Arrays.deepHashCode(intArray), Objects.hashCodeFor(intArray));
+    assertThat(hashCodeFor(intArray)).isEqualTo(deepHashCode(intArray));
   }
 
   @Test
   public void should_return_zero_if_Object_is_null() {
-    assertEquals(0, Objects.hashCodeFor(null));
+	assertThat(hashCodeFor(null)).isZero();
   }
 }
