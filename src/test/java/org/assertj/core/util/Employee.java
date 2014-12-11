@@ -17,7 +17,7 @@ package org.assertj.core.util;
  * 
  * @author Joel Costigliola
  */
-public class Employee implements Comparable<Employee> {
+public class Employee implements Comparable<Employee>, Doctor {
   // field public getter => valid property
   private final int age;
 

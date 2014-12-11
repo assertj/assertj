@@ -12,50 +12,51 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class Introspection_getProperty_Test {
   private Employee judy;
 
   @Before
   public void initData() {
-    judy = new Employee(100000.0, 31);
+	judy = new Employee(100000.0, 31);
   }
 
   @Test
   public void get_descriptor_for_property() {
-    PropertyDescriptor propertyDescriptor = getProperty("age", judy);
-    assertNotNull(propertyDescriptor);
-    assertEquals("age", propertyDescriptor.getName());
+	PropertyDescriptor propertyDescriptor = getProperty("age", judy);
+	assertThat(propertyDescriptor).isNotNull();
+	assertThat(propertyDescriptor.getName()).isEqualTo("age");
+  }
+
+  @Test
+  public void get_descriptor_for_property_from_interface_default_method() {
+	PropertyDescriptor propertyDescriptor = getProperty("degree", judy);
+	assertThat(propertyDescriptor).isNotNull();
+	assertThat(propertyDescriptor.getName()).isEqualTo("degree");
+	assertThat(propertyDescriptor.getPropertyType()).isEqualTo(String.class);
   }
 
   @Test
   public void should_raise_an_error_because_of_missing_getter() {
-    try {
-      getProperty("salary", judy);
-    } catch (IntrospectionError error) {
-      assertEquals("No getter for property 'salary' in org.assertj.core.util.Employee", error.getMessage());
-    }
+	assertThatExceptionThrownBy(() -> getProperty("salary", judy)).isInstanceOf(IntrospectionError.class)
+	                                                              .hasMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
   }
 
   @Test
   public void should_raise_an_error_because_of_non_public_getter() {
-    try {
-      getProperty("company", judy);
-    } catch (IntrospectionError error) {
-      assertEquals("No public getter for property 'company' in org.assertj.core.util.Employee", error.getMessage());
-    }
-    try {
-      getProperty("firstJob", judy);
-    } catch (IntrospectionError error) {
-      assertEquals("No public getter for property 'firstJob' in org.assertj.core.util.Employee", error.getMessage());
-    }
+	assertThatExceptionThrownBy(() -> getProperty("firstJob", judy)).isInstanceOf(IntrospectionError.class)
+	                                                                .hasMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
+	assertThatExceptionThrownBy(() -> getProperty("company", judy)).isInstanceOf(IntrospectionError.class)
+	                                                               .hasMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
   }
 
 }
