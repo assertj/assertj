@@ -2080,6 +2080,29 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
+   * Verifies that the actual {@code Date} has the same time as the given date.
+   * <p/>
+   * Both time or timestamp express a number of milliseconds since January 1, 1970, 00:00:00 GMT.
+   * <p/>
+   * Example:
+   * <pre><code class='java'>
+   * Date releaseDate = new Date();
+   * java.sql.Timestamp sqlDate = new java.sql.Timestamp(releaseDate.getTime());
+   * assertThat(releaseDate).hasSameTimeAs(sqlDate);
+   * </code></pre>
+   *
+   * @param date the date to compare actual time to.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the given timestamp.
+   * @see Date#getTime()
+   */
+  public S hasSameTimeAs(Date date) {
+    dates.hasSameTimeAs(info, actual, date);
+    return myself;
+  }
+
+  /**
    * Instead of using default date formats for the date String based Date assertions like {@link #isEqualTo(String)},
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
