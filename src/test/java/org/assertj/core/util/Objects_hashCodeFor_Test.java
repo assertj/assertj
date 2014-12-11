@@ -34,6 +34,11 @@ public class Objects_hashCodeFor_Test {
   }
 
   @Test
+  public void should_return_hashCode_of_intarray(){
+    Objects.hashCodeFor(new int[] { 1,2,3 });
+  }
+
+  @Test
   public void should_return_Arrays_deepHashCode_of_given_array() {
     String[][] array = new String[][] { array("Yoda") };
     assertEquals(java.util.Arrays.deepHashCode(array), Objects.hashCodeFor(array));
