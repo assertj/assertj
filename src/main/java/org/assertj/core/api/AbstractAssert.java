@@ -109,6 +109,28 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 	throw Failures.instance().failure(info, new BasicErrorMessageFactory(errorMessage, arguments));
   }
 
+  /**
+   * Utility method to create an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
+   * <p>
+   * Instead of writing ...
+   * 
+   * <pre><code class='java'>
+   * throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());
+   * </code></pre>
+   * ... you can simply write :
+   * 
+   * <pre><code class='java'>
+   * failure(info, ShouldBePresent.shouldBePresent());
+   * </code></pre>
+   * 
+   * 
+   * @param errorMessageFactory used to define the erro message.
+   * @return an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
+   */
+  protected AssertionError failure(BasicErrorMessageFactory errorMessageFactory) {
+	return Failures.instance().failure(info, errorMessageFactory);
+  }
+
   /** {@inheritDoc} */
   @Override
   public S as(String description, Object... args) {
@@ -482,5 +504,5 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 	if (predicate.test(actual)) return myself;
 	throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
   }
-  
+
 }

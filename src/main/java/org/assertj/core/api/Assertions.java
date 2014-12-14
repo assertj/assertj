@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import org.assertj.core.api.filter.Filters;
@@ -67,6 +68,19 @@ import org.assertj.core.util.introspection.FieldSupport;
  */
 public class Assertions {
 
+  
+  /**
+   * Create assertion for {@link java.util.Optional}.
+   *
+   * @param optional the actual value.
+   * @param <T>      the type of the value contained in the {@link java.util.Optional}.
+   *
+   * @return the created assertion objet.
+   */
+  public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
+    return new OptionalAssert<>(optional);
+  }
+  
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
