@@ -18,6 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
@@ -107,6 +108,28 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     if (failureWithOverriddenErrorMessage != null) throw failureWithOverriddenErrorMessage;
     String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
     throw new AssertionError(description + String.format(errorMessage, arguments));
+  }
+
+  /**
+   * Utility method to create an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
+   * <p>
+   * Instead of writing ...
+   *
+   * <pre><code class='java'>
+   * throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());
+   * </code></pre>
+   * ... you can simply write :
+   *
+   * <pre><code class='java'>
+   * failure(info, ShouldBePresent.shouldBePresent());
+   * </code></pre>
+   *
+   *
+   * @param errorMessageFactory used to define the erro message.
+   * @return an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
+   */
+  protected AssertionError failure(BasicErrorMessageFactory errorMessageFactory) {
+	return Failures.instance().failure(info, errorMessageFactory);
   }
 
   /** {@inheritDoc} */
@@ -449,7 +472,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * {@inheritDoc}
    * 
    * @deprecated use {@link #isEqualTo} instead
-   *  
+   *
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
