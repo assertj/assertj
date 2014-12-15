@@ -62,9 +62,8 @@ public final class Fail {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
-   * @deprecated use shouldHaveThrown
+   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
-  @Deprecated
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     shouldHaveThrown(throwableClass);
   }
