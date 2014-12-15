@@ -14,7 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -90,7 +90,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
       verify(failures).failure(info, shouldContainExactly(entry("name", "Yoda"), entry("color", "green"), 0));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -103,7 +103,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
       assertThat(e).hasMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -121,7 +121,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
               newHashSet(entry("job", "Jedi"))));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -138,7 +138,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
               newHashSet(entry("color", "green"))));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   private static Map<String, String> newLinkedHashMap(MapEntry... entries) {

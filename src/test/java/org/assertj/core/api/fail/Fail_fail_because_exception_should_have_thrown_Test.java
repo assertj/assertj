@@ -21,11 +21,11 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Fail#failBecauseExceptionWasNotThrown(Class)}</code>.
+ * Tests for <code>{@link Fail#shouldHaveThrown(Class)} (Class)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Fail_fail_because_exception_was_not_thrown_Test {
+public class Fail_fail_because_exception_should_have_thrown_Test {
 
   @Rule
   public ExpectedException thrown = none();
@@ -33,12 +33,12 @@ public class Fail_fail_because_exception_was_not_thrown_Test {
   @Test
   public void should_include_message_built_with_given_exception_name() {
     thrown.expectAssertionError("Expected NullPointerException to be thrown");
-    Fail.failBecauseExceptionWasNotThrown(NullPointerException.class);
+    Fail.shouldHaveThrown(NullPointerException.class);
   }
 
   @Test
   public void should_include_message_built_with_given_throwable_name() {
     thrown.expectAssertionError("Expected OutOfMemoryError to be thrown");
-    Fail.failBecauseExceptionWasNotThrown(OutOfMemoryError.class);
+    Fail.shouldHaveThrown(OutOfMemoryError.class);
   }
 }
