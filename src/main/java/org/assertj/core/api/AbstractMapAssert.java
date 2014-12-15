@@ -290,6 +290,24 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   }
 
   /**
+   * Verifies that the actual map contains the given values.
+   *
+   * <pre><code class='java'>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
+   *
+   * assertThat(ringBearers).containsValues(frodo, galadriel);
+   * </code></pre>
+   *
+   * @param values the values to look for in the actual map.
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map does not contain the given values.
+   */
+  public S containsValues(@SuppressWarnings("unchecked") V... values) {
+	maps.assertContainsValues(info, actual, values);
+	return myself;
+  }
+
+  /**
    * Verifies that the actual map does not contain the given value.
    * 
    * <pre><code class='java'>
