@@ -14,7 +14,7 @@ package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Fail.shouldHaveThrown;
 
 import java.util.concurrent.Callable;
 
@@ -53,7 +53,7 @@ public class ThrowableAssert_built_from_Callable_Test {
 		  return null;
 		}
 	  });
-	  failBecauseExceptionWasNotThrown(AssertionError.class);
+	  shouldHaveThrown(AssertionError.class);
 	} catch (AssertionError e) {
 	  assertThat(e).hasMessage("Expecting code to throw an exception.");
 	}

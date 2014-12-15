@@ -14,7 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.test.ErrorMessages.entriesToLookForIsEmpty;
@@ -80,7 +80,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
           shouldContainOnly(actual, expected, emptySet(), newHashSet(entry("color", "green"))));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -95,7 +95,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
           shouldContainOnly(underTest, expected, newHashSet(entry("color", "green")), emptySet()));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -114,7 +114,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
                   newHashSet(entry("job", "Jedi"))));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   @Test
@@ -131,7 +131,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
               newHashSet(entry("color", "green"))));
       return;
     }
-    failBecauseExceptionWasNotThrown(AssertionError.class);
+    shouldHaveThrown(AssertionError.class);
   }
 
   private static HashSet<MapEntry> newHashSet(MapEntry entry) {
