@@ -579,9 +579,19 @@ public class Assertions {
   /**
    * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
    * entry point to all AssertJ features (but you can use Fail if you prefer).
+   *
+   * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> exceptionClass) {
-	Fail.failBecauseExceptionWasNotThrown(exceptionClass);
+	Fail.shouldHaveThrown(exceptionClass);
+  }
+
+  /**
+   * Only delegate to {@link Fail#shouldHaveThrown(Class)} so that Assertions offers a full feature
+   * entry point to all AssertJ features (but you can use Fail if you prefer).
+   */
+  public static void shouldHaveThrown(Class<? extends Throwable> exceptionClass) {
+	Fail.shouldHaveThrown(exceptionClass);
   }
 
   // ------------------------------------------------------------------------------------------------------

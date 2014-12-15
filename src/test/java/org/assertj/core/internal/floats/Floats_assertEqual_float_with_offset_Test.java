@@ -79,7 +79,7 @@ public class Floats_assertEqual_float_with_offset_Test extends FloatsBaseTest {
     Offset<Float> offset = offset(1f);
     try {
       floats.assertEqual(info, 6f, null, offset);
-      failBecauseExceptionWasNotThrown(NullPointerException.class);
+      shouldHaveThrown(NullPointerException.class);
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("The given number should not be null");
     }
@@ -126,7 +126,7 @@ public class Floats_assertEqual_float_with_offset_Test extends FloatsBaseTest {
     Offset<Float> offset = offset(1f);
     try {
       floatsWithAbsValueComparisonStrategy.assertEqual(info, 6f, null, offset);
-      failBecauseExceptionWasNotThrown(NullPointerException.class);
+      shouldHaveThrown(NullPointerException.class);
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("The given number should not be null");
     }
