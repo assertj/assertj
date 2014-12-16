@@ -53,10 +53,11 @@ public class ThrowableAssert_built_from_Callable_Test {
 		  return null;
 		}
 	  });
-	  shouldHaveThrown(AssertionError.class);
 	} catch (AssertionError e) {
 	  assertThat(e).hasMessage("Expecting code to throw an exception.");
+	  return;
 	}
+	shouldHaveThrown(AssertionError.class);
   }
 
 }
