@@ -72,7 +72,7 @@ public class Doubles_assertEqual_double_with_offset_Test extends DoublesBaseTest
     Offset<Double> offset = offset(1d);
     try {
       doubles.assertEqual(info, 6d, null, offset);
-      failBecauseExceptionWasNotThrown(NullPointerException.class);
+      shouldHaveThrown(NullPointerException.class);
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("The given number should not be null");
     }
@@ -113,7 +113,7 @@ public class Doubles_assertEqual_double_with_offset_Test extends DoublesBaseTest
     Offset<Double> offset = offset(1d);
     try {
       doublesWithAbsValueComparisonStrategy.assertEqual(info, 6d, null, offset);
-      failBecauseExceptionWasNotThrown(NullPointerException.class);
+      shouldHaveThrown(NullPointerException.class);
     } catch (NullPointerException e) {
       assertThat(e).hasMessage("The given number should not be null");
     }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.fail;
 
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Fail.shouldHaveThrown;
 import static org.assertj.core.test.ExpectedException.none;
 
 import org.assertj.core.api.Fail;
@@ -26,7 +26,7 @@ import org.junit.Test;
  * 
  * @author Joel Costigliola
  */
-public class Fail_fail_because_exception_was_not_thrown_Test {
+public class Fail_fail_because_exception_should_have_thrown_Test {
 
   @Rule
   public ExpectedException thrown = none();
@@ -34,12 +34,12 @@ public class Fail_fail_because_exception_was_not_thrown_Test {
   @Test
   public void should_include_message_built_with_given_exception_name() {
     thrown.expectAssertionError("Expected NullPointerException to be thrown");
-    failBecauseExceptionWasNotThrown(NullPointerException.class);
+    shouldHaveThrown(NullPointerException.class);
   }
 
   @Test
   public void should_include_message_built_with_given_throwable_name() {
     thrown.expectAssertionError("Expected OutOfMemoryError to be thrown");
-    failBecauseExceptionWasNotThrown(OutOfMemoryError.class);
+    shouldHaveThrown(OutOfMemoryError.class);
   }
 }

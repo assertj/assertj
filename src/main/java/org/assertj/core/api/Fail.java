@@ -61,8 +61,21 @@ public final class Fail {
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
+   *
+   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
+    shouldHaveThrown(throwableClass);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
+   * but had not been.
+   * @param throwableClass the Throwable class that was expected to be thrown.
+   * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
+   *           not been.
+   */
+  public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().failure(format("Expected %s to be thrown", throwableClass.getSimpleName()));
   }
 

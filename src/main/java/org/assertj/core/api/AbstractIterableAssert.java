@@ -193,6 +193,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * Verifies that the actual group does not contain any elements of the given {@link Iterable} (i.e. none).
    * <p/>
+   * Example:
    * 
    * <pre><code class='java'>
    * // this assertion succeeds :
@@ -471,7 +472,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * it can be sometimes much less work !
    * <p/>
    * Let's take an example to make things clearer :
-   * <p/>
    * 
    * <pre><code class='java'>
    * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
@@ -746,11 +746,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * It allows to test values from the elements in more safe way than by using {@link #extracting(String)}, as it
    * doesn't utilize introspection.
    * <p/>
-   * Let's take a look an example
+   * Let's have a look at an example :
    * 
    * <pre><code class='java'>
-   * List&lt;
-   * 
    * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
@@ -890,9 +888,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * Same semantic as {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
    * given iterable and nothing else, <b>in any order</b>.
+   * </p>
+   * Example:
    * 
    * <pre><code class='java'>
-   * Example:
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass
@@ -925,10 +924,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * (e.g. public) or fields with an accessible getter.<br/>
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
+   * </p>
+   * Example:
    *
    * <pre><code class='java'>
-   * Example:
-   * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
    * 
@@ -937,7 +936,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(newArrayList(frodo)).usingFieldByFieldElementComparator().contains(frodoClone);
-   *
    * </code></pre>
    *
    * @return {@code this} assertion object.
@@ -956,10 +954,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * (e.g. public) or fields with an accessible getter.<br/>
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other field
    * using its <code>equals</code> method.
+   * </p>
+   * Example:
    *
    * <pre><code class='java'>
-   * Example:
-   * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
    * 
@@ -968,7 +966,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL
-   *
    * </code></pre>
    *
    * @return {@code this} assertion object.
@@ -992,10 +989,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * (e.g. public) or fields with an accessible getter.<br/>
    * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
+   * </p>
+   * Example:
    *
    * <pre><code class='java'>
-   * Example:
-   * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
    * 
@@ -1004,7 +1001,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * // ... but not when comparing both name and race
    * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL
-   *
    * </code></pre>
    *
    * @return {@code this} assertion object.
