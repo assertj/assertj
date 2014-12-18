@@ -63,6 +63,11 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
   }
 
   @Test
+  public void should_success_if_values_is_empty() {
+    maps.assertContainsValues(someInfo(), actual);
+  }
+
+  @Test
   public void should_success_if_values_contains_null() {
 	maps.assertContainsValues(someInfo(), actual, "Yoda", null);
   }
