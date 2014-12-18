@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
+import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
@@ -317,6 +318,36 @@ public class Maps {
 	  return;
 	}
 	throw failures.failure(info, shouldContainValue(actual, value));
+  }
+
+  /**
+   * Verifies that the actual map contain the given values.
+   *
+   * @param info   contains information about the assertion.
+   * @param actual the given {@code Map}.
+   * @param values the given values
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map not contains the given value.
+   */
+  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
+                                          @SuppressWarnings("unchecked") V... values) {
+	assertNotNull(info, actual);
+
+	if (values == null) {
+	  assertContainsValue(info, actual, null);
+	  return;
+	}
+
+	Set<V> notFound = new LinkedHashSet<V>();
+	for (V value : values) {
+	  if (!actual.containsValue(value)) {
+		notFound.add(value);
+	  }
+	}
+	if (notFound.isEmpty()) {
+	  return;
+	}
+	throw failures.failure(info, shouldContainValues(actual, notFound));
   }
 
   /**
