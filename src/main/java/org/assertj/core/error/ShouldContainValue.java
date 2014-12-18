@@ -28,7 +28,7 @@ public class ShouldContainValue extends BasicErrorMessageFactory {
     return new ShouldContainValue(actual, value);
   }
 
-  private ShouldContainValue(Object actual, Object value) {
+  ShouldContainValue(Object actual, Object value) {
     super("\nExpecting:\n <%s>\nto contain value:\n <%s>", actual, value);
   }
 }

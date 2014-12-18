@@ -36,9 +36,16 @@ public class ShouldContainValues_create_Test {
   @Test
   public void should_create_error_message() {
     Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldContainValues(map, newHashSet(Arrays.asList("VeryOld", "VeryVeryOld")));
+    ErrorMessageFactory factory = shouldContainValues(map, newHashSet(Arrays.asList("VeryOld")));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain values:\n <[\"VeryOld\", \"VeryVeryOld\"]>", message);
+    assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain value:\n <\"VeryOld\">", message);
   }
 
+  @Test
+  public void should_create_error_message_with_multiplevalues() {
+	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+	ErrorMessageFactory factory = shouldContainValues(map, newHashSet(Arrays.asList("VeryOld", "VeryVeryOld")));
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nto contain values:\n <[\"VeryOld\", \"VeryVeryOld\"]>", message);
+  }
 }
