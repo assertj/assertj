@@ -30,7 +30,7 @@ import static org.assertj.core.util.Sets.newHashSet;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Maps#assertContainsValue(org.assertj.core.api.AssertionInfo, java.util.Map, Object)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Maps#assertContainsValues(org.assertj.core.api.AssertionInfo, java.util.Map, Object[])}</code>.
  *
  * @author Nicolas François
  * @author Joel Costigliola
@@ -58,7 +58,7 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_success_if_value_is_null() {
+  public void should_success_if_values_is_null() {
     maps.assertContainsValues(someInfo(), actual, null);
   }
 
@@ -68,7 +68,7 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_value() {
+  public void should_fail_if_actual_does_not_contain_values() {
     AssertionInfo info = someInfo();
     String value = "veryOld";
     String value2 = "veryOld2";

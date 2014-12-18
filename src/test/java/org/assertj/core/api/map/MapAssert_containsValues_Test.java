@@ -18,7 +18,7 @@ import org.assertj.core.api.MapAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.MapAssert#containsValue(Object)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.MapAssert#containsValues(Object[])}</code>.
  *
  * @author Alexander Bischof
  */
