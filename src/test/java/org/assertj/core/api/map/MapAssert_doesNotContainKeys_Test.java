@@ -12,26 +12,28 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
-import static org.mockito.Mockito.verify;
-
-
 /**
- * Tests for <code>{@link MapAssert#doesNotContainKey(Object)}</code>.
- * 
- * @author Nicolas François
+ * Tests for <code>{@link org.assertj.core.api.MapAssert#containsKey(Object)}</code>.
+ *
+ * @author dorzey
  */
-public class MapAssert_doesNotContainKey_Test extends MapAssertBaseTest {
+public class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
+
+  final Object[] keys = array("key1", "key2");
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.doesNotContainKey("key1");
+	return assertions.doesNotContainKeys("key1", "key2");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), "key1");
+	verify(maps).assertDoesNotContainKeys(getInfo(assertions), getActual(assertions), keys);
   }
 }
