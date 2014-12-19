@@ -209,6 +209,14 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains the given key.
+   * <p>
+   * Example :
+   * 
+   * <pre><code class='java'>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
+   * 
+   * assertThat(ringBearers).containsKey(oneRing);
+   * </code></pre>
    * 
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
@@ -221,6 +229,14 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains the given keys.
+   * <p>
+   * Example :
+   * 
+   * <pre><code class='java'>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
+   * 
+   * assertThat(ringBearers).containsKeys(nenya, oneRing);
+   * </code></pre>
    * 
    * @param keys the given keys
    * @throws AssertionError if the actual map is {@code null}.
@@ -234,6 +250,14 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map does not contain the given key.
+   * <p>
+   * Example :
+   * 
+   * <pre><code class='java'>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
+   * 
+   * assertThat(ringBearers).doesNotContainKey(manRing);
+   * </code></pre>
    * 
    * @param key the given key
    * @throws AssertionError if the actual map is {@code null}.
@@ -273,6 +297,8 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains the given value.
+   * <p>
+   * Example :
    * 
    * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
@@ -291,6 +317,8 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map contains the given values.
+   * <p>
+   * Example :
    *
    * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
@@ -309,6 +337,8 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
 
   /**
    * Verifies that the actual map does not contain the given value.
+   * <p>
+   * Example :
    * 
    * <pre><code class='java'>
    * Map<Ring, TolkienCharacter> ringBearers = ... // init with elves rings and the one ring
