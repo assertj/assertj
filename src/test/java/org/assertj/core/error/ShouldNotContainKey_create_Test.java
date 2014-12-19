@@ -12,11 +12,10 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.test.Maps.mapOf;
-
 
 import java.util.Map;
 
@@ -25,7 +24,9 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContainKey#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldNotContainKey#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Nicolas François
  */
@@ -33,10 +34,14 @@ public class ShouldNotContainKey_create_Test {
 
   @Test
   public void should_create_error_message() {
-    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldNotContainKey(map, "age");
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\nnot to contain key:\n <\"age\">", message);
+	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+	ErrorMessageFactory factory = shouldNotContainKey(map, "age");
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertThat(message).isEqualTo("[Test] \n" +
+	                              "Expecting:\n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
+	                              "not to contain key:\n" +
+	                              "  <\"age\">");
   }
 
 }
