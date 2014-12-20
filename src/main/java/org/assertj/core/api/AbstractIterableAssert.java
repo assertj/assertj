@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Iterables.toArray;
@@ -21,6 +23,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
@@ -51,7 +54,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mathieu Baechler
  * @author Joel Costigliola
  * @author Maciej Jaskowski
- * @author Nicolas François
+ * @author Nicolas François 
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  */
@@ -317,7 +320,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	iterables.assertAreAtLeast(info, actual, times, condition);
 	return myself;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -838,6 +841,76 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
+   * Use the given {@link Function}s to extract the values from the Iterable's elements under test into a new Iterable
+   * composed of {@link Tuple} (a simple data structure containing th extracted values), this new Iterable becoming the
+   * Iterable under test.
+   * <p/>
+   * It allows you to test values from the Iterable's elements instead of testing the elements themselves, it can be
+   * sometimes much less work!
+   * <p/>
+   * The Tuple data corresponds to the extracted values from the Iterable's elements, for instance if you pass functions
+   * extracting "id", "name" and "email" values then each Tuple data will be composed of an id, a name and an email
+   * extracted from the element of the initial Iterable (the Tuple's data order is the same as the given functions
+   * order).
+   * <p/>
+   * Let's take an example to make things clearer :
+   * 
+   * <pre><code class='java'>
+   * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * // they can be public field or properties, both can be extracted.
+   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
+   * 
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
+   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
+   * 
+   * // let's verify 'name', 'age' and Race of some TolkienCharacter in fellowshipOfTheRing :
+   * 
+   * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
+   *                                            character -> character.getAge(),
+   *                                            TolkienCharacter::getRace)
+   *                                .containsOnly(tuple("Frodo", 33, HOBBIT),
+   *                                              tuple("Sam", 38, HOBBIT),
+   *                                              tuple("Gandalf", 2020, MAIA),
+   *                                              tuple("Legolas", 1000, ELF),
+   *                                              tuple("Pippin", 28, HOBBIT),
+   *                                              tuple("Gimli", 139, DWARF),
+   *                                              tuple("Aragorn", 87, MAN),
+   *                                              tuple("Boromir", 37, MAN));
+   * </code></pre>
+   * You can use lambda expression or a method reference to extract the expected values.
+   * <p/>
+   * Use {@link Tuple#tuple(Object...)} to initialize the expected values.
+   * <p/>
+   * Note that the order of the extracted tuples list is consistent with the iteration order of the Iterable under test,
+   * for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted tuples order.
+   * 
+   * @param extractors the extractor functions to extract a value from an element of the Iterable under test.
+   * @return a new assertion object whose object under test is the list of Tuple containing the extracted values.
+   */
+  @SafeVarargs
+  public final ListAssert<Tuple> extracting(Function<T, ?>... extractors) {
+	// combine all extractors into one function
+	Function<T, Tuple> tupleExtractor = objectToExtractValueFrom -> {
+	  Tuple tuple = new Tuple();
+	  for (Function<T, ?> extractor : extractors) {
+		// extract value one by one
+		tuple.addData(extractor.apply(objectToExtractValueFrom));
+	  }
+	  return tuple;
+	};
+
+	List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
+	                                                        .collect(toList());
+	return new ListAssert<Tuple>(tuples);
+  }
+
+  /**
    * Same as {@link #containsExactly(Object[])} but handle the {@link Iterable} to array conversion. Same semantic as
    * {@link #containsExactly(Object...)} : verifies that actual contains all the elements of the given iterable and
    * nothing else <b>in the same order</b>.
@@ -952,8 +1025,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <p/>
    * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
    * (e.g. public) or fields with an accessible getter.<br/>
-   * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other field
-   * using its <code>equals</code> method.
+   * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
+   * field using its <code>equals</code> method.
    * </p>
    * Example:
    *

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core-java8</artifactId>
@@ -33,7 +34,7 @@
   </issueManagement>
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-  </properties>  
+  </properties>
   <dependencies>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -46,8 +47,14 @@
     </dependency>
     <dependency>
       <groupId>cglib</groupId>
-      <artifactId>cglib-nodep</artifactId>
-      <version>2.2.2</version>
+      <artifactId>cglib</artifactId>
+      <version>3.1</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.ow2.asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>5.0.3</version>
       <optional>true</optional>
     </dependency>
   </dependencies>
@@ -102,7 +109,7 @@
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.7</version>
+        <version>2.5.3</version>
         <extensions>true</extensions>
         <configuration>
           <instructions>
@@ -120,28 +127,28 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>check</id>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <configuration>
-		        <rules>
-                  <rule implementation="org.jacoco.maven.RuleConfiguration">
-                    <element>BUNDLE</element>
-                    <limits>
-                      <limit implementation="org.jacoco.report.check.Limit">
-                        <counter>CLASS</counter>
-                        <value>COVEREDRATIO</value>
-                        <minimum>0.99</minimum>
-                      </limit>
-              	   </limits>
-		          </rule>
-                </rules>
-	      </configuration>
-            </execution>
-          </executions>
+        <executions>
+          <execution>
+            <id>check</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <rule implementation="org.jacoco.maven.RuleConfiguration">
+                  <element>BUNDLE</element>
+                  <limits>
+                    <limit implementation="org.jacoco.report.check.Limit">
+                      <counter>CLASS</counter>
+                      <value>COVEREDRATIO</value>
+                      <minimum>0.99</minimum>
+                    </limit>
+                  </limits>
+                </rule>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <!-- to get jacoco report we need to set argLine in surefire, without this snippet the jacoco argLine is lost -->
       <plugin>
@@ -161,10 +168,16 @@
               <goal>jarjar</goal>
             </goals>
             <configuration>
+              <!-- TODO add ASM / or get rid of CGLIB -->
               <includes>
-                <include>cglib:cglib-nodep</include>
+                <include>cglib:cglib</include>
+                <include>org.ow2.asm:asm</include>
               </includes>
               <rules>
+                <rule>
+                  <pattern>org.objectweb.asm.**</pattern>
+                  <result>org.assertj.core.internal.asm.@1</result>
+                </rule>
                 <rule>
                   <pattern>net.sf.cglib.**</pattern>
                   <result>org.assertj.core.internal.cglib.@1</result>
