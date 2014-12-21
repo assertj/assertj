@@ -12,13 +12,12 @@
  */
 package org.assertj.core.error;
 
-import java.util.Date;
-
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is before another one failed.
+ * Creates an error message indicating that an assertion that verifies that a {@link Object} is before another one failed.
  * 
  * @author Joel Costigliola
  */
@@ -31,7 +30,7 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBefore(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
     return new ShouldBeBefore(actual, other, comparisonStrategy);
   }
 
@@ -41,11 +40,11 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeBefore(Date actual, Date other) {
+  public static ErrorMessageFactory shouldBeBefore(Object actual, Object other) {
     return new ShouldBeBefore(actual, other, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeBefore(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be strictly before:\n <%s>%s", actual, other, comparisonStrategy);
+  private ShouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n  <%s>\nto be strictly before:\n  <%s>%s", actual, other, comparisonStrategy);
   }
 }

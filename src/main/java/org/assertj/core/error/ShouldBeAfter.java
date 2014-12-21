@@ -33,7 +33,7 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfter(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
+  public static ErrorMessageFactory shouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
     return new ShouldBeAfter(actual, other, comparisonStrategy);
   }
 
@@ -43,7 +43,7 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
    * @param other the value used in the failed assertion to compare the actual value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeAfter(Date actual, Date other) {
+  public static ErrorMessageFactory shouldBeAfter(Object actual, Object other) {
     return new ShouldBeAfter(actual, other, StandardComparisonStrategy.instance());
   }
 
@@ -58,7 +58,7 @@ public class ShouldBeAfter extends BasicErrorMessageFactory {
     return new ShouldBeAfter(actual, januaryTheFirstOfGivenYear, StandardComparisonStrategy.instance());
   }
 
-  private ShouldBeAfter(Date actual, Date other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be strictly after:\n <%s>%s", actual, other, comparisonStrategy);
+  private ShouldBeAfter(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
+    super("\nExpecting:\n  <%s>\nto be strictly after:\n  <%s>%s", actual, other, comparisonStrategy);
   }
 }
