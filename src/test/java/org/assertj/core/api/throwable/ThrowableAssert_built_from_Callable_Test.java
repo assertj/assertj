@@ -44,7 +44,7 @@ public class ThrowableAssert_built_from_Callable_Test {
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_callable_code() throws Exception {
+  public void should_fail_if_nothing_is_thrown_by_callable_code() {
 	try {
 	  assertThatExceptionThrownBy(new Callable<Void>() {
 		@Override

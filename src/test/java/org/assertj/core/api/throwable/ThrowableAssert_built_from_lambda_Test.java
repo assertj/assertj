@@ -14,9 +14,7 @@ package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
-import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
-
-import java.util.concurrent.Callable;
+import static org.assertj.core.api.Fail.shouldHaveThrown;
 
 import org.assertj.core.test.Jedi;
 import org.junit.Test;
@@ -40,19 +38,14 @@ public class ThrowableAssert_built_from_lambda_Test {
   }
 
   @Test
-  public void should_fail_if_nothing_is_thrown_by_runnable_code() throws Exception {
+  public void should_fail_if_nothing_is_thrown_by_lambda() {
 	try {
-	  assertThatExceptionThrownBy(new Callable<Void>() {
-		@Override
-		public Void call() {
-		  // no exception
-		  return null;
-		}
-	  });
-	  failBecauseExceptionWasNotThrown(AssertionError.class);
+	  assertThatExceptionThrownBy(() -> null);
 	} catch (AssertionError e) {
 	  assertThat(e).hasMessage("Expecting code to throw an exception.");
+	  return;
 	}
+	shouldHaveThrown(AssertionError.class);
   }
 
 }
