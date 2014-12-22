@@ -34,13 +34,13 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 	list.add(5L);
 	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", 5L]>\n"
-	                              + "to only have elements of type:\n"
-	                              + "  <java.lang.String>\n"
-	                              + "but found:\n"
-	                              + "  <java.lang.Long>");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", 5L]>%n"
+	                              + "to only have elements of type:%n"
+	                              + "  <java.lang.String>%n"
+	                              + "but found:%n"
+	                              + "  <java.lang.Long>"));
   }
 
   @Test
@@ -48,13 +48,13 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 	Object[] array = new Object[] { "Yoda", 5L };
 	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(array, String.class, Long.class);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", 5L]>\n"
-	                              + "to only have elements of type:\n"
-	                              + "  <java.lang.String>\n"
-	                              + "but found:\n"
-	                              + "  <java.lang.Long>");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", 5L]>%n"
+	                              + "to only have elements of type:%n"
+	                              + "  <java.lang.String>%n"
+	                              + "but found:%n"
+	                              + "  <java.lang.Long>"));
   }
 
 }
