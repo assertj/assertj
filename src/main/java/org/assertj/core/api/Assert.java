@@ -243,6 +243,23 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S isNotOfAnyClassIn(Class<?>... types);
 
   /**
+   * Verifies that the actual value is an instance of List,
+   * and returns a list assertion, to allow chaining of list-specific
+   * assertions from this call.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Object listAsObject = newArrayList(1, 2, 3);
+   *
+   * assertThat(listAsObject).asList().isSorted();
+   * </code></pre>
+   *
+   * @return a list assertion object
+   */
+  AbstractListAssert asList();
+
+  /**
    * @deprecated
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
    * <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
