@@ -30,7 +30,7 @@ public class Assertions_assertThat_asList {
     public ExpectedException thrown = none();
 
     @Test
-    public void should_past_list_asserts_on_list_objects_with_asList() {
+    public void should_pass_list_asserts_on_list_objects_with_asList() {
         Object listAsObject = Arrays.asList(1, 2, 3);
         assertThat(listAsObject).asList().isSorted();
     }
