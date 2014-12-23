@@ -22,10 +22,11 @@ import org.assertj.core.data.MapEntry;
  * @author Alex Ruiz
  */
 public final class Maps {
-  public static Map<?, ?> mapOf(MapEntry... entries) {
-    Map<Object, Object> map = new LinkedHashMap<Object, Object>();
-    for (MapEntry entry : entries)
+  public static <K, V> Map<K, V> mapOf(MapEntry<K, V>... entries) {
+    Map<K, V> map = new LinkedHashMap<K, V>();
+    for (MapEntry<K, V> entry : entries) {
       map.put(entry.key, entry.value);
+    }
     return map;
   }
 

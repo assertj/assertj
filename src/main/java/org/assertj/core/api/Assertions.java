@@ -712,7 +712,7 @@ public class Assertions {
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </code></pre>
    */
-  public static MapEntry entry(Object key, Object value) {
+  public static <K, V> MapEntry<K, V> entry(K key, V value) {
 	return MapEntry.entry(key, value);
   }
 

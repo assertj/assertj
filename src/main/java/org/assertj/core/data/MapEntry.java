@@ -22,10 +22,10 @@ import java.util.Map;
  *
  * @author Yvonne Wang
  */
-public class MapEntry {
-  public final Object key;
+public class MapEntry<K, V> {
+  public final K key;
 
-  public final Object value;
+  public final V value;
 
   /**
    * Creates a new {@link MapEntry}.
@@ -34,11 +34,11 @@ public class MapEntry {
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
    */
-  public static MapEntry entry(Object key, Object value) {
-    return new MapEntry(key, value);
+  public static <K,V> MapEntry<K, V> entry(K key, V value) {
+    return new MapEntry<K, V>(key, value);
   }
 
-  private MapEntry(Object key, Object value) {
+  private MapEntry(K key, V value) {
     this.key = key;
     this.value = value;
   }
