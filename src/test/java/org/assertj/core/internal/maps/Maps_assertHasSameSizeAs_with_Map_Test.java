@@ -35,7 +35,7 @@ import static org.assertj.core.util.FailureMessages.*;
  * @author Adam Ruka
  */
 public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
-  @SuppressWarnings("unchecked")
+
   @Override
   @Before
   public void setUp() {

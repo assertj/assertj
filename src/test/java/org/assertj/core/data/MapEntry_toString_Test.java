@@ -24,7 +24,7 @@ import org.junit.*;
  * @author Alex Ruiz
  */
 public class MapEntry_toString_Test {
-  private static MapEntry entry;
+  private static MapEntry<String, String> entry;
 
   @BeforeClass
   public static void setUpOnce() {

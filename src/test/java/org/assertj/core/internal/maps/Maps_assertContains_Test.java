@@ -21,14 +21,12 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.Maps;
@@ -58,12 +56,14 @@ public class Maps_assertContains_Test extends MapsBaseTest {
     maps.assertContains(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_pass_if_actual_and_given_entries_are_empty() {
     actual = new HashMap<String, String>();
     maps.assertContains(someInfo(), actual, new MapEntry[0]);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_array_of_entries_to_look_for_is_empty() {
     thrown.expect(AssertionError.class);
@@ -76,9 +76,10 @@ public class Maps_assertContains_Test extends MapsBaseTest {
     maps.assertContains(someInfo(), actual, null);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_entry_is_null() {
-    MapEntry[] entries = { null };
+    MapEntry<String, String>[] entries = new MapEntry[]{null};
     thrown.expectNullPointerException(entryToLookForIsNull());
     maps.assertContains(someInfo(), actual, entries);
   }
@@ -92,7 +93,7 @@ public class Maps_assertContains_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_entries() {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
+    MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContains(info, actual, expected);
     } catch (AssertionError e) {

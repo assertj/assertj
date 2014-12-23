@@ -85,7 +85,6 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contains_every_expected_entries() throws Exception {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
-    @SuppressWarnings("unchecked")
     Map<String, String> underTest = (Map<String, String>) Maps.mapOf(entry("name", "Yoda"));
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);
@@ -101,7 +100,6 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
       throws Exception {
     AssertionInfo info = someInfo();
     String[] expectedKeys = { "name", "color" };
-    @SuppressWarnings("unchecked")
     Map<String, String> underTest = (Map<String, String>) Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContainsOnlyKeys(info, underTest, expectedKeys);

@@ -39,7 +39,6 @@ import org.junit.Test;
  */
 public class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
 
-  @SuppressWarnings("unchecked")
   @Override
   @Before
   public void setUp() {

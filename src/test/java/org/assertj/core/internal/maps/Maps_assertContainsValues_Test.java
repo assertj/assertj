@@ -22,7 +22,6 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.MapsBaseTest;
@@ -38,12 +37,11 @@ import org.junit.Test;
  */
 public class Maps_assertContainsValues_Test extends MapsBaseTest {
 
-  @SuppressWarnings("unchecked")
   @Override
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("type", "Jedi"), entry("color", "green"), entry(null, null));
+    actual = mapOf(entry("name", "Yoda"), entry("type", "Jedi"), entry("color", "green"), entry((String) null, (String) null));
   }
 
   @Test

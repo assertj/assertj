@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.test.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -53,34 +54,40 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     linkedActual.put("color", "green");
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_is_null() throws Exception {
     thrown.expectAssertionError(actualIsNull());
     maps.assertContainsExactly(someInfo(), null, entry("name", "Yoda"));
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_null() throws Exception {
     thrown.expectNullPointerException(entriesToLookForIsNull());
     maps.assertContainsExactly(someInfo(), linkedActual, (MapEntry[])null);
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_given_entries_array_is_empty() throws Exception {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
     maps.assertContainsExactly(someInfo(), linkedActual, emptyEntries());
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_pass_if_actual_and_entries_are_empty() throws Exception {
     maps.assertContainsExactly(someInfo(), emptyMap(), emptyEntries());
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_pass_if_actual_contains_given_entries_in_order() throws Exception {
     maps.assertContainsExactly(someInfo(), linkedActual, entry("name", "Yoda"), entry("color", "green"));
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_fail_if_actual_contains_given_entries_in_disorder() throws Exception {
     AssertionInfo info = someInfo();
@@ -96,7 +103,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_and_expected_entries_have_different_size() throws Exception {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda") };
+    MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
     try {
       maps.assertContainsExactly(info, linkedActual, expected);
     } catch (AssertionError e) {
@@ -110,8 +117,8 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
       throws Exception {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("color", "green") };
-    Map<?, ?> underTest = newLinkedHashMap(entry("name", "Yoda"), entry("job", "Jedi"));
+    MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
+    Map<String, String> underTest = newLinkedHashMap(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContainsExactly(info, underTest, expected);
     } catch (AssertionError e) {
@@ -128,7 +135,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   public void should_fail_if_actual_contains_entry_key_with_different_value() throws Exception {
 
     AssertionInfo info = someInfo();
-    MapEntry[] expectedEntries = { entry("name", "Yoda"), entry("color", "yellow") };
+    MapEntry<String, String>[] expectedEntries = array(entry("name", "Yoda"), entry("color", "yellow"));
     try {
       maps.assertContainsExactly(info, actual, expectedEntries);
     } catch (AssertionError e) {
@@ -141,16 +148,17 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     shouldHaveThrown(AssertionError.class);
   }
 
-  private static Map<String, String> newLinkedHashMap(MapEntry... entries) {
+  @SafeVarargs
+  private static Map<String, String> newLinkedHashMap(MapEntry<String, String>... entries) {
     LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-    for (MapEntry entry : entries) {
-      result.put((String) entry.key, (String) entry.value);
+    for (MapEntry<String, String> entry : entries) {
+      result.put(entry.key, entry.value);
     }
     return result;
   }
 
-  private static Set<MapEntry> newHashSet(MapEntry entry) {
-    LinkedHashSet<MapEntry> result = new LinkedHashSet<MapEntry>();
+  private static <K, V> Set<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
+    LinkedHashSet<MapEntry<K, V>> result = new LinkedHashSet<MapEntry<K, V>>();
     result.add(entry);
     return result;
   }

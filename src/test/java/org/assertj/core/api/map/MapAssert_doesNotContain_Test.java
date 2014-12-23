@@ -37,7 +37,7 @@ public class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    MapEntry[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
+    MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
     verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
   }
 }

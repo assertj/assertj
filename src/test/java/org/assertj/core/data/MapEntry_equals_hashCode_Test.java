@@ -26,7 +26,7 @@ import org.junit.*;
  * @author Alex Ruiz
  */
 public class MapEntry_equals_hashCode_Test {
-  private static MapEntry entry;
+  private static MapEntry<String, String> entry;
 
   @BeforeClass
   public static void setUpOnce() {
