@@ -260,6 +260,23 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   AbstractListAssert asList();
 
   /**
+   * Verifies that the actual value is an instance of String,
+   * and returns a String assertion, to allow chaining of String-specific
+   * assertions from this call.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Object stringAsObject = "hello world";
+   *
+   * assertThat(stringAsObject).asString().contains("hello");
+   * </code></pre>
+   *
+   * @return a string assertion object
+   */
+  AbstractCharSequenceAssert<?, String> asString();
+
+  /**
    * @deprecated
    * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
    * <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.

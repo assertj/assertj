@@ -360,6 +360,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return Assertions.assertThat((List) actual);
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public AbstractCharSequenceAssert<?, String> asString() {
+    objects.assertIsInstanceOf(info, actual, String.class);
+    return Assertions.assertThat((String) actual);
+  }
+
   /**
    * The description of this assertion set with {@link #describedAs(String, Object...)} or {@link #describedAs(Description)}.
    * 
