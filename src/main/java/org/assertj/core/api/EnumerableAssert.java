@@ -16,7 +16,9 @@ import java.util.Comparator;
 
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <E> the type of elements of the "actual" value.
  * 
@@ -29,18 +31,21 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group of values is {@code null} or empty.
+   * 
    * @throws AssertionError if the actual group of values is not {@code null} or not empty.
    */
   void isNullOrEmpty();
 
   /**
    * Verifies that the actual group of values is empty.
+   * 
    * @throws AssertionError if the actual group of values is not empty.
    */
   void isEmpty();
 
   /**
    * Verifies that the actual group of values is not empty.
+   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group of values is empty.
    */
@@ -48,6 +53,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the number of values in the actual group is equal to the given one.
+   * 
    * @param expected the expected number of values in the actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual group is not equal to the given one.
@@ -56,6 +62,17 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
 
   /**
    * Verifies that the actual group has the same size as given {@link Iterable}.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
+   * 
+   * // assertions will pass
+   * assertThat(elvesRings).hasSameSizeAs(abc);
+   * </code></pre>
+   * 
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -68,6 +85,17 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * Verifies that the actual group has the same size as given array.
    * <p/>
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * int[] oneTwoThree = {1, 2, 3};
+   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
+   * 
+   * // assertions will pass
+   * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);
+   * </code></pre>
+   * 
    * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -77,11 +105,12 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
   S hasSameSizeAs(Object array);
 
   /**
-   * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare group
+   * elements for
    * incoming assertion checks.
    * <p>
-   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default comparison
-   * strategy.
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
    * <p>
    * Examples :
    * 
@@ -114,7 +143,9 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
   /**
    * Revert to standard comparison for incoming assertion group element checks.
    * <p>
-   * This method should be used to disable a custom comparison strategy set by calling {@link #usingElementComparator(Comparator)}.
+   * This method should be used to disable a custom comparison strategy set by calling
+   * {@link #usingElementComparator(Comparator)}.
+   * 
    * @return {@code this} assertion object.
    */
   S usingDefaultElementComparator();
