@@ -435,174 +435,122 @@ public class Arrays {
 
   public <E> void assertAre(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = elementsNotSatisfyingCondition(array, condition);
-      if (!notSatisfiesCondition.isEmpty())
-        throw failures.failure(info, elementsShouldBe(array, notSatisfiesCondition, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
+    List<E> notSatisfiesCondition = getElementsNotSatisfyingCondition(info, failures, conditions, array, condition);
+    if (!notSatisfiesCondition.isEmpty()) {
+      throw failures.failure(info, elementsShouldBe(array, notSatisfiesCondition, condition));
     }
   }
 
   public <E> void assertAreNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.isEmpty()) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (!satisfiesCondition.isEmpty()) {
       throw failures.failure(info, elementsShouldNotBe(array, satisfiesCondition, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertHave(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> notSatisfiesCondition = elementsNotSatisfyingCondition(array, condition);
-      if (notSatisfiesCondition.isEmpty()) {
-        return;
-      }
+    List<E> notSatisfiesCondition = getElementsNotSatisfyingCondition(info, failures, conditions, array, condition);
+    if (!notSatisfiesCondition.isEmpty()) {
       throw failures.failure(info, elementsShouldHave(array, notSatisfiesCondition, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertHaveNot(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.isEmpty()) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (!satisfiesCondition.isEmpty()) {
       throw failures.failure(info, elementsShouldNotHave(array, satisfiesCondition, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertAreAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() >= times) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() < times) {
       throw failures.failure(info, elementsShouldBeAtLeast(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertAreAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() <= times) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() > times) {
       throw failures.failure(info, elementsShouldBeAtMost(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertAreExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() == times) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() != times) {
       throw failures.failure(info, elementsShouldBeExactly(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() >= times) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() < times) {
       throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
-    assertNotNull(info, array);
-    conditions.assertIsNotNull(condition);
-    try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() <= times) {
-        return;
-      }
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() > times) {
       throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
-    } catch (ClassCastException e) {
-      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
       int times, Condition<E> condition) {
+    List<E> satisfiesCondition = getElementsSatisfyingCondition(info, failures, conditions, array, condition);
+    if (satisfiesCondition.size() != times) {
+      throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private <E> List<E> getElementsSatisfyingCondition(AssertionInfo info, Failures failures, Conditions conditions,
+                                                     Object array, Condition<E> condition) {
     assertNotNull(info, array);
     conditions.assertIsNotNull(condition);
+
     try {
-      List<E> satisfiesCondition = elementsSatisfyingCondition(array, condition);
-      if (satisfiesCondition.size() == times) {
-        return;
+      List<E> elementsSatisfyingCondition = new LinkedList<E>();
+      int arraySize = sizeOf(array);
+      for (int i = 0; i < arraySize; i++) {
+        Object o = Array.get(array, i);
+        if (condition.matches((E) o))
+          elementsSatisfyingCondition.add((E) o);
       }
-      throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
+      return elementsSatisfyingCondition;
     } catch (ClassCastException e) {
       throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
   }
 
   @SuppressWarnings("unchecked")
-  private <E> List<E> elementsNotSatisfyingCondition(Object array, Condition<E> condition) {
-    List<E> elementsNotSatisfyingCondition = new LinkedList<E>();
-    int arraySize = sizeOf(array);
-    for (int i = 0; i < arraySize; i++) {
-      Object o = Array.get(array, i);
-      if (!condition.matches((E) o))
-        elementsNotSatisfyingCondition.add((E) o);
-    }
-    return elementsNotSatisfyingCondition;
-  }
+  private <E> List<E> getElementsNotSatisfyingCondition(AssertionInfo info, Failures failures, Conditions conditions,
+                                                        Object array, Condition<E> condition) {
+    assertNotNull(info, array);
+    conditions.assertIsNotNull(condition);
 
-  @SuppressWarnings("unchecked")
-  private <E> List<E> elementsSatisfyingCondition(Object array, Condition<E> condition) {
-    List<E> elementsSatisfyingCondition = new LinkedList<E>();
-    int arraySize = sizeOf(array);
-    for (int i = 0; i < arraySize; i++) {
-      Object o = Array.get(array, i);
-      if (condition.matches((E) o))
-        elementsSatisfyingCondition.add((E) o);
+    try {
+      List<E> elementsNotSatisfyingCondition = new LinkedList<E>();
+      int arraySize = sizeOf(array);
+      for (int i = 0; i < arraySize; i++) {
+        Object o = Array.get(array, i);
+        if (!condition.matches((E) o))
+          elementsNotSatisfyingCondition.add((E) o);
+      }
+      return elementsNotSatisfyingCondition;
+    } catch (ClassCastException e) {
+      throw failures.failure(info, shouldBeSameGenericBetweenIterableAndCondition(array, condition));
     }
-    return elementsSatisfyingCondition;
   }
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
