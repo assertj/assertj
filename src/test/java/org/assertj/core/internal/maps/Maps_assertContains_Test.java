@@ -78,7 +78,7 @@ public class Maps_assertContains_Test extends MapsBaseTest {
 
   @Test
   public void should_throw_error_if_entry_is_null() {
-    MapEntry[] entries = { null };
+    MapEntry<String, String>[] entries = new MapEntry[]{null};
     thrown.expectNullPointerException(entryToLookForIsNull());
     maps.assertContains(someInfo(), actual, entries);
   }
@@ -92,7 +92,7 @@ public class Maps_assertContains_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contain_entries() {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
+    MapEntry<String, String>[] expected = new MapEntry[]{entry("name", "Yoda"), entry("job", "Jedi")};
     try {
       maps.assertContains(info, actual, expected);
     } catch (AssertionError e) {

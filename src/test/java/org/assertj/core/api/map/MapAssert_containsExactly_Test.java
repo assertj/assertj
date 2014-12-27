@@ -27,7 +27,7 @@ import org.assertj.core.data.MapEntry;
  */
 public class MapAssert_containsExactly_Test extends MapAssertBaseTest {
 
-  final MapEntry[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
+  final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

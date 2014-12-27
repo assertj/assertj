@@ -40,7 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author dorzey
  */
 public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
-    extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry> {
+    extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry<? extends K, ? extends V>> {
 
   @VisibleForTesting
   Maps maps = Maps.instance();
@@ -132,7 +132,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
    */
-  public S contains(MapEntry... entries) {
+  public S contains(MapEntry<? extends K, ? extends V>... entries) {
 	maps.assertContains(info, actual, entries);
 	return myself;
   }
@@ -179,7 +179,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
    */
-  public S doesNotContain(MapEntry... entries) {
+  public S doesNotContain(MapEntry<? extends K, ? extends V>... entries) {
 	maps.assertDoesNotContain(info, actual, entries);
 	return myself;
   }
@@ -399,7 +399,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
-  public S containsOnly(MapEntry... entries) {
+  public S containsOnly(MapEntry<? extends K, ? extends V>... entries) {
 	maps.assertContainsOnly(info, actual, entries);
 	return myself;
   }
@@ -430,7 +430,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
-  public S containsExactly(MapEntry... entries) {
+  public S containsExactly(MapEntry<? extends K, ? extends V>... entries) {
 	maps.assertContainsExactly(info, actual, entries);
 	return myself;
   }
@@ -443,7 +443,7 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    */
   @Override
   @Deprecated
-  public final S usingElementComparator(Comparator<? super MapEntry> customComparator) {
+  public final S usingElementComparator(Comparator<? super MapEntry<? extends K, ? extends V>> customComparator) {
 	throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
 

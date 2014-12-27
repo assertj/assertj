@@ -43,7 +43,7 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("type", "Jedi"), entry("color", "green"), entry(null, null));
+    actual = mapOf(entry("name", "Yoda"), entry("type", "Jedi"), entry("color", "green"), entry((String) null, (String) null));
   }
 
   @Test

@@ -72,7 +72,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_contains_unexpected_entry() throws Exception {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda") };
+    MapEntry<String, String>[] expected = new MapEntry[]{entry("name", "Yoda")};
     try {
       maps.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
@@ -86,8 +86,8 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_does_not_contains_every_expected_entries() throws Exception {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("color", "green") };
-    Map<?, ?> underTest = Maps.mapOf(entry("name", "Yoda"));
+    MapEntry<String, String>[] expected = new MapEntry[]{entry("name", "Yoda"), entry("color", "green")};
+    Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"));
     try {
       maps.assertContainsOnly(info, underTest, expected);
     } catch (AssertionError e) {
@@ -102,8 +102,8 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   public void should_fail_if_actual_does_not_contains_every_expected_entries_and_contains_unexpected_one()
       throws Exception {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("color", "green") };
-    Map<?, ?> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
+    MapEntry<String, String>[] expected = new MapEntry[]{entry("name", "Yoda"), entry("color", "green")};
+    Map<String, String> underTest = Maps.mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertContainsOnly(info, underTest, expected);
     } catch (AssertionError e) {
@@ -121,7 +121,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   public void should_fail_if_actual_contains_entry_key_with_different_value() throws Exception {
 
     AssertionInfo info = someInfo();
-    MapEntry[] expectedEntries = { entry("name", "Yoda"), entry("color", "yellow") };
+    MapEntry<String, String>[] expectedEntries = new MapEntry[]{entry("name", "Yoda"), entry("color", "yellow")};
     try {
       maps.assertContainsOnly(info, actual, expectedEntries);
     } catch (AssertionError e) {
@@ -134,8 +134,8 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
     shouldHaveThrown(AssertionError.class);
   }
 
-  private static HashSet<MapEntry> newHashSet(MapEntry entry) {
-    HashSet<MapEntry> notExpected = new HashSet<MapEntry>();
+  private static <K, V> HashSet<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
+    HashSet<MapEntry<K, V>> notExpected = new HashSet<MapEntry<K, V>>();
     notExpected.add(entry);
     return notExpected;
   }

@@ -67,7 +67,7 @@ public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
+    MapEntry<String, String>[] expected = new MapEntry[]{entry("name", "Yoda"), entry("job", "Jedi")};
     try {
       maps.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {
