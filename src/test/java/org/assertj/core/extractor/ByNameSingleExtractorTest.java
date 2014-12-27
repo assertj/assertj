@@ -14,6 +14,7 @@ package org.assertj.core.extractor;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.assertj.core.api.Assertions;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -21,8 +22,13 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ByNameSingleExtractorTest {
-  private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);;
+  private static final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -99,7 +105,24 @@ public class ByNameSingleExtractorTest {
     idExtractor().extract(null);
   }
 
-  private Employee employeeWithBrokenName(String name) {
+    @Test
+    public void should_extract_maps_by_key() {
+        Map<String, Employee> map1 = new HashMap<>();
+        map1.put("key1", yoda);
+        Employee luke = new Employee(2L, new Name("Luke"), 22);
+        map1.put("key2", luke);
+
+        Map<String, Employee> map2 = new HashMap<>();
+        map2.put("key1", yoda);
+        Employee han = new Employee(3L, new Name("Han"), 31);
+        map2.put("key2", han);
+
+        List<Map<String, Employee>> maps = Arrays.asList(map1, map2);
+        Assertions.assertThat(maps).extracting("key2").containsExactly(luke, han);
+
+    }
+
+    private Employee employeeWithBrokenName(String name) {
     return new Employee(1L, new Name(name), 0) {
 
       @Override

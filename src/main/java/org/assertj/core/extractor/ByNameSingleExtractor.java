@@ -19,6 +19,8 @@ import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+import java.util.Map;
+
 class ByNameSingleExtractor<T> implements Extractor<T, Object> {
   private final String propertyOrFieldName;
 
@@ -35,7 +37,13 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
     if (input == null)
       throw new IllegalArgumentException("The object to extract field/property from should not be null");
 
-    // first try to get given property values from objects, then try properties
+    // #258 special behavior for maps
+    if (input instanceof Map) {
+      Map<?, ?> map = (Map<?, ?>) input;
+      return map.get(propertyOrFieldName);
+    }
+
+      // first try to get given property values from objects, then try properties
     try {
       return PropertySupport.instance().propertyValueOf(propertyOrFieldName, Object.class, input);
     } catch (IntrospectionError fieldIntrospectionError) {
