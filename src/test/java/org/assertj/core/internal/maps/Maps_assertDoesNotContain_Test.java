@@ -20,8 +20,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -46,6 +44,7 @@ public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
     maps.assertDoesNotContain(someInfo(), actual, array(entry("job", "Jedi")));
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_throw_error_if_array_of_values_to_look_for_is_empty() {
     thrown.expectIllegalArgumentException(entriesToLookForIsEmpty());
@@ -67,7 +66,7 @@ public class Maps_assertDoesNotContain_Test extends MapsBaseTest {
   @Test
   public void should_fail_if_actual_contains_given_values() {
     AssertionInfo info = someInfo();
-    MapEntry[] expected = { entry("name", "Yoda"), entry("job", "Jedi") };
+    MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
     try {
       maps.assertDoesNotContain(info, actual, expected);
     } catch (AssertionError e) {

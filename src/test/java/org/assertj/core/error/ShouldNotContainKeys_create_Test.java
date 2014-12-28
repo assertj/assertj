@@ -14,34 +14,53 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
+import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Map;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link ShouldContainValue#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * <code>{@link org.assertj.core.error.ShouldNotContainKeys#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
- * 
- * @author Nicolas François
+ *
+ * @author dorzey
  */
-public class ShouldContainValue_create_Test {
+public class ShouldNotContainKeys_create_Test {
+
+  private Map<?, ?> map;
+  
+  @Before
+  public void setUp() {
+    map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+  }
 
   @Test
   public void should_create_error_message() {
-	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
+	ErrorMessageFactory factory = shouldNotContainKeys(map, newLinkedHashSet("age"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 	assertThat(message).isEqualTo("[Test] \n" +
 	                              "Expecting:\n" +
 	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
-	                              "to contain value:\n" +
-	                              "  <\"VeryOld\">");
+	                              "not to contain key:\n" +
+	                              "  <\"age\">");
+  }
+
+  @Test
+  public void should_create_error_message_with_multiple_keys() {
+	ErrorMessageFactory factory = shouldNotContainKeys(map, newLinkedHashSet("name", "color"));
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertThat(message).isEqualTo("[Test] \n" +
+	                              "Expecting:\n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
+	                              "not to contain keys:\n" +
+	                              "  <[\"name\", \"color\"]>");
   }
 
 }

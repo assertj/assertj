@@ -12,64 +12,70 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link Maps#assertDoesNotContainKey(AssertionInfo, Map, Object)}</code>.
- * 
- * @author Nicolas François
- * @author Joel Costigliola
+ * Tests for <code>{@link org.assertj.core.internal.Maps#assertDoesNotContainKeys(org.assertj.core.api.AssertionInfo, java.util.Map, Object...)}</code>.
+ *
+ * @author dorzey
  */
-public class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
+public class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
 
   @Override
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("color", "green"));
+    actual.put(null, null);
   }
 
   @Test
-  public void should_pass_if_actual_contains_given_key() {
-    maps.assertDoesNotContainKey(someInfo(), actual, "power");
+  public void should_pass_if_actual_does_not_contain_given_keys() {
+    maps.assertDoesNotContainKeys(someInfo(), actual, "age");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    maps.assertDoesNotContainKey(someInfo(), null, "power");
+    maps.assertDoesNotContainKeys(someInfo(), null, "name", "color");
   }
 
   @Test
-  public void should_success_if_key_is_null() {
-    maps.assertDoesNotContainKey(someInfo(), actual, null);
+  public void should_pass_if_key_is_null() {
+    maps.assertDoesNotContainKeys(someInfo(), actual, (String) null);
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_key() {
+  public void should_fail_if_actual_contains_key() {
     AssertionInfo info = someInfo();
     String key = "name";
     try {
-      maps.assertDoesNotContainKey(info, actual, key);
+      maps.assertDoesNotContainKeys(info, actual, key);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldNotContainKey(actual, key));
+      verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key)));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_keys() {
+    AssertionInfo info = someInfo();
+    String key1 = "name";
+    String key2 = "color";
+    try {
+      maps.assertDoesNotContainKeys(info, actual, key1, key2);
+    } catch (AssertionError e) {
+      verify(failures).failure(info, shouldNotContainKeys(actual, newLinkedHashSet(key1, key2)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

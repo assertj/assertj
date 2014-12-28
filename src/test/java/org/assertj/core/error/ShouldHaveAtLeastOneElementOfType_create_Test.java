@@ -30,24 +30,24 @@ public class ShouldHaveAtLeastOneElementOfType_create_Test {
   public void should_create_error_message_for_iterable() {
 	ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(newArrayList("Yoda", "Luke"), Long.class);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] " + System.getProperty("line.separator")
-	                              + "Expecting:" + System.getProperty("line.separator")
-	                              + "  <[\"Yoda\", \"Luke\"]>" + System.getProperty("line.separator")
-	                              + "to have at least one element of type:" + System.getProperty("line.separator")
-	                              + "  <java.lang.Long>" + System.getProperty("line.separator")
-	                              + "but had none.");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Luke\"]>%n"
+	                              + "to have at least one element of type:%n"
+	                              + "  <java.lang.Long>%n"
+	                              + "but had none."));
   }
 
   @Test
   public void should_create_error_message_for_array() {
 	ErrorMessageFactory factory = shouldHaveAtLeastOneElementOfType(array("Yoda", "Luke"), Long.class);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] " + System.getProperty("line.separator")
-	                              + "Expecting:" + System.getProperty("line.separator")
-	                              + "  <[\"Yoda\", \"Luke\"]>" + System.getProperty("line.separator")
-	                              + "to have at least one element of type:" + System.getProperty("line.separator")
-	                              + "  <java.lang.Long>" + System.getProperty("line.separator")
-	                              + "but had none.");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Luke\"]>%n"
+	                              + "to have at least one element of type:%n"
+	                              + "  <java.lang.Long>%n"
+	                              + "but had none."));
   }
 
 }

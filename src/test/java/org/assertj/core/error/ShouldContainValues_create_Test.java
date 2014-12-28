@@ -14,8 +14,9 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
+import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Map;
 
@@ -23,19 +24,23 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
-/**
- * Tests for
- * <code>{@link ShouldContainValue#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- * 
- * @author Nicolas François
- */
-public class ShouldContainValue_create_Test {
+public class ShouldContainValues_create_Test {
+  @Test
+  public void should_create_error_message_with_multiple_values() {
+	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
+	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld", "Vader"));
+	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+	assertThat(message).isEqualTo("[Test] \n" +
+	                              "Expecting:\n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
+	                              "to contain values:\n" +
+	                              "  <[\"VeryOld\", \"Vader\"]>");
+  }
 
   @Test
-  public void should_create_error_message() {
+  public void should_create_error_message_with_single_value() {
 	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-	ErrorMessageFactory factory = shouldContainValue(map, "VeryOld");
+	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 	assertThat(message).isEqualTo("[Test] \n" +
 	                              "Expecting:\n" +

@@ -18,6 +18,7 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;
 import java.util.function.Predicate;
+import java.util.List;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -379,6 +380,21 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   public S isNotOfAnyClassIn(Class<?>... types) {
 	objects.assertIsNotOfAnyClassIn(info, actual, types);
 	return myself;
+  }
+
+  /** {@inheritDoc} */
+  @SuppressWarnings("unchecked")
+  @Override
+  public AbstractListAssert<?, ?, Object> asList() {
+    objects.assertIsInstanceOf(info, actual, List.class);
+    return Assertions.assertThat((List<Object>) actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public AbstractCharSequenceAssert<?, String> asString() {
+    objects.assertIsInstanceOf(info, actual, String.class);
+    return Assertions.assertThat((String) actual);
   }
 
   /**

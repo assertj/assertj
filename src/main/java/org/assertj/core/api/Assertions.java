@@ -746,7 +746,7 @@ public class Assertions {
   // ------------------------------------------------------------------------------------------------------
 
   /**
-   * Only delegate to {@link MapEntry#entry(Object, Object)} so that Assertions offers a full feature entry point to
+   * Only delegate to {@link MapEntry#entry(K key, V value)} so that Assertions offers a full feature entry point to
    * all
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p/>
@@ -754,10 +754,12 @@ public class Assertions {
    * <p/>
    * 
    * <pre><code class='java'>
+   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
+   * 
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
    * </code></pre>
    */
-  public static MapEntry entry(Object key, Object value) {
+  public static <K, V> MapEntry<K, V> entry(K key, V value) {
 	return MapEntry.entry(key, value);
   }
 

@@ -27,12 +27,12 @@ import org.assertj.core.internal.Maps;
  */
 public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Object, Object>, Map<Object, Object>> {
   protected Maps maps;
-  
+    
   @Override
   protected MapAssert<Object, Object> create_assertions() {
     return new MapAssert<Object, Object>(emptyMap());
   }
-
+ 
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();

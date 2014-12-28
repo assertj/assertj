@@ -504,7 +504,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * </code></pre>
    * <p/>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
+   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
+   * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
+   * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
    * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
    * won't work if half of the objects have the field and the other the property.
@@ -512,8 +514,45 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
+   * <hr>
+   * <p/>
+   * Extracting also support maps, that is, instead of extracting values from an Object, it extract maps values
+   * corresponding to the given keys.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+   * Employee luke = new Employee(2L, new Name("Luke"), 22);
+   * Employee han = new Employee(3L, new Name("Han"), 31);
+   * 
+   * // build two maps
+   * Map&lt;String, Employee&gt; map1 = new HashMap&lt;&gt;();
+   * map1.put("key1", yoda);
+   * map1.put("key2", luke);
+   * 
+   * Map&lt;String, Employee&gt; map2 = new HashMap&lt;&gt;();
+   * map2.put("key1", yoda);
+   * map2.put("key2", han);
+   * 
+   * // instead of a list of objects, we have a list of maps 
+   * List&lt;Map&lt;String, Employee&gt;&gt; maps = asList(map1, map2);
+   * 
+   * // extracting a property in that case = get values from maps using property as a key
+   * assertThat(maps).extracting("key2").containsExactly(luke, han);
+   * assertThat(maps).extracting("key1").containsExactly(yoda, yoda);
+   * 
+   * // type safe version
+   * assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han); 
+   * 
+   * // it works with several keys, extracted values being wrapped in a Tuple
+   * assertThat(maps).extracting("key1", "key2").containsExactly(tuple(yoda, luke), tuple(yoda, han));
+   * 
+   * // unknown keys leads to null (map behavior)
+   * assertThat(maps).extracting("bad key").containsExactly(null, null);
+   * </code></pre>
    *
-   * @param propertyOrField the property/field to extract from the Iterable under test
+   * @param propertyOrField the property/field to extract from the elements of the Iterable under test
    * @return a new assertion object whose object under test is the list of extracted property/field values.
    * @throws IntrospectionError if no field or property exists with the given name (or field exists but is not public)
    *           in one of the initial Iterable's element.
@@ -658,7 +697,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * </code></pre>
    * 
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
+   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
+   * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
+   * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
    * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
    * won't work if half of the objects have the field and the other the property.
@@ -666,6 +707,43 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
+   * <hr>
+   * <p/>
+   * Extracting also support maps, that is, instead of extracting values from an Object, it extract maps values
+   * corresponding to the given keys.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+   * Employee luke = new Employee(2L, new Name("Luke"), 22);
+   * Employee han = new Employee(3L, new Name("Han"), 31);
+   * 
+   * // build two maps
+   * Map&lt;String, Employee&gt; map1 = new HashMap&lt;&gt;();
+   * map1.put("key1", yoda);
+   * map1.put("key2", luke);
+   * 
+   * Map&lt;String, Employee&gt; map2 = new HashMap&lt;&gt;();
+   * map2.put("key1", yoda);
+   * map2.put("key2", han);
+   * 
+   * // instead of a list of objects, we have a list of maps 
+   * List&lt;Map&lt;String, Employee&gt;&gt; maps = asList(map1, map2);
+   * 
+   * // extracting a property in that case = get values from maps using property as a key
+   * assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han); 
+   * 
+   * // non type safe version
+   * assertThat(maps).extracting("key2").containsExactly(luke, han);
+   * assertThat(maps).extracting("key1").containsExactly(yoda, yoda);
+   * 
+   * // it works with several keys, extracted values being wrapped in a Tuple
+   * assertThat(maps).extracting("key1", "key2").containsExactly(tuple(yoda, luke), tuple(yoda, han));
+   * 
+   * // unknown keys leads to null (map behavior)
+   * assertThat(maps).extracting("bad key").containsExactly(null, null);
+   * </code></pre>
    *
    * @param propertyOrField the property/field to extract from the Iterable under test
    * @param extractingType type to return
@@ -722,8 +800,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));
    * </code></pre>
    * 
-   * A property with the given name is looked for first, if it does'nt exist then a field with the given name is looked
-   * for, if no field accessible (ie. does not exist or is not public) an IntrospectionError is thrown.
+   * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
+   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
+   * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
+   * when it's not allowed leads to an {@link IntrospectionError}.
    * <p/>
    * It only works if <b>all</b> objects have the field or all objects have the property with the given name, i.e. it
    * won't work if half of the objects have the field and the other the property.
@@ -731,8 +811,42 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
+   * <hr>
+   * <p/>
+   * Extracting also support maps, that is, instead of extracting values from an Object, it extract maps values
+   * corresponding to the given keys.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+   * Employee luke = new Employee(2L, new Name("Luke"), 22);
+   * Employee han = new Employee(3L, new Name("Han"), 31);
+   * 
+   * // build two maps
+   * Map&lt;String, Employee&gt; map1 = new HashMap&lt;&gt;();
+   * map1.put("key1", yoda);
+   * map1.put("key2", luke);
+   * 
+   * Map&lt;String, Employee&gt; map2 = new HashMap&lt;&gt;();
+   * map2.put("key1", yoda);
+   * map2.put("key2", han);
+   * 
+   * // instead of a list of objects, we have a list of maps 
+   * List&lt;Map&lt;String, Employee&gt;&gt; maps = asList(map1, map2);
+   * 
+   * // extracting a property in that case = get values from maps using property as a key
+   * assertThat(maps).extracting("key2").containsExactly(luke, han);
+   * assertThat(maps).extracting("key1").containsExactly(yoda, yoda);
+   * 
+   * // it works with several keys, extracted values being wrapped in a Tuple
+   * assertThat(maps).extracting("key1", "key2").containsExactly(tuple(yoda, luke), tuple(yoda, han));
+   * 
+   * // unknown keys leads to null (map behavior)
+   * assertThat(maps).extracting("bad key").containsExactly(null, null);
+   * </code></pre>
    *
-   * @param propertiesOrFields the properties/fields to extract from the initial Iterable under test
+   * @param propertiesOrFields the properties/fields to extract from the elements of the Iterable under test
    * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
    *         as data.
    * @throws IntrospectionError if one of the given name does not match a field or property (or field exists but is not

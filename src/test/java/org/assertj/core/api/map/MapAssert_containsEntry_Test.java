@@ -29,7 +29,7 @@ import static org.mockito.Mockito.verify;
  */
 public class MapAssert_containsEntry_Test extends MapAssertBaseTest {
 
-  final MapEntry[] entries = array(entry("key1", "value1"));
+  final MapEntry<String, String>[] entries = array(entry("key1", "value1"));
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {

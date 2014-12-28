@@ -12,23 +12,29 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
+
+import java.util.Set;
+
 /**
- * Creates an error message indicating that an assertion that verifies a map does not contains a value.
+ * Creates an error message indicating that an assertion that verifies a map contains a values.
  * 
- * @author Nicolas François
+ * @author Alexander Bischof
  */
-public class ShouldNotContainValue extends BasicErrorMessageFactory {
+public class ShouldContainValues extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldNotContainValue}</code>.
+   * Creates a new </code>{@link ShouldContainValues}</code>.
+   *
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldNotContainValue(Object actual, Object value) {
-    return new ShouldNotContainValue(actual, value);
+  public static <V> ErrorMessageFactory shouldContainValues(Object actual, Set<V> values) {
+	if (values.size() == 1) return shouldContainValue(actual, values.iterator().next());
+	return new ShouldContainValues(actual, values);
   }
 
-  private ShouldNotContainValue(Object actual, Object value) {
-    super("\nExpecting:\n  <%s>\nnot to contain value:\n  <%s>", actual, value);
+  private <V> ShouldContainValues(Object actual, Set<V> values) {
+	super("\nExpecting:\n  <%s>\nto contain values:\n  <%s>", actual, values);
   }
 }

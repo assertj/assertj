@@ -15,8 +15,6 @@ package org.assertj.core.internal;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.Maps.mapOf;
-
-
 import static org.mockito.Mockito.spy;
 
 import java.util.Map;
@@ -45,7 +43,6 @@ public class MapsBaseTest {
   protected Failures failures;
   protected Maps maps;
 
-  @SuppressWarnings("unchecked")
   @Before
   public void setUp() {
     actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("color", "green"));
@@ -54,6 +51,7 @@ public class MapsBaseTest {
     maps.failures = failures;
   }
 
+  @SuppressWarnings("rawtypes")
   protected static MapEntry[] emptyEntries() {
     return new MapEntry[0];
   }

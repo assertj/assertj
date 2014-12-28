@@ -12,33 +12,29 @@
  */
 package org.assertj.core.api.map;
 
-import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
+import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.assertj.core.data.MapEntry;
-
-import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link MapAssert#contains(MapEntry...)}</code>.
- * 
- * @author Alex Ruiz
- * @author Nicolas François
+ * Tests for <code>{@link org.assertj.core.api.MapAssert#containsKey(Object)}</code>.
+ *
+ * @author dorzey
  */
-public class MapAssert_contains_Test extends MapAssertBaseTest {
+public class MapAssert_containsKeys_Test extends MapAssertBaseTest {
 
-  final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
+  final Object[] keys = array("key1", "key2");
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.contains(entry("key1", "value1"), entry("key2", "value2"));
+    return assertions.containsKeys("key1", "key2");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsKeys(getInfo(assertions), getActual(assertions), keys);
   }
 }

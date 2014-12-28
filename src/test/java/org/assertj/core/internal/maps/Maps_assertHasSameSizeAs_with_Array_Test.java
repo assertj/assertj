@@ -37,7 +37,6 @@ import org.junit.Test;
  */
 public class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
 
-  @SuppressWarnings("unchecked")
   @Override
   @Before
   public void setUp() {
