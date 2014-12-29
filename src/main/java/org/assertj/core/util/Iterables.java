@@ -77,7 +77,7 @@ public final class Iterables {
    *        {@code Iterable} is {@code null}.
    * @since 1.1.3
    */
-  public static <T> List<T> nonNullElementsIn(Iterable<T> i) {
+  public static <T> List<T> nonNullElementsIn(Iterable<? extends T> i) {
     if (isNullOrEmpty(i)) {
       return emptyList();
     }
