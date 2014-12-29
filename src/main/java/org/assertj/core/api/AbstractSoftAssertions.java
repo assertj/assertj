@@ -160,7 +160,7 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> IterableAssert<T> assertThat(Iterable<T> actual) {
+  public <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
 	return proxy(IterableAssert.class, Iterable.class, actual);
   }
 
@@ -294,7 +294,7 @@ public abstract class AbstractSoftAssertions {
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <T> ListAssert<T> assertThat(List<T> actual) {
+  public <T> ListAssert<T> assertThat(List<? extends T> actual) {
 	return proxy(ListAssert.class, List.class, actual);
   }
 
