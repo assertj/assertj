@@ -48,7 +48,7 @@ public class FieldsOrPropertiesExtractor {
   /**
    * Behavior is described in {@link AbstractIterableAssert#extracting(Extractor)} 
    */
-  public static <F, T> List<T> extract(Iterable<F> objects, Extractor<? super F, T> extractor) {
+  public static <F, T> List<T> extract(Iterable<? extends F> objects, Extractor<? super F, T> extractor) {
     List<T> result = Lists.newArrayList();
     
     for (F object : objects) {

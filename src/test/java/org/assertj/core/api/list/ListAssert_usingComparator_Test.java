@@ -34,7 +34,7 @@ import org.mockito.Mock;
 public class ListAssert_usingComparator_Test extends ListAssertBaseTest {
 
   @Mock
-  private Comparator<List<String>> comparator;
+  private Comparator<List<? extends String>> comparator;
 
   @Before
   public void before() {
@@ -43,7 +43,7 @@ public class ListAssert_usingComparator_Test extends ListAssertBaseTest {
 
   @Override
   protected ListAssert<String> invoke_api_method() {
-    return assertions.usingComparator(comparator);
+    return assertions.usingComparator( comparator );
   }
 
   @Override

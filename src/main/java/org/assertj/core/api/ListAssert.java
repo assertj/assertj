@@ -27,9 +27,9 @@ import java.util.List;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<T>, T> {
+public class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? extends T>, T> {
 
-  protected ListAssert(List<T> actual) {
+  protected ListAssert(List<? extends T> actual) {
     super(actual, ListAssert.class);
   }
 }

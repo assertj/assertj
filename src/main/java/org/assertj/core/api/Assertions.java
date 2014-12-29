@@ -194,7 +194,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterable<T> actual) {
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
 	return new IterableAssert<T>(actual);
   }
 
@@ -208,7 +208,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterator<T> actual) {
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
 	return new IterableAssert<T>(actual);
   }
 
@@ -328,7 +328,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(List<T> actual) {
+  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
 	return new ListAssert<T>(actual);
   }
 

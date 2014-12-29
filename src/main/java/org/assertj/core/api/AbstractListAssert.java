@@ -33,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, A extends List<T>, T> extends AbstractIterableAssert<S, A, T> implements
+public abstract class AbstractListAssert<S extends AbstractListAssert<S, A, T>, A extends List<? extends T>, T> extends AbstractIterableAssert<S, A, T> implements
 		IndexedObjectEnumerableAssert<S, T> {
 
 	@VisibleForTesting

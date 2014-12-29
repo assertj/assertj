@@ -99,7 +99,7 @@ public final class Iterables {
    *         null.
    */
   @SuppressWarnings("unchecked")
-  public static <T> T[] toArray(Iterable<T> iterable) {
+  public static <T> T[] toArray(Iterable<? extends T> iterable) {
     if (iterable == null) {
       return null;
     }
