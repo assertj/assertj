@@ -23,7 +23,10 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.Iterator;
 
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
 import org.junit.Test;
+import org.junit.matchers.*;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(Iterator)}</code>.
@@ -36,20 +39,20 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractIterableAssert<?, ? extends Iterable<Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
+    AbstractIterableAssert<?, ? extends Iterable<? extends Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
     assertNotNull(assertions);
   }
 
   @Test
   public void should_initialise_actual() {
     Iterator<String> names = asList("Luke", "Leia").iterator();
-    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat(names);
-    assertThat(assertions.actual, hasItems("Leia", "Luke"));
+    AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat(names);
+    assertThat( assertions.actual, ( Matcher ) JUnitMatchers.hasItems( "Leia", "Luke" ) ); //forcing cast since there is a generics problem in hamcrest lib
   }
 
   @Test
   public void should_allow_null() {
-    AbstractIterableAssert<?, ? extends Iterable<String>, String> assertions = assertThat((Iterator<String>) null);
+    AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat((Iterator<String>) null);
     assertThat(assertions.actual).isNull();
   }
 

@@ -35,7 +35,7 @@ import org.mockito.Mock;
 public class ListAssert_usingDefaultComparator_Test extends ListAssertBaseTest {
 
   @Mock
-  private Comparator<List<String>> comparator;
+  private Comparator<List<? extends String>> comparator;
 
   @Before
   public void before() {

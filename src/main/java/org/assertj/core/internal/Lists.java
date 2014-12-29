@@ -212,7 +212,7 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertHas(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertHas(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldHaveAtIndex(actual, condition, index, actual.get(index.value)));
   }
@@ -232,7 +232,7 @@ public class Lists {
    * @throws AssertionError if the value in the given {@code List} at the given index does not satisfy the given {@code Condition}
    *           .
    */
-  public <T> void assertIs(AssertionInfo info, List<T> actual, Condition<? super T> condition, Index index) {
+  public <T> void assertIs(AssertionInfo info, List<? extends T> actual, Condition<? super T> condition, Index index) {
     if (conditionIsMetAtIndex(info, actual, condition, index)) return;
     throw failures.failure(info, shouldBeAtIndex(actual, condition, index, actual.get(index.value)));
   }

@@ -55,7 +55,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  */
-public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<T>, T>
+public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S, A, T>, A extends Iterable<? extends T>, T>
     extends AbstractAssert<S, A> implements ObjectEnumerableAssert<S, T> {
 
   @VisibleForTesting
