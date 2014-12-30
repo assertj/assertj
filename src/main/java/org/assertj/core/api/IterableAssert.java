@@ -32,13 +32,13 @@ import java.util.Iterator;
  * @author Mikhail Mazursky
  * @author Julien Meddah
  */
-public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>, Iterable<T>, T> {
+public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T> {
 
-  protected IterableAssert(Iterable<T> actual) {
+  protected IterableAssert(Iterable<? extends T> actual) {
     super(actual, IterableAssert.class);
   }
   
-  protected IterableAssert(Iterator<T> actual) {
+  protected IterableAssert(Iterator<? extends T> actual) {
     this(toLazyIterable(actual));
   }
 

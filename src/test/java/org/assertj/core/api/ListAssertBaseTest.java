@@ -28,7 +28,7 @@ import org.assertj.core.internal.Lists;
  * 
  * @author Olivier Michallat
  */
-public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<String>, List<String>> {
+public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<String>, List<? extends String>> {
 
   protected Lists lists;
 

@@ -23,11 +23,11 @@ public class ShouldHaveAtIndex extends BasicErrorMessageFactory {
    * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldHaveAtIndex(List<T> actual, Condition<? super T> condition, Index index, T found) {
+  public static <T> ErrorMessageFactory shouldHaveAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
     return new ShouldHaveAtIndex(actual, condition, index, found);
   }
 
-  private <T> ShouldHaveAtIndex(List<T> actual, Condition<? super T> condition, Index index, T found) {
+  private <T> ShouldHaveAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
     super("\nExpecting:\n <%s>\nat index <%s> to have:\n <%s>\nin:\n <%s>\n", found, index.value, condition, actual);
   }
 }

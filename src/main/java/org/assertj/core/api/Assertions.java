@@ -41,15 +41,20 @@ import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable. <p> For example: <p/>
- * <pre>
+ * type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * <p>
+ * For example:
+ * <p/>
+ * 
+ * <pre><code class='java'>
  * int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
  * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
- * </pre>
- * <p/> </p>
+ * </code></pre>
+ * <p/>
+ * </p>
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -191,8 +196,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterable<T> actual) {
-    return new IterableAssert<T>(actual);
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
+	return new IterableAssert<T>(actual);
   }
 
   /**
@@ -205,8 +210,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterator<T> actual) {
-    return new IterableAssert<T>(actual);
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
+	return new IterableAssert<T>(actual);
   }
 
   /**
@@ -325,8 +330,8 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(List<T> actual) {
-    return new ListAssert<T>(actual);
+  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
+	return new ListAssert<T>(actual);
   }
 
   /**
