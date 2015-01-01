@@ -12,7 +12,10 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.util.VisibleForTesting;
+
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that a {@code File} should have a parent.
@@ -21,16 +24,51 @@ import java.io.File;
  */
 public class ShouldHaveParent extends BasicErrorMessageFactory {
 
+  @VisibleForTesting
+  public static final String PATH_NO_PARENT
+      = "%nExpecting path%n  <%s>%nto have parent:%n  <%s>%nbut did not have one.";
+
+  @VisibleForTesting
+  public static final String PATH_NOT_EXPECTED_PARENT
+      = "%nExpecting path%n  <%s>%nto have parent:%n  <%s>%nbut had:%n  <%s>.";
+
+  @VisibleForTesting
+  public static final String FILE_NO_PARENT
+      = "%nExpecting file%n  <%s>%nto have parent:%n  <%s>%nbut did not have one.";
+
+  @VisibleForTesting
+  public static final String FILE_NOT_EXPECTED_PARENT
+      = "%nExpecting file%n  <%s>%nto have parent:%n  <%s>%nbut had:%n  <%s>.";
+
   public static ShouldHaveParent shouldHaveParent(File actual, File expected) {
     return actual.getParentFile() == null ? new ShouldHaveParent(actual, expected) : new ShouldHaveParent(actual,
         actual.getParentFile(), expected);
   }
 
+  public static ShouldHaveParent shouldHaveParent(Path actual, Path expected) {
+    final Path actualParent = actual.getParent();
+    return actualParent == null
+        ? new ShouldHaveParent(actual, expected)
+        : new ShouldHaveParent(actual, actualParent, expected);
+  }
+
+  public static ShouldHaveParent shouldHaveParent(Path actual, Path actualParent, Path expected) {
+    return new ShouldHaveParent(actual, actualParent, expected);
+  }
+
   private ShouldHaveParent(File actual, File expected) {
-    super("%nExpecting file%n  <%s>%nto have parent:%n  <%s>%nbut did not have one.", actual, expected);
+    super(FILE_NO_PARENT, actual, expected);
   }
 
   private ShouldHaveParent(File actual, File actualParent, File expected) {
-    super("%nExpecting file%n  <%s>%nto have parent:%n  <%s>%nbut had:%n  <%s>.", actual, expected, actualParent);
+    super(FILE_NOT_EXPECTED_PARENT, actual, expected, actualParent);
+  }
+
+  private ShouldHaveParent(Path actual, Path expected) {
+    super(PATH_NO_PARENT, actual, expected);
+  }
+
+  private ShouldHaveParent(Path actual, Path actualParent, Path expected) {
+    super(PATH_NOT_EXPECTED_PARENT, actual, expected, actualParent);
   }
 }

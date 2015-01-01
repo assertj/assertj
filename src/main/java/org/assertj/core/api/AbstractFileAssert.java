@@ -190,7 +190,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws FilesException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
    */
   public S hasContent(String expected) {
     files.assertHasContent(info, actual, expected, charset);

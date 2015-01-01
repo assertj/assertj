@@ -40,7 +40,7 @@ public class ShouldHaveName_create_Test {
                                                         "to have name:%n" +
                                                         "  <\"" + expectedName + "\">%n" +
                                                         "but had:%n" +
-                                                        "  <\"actual-file\">."));
+                                                        "  <\"actual-file\">"));
   }
 
   private String createMessage() {

@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that a {@code File} should have name.
@@ -21,11 +22,21 @@ import java.io.File;
  */
 public class ShouldHaveName extends BasicErrorMessageFactory {
 
+  private static final String SHOULD_HAVE_NAME = "%nExpecting%n  <%s>%nto have name:%n  <%s>%nbut had:%n  <%s>";
+
   public static ShouldHaveName shouldHaveName(File actual, String expectedName) {
     return new ShouldHaveName(actual, expectedName);
   }
 
   private ShouldHaveName(File actual, String expectedName) {
-    super("%nExpecting%n  <%s>%nto have name:%n  <%s>%nbut had:%n  <%s>.", actual, expectedName, actual.getName());
+    super(SHOULD_HAVE_NAME, actual, expectedName, actual.getName());
+  }
+  
+  public static ShouldHaveName shouldHaveName(Path actual, String expectedName) {
+	return new ShouldHaveName(actual, expectedName);
+  }
+  
+  private ShouldHaveName(Path actual, String expectedName) {
+	super(SHOULD_HAVE_NAME, actual, expectedName, actual.getFileName());
   }
 }

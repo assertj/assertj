@@ -12,30 +12,25 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldStartWithPath.PATH_SHOULD_START_WITH;
+import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
+import static org.mockito.Mockito.mock;
 
+import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link ShouldBeReadable}</code>.
- * 
- * @author Olivier Demeijer
- * 
- */
-public class ShouldBeReadableTest {
-  ErrorMessageFactory factory;
+public final class ShouldStartWithPath_create_Test {
 
-  @Before public void setup() {
-    factory = shouldBeReadable(new FakeFile("pathname"));
-  }
-
-  @Test public void createExpectedMessage() {
-    String actualMessage = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting file:\n <pathname>\nto be readable", actualMessage);
+  @Test
+  public void should_create_error_message() {
+	final Path actual = mock(Path.class);
+	final Path other = mock(Path.class);
+	String actualMessage = shouldStartWith(actual, other).create(new TestDescription("Test"),
+	                                                             new StandardRepresentation());
+	assertThat(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_START_WITH, actual, other));
   }
 }

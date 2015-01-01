@@ -49,7 +49,7 @@ public class ShouldHaveEqualContent extends AbstractShouldHaveTextContent {
   }
 
   private ShouldHaveEqualContent(File actual, File expected, String diffs) {
-    super("\nFile:\n <%s>\nand file:\n <%s>\ndo not have equal content:", actual, expected);
+    super("\nFile:\n  <%s>\nand file:\n  <%s>\ndo not have equal content:", actual, expected);
     this.diffs = diffs;
   }
 

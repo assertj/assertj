@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -250,6 +251,17 @@ public class Assertions {
    */
   public static AbstractFileAssert<?> assertThat(File actual) {
 	return new FileAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of {@link PathAssert}
+   *
+   * @param actual the path to test
+   * @return the created assertion object
+   */
+  public static AbstractPathAssert<?> assertThat(Path actual)
+  {
+    return new PathAssert(actual);
   }
 
   /**

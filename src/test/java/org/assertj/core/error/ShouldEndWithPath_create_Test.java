@@ -12,30 +12,26 @@
  */
 package org.assertj.core.error;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldEndWithPath.PATH_SHOULD_END_WITH;
+import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
+import static org.mockito.Mockito.mock;
 
+import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link ShouldBeExecutable}</code>.
- * 
- * @author Olivier Demeijer
- * 
- */
+public final class ShouldEndWithPath_create_Test {
 
-public class ShouldBeExecutableTest {
-  ErrorMessageFactory factory;
-
-  @Before public void setup() {
-    factory = ShouldBeExecutable.shouldBeExecutable(new FakeFile("pathname"));
+  @Test
+  public void should_create_error_message() {
+	final Path actual = mock(Path.class);
+	final Path other = mock(Path.class);
+	String actualMessage = shouldEndWith(actual, other).create(new TestDescription("Test"),
+	                                                           new StandardRepresentation());
+	assertThat(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_END_WITH, actual, other));
   }
 
-  @Test public void createExpectedMessage() {
-    String actualMessage = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <pathname>\nto be executable", actualMessage);
-  }
 }

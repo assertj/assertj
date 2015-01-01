@@ -12,31 +12,46 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeRelativePath.SHOULD_BE_RELATIVE_PATH;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
+import static org.mockito.Mockito.mock;
 
+import java.io.IOException;
+import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldBeRelativePath#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
- * @author Yvonne Wang
+ * Tests for
+ * <code>{@link ShouldBeRelativePath#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  */
 public class ShouldBeRelativePath_create_Test {
 
-  private ErrorMessageFactory factory;
+  private static final TestDescription TEST_DESCRIPTION = new TestDescription("Test");
+  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
-  @Before
-  public void setUp() {
-    factory = shouldBeRelativePath(new FakeFile("xyz"));
+  @Test
+  public void should_create_error_message_for_File() {
+	FakeFile file = new FakeFile("xyz");
+	ErrorMessageFactory factory = shouldBeRelativePath(file);
+	
+	String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+	
+	assertThat(message).isEqualTo(format("[Test] " + SHOULD_BE_RELATIVE_PATH, file));
   }
 
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting file:\n <xyz>\nto be a relative path", message);
+  public void should_create_error_message_for_Path() throws IOException {
+	final Path path = mock(Path.class);
+	ErrorMessageFactory factory = shouldBeRelativePath(path);
+
+	String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
+
+	assertThat(message).isEqualTo(format("[Test] " + SHOULD_BE_RELATIVE_PATH, path));
   }
 }

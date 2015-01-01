@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is writable
@@ -22,17 +23,28 @@ import java.io.File;
  *
  */
 public class ShouldBeWritable extends BasicErrorMessageFactory {
+  static final String SHOULD_BE_WRITABLE = "%nExpecting:%n  <%s>%nto be writable.";
 
   private ShouldBeWritable(File actual) {
-    super("\nFile:\n <%s>\nshould be writable", actual);
+	super(SHOULD_BE_WRITABLE, actual);
+  }
+
+  private ShouldBeWritable(Path actual) {
+	super(SHOULD_BE_WRITABLE, actual);
   }
 
   /**
    * Creates a new <code>{@link ShouldBeWritable}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeWritable(File actual) {
-    return new ShouldBeWritable(actual);
+	return new ShouldBeWritable(actual);
   }
+
+  public static ErrorMessageFactory shouldBeWritable(Path actual) {
+	return new ShouldBeWritable(actual);
+  }
+
 }

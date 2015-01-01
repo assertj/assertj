@@ -12,32 +12,62 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
-
-
-import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
-/**
- * Tests for <code>{@link ShouldBeDirectory#create(Description, org.assertj.core.presentation.Representation)}</code>.
- * 
- * @author Yvonne Wang
- */
-public class ShouldBeDirectory_create_Test {
+import java.io.File;
+import java.nio.file.Path;
 
-  private ErrorMessageFactory factory;
+import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.error.ShouldBeDirectory.FILE_SHOULD_BE_DIRECTORY;
+import static org.assertj.core.error.ShouldBeDirectory.PATH_SHOULD_BE_DIRECTORY;
+import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.mockito.Mockito.mock;
 
-  @Before
-  public void setUp() {
-    factory = shouldBeDirectory(new FakeFile("xyz"));
-  }
+public class ShouldBeDirectory_create_Test
+{
+    private TestDescription description;
+    private Representation representation;
 
-  @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <xyz>\nto be an existing directory", message);
-  }
+    private ErrorMessageFactory factory;
+    private String message;
+    private String expectedMessage;
+
+    @Before
+    public void setup()
+    {
+        description = new TestDescription("Test");
+        representation = new StandardRepresentation();
+    }
+
+    @Test
+    public void should_create_error_message_for_Path()
+    {
+        final Path path = mock(Path.class);
+
+        factory = shouldBeDirectory(path);
+        message = factory.create(description, representation);
+
+        expectedMessage = String.format("[Test] " + PATH_SHOULD_BE_DIRECTORY,
+            path);
+
+        assertEquals(expectedMessage, message);
+    }
+
+    @Test
+    public void should_create_error_message_for_File()
+    {
+        final File file = new FakeFile("xyz");
+
+        factory = shouldBeDirectory(file);
+        message = factory.create(description, representation);
+
+        expectedMessage = String.format("[Test] " + FILE_SHOULD_BE_DIRECTORY,
+            file);
+
+        assertEquals(expectedMessage, message);
+    }
 }
