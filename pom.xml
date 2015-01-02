@@ -10,7 +10,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>1.2.6</version>
+    <version>1.3.2</version>
   </parent>
 
   <scm>
@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>[1.6.0, 2.0.0)</version>
+      <version>[1.7.1, 1.8.0)</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>

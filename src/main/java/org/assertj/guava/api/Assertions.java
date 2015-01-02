@@ -17,6 +17,7 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.base.Optional;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Range;
+import com.google.common.collect.RangeMap;
 import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
@@ -46,6 +47,10 @@ public class Assertions {
 
   public static <T extends Comparable<T>> RangeAssert<T> assertThat(final Range<T> actual) {
     return new RangeAssert<T>(actual);
+  }
+
+  public static <K extends Comparable<K>, V> RangeMapAssert<K, V> assertThat(final RangeMap<K, V> actual) {
+    return new RangeMapAssert<K, V>(actual);
   }
 
   public static <R, C, V> TableAssert<R, C, V> assertThat(Table<R, C, V> actual) {
