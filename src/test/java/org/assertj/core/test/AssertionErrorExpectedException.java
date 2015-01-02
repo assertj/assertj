@@ -12,21 +12,10 @@
  */
 package org.assertj.core.test;
 
-import org.junit.Assert;
-
-/**
- * @author Yvonne Wang
- * @author Francis Galiegue
- */
-public final class TestFailures {
-
-  public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
+@SuppressWarnings("serial")
+public final class AssertionErrorExpectedException extends RuntimeException {
+  
+  public AssertionErrorExpectedException() {
+	super("was expecting an AssertionError");
   }
-
-  public static void wasExpectingAssertionError() {
-    throw new AssertionErrorExpectedException();
-  }
-
-  private TestFailures() {}
 }
