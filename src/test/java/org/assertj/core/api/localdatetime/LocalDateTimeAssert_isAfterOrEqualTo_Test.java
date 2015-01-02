@@ -34,61 +34,65 @@ public class LocalDateTimeAssert_isAfterOrEqualTo_Test extends LocalDateTimeAsse
 
   @Theory
   public void test_isAfterOrEqual_assertion(LocalDateTime referenceDate, LocalDateTime dateBefore,
-      LocalDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
-    // WHEN
-    assertThat(dateAfter).isAfterOrEqualTo(referenceDate);
-    assertThat(referenceDate).isAfterOrEqualTo(referenceDate);
-    // THEN
-    verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
+	                                        LocalDateTime dateAfter) {
+	// GIVEN
+	testAssumptions(referenceDate, dateBefore, dateAfter);
+	// WHEN
+	assertThat(dateAfter).isAfterOrEqualTo(referenceDate);
+	assertThat(referenceDate).isAfterOrEqualTo(referenceDate);
+	// THEN
+	verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
   }
 
   @Test
   public void test_isAfterOrEqual_assertion_error_message() {
-    try {
-      assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isAfterOrEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n  <2000-01-05T03:00:05>\nto be after or equals to:\n  <2012-01-01T03:03:03>");
-      return;
-    }
-    fail("Should have thrown AssertionError");
+	try {
+	  assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isAfterOrEqualTo(LocalDateTime.of(2012, 1, 1, 3, 3, 3));
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("\n" +
+		                       "Expecting:\n" +
+		                       "  <2000-01-05T03:00:05>\n" +
+		                       "to be after or equals to:\n" +
+		                       "  <2012-01-01T03:03:03>");
+	  return;
+	}
+	fail("Should have thrown AssertionError");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    LocalDateTime actual = null;
-    assertThat(actual).isAfterOrEqualTo(LocalDateTime.now());
+	expectException(AssertionError.class, actualIsNull());
+	LocalDateTime actual = null;
+	assertThat(actual).isAfterOrEqualTo(LocalDateTime.now());
   }
 
   @Test
   public void should_fail_if_dateTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The LocalDateTime to compare actual with should not be null");
-    assertThat(LocalDateTime.now()).isAfterOrEqualTo((LocalDateTime) null);
+	expectException(IllegalArgumentException.class, "The LocalDateTime to compare actual with should not be null");
+	assertThat(LocalDateTime.now()).isAfterOrEqualTo((LocalDateTime) null);
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-        "The String representing the ZonedDateTime to compare actual with should not be null");
-    assertThat(ZonedDateTime.now()).isAfterOrEqualTo((String) null);
+	expectException(IllegalArgumentException.class,
+	                "The String representing the ZonedDateTime to compare actual with should not be null");
+	assertThat(ZonedDateTime.now()).isAfterOrEqualTo((String) null);
   }
 
   private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,
-      LocalDateTime reference) {
-    try {
-      assertThat(dateToCheck).isAfterOrEqualTo(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToCheck).isAfterOrEqualTo(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
+	                                                                                       LocalDateTime reference) {
+	try {
+	  assertThat(dateToCheck).isAfterOrEqualTo(reference);
+	} catch (AssertionError e) {
+	  // AssertionError was expected, test same assertion with String based parameter
+	  try {
+		assertThat(dateToCheck).isAfterOrEqualTo(reference.toString());
+	  } catch (AssertionError e2) {
+		// AssertionError was expected (again)
+		return;
+	  }
+	}
+	fail("Should have thrown AssertionError");
   }
 
 }

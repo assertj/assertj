@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.time.LocalDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -24,7 +25,6 @@ import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-
 /**
  * @author Paweł Stawicki
  * @author Joel Costigliola
@@ -35,62 +35,65 @@ public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTes
 
   @Theory
   public void test_isAfter_assertion(LocalDateTime referenceDate, LocalDateTime dateBefore, LocalDateTime dateAfter) {
-    // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
-    // WHEN
-    assertThat(dateAfter).isAfter(referenceDate);
-    assertThat(dateAfter).isAfter(referenceDate.toString());
-    // THEN
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
-    verify_that_isAfter_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
+	// GIVEN
+	testAssumptions(referenceDate, dateBefore, dateAfter);
+	// WHEN
+	assertThat(dateAfter).isAfter(referenceDate);
+	assertThat(dateAfter).isAfter(referenceDate.toString());
+	// THEN
+	verify_that_isAfter_assertion_fails_and_throws_AssertionError(referenceDate, referenceDate);
+	verify_that_isAfter_assertion_fails_and_throws_AssertionError(dateBefore, referenceDate);
   }
 
   @Test
   public void test_isAfter_assertion_error_message() {
-    try {
-      assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isAfter(LocalDateTime.of(2012, 1, 1, 3, 3, 3));
-    } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n  <2000-01-05T03:00:05>\nto be strictly after:\n  <2012-01-01T03:03:03>");
-      return;
-    }
-    fail("Should have thrown AssertionError");
+	try {
+	  assertThat(parse("2000-01-01T03:00:05.123")).isAfter(parse("2000-01-01T03:00:05.123456789"));
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("\n" +
+		                       "Expecting:\n" +
+		                       "  <2000-01-01T03:00:05.123>\n" +
+		                       "to be strictly after:\n" +
+		                       "  <2000-01-01T03:00:05.123456789>");
+	  return;
+	}
+	fail("Should have thrown AssertionError");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
-    LocalDateTime actual = null;
-    assertThat(actual).isAfter(LocalDateTime.now());
+	expectException(AssertionError.class, actualIsNull());
+	LocalDateTime actual = null;
+	assertThat(actual).isAfter(LocalDateTime.now());
   }
 
   @Test
   public void should_fail_if_dateTime_parameter_is_null() {
-    expectException(IllegalArgumentException.class, "The LocalDateTime to compare actual with should not be null");
-    assertThat(LocalDateTime.now()).isAfter((LocalDateTime) null);
+	expectException(IllegalArgumentException.class, "The LocalDateTime to compare actual with should not be null");
+	assertThat(LocalDateTime.now()).isAfter((LocalDateTime) null);
   }
 
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
-    expectException(IllegalArgumentException.class,
-        "The String representing the ZonedDateTime to compare actual with should not be null");
-    assertThat(ZonedDateTime.now()).isAfter((String) null);
+	expectException(IllegalArgumentException.class,
+	                "The String representing the ZonedDateTime to compare actual with should not be null");
+	assertThat(ZonedDateTime.now()).isAfter((String) null);
   }
 
-
   private static void verify_that_isAfter_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,
-      LocalDateTime reference) {
-    try {
-      assertThat(dateToCheck).isAfter(reference);
-    } catch (AssertionError e) {
-      // AssertionError was expected, test same assertion with String based parameter
-      try {
-        assertThat(dateToCheck).isAfter(reference.toString());
-      } catch (AssertionError e2) {
-        // AssertionError was expected (again)
-        return;
-      }
-    }
-    fail("Should have thrown AssertionError");
+	                                                                                LocalDateTime reference) {
+	try {
+	  assertThat(dateToCheck).isAfter(reference);
+	} catch (AssertionError e) {
+	  // AssertionError was expected, test same assertion with String based parameter
+	  try {
+		assertThat(dateToCheck).isAfter(reference.toString());
+	  } catch (AssertionError e2) {
+		// AssertionError was expected (again)
+		return;
+	  }
+	}
+	fail("Should have thrown AssertionError");
   }
 
 }
