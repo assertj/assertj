@@ -257,7 +257,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *
    * @return a list assertion object
    */
-  AbstractListAssert asList();
+  AbstractListAssert<?, ?, Object> asList();
 
   /**
    * Verifies that the actual value is an instance of String,

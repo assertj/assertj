@@ -210,7 +210,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterable<T> actual) {
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
 	return new IterableAssert<T>(actual);
   }
 
@@ -224,7 +224,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(Iterator<T> actual) {
+  public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
 	return new IterableAssert<T>(actual);
   }
 
@@ -344,7 +344,7 @@ public class Assertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(List<T> actual) {
+  public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
 	return new ListAssert<T>(actual);
   }
 
@@ -448,6 +448,19 @@ public class Assertions {
   public static <T extends AssertDelegateTarget> T assertThat(T assertion) {
 	return assertion;
   }
+  
+  /**
+   * Delegates the creation of the {@link Assert} to the {@link AssertProvider#assertThat()} of the given component.
+   * 
+   * <p>Read the comments on {@link AssertProvider} for an example of its usage.</p>
+   * 
+   * @param component
+   *          the component that creates its own assert
+   * @return the associated {@link Assert} of the given component
+   */
+  public static <T> T assertThat(final AssertProvider<T> component) {
+    return component.assertThat();
+  }  
 
   /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.

@@ -34,11 +34,11 @@ public class ShouldBeAtIndex extends BasicErrorMessageFactory {
    * @param found the value in {@code actual} stored under {@code index}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <T> ErrorMessageFactory shouldBeAtIndex(List<T> actual, Condition<? super T> condition, Index index, T found) {
+  public static <T> ErrorMessageFactory shouldBeAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
     return new ShouldBeAtIndex(actual, condition, index, found);
   }
 
-  private <T> ShouldBeAtIndex(List<T> actual, Condition<? super T> condition, Index index, T found) {
+  private <T> ShouldBeAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
     super("\nExpecting:\n <%s>\nat index <%s> to be:\n <%s>\nin:\n <%s>\n", found, index.value, condition, actual);
   }
 }

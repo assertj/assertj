@@ -26,21 +26,21 @@ import static org.assertj.core.test.ExpectedException.none;
  */
 public class Assertions_assertThat_asList {
 
-    @Rule
-    public ExpectedException thrown = none();
+  @Rule
+  public ExpectedException thrown = none();
 
-    @Test
-    public void should_pass_list_asserts_on_list_objects_with_asList() {
-        Object listAsObject = Arrays.asList(1, 2, 3);
-        assertThat(listAsObject).asList().isSorted();
-    }
+  @Test
+  public void should_pass_list_asserts_on_list_objects_with_asList() {
+	Object listAsObject = Arrays.asList(1, 2, 3);
+	assertThat(listAsObject).asList().isSorted();
+  }
 
-    @Test
-    public void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
-        Object nonList = new Object();
+  @Test
+  public void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
+	Object nonList = new Object();
 
-        thrown.expectAssertionError("an instance of:\n <java.util.List>\nbut was instance of:\n <java.lang.Object>");
-        assertThat(nonList).asList().isSorted();
-    }
+	thrown.expectAssertionError("an instance of:\n <java.util.List>\nbut was instance of:\n <java.lang.Object>");
+	assertThat(nonList).asList().isSorted();
+  }
 
 }
