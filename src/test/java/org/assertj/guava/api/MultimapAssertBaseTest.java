@@ -16,7 +16,7 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import org.junit.Before;
 
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
 
 public class MultimapAssertBaseTest extends BaseTest {
@@ -29,10 +29,10 @@ public class MultimapAssertBaseTest extends BaseTest {
 
   @Before
   public void setUp() {
-    actual = ArrayListMultimap.create();
+    actual = LinkedListMultimap.create();
     actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
   }
 
 }
