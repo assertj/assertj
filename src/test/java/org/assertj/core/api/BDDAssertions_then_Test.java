@@ -57,7 +57,7 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
-  public void shouldDelegateToAssertComparable() throws Exception {
+  public void should_delegate_to_assert_comparable() throws Exception {
 
     class IntBox implements Comparable<IntBox> {
 
