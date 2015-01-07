@@ -169,6 +169,17 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>.
    *
    * @param actual the actual value.
