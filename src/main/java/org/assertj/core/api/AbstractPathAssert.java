@@ -440,4 +440,45 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsNormalized(info, actual);
         return myself;
     }
+
+    /**
+     * Assert whether the tested path is canonical
+     *
+     * <p>For Windows users, this assertion is no different than {@link
+     * #isAbsolute()}. For Unix users, this assertion ensures that the tested
+     * path is the actual file system resource, that is, it is not a {@link
+     * Files#isSymbolicLink(Path) symbolic link} to the actual resource, even if
+     * the path is absolute.</p>
+     *
+     * <p>Example:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * // Create a directory
+     * final Path basedir = fs.getPath("/tmp/foo");
+     * Files.createDirectories(basedir);
+     * // Create a file in this directory
+     * final Path file = basedir.resolve("file");
+     * Files.createFile(file);
+     * // Create a symbolic link to that file
+     * final Path symlink = basedir.resolve("symlink");
+     * Files.createSymbolicLink(symlink, file);
+     *
+     * // The following assertion succeeds
+     * assertThat(file).isCanonical();
+     *
+     * // The following assertion fails
+     * assertThat(symlink).isCanonical();
+     * </code></pre>
+     *
+     * @throws PathsException an I/O error occurred while evaluating the path
+     *
+     * @see Path#toRealPath(LinkOption...)
+     * @see Files#isSameFile(Path, Path)
+     */
+    public S isCanonical()
+    {
+        paths.assertIsCanonical(info, actual);
+        return myself;
+    }
 }

@@ -13,12 +13,15 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.util.PathsException;
 import org.assertj.core.util.VisibleForTesting;
 
+import java.io.IOException;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
@@ -110,6 +113,22 @@ public class Paths
 
         if (!normalized.equals(actual))
             throw failures.failure(info, shouldBeNormalized(actual));
+    }
+
+    public void assertIsCanonical(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+
+        final Path realPath;
+
+        try {
+            realPath = actual.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException(String.format(IOERROR_FORMAT, actual), e);
+        }
+
+        if (!actual.equals(realPath))
+            throw failures.failure(info, shouldBeCanonicalPath(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,
