@@ -402,4 +402,42 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsAbsolute(info, actual);
         return myself;
     }
+
+    /**
+     * Assert that a given {@link Path} is normalized
+     *
+     * <p>A path is normalized if it has no redundant components; typically, on
+     * both Unix and Windows, this means that the path has no "self" components
+     * ({@code .}) and that its only parent components ({@code ..}), if any, are
+     * at the beginning of the path.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path normalized1 = fs.getPath("/usr/lib");
+     * final Path normalized2 = fs.getPath("/../../e");
+     * final Path normalized3 = fs.getPath("a/b/c");
+     * final Path normalized4 = fs.getPath("../d");
+     * final Path notNormalized1 = fs.getPath("/a/./b");
+     * final Path notNormalized2 = fs.getPath("c/..");
+     *
+     * // the following assertions succeed:
+     * assertThat(normalized1).isNormalized();
+     * assertThat(normalized2).isNormalized();
+     * assertThat(normalized3).isNormalized();
+     * assertThat(normalized4).isNormalized();
+     *
+     * // the following assertions fail:
+     * assertThat(notNormalized1).isNormalized();
+     * assertThat(notNormalized2).isNormalized();
+     * </code></pre>
+     *
+     * @return self
+     */
+    public S isNormalized()
+    {
+        paths.assertIsNormalized(info, actual);
+        return myself;
+    }
 }

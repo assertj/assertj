@@ -21,6 +21,7 @@ import java.nio.file.Path;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldExist.shouldExist;
@@ -100,6 +101,15 @@ public class Paths
         assertNotNull(info, actual);
         if (!actual.isAbsolute())
             throw failures.failure(info, shouldBeAbsolutePath(actual));
+    }
+
+    public void assertIsNormalized(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+        final Path normalized = actual.normalize();
+
+        if (!normalized.equals(actual))
+            throw failures.failure(info, shouldBeNormalized(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,
