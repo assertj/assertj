@@ -20,6 +20,7 @@ import java.nio.file.Path;
 
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
+import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
@@ -81,6 +82,15 @@ public class Paths
 
         if (!java.nio.file.Files.isDirectory(actual))
             throw failures.failure(info, shouldBeDirectory(actual));
+    }
+
+    public void assertIsSymbolicLink(final AssertionInfo info,
+        final Path actual)
+    {
+        assertExistsNoFollow(info, actual);
+
+        if (!java.nio.file.Files.isSymbolicLink(actual))
+            throw failures.failure(info, shouldBeSymbolicLink(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,

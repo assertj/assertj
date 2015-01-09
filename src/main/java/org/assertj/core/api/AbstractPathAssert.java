@@ -304,4 +304,54 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsDirectory(info, actual);
         return myself;
     }
+
+    /**
+     * Assert that a given path is a symbolic link
+     *
+     * <p>This assertion first asserts the existence of the path (using {@link
+     * #existsNoFollow()}) then checks whether the path is a symbolic link.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     *
+     * // Create a regular file, and a symbolic link to that regular file
+     * final Path regularFile = fs.getPath("regularFile");
+     * final Path symlink = fs.getPath("symlink");
+     * Files.createFile(regularFile);
+     * Files.createSymbolicLink(symlink, regularFile);
+     *
+     * // Create a directory, and a symbolic link to that directory
+     * final Path dir = fs.getPath("dir");
+     * final Path dirSymlink = fs.getPath("dirSymlink");
+     * Files.createDirectories(dir);
+     * Files.createSymbolicLink(dirSymlink, dir);
+     *
+     * // Create a nonexistent entry, and a symbolic link to that entry
+     * final Path nonExistent = fs.getPath("nonexistent");
+     * final Path dangling = fs.getPath("dangling");
+     * Files.createSymbolicLink(dangling, nonExistent);
+     *
+     * // the following assertion fails because the path does not exist:
+     * assertThat(nonExistent).isSymbolicLink();
+     *
+     * // the following assertions fail because paths exist but are not symbolic
+     * // links
+     * assertThat(regularFile).isSymbolicLink();
+     * assertThat(dirSymlink).isSymbolicLink();
+     *
+     * // the following assertions succeed:
+     * assertThat(symlink).isSymbolicLink();
+     * assertThat(dangling).isSymbolicLink();
+     * assertThat(dir).isSymbolicLink();
+     * </code></pre>
+     *
+     * @return self
+     */
+    public S isSymbolicLink()
+    {
+        paths.assertIsSymbolicLink(info, actual);
+        return myself;
+    }
 }
