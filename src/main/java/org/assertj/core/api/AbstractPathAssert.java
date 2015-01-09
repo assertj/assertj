@@ -739,4 +739,83 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertStartsWithRaw(info, actual, other);
         return myself;
     }
+
+    /**
+     * Check whether this path ends with another path
+     *
+     * <p>This assertion will attempt to canonicalize the tested path and
+     * normalize the path given as an argument before performing the actual test.
+     * </p>
+     *
+     * <p>Note that the criterion to determine success is determined by the
+     * path's name elements; therefore, {@code /home/foobar/baz} does
+     * <em>not</em> end with {@code bar/baz}.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem; the current directory is supposed to be /home
+     * // tested will be canonicalized to /home/joe/myfile
+     * final Path tested = fs.getPath("/home/jane/../joe/myfile");
+     * final Path good = fs.getPath("joe/myfile");
+     * // this path will be normalized to joe/otherfile
+     * final Path bad = fs.getPath("joe/myfile/../otherfile");
+     *
+     * // the following assertion succeeds:
+     * assertThat(tested).endsWith(good);
+     *
+     * // the following assertion fails:
+     * assertThat(tested).endsWith(bad);
+     * </code></pre>
+     *
+     * @param other the other path
+     * @return self
+     *
+     * @throws PathsException failed to canonicalize the tested path (see class
+     * description)
+     */
+    public S endsWith(final Path other)
+    {
+        paths.assertEndsWith(info, actual, other);
+        return myself;
+    }
+
+    /**
+     * Check whether this path ends with another path
+     *
+     * <p><em>This assertion will not perform any canonicalization (on the
+     * tested path) or normalization (on the path given as an argument); see the
+     * class description for more details. If this is not what you want, use
+     * {@link #endsWith(Path)} instead.</em></p>
+     *
+     * <p>This may lead to some surprising results; for instance, path {@code
+     * /home/foo} does <em>not</em> end with {@code foo/.} since the last name
+     * element of the former ({@code foo}) is different from the last name
+     * element of the latter ({@code .}).</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path tested = fs.getPath("/home/joe/myfile");
+     * final Path good = fs.getPath("joe/myfile");
+     * // Even though the path below is the same as "good" when normalized,
+     * // this assertion will not normalize.
+     * final Path bad = fs.getPath("harry/../joe/myfile");
+     *
+     * // The following assertion succeeds:
+     * assertThat(tested).endsWithRaw(good);
+     *
+     * // But the following assertion fails:
+     * assertThat(tested).endsWithRaw(bad);
+     * </code></pre>
+     *
+     * @param other the other path
+     * @return self
+     */
+    public S endsWithRaw(final Path other)
+    {
+        paths.assertEndsWithRaw(info, actual, other);
+        return myself;
+    }
 }

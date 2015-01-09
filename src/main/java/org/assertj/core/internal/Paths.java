@@ -27,6 +27,7 @@ import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
+import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
@@ -249,6 +250,40 @@ public class Paths
 
         if (!actual.startsWith(other))
             throw failures.failure(info, shouldStartWith(actual, other));
+    }
+
+    public void assertEndsWith(final AssertionInfo info, final Path actual,
+        final Path other)
+    {
+        assertNotNull(info, actual);
+
+        if (other == null)
+            throw new NullPointerException("other should not be null");
+
+        final Path canonicalActual;
+
+        try {
+            canonicalActual = actual.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("cannot resolve actual path", e);
+        }
+
+        final Path normalizedOther = other.normalize();
+
+        if (!canonicalActual.endsWith(normalizedOther))
+            throw failures.failure(info, shouldEndWith(actual, other));
+    }
+
+    public void assertEndsWithRaw(final AssertionInfo info, final Path actual,
+        final Path other)
+    {
+        assertNotNull(info, actual);
+
+        if (other == null)
+            throw new NullPointerException("other should not be null");
+
+        if (!actual.endsWith(other))
+            throw failures.failure(info, shouldEndWith(actual, other));
     }
 
     private static void assertNotNull(final AssertionInfo info,
