@@ -570,4 +570,86 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertHasParentRaw(info, actual, expected);
         return myself;
     }
+
+    /**
+     * Assert whether the tested path has no parent
+     *
+     * <p><em>This assertion will first canonicalize the tested path before
+     * performing the test; if this is not what you want, use {@link
+     * #hasNoParentRaw()} instead.</em></p>
+     *
+     * <p>Check that the tested path, after canonicalization, has no parent. See
+     * the class description for more information about canonicalization.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // unixFs is a Unix filesystem
+     * final Path path1 = fs.getPath("/usr");
+     * // this path will be normalized to "/"
+     * final Path path2 = fs.getPath("/foo/..");
+     * final Path path3 = fs.getPath("/usr/lib");
+     *
+     * // the following assertions succeed
+     * assertThat(path1).hasNoParent();
+     * assertThat(path2).hasNoParent();
+     *
+     * // the following assertion fails
+     * assertThat(path3).hasNoParent();
+     * </code></pre>
+     *
+     * @return self
+     *
+     * @throws PathsException failed to canonicalize the tested path
+     *
+     * @see Path#getParent()
+     */
+    public S hasNoParent()
+    {
+        paths.assertHasNoParent(info, actual);
+        return myself;
+    }
+
+    /**
+     * Assert whether the tested path has no parent
+     *
+     * <p><em>This assertion will not canonicalize the tested path before
+     * performing the test; if this is not what you want, use {@link
+     * #hasNoParent()} instead.</em></p>
+     *
+     * <p>As canonicalization is not performed, this means the only criterion
+     * for this assertion's success is the path's components (its root and its
+     * name elements).</p>
+     *
+     * <p>This may lead to surprising results. For instance, path {@code
+     * /usr/..} <em>does</em> have a parent, and this parent is {@code /usr}.
+     * </p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // unixFs is a Unix filesystem
+     * final Path path1 = fs.getPath("/usr");
+     * final Path path2 = fs.getPath("/");
+     * final Path path3 = fs.getPath("foo");
+     * final Path path4 = fs.getPath("/usr/lib");
+     *
+     * // the following assertions succeed
+     * assertThat(path1).hasNoParentRaw();
+     * assertThat(path2).hasNoParentRaw();
+     * assertThat(path3).hasNoParentRaw();
+     *
+     * // the following assertion fails
+     * assertThat(path4).hasNoParentRaw();
+     * </code></pre>
+     *
+     * @return self
+     *
+     * @see Path#getParent()
+     */
+    public S hasNoParentRaw()
+    {
+        paths.assertHasNoParentRaw(info, actual);
+        return myself;
+    }
 }

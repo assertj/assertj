@@ -29,6 +29,7 @@ import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
+import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 
@@ -182,6 +183,31 @@ public class Paths
         if (!actualParent.equals(expected))
             throw failures.failure(info,
                 shouldHaveParent(actual, actualParent, expected));
+    }
+
+    public void assertHasNoParent(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+
+        final Path canonicalActual;
+
+        try {
+            canonicalActual = actual.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("cannot resolve actual path", e);
+        }
+
+        if (canonicalActual.getParent() != null)
+            throw failures.failure(info, shouldHaveNoParent(actual));
+    }
+
+    public void assertHasNoParentRaw(final AssertionInfo info,
+        final Path actual)
+    {
+        assertNotNull(info, actual);
+
+        if (actual.getParent() != null)
+            throw failures.failure(info, shouldHaveNoParent(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,
