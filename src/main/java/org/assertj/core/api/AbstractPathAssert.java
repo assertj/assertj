@@ -481,4 +481,93 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsCanonical(info, actual);
         return myself;
     }
+
+    /**
+     * Assert whether the tested path has the expected parent path
+     *
+     * <p><em>This assertion will perform canonicalization of the tested path
+     * and of the given argument before performing the test; see the class
+     * description for more details. If this is not what you want, use {@link
+     * #hasParentRaw(Path)} instead.</em></p>
+     *
+     * <p>Checks that the tested path has the given parent. This assertion will
+     * fail both if the tested path has no parent, or has a different parent
+     * than what is expected.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path actual = fs.getPath("/dir1/dir2/file");
+     * // this path will be normalized to "/dir1/dir2"
+     * final Path good = fs.getPath("/dir1/dir3/../dir2/.");
+     * final Path bad = fs.getPath("/dir1");
+     *
+     * // the following assertion succeeds
+     * assertThat(actual).hasParent(good);
+     *
+     * // the following assertion fails
+     * assertThat(actual).hasParent(bad);
+     * </code></pre>
+     *
+     * @param expected the expected parent path
+     * @return self
+     *
+     * @see Path#getParent()
+     */
+    public S hasParent(final Path expected)
+    {
+        paths.assertHasParent(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Assert whether the tested path has the expected parent path
+     *
+     * <p><em>This assertion will not perform any canonicalization of either the
+     * tested path or the path given as an argument; see class description for
+     * more details. If this is not what you want, use {@link #hasParent(Path)}
+     * instead.</em></p>
+     *
+     * <p>This assertion uses {@link Path#getParent()} with no modification,
+     * which means the only criterion for this assertion's success is the path's
+     * components (its root and its name elements).</p>
+     *
+     * <p>This may lead to surprising results if the tested path and the path
+     * given as an argument are not normalized. For instance, if the tested
+     * path is {@code /home/foo/../bar} and the argument is {@code /home}, the
+     * assertion will <em>fail</em> since the parent of the tested path is not
+     * {@code /home} but... {@code /home/foo/..}.</p>
+     *
+     * <p>While this may seem counterintuitive, it has to be recalled here that
+     * it is not required for a {@link FileSystem} to consider that {@code .}
+     * and {@code ..} are name elements for respectively the current directory
+     * and the parent directory respectively. In fact, it is not even required
+     * that a {@link FileSystem} be hierarchical at all.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path actual = fs.getPath("/dir1/dir2/file");
+     * final Path good = fs.getPath("/dir1/dir2");
+     * final Path bad = fs.getPath("/dir1/dir3/../dir2");
+     *
+     * // the following assertion succeeds
+     * assertThat(actual).hasParentRaw(good);
+     *
+     * // the following assertion fails
+     * assertThat(actual).hasParentRaw(bad);
+     * </code></pre>
+     *
+     * @param expected the expected parent path
+     * @return self
+     *
+     * @see Path#getParent()
+     */
+    public S hasParentRaw(final Path expected)
+    {
+        paths.assertHasParentRaw(info, actual, expected);
+        return myself;
+    }
 }

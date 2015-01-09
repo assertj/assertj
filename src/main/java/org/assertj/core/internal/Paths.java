@@ -29,6 +29,7 @@ import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
+import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 
 /**
@@ -129,6 +130,58 @@ public class Paths
 
         if (!actual.equals(realPath))
             throw failures.failure(info, shouldBeCanonicalPath(actual));
+    }
+
+    public void assertHasParent(final AssertionInfo info, final Path actual,
+        final Path expected)
+    {
+        assertNotNull(info, actual);
+
+        if (expected == null)
+            throw new NullPointerException("parent should not be null");
+
+        final Path canonicalActual;
+
+        try {
+            canonicalActual = actual.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("failed to resolve actual", e);
+        }
+
+        final Path canonicalExpected;
+
+        try {
+            canonicalExpected = expected.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("failed to resolve path argument", e);
+        }
+
+        final Path actualParent = canonicalActual.getParent();
+
+        if (actualParent == null)
+            throw failures.failure(info, shouldHaveParent(actual, expected));
+
+        if (!actualParent.equals(canonicalExpected))
+            throw failures.failure(info,
+                shouldHaveParent(actual, actualParent, expected));
+    }
+
+    public void assertHasParentRaw(final AssertionInfo info, final Path actual,
+        final Path expected)
+    {
+        assertNotNull(info, actual);
+
+        if (expected == null)
+            throw new NullPointerException("parent should not be null");
+
+        final Path actualParent = actual.getParent();
+
+        if (actualParent == null)
+            throw failures.failure(info, shouldHaveParent(actual, expected));
+
+        if (!actualParent.equals(expected))
+            throw failures.failure(info,
+                shouldHaveParent(actual, actualParent, expected));
     }
 
     private static void assertNotNull(final AssertionInfo info,
