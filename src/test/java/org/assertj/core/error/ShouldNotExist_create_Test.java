@@ -12,13 +12,18 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
-
-
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.nio.file.Path;
+
+import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.error.ShouldNotExist.FILE_SHOULDNOTEXIST;
+import static org.assertj.core.error.ShouldNotExist.PATH_SHOULDNOTEXIST;
+import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for <code>{@link ShouldNotExist#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -27,16 +32,40 @@ import org.junit.*;
  */
 public class ShouldNotExist_create_Test {
 
+  private TestDescription description;
+  private StandardRepresentation representation;
+
   private ErrorMessageFactory factory;
+  private String actualMessage;
+  private String expectedMessage;
 
   @Before
   public void setUp() {
-    factory = shouldNotExist(new FakeFile("xyz"));
+    description = new TestDescription("Test");
+    representation = new StandardRepresentation();
   }
 
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting file:<xyz> not to exist", message);
+  public void should_create_error_message_for_File_object() {
+    final FakeFile file = new FakeFile("xyz");
+
+    factory = shouldNotExist(file);
+    actualMessage = factory.create(description, representation);
+
+    expectedMessage = String.format("[Test] " + FILE_SHOULDNOTEXIST, file);
+
+    assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  public void should_create_error_message_for_Path_object() {
+    final Path path = mock(Path.class);
+
+    factory = shouldNotExist(path);
+    actualMessage = factory.create(description, representation);
+
+    expectedMessage = String.format("[Test] " + PATH_SHOULDNOTEXIST, path);
+
+    assertEquals(expectedMessage, actualMessage);
   }
 }

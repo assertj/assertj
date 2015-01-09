@@ -20,6 +20,7 @@ import java.nio.file.ClosedFileSystemException;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
@@ -157,6 +158,42 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
     public S existsNoFollow()
     {
         paths.assertExistsNoFollow(info, actual);
+        return myself;
+    }
+
+    /**
+     * Assert that a given path does not exist
+     *
+     * <p><strong>IMPORTANT NOTE:</strong> this method will NOT follow symbolic
+     * links (provided that the underlying {@link FileSystem} of this path
+     * supports symbolic links at all).</p>
+     *
+     * <p>This means that even if the path to test is a symbolic link whose
+     * target does not exist, this assertion will consider that the path exists
+     * (note that this is unlike the default behavior of {@link #exists()}).</p>
+     *
+     * <p>If you are a Windows user, the above does not apply to you; if you are
+     * a Unix user however, this is important. Consider the following:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a FileSystem
+     * // Create a symbolic link "foo" whose nonexistent target is "bar"
+     * final Path foo = fs.getPath("foo");
+     * final Path bar = fs.getPath("bar");
+     * Files.createSymbolicLink(foo, bar);
+     *
+     * // The following assertion fails:
+     * assertThat(foo).doesNotExist();
+     * </code></pre>
+     *
+     * @return self
+     *
+     * @see Files#notExists(Path, LinkOption...)
+     * @see LinkOption#NOFOLLOW_LINKS
+     */
+    public S doesNotExist()
+    {
+        paths.assertNotExists(info, actual);
         return myself;
     }
 }

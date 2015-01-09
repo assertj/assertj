@@ -20,6 +20,7 @@ import java.nio.file.Path;
 
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
+import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -55,6 +56,13 @@ public class Paths
 
         if (!java.nio.file.Files.exists(actual, LinkOption.NOFOLLOW_LINKS))
             throw failures.failure(info, shouldExistNoFollow(actual));
+    }
+
+    public void assertNotExists(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+        if (!java.nio.file.Files.notExists(actual, LinkOption.NOFOLLOW_LINKS))
+            throw failures.failure(info, shouldNotExist(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,
