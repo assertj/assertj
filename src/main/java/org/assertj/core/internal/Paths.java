@@ -18,6 +18,8 @@ import org.assertj.core.util.VisibleForTesting;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
+import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldBeSymbolicLink.shouldBeSymbolicLink;
@@ -91,6 +93,13 @@ public class Paths
 
         if (!java.nio.file.Files.isSymbolicLink(actual))
             throw failures.failure(info, shouldBeSymbolicLink(actual));
+    }
+
+    public void assertIsAbsolute(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+        if (!actual.isAbsolute())
+            throw failures.failure(info, shouldBeAbsolutePath(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,

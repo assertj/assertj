@@ -354,4 +354,52 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsSymbolicLink(info, actual);
         return myself;
     }
+
+    /**
+     * Assert that a given path is absolute
+     *
+     * <p>Note that the fact that a path is absolute does not mean that it is
+     * {@link Path#normalize() normalized}: {@code /foo/..} is absolute, for
+     * instance, but it is not normalized.</p>
+     *
+     * <p>Sample use:</p>
+     *
+     * <pre><code class="java">
+     * // unixFs is a Unix FileSystem
+     * final Path path1 = unixFs.getPath("/foo/bar");
+     * final Path path2 = unixFs.getPath("foo/bar");
+     *
+     * // The following assertion succeeds:
+     * assertThat(path1).isAbsolute();
+     *
+     * // The following assertion fails:
+     * assertThat(path2).isAbsolute();
+     *
+     * // windowsFs is a Windows FileSystem
+     * final Path path3 = windowsFs.getPath("c:\\foo");
+     * final Path path4 = windowsFs.getPath("foo\\bar");
+     * final Path path5 = windowsFs.getPath("c:foo");
+     * final Path path6 = windowsFs.getPath("\\foo\\bar");
+     *
+     * // The following assertion succeeds:
+     * assertThat(path3).isAbsolute();
+     *
+     * // The following assertion fails...
+     * assertThat(path4).isAbsolute();
+     *
+     * // ... And these one also fail!
+     * assertThat(path5).isAbsolute();
+     * assertThat(path6).isAbsolute();
+     * </code></pre>
+     *
+     * @return self
+     *
+     * @see Path#isAbsolute()
+     * @see Path#toRealPath(LinkOption...)
+     */
+    public S isAbsolute()
+    {
+        paths.assertIsAbsolute(info, actual);
+        return myself;
+    }
 }

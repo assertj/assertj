@@ -12,14 +12,18 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
-
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.nio.file.Path;
+
+import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.error.ShouldBeAbsolutePath.MESSAGE;
+import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests for <code>{@link ShouldBeAbsolutePath#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -28,16 +32,40 @@ import org.junit.*;
  */
 public class ShouldBeAbsolutePath_create_Test {
 
+  private TestDescription description;
+  private StandardRepresentation representation;
+
   private ErrorMessageFactory factory;
+  private String actualMessage;
+  private String expectedMessage;
 
   @Before
   public void setUp() {
-    factory = shouldBeAbsolutePath(new FakeFile("xyz"));
+    description = new TestDescription("Test");
+    representation = new StandardRepresentation();
   }
 
   @Test
-  public void should_create_error_message() {
-    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <xyz>\nto be an absolute path", message);
+  public void should_create_error_message_for_File_Object() {
+    final FakeFile file = new FakeFile("xyz");
+
+    factory = shouldBeAbsolutePath(file);
+    actualMessage = factory.create(description, representation);
+
+    expectedMessage = String.format("[Test] " + MESSAGE, file);
+
+    assertEquals(expectedMessage, actualMessage);
+  }
+
+  @Test
+  public void should_create_error_message_for_Path_object() {
+    final Path actual = mock(Path.class);
+
+    factory = shouldBeAbsolutePath(actual);
+    actualMessage = factory.create(description, representation);
+
+    expectedMessage = String.format("[Test] " + MESSAGE, actual);
+
+    assertEquals(expectedMessage, actualMessage);
   }
 }
