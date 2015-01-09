@@ -32,6 +32,7 @@ import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
+import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -208,6 +209,46 @@ public class Paths
 
         if (actual.getParent() != null)
             throw failures.failure(info, shouldHaveNoParent(actual));
+    }
+
+    public void assertStartsWith(final AssertionInfo info, final Path actual,
+        final Path other)
+    {
+        assertNotNull(info, actual);
+
+        if (other == null)
+            throw new NullPointerException("other should not be null");
+
+        final Path canonicalActual;
+
+        try {
+            canonicalActual = actual.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("failed to resolve actual", e);
+        }
+
+        final Path canonicalOther;
+
+        try {
+            canonicalOther = other.toRealPath();
+        } catch (IOException e) {
+            throw new PathsException("failed to resolve path argument", e);
+        }
+
+        if (!canonicalActual.startsWith(canonicalOther))
+            throw failures.failure(info, shouldStartWith(actual, other));
+    }
+
+    public void assertStartsWithRaw(final AssertionInfo info, final Path actual,
+        final Path other)
+    {
+        assertNotNull(info, actual);
+
+        if (other == null)
+            throw new NullPointerException("other should not be null");
+
+        if (!actual.startsWith(other))
+            throw failures.failure(info, shouldStartWith(actual, other));
     }
 
     private static void assertNotNull(final AssertionInfo info,

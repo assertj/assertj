@@ -652,4 +652,91 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertHasNoParentRaw(info, actual);
         return myself;
     }
+
+    /**
+     * Check whether this path starts with another path
+     *
+     * <p><em>This assertion will perform canonicalization of both the tested
+     * path and the path given as an argument; see class description for more
+     * details. If this is not what you want, use {@link #startsWithRaw(Path)}
+     * instead.</em></p>
+     *
+     * <p>Checks whether the tested path starts with another path. Note that the
+     * name components matter, not the string representation; this means that,
+     * for example, {@code /home/foobar/baz} <em>does not</em> start with {@code
+     * /home/foo}.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path tested = fs.getPath("/home/joe/myfile");
+     * // this path will be canonicalized to "/home/joe"
+     * final Path good = fs.getPath("/home/jane/../joe/.");
+     * final Path bad = fs.getPath("/home/harry");
+     *
+     * // the following assertion succeeds:
+     * assertThat(tested).startsWith(good);
+     *
+     * // the following assertion fails:
+     * assertThat(tested).startsWith(bad);
+     * </code></pre>
+     *
+     * @param other the other path
+     * @return self
+     *
+     * @throws PathsException failed to canonicalize the tested path or the path
+     * given as an argument
+     *
+     * @see Path#startsWith(Path)
+     */
+    public S startsWith(final Path other)
+    {
+        paths.assertStartsWith(info, actual, other);
+        return myself;
+    }
+
+    /**
+     * Check whether this path starts with another path
+     *
+     * <p><em>This assertions does not perform canonicalization on either the
+     * tested path or the path given as an argument; see class description for
+     * more details. If this is not what you want, use {@link #startsWith(Path)}
+     * instead.</em></p>
+     *
+     * <p>Checks whether the tested path starts with another path, without
+     * performing canonicalization on its arguments. This means that the only
+     * criterion to determine whether a path starts with another is the tested
+     * path's, and the argument's, name elements.</p>
+     *
+     * <p>This may lead to some surprising results: for instance, path {@code
+     * /../home/foo} does <em>not</em> start with {@code /home} since the first
+     * name element of the former ({@code ..}) is different from the first name
+     * element of the latter ({@code home}).</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * final Path tested = fs.getPath("/home/joe/myfile");
+     * final Path good = fs.getPath("/home/joe");
+     * final Path bad = fs.getPath("/home/../joe");
+     *
+     * // the following assertion succeeds:
+     * assertThat(tested).startsWithRaw(good);
+     *
+     * // the following assertion fails:
+     * assertThat(tested).startsWithRaw(bad);
+     * </code></pre>
+     *
+     * @param other the other path
+     * @return self
+     *
+     * @see Path#startsWith(Path)
+     */
+    public S startsWithRaw(final Path other)
+    {
+        paths.assertStartsWithRaw(info, actual, other);
+        return myself;
+    }
 }
