@@ -18,6 +18,7 @@ import org.assertj.core.util.VisibleForTesting;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
+import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeRegularFile.shouldBeRegularFile;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
@@ -72,6 +73,14 @@ public class Paths
 
         if (!java.nio.file.Files.isRegularFile(actual))
             throw failures.failure(info, shouldBeRegularFile(actual));
+    }
+
+    public void assertIsDirectory(final AssertionInfo info, final Path actual)
+    {
+        assertExists(info, actual);
+
+        if (!java.nio.file.Files.isDirectory(actual))
+            throw failures.failure(info, shouldBeDirectory(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,

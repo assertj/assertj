@@ -12,26 +12,46 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.util.VisibleForTesting;
+
 import java.io.File;
+import java.nio.file.Path;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> is an existing directory
- * failed.
+ * Creates an error message indicating that an assertion that verifies that a
+ * {@link File} or {@link Path} is an existing directory failed
  * 
  * @author Yvonne Wang
+ * @author Francis Galiegue
  */
-public class ShouldBeDirectory extends BasicErrorMessageFactory {
+public class ShouldBeDirectory
+    extends BasicErrorMessageFactory
+{
+    @VisibleForTesting
+    public static final String PATH_SHOULD_BE_DIRECTORY
+        = "%nExpecting path:%n  <%s>%nto be a directory";
 
-  /**
-   * Creates a new <code>{@link ShouldBeDirectory}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldBeDirectory(File actual) {
-    return new ShouldBeDirectory(actual);
-  }
+    @VisibleForTesting
+    public static final String FILE_SHOULD_BE_DIRECTORY
+        = "%nExpecting file:%n  <%s>%n to be an existing directory";
 
-  private ShouldBeDirectory(File actual) {
-    super("\nExpecting:\n <%s>\nto be an existing directory", actual);
-  }
+    public static ErrorMessageFactory shouldBeDirectory(final Path actual)
+    {
+        return new ShouldBeDirectory(actual);
+    }
+
+    public static ErrorMessageFactory shouldBeDirectory(final File actual)
+    {
+        return new ShouldBeDirectory(actual);
+    }
+
+    private ShouldBeDirectory(final Path actual)
+    {
+        super(PATH_SHOULD_BE_DIRECTORY, actual);
+    }
+
+    private ShouldBeDirectory(final File actual)
+    {
+        super(FILE_SHOULD_BE_DIRECTORY, actual);
+    }
 }

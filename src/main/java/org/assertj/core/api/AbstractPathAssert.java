@@ -250,4 +250,58 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
         paths.assertIsRegularFile(info, actual);
         return myself;
     }
+
+    /**
+     * Assert that a given path is a directory
+     *
+     * <p><strong>Note that this method will follow symbolic links.</strong> If
+     * you are a Unix user and wish to assert that a path is a symbolic link
+     * instead, use {@link #isSymbolicLink()}.</p>
+     *
+     * <p>This assertion first asserts the existence of the path (using {@link
+     * #exists()}) then checks whether the path is a directory.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     *
+     * // Create a regular file, and a symbolic link to that regular file
+     * final Path regularFile = fs.getPath("regularFile");
+     * final Path symlink = fs.getPath("symlink");
+     * Files.createFile(regularFile);
+     * Files.createSymbolicLink(symlink, regularFile);
+     *
+     * // Create a directory, and a symbolic link to that directory
+     * final Path dir = fs.getPath("dir");
+     * final Path dirSymlink = fs.getPath("dirSymlink");
+     * Files.createDirectories(dir);
+     * Files.createSymbolicLink(dirSymlink, dir);
+     *
+     * // Create a nonexistent entry, and a symbolic link to that entry
+     * final Path nonExistent = fs.getPath("nonexistent");
+     * final Path dangling = fs.getPath("dangling");
+     * Files.createSymbolicLink(dangling, nonExistent);
+     *
+     * // the following assertions fail because paths do not exist:
+     * assertThat(nonExistent).isRegularFile();
+     * assertThat(dangling).isRegularFile();
+     *
+     * // the following assertions fail because paths exist but are not
+     * // directories:
+     * assertThat(regularFile).isRegularFile();
+     * assertThat(symlink).isRegularFile();
+     *
+     * // the following assertions succeed:
+     * assertThat(dir).isRegularFile();
+     * assertThat(dirSymlink).isRegularFile();
+     * </code></pre>
+     *
+     * @return self
+     */
+    public S isDirectory()
+    {
+        paths.assertIsDirectory(info, actual);
+        return myself;
+    }
 }
