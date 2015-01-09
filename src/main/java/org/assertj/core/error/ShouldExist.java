@@ -12,15 +12,22 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.util.VisibleForTesting;
+
 import java.io.File;
+import java.nio.file.Path;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> exists failed.
+ * Creates an error message indicating that an assertion that verifies that a
+ * {@link File} or {@link Path} exists failed.
  * 
  * @author Yvonne Wang
  */
 public class ShouldExist extends BasicErrorMessageFactory {
 
+  @VisibleForTesting
+  public static final String PATH_SHOULD_EXIST
+      = "Expecting path:%n  <%s>%nto exist";
   /**
    * Creates a new <code>{@link ShouldExist}</code>.
    * @param actual the actual value in the failed assertion.
@@ -30,7 +37,17 @@ public class ShouldExist extends BasicErrorMessageFactory {
     return new ShouldExist(actual);
   }
 
+  public static ErrorMessageFactory shouldExist(final Path actual)
+  {
+    return new ShouldExist(actual);
+  }
+
   private ShouldExist(File actual) {
-    super("\nExpecting file:<%s> to exist", actual);
+    super("%nExpecting file:%n  <%s>%nto exist", actual);
+  }
+
+  private ShouldExist(final Path actual)
+  {
+    super(PATH_SHOULD_EXIST, actual);
   }
 }

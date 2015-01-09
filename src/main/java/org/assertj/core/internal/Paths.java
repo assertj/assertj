@@ -12,9 +12,12 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
 import java.nio.file.Path;
+
+import static org.assertj.core.error.ShouldExist.shouldExist;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -33,5 +36,19 @@ public class Paths
     public static Paths instance()
     {
         return INSTANCE;
+    }
+
+    public void assertExists(final AssertionInfo info, final Path actual)
+    {
+        assertNotNull(info, actual);
+
+        if (!java.nio.file.Files.exists(actual))
+            throw failures.failure(info, shouldExist(actual));
+    }
+
+    private static void assertNotNull(final AssertionInfo info,
+        final Path actual)
+    {
+        Objects.instance().assertNotNull(info, actual);
     }
 }

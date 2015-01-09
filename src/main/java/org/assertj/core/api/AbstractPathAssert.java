@@ -85,4 +85,47 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>>
     {
         super(actual, selfType);
     }
+
+    /**
+     * Assert that a given path exists
+     *
+     * <p><strong>Note that this assertion will follow symbolic links before
+     * asserting the path's existence.</strong></p>
+     *
+     * <p>On Windows system, this has no influence. On Unix systems, this means
+     * the assertion result will fail if the path is a symbolic link whose
+     * target does not exist. If you want to assert the existence of the
+     * symbolic link itself, use {@link #existsNoFollow()} instead.</p>
+     *
+     * <p>Examples:</p>
+     *
+     * <pre><code class="java">
+     * // fs is a Unix filesystem
+     * // Create a symbolic link whose target does not exist
+     * final Path nonExistent = fs.getPath("nonexistent");
+     * final Path dangling = fs.getPath("dangling");
+     * Files.createSymbolicLink(dangling, nonExistent);
+     *
+     * // Create a regular file, and a symbolic link pointing to it
+     * final Path someFile = fs.getPath("somefile");
+     * Files.createFile(someFile);
+     * final Path symlink = fs.getPath("symlink");
+     * Files.createSymbolicLink(symlink, someFile);
+     *
+     * // The following assertion succeeds
+     * assertThat(symlink).exists();
+     *
+     * // The following assertion fails
+     * assertThat(dangling).exists();
+     * </code></pre>
+     *
+     * @return self
+     *
+     * @see Files#exists(Path, LinkOption...)
+     */
+    public S exists()
+    {
+        paths.assertExists(info, actual);
+        return myself;
+    }
 }
