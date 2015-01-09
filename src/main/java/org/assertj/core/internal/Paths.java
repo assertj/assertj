@@ -15,9 +15,11 @@ package org.assertj.core.internal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.error.ShouldExistNoFollow.shouldExistNoFollow;
 
 /**
  * Core assertion class for {@link Path} assertions
@@ -44,6 +46,15 @@ public class Paths
 
         if (!java.nio.file.Files.exists(actual))
             throw failures.failure(info, shouldExist(actual));
+    }
+
+    public void assertExistsNoFollow(final AssertionInfo info,
+        final Path actual)
+    {
+        assertNotNull(info, actual);
+
+        if (!java.nio.file.Files.exists(actual, LinkOption.NOFOLLOW_LINKS))
+            throw failures.failure(info, shouldExistNoFollow(actual));
     }
 
     private static void assertNotNull(final AssertionInfo info,
