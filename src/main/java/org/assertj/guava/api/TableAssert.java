@@ -13,7 +13,6 @@
 package org.assertj.guava.api;
 
 import static com.google.common.base.Preconditions.checkArgument;
-
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.guava.error.TableShouldContainColumns.tableShouldContainColumns;
@@ -163,7 +162,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not contain the given rows.
    */
-  public TableAssert<R, C, V> containsRows(R... rows) {
+  public TableAssert<R, C, V> containsRows(@SuppressWarnings("unchecked") R... rows) {
     Objects.instance().assertNotNull(info, actual);
     checkArgument(rows != null, "The rows to look for should not be null.");
     checkArgument(rows.length > 0, "The rows to look for should not be empty.");
@@ -203,7 +202,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not contain the given columns.
    */
-  public TableAssert<R, C, V> containsColumns(C... columns) {
+  public TableAssert<R, C, V> containsColumns(@SuppressWarnings("unchecked") C... columns) {
     Objects.instance().assertNotNull(info, actual);
     checkArgument(columns != null, "The columns to look for should not be null.");
     checkArgument(columns.length > 0, "The columns to look for should not be empty.");
@@ -244,7 +243,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @throws AssertionError           if the actual {@link Table} is {@code null}.
    * @throws AssertionError           if the actual {@link Table} does not contain the given values.
    */
-  public TableAssert<R, C, V> containsValues(V... values) {
+  public TableAssert<R, C, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     Objects.instance().assertNotNull(info, actual);
     checkArgument(values != null, "The values to look for should not be null.");
     checkArgument(values.length > 0, "The values to look for should not be empty.");

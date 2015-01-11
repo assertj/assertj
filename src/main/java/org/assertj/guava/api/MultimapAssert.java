@@ -78,7 +78,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
    */
-  public MultimapAssert<K, V> containsKeys(K... keys) {
+  public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
@@ -120,7 +120,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
    */
-  public MultimapAssert<K, V> contains(MapEntry... entries) {
+  @SafeVarargs
+  public final MultimapAssert<K, V> contains(MapEntry... entries) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
@@ -162,7 +163,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
    */
-  public MultimapAssert<K, V> containsValues(V... values) {
+  public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
