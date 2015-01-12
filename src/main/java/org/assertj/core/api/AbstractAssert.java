@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
@@ -59,9 +59,9 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
   @SuppressWarnings("unchecked")
   protected AbstractAssert(A actual, Class<?> selfType) {
-    myself = (S) selfType.cast(this);
-    this.actual = actual;
-    info = new WritableAssertionInfo();
+	myself = (S) selfType.cast(this);
+	this.actual = actual;
+	info = new WritableAssertionInfo();
   }
 
   /**
@@ -72,15 +72,15 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @return the {@link WritableAssertionInfo} used in the current assertion
    */
   protected WritableAssertionInfo getWritableAssertionInfo() {
-    return info;
+	return info;
   }
 
   /**
-   * Utility method to ease writing custom assertions classes, you can use format specifiers in error message, they
-   * will be replaced by the given arguments.
+   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in error message.
    * <p>
-   * Moreover, this method honors any description ({@link #as(String, Object...)} or overridden error message defined by the user (
-   * {@link #overridingErrorMessage(String, Object...)}.
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message defined by
+   * the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
    * 
@@ -103,28 +103,32 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
-    throw Failures.instance().failure(info, new BasicErrorMessageFactory(errorMessage, arguments));
+	AssertionError failureWithOverridenErrorMessage = Failures.instance().failureIfErrorMessageIsOverriden(info);
+	if (failureWithOverridenErrorMessage != null) throw failureWithOverridenErrorMessage;
+	String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
+	throw new AssertionError(description + String.format(errorMessage, arguments));
   }
 
   /** {@inheritDoc} */
   @Override
   public S as(String description, Object... args) {
-    return describedAs(description, args);
+	return describedAs(description, args);
   }
 
   /** {@inheritDoc} */
   @Override
   public S as(Description description) {
-    return describedAs(description);
+	return describedAs(description);
   }
 
   /**
    * Use hexadecimal object representation instead of standard representation in error messages.
    * <p/>
-   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned,
-   * it is thus impossible to find differences from the standard error message:
+   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
+   * thus impossible to find differences from the standard error message:
    * <p/>
    * With standard message:
+   * 
    * <pre><code class='java'>
    * assertThat("µµµ").contains("μμμ");
    *
@@ -136,6 +140,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * </code></pre>
    *
    * With Hexadecimal message:
+   * 
    * <pre><code class='java'>
    * assertThat("µµµ").inHexadecimal().contains("μμμ");
    *
@@ -149,14 +154,15 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @return {@code this} assertion object.
    */
   protected S inHexadecimal() {
-    info.useHexadecimalRepresentation();
-    return myself;
+	info.useHexadecimalRepresentation();
+	return myself;
   }
 
   /**
    * Use binary object representation instead of standard representation in error messages.
    * <p/>
    * Example:
+   * 
    * <pre><code class='java'>
    * assertThat(1).inBinary().isEqualTo(2);
    *
@@ -168,213 +174,214 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @return {@code this} assertion object.
    */
   protected S inBinary() {
-    info.useBinaryRepresentation();
-    return myself;
+	info.useBinaryRepresentation();
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S describedAs(String description, Object... args) {
-    info.description(description, args);
-    return myself;
+	info.description(description, args);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S describedAs(Description description) {
-    info.description(description);
-    return myself;
+	info.description(description);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isEqualTo(Object expected) {
-    objects.assertEqual(info, actual, expected);
-    return myself;
+	objects.assertEqual(info, actual, expected);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotEqualTo(Object other) {
-    objects.assertNotEqual(info, actual, other);
-    return myself;
+	objects.assertNotEqual(info, actual, other);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public void isNull() {
-    objects.assertNull(info, actual);
+	objects.assertNull(info, actual);
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotNull() {
-    objects.assertNotNull(info, actual);
-    return myself;
+	objects.assertNotNull(info, actual);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isSameAs(Object expected) {
-    objects.assertSame(info, actual, expected);
-    return myself;
+	objects.assertSame(info, actual, expected);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotSameAs(Object other) {
-    objects.assertNotSame(info, actual, other);
-    return myself;
+	objects.assertNotSame(info, actual, other);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isIn(Object... values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+	objects.assertIsIn(info, actual, values);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotIn(Object... values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+	objects.assertIsNotIn(info, actual, values);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isIn(Iterable<?> values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+	objects.assertIsIn(info, actual, values);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotIn(Iterable<?> values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+	objects.assertIsNotIn(info, actual, values);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S is(Condition<? super A> condition) {
-    conditions.assertIs(info, actual, condition);
-    return myself;
+	conditions.assertIs(info, actual, condition);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNot(Condition<? super A> condition) {
-    conditions.assertIsNot(info, actual, condition);
-    return myself;
+	conditions.assertIsNot(info, actual, condition);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S has(Condition<? super A> condition) {
-    conditions.assertHas(info, actual, condition);
-    return myself;
+	conditions.assertHas(info, actual, condition);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S doesNotHave(Condition<? super A> condition) {
-    conditions.assertDoesNotHave(info, actual, condition);
-    return myself;
+	conditions.assertDoesNotHave(info, actual, condition);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isInstanceOf(Class<?> type) {
-    objects.assertIsInstanceOf(info, actual, type);
-    return myself;
+	objects.assertIsInstanceOf(info, actual, type);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isInstanceOfAny(Class<?>... types) {
-    objects.assertIsInstanceOfAny(info, actual, types);
-    return myself;
+	objects.assertIsInstanceOfAny(info, actual, types);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotInstanceOf(Class<?> type) {
-    objects.assertIsNotInstanceOf(info, actual, type);
-    return myself;
+	objects.assertIsNotInstanceOf(info, actual, type);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotInstanceOfAny(Class<?>... types) {
-    objects.assertIsNotInstanceOfAny(info, actual, types);
-    return myself;
+	objects.assertIsNotInstanceOfAny(info, actual, types);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S hasSameClassAs(Object other) {
-    objects.assertHasSameClassAs(info, actual, other);
-    return myself;
+	objects.assertHasSameClassAs(info, actual, other);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S doesNotHaveSameClassAs(Object other) {
-    objects.assertDoesNotHaveSameClassAs(info, actual, other);
-    return myself;
+	objects.assertDoesNotHaveSameClassAs(info, actual, other);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isExactlyInstanceOf(Class<?> type) {
-    objects.assertIsExactlyInstanceOf(info, actual, type);
-    return myself;
+	objects.assertIsExactlyInstanceOf(info, actual, type);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotExactlyInstanceOf(Class<?> type) {
-    objects.assertIsNotExactlyInstanceOf(info, actual, type);
-    return myself;
+	objects.assertIsNotExactlyInstanceOf(info, actual, type);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isOfAnyClassIn(Class<?>... types) {
-    objects.assertIsOfAnyClassIn(info, actual, types);
-    return myself;
+	objects.assertIsOfAnyClassIn(info, actual, types);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S isNotOfAnyClassIn(Class<?>... types) {
-    objects.assertIsNotOfAnyClassIn(info, actual, types);
-    return myself;
+	objects.assertIsNotOfAnyClassIn(info, actual, types);
+	return myself;
   }
 
   /** {@inheritDoc} */
   @SuppressWarnings("unchecked")
   @Override
   public AbstractListAssert<?, ?, Object> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
-    return Assertions.assertThat((List<Object>) actual);
+	objects.assertIsInstanceOf(info, actual, List.class);
+	return Assertions.assertThat((List<Object>) actual);
   }
 
   /** {@inheritDoc} */
   @Override
   public AbstractCharSequenceAssert<?, String> asString() {
-    objects.assertIsInstanceOf(info, actual, String.class);
-    return Assertions.assertThat((String) actual);
+	objects.assertIsInstanceOf(info, actual, String.class);
+	return Assertions.assertThat((String) actual);
   }
 
   /**
-   * The description of this assertion set with {@link #describedAs(String, Object...)} or {@link #describedAs(Description)}.
+   * The description of this assertion set with {@link #describedAs(String, Object...)} or
+   * {@link #describedAs(Description)}.
    * 
    * @return the description String representation of this assertion.
    */
   public String descriptionText() {
-    return info.descriptionText();
+	return info.descriptionText();
   }
 
   /**
@@ -396,34 +403,35 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @throws Exception see {@link String#format(String, Object...)} exception clause.
    */
   public S overridingErrorMessage(String newErrorMessage, Object... args) {
-    info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));
-    return myself;
+	info.overridingErrorMessage(formatIfArgs(newErrorMessage, args));
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S usingComparator(Comparator<? super A> customComparator) {
-    // using a specific strategy to compare actual with other objects.
-    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
-    return myself;
+	// using a specific strategy to compare actual with other objects.
+	this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator));
+	return myself;
   }
 
   /** {@inheritDoc} */
   @Override
   public S usingDefaultComparator() {
-    // fall back to default strategy to compare actual with other objects.
-    this.objects = Objects.instance();
-    return myself;
+	// fall back to default strategy to compare actual with other objects.
+	this.objects = Objects.instance();
+	return myself;
   }
 
   /**
    * {@inheritDoc}
+   * 
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
   @Deprecated
   public boolean equals(Object obj) {
-    throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+	throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
   }
 
   /**
@@ -433,7 +441,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    */
   @Override
   public int hashCode() {
-    return 1;
+	return 1;
   }
 
 }

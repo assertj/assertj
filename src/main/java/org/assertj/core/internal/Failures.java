@@ -97,7 +97,7 @@ public class Failures {
     return assertionError;
   }
 
-  private AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
+  public AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
     String overridingErrorMessage = info.overridingErrorMessage();
     return isNullOrEmpty(overridingErrorMessage) ? null : failure(MessageFormatter.instance().format(info.description(),
         info.representation(), overridingErrorMessage));
