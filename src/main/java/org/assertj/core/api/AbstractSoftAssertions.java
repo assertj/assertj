@@ -17,10 +17,14 @@ import static org.assertj.core.util.Arrays.array;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import net.sf.cglib.proxy.Enhancer;
@@ -425,7 +429,7 @@ public abstract class AbstractSoftAssertions {
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *
    * @param actual the actual value.
-   * @return the created assertion Throwable.
+   * @return the created assertion object.
    */
   public ThrowableAssert assertThat(Throwable actual) {
 	return proxy(ThrowableAssert.class, Throwable.class, actual);
@@ -456,4 +460,48 @@ public abstract class AbstractSoftAssertions {
   public <V> ThrowableAssert assertThatExceptionThrownBy(Callable<V> callable) {
 	return assertThat(new ThrowableAssert(callable).actual);
   }
+
+  /**
+   * Create assertion for {@link java.util.Optional}.
+   *
+   * @param actual the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   *
+   * @return the created assertion objet.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+	return proxy(OptionalAssert.class, Optional.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link LocalDateAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public LocalDateAssert assertThat(LocalDate actual) {
+	return proxy(LocalDateAssert.class, LocalDate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link LocalDateTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public LocalDateTimeAssert assertThat(LocalDateTime actual) {
+	return proxy(LocalDateTimeAssert.class, LocalDateTime.class, actual);
+  }
+  
+  /**
+   * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
+	return proxy(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
+  }
+  
 }

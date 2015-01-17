@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Dates.parseDatetime;
 import static org.junit.Assert.fail;
@@ -19,7 +20,11 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 import org.assertj.core.data.MapEntry;
@@ -136,11 +141,16 @@ public class SoftAssertionsTest {
 		}
 
 	  }).hasMessage("something was good");
+	  softly.assertThat(Optional.of("bad option")).isEqualTo(Optional.of("good option"));
+	  softly.assertThat(LocalDate.of(2015, 1, 1)).isEqualTo(LocalDate.of(2015, 1, 2));
+	  softly.assertThat(LocalDateTime.of(2015, 1, 1, 23, 59, 59)).isEqualTo(LocalDateTime.of(2015, 1, 1, 23, 59, 0));
+	  softly.assertThat(ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC)).isEqualTo(ZonedDateTime.of(2015, 1, 1, 23,
+		                                                                                             59, 0, 0, UTC));
 	  softly.assertAll();
 	  fail("Should not reach here");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(39);
+	  assertThat(errors).hasSize(43);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -210,6 +220,10 @@ public class SoftAssertionsTest {
 		                                   + " <\"something was good\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"something was wrong\">");
+	  assertThat(errors.get(39)).isEqualTo("expected:<Optional[[goo]d option]> but was:<Optional[[ba]d option]>");
+	  assertThat(errors.get(40)).isEqualTo("expected:<2015-01-0[2]> but was:<2015-01-0[1]>");
+	  assertThat(errors.get(41)).isEqualTo("expected:<2015-01-01T23:59[]> but was:<2015-01-01T23:59[:59]>");
+	  assertThat(errors.get(42)).isEqualTo("expected:<2015-01-01T23:59[]Z> but was:<2015-01-01T23:59[:59]Z>");
 	}
   }
 

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Dates.parseDatetime;
 import static org.junit.Assert.fail;
@@ -19,7 +20,12 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.Callable;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
@@ -127,9 +133,21 @@ public class AutoCloseableSoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
+	  softly.assertThatExceptionThrownBy(new Callable<Void>() {
+		@Override
+		public Void call() throws Exception {
+		  throw new Exception("something was wrong");
+		}
+
+	  }).hasMessage("something was good");
+	  softly.assertThat(Optional.of("bad option")).isEqualTo(Optional.of("good option"));
+	  softly.assertThat(LocalDate.of(2015, 1, 1)).isEqualTo(LocalDate.of(2015, 1, 2));
+	  softly.assertThat(LocalDateTime.of(2015, 1, 1, 23, 59, 59)).isEqualTo(LocalDateTime.of(2015, 1, 1, 23, 59, 0));
+	  softly.assertThat(ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC)).isEqualTo(ZonedDateTime.of(2015, 1, 1, 23,
+		                                                                                             59, 0, 0, UTC));
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(38);
+	  assertThat(errors).hasSize(43);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -195,6 +213,14 @@ public class AutoCloseableSoftAssertionsTest {
 		                                   + " <\"NullPointerException message\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"IllegalArgumentException message\">");
+	  assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
+		                                   + " <\"something was good\">\n"
+		                                   + "but was:\n"
+		                                   + " <\"something was wrong\">");
+	  assertThat(errors.get(39)).isEqualTo("expected:<Optional[[goo]d option]> but was:<Optional[[ba]d option]>");
+	  assertThat(errors.get(40)).isEqualTo("expected:<2015-01-0[2]> but was:<2015-01-0[1]>");
+	  assertThat(errors.get(41)).isEqualTo("expected:<2015-01-01T23:59[]> but was:<2015-01-01T23:59[:59]>");
+	  assertThat(errors.get(42)).isEqualTo("expected:<2015-01-01T23:59[]Z> but was:<2015-01-01T23:59[:59]Z>");
 	  return;
 	}
 	fail("Should not reach here");
