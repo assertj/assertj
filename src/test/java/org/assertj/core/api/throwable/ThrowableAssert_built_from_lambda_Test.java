@@ -32,9 +32,11 @@ public class ThrowableAssert_built_from_lambda_Test {
   @Test
   public void should_build_ThrowableAssert_with_checked_exception_thrown_by_lambda() {
 	Jedi yoda = new Jedi("Yoda", "Green");
+	// @format:off
 	assertThatExceptionThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
 	  .isInstanceOf(Exception.class)
 	  .hasMessage(yoda + " is no Sith");
+	// @format:on
   }
 
   @Test
