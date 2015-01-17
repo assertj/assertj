@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
@@ -75,8 +74,8 @@ public class LocalDateTimeAssert_isAfterOrEqualTo_Test extends LocalDateTimeAsse
   @Test
   public void should_fail_if_dateTime_as_string_parameter_is_null() {
 	expectException(IllegalArgumentException.class,
-	                "The String representing the ZonedDateTime to compare actual with should not be null");
-	assertThat(ZonedDateTime.now()).isAfterOrEqualTo((String) null);
+	                "The String representing the LocalDateTime to compare actual with should not be null");
+	assertThat(LocalDateTime.now()).isAfterOrEqualTo((String) null);
   }
 
   private static void verify_that_isAfterOrEqual_assertion_fails_and_throws_AssertionError(LocalDateTime dateToCheck,

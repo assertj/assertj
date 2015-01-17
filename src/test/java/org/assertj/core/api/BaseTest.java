@@ -18,7 +18,10 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.rules.ExpectedException;
 
-public class DateTimeBaseTest {
+/**
+ * A simple base class for test.
+ */
+public class BaseTest {
 
   @Rule
   public ExpectedException thrown = none();

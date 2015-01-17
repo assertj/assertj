@@ -16,8 +16,8 @@ import static org.junit.Assume.assumeTrue;
 
 import java.time.LocalDateTime;
 
-import org.assertj.core.api.DateTimeBaseTest;
 import org.assertj.core.api.AbstractLocalDateTimeAssert;
+import org.assertj.core.api.BaseTest;
 import org.junit.experimental.theories.DataPoint;
 
 
@@ -28,7 +28,7 @@ import org.junit.experimental.theories.DataPoint;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public class LocalDateTimeAssertBaseTest extends DateTimeBaseTest {
+public class LocalDateTimeAssertBaseTest extends BaseTest {
 
   @DataPoint
   public static LocalDateTime localDateTime1 = LocalDateTime.of(2000, 12, 14, 0, 0);

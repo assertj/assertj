@@ -21,11 +21,11 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import org.assertj.core.api.DateTimeBaseTest;
+import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
 
-public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends DateTimeBaseTest {
+public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
   private final ZonedDateTime refDatetime = ZonedDateTime.of(2000, 1, 2, 0, 0, 0, 0, UTC);
 

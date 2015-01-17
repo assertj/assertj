@@ -23,7 +23,7 @@ import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
 /**
- * Only test String based assertion (tests with {@link java.time.ZonedDateTime} are already defined in assertj-core)
+ * Only test String based assertion (tests with {@link java.time.LocalDateTime} are already defined in assertj-core)
  * 
  * @author Joel Costigliola
  * @author Marcin Zajączkowski

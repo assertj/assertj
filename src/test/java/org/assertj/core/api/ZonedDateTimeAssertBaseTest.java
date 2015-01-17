@@ -27,7 +27,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Marcin Zajączkowski
  *
  */
-public class ZonedDateTimeAssertBaseTest extends DateTimeBaseTest {
+public class ZonedDateTimeAssertBaseTest extends BaseTest {
 
   @DataPoint
   public static ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 12, 14, 0, 0, 0, 0, UTC);

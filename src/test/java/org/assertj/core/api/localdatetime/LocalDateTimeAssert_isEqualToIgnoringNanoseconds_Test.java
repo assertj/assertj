@@ -12,17 +12,17 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
 
-import org.assertj.core.api.DateTimeBaseTest;
+import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
 
-public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends DateTimeBaseTest {
+public class LocalDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest {
 
   private final LocalDateTime refLocalDateTime = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
 
