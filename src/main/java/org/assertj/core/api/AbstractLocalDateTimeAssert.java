@@ -33,7 +33,8 @@ import org.assertj.core.internal.Objects;
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  */
-public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTimeAssert<S>> extends AbstractAssert<S, LocalDateTime> {
+public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTimeAssert<S>> extends
+    AbstractAssert<S, LocalDateTime> {
 
   public static final String NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE = "The LocalDateTime to compare actual with should not be null";
 
@@ -46,7 +47,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
   protected AbstractLocalDateTimeAssert(LocalDateTime actual, Class<?> selfType) {
 	super(actual, selfType);
   }
-  
+
   // visible for test
   protected LocalDateTime getActual() {
 	return actual;

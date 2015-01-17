@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -438,6 +439,16 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion Throwable.
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
+	return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.DateAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractLocalDateAssert<?> then(LocalDate actual) {
 	return assertThat(actual);
   }
 

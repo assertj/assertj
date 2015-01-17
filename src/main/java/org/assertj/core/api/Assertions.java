@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
@@ -560,6 +561,16 @@ public class Assertions {
    */
   public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
     return new LocalDateTimeAssert(localDateTime);
+  }
+  
+  /**
+   * Creates a new instance of <code>{@link LocalDateAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {
+	return new LocalDateAssert(localDate);
   }
   
   /**
