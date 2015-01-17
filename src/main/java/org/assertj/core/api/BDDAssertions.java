@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
 
 /**
@@ -61,6 +62,18 @@ import java.util.concurrent.Callable;
  * @author Mariusz Smykula
  */
 public class BDDAssertions extends Assertions {
+
+  /**
+   * Create assertion for {@link java.util.Optional}.
+   *
+   * @param optional the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   *
+   * @return the created assertion objet.
+   */
+  public static <T> OptionalAssert<T> then(Optional<T> optional) {
+	return assertThat(optional);
+  }
 
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BigDecimalAssert}</code>.
@@ -478,7 +491,7 @@ public class BDDAssertions extends Assertions {
   public static <V> ThrowableAssert thenExceptionThrownBy(Callable<V> callable) {
 	return assertThatExceptionThrownBy(callable);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateAssert}</code>.
    *
@@ -498,7 +511,7 @@ public class BDDAssertions extends Assertions {
   public static AbstractLocalDateTimeAssert<?> then(LocalDateTime actual) {
 	return assertThat(actual);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ZonedDateTimeAssert}</code>.
    *
@@ -508,7 +521,7 @@ public class BDDAssertions extends Assertions {
   public static AbstractZonedDateTimeAssert<?> then(ZonedDateTime actual) {
 	return assertThat(actual);
   }
-  
+
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */

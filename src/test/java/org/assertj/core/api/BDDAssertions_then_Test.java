@@ -13,7 +13,12 @@
 package org.assertj.core.api;
 
 import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenExceptionThrownBy;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,211 +28,480 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.Callable;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
- * TODO : replace by own test verifying that then and assertThat create equals assert objects.
  *
  * @author Mariusz Smykula
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Assertions.class)
 public class BDDAssertions_then_Test {
 
-  @Test
-  public void then_char() {
-	then('z').isGreaterThan('a');
+  @Before
+  public final void setUp() {
+	mockStatic(Assertions.class);
   }
 
   @Test
-  public void then_Character() {
-	then(new Character('A')).isEqualTo(new Character('A'));
+  public void then_of_char_should_delegate_to_assertThat() {
+	// GIVEN
+	char actual = 'z';
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_char_array() {
-	then(new char[] { 'a', 'b', 'c' }).contains('b');
+  public void then_of_Character_should_delegate_to_assertThat() {
+	// GIVEN
+	Character actual = new Character('z');
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Charsequence() {
-	then("abc".subSequence(0, 1)).contains("a");
+  public void then_of_char_array_should_delegate_to_assertThat() {
+	// GIVEN
+	char[] actual = new char[] { 'a', 'b', 'c' };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Class() {
-	then("Foo".getClass()).isEqualTo(String.class);
+  public void then_of_Charsequence_should_delegate_to_assertThat() {
+	// GIVEN
+	CharSequence actual = "abc".subSequence(0, 1);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Iterable() {
-	Iterable<String> iterable = Arrays.asList("1");
-	then(iterable).contains("1");
+  public void then_of_Class_should_delegate_to_assertThat() {
+	// GIVEN
+	Class<? extends String> actual = "Foo".getClass();
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Iterator() {
-	Iterator<String> iterator = Arrays.asList("1").iterator();
-	then(iterator).contains("1");
+  public void then_of_Iterable_should_delegate_to_assertThat() {
+	// GIVEN
+	Iterable<String> actual = Arrays.asList("1");
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_double() {
-	then(1d).isNotZero();
+  public void then_of_Iterator_should_delegate_to_assertThat() {
+	// GIVEN
+	Iterator<String> actual = Arrays.asList("1").iterator();
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Double() {
-	then(Double.valueOf(1d)).isNotZero();
+  public void then_of_double_should_delegate_to_assertThat() {
+	// GIVEN
+	double actual = 1d;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_double_array() {
-	then(new double[] { 1d, 2d }).contains(2d);
+  public void then_of_Double_should_delegate_to_assertThat() {
+	// GIVEN
+	Double actual = 1d;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_float() {
-	then(1f).isEqualTo(1f);
+  public void then_of_double_array_should_delegate_to_assertThat() {
+	// GIVEN
+	double[] actual = new double[] { 1d, 2d };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Float() {
-	then(Float.valueOf(1f)).isEqualTo(1f);
+  public void then_of_float_should_delegate_to_assertThat() {
+	// GIVEN
+	float actual = 1f;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_float_array() {
-	then(new float[] { 1f, 2f }).contains(2f);
+  public void then_of_Float_should_delegate_to_assertThat() {
+	// GIVEN
+	Float actual = 1f;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_long() {
-	then(1L).isEqualTo(1L);
+  public void then_of_float_array_should_delegate_to_assertThat() {
+	// GIVEN
+	float[] actual = new float[] { 1f, 2f };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Long() {
-	then(Long.valueOf(1L)).isEqualTo(1L);
+  public void then_of_long_should_delegate_to_assertThat() {
+	// GIVEN
+	long actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_long_array() {
-	then(new long[] { 1L, 2L }).contains(2L);
+  public void then_of_Long_should_delegate_to_assertThat() {
+	// GIVEN
+	Long actual = 1L;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Object() {
-	then(new Object()).isNotNull();
+  public void then_of_long_array_should_delegate_to_assertThat() {
+	// GIVEN
+	long[] actual = new long[] { 1, 2 };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Object_array() {
-	then(new Object[] { new Object(), new Object() }).hasSize(2);
+  public void then_of_Object_should_delegate_to_assertThat() {
+	// GIVEN
+	Object actual = new Object();
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_short() {
-	then((short) 1).isEqualTo((short) 1);
+  public void then_of_Object_array_should_delegate_to_assertThat() {
+	// GIVEN
+	Object[] actual = new Object[] { new Object(), new Object() };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Short() {
-	then(Short.valueOf("1")).isEqualTo((short) 1);
+  public void then_of_short_should_delegate_to_assertThat() {
+	// GIVEN
+	short actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_short_array() {
-	then(new short[] { (short) 1, (short) 2 }).contains((short) 2);
+  public void then_of_Short_should_delegate_to_assertThat() {
+	// GIVEN
+	Short actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Throwable() {
-	then(new IllegalArgumentException("Foo")).hasMessage("Foo");
+  public void then_of_short_array_should_delegate_to_assertThat() {
+	// GIVEN
+	short[] actual = new short[] { 1, 2 };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_BigDecimal() {
-	then(BigDecimal.ONE).isEqualTo(BigDecimal.valueOf(1));
+  public void then_of_Throwable_should_delegate_to_assertThat() {
+	// GIVEN
+	IllegalArgumentException actual = new IllegalArgumentException("Foo");
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_boolean() {
-	then(true).isEqualTo(Boolean.TRUE);
+  public void thenExceptionThrownBy_of_Callable_should_delegate_to_assertThatExceptionThrownBy() {
+	// GIVEN
+	Callable<Void> actual = () -> { throw new Exception("Boom !"); };
+	// WHEN
+	thenExceptionThrownBy(actual);
+	// THEN
+	verifyStatic();
+	assertThatExceptionThrownBy(actual);
+  }
+  
+  @Test
+  public void then_of_Optional_should_delegate_to_assertThat() {
+	// GIVEN
+	Optional<String> actual = Optional.of("Foo");
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
+  }
+  
+  @Test
+  public void then_of_BigDecimal_should_delegate_to_assertThat() {
+	// GIVEN
+	BigDecimal actual = BigDecimal.ONE;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
+  }
+  
+  @Test
+  public void then_of_boolean_should_delegate_to_assertThat() {
+	// GIVEN
+	boolean actual = true;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
+  }
+  
+  @Test
+  public void then_of_Boolean_should_delegate_to_assertThat() {
+	// GIVEN
+	Boolean actual = true;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Boolean() {
-	then(Boolean.TRUE).isEqualTo(true);
+  public void then_of_boolean_array_should_delegate_to_assertThat() {
+	// GIVEN
+	boolean[] actual = new boolean[] { true, false };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_boolean_array() {
-	then(new boolean[] { true, false }).isEqualTo(new boolean[] { true, false });
+  public void then_of_byte_should_delegate_to_assertThat() {
+	// GIVEN
+	byte actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_byte() {
-	then((byte) 7).isEqualTo((byte) 0x07);
+  public void then_of_Byte_should_delegate_to_assertThat() {
+	// GIVEN
+	Byte actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Byte() {
-	then(Byte.valueOf((byte) 8)).isEqualTo((byte) 0x08);
+  public void then_of_byte_array_should_delegate_to_assertThat() {
+	// GIVEN
+	byte[] actual = new byte[] { 1, 2 };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_byte_array() {
-	then(new byte[] { 10, 11 }).contains((byte) 11);
+  public void then_of_int_should_delegate_to_assertThat() {
+	// GIVEN
+	int actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_int() {
-	then(1).isEqualTo(1);
+  public void then_of_Integer_should_delegate_to_assertThat() {
+	// GIVEN
+	Integer actual = 1;
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Integer() {
-	then(Integer.valueOf(4)).isEqualTo(4);
+  public void then_of_int_array_should_delegate_to_assertThat() {
+	// GIVEN
+	int[] actual = new int[] { 1, 2 };
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_int_array() {
-	then(new int[] { 2, 3 }).isEqualTo(new int[] { 2, 3 });
+  public void then_of_List_should_delegate_to_assertThat() {
+	// GIVEN
+	List<Integer> actual = Arrays.asList(5, 6);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_List() {
-	then(Arrays.asList(5, 6)).hasSize(2);
+  public void then_of_String_should_delegate_to_assertThat() {
+	// GIVEN
+	String actual = "foo";
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_String() {
-	then("Foo").isEqualTo("Foo");
+  public void then_of_Date_should_delegate_to_assertThat() {
+	// GIVEN
+	Date actual = new Date();
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Date() {
-	then(new Date()).isNotNull();
+  public void then_of_Map_should_delegate_to_assertThat() {
+	// GIVEN
+	Map<String, String> actual = new HashMap<String, String>();
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_Map() {
-	then(new HashMap<String, String>()).isEmpty();
+  public void then_of_LocalDate_should_delegate_to_assertThat() {
+	// GIVEN
+	LocalDate actual = LocalDate.of(2015, 1, 1);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_LocalDate() {
-	then(LocalDate.of(2015, 1, 1)).isBefore(LocalDate.of(2015, 1, 2));
+  public void then_of_LocalDateTime_should_delegate_to_assertThat() {
+	// GIVEN
+	LocalDateTime actual = LocalDateTime.of(2015, 1, 1, 23, 59, 59);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
   @Test
-  public void then_LocalDateTime() {
-	then(LocalDateTime.of(2015, 1, 1, 23, 59, 59)).isBefore(LocalDateTime.of(2015, 1, 2, 0, 0, 0));
+  public void then_of_ZonedDateTime_should_delegate_to_assertThat() {
+	// GIVEN
+	ZonedDateTime actual = ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 
-  @Test
-  public void then_ZonedDateTime() {
-	then(ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC)).isBefore(ZonedDateTime.of(2015, 1, 2, 0, 0, 0, 0, UTC));
-  }
 }
