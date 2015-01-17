@@ -17,10 +17,14 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
@@ -62,9 +66,9 @@ public interface WithAssertions {
   }
 
   /**
-   * Delegate call to {@link org.assertj.core.api.Assertions#entry(Object,Object)}
+   * Delegate call to {@link org.assertj.core.api.Assertions#entry(Object, Object)}
    */
-  default public MapEntry entry(final Object key, final Object value) {
+  default public  <K, V> MapEntry<K, V> entry(final K key, final V value) {
 	return Assertions.entry(key, value);
   }
 
@@ -246,6 +250,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterable)}
    */
+  @SuppressWarnings("unchecked")
   default public <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(final Iterable<T> actual) {
 	return (AbstractIterableAssert<?, ? extends Iterable<T>, T>) Assertions.assertThat(actual);
   }
@@ -253,6 +258,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Iterator)}
    */
+  @SuppressWarnings("unchecked")
   default public <T> AbstractIterableAssert<?, ? extends Iterable<T>, T> assertThat(final Iterator<T> actual) {
 	return (AbstractIterableAssert<?, ? extends Iterable<T>, T>) Assertions.assertThat(actual);
   }
@@ -372,6 +378,7 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(List)}
    */
+  @SuppressWarnings("unchecked")
   default public <T> AbstractListAssert<?, ? extends List<T>, T> assertThat(final List<T> actual) {
 	return (AbstractListAssert<?, ? extends List<T>, T>) Assertions.assertThat(actual);
   }
@@ -537,28 +544,34 @@ public interface WithAssertions {
 	Assertions.useDefaultDateFormatsOnly();
   }
 
-  // TODO : uncomment once Java 8 classes are all integrated in the branch
-  // /**
-  // * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(ZonedDateTime)}
-  // */
-  // default public ZonedDateTimeAssert assertThat(final ZonedDateTime actual) {
-  // return Assertions.assertThat(actual);
-  // }
-  //
-  // /**
-  // * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Optional)}
-  // */
-  // default public <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
-  // return Assertions.assertThat(optional);
-  // }
-  //
-  // /**
-  // * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalDateTime)}
-  // */
-  // default public LocalDateTimeAssert assertThat(final LocalDateTime localDateTime) {
-  // return Assertions.assertThat(localDateTime);
-  // }
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(ZonedDateTime)}
+   */
+  default public AbstractZonedDateTimeAssert<?> assertThat(final ZonedDateTime actual) {
+	return Assertions.assertThat(actual);
+  }
 
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(Optional)}
+   */
+  default public <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
+	return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalDateTime)}
+   */
+  default public AbstractLocalDateTimeAssert<?> assertThat(final LocalDateTime localDateTime) {
+	return Assertions.assertThat(localDateTime);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalDate)}
+   */
+  default public AbstractLocalDateAssert<?> assertThat(final LocalDate localDate) {
+	return Assertions.assertThat(localDate);
+  }
+  
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a complete entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------

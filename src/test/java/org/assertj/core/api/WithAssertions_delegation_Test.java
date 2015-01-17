@@ -16,12 +16,15 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.assertj.core.condition.AnyOf;
@@ -60,7 +63,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   public void WithAssertions_entry_MapEntry_Test() {
-	MapEntry result = entry(KEY_1, VALUE_1);
+	MapEntry<String, String> result = entry(KEY_1, VALUE_1);
 	assertThat(result.key).isEqualTo(KEY_1);
 	assertThat(result.value).isEqualTo(VALUE_1);
   }
@@ -616,26 +619,21 @@ public class WithAssertions_delegation_Test implements WithAssertions {
 	useDefaultDateFormatsOnly();
   }
 
-  // TODO - uncomment after all classes have been moved to the branch
-  //  /**
-  //   * Test that the delegate method is called.
-  //   */
-  //  @Test
-  //  public void WithAssertions_assertThat_zoned_date_time_Test() {
-  //	assertThat(ZonedDateTime.now()).isAfter("2000-12-03T10:15:30+01:00");
-  //  }
-  //
-  //
-  //
-  //  /**
-  //   * Test that the delegate method is called.
-  //   */
-  //  @Test
-  //  public void WithAssertions_assertThat_optional_Test() {
-  //	assertThat(Optional.of("Not empty")).isPresent();
-  //  }
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_zoned_date_time_Test() {
+	assertThat(ZonedDateTime.now()).isAfter("2000-12-03T10:15:30+01:00");
+  }
 
-
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_optional_Test() {
+	assertThat(Optional.of("Not empty")).isPresent();
+  }
 
   /**
    * Test that the delegate method is called.
@@ -645,5 +643,13 @@ public class WithAssertions_delegation_Test implements WithAssertions {
 	assertThat(LocalDateTime.now()).isNotNull();
   }
 
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_local_date_Test() {
+	assertThat(LocalDate.now()).isNotNull();
+  }
+  
 
 }

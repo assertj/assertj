@@ -12,9 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +28,7 @@ import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
+ * TODO : replace by own test verifying that then and assertThat create equals assert objects.
  *
  * @author Mariusz Smykula
  */
@@ -31,186 +36,198 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_char() {
-    then('z').isGreaterThan('a');
+	then('z').isGreaterThan('a');
   }
 
   @Test
   public void then_Character() {
-    then(new Character('A')).isEqualTo(new Character('A'));
+	then(new Character('A')).isEqualTo(new Character('A'));
   }
-
 
   @Test
   public void then_char_array() {
-    then(new char[]{'a', 'b', 'c'}).contains('b');
+	then(new char[] { 'a', 'b', 'c' }).contains('b');
   }
-
 
   @Test
   public void then_Charsequence() {
-    then("abc".subSequence(0, 1)).contains("a");
+	then("abc".subSequence(0, 1)).contains("a");
   }
 
   @Test
   public void then_Class() {
-    then("Foo".getClass()).isEqualTo(String.class);
+	then("Foo".getClass()).isEqualTo(String.class);
   }
 
   @Test
   public void then_Iterable() {
-    Iterable<String> iterable = Arrays.asList("1");
-    then(iterable).contains("1");
+	Iterable<String> iterable = Arrays.asList("1");
+	then(iterable).contains("1");
   }
 
   @Test
   public void then_Iterator() {
-    Iterator<String> iterator = Arrays.asList("1").iterator();
-    then(iterator).contains("1");
+	Iterator<String> iterator = Arrays.asList("1").iterator();
+	then(iterator).contains("1");
   }
 
   @Test
   public void then_double() {
-    then(1d).isNotZero();
+	then(1d).isNotZero();
   }
 
   @Test
   public void then_Double() {
-    then(Double.valueOf(1d)).isNotZero();
+	then(Double.valueOf(1d)).isNotZero();
   }
 
   @Test
   public void then_double_array() {
-    then(new double[]{1d, 2d}).contains(2d);
+	then(new double[] { 1d, 2d }).contains(2d);
   }
 
   @Test
   public void then_float() {
-    then(1f).isEqualTo(1f);
+	then(1f).isEqualTo(1f);
   }
 
   @Test
   public void then_Float() {
-    then(Float.valueOf(1f)).isEqualTo(1f);
+	then(Float.valueOf(1f)).isEqualTo(1f);
   }
 
   @Test
   public void then_float_array() {
-    then(new float[]{1f, 2f}).contains(2f);
+	then(new float[] { 1f, 2f }).contains(2f);
   }
 
   @Test
   public void then_long() {
-    then(1L).isEqualTo(1L);
+	then(1L).isEqualTo(1L);
   }
 
   @Test
   public void then_Long() {
-    then(Long.valueOf(1L)).isEqualTo(1L);
+	then(Long.valueOf(1L)).isEqualTo(1L);
   }
 
   @Test
   public void then_long_array() {
-    then(new long[]{1L, 2L}).contains(2L);
+	then(new long[] { 1L, 2L }).contains(2L);
   }
 
   @Test
   public void then_Object() {
-    then(new Object()).isNotNull();
+	then(new Object()).isNotNull();
   }
 
   @Test
   public void then_Object_array() {
-    then(new Object[]{new Object(), new Object()}).hasSize(2);
+	then(new Object[] { new Object(), new Object() }).hasSize(2);
   }
 
   @Test
   public void then_short() {
-    then((short) 1).isEqualTo((short) 1);
+	then((short) 1).isEqualTo((short) 1);
   }
 
   @Test
   public void then_Short() {
-    then(Short.valueOf("1")).isEqualTo((short) 1);
+	then(Short.valueOf("1")).isEqualTo((short) 1);
   }
 
   @Test
   public void then_short_array() {
-    then(new short[]{(short) 1, (short) 2}).contains((short) 2);
+	then(new short[] { (short) 1, (short) 2 }).contains((short) 2);
   }
 
   @Test
   public void then_Throwable() {
-    then(new IllegalArgumentException("Foo")).hasMessage("Foo");
+	then(new IllegalArgumentException("Foo")).hasMessage("Foo");
   }
 
   @Test
   public void then_BigDecimal() {
-    then(BigDecimal.ONE).isEqualTo(BigDecimal.valueOf(1));
+	then(BigDecimal.ONE).isEqualTo(BigDecimal.valueOf(1));
   }
 
   @Test
   public void then_boolean() {
-    then(true).isEqualTo(Boolean.TRUE);
+	then(true).isEqualTo(Boolean.TRUE);
   }
 
   @Test
   public void then_Boolean() {
-    then(Boolean.TRUE).isEqualTo(true);
+	then(Boolean.TRUE).isEqualTo(true);
   }
 
   @Test
   public void then_boolean_array() {
-    then(new boolean[]{true, false}).isEqualTo(new boolean[]{true, false});
+	then(new boolean[] { true, false }).isEqualTo(new boolean[] { true, false });
   }
 
   @Test
   public void then_byte() {
-    then((byte) 7).isEqualTo((byte) 0x07);
+	then((byte) 7).isEqualTo((byte) 0x07);
   }
 
   @Test
   public void then_Byte() {
-    then(Byte.valueOf((byte) 8)).isEqualTo((byte) 0x08);
+	then(Byte.valueOf((byte) 8)).isEqualTo((byte) 0x08);
   }
 
   @Test
   public void then_byte_array() {
-    then(new byte[]{10, 11}).contains((byte) 11);
+	then(new byte[] { 10, 11 }).contains((byte) 11);
   }
 
   @Test
   public void then_int() {
-    then(1).isEqualTo(1);
+	then(1).isEqualTo(1);
   }
 
   @Test
   public void then_Integer() {
-    then(Integer.valueOf(4)).isEqualTo(4);
+	then(Integer.valueOf(4)).isEqualTo(4);
   }
 
   @Test
   public void then_int_array() {
-    then(new int[]{2, 3}).isEqualTo(new int[]{2, 3});
+	then(new int[] { 2, 3 }).isEqualTo(new int[] { 2, 3 });
   }
 
   @Test
   public void then_List() {
-    then(Arrays.asList(5, 6)).hasSize(2);
+	then(Arrays.asList(5, 6)).hasSize(2);
   }
 
   @Test
   public void then_String() {
-    then("Foo").isEqualTo("Foo");
+	then("Foo").isEqualTo("Foo");
   }
-
 
   @Test
   public void then_Date() {
-    then(new Date()).isNotNull();
+	then(new Date()).isNotNull();
   }
 
   @Test
   public void then_Map() {
-    then(new HashMap<String, String>()).isEmpty();
+	then(new HashMap<String, String>()).isEmpty();
+  }
+
+  @Test
+  public void then_LocalDate() {
+	then(LocalDate.of(2015, 1, 1)).isBefore(LocalDate.of(2015, 1, 2));
+  }
+
+  @Test
+  public void then_LocalDateTime() {
+	then(LocalDateTime.of(2015, 1, 1, 23, 59, 59)).isBefore(LocalDateTime.of(2015, 1, 2, 0, 0, 0));
+  }
+
+  @Test
+  public void then_ZonedDateTime() {
+	then(ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC)).isBefore(ZonedDateTime.of(2015, 1, 2, 0, 0, 0, 0, UTC));
   }
 }
