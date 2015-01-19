@@ -23,6 +23,7 @@ import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -497,6 +498,17 @@ public class BDDAssertions_then_Test {
   public void then_of_ZonedDateTime_should_delegate_to_assertThat() {
 	// GIVEN
 	ZonedDateTime actual = ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC);
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
+  }
+
+  @Test
+  public void then_of_LocalTime_should_delegate_to_assertThat() {
+	// GIVEN
+	LocalTime actual = LocalTime.of(23, 59, 59);
 	// WHEN
 	then(actual);
 	// THEN

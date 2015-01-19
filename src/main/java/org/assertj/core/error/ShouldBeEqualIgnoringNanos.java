@@ -15,11 +15,16 @@ package org.assertj.core.error;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
- * month, day, hour, minute and second failed.
+ * Creates an error message indicating that an assertion that verifies that :
+ * <ul>
+ * <li>two {@link ZonedDateTime}, {@link LocalDateTime} have same year, month, day, hour, minute and second failed.</li>
+ * <li>two {@link LocalTime} have hour, minute and second failed.</li>
+ * </ul>
  * 
  * @author Joel Costigliola
  */
@@ -33,11 +38,26 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringNanos(Object actual, Object other) {
-    return new ShouldBeEqualIgnoringNanos(actual, other);
+	return new ShouldBeEqualIgnoringNanos(actual, other);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringNanos}</code>.
+   * 
+   * @param actual the actual LocalTime in the failed assertion.
+   * @param other the LocalTime used in the failed assertion to compare the actual LocalTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
+	return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
-    super("\nExpecting:\n  <%s>\nto have same year, month, day, hour, minute and second as:\n  <%s>\nbut had not.",
-        actual, other);
+	super("\nExpecting:\n  <%s>\nto have same year, month, day, hour, minute and second as:\n  <%s>\nbut had not.",
+	      actual, other);
+  }
+
+  private ShouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
+	super("\nExpecting:\n  <%s>\nto have same hour, minute and second as:\n  <%s>\nbut had not.", actual, other);
   }
 }

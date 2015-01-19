@@ -12,9 +12,7 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 
 /**
@@ -33,11 +31,26 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(Object actual, Object other) {
-    return new ShouldBeEqualIgnoringSeconds(actual, other);
+	return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
   private ShouldBeEqualIgnoringSeconds(Object actual, Object other) {
-    super("\nExpecting:\n  <%s>\nto have same year, month, day, hour and minute as:\n  <%s>\nbut had not.", actual,
-        other);
+	super("\nExpecting:\n  <%s>\nto have same year, month, day, hour and minute as:\n  <%s>\nbut had not.", actual,
+	      other);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringSeconds}</code>.
+   * 
+   * @param actual the actual LocalTime in the failed assertion.
+   * @param other the LocalTime used in the failed assertion to compare the actual LocalTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(LocalTime actual, LocalTime other) {
+	return new ShouldBeEqualIgnoringSeconds(actual, other);
+  }
+
+  private ShouldBeEqualIgnoringSeconds(LocalTime actual, LocalTime other) {
+	super("\nExpecting:\n  <%s>\nto have same hour and minute as:\n  <%s>\nbut had not.", actual, other);
   }
 }

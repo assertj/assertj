@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -502,6 +503,16 @@ public abstract class AbstractSoftAssertions {
    */
   public ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
 	return proxy(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
+  }
+  
+  /**
+   * Creates a new instance of <code>{@link LocalTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public LocalTimeAssert assertThat(LocalTime actual) {
+	return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
   
 }

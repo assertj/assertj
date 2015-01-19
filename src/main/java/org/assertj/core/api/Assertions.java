@@ -19,6 +19,7 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -561,6 +562,16 @@ public class Assertions {
    */
   public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
     return new LocalDateTimeAssert(localDateTime);
+  }
+  
+  /**
+   * Creates a new instance of <code>{@link LocalTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractLocalTimeAssert<?> assertThat(LocalTime actual) {
+	return new LocalTimeAssert(actual);
   }
   
   /**
