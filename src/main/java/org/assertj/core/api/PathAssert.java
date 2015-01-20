@@ -10,23 +10,23 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.test;
+package org.assertj.core.api;
 
-import org.junit.Assert;
+import java.nio.file.Path;
 
 /**
- * @author Yvonne Wang
- * @author Francis Galiegue
+ * Assertion class for {@link Path}s
  */
-public final class TestFailures {
-
-  public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
-  }
-
-  public static void wasExpectingAssertionError() {
-    throw new AssertionErrorExpectedException();
-  }
-
-  private TestFailures() {}
+public class PathAssert
+    extends AbstractPathAssert<PathAssert>
+{
+    /**
+     * Constructor
+     *
+     * @param actual the path to test
+     */
+    protected PathAssert(Path actual)
+    {
+        super(actual, PathAssert.class);
+    }
 }

@@ -18,22 +18,20 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
 import java.nio.file.Path;
 
 import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldBeDirectory.FILE_SHOULD_BE_DIRECTORY;
-import static org.assertj.core.error.ShouldBeDirectory.PATH_SHOULD_BE_DIRECTORY;
-import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
+import static org.assertj.core.error.ShouldEndWithPath.PATH_SHOULD_END_WITH;
+import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.mockito.Mockito.mock;
 
-public class ShouldBeDirectory_create_Test
+public final class ShouldEndWithPath_create_Test
 {
     private TestDescription description;
     private Representation representation;
 
     private ErrorMessageFactory factory;
-    private String message;
+    private String actualMessage;
     private String expectedMessage;
 
     @Before
@@ -44,30 +42,17 @@ public class ShouldBeDirectory_create_Test
     }
 
     @Test
-    public void should_create_error_message_for_Path()
+    public void should_create_error_message()
     {
-        final Path path = mock(Path.class);
+        final Path actual = mock(Path.class);
+        final Path other = mock(Path.class);
 
-        factory = shouldBeDirectory(path);
-        message = factory.create(description, representation);
+        factory = shouldEndWith(actual, other);
+        actualMessage = factory.create(description, representation);
 
-        expectedMessage = String.format("[Test] " + PATH_SHOULD_BE_DIRECTORY,
-            path);
+        expectedMessage = String.format("[Test] " + PATH_SHOULD_END_WITH,
+            actual, other);
 
-        assertEquals(expectedMessage, message);
-    }
-
-    @Test
-    public void should_create_error_message_for_File()
-    {
-        final File file = new FakeFile("xyz");
-
-        factory = shouldBeDirectory(file);
-        message = factory.create(description, representation);
-
-        expectedMessage = String.format("[Test] " + FILE_SHOULD_BE_DIRECTORY,
-            file);
-
-        assertEquals(expectedMessage, message);
+        assertEquals(expectedMessage, actualMessage);
     }
 }

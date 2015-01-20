@@ -20,18 +20,12 @@ import org.junit.Test;
 import java.nio.file.Path;
 
 import static junit.framework.Assert.assertEquals;
-import static org.assertj.core.error.ShouldNotExist.FILE_SHOULDNOTEXIST;
-import static org.assertj.core.error.ShouldNotExist.PATH_SHOULDNOTEXIST;
-import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
+import static org.assertj.core.error.ShouldBeCanonicalPath.MESSAGE;
+import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.mockito.Mockito.mock;
 
-/**
- * Tests for <code>{@link ShouldNotExist#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- * 
- * @author Yvonne Wang
- */
-public class ShouldNotExist_create_Test {
-
+public class ShouldBeCanonicalPath_create_Test
+{
   private TestDescription description;
   private StandardRepresentation representation;
 
@@ -40,31 +34,21 @@ public class ShouldNotExist_create_Test {
   private String expectedMessage;
 
   @Before
-  public void setUp() {
+  public void setUp()
+  {
     description = new TestDescription("Test");
     representation = new StandardRepresentation();
   }
 
   @Test
-  public void should_create_error_message_for_File_object() {
-    final FakeFile file = new FakeFile("xyz");
+  public void should_create_error_message()
+  {
+    final Path actual = mock(Path.class);
 
-    factory = shouldNotExist(file);
+    factory = shouldBeCanonicalPath(actual);
     actualMessage = factory.create(description, representation);
 
-    expectedMessage = String.format("[Test] " + FILE_SHOULDNOTEXIST, file);
-
-    assertEquals(expectedMessage, actualMessage);
-  }
-
-  @Test
-  public void should_create_error_message_for_Path_object() {
-    final Path path = mock(Path.class);
-
-    factory = shouldNotExist(path);
-    actualMessage = factory.create(description, representation);
-
-    expectedMessage = String.format("[Test] " + PATH_SHOULDNOTEXIST, path);
+    expectedMessage = String.format("[Test] " + MESSAGE, actual);
 
     assertEquals(expectedMessage, actualMessage);
   }

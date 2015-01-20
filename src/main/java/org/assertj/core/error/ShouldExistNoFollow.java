@@ -21,33 +21,21 @@ import java.nio.file.Path;
  * Creates an error message indicating that an assertion that verifies that a
  * {@link File} or {@link Path} exists failed.
  * 
- * @author Yvonne Wang
  */
-public class ShouldExist extends BasicErrorMessageFactory {
+public class ShouldExistNoFollow
+    extends BasicErrorMessageFactory
+{
+    @VisibleForTesting
+    public static final String PATH_SHOULD_EXIST_NOFOLLOW
+        = "Expecting path:%n  <%s>%nto exist (symbolic links not followed)";
 
-  @VisibleForTesting
-  public static final String PATH_SHOULD_EXIST
-      = "Expecting path:%n  <%s>%nto exist";
-  /**
-   * Creates a new <code>{@link ShouldExist}</code>.
-   * @param actual the actual value in the failed assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldExist(File actual) {
-    return new ShouldExist(actual);
-  }
+    public static ErrorMessageFactory shouldExistNoFollow(final Path actual)
+    {
+        return new ShouldExistNoFollow(actual);
+    }
 
-  public static ErrorMessageFactory shouldExist(final Path actual)
-  {
-    return new ShouldExist(actual);
-  }
-
-  private ShouldExist(File actual) {
-    super("%nExpecting file:%n  <%s>%nto exist", actual);
-  }
-
-  private ShouldExist(final Path actual)
-  {
-    super(PATH_SHOULD_EXIST, actual);
-  }
+    private ShouldExistNoFollow(final Path actual)
+    {
+        super(PATH_SHOULD_EXIST_NOFOLLOW, actual);
+    }
 }

@@ -14,44 +14,27 @@ package org.assertj.core.error;
 
 import org.assertj.core.util.VisibleForTesting;
 
-import java.io.File;
 import java.nio.file.Path;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a
- * {@link File} or {@link Path} is an existing directory failed
+ * {@link Path} is canonical has failed.
  * 
- * @author Yvonne Wang
- * @author Francis Galiegue
  */
-public class ShouldBeDirectory
+public class ShouldBeCanonicalPath
     extends BasicErrorMessageFactory
 {
     @VisibleForTesting
-    public static final String PATH_SHOULD_BE_DIRECTORY
-        = "%nExpecting path:%n  <%s>%nto be a directory";
+    public static final String MESSAGE
+        = "%nExpecting:%n  <%s>%nto be a canonical path";
 
-    @VisibleForTesting
-    public static final String FILE_SHOULD_BE_DIRECTORY
-        = "%nExpecting file:%n  <%s>%n to be an existing directory";
-
-    public static ErrorMessageFactory shouldBeDirectory(final Path actual)
+    public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual)
     {
-        return new ShouldBeDirectory(actual);
+        return new ShouldBeCanonicalPath(actual);
     }
 
-    public static ErrorMessageFactory shouldBeDirectory(final File actual)
+    private ShouldBeCanonicalPath(final Path actual)
     {
-        return new ShouldBeDirectory(actual);
-    }
-
-    private ShouldBeDirectory(final Path actual)
-    {
-        super(PATH_SHOULD_BE_DIRECTORY, actual);
-    }
-
-    private ShouldBeDirectory(final File actual)
-    {
-        super(FILE_SHOULD_BE_DIRECTORY, actual);
+        super(MESSAGE, actual);
     }
 }

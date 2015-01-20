@@ -10,23 +10,26 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.test;
+package org.assertj.core.api.path;
 
-import org.junit.Assert;
+import org.assertj.core.api.PathAssert;
+import org.assertj.core.api.PathAssertBaseTest;
 
-/**
- * @author Yvonne Wang
- * @author Francis Galiegue
- */
-public final class TestFailures {
+import static org.mockito.Mockito.verify;
 
-  public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
-  }
+public class PathAssert_isDirectory_Test
+    extends PathAssertBaseTest
+{
+    @Override
+    protected PathAssert invoke_api_method()
+    {
+        return assertions.isDirectory();
+    }
 
-  public static void wasExpectingAssertionError() {
-    throw new AssertionErrorExpectedException();
-  }
-
-  private TestFailures() {}
+    @Override
+    protected void verify_internal_effects()
+    {
+        verify(paths).assertIsDirectory(getInfo(assertions),
+            getActual(assertions));
+    }
 }

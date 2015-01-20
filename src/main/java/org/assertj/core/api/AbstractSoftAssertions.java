@@ -17,6 +17,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -215,6 +216,16 @@ public abstract class AbstractSoftAssertions {
    */
   public FileAssert assertThat(File actual) {
 	return proxy(FileAssert.class, File.class, actual);
+  }
+
+  /**
+   * Creates a new, proxied instance of a {@link PathAssert}
+   *
+   * @param actual the path
+   * @return the created assertion object
+   */
+  public PathAssert assertThat(Path actual) {
+    return proxy(PathAssert.class, Path.class, actual);
   }
 
   /**

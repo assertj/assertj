@@ -10,23 +10,15 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.test;
+package org.assertj.core.util;
 
-import org.junit.Assert;
+public final class PathsException
+    extends RuntimeException
+{
+    // TODO: serialUID or not?
 
-/**
- * @author Yvonne Wang
- * @author Francis Galiegue
- */
-public final class TestFailures {
-
-  public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
-  }
-
-  public static void wasExpectingAssertionError() {
-    throw new AssertionErrorExpectedException();
-  }
-
-  private TestFailures() {}
+    public PathsException(final String message, final Throwable cause)
+    {
+        super(message, cause);
+    }
 }
