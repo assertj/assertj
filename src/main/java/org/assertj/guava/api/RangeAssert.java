@@ -194,7 +194,7 @@ public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAs
     Objects.instance().assertNotNull(info, actual);
 
     if (!actual.lowerEndpoint().equals(value)) {
-      throw failures.failure(info, shouldHaveEqualLowerEndpoint(actual, value, actual.lowerEndpoint()));
+      throw failures.failure(info, shouldHaveEqualLowerEndpoint(actual, value));
     }
 
     return this;

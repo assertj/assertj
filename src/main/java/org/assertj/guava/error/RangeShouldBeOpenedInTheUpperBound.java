@@ -21,7 +21,7 @@ public class RangeShouldBeOpenedInTheUpperBound extends BasicErrorMessageFactory
 
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveOpenedUpperBound(final Range<T> actual) {
     return new RangeShouldBeOpenedInTheUpperBound(
-        "\nExpecting:\n<%s>\nto be opened in the upper bound\nbut is closed", actual);
+        "\nExpecting:\n  <%s>\nto be opened in the upper bound but was closed", actual);
   }
 
   /**
