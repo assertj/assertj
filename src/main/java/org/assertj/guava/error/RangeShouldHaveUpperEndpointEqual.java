@@ -20,9 +20,15 @@ import com.google.common.collect.Range;
 public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory {
 
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveEqualUpperEndpoint(final Range<T> actual,
-      final Object value, final Object actualEndpoint) {
-    return new RangeShouldHaveUpperEndpointEqual(
-        "\nExpecting:\n<%s>\nto have upper endpoint equal to:\n<%s>\nbut was\n<%s>", actual, value, actualEndpoint);
+	                                                                                       final Object value) {
+	return new RangeShouldHaveUpperEndpointEqual("\n" +
+	                                             "Expecting:\n" +
+	                                             "  <%s>\n" +
+	                                             "to have upper endpoint equal to:\n" +
+	                                             "  <%s>\n" +
+	                                             "but was:\n" +
+	                                             "  <%s>",
+	                                             actual, value, actual.upperEndpoint());
   }
 
   /**
@@ -31,7 +37,7 @@ public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory 
    * @param format the format string.
    * @param arguments arguments referenced by the format specifiers in the format string.
    */
-  public RangeShouldHaveUpperEndpointEqual(final String format, final Object... arguments) {
-    super(format, arguments);
+  private RangeShouldHaveUpperEndpointEqual(final String format, final Object... arguments) {
+	super(format, arguments);
   }
 }
