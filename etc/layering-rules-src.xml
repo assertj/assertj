@@ -34,7 +34,6 @@
 	</subpackage>
 	<subpackage name="condition">
 		<allow pkg="org.assertj.core.condition" />
-		<allow pkg="org.assertj.core.api" />
 		<allow pkg="org.assertj.core.util" />
 	</subpackage>
 	<subpackage name="data">
@@ -47,7 +46,6 @@
 	</subpackage>
 	<subpackage name="error">
 		<allow pkg="org.assertj.core.error" />
-		<allow pkg="org.assertj.core.api" />
 		<allow pkg="org.assertj.core.internal" />
 		<allow pkg="org.assertj.core.util" />
 		<allow pkg="org.assertj.core.data" />
@@ -56,25 +54,20 @@
 	</subpackage>
 	<subpackage name="extractor">
 		<allow pkg="org.assertj.core.extractor" />
-		<allow pkg="org.assertj.core.api" />
 		<allow pkg="org.assertj.core.util" />
 		<allow pkg="org.assertj.core.groups" />
 		<allow pkg="org.assertj.core.internal" />
 	</subpackage>
 	<subpackage name="groups">
 		<allow pkg="org.assertj.core.groups" />
-		<allow pkg="org.assertj.core.api" />
 		<allow pkg="org.assertj.core.util" />
 		<allow pkg="org.assertj.core.internal" />
 	</subpackage>
 	<subpackage name="internal">
 		<allow pkg="org.assertj.core.internal" />
-		<allow pkg="org.assertj.core.api" />
 		<allow pkg="org.assertj.core.data" />
-		<allow pkg="org.assertj.core.error" />
 		<allow pkg="org.assertj.core.util" />
 		<allow pkg="org.assertj.core.description" />
-		<allow pkg="org.assertj.core.presentation" />
 	</subpackage>
 	<subpackage name="presentation">
 		<allow pkg="org.assertj.core.presentation" />
@@ -84,7 +77,6 @@
 	</subpackage>
 	<subpackage name="util">
 		<allow pkg="org.assertj.core.util" />
-		<allow pkg="org.assertj.core.presentation" />
 	</subpackage>
 
 </import-control>
