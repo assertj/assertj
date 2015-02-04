@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+    "-//Puppy Crawl//DTD Import Control 1.1//EN"
+    "http://www.puppycrawl.com/dtds/import_control_1_1.dtd">
+
+<import-control pkg="org.assertj.core">
+
+	<allow pkg="java.io"/>
+	<allow pkg="java.nio"/>
+	<allow pkg="java.util"/>
+	<allow pkg="java.security"/>
+	<allow pkg="java.text"/>
+	<allow pkg="java.lang"/>
+	<allow pkg="java.math"/>
+	<allow pkg="java.sql"/>
+	<allow pkg="java.beans"/>
+	<allow pkg="javax.xml"/>
+	<allow pkg="org.xml.sax"/>
+	<allow pkg="org.w3c"/>
+	<allow pkg="org.junit"/>
+	<allow pkg="net.sf.cglib"/>
+
+	<subpackage name="api">
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.description" />
+		<allow pkg="org.assertj.core.presentation" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.groups" />
+		<allow pkg="org.assertj.core.condition" />
+		<allow pkg="org.assertj.core.data" />
+		<allow pkg="org.assertj.core.internal" />
+		<allow pkg="org.assertj.core.extractor" />
+		<allow pkg="org.assertj.core.error" />
+	</subpackage>
+	<subpackage name="condition">
+		<allow pkg="org.assertj.core.condition" />
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.util" />
+	</subpackage>
+	<subpackage name="data">
+		<allow pkg="org.assertj.core.data" />
+		<allow pkg="org.assertj.core.util" />
+	</subpackage>
+	<subpackage name="description">
+		<allow pkg="org.assertj.core.description" />
+		<allow pkg="org.assertj.core.util" />
+	</subpackage>
+	<subpackage name="error">
+		<allow pkg="org.assertj.core.error" />
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.internal" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.data" />
+		<allow pkg="org.assertj.core.description" />
+		<allow pkg="org.assertj.core.presentation" />
+	</subpackage>
+	<subpackage name="extractor">
+		<allow pkg="org.assertj.core.extractor" />
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.groups" />
+		<allow pkg="org.assertj.core.internal" />
+	</subpackage>
+	<subpackage name="groups">
+		<allow pkg="org.assertj.core.groups" />
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.internal" />
+	</subpackage>
+	<subpackage name="internal">
+		<allow pkg="org.assertj.core.internal" />
+		<allow pkg="org.assertj.core.api" />
+		<allow pkg="org.assertj.core.data" />
+		<allow pkg="org.assertj.core.error" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.description" />
+		<allow pkg="org.assertj.core.presentation" />
+	</subpackage>
+	<subpackage name="presentation">
+		<allow pkg="org.assertj.core.presentation" />
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.groups" />
+		<allow pkg="org.assertj.core.internal" />
+	</subpackage>
+	<subpackage name="util">
+		<allow pkg="org.assertj.core.util" />
+		<allow pkg="org.assertj.core.presentation" />
+	</subpackage>
+
+</import-control>
