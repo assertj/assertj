@@ -12,11 +12,14 @@
  */
 package org.assertj.guava.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.guava.error.OptionalShouldBeAbsent.shouldBeAbsent;
 import static org.assertj.guava.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.guava.error.OptionalShouldBePresentWithValue.shouldBePresentWithValue;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
@@ -52,16 +55,16 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * Verifies that the actual {@link Optional} contains the given value.<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
    *
    * assertThat(optional).contains(&quot;Test&quot;);
    * </code></pre>
-   * 
+   *
    * @param value the value to look for in actual {@link Optional}.
    * @return this {@link OptionalAssert} for assertions chaining.
-   * 
+   *
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
@@ -80,15 +83,15 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * Verifies that the actual {@link Optional} contained instance is absent/null (ie. not {@link Optional#isPresent()}).<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.absent();
    *
    * assertThat(optional).isAbsent();
    * </code></pre>
-   * 
+   *
    * @return this {@link OptionalAssert} for assertions chaining.
-   * 
+   *
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains a (non-null) instance.
    */
@@ -104,15 +107,15 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * Verifies that the actual {@link Optional} contains a (non-null) instance.<br>
    * <p>
    * Example :
-   * 
+   *
    * <pre><code class='java'>
    * Optional&lt;String&gt; optional = Optional.of(&quot;value&quot;);
    *
    * assertThat(optional).isPresent();
    * </code></pre>
-   * 
+   *
    * @return this {@link OptionalAssert} for assertions chaining.
-   * 
+   *
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains a null instance.
    */
@@ -122,6 +125,51 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
       throw failures.failure(info, shouldBePresent(actual));
     }
     return this;
+  }
+
+  /**
+   * Chain assertion on the content of the Optional<br>
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Optional&lt;Number&gt; optional = Optional.of(12L);
+   *
+   * assertThat(optional).extractingValue().isInstanceOf(Long.class);
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @return a new {@link AbstractObjectAssert} for assertions chaining on the content of the Optional.
+   * @throws AssertionError if the actual {@link Optional} is {@code null}.
+   * @throws AssertionError if the actual {@link Optional} contains a null instance.
+   */
+  public AbstractObjectAssert<?, T> extractingValue() {
+    isPresent();
+    return assertThat(actual.get());
+  }
+
+  /**
+   * Chain assertion on the content of the Optional<br>
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Optional&lt;String&gt; optional = Optional.of("Bill");
+   *
+   * assertThat(optional).extractingCharSequence().startsWith("Bi");
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @return a new {@link AbstractCharSequenceAssert} for assertions chaining on the content of the Optional.
+   * @throws AssertionError if the actual {@link Optional} is {@code null}.
+   * @throws AssertionError if the actual {@link Optional} contains a null instance.
+   */
+  public AbstractCharSequenceAssert<?, ? extends CharSequence> extractingCharSequence() {
+    isPresent();
+    assertThat(actual.get()).isInstanceOf(CharSequence.class);
+    return assertThat((CharSequence) actual.get());
   }
 
 }
