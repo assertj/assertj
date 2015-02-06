@@ -33,6 +33,8 @@ import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElements
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -190,6 +192,26 @@ public class Arrays {
 	Set<Object> notFound = containsOnly(notExpected, values);
 	if (notExpected.isEmpty() && notFound.isEmpty()) return;
 	throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
+  }
+
+  void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
+	if (commonChecks(info, actual, values)) return;
+	assertHasSameSizeAs(info, actual, values);
+	Set<Object> actualWithoutDuplicates = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
+	Set<Object> notFound = containsOnly(actualWithoutDuplicates, values);
+	if (actualWithoutDuplicates.isEmpty() && notFound.isEmpty()) {
+	  // actual and values have the same elements but are they in the same order ?
+	  int arrayLength = sizeOf(actual);
+	  for (int i = 0; i < arrayLength; i++) {
+		Object actualElement = Array.get(actual, i);
+		Object expectedElement = Array.get(values, i);
+		if (!areEqual(actualElement, expectedElement)) {
+		  throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy));
+		}
+	  }
+	  return;
+	}
+	throw failures.failure(info, shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -436,23 +458,23 @@ public class Arrays {
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                                int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() < times) 
+	if (matchingElements.size() < times)
 	  throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
-	
+
   }
 
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                               int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() > times) 
+	if (matchingElements.size() > times)
 	  throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
-	
+
   }
 
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                                int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() != times) 
+	if (matchingElements.size() != times)
 	  throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
   }
 

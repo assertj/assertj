@@ -32,6 +32,6 @@ public class DoubleArrayAssert_containsExactly_Test extends DoubleArrayAssertBas
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), arrayOf(1d, 2d));
+    verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(1d, 2d));
   }
 }

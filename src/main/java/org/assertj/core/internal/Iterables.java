@@ -27,6 +27,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -927,7 +928,7 @@ public class Iterables {
       int i = 0;
       for (Object elementFromActual : actual) {
         if (!areEqual(elementFromActual, values[i])) {
-          throw failures.failure(info, shouldContainExactly(elementFromActual, values[i], i, comparisonStrategy));
+          throw failures.failure(info, elementsDifferAtIndex(elementFromActual, values[i], i, comparisonStrategy));
         }
         i++;
       }

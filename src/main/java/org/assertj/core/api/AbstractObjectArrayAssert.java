@@ -140,7 +140,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /** {@inheritDoc} */
   @Override
   public S containsExactly(@SuppressWarnings("unchecked")T... values) {
-	objects.assertEqual(info, actual, values);
+	arrays.assertContainsExactly(info, actual, values);
 	return myself;
   }
 

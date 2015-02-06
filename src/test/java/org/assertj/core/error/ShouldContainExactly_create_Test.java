@@ -13,17 +13,18 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+
+import java.util.Collections;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
-
-import java.util.Collections;
 
 /**
  * Tests for
@@ -116,7 +117,7 @@ public class ShouldContainExactly_create_Test {
 
   @Test
   public void should_create_error_message_when_only_elements_order_differs() {
-	ErrorMessageFactory factory = shouldContainExactly("Luke", "Han", 1);
+	ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "Han", 1);
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
@@ -129,7 +130,7 @@ public class ShouldContainExactly_create_Test {
 
   @Test
   public void should_create_error_message_when_only_elements_order_differs_according_to_custom_comparison_strategy() {
-	ErrorMessageFactory factory = shouldContainExactly("Luke", "Han", 1, CASE_INSENSITIVE_COMPARISON_STRATEGY);
+	ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "Han", 1, CASE_INSENSITIVE_COMPARISON_STRATEGY);
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 

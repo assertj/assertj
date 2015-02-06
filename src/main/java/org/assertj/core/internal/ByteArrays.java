@@ -174,6 +174,11 @@ public class ByteArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  public void assertContainsExactly(AssertionInfo info, byte[] actual, byte[] values) {
+	arrays.assertContainsExactly(info, failures, actual, values);
+  }
+  
+  
   /**
    * Asserts that the given array contains only once the given values.
    * 

@@ -205,6 +205,10 @@ public class ObjectArrays {
     arrays.assertContainsOnly(info, failures, actual, values);
   }
 
+  public void assertContainsExactly(AssertionInfo info, Object[] actual, Object[] values) {
+	arrays.assertContainsExactly(info, failures, actual, values);
+  }
+  
   /**
    * Asserts that the given array contains only once the given values.
    * 

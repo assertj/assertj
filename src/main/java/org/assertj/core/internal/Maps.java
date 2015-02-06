@@ -16,6 +16,7 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -451,7 +452,7 @@ public class Maps {
 	  for (K keyFromActual : actual.keySet()) {
 		if (!areEqual(keyFromActual, entries[index].key)) {
 		  MapEntry<K, V> actualEntry = entry(keyFromActual, actual.get(keyFromActual));
-		  throw failures.failure(info, shouldContainExactly(actualEntry, entries[index], index));
+		  throw failures.failure(info, elementsDifferAtIndex(actualEntry, entries[index], index));
 		}
 		index++;
 	  }

@@ -16,6 +16,7 @@ import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ErrorMessages.entriesToLookForIsEmpty;
@@ -94,7 +95,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     try {
       maps.assertContainsExactly(info, linkedActual, entry("color", "green"), entry("name", "Yoda"));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(entry("name", "Yoda"), entry("color", "green"), 0));
+      verify(failures).failure(info, elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0));
       return;
     }
     shouldHaveThrown(AssertionError.class);

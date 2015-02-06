@@ -59,8 +59,6 @@ public class StandardRepresentation implements Representation {
       return toStringOf((Character) object);
     } else if (object instanceof Comparator) {
       return toStringOf((Comparator<?>) object);
-    } else if (object instanceof ComparatorBasedComparisonStrategy) {
-      return toStringOf((Comparator<?>) object);
     } else if (object instanceof SimpleDateFormat) {
       return toStringOf((SimpleDateFormat) object);
     } else if (object instanceof Tuple) {
