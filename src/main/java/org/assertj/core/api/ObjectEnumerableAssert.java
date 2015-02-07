@@ -37,6 +37,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * 
    * // assertions will pass
@@ -62,6 +63,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    *  // assertion will pass
@@ -82,11 +84,13 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
   S containsOnly(@SuppressWarnings("unchecked") T... values);
 
   /**
-   * Verifies that the actual array contains the given values only once.
+   * Verifies that the actual group contains the given values only once.
    * <p>
    * Examples :
    * 
    * <pre><code class='java'>
+   * // lists are used in the examples but it would also work with arrays
+   * 
    * // assertions will pass
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;coming&quot;, &quot;winter&quot;);
@@ -115,6 +119,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    * 
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
@@ -140,6 +145,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example:
    * 
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
@@ -164,6 +170,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example:
    * 
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass
@@ -188,6 +195,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
@@ -209,6 +217,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; lotsOfAs = newArrayList("a", "a", "a");
    *
@@ -233,6 +242,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
@@ -259,6 +269,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
@@ -283,6 +294,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
    *
@@ -305,6 +317,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
    *
@@ -650,6 +663,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example :
    *
    * <pre><code class='java'>
+   * // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; cb = newArrayList("c", "b");
    *
@@ -672,6 +686,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example:
    * 
    * <pre><code class='java'>
+   * // an array is used in the example but it would also work with an Iterable
    * Number[] numbers = { 2, 6L, 8.0 };
    * 
    * // successful assertion:
@@ -695,6 +710,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Example:
    * 
    * <pre><code class='java'>
+   * // an array is used in the example but it would also work with an Iterable
    * Number[] numbers = { 2, 6, 8 };
    * 
    * // successful assertion:
