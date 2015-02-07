@@ -71,14 +71,6 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * @deprecated : use {@link #isEqualToIgnoringNullFields(Object)} instead.
-   */
-  public S isLenientEqualsToByIgnoringNullFields(A other) {
-	objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
-	return myself;
-  }
-
-  /**
    * Assert that the actual object is equal to given one using a field by field comparison on the given fields only
    * (fields can be inherited fields or nested fields). This can be handy if <code>equals</code> implementation of objects to compare
    * does not suit you.
@@ -113,14 +105,6 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    */
   public S isEqualToComparingOnlyGivenFields(A other, String... fieldsUsedInComparison) {
 	objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fieldsUsedInComparison);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToComparingOnlyGivenFields(Object, String...)} instead.
-   */
-  public S isLenientEqualsToByAcceptingFields(A other, String... fields) {
-	objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fields);
 	return myself;
   }
 
@@ -160,14 +144,6 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * @deprecated : use {@link #isEqualToIgnoringGivenFields(Object, String...)} instead.
-   */
-  public S isLenientEqualsToByIgnoringFields(A other, String... fields) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fields);
-	return myself;
-  }
-
-  /**
    * Assert that the actual object is equal to the given object based on a field by field comparison (including
    * inherited fields). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
    * <p/>
@@ -196,15 +172,6 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public S isEqualToComparingFieldByField(A other) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToComparingFieldByField(Object)} instead.
-   */
-  @Deprecated
-  public S isEqualsToByComparingFields(A other) {
 	objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
 	return myself;
   }

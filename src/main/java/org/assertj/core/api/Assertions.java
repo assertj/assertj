@@ -1185,54 +1185,6 @@ public class Assertions {
   }
 
   /**
-   * @deprecated : use {@link #registerCustomDateFormat(java.text.DateFormat)} instead.
-   */
-  @Deprecated
-  public static void useDateFormat(final DateFormat userCustomDateFormat) {
-	registerCustomDateFormat(userCustomDateFormat);
-  }
-
-  /**
-   * @deprecated : use {@link #registerCustomDateFormat(String)} instead.
-   */
-  @Deprecated
-  public static void useDateFormat(final String userCustomDateFormatPattern) {
-	registerCustomDateFormat(userCustomDateFormatPattern);
-  }
-
-  /**
-   * @deprecated use {@link #useDefaultDateFormatsOnly()} instead, it includes this format.
-   */
-  @Deprecated
-  public static void useIsoDateFormat() {
-	useDefaultDateFormatsOnly();
-  }
-
-  /**
-   * @deprecated use {@link #useDefaultDateFormatsOnly()} instead, it includes this format.
-   */
-  @Deprecated
-  public static void useIsoDateTimeFormat() {
-	useDefaultDateFormatsOnly();
-  }
-
-  /**
-   * @deprecated use {@link #useDefaultDateFormatsOnly()} instead, it includes this format.
-   */
-  @Deprecated
-  public static void useIsoDateTimeWithMsFormat() {
-	useDefaultDateFormatsOnly();
-  }
-
-  /**
-   * @deprecated use {@link #useDefaultDateFormatsOnly()} instead.
-   */
-  @Deprecated
-  public static void useDefaultDateFormats() {
-	useDefaultDateFormatsOnly();
-  }
-
-  /**
    * Creates a new </code>{@link Assertions}</code>.
    */
   protected Assertions() {

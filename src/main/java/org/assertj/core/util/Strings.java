@@ -34,14 +34,6 @@ public final class Strings {
   }
 
   /**
-   * Only there for backward compatibility reasons - use {@link #isNullOrEmpty(String)} instead.
-   */
-  @Deprecated
-  public static boolean isEmpty(String s) {
-    return isNullOrEmpty(s);
-  }
-
-  /**
    * Returns the given {@code String} surrounded by single quotes, or {@code null} if the given {@code String} is
    * {@code null}.
    * 
