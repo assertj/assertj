@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api;
 
+import net.sf.cglib.proxy.MethodInterceptor;
+import net.sf.cglib.proxy.MethodProxy;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sf.cglib.proxy.MethodInterceptor;
-import net.sf.cglib.proxy.MethodProxy;
-
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
-public class ErrorCollector implements MethodInterceptor {
+class ErrorCollector implements MethodInterceptor {
 
   private final List<Throwable> errors = new ArrayList<Throwable>();
 

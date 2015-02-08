@@ -12,24 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
-import net.sf.cglib.proxy.Enhancer;
-
 public class AbstractSoftAssertions {
 
-  protected final ErrorCollector collector;
+  protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
 	super();
-	this.collector = new ErrorCollector();
+    proxies = new SoftProxies();
   }
 
-  @SuppressWarnings("unchecked")
   protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-    Enhancer enhancer = new Enhancer();
-    enhancer.setSuperclass(assertClass);
-    enhancer.setCallback(collector);
-    return (V) enhancer.create(array(actualClass), array(actual));
+    return proxies.create(assertClass, actualClass, actual);
   }
-
 }
