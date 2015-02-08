@@ -153,14 +153,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Verifies that all the elements of the actual {@code Iterable} are present in the given {@code Iterable}.
-   *
-   * @param values the {@code Iterable} that should contain all actual elements.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
-   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   * {@inheritDoc}
    */
+  @Override
   public S isSubsetOf(Iterable<? extends T> values) {
 	iterables.assertIsSubsetOf(info, actual, values);
 	return myself;
@@ -190,30 +185,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	return myself;
   }
 
-  /**
-   * Verifies that the actual group does not contain any elements of the given {@link Iterable} (i.e. none).
-   * <p/>
-   * Example:
-   * 
-   * <pre><code class='java'>
-   * // this assertion succeeds :
-   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;CVS&quot;, &quot;SOURCESAFE&quot;);
-   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
-   * assertThat(actual).doesNotContainAnyElementsOf(values);
-   * 
-   * // This one fails :
-   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
-   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
-   * assertThat(actual).doesNotContainAnyElementsOf(values);
-   * </code></pre>
-   *
-   * @param iterable the given {@link Iterable}
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
-   */
+  @Override
   public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
 	iterables.assertDoesNotContainAnyElementsOf(info, actual, iterable);
 	return myself;
@@ -952,80 +924,27 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Same as {@link #containsExactly(Object[])} but handle the {@link Iterable} to array conversion. Same semantic as
-   * {@link #containsExactly(Object...)} : verifies that actual contains all the elements of the given iterable and
-   * nothing else <b>in the same order</b>.
-   * <p/>
-   * Example :
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
-   * 
-   * // assertion will pass
-   * assertThat(elvesRings).containsExactly(newLinkedList(vilya, nenya, narya));
-   * 
-   * // assertion will fail as actual and expected orders differ.
-   * assertThat(elvesRings).containsExactly(newLinkedList(nenya, vilya, narya));
-   * </code></pre>
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
+   * {@inheritDoc}
    */
+  @Override
   public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
 	return containsExactly(toArray(iterable));
   }
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b>.
-   * <p/>
-   * Example :
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
-   * 
-   * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
-   * 
-   * // assertion will fail as actual does not contain narya.
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
-   * // assertion will fail as actual contain nenya.
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));
-   * </code></pre>
-   * 
-   * @param iterable the given {@code Iterable} we will get elements from.
+   * {@inheritDoc}
    */
+  @Override
   public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
 	return containsOnly(toArray(iterable));
   }
 
   /**
-   * Same semantic as {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
-   * given iterable and nothing else, <b>in any order</b>.
-   * </p>
-   * Example:
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
-   * 
-   * // assertions will pass
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
-   * 
-   * // assertions will fail
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));
-   * </code></pre>
-   * 
-   * @param iterable the Iterable whose elements we expect to be present
-   * @return this assertion object
-   * @throws AssertionError if the actual group is {@code null}
-   * @throws NullPointerException if the given {@code Iterable} is {@code null}
-   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
-   *           {@code Iterable}
+   * {@inheritDoc}
    */
+  @Override
   public S hasSameElementsAs(Iterable<? extends T> iterable) {
-	return containsOnly(toArray(iterable));
+	return containsOnlyElementsOf(iterable);
   }
 
   /**

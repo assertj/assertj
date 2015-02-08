@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.extractor.Extractors.*;
+import static org.assertj.core.util.Iterables.toArray;
 import static org.assertj.core.util.Lists.*;
 
 import java.util.Arrays;
@@ -132,6 +133,18 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+	return containsOnly(toArray(iterable));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S hasSameElementsAs(Iterable<? extends T> iterable) {
+	return containsOnlyElementsOf(iterable);
+  }
+  
+  /** {@inheritDoc} */
+  @Override
   public S containsOnlyOnce(@SuppressWarnings("unchecked")T... values) {
 	arrays.assertContainsOnlyOnce(info, actual, values);
 	return myself;
@@ -144,6 +157,12 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
+	return containsExactly(toArray(iterable));
+  }
+  
   /** {@inheritDoc} */
   @Override
   public S containsSequence(@SuppressWarnings("unchecked")T... sequence) {
@@ -181,6 +200,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
+	arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable);
+	return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public S doesNotHaveDuplicates() {
 	arrays.assertDoesNotHaveDuplicates(info, actual);
 	return myself;
@@ -200,6 +226,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S isSubsetOf(Iterable<? extends T> values) {
+	arrays.assertIsSubsetOf(info, actual, values);
+	return myself;
+  }
+  
   /** {@inheritDoc} */
   @Override
   public S containsNull() {
@@ -714,6 +747,5 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   @Override
   public S inBinary() {
 	return super.inBinary();
-  }
-
+  }  
 }

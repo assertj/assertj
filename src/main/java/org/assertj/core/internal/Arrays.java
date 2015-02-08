@@ -31,6 +31,7 @@ import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
+import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -52,6 +53,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
@@ -211,7 +213,8 @@ public class Arrays {
 	  }
 	  return;
 	}
-	throw failures.failure(info, shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
+	throw failures.failure(info,
+	                       shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -336,7 +339,8 @@ public class Arrays {
 	checkIsNotNullAndNotEmpty(values);
 	assertNotNull(info, array);
 	Set<Object> found = new LinkedHashSet<Object>();
-	for (int i = 0; i < sizeOf(values); i++) {
+	int valuesSize = sizeOf(values);
+	for (int i = 0; i < valuesSize; i++) {
 	  Object value = Array.get(values, i);
 	  if (arrayContains(array, value)) found.add(value);
 	}
@@ -394,6 +398,22 @@ public class Arrays {
 	  int arrayIndex = arraySize - (i + 1);
 	  if (!areEqual(Array.get(sequence, sequenceIndex), Array.get(actual, arrayIndex)))
 		throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
+	}
+  }
+
+  public void assertIsSubsetOf(AssertionInfo info, Failures failures, Object actual, Iterable<?> values) {
+	assertNotNull(info, actual);
+	checkIterableIsNotNull(info, values);
+	List<Object> extra = newArrayList();
+	int sizeOfActual = sizeOf(actual);
+	for (int i = 0; i < sizeOfActual; i++) {
+	  Object actualElement = Array.get(actual, i);
+	  if (!iterableContains(values, actualElement)) {
+		extra.add(actualElement);
+	  }
+	}
+	if (extra.size() > 0) {
+	  throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
 	}
   }
 

@@ -43,6 +43,7 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkIsNotNullAndNotEmpty;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
@@ -422,7 +423,7 @@ public class Iterables {
    */
   public void assertIsSubsetOf(AssertionInfo info, Iterable<?> actual, Iterable<?> values) {
     assertNotNull(info, actual);
-    checkNotNull(info, values);
+    checkIterableIsNotNull(info, values);
     List<Object> extra = newArrayList();
     for (Object actualElement : actual) {
       if (!iterableContains(values, actualElement)) {
@@ -430,18 +431,8 @@ public class Iterables {
       }
     }
     if (extra.size() > 0) {
-      throw actualIsNotSubsetOfSet(info, actual, values, extra);
+      throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
     }
-  }
-
-  private static void checkNotNull(AssertionInfo info, Iterable<?> set) {
-    if (set == null) {
-      throw iterableToLookForIsNull();
-    }
-  }
-
-  private AssertionError actualIsNotSubsetOfSet(AssertionInfo info, Object actual, Iterable<?> set, Iterable<?> extra) {
-    return failures.failure(info, shouldBeSubsetOf(actual, set, extra, comparisonStrategy));
   }
 
   /**
