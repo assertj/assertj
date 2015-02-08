@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * <p>
- * Suppose we have a test case and in it we'd like to make numerous assertions. In this case, we're hosting a dinner
+ * Suppose we have a test case and in it we'd like to make numerous BDD assertions. In this case, we're hosting a dinner
  * party and we want to ensure not only that all our guests survive but also that nothing in the mansion has been unduly
  * disturbed:
  * </p>
@@ -28,13 +28,13 @@ import java.util.List;
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
- *   assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
- *   assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
- *   assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
- *   assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
- *   assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
- *   assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
- *   assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   then(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+ *   then(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+ *   then(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+ *   then(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+ *   then(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+ *   then(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   then(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  * }
  * </code></pre>
  * 
@@ -58,7 +58,7 @@ import java.util.List;
  * 
  * <p>
  * Instead let's change the test so that at its completion we get the result of all assertions at once. We can do that
- * by using a SoftAssertions instance instead of the static methods on {@link Assertions} as follows:
+ * by using a BDDSoftAssertions instance instead of the static methods on {@link BDDAssertions} as follows:
  * </p>
  * 
  * <pre><code class='java'>
@@ -66,14 +66,14 @@ import java.util.List;
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
- *   SoftAssertions softly = new SoftAssertions();
- *   softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
- *   softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
- *   softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
- *   softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
- *   softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
- *   softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
- *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   BDDSoftAssertions softly = new BDDSoftAssertions();
+ *   softly.then(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+ *   softly.then(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+ *   softly.then(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+ *   softly.then(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+ *   softly.then(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+ *   softly.then(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+ *   softly.then(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.assertAll();
  * }
  * </code></pre>
@@ -96,17 +96,18 @@ import java.util.List;
  * </p>
  * 
  * <p>
- * SoftAssertions works by providing you with proxyies of the AssertJ assertion objects (those created by
- * {@link Assertions}#assertThat...) whose assertion failures are caught and stored. Only when you call
- * {@link SoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of those
- * previously caught assertion failures.
+ * BDDSoftAssertions works by providing you with proxyies of the AssertJ assertion objects (those created by
+ * {@link BDDAssertions}#then...) whose assertion failures are caught and stored. Only when you call
+ * {@link BDDSoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of
+ * those previously caught assertion failures.
  * </p>
  * 
  * <p>
- * Note that because SoftAssertions is stateful you should use a new instance of SoftAssertions per test method. Also,
- * if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any assertion
- * objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
- * {@link JUnitSoftAssertions} or {@link AutoCloseableSoftAssertions} to get assertAll() to be called automatically.
+ * Note that because BDDSoftAssertions is stateful you should use a new instance of BDDSoftAssertions per test method.
+ * Also, if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any
+ * assertion objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
+ * {@link JUnitBDDSoftAssertions} or {@link AutoCloseableBDDSoftAssertions} to get assertAll() to be called
+ * automatically.
  * </p>
  * 
  * <p>
@@ -119,12 +120,12 @@ import java.util.List;
  * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
  *      inspiration
  */
-public class SoftAssertions extends AbstractStandardSoftAssertions {
+public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
 
   /**
-   * Creates a new </code>{@link SoftAssertions}</code>.
+   * Creates a new </code>{@link BDDSoftAssertions}</code>.
    */
-  public SoftAssertions() {
+  public BDDSoftAssertions() {
 	super();
   }
 

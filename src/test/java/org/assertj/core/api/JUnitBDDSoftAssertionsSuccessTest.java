@@ -12,24 +12,20 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
-import net.sf.cglib.proxy.Enhancer;
+import static org.assertj.core.util.Lists.newArrayList;
 
-public class AbstractSoftAssertions {
+import org.junit.Rule;
+import org.junit.Test;
 
-  protected final ErrorCollector collector;
+public class JUnitBDDSoftAssertionsSuccessTest {
 
-  public AbstractSoftAssertions() {
-	super();
-	this.collector = new ErrorCollector();
-  }
+  @Rule
+  public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
 
-  @SuppressWarnings("unchecked")
-  protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-    Enhancer enhancer = new Enhancer();
-    enhancer.setSuperclass(assertClass);
-    enhancer.setCallback(collector);
-    return (V) enhancer.create(array(actualClass), array(actual));
+  @Test
+  public void all_assertions_should_pass() throws Throwable {
+	softly.then(1).isEqualTo(1);
+	softly.then(newArrayList(1, 2)).containsOnly(1, 2);
   }
 
 }

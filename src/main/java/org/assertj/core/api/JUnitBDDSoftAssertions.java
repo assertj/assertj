@@ -27,19 +27,19 @@ import org.junit.runners.model.Statement;
  *   public class SoftlyTest {
  *
  *     &#064;Rule
- *     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
+ *     public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
  *
  *     &#064;Test
- *     public void testSoftly() throws Exception {
- *       softly.assertThat(1).isEqualTo(2);
- *       softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+ *     public void soft_bdd_assertions() throws Exception {
+ *       softly.then(1).isEqualTo(2);
+ *       softly.then(Lists.newArrayList(1, 2)).containsOnly(1, 2);
  *     }
  *  }
  * </code></pre>
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implements TestRule {
+public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements TestRule {
 
   public Statement apply(final Statement base, Description description) {
 	return new Statement() {
@@ -51,7 +51,7 @@ public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implemen
 	};
   }
 
-  public JUnitSoftAssertions() {
+  public JUnitBDDSoftAssertions() {
 	super();
   }
 

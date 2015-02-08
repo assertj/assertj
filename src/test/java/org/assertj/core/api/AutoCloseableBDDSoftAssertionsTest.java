@@ -26,76 +26,76 @@ import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
-public class AutoCloseableSoftAssertionsTest {
+public class AutoCloseableBDDSoftAssertionsTest {
 
   @Test
   public void all_assertions_should_pass() {
-	try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
-	  softly.assertThat(1).isEqualTo(1);
-	  softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
+	try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
+	  softly.then(1).isEqualTo(1);
+	  softly.then(Lists.newArrayList(1, 2)).containsOnly(1, 2);
 	}
   }
 
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
-	try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+	try (AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
 
-	  softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
+	  softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
-	  softly.assertThat(Boolean.FALSE).isTrue();
-	  softly.assertThat(false).isTrue();
-	  softly.assertThat(new boolean[] { false }).isEqualTo(new boolean[] { true });
+	  softly.then(Boolean.FALSE).isTrue();
+	  softly.then(false).isTrue();
+	  softly.then(new boolean[] { false }).isEqualTo(new boolean[] { true });
 
-	  softly.assertThat(new Byte((byte) 0)).isEqualTo((byte) 1);
-	  softly.assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3);
-	  softly.assertThat(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
+	  softly.then(new Byte((byte) 0)).isEqualTo((byte) 1);
+	  softly.then((byte) 2).inHexadecimal().isEqualTo((byte) 3);
+	  softly.then(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
 
-	  softly.assertThat(new Character((char) 65)).isEqualTo(new Character((char) 66));
-	  softly.assertThat((char) 67).isEqualTo((char) 68);
-	  softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
+	  softly.then(new Character((char) 65)).isEqualTo(new Character((char) 66));
+	  softly.then((char) 67).isEqualTo((char) 68);
+	  softly.then(new char[] { 69 }).isEqualTo(new char[] { 70 });
 
-	  softly.assertThat(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
+	  softly.then(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
 
-	  softly.assertThat(Object.class).isEqualTo(String.class);
+	  softly.then(Object.class).isEqualTo(String.class);
 
-	  softly.assertThat(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
+	  softly.then(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
 
-	  softly.assertThat(new Double(6.0d)).isEqualTo(new Double(7.0d));
-	  softly.assertThat(8.0d).isEqualTo(9.0d);
-	  softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
+	  softly.then(new Double(6.0d)).isEqualTo(new Double(7.0d));
+	  softly.then(8.0d).isEqualTo(9.0d);
+	  softly.then(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
 
-	  softly.assertThat(new File("a"))
+	  softly.then(new File("a"))
 		    .overridingErrorMessage("expected:<File(b)> but was:<File(a)>")
 		    .isEqualTo(new File("b"));
 
-	  softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
-	  softly.assertThat(14f).isEqualTo(15f);
-	  softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
+	  softly.then(new Float(12f)).isEqualTo(new Float(13f));
+	  softly.then(14f).isEqualTo(15f);
+	  softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
-	  softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
+	  softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
 		    .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
-	  softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
-	  softly.assertThat(22).isEqualTo(23);
-	  softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
+	  softly.then(new Integer(20)).isEqualTo(new Integer(21));
+	  softly.then(22).isEqualTo(23);
+	  softly.then(new int[] { 24 }).isEqualTo(new int[] { 25 });
 
-	  softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
-	  softly.assertThat(Lists.newArrayList("28").iterator()).contains("29");
-	  softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
+	  softly.then((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
+	  softly.then(Lists.newArrayList("28").iterator()).contains("29");
+	  softly.then(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
 
-	  softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
-	  softly.assertThat(34L).isEqualTo(35L);
-	  softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
+	  softly.then(new Long(32L)).isEqualTo(new Long(33L));
+	  softly.then(34L).isEqualTo(35L);
+	  softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
 
-	  softly.assertThat(Maps.mapOf(MapEntry.entry("38", "39"))).isEqualTo(Maps.mapOf(MapEntry.entry("40", "41")));
+	  softly.then(Maps.mapOf(MapEntry.entry("38", "39"))).isEqualTo(Maps.mapOf(MapEntry.entry("40", "41")));
 
-	  softly.assertThat(new Short((short) 42)).isEqualTo(new Short((short) 43));
-	  softly.assertThat((short) 44).isEqualTo((short) 45);
-	  softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
+	  softly.then(new Short((short) 42)).isEqualTo(new Short((short) 43));
+	  softly.then((short) 44).isEqualTo((short) 45);
+	  softly.then(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
 
-	  softly.assertThat("48").isEqualTo("49");
+	  softly.then("48").isEqualTo("49");
 
-	  softly.assertThat(new Object() {
+	  softly.then(new Object() {
 		@Override
 		public String toString() {
 		  return "50";
@@ -107,7 +107,7 @@ public class AutoCloseableSoftAssertionsTest {
 		}
 	  });
 
-	  softly.assertThat(new Object[] { new Object() {
+	  softly.then(new Object[] { new Object() {
 		@Override
 		public String toString() {
 		  return "52";
@@ -121,7 +121,7 @@ public class AutoCloseableSoftAssertionsTest {
 
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
-	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
+	  softly.then(illegalArgumentException).hasMessage("NullPointerException message");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
 	  assertThat(errors).hasSize(38);

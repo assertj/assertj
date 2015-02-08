@@ -12,18 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
-import java.util.List;
-
 /**
+ * A version of {@link SoftAssertions} that uses try-with-resources statement to automatically call
+ * {@link SoftAssertions#assertAll()} so that you don't forget to.
  * <p>
  * Suppose we have a test case and in it we'd like to make numerous assertions. In this case, we're hosting a dinner
  * party and we want to ensure not only that all our guests survive but also that nothing in the mansion has been unduly
  * disturbed:
  * </p>
  * 
- * <pre><code class='java'>
+ * <pre>
  * &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
@@ -36,15 +34,15 @@ import java.util.List;
  *   assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  * }
- * </code></pre>
+ * </pre>
  * 
  * <p>
  * After running the test, JUnit provides us with the following exception message:
  * </p>
  * 
- * <pre><code class='java'>
+ * <pre>
  * org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
- * </code></pre>
+ * </pre>
  * 
  * <p>
  * Oh no! A guest has been murdered! But where, how, and by whom?
@@ -61,34 +59,35 @@ import java.util.List;
  * by using a SoftAssertions instance instead of the static methods on {@link Assertions} as follows:
  * </p>
  * 
- * <pre><code class='java'>
+ * <pre>
  * &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
- *   SoftAssertions softly = new SoftAssertions();
- *   softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
- *   softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
- *   softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
- *   softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
- *   softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
- *   softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
- *   softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
- *   softly.assertAll();
+ *   try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+ * 	softly.assertThat(mansion.guests()).as(&quot;Living Guests&quot;).isEqualTo(7);
+ * 	softly.assertThat(mansion.kitchen()).as(&quot;Kitchen&quot;).isEqualTo(&quot;clean&quot;);
+ * 	softly.assertThat(mansion.library()).as(&quot;Library&quot;).isEqualTo(&quot;clean&quot;);
+ * 	softly.assertThat(mansion.revolverAmmo()).as(&quot;Revolver Ammo&quot;).isEqualTo(6);
+ * 	softly.assertThat(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
+ * 	softly.assertThat(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
+ * 	softly.assertThat(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
+ * 	// no need to call assertAll, it is done when softly is closed.
+ *   }
  * }
- * </code></pre>
+ * </pre>
  * 
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
  * </p>
  * 
- * <pre><code class='java'>
+ * <pre>
  * org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
  * 1) [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
  * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
  * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
  * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;
- * </code></pre>
+ * </pre>
  * 
  * <p>
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
@@ -98,15 +97,14 @@ import java.util.List;
  * <p>
  * SoftAssertions works by providing you with proxyies of the AssertJ assertion objects (those created by
  * {@link Assertions}#assertThat...) whose assertion failures are caught and stored. Only when you call
- * {@link SoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of those
- * previously caught assertion failures.
+ * {@link AutoCloseableBDDSoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error
+ * messages of those previously caught assertion failures.
  * </p>
  * 
  * <p>
  * Note that because SoftAssertions is stateful you should use a new instance of SoftAssertions per test method. Also,
- * if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any assertion
- * objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
- * {@link JUnitSoftAssertions} or {@link AutoCloseableSoftAssertions} to get assertAll() to be called automatically.
+ * if you forget to use try-with-resources statement, the test <strong>will pass</strong> even if any assertion objects
+ * threw exceptions (because they're proxied, remember?). So don't forget.
  * </p>
  * 
  * <p>
@@ -116,28 +114,19 @@ import java.util.List;
  * 
  * @author Brian Laframboise
  * 
- * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
- *      inspiration
+ * @see http://beust.com/weblog/2012/07/29/reinventing-assertions/ for the inspiration
  */
-public class SoftAssertions extends AbstractStandardSoftAssertions {
+public class AutoCloseableBDDSoftAssertions extends BDDSoftAssertions implements AutoCloseable {
 
   /**
-   * Creates a new </code>{@link SoftAssertions}</code>.
+   * Creates a new </code>{@link AutoCloseableBDDSoftAssertions}</code>.
    */
-  public SoftAssertions() {
+  public AutoCloseableBDDSoftAssertions() {
 	super();
   }
 
-  /**
-   * Verifies that no proxied assertion methods have failed.
-   *
-   * @throws SoftAssertionError if any proxied assertion objects threw
-   */
-  public void assertAll() {
-	List<Throwable> errors = collector.errors();
-	if (!errors.isEmpty()) {
-	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-	}
+  @Override
+  public void close() throws SoftAssertionError {
+	assertAll();
   }
-
 }

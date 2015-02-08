@@ -25,6 +25,7 @@ import java.util.concurrent.Callable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -34,9 +35,15 @@ import org.junit.Test;
  */
 public class SoftAssertionsTest {
 
+  private SoftAssertions softly;
+
+  @Before
+  public void setup() {
+	softly = new SoftAssertions();
+  }
+
   @Test
   public void all_assertions_should_pass() {
-	SoftAssertions softly = new SoftAssertions();
 	softly.assertThat(1).isEqualTo(1);
 	softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
 	softly.assertAll();
@@ -45,8 +52,6 @@ public class SoftAssertionsTest {
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
 	try {
-	  SoftAssertions softly = new SoftAssertions();
-
 	  softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
 	  softly.assertThat(Boolean.FALSE).isTrue();
