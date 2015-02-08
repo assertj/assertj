@@ -12,21 +12,29 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
+import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.test.Maps;
+import org.assertj.core.test.Name;
+import org.assertj.core.util.Lists;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.Maps;
-import org.assertj.core.util.Lists;
-import org.junit.Before;
-import org.junit.Test;
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -37,9 +45,25 @@ public class SoftAssertionsTest {
 
   private SoftAssertions softly;
 
+  private CartoonCharacter homer;
+  private CartoonCharacter fred;
+
   @Before
   public void setup() {
-	softly = new SoftAssertions();
+    softly = new SoftAssertions();
+
+    CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+    CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+    CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+
+    homer = new CartoonCharacter("Homer Simpson");
+    homer.getChildren().add(bart);
+    homer.getChildren().add(lisa);
+    homer.getChildren().add(maggie);
+
+    CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+    fred = new CartoonCharacter("Fred Flintstone");
+    fred.getChildren().add(pebbles);
   }
 
   @Test
@@ -218,4 +242,240 @@ public class SoftAssertionsTest {
 	}
   }
 
+  @Test
+  public void should_pass_when_using_extracting_with_list() {
+
+    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+
+    softly.assertThat(names)
+          .extracting("first")
+          .as("using extracting()")
+          .contains("John")
+          .contains("Jane");
+
+    softly.assertThat(names)
+          .extracting(new Extractor<Name, String>() {
+            @Override public String extract(Name input) {
+	          return input.getFirst();
+            }
+          })
+          .as("using extracting(Extractor)")
+          .contains("John")
+          .contains("Jane");
+
+    softly.assertThat(names)
+          .extracting("first", String.class)
+          .as("using extracting(..., Class)")
+          .contains("John")
+          .contains("Jane");
+
+    softly.assertThat(names)
+          .extracting("first", "last")
+          .as("using extracting(...)")
+          .contains(tuple("John", "Doe"))
+          .contains(tuple("Jane", "Doe"));
+
+    softly.assertThat(names)
+          .extractingResultOf("getFirst", String.class)
+          .as("using extractingResultOf(method, Class)")
+          .contains("John")
+          .contains("Jane");
+
+    softly.assertThat(names)
+          .extractingResultOf("getFirst")
+          .as("using extractingResultOf(method)")
+          .contains("John")
+          .contains("Jane");
+
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_pass_when_using_extracting_with_iterable() {
+
+	Iterable<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+
+    try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+      softly.assertThat(names)
+            .extracting("first")
+            .as("using extracting()")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(names)
+            .extracting(new Extractor<Name, String>() {
+	          @Override public String extract(Name input) {
+	            return input.getFirst();
+	          }
+            })
+            .as("using extracting(Extractor)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(names)
+            .extracting("first", String.class)
+            .as("using extracting(..., Class)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(names)
+            .extracting("first", "last")
+            .as("using extracting(...)")
+            .contains(tuple("John", "Doe"))
+            .contains(tuple("Jane", "Doe"));
+
+      softly.assertThat(names)
+            .extractingResultOf("getFirst", String.class)
+            .as("using extractingResultOf(method, Class)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(names)
+            .extractingResultOf("getFirst")
+            .as("using extractingResultOf(method)")
+            .contains("John")
+            .contains("Jane");
+    }
+  }
+
+  @Test
+  public void should_pass_when_using_extracting_with_array() {
+
+    Name[] namesAsArray = new Name[] { name("John", "Doe"), name("Jane", "Doe") };
+
+    try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+      softly.assertThat(namesAsArray)
+            .extracting("first")
+            .as("using extracting()")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(namesAsArray)
+            .extracting(new Extractor<Name, String>() {
+	          @Override public String extract(Name input) {
+	            return input.getFirst();
+	          }
+            })
+            .as("using extracting(Extractor)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(namesAsArray)
+            .extracting("first", String.class)
+            .as("using extracting(..., Class)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(namesAsArray)
+            .extracting("first", "last")
+            .as("using extracting(...)")
+            .contains(tuple("John", "Doe"))
+            .contains(tuple("Jane", "Doe"));
+
+      softly.assertThat(namesAsArray)
+            .extractingResultOf("getFirst", String.class)
+            .as("using extractingResultOf(method, Class)")
+            .contains("John")
+            .contains("Jane");
+
+      softly.assertThat(namesAsArray)
+            .extractingResultOf("getFirst")
+            .as("using extractingResultOf(method)")
+            .contains("John")
+            .contains("Jane");
+    }
+  }
+
+  @Test
+  public void should_pass_when_using_extracting_with_iterator() {
+
+    Iterator<Name> names = asList(name("John", "Doe"), name("Jane", "Doe")).iterator();
+
+    try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
+      softly.assertThat(names)
+            .extracting("first")
+            .as("using extracting()")
+            .contains("John")
+            .contains("Jane");
+    }
+  }
+
+  @Test
+  public void should_pass_when_using_flat_extracting() {
+
+    List<CartoonCharacter> characters = asList(homer, fred);
+
+    softly.assertThat(characters)
+          .flatExtracting(children())
+          .as("using flatExtracting on Iterable")
+          .hasSize(4);
+
+    CartoonCharacter[] charactersAsArray = characters.toArray(new CartoonCharacter[characters.size()]);
+
+    softly.assertThat(charactersAsArray)
+          .flatExtracting(children())
+          .as("using flatExtracting on array")
+          .hasSize(4);
+
+    softly.assertAll();
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_extracting() {
+
+    List<Name> names = asList(name("John", "Doe"), name("Jane", "Doe"));
+
+    softly.assertThat(names)
+          .extracting("first")
+          .overridingErrorMessage("error 1")
+          .contains("gandalf")
+          .overridingErrorMessage("error 2")
+          .contains("frodo");
+
+    softly.assertThat(names)
+          .extracting("last")
+          .overridingErrorMessage("error 3")
+          .isEmpty();
+
+    try {
+	  softly.assertAll();
+	  shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+	  assertThat(e.getErrors()).containsExactly("error 1", "error 2", "error 3");
+    }
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_flat_extracting() throws Exception {
+
+    List<CartoonCharacter> characters = asList(homer, fred);
+
+    softly.assertThat(characters)
+          .flatExtracting(children())
+          .overridingErrorMessage("error 1")
+          .hasSize(0)
+          .overridingErrorMessage("error 2")
+          .isEmpty();
+
+    try {
+	  softly.assertAll();
+	  shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+	  assertThat(e.getErrors()).containsExactly("error 1", "error 2");
+    }
+  }
+
+  private static Name name(String first, String last) {
+	return new Name(first, last);
+  }
+
+  private static ChildrenExtractor children() {
+	return new ChildrenExtractor();
+  }
+
+  private static class ChildrenExtractor implements Extractor<CartoonCharacter, Collection<CartoonCharacter>> {
+	@Override public Collection<CartoonCharacter> extract(CartoonCharacter input) {
+		return input.getChildren();
+	}
+  }
 }
