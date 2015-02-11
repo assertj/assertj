@@ -79,8 +79,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
    * in error message.
    * <p>
-   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message defined by
-   * the user with {@link #overridingErrorMessage(String, Object...)}.
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
+   * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
    * 
@@ -422,6 +422,12 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 	this.objects = Objects.instance();
 	return myself;
   }
+  
+  @Override
+  public S withThreadDumpOnError() {
+	Failures.instance().enablePrintThreadDump();
+	return myself;
+  }
 
   /**
    * {@inheritDoc}
@@ -443,5 +449,4 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   public int hashCode() {
 	return 1;
   }
-
 }
