@@ -17,6 +17,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
+ * 
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
@@ -28,115 +29,144 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<S, A>, A extends Throwable>
-		extends AbstractAssert<S, A> {
+    extends AbstractAssert<S, A> {
 
-	@VisibleForTesting
-	Throwables throwables = Throwables.instance();
+  @VisibleForTesting
+  Throwables throwables = Throwables.instance();
 
-	protected AbstractThrowableAssert(A actual, Class<?> selfType) {
-		super(actual, selfType);
-	}
+  protected AbstractThrowableAssert(A actual, Class<?> selfType) {
+	super(actual, selfType);
+  }
 
-	/**
-	 * Verifies that the message of the actual {@code Throwable} is equal to the given one.
-	 *
-	 * @param message the expected message.
-	 * @return this assertion object.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
-	 */
-	public S hasMessage(String message) {
-		throwables.assertHasMessage(info, actual, message);
-		return myself;
-	}
+  /**
+   * Verifies that the message of the actual {@code Throwable} is equal to the given one.
+   *
+   * @param message the expected message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
+   */
+  public S hasMessage(String message) {
+	throwables.assertHasMessage(info, actual, message);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the actual {@code Throwable} does not have a cause.
-	 *
-	 * @return this assertion object.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} has a cause.
-	 */
-	public S hasNoCause() {
-		throwables.assertHasNoCause(info, actual);
-		return myself;
-	}
+  /**
+   * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message 
+   * (it does not use {@link Throwable#equals(Object) method for comparison}.
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * <pre><code class='java'>
+   * Throwable invalidArgException = new IllegalArgumentException("invalid arg");
+   * Throwable throwable = new Throwable(invalidArgException);
+   *
+   * // This assertion succeeds:
+   * assertThat(throwable).hasCause(invalidArgException);
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasCause(new IllegalArgumentException("bad arg"));
+   * assertThat(throwable).hasCause(new NullPointerException());
+   * assertThat(throwable).hasCause(null); // prefer hasNoCause()
+   * </code></pre>
+   * 
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has not the given cause.
+   */
+  public S hasCause(Throwable cause) {
+	throwables.assertHasCause(info, actual, cause);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the message of the actual {@code Throwable} starts with the given description.
-	 *
-	 * @param description the description expected to start the actual {@code Throwable}'s message.
-	 * @return this assertion object.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
-	 */
-	public S hasMessageStartingWith(String description) {
-		throwables.assertHasMessageStartingWith(info, actual, description);
-		return myself;
-	}
+  /**
+   * Verifies that the actual {@code Throwable} does not have a cause.
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has a cause.
+   */
+  public S hasNoCause() {
+	throwables.assertHasNoCause(info, actual);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the message of the actual {@code Throwable} contains with the given description.
-	 *
-	 * @param description the description expected to be contained in the actual {@code Throwable}'s message.
-	 * @return this assertion object.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
-	 */
-	public S hasMessageContaining(String description) {
-		throwables.assertHasMessageContaining(info, actual, description);
-		return myself;
-	}
+  /**
+   * Verifies that the message of the actual {@code Throwable} starts with the given description.
+   *
+   * @param description the description expected to start the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
+   */
+  public S hasMessageStartingWith(String description) {
+	throwables.assertHasMessageStartingWith(info, actual, description);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the message of the actual {@code Throwable} ends with the given description.
-	 *
-	 * @param description the description expected to end the actual {@code Throwable}'s message.
-	 * @return this assertion object.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
-	 */
-	public S hasMessageEndingWith(String description) {
-		throwables.assertHasMessageEndingWith(info, actual, description);
-		return myself;
-	}
+  /**
+   * Verifies that the message of the actual {@code Throwable} contains with the given description.
+   *
+   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
+   */
+  public S hasMessageContaining(String description) {
+	throwables.assertHasMessageContaining(info, actual, description);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the cause of the actual {@code Throwable} is an instance of the given type.
-	 * <p>
-	 * Example:
-	 *
-	 * <pre><code class='java'>
-	 * Throwable throwable = new Throwable(new NullPointerException());
-	 *
-	 * // assertion will pass
-	 * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
-	 * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
-	 *
-	 * // assertion will fail
-	 * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
-	 * </code></pre>
-	 *
-	 * </p>
-	 *
-	 * @param type the expected cause type.
-	 * @return this assertion object.
-	 * @throws NullPointerException if given type is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} has no cause.
-	 * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
-	 */
-	public S hasCauseInstanceOf(Class<? extends Throwable> type) {
-		throwables.assertHasCauseInstanceOf(info, actual, type);
-		return myself;
-	}
+  /**
+   * Verifies that the message of the actual {@code Throwable} ends with the given description.
+   *
+   * @param description the description expected to end the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
+   */
+  public S hasMessageEndingWith(String description) {
+	throwables.assertHasMessageEndingWith(info, actual, description);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
-	 * <p>
-	 * Example:
-	 *
-	 * <pre><code class='java'>
+  /**
+   * Verifies that the cause of the actual {@code Throwable} is an instance of the given type.
+   * <p>
+   * Example:
+   * </p>
+   *
+   * <pre><code class='java'>
+   * Throwable throwable = new Throwable(new NullPointerException());
+   *
+   * // assertion will pass
+   * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
+   * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
+   *
+   * // assertion will fail
+   * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
+   * </code></pre>
+   *
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   */
+  public S hasCauseInstanceOf(Class<? extends Throwable> type) {
+	throwables.assertHasCauseInstanceOf(info, actual, type);
+	return myself;
+  }
+
+  /**
+   * Verifies that the cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new NullPointerException());
 	 *
 	 * // assertion will pass
@@ -146,28 +176,28 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);
 	 * </code></pre>
-	 *
-	 * </p>
-	 *
-	 * @param type the expected cause type.
-	 * @return this assertion object.
-	 * @throws NullPointerException if given type is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} has no cause.
-	 * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
-	 *           type.
-	 */
-	public S hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-		throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
-		return myself;
-	}
+   *
+   * </p>
+   *
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
+   *           type.
+   */
+  public S hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
+	throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the root cause of the actual {@code Throwable} is an instance of the given type.
-	 * <p>
-	 * Example:
-	 *
-	 * <pre><code class='java'>
+  /**
+   * Verifies that the root cause of the actual {@code Throwable} is an instance of the given type.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
@@ -177,27 +207,27 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * // assertion will fail
 	 * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);
 	 * </code></pre>
-	 *
-	 * </p>
-	 *
-	 * @param type the expected cause type.
-	 * @return this assertion object.
-	 * @throws NullPointerException if given type is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} has no cause.
-	 * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
-	 */
-	public S hasRootCauseInstanceOf(Class<? extends Throwable> type) {
-		throwables.assertHasRootCauseInstanceOf(info, actual, type);
-		return myself;
-	}
+   *
+   * </p>
+   *
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   */
+  public S hasRootCauseInstanceOf(Class<? extends Throwable> type) {
+	throwables.assertHasRootCauseInstanceOf(info, actual, type);
+	return myself;
+  }
 
-	/**
-	 * Verifies that the root cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
-	 * <p>
-	 * Example:
-	 *
-	 * <pre><code class='java'>
+  /**
+   * Verifies that the root cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
 	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
@@ -207,19 +237,19 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);
 	 * </code></pre>
-	 *
-	 * </p>
-	 *
-	 * @param type the expected cause type.
-	 * @return this assertion object.
-	 * @throws NullPointerException if given type is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-	 * @throws AssertionError if the actual {@code Throwable} has no cause.
-	 * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
-	 *           given type.
-	 */
-	public S hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-		throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
-		return myself;
-	}
+   *
+   * </p>
+   *
+   * @param type the expected cause type.
+   * @return this assertion object.
+   * @throws NullPointerException if given type is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the actual {@code Throwable} has no cause.
+   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
+   *           given type.
+   */
+  public S hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
+	throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
+	return myself;
+  }
 }
