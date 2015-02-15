@@ -12,12 +12,6 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.test.ExpectedException.*;
-import static org.assertj.core.util.Lists.*;
-
-import java.util.Comparator;
-
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
@@ -27,6 +21,13 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.Comparator;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Tests for <code>{@link AbstractIterableAssert#extracting(String)}</code> and
@@ -67,59 +68,59 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_property_values_extracted_from_given_iterable() throws Exception {
-    assertThat(employees).as("extract property backed by a private field")
-                         .extracting("age")
+    assertThat(employees).extracting("age")
+                         .as("extract property backed by a private field")
                          .containsOnly(800, 26);
-    assertThat(employees).as("extract pure property")
-                         .extracting("adult")
+    assertThat(employees).extracting("adult")
+                         .as("extract pure property")
                          .containsOnly(true, true);
-    assertThat(employees).as("nested property")
-                         .extracting("name.first")
+    assertThat(employees).extracting("name.first")
+                         .as("nested property")
                          .containsOnly("Yoda", "Luke");
-    assertThat(employees).as("extract field that is also a property")
-                         .extracting("name")
+    assertThat(employees).extracting("name")
+                         .as("extract field that is also a property")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
-    assertThat(employees).as("extract field that is also a property but specifiying the extracted type")
-                         .extracting("name", Name.class)
+    assertThat(employees).extracting("name", Name.class)
+                         .as("extract field that is also a property but specifiying the extracted type")
                          .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
   public void should_allow_assertions_on_null_property_values_extracted_from_given_iterable() throws Exception {
     yoda.name.setFirst(null);
-    assertThat(employees).as("not null property but null nested property")
-                         .extracting("name.first")
+    assertThat(employees).extracting("name.first")
+                         .as("not null property but null nested property")
                          .containsOnly(null, "Luke");
     yoda.setName(null);
-    assertThat(employees).as("extract nested property when top property is null")
-                         .extracting("name.first")
+    assertThat(employees).extracting("name.first")
+                         .as("extract nested property when top property is null")
                          .containsOnly(null, "Luke");
-    assertThat(employees).as("null property")
-                         .extracting("name")
+    assertThat(employees).extracting("name")
+                         .as("null property")
                          .containsOnly(null, new Name("Luke", "Skywalker"));
   }
 
   @Test
   public void should_allow_assertions_on_field_values_extracted_from_given_iterable() throws Exception {
-    assertThat(employees).as("extract field")
-                         .extracting("id")
+    assertThat(employees).extracting("id")
+                         .as("extract field")
                          .containsOnly(1L, 2L);
-    assertThat(employees).as("null field")
-                         .extracting("surname")
+    assertThat(employees).extracting("surname")
+                         .as("null field")
                          .containsNull();
-    assertThat(employees).as("null nested field")
-                         .extracting("surname.first")
+    assertThat(employees).extracting("surname.first")
+                         .as("null nested field")
                          .containsNull();
     yoda.surname = new Name();
-    assertThat(employees).as("not null field but null nested field")
-                         .extracting("surname.first")
+    assertThat(employees).extracting("surname.first")
+                         .as("not null field but null nested field")
                          .containsNull();
     yoda.surname = new Name("Master");
-    assertThat(employees).as("nested field")
-                         .extracting("surname.first")
+    assertThat(employees).extracting("surname.first")
+                         .as("nested field")
                          .containsOnly("Master", null);
-    assertThat(employees).as("extract field specifiying the extracted type")
-                         .extracting("surname", Name.class)
+    assertThat(employees).extracting("surname", Name.class)
+                         .as("extract field specifiying the extracted type")
                          .containsOnly(new Name("Master"), null);
   }
 
