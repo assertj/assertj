@@ -19,13 +19,17 @@ import java.util.concurrent.Callable;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Throwable)}</code>.
  * </p>
- * 
+ *
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
+
+  public interface ThrowingCallable {
+    void call() throws Throwable;
+  }
 
   protected ThrowableAssert(Throwable actual) {
 	super(actual, ThrowableAssert.class);
@@ -50,5 +54,14 @@ public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Th
 	  // the throwable we will check
 	  return throwable;
 	}
+  }
+
+  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
+    try {
+      shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return throwable;
+    }
+    return null;
   }
 }

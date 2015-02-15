@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -35,7 +36,12 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   Throwables throwables = Throwables.instance();
 
   protected AbstractThrowableAssert(A actual, Class<?> selfType) {
-	super(actual, selfType);
+    super(actual, selfType);
+  }
+
+  protected S hasBeenThrown() {
+    if (actual == null) throw Failures.instance().failure("Expecting code to raise a throwable.");
+    return myself;
   }
 
   /**
@@ -47,12 +53,12 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
   public S hasMessage(String message) {
-	throwables.assertHasMessage(info, actual, message);
-	return myself;
+    throwables.assertHasMessage(info, actual, message);
+    return myself;
   }
 
   /**
-   * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message 
+   * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message
    * (it does not use {@link Throwable#equals(Object) method for comparison}.
    *
    * <p>
@@ -77,8 +83,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    */
   public S hasCause(Throwable cause) {
-	throwables.assertHasCause(info, actual, cause);
-	return myself;
+    throwables.assertHasCause(info, actual, cause);
+    return myself;
   }
 
   /**
@@ -89,8 +95,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the actual {@code Throwable} has a cause.
    */
   public S hasNoCause() {
-	throwables.assertHasNoCause(info, actual);
-	return myself;
+    throwables.assertHasNoCause(info, actual);
+    return myself;
   }
 
   /**
@@ -102,8 +108,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
    */
   public S hasMessageStartingWith(String description) {
-	throwables.assertHasMessageStartingWith(info, actual, description);
-	return myself;
+    throwables.assertHasMessageStartingWith(info, actual, description);
+    return myself;
   }
 
   /**
@@ -115,8 +121,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
   public S hasMessageContaining(String description) {
-	throwables.assertHasMessageContaining(info, actual, description);
-	return myself;
+    throwables.assertHasMessageContaining(info, actual, description);
+    return myself;
   }
 
   /**
@@ -128,8 +134,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
    */
   public S hasMessageEndingWith(String description) {
-	throwables.assertHasMessageEndingWith(info, actual, description);
-	return myself;
+    throwables.assertHasMessageEndingWith(info, actual, description);
+    return myself;
   }
 
   /**
@@ -157,8 +163,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public S hasCauseInstanceOf(Class<? extends Throwable> type) {
-	throwables.assertHasCauseInstanceOf(info, actual, type);
-	return myself;
+    throwables.assertHasCauseInstanceOf(info, actual, type);
+    return myself;
   }
 
   /**
@@ -188,8 +194,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    *           type.
    */
   public S hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-	throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
-	return myself;
+    throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
+    return myself;
   }
 
   /**
@@ -218,8 +224,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public S hasRootCauseInstanceOf(Class<? extends Throwable> type) {
-	throwables.assertHasRootCauseInstanceOf(info, actual, type);
-	return myself;
+    throwables.assertHasRootCauseInstanceOf(info, actual, type);
+    return myself;
   }
 
   /**
@@ -249,7 +255,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    *           given type.
    */
   public S hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-	throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
-	return myself;
+    throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
+    return myself;
   }
 }
