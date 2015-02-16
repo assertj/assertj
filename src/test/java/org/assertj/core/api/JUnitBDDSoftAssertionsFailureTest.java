@@ -8,18 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
-
-import java.util.List;
 
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runners.model.MultipleFailureException;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 public class JUnitBDDSoftAssertionsFailureTest {
 
@@ -33,7 +33,7 @@ public class JUnitBDDSoftAssertionsFailureTest {
 	  softly.then(1).isEqualTo(1);
 	  softly.then(1).isEqualTo(2);
 	  softly.then(Lists.newArrayList(1, 2)).containsOnly(1, 3);
-	  MultipleFailureException.assertEmpty(softly.getCollector().errors());
+	  MultipleFailureException.assertEmpty(softly.getErrors());
 	  fail("Should not reach here");
 	} catch (MultipleFailureException e) {
 	  List<Throwable> failures = e.getFailures();

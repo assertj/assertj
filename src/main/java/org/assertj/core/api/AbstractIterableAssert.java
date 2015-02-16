@@ -8,19 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.extractor.Extractors.resultOf;
-import static org.assertj.core.util.Iterables.toArray;
-import static org.assertj.core.util.Lists.newArrayList;
-
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
@@ -36,6 +26,16 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
+
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.Lists.newArrayList;
 
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
@@ -822,7 +822,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           public) in one of the initial Iterable's element.
    */
   public ListAssert<Tuple> extracting(String... propertiesOrFields) {
-	return extracting(byName(propertiesOrFields));
+    List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
+    return new ListAssert<>(values);
   }
 
   /**

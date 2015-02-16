@@ -8,28 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Arrays.array;
-import net.sf.cglib.proxy.Enhancer;
-
 public class AbstractSoftAssertions {
 
-  protected final ErrorCollector collector;
+  protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
 	super();
-	this.collector = new ErrorCollector();
+    proxies = new SoftProxies();
   }
 
-  @SuppressWarnings("unchecked")
   protected <T, V> V proxy(Class<V> assertClass, Class<T> actualClass, T actual) {
-    Enhancer enhancer = new Enhancer();
-    enhancer.setSuperclass(assertClass);
-    enhancer.setCallback(collector);
-    return (V) enhancer.create(array(actualClass), array(actual));
+    return proxies.create(assertClass, actualClass, actual);
   }
-
 }

@@ -1,0 +1,54 @@
+/**
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *
+ * Copyright 2012-2015 the original author or authors.
+ */
+package org.assertj.core.api;
+
+import net.sf.cglib.proxy.Callback;
+import net.sf.cglib.proxy.CallbackFilter;
+import net.sf.cglib.proxy.Enhancer;
+
+import java.lang.reflect.Method;
+import java.util.List;
+
+import static org.assertj.core.util.Arrays.array;
+
+class SoftProxies {
+
+  private final ErrorCollector collector = new ErrorCollector();
+
+  List<Throwable> errorsCollected() {
+    return collector.errors();
+  }
+
+  @SuppressWarnings("unchecked")
+  <V, T> V create(Class<V> assertClass, Class<T> actualClass, T actual) {
+    Enhancer enhancer = new Enhancer();
+    enhancer.setSuperclass(assertClass);
+    enhancer.setCallbackFilter(CollectErrorsOrCreateExtractedProxy.FILTER);
+    enhancer.setCallbacks(new Callback[] { collector, new ProxifyExtractingResult(this) });
+    return (V) enhancer.create(array(actualClass), array(actual));
+  }
+
+  private enum CollectErrorsOrCreateExtractedProxy implements CallbackFilter {
+    FILTER;
+
+	private static final int ERROR_COLLECTOR_INDEX = 0;
+	private static final int PROXIFY_EXTRACTING_INDEX = 1;
+
+	public int accept(Method method) {
+	  if (method.getName().toLowerCase().contains("extracting")) {
+		return PROXIFY_EXTRACTING_INDEX;
+	  }
+	  return ERROR_COLLECTOR_INDEX;
+	}
+  }
+}

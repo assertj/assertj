@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
 import java.util.List;
+
+import static org.assertj.core.groups.Properties.extractProperty;
 
 /**
  * <p>
@@ -135,7 +135,7 @@ public class BDDSoftAssertions extends AbstractBDDSoftAssertions {
    * @throws SoftAssertionError if any proxied assertion objects threw
    */
   public void assertAll() {
-	List<Throwable> errors = collector.errors();
+	List<Throwable> errors = proxies.errorsCollected();
 	if (!errors.isEmpty()) {
 	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
 	}
