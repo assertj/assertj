@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
@@ -88,7 +88,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   @Test
   public void should_return_this() {
     S returned = invoke_api_method();
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 
   protected AssertionInfo getInfo(S someAssertions) {
