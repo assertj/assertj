@@ -156,8 +156,9 @@ public class Classes {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-	                                    @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+  @SafeVarargs
+  public final void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
+											  @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
 	assertNotNull(info, actual);
 	Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
 	Set<Class<? extends Annotation>> missing = new LinkedHashSet<Class<? extends Annotation>>();
