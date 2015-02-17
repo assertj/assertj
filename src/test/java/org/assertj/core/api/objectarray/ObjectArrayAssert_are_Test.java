@@ -33,7 +33,7 @@ public class ObjectArrayAssert_are_Test extends ObjectArrayAssertBaseTest {
 
   @Before
   public void before() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Override

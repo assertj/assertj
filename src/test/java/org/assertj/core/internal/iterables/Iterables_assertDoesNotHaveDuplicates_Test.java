@@ -79,7 +79,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
 
   @Test
   public void should_pass_within_time_constraints() {
-    List<String> generated = new ArrayList<String>(GENERATED_OBJECTS_NUMBER);
+    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
     for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
       generated.add(UUID.randomUUID().toString());
     }
@@ -133,7 +133,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   
   @Test
   public void should_pass_within_time_constraints_with_custom_comparison_strategy() {
-    List<String> generated = new ArrayList<String>(GENERATED_OBJECTS_NUMBER);
+    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
     for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
       generated.add(UUID.randomUUID().toString());
     }

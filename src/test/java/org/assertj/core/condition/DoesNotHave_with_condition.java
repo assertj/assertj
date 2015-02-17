@@ -29,7 +29,7 @@ public class DoesNotHave_with_condition {
 
   @Test
   public void should_create_new_doesNotHave_with_passed_Condition() {
-    TestCondition<Object> condition = new TestCondition<Object>();
+    TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = doesNotHave(condition);
     assertEquals(DoesNotHave.class, created.getClass());
     DoesNotHave<Object> doesNotHave = (DoesNotHave<Object>) created;

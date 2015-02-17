@@ -37,7 +37,7 @@ public class Condition_as_String_Test {
 
   @Before
   public void setUp() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Test

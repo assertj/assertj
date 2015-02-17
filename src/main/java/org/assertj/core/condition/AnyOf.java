@@ -33,7 +33,7 @@ public class AnyOf<T> extends Join<T> {
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
-    return new AnyOf<T>(conditions);
+    return new AnyOf<>(conditions);
   }
 
   /**
@@ -45,7 +45,7 @@ public class AnyOf<T> extends Join<T> {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
-    return new AnyOf<T>(conditions);
+    return new AnyOf<>(conditions);
   }
 
   @SafeVarargs

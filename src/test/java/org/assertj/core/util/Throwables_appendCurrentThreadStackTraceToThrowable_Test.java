@@ -32,7 +32,7 @@ public class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
 
   @Before
   public void setUp() {
-    exceptionReference = new AtomicReference<RuntimeException>();
+    exceptionReference = new AtomicReference<>();
   }
 
   @Test

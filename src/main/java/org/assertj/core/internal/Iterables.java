@@ -217,7 +217,7 @@ public class Iterables {
   }
 
   private void assertIterableContainsGivenValues(Iterable<?> actual, Object[] values, AssertionInfo info) {
-    Set<Object> notFound = new LinkedHashSet<Object>();
+    Set<Object> notFound = new LinkedHashSet<>();
     for (Object value : values) {
       if (!iterableContains(actual, value)) {
         notFound.add(value);
@@ -267,7 +267,7 @@ public class Iterables {
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object[] values) {
-    Set<Object> notFound = new LinkedHashSet<Object>();
+    Set<Object> notFound = new LinkedHashSet<>();
     for (Object o : set(values)) {
       if (iterableContains(actual, o)) {
         iterableRemoves(actual, o);
@@ -288,7 +288,7 @@ public class Iterables {
     if (elements == null) {
       return null;
     }
-    Set<Object> set = new HashSet<Object>();
+    Set<Object> set = new HashSet<>();
     for (Object e : elements) {
       // only add is not already there
       if (!iterableContains(set, e)) {
@@ -308,7 +308,7 @@ public class Iterables {
     if (iterable == null) {
       return null;
     }
-    Set<Object> set = new HashSet<Object>();
+    Set<Object> set = new HashSet<>();
     for (Object e : iterable) {
       // only add is not already there
       if (!iterableContains(set, e)) {
@@ -334,8 +334,8 @@ public class Iterables {
     if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
       return;
     // check for elements in values that are missing in actual.
-    Set<Object> notFound = new LinkedHashSet<Object>();
-    Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
+    Set<Object> notFound = new LinkedHashSet<>();
+    Set<Object> notOnlyOnce = new LinkedHashSet<>();
     Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(actual);
     for (Object expectedOnlyOnce : values) {
       if (!iterableContains(actual, expectedOnlyOnce)) {
@@ -485,7 +485,7 @@ public class Iterables {
   public void assertDoesNotContain(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNullAndNotEmpty(values);
     assertNotNull(info, actual);
-    Set<Object> found = new LinkedHashSet<Object>();
+    Set<Object> found = new LinkedHashSet<>();
     for (Object o : values) {
       if (iterableContains(actual, o)) {
         found.add(o);
@@ -937,7 +937,7 @@ public class Iterables {
   }
 
   private <E> List<E> notSatisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    List<E> notSatisfiesCondition = new LinkedList<E>();
+    List<E> notSatisfiesCondition = new LinkedList<>();
     for (E o : actual) {
       if (!condition.matches(o)) {
         notSatisfiesCondition.add(o);
@@ -947,7 +947,7 @@ public class Iterables {
   }
 
   private <E> List<E> satisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
-    List<E> satisfiesCondition = new LinkedList<E>();
+    List<E> satisfiesCondition = new LinkedList<>();
     for (E o : actual) {
       if (condition.matches(o)) {
         satisfiesCondition.add(o);

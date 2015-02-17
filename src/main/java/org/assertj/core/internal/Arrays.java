@@ -143,7 +143,7 @@ public class Arrays {
 
   void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values)) return;
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	int valueCount = sizeOf(values);
 	for (int i = 0; i < valueCount; i++) {
 	  Object value = Array.get(values, i);
@@ -157,7 +157,7 @@ public class Arrays {
 	if (iterable == null) throw iterableToLookForIsNull();
 	assertNotNull(info, array);
 	Object[] values = newArrayList(iterable).toArray();
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	for (Object value : values) {
 	  if (!arrayContains(array, value)) notFound.add(value);
 	}
@@ -221,8 +221,8 @@ public class Arrays {
 	if (commonChecks(info, actual, values))
 	  return;
 	Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
-	Set<Object> notFound = new LinkedHashSet<Object>();
-	Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
+	Set<Object> notOnlyOnce = new LinkedHashSet<>();
 	for (Object expectedElement : asList(values)) {
 	  if (!arrayContains(actual, expectedElement)) {
 		notFound.add(expectedElement);
@@ -236,7 +236,7 @@ public class Arrays {
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	for (Object o : asSetWithoutDuplicatesAccordingToComparisonStrategy(values)) {
 	  if (iterableContains(actual, o)) {
 		collectionRemoves(actual, o);
@@ -254,7 +254,7 @@ public class Arrays {
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
   private Set<Object> asSetWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
-	Set<Object> set = new LinkedHashSet<Object>();
+	Set<Object> set = new LinkedHashSet<>();
 	int size = sizeOf(array);
 	for (int i = 0; i < size; i++) {
 	  Object element = Array.get(array, i);
@@ -338,7 +338,7 @@ public class Arrays {
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
 	checkIsNotNullAndNotEmpty(values);
 	assertNotNull(info, array);
-	Set<Object> found = new LinkedHashSet<Object>();
+	Set<Object> found = new LinkedHashSet<>();
 	int valuesSize = sizeOf(values);
 	for (int i = 0; i < valuesSize; i++) {
 	  Object value = Array.get(values, i);
@@ -514,7 +514,7 @@ public class Arrays {
 	assertNotNull(info, array);
 	conditions.assertIsNotNull(condition);
 	try {
-	  List<E> filteredElements = new LinkedList<E>();
+	  List<E> filteredElements = new LinkedList<>();
 	  int arraySize = sizeOf(array);
 	  for (int i = 0; i < arraySize; i++) {
 		E element = (E) Array.get(array, i);
@@ -583,7 +583,7 @@ public class Arrays {
 	if (array == null) return null;
 	if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
 	int length = getLength(array);
-	List<T> list = new ArrayList<T>(length);
+	List<T> list = new ArrayList<>(length);
 	for (int i = 0; i < length; i++) {
 	  list.add((T) Array.get(array, i));
 	}

@@ -186,7 +186,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-	return new GenericComparableAssert<T>(actual);
+	return new GenericComparableAssert<>(actual);
   }
 
   /**
@@ -196,7 +196,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
-	return new IterableAssert<T>(actual);
+	return new IterableAssert<>(actual);
   }
 
   /**
@@ -210,7 +210,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
-	return new IterableAssert<T>(actual);
+	return new IterableAssert<>(actual);
   }
 
   /**
@@ -341,7 +341,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
-	return new ListAssert<T>(actual);
+	return new ListAssert<>(actual);
   }
 
   /**
@@ -381,7 +381,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
-	return new ObjectAssert<T>(actual);
+	return new ObjectAssert<>(actual);
   }
 
   /**
@@ -465,7 +465,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
-	return new ObjectArrayAssert<T>(actual);
+	return new ObjectArrayAssert<>(actual);
   }
 
   /**
@@ -475,7 +475,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <K, V> AbstractMapAssert<?, ? extends Map<K, V>, K, V> assertThat(Map<K, V> actual) {
-	return new MapAssert<K, V>(actual);
+	return new MapAssert<>(actual);
   }
 
   /**

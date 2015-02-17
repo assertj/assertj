@@ -108,7 +108,7 @@ public class Filters<E> {
    */
   public static <E> Filters<E> filter(Iterable<E> iterable) {
     if (iterable == null) throw new NullPointerException("The iterable to filter should not be null");
-    return new Filters<E>(iterable);
+    return new Filters<>(iterable);
   }
 
   /**
@@ -145,7 +145,7 @@ public class Filters<E> {
    */
   public static <E> Filters<E> filter(E[] array) {
     if (array == null) throw new NullPointerException("The array to filter should not be null");
-    return new Filters<E>(array);
+    return new Filters<>(array);
   }
 
   @VisibleForTesting
@@ -157,7 +157,7 @@ public class Filters<E> {
 
   @VisibleForTesting
   Filters(E[] array) {
-    List<E> iterable = new ArrayList<E>(array.length);
+    List<E> iterable = new ArrayList<>(array.length);
     Collections.addAll(iterable, array);
     this.initialIterable = iterable;
     // copy list to avoid modifying iterable
@@ -215,7 +215,7 @@ public class Filters<E> {
   }
 
   private Filters<E> applyFilterCondition(Condition<? super E> condition) {
-    List<E> newFilteredIterable = new ArrayList<E>();
+    List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       if (condition.matches(element)) {
         newFilteredIterable.add(element);
@@ -301,7 +301,7 @@ public class Filters<E> {
    */
   public Filters<E> equalsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<E>();
+    List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       // As we don't know the propertyValue class, we use Object.class
       Class<?> propertyValueClass = propertyValue == null ? Object.class : propertyValue.getClass();
@@ -330,7 +330,7 @@ public class Filters<E> {
    */
   public Filters<E> notEqualsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<E>();
+    List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValue.getClass(),
           element);
@@ -363,7 +363,7 @@ public class Filters<E> {
    */
   public Filters<E> in(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<E>();
+    List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
           .getComponentType(), element);
@@ -391,7 +391,7 @@ public class Filters<E> {
    */
   public Filters<E> notIn(Object... propertyValues) {
     checkPropertyNameToFilterOnIsNotNull();
-    List<E> newFilteredIterable = new ArrayList<E>();
+    List<E> newFilteredIterable = new ArrayList<>();
     for (E element : filteredIterable) {
       Object propertyValueOfCurrentElement = propertySupport.propertyValueOf(propertyNameToFilterOn, propertyValues.getClass()
           .getComponentType(), element);

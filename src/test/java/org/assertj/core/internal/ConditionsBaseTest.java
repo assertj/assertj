@@ -47,7 +47,7 @@ public class ConditionsBaseTest {
   @Before
   public void setUp() {
     failures = spy(new Failures());
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
     conditions = new Conditions();
     conditions.failures = failures;
   }

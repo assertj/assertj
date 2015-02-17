@@ -23,7 +23,7 @@ import org.assertj.core.api.TestCondition;
  * Tests for <code>{@link org.assertj.core.api.AbstractIterableAssert#areAtLeastOne(org.assertj.core.api.Condition)}</code>.
  */
 public class IterableAssert_areAtLeastOne_Test extends IterableAssertBaseTest {
-  private static final Condition<Object> condition = new TestCondition<Object>();
+  private static final Condition<Object> condition = new TestCondition<>();
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

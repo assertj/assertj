@@ -42,7 +42,7 @@ class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
   }
 
   private List<Object> extractValues(T input, List<Extractor<T, Object>> singleExtractors) {
-    List<Object> values = new ArrayList<Object>();
+    List<Object> values = new ArrayList<>();
     
     for (Extractor<T, Object> extractor : singleExtractors) {
       values.add(extractor.extract(input));
@@ -51,7 +51,7 @@ class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
   }
 
   private List<Extractor<T, Object>> buildExtractors() {
-    List<Extractor<T, Object>> result = new ArrayList<Extractor<T,Object>>();
+    List<Extractor<T, Object>> result = new ArrayList<>();
     
     for (String name : fieldsOrProperties) {
       result.add(new ByNameSingleExtractor<T>(name));

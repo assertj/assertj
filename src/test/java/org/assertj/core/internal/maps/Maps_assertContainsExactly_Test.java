@@ -50,7 +50,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @Before
   public void initLinkedHashMap() throws Exception {
-    linkedActual = new LinkedHashMap<String, String>(2);
+    linkedActual = new LinkedHashMap<>(2);
     linkedActual.put("name", "Yoda");
     linkedActual.put("color", "green");
   }
@@ -151,7 +151,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SafeVarargs
   private static Map<String, String> newLinkedHashMap(MapEntry<String, String>... entries) {
-    LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+    LinkedHashMap<String, String> result = new LinkedHashMap<>();
     for (MapEntry<String, String> entry : entries) {
       result.put(entry.key, entry.value);
     }
@@ -159,7 +159,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   private static <K, V> Set<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
-    LinkedHashSet<MapEntry<K, V>> result = new LinkedHashSet<MapEntry<K, V>>();
+    LinkedHashSet<MapEntry<K, V>> result = new LinkedHashSet<>();
     result.add(entry);
     return result;
   }

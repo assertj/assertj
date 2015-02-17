@@ -35,7 +35,7 @@ public class MapEntry<K, V> {
    * @return the created {@code MapEntry}.
    */
   public static <K,V> MapEntry<K, V> entry(K key, V value) {
-    return new MapEntry<K, V>(key, value);
+    return new MapEntry<>(key, value);
   }
 
   private MapEntry(K key, V value) {

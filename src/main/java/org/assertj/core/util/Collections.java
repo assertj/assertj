@@ -45,11 +45,11 @@ public final class Collections {
    *         empty {@code Collection} is returned.
    */
   public static <T> Collection<T> duplicatesFrom(Collection<T> c) {
-    Set<T> duplicates = new LinkedHashSet<T>();
+    Set<T> duplicates = new LinkedHashSet<>();
     if (isNullOrEmpty(c)) {
       return duplicates;
     }
-    Set<T> noDuplicates = new HashSet<T>();
+    Set<T> noDuplicates = new HashSet<>();
     for (T e : c) {
       if (noDuplicates.contains(e)) {
         duplicates.add(e);
@@ -149,7 +149,7 @@ public final class Collections {
     if (isNullOrEmpty(c)) {
       return emptyList();
     }
-    List<T> nonNull = new ArrayList<T>();
+    List<T> nonNull = new ArrayList<>();
     for (T element : c) {
       if (element != null) {
         nonNull.add(element);

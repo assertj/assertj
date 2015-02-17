@@ -29,7 +29,7 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 
   @Test
   public void should_create_error_message_for_iterable() {
-	List<Object> list = new ArrayList<Object>();
+	List<Object> list = new ArrayList<>();
 	list.add("Yoda");
 	list.add(5L);
 	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);

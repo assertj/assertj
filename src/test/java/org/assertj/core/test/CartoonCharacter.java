@@ -17,7 +17,7 @@ import java.util.List;
 
 public class CartoonCharacter {
   private final String name;
-  private final List<CartoonCharacter> children = new ArrayList<CartoonCharacter>();
+  private final List<CartoonCharacter> children = new ArrayList<>();
 
   public CartoonCharacter(String name) {
     this.name = name;

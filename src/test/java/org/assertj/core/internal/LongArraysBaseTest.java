@@ -52,7 +52,7 @@ public class LongArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected LongArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Long> absValueComparator = new AbsValueComparator<Long>();
+  private AbsValueComparator<Long> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

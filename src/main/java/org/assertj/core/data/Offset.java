@@ -41,7 +41,7 @@ public class Offset<T extends Number> {
     if (value < 0d) {
       throw valueNotPositive();
     }
-    return new Offset<Double>(value);
+    return new Offset<>(value);
   }
 
   /**
@@ -57,7 +57,7 @@ public class Offset<T extends Number> {
     if (value < 0f) {
       throw valueNotPositive();
     }
-    return new Offset<Float>(value);
+    return new Offset<>(value);
   }
 
   /**
@@ -73,7 +73,7 @@ public class Offset<T extends Number> {
     if (value < 0) {
       throw valueNotPositive();
     }
-    return new Offset<Integer>(value);
+    return new Offset<>(value);
   }
 
   /**
@@ -87,7 +87,7 @@ public class Offset<T extends Number> {
   public static Offset<BigDecimal> offset(final BigDecimal value) {
     checkNotNull(value);
     if (value.compareTo(BigDecimal.ZERO) < 0) throw valueNotPositive();
-    return new Offset<BigDecimal>(value);
+    return new Offset<>(value);
   }
 
   private static IllegalArgumentException valueNotPositive() {

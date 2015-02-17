@@ -33,7 +33,7 @@ public class IterableAssert_haveAtMost_Test extends IterableAssertBaseTest {
 
   @BeforeClass
   public static void beforeOnce() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Override

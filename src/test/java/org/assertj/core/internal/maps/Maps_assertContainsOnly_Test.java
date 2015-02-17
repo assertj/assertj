@@ -141,7 +141,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   private static <K, V> HashSet<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
-    HashSet<MapEntry<K, V>> notExpected = new HashSet<MapEntry<K, V>>();
+    HashSet<MapEntry<K, V>> notExpected = new HashSet<>();
     notExpected.add(entry);
     return notExpected;
   }

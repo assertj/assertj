@@ -32,7 +32,7 @@ public class Not_toString_Test {
 
   @Before
   public void setUp() {
-    condition = new TestCondition<Object>("Jedi");
+    condition = new TestCondition<>("Jedi");
     not = not(condition);
   }
 

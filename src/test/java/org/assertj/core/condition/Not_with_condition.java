@@ -28,7 +28,7 @@ public class Not_with_condition {
 
   @Test
   public void should_create_new_notOf_with_passed_Conditions() {
-    TestCondition<Object> condition = new TestCondition<Object>();
+    TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = not(condition);
     assertEquals(Not.class, created.getClass());
     Not<Object> not = (Not<Object>) created;

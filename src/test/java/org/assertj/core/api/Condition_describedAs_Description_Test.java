@@ -45,7 +45,7 @@ public class Condition_describedAs_Description_Test {
 
   @Before
   public void setUp() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Test

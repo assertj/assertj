@@ -34,14 +34,14 @@ public class Collections_nonNullElementsIn_Test {
 
   @Test
   public void should_return_empty_List_if_given_Collection_has_only_null_elements() {
-    Collection<String> c = new ArrayList<String>();
+    Collection<String> c = new ArrayList<>();
     c.add(null);
     assertTrue(Collections.nonNullElementsIn(c).isEmpty());
   }
 
   @Test
   public void should_return_empty_List_if_given_Collection_is_empty() {
-    Collection<String> c = new ArrayList<String>();
+    Collection<String> c = new ArrayList<>();
     assertTrue(Collections.nonNullElementsIn(c).isEmpty());
   }
 

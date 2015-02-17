@@ -100,7 +100,7 @@ public class Arrays {
     if (array == null) {
       return emptyList();
     }
-    List<T> nonNullElements = new ArrayList<T>();
+    List<T> nonNullElements = new ArrayList<>();
     for (T o : array) {
       if (o != null) {
         nonNullElements.add(o);

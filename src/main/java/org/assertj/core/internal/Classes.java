@@ -65,7 +65,7 @@ public class Classes {
 	assertNotNull(info, actual);
 
 	Set<Class<?>> expected = newLinkedHashSet(others);
-	Set<Class<?>> missing = new LinkedHashSet<Class<?>>();
+	Set<Class<?>> missing = new LinkedHashSet<>();
 	for (Class<?> other : expected) {
 	  classParameterIsNotNull(other);
 	  if (!actual.isAssignableFrom(other)) {
@@ -160,7 +160,7 @@ public class Classes {
 	                                    @SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
 	assertNotNull(info, actual);
 	Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
-	Set<Class<? extends Annotation>> missing = new LinkedHashSet<Class<? extends Annotation>>();
+	Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
 	for (Class<? extends Annotation> other : expected) {
 	  classParameterIsNotNull(other);
 	  if (actual.getAnnotation(other) == null) {
@@ -221,7 +221,7 @@ public class Classes {
   }
 
   private static Set<String> fieldsToName(Field[] fields) {
-	Set<String> fieldsName = new LinkedHashSet<String>();
+	Set<String> fieldsName = new LinkedHashSet<>();
 	for (Field field : fields) {
 	  fieldsName.add(field.getName());
 	}

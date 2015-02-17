@@ -106,7 +106,7 @@ public class Diff {
   }
 
   private List<String> diff(BufferedReader actual, BufferedReader expected) throws IOException {
-    List<String> diffs = new ArrayList<String>();
+    List<String> diffs = new ArrayList<>();
     int lineNumber = 1;
     while (true) {
       String actualLine = actual.readLine();

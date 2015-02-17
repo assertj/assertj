@@ -32,8 +32,8 @@ public class AnyOf_toString_Test {
 
   @Before
   public void setUp() {
-    condition1 = new TestCondition<Object>("Condition 1");
-    condition2 = new TestCondition<Object>("Condition 2");
+    condition1 = new TestCondition<>("Condition 1");
+    condition2 = new TestCondition<>("Condition 2");
     anyOf = anyOf(condition1, condition2);
   }
 

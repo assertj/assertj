@@ -427,7 +427,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-	return new ObjectArrayAssert<Object>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -482,7 +482,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-	return new ObjectArrayAssert<P>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -547,7 +547,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
 	Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
 
-	return new ObjectArrayAssert<Tuple>(result);
+	return new ObjectArrayAssert<>(result);
   }
 
   /**
@@ -595,7 +595,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super T, U> extractor) {
 	U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
-	return new ObjectArrayAssert<U>(extracted);
+	return new ObjectArrayAssert<>(extracted);
   }
 
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
@@ -606,7 +606,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	  result.addAll(e);
 	}
 
-	return new ObjectArrayAssert<U>(Iterables.toArray(result));
+	return new ObjectArrayAssert<>(Iterables.toArray(result));
   }
 
   /**
@@ -652,7 +652,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ObjectArrayAssert<Object>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -700,7 +700,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ObjectArrayAssert<P>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**

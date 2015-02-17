@@ -41,7 +41,7 @@ public abstract class Join<T> extends Condition<T> {
   @SafeVarargs
   protected Join(Condition<? super T>... conditions) {
     if (conditions == null) throw conditionsIsNull();
-    this.conditions = new ArrayList<Condition<? super T>>();
+    this.conditions = new ArrayList<>();
     for (Condition<? super T> condition : conditions)
       this.conditions.add(notNull(condition));
   }
@@ -54,7 +54,7 @@ public abstract class Join<T> extends Condition<T> {
    */
   protected Join(Iterable<? extends Condition<? super T>> conditions) {
     if (conditions == null) throw conditionsIsNull();
-    this.conditions = new ArrayList<Condition<? super T>>();
+    this.conditions = new ArrayList<>();
     for (Condition<? super T> condition : conditions)
       this.conditions.add(notNull(condition));
   }

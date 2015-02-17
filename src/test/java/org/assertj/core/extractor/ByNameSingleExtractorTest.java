@@ -153,19 +153,19 @@ public class ByNameSingleExtractorTest {
   }
 
   private ByNameSingleExtractor<Employee> idExtractor() {
-	return new ByNameSingleExtractor<Employee>("id");
+	return new ByNameSingleExtractor<>("id");
   }
 
   private ByNameSingleExtractor<Employee> ageExtractor() {
-	return new ByNameSingleExtractor<Employee>("age");
+	return new ByNameSingleExtractor<>("age");
   }
 
   private ByNameSingleExtractor<Employee> adultExtractor() {
-	return new ByNameSingleExtractor<Employee>("adult");
+	return new ByNameSingleExtractor<>("adult");
   }
 
   private ByNameSingleExtractor<Employee> nameExtractor() {
-	return new ByNameSingleExtractor<Employee>("name");
+	return new ByNameSingleExtractor<>("name");
   }
 
 }

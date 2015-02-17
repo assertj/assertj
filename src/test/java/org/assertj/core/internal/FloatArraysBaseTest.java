@@ -52,7 +52,7 @@ public class FloatArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected FloatArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Float> absValueComparator = new AbsValueComparator<Float>();
+  private AbsValueComparator<Float> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

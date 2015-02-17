@@ -194,7 +194,7 @@ public class Maps {
 	if (actual.isEmpty() && entries.length == 0)
 	  return;
 	failIfEmptySinceActualIsNotEmpty(entries);
-	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
+	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
 	for (MapEntry<? extends K, ? extends V> entry : entries) {
 	  if (!containsEntry(actual, entry)) {
 		notFound.add(entry);
@@ -222,7 +222,7 @@ public class Maps {
 	                                      MapEntry<? extends K, ? extends V>[] entries) {
 	failIfNullOrEmpty(entries);
 	assertNotNull(info, actual);
-	Set<MapEntry<? extends K, ? extends V>> found = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
+	Set<MapEntry<? extends K, ? extends V>> found = new LinkedHashSet<>();
 	for (MapEntry<? extends K, ? extends V> entry : entries) {
 	  if (containsEntry(actual, entry)) {
 		found.add(entry);
@@ -245,7 +245,7 @@ public class Maps {
    */
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, @SuppressWarnings("unchecked") K... keys) {
 	assertNotNull(info, actual);
-	Set<K> notFound = new LinkedHashSet<K>();
+	Set<K> notFound = new LinkedHashSet<>();
 	for (K key : keys) {
 	  if (!actual.containsKey(key)) {
 		notFound.add(key);
@@ -286,7 +286,7 @@ public class Maps {
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual,
 	                                          @SuppressWarnings("unchecked") K... keys) {
 	assertNotNull(info, actual);
-	Set<K> found = new LinkedHashSet<K>();
+	Set<K> found = new LinkedHashSet<>();
 	for (K key : keys) {
 	  if (key != null && actual.containsKey(key)) {
 		found.add(key);
@@ -318,8 +318,8 @@ public class Maps {
 	}
 	failIfEmpty(keys);
 
-	Set<K> notFound = new LinkedHashSet<K>();
-	Set<K> notExpected = new LinkedHashSet<K>();
+	Set<K> notFound = new LinkedHashSet<>();
+	Set<K> notExpected = new LinkedHashSet<>();
 
 	compareActualMapAndExpectedKeys(actual, keys, notExpected, notFound);
 
@@ -363,7 +363,7 @@ public class Maps {
 	if (values == null) throw new NullPointerException("The array of values to look for should not be null");
 	if (actual.isEmpty() && values.length == 0) return;
 	//
-	Set<V> valuesNotFound = new LinkedHashSet<V>();
+	Set<V> valuesNotFound = new LinkedHashSet<>();
 	for (V valueToLookFor : values) {
 	  if (!actual.containsValue(valueToLookFor)) valuesNotFound.add(valueToLookFor);
 	}
@@ -407,8 +407,8 @@ public class Maps {
 	}
 	failIfEmpty(entries);
 
-	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
-	Set<MapEntry<? extends K, ? extends V>> notExpected = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
+	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+	Set<MapEntry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
 	compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
 
@@ -441,8 +441,8 @@ public class Maps {
 	failIfEmpty(entries);
 	assertHasSameSizeAs(info, actual, entries);
 
-	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
-	Set<MapEntry<? extends K, ? extends V>> notExpected = new LinkedHashSet<MapEntry<? extends K, ? extends V>>();
+	Set<MapEntry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
+	Set<MapEntry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
 	compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
 
@@ -465,7 +465,7 @@ public class Maps {
 
   private <K, V> void compareActualMapAndExpectedKeys(Map<K, V> actual, K[] keys, Set<K> notExpected, Set<K> notFound) {
 
-	Map<K, V> actualEntries = new LinkedHashMap<K, V>(actual);
+	Map<K, V> actualEntries = new LinkedHashMap<>(actual);
 	for (K key : keys) {
 	  if (actualEntries.containsKey(key)) {
 		// this is an expected key
@@ -486,7 +486,7 @@ public class Maps {
 	                                                     Set<MapEntry<? extends K, ? extends V>> notExpected,
 	                                                     Set<MapEntry<? extends K, ? extends V>> notFound) {
 	Map<K, V> expectedEntries = entriesToMap(entries);
-	Map<K, V> actualEntries = new LinkedHashMap<K, V>(actual);
+	Map<K, V> actualEntries = new LinkedHashMap<>(actual);
 	for (Map.Entry<K, V> entry : expectedEntries.entrySet()) {
 	  if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
 		// this is an expected entry
@@ -509,7 +509,7 @@ public class Maps {
   }
 
   private static <K, V> Map<K, V> entriesToMap(MapEntry<? extends K, ? extends V>[] entries) {
-	Map<K, V> expectedEntries = new LinkedHashMap<K, V>();
+	Map<K, V> expectedEntries = new LinkedHashMap<>();
 	for (MapEntry<? extends K, ? extends V> entry : entries) {
 	  expectedEntries.put(entry.key, entry.value);
 	}
