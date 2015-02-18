@@ -119,8 +119,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S contains(@SuppressWarnings("unchecked") T... values) {
+  public final S contains(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContains(info, actual, values);
 	return myself;
   }
@@ -128,8 +129,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsOnly(@SuppressWarnings("unchecked") T... values) {
+  public final S containsOnly(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsOnly(info, actual, values);
 	return myself;
   }
@@ -137,8 +139,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
+  public final S containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsOnlyOnce(info, actual, values);
 	return myself;
   }
@@ -146,8 +149,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsExactly(@SuppressWarnings("unchecked") T... values) {
+  public final S containsExactly(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsExactly(info, actual, values);
 	return myself;
   }
@@ -164,8 +168,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsSequence(@SuppressWarnings("unchecked") T... sequence) {
+  public final S containsSequence(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertContainsSequence(info, actual, sequence);
 	return myself;
   }
@@ -173,14 +178,16 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsSubsequence(@SuppressWarnings("unchecked") T... sequence) {
+  public final S containsSubsequence(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertContainsSubsequence(info, actual, sequence);
 	return myself;
   }
 
+  @SafeVarargs
   @Override
-  public S doesNotContain(@SuppressWarnings("unchecked") T... values) {
+  public final S doesNotContain(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertDoesNotContain(info, actual, values);
 	return myself;
   }
@@ -203,8 +210,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S startsWith(@SuppressWarnings("unchecked") T... sequence) {
+  public final S startsWith(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertStartsWith(info, actual, sequence);
 	return myself;
   }
@@ -212,8 +220,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S endsWith(@SuppressWarnings("unchecked") T... sequence) {
+  public final S endsWith(@SuppressWarnings("unchecked") T... sequence) {
 	iterables.assertEndsWith(info, actual, sequence);
 	return myself;
   }

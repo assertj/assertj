@@ -118,15 +118,17 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S contains(@SuppressWarnings("unchecked") T... values) {
+  public final S contains(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContains(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S containsOnly(@SuppressWarnings("unchecked") T... values) {
+  public final S containsOnly(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContainsOnly(info, actual, values);
 	return myself;
   }
@@ -144,15 +146,17 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
   
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S containsOnlyOnce(@SuppressWarnings("unchecked")T... values) {
+  public final S containsOnlyOnce(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContainsOnlyOnce(info, actual, values);
 	return myself;
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S containsExactly(@SuppressWarnings("unchecked")T... values) {
+  public final S containsExactly(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertContainsExactly(info, actual, values);
 	return myself;
   }
@@ -164,15 +168,17 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
   
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S containsSequence(@SuppressWarnings("unchecked")T... sequence) {
+  public final S containsSequence(@SuppressWarnings("unchecked") T... sequence) {
 	arrays.assertContainsSequence(info, actual, sequence);
 	return myself;
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S containsSubsequence(@SuppressWarnings("unchecked")T... subsequence) {
+  public final S containsSubsequence(@SuppressWarnings("unchecked") T... subsequence) {
 	arrays.assertContainsSubsequence(info, actual, subsequence);
 	return myself;
   }
@@ -192,8 +198,9 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S doesNotContain(@SuppressWarnings("unchecked")T... values) {
+  public final S doesNotContain(@SuppressWarnings("unchecked") T... values) {
 	arrays.assertDoesNotContain(info, actual, values);
 	return myself;
   }
@@ -213,15 +220,17 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S startsWith(@SuppressWarnings("unchecked")T... sequence) {
+  public final S startsWith(@SuppressWarnings("unchecked") T... sequence) {
 	arrays.assertStartsWith(info, actual, sequence);
 	return myself;
   }
 
   /** {@inheritDoc} */
+  @SafeVarargs
   @Override
-  public S endsWith(@SuppressWarnings("unchecked")T... sequence) {
+  public final S endsWith(@SuppressWarnings("unchecked") T... sequence) {
 	arrays.assertEndsWith(info, actual, sequence);
 	return myself;
   }

@@ -243,7 +243,9 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given key.
    */
-  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, @SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual,
+											  @SuppressWarnings("unchecked") K... keys) {
 	assertNotNull(info, actual);
 	Set<K> notFound = new LinkedHashSet<K>();
 	for (K key : keys) {
@@ -283,8 +285,9 @@ public class Maps {
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains all the given keys.
    */
-  public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual,
-	                                          @SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual,
+													@SuppressWarnings("unchecked") K... keys) {
 	assertNotNull(info, actual);
 	Set<K> found = new LinkedHashSet<K>();
 	for (K key : keys) {
@@ -309,8 +312,9 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} does not contain the given keys or if the given {@code Map}
    *           contains keys that are not in the given array.
    */
-  public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
-	                                        @SuppressWarnings("unchecked") K... keys) {
+  @SafeVarargs
+  public final <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual,
+												  @SuppressWarnings("unchecked") K... keys) {
 	assertNotNull(info, actual);
 	failIfNull(keys);
 	if (actual.isEmpty() && keys.length == 0) {
@@ -357,8 +361,9 @@ public class Maps {
    * @throws AssertionError if the actual map not contains the given values.
    * @throws NullPointerException if values vararg is {@code null}.
    */
-  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
-	                                      @SuppressWarnings("unchecked") V... values) {
+  @SafeVarargs
+  public final <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual,
+												@SuppressWarnings("unchecked") V... values) {
 	assertNotNull(info, actual);
 	if (values == null) throw new NullPointerException("The array of values to look for should not be null");
 	if (actual.isEmpty() && values.length == 0) return;
@@ -399,8 +404,9 @@ public class Maps {
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
-  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
-	                                    @SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual,
+											  @SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
 	doCommonContainsCheck(info, actual, entries);
 	if (actual.isEmpty() && entries.length == 0) {
 	  return;
@@ -434,8 +440,9 @@ public class Maps {
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
    */
-  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual,
-	                                       @SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
+  @SafeVarargs
+  public final <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual,
+												 @SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
 	doCommonContainsCheck(info, actual, entries);
 	if (actual.isEmpty() && entries.length == 0) return;
 	failIfEmpty(entries);

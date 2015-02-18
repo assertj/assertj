@@ -181,7 +181,8 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public S hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
+  @SafeVarargs
+  public final S hasAnnotations(@SuppressWarnings("unchecked") Class<? extends Annotation>... annotations) {
     classes.assertContainsAnnotations(info, actual, annotations);
     return myself;
   }
