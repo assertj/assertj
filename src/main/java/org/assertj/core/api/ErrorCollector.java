@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
-class ErrorCollector implements MethodInterceptor {
+public class ErrorCollector implements MethodInterceptor {
 
   private final List<Throwable> errors = new ArrayList<>();
 
