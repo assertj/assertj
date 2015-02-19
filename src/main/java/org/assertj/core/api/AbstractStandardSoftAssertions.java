@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -20,7 +22,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
 public abstract class AbstractStandardSoftAssertions extends AbstractSoftAssertions {
 
@@ -425,28 +428,43 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   }
 
   /**
-   * Creates a new instance of <code>{@link ThrowableAssert}</code> with the exception thrown by the given
-   * {@link Callable} execution.
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   * 
    * <p>
-   * Example :
+   * Java 8 example :
+   * </p>
+   * 
+   * <pre><code class='java'>
+   *  {@literal @}Test
+   *  public void testException() {
+   *    SoftAssertions softly = new SoftAssertions();
+   *    softly.assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                                     .hasMessageContaining("boom");
+   *  }
+   * </code></pre>
+   * 
+   * <p>
+   * Java 7 example :
+   * </p>
    * 
    * <pre><code class='java'>
    * SoftAssertions softly = new SoftAssertions();
-   * softly.assertThatExceptionThrownBy(new Callable&lt;Void&gt;()
+   * softly.assertThatThrownBy(new ThrowingCallable()
    * 
    *   {@literal @}Override
    *   public Void call() throws Exception {
-   *     throw new Exception("something was wrong");
+   *     throw new Exception("boom!");
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessage("something was wrong");
+   *   .hasMessageContaining("boom");
    * </code></pre>
    *
-   * @param callable the callable whose execution throws an exception we want to check.
-   * @return the created assertion object.
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public <V> ThrowableAssert assertThatExceptionThrownBy(Callable<V> callable) {
-	return assertThat(new ThrowableAssert(callable).actual);
+  public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+    return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
+  
 }

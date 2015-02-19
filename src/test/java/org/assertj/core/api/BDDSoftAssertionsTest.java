@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.concurrent.Callable;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
@@ -129,9 +129,9 @@ public class BDDSoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.then(illegalArgumentException).hasMessage("NullPointerException message");
-	  softly.thenExceptionThrownBy(new Callable<Void>() {
+	  softly.thenThrownBy(new ThrowingCallable() {
 		@Override
-		public Void call() throws Exception {
+		public void call() throws Exception {
 		  throw new Exception("something was wrong");
 		}
 

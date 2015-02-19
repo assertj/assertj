@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Test;
 
 /**
@@ -39,12 +41,10 @@ public class BDDAssertions_then_Test {
     then(new Character('A')).isEqualTo(new Character('A'));
   }
 
-
   @Test
   public void then_char_array() {
-    then(new char[]{'a', 'b', 'c'}).contains('b');
+    then(new char[] { 'a', 'b', 'c' }).contains('b');
   }
-
 
   @Test
   public void then_Charsequence() {
@@ -100,7 +100,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_double_array() {
-    then(new double[]{1d, 2d}).contains(2d);
+    then(new double[] { 1d, 2d }).contains(2d);
   }
 
   @Test
@@ -115,7 +115,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_float_array() {
-    then(new float[]{1f, 2f}).contains(2f);
+    then(new float[] { 1f, 2f }).contains(2f);
   }
 
   @Test
@@ -130,7 +130,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_long_array() {
-    then(new long[]{1L, 2L}).contains(2L);
+    then(new long[] { 1L, 2L }).contains(2L);
   }
 
   @Test
@@ -140,7 +140,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_Object_array() {
-    then(new Object[]{new Object(), new Object()}).hasSize(2);
+    then(new Object[] { new Object(), new Object() }).hasSize(2);
   }
 
   @Test
@@ -155,7 +155,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_short_array() {
-    then(new short[]{(short) 1, (short) 2}).contains((short) 2);
+    then(new short[] { (short) 1, (short) 2 }).contains((short) 2);
   }
 
   @Test
@@ -180,7 +180,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_boolean_array() {
-    then(new boolean[]{true, false}).isEqualTo(new boolean[]{true, false});
+    then(new boolean[] { true, false }).isEqualTo(new boolean[] { true, false });
   }
 
   @Test
@@ -195,7 +195,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_byte_array() {
-    then(new byte[]{10, 11}).contains((byte) 11);
+    then(new byte[] { 10, 11 }).contains((byte) 11);
   }
 
   @Test
@@ -210,7 +210,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_int_array() {
-    then(new int[]{2, 3}).isEqualTo(new int[]{2, 3});
+    then(new int[] { 2, 3 }).isEqualTo(new int[] { 2, 3 });
   }
 
   @Test
@@ -223,7 +223,6 @@ public class BDDAssertions_then_Test {
     then("Foo").isEqualTo("Foo");
   }
 
-
   @Test
   public void then_Date() {
     then(new Date()).isNotNull();
@@ -232,5 +231,16 @@ public class BDDAssertions_then_Test {
   @Test
   public void then_Map() {
     then(new HashMap<String, String>()).isEmpty();
+  }
+
+  @Test
+  public void should_build_ThrowableAssert_with_throwable_thrown() {
+    thenThrownBy(new ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        throw new Throwable("something was wrong");
+      }
+    }).isInstanceOf(Throwable.class)
+      .hasMessage("something was wrong");
   }
 }

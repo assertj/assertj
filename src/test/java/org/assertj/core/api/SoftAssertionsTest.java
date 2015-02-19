@@ -12,6 +12,21 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.CartoonCharacter;
@@ -20,21 +35,6 @@ import org.assertj.core.test.Name;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.Callable;
-
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -159,9 +159,10 @@ public class SoftAssertionsTest {
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
           ("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-      softly.assertThatExceptionThrownBy(new Callable<Void>() {
+      softly.assertThatThrownBy(new ThrowingCallable() {
+        
         @Override
-        public Void call() throws Exception {
+        public void call() throws Exception {
           throw new Exception("something was wrong");
         }
 

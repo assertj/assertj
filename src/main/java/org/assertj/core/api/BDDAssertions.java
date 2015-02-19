@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+
 /**
  * BDD style entry point for assertion methods for different data types. Each method in this class is a static factory
  * for the type-specific assertion objects. The purpose of this class is to make test code more readable.
@@ -451,6 +453,46 @@ public class BDDAssertions extends Assertions {
   public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
 	return assertThat(actual);
   }
+  
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   * 
+   * <p>
+   * Java 8 example :
+   * </p>
+   * 
+   * <pre><code class='java'>
+   *  {@literal @}Test
+   *  public void testException() {
+   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                        .hasMessageContaining("boom");
+   *  }
+   * </code></pre>
+   * 
+   * <p>
+   * Java 7 example :
+   * </p>
+   * 
+   * <pre><code class='java'>
+   * thenThrownBy(new ThrowingCallable()
+   * 
+   *   {@literal @}Override
+   *   public Void call() throws Exception {
+   *     throw new Exception("boom!");
+   *   }
+   *   
+   * }).isInstanceOf(Exception.class)
+   *   .hasMessageContaining("boom");
+   * </code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
+    return assertThatThrownBy(shouldRaiseThrowable);
+  }
+
+  
 
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
