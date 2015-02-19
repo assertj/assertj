@@ -30,7 +30,7 @@ public abstract class MapAssertBaseTest extends BaseTestTemplate<MapAssert<Objec
     
   @Override
   protected MapAssert<Object, Object> create_assertions() {
-    return new MapAssert<Object, Object>(emptyMap());
+    return new MapAssert<>(emptyMap());
   }
  
   @Override

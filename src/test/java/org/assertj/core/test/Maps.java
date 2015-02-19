@@ -24,7 +24,7 @@ import org.assertj.core.data.MapEntry;
 public final class Maps {
   @SafeVarargs
   public static <K, V> Map<K, V> mapOf(MapEntry<K, V>... entries) {
-    Map<K, V> map = new LinkedHashMap<K, V>();
+    Map<K, V> map = new LinkedHashMap<>();
     for (MapEntry<K, V> entry : entries) {
       map.put(entry.key, entry.value);
     }

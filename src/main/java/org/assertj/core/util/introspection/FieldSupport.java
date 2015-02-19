@@ -125,7 +125,7 @@ public enum FieldSupport {
   }
 
   private <T> List<T> simpleFieldValues(String fieldName, Class<T> clazz, Iterable<?> target) {
-	List<T> fieldValues = new ArrayList<T>();
+	List<T> fieldValues = new ArrayList<>();
 	for (Object e : target) {
 	  fieldValues.add(e == null ? null : fieldValue(fieldName, clazz, e));
 	}

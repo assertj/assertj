@@ -25,7 +25,7 @@ import org.assertj.core.api.TestCondition;
  * @author Adam Ruka
  */
 public class ObjectArrayAssert_haveAtLeastOne_Test extends ObjectArrayAssertBaseTest {
-  private static final Condition<Object> condition = new TestCondition<Object>();
+  private static final Condition<Object> condition = new TestCondition<>();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

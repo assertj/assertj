@@ -31,7 +31,7 @@ public abstract class IterableAssertBaseTest extends BaseTestTemplate<ConcreteIt
 
   @Override
   protected ConcreteIterableAssert<Object> create_assertions() {
-    return new ConcreteIterableAssert<Object>(emptyList());
+    return new ConcreteIterableAssert<>(emptyList());
   }
 
   @Override

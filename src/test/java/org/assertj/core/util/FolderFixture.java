@@ -32,8 +32,8 @@ public final class FolderFixture {
 
   private static Logger logger = Logger.getLogger(FolderFixture.class.getName());
 
-  private final List<FolderFixture> folders = new ArrayList<FolderFixture>();
-  private final List<FileFixture> files = new ArrayList<FileFixture>();
+  private final List<FolderFixture> folders = new ArrayList<>();
+  private final List<FileFixture> files = new ArrayList<>();
 
   private final String name;
   private final FolderFixture parent;

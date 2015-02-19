@@ -48,7 +48,7 @@ public class List_assertIs_Test extends ListsBaseTest {
 
   @BeforeClass
   public static void setUpOnce() {
-    condition = new TestCondition<String>();
+    condition = new TestCondition<>();
   }
 
   @Test

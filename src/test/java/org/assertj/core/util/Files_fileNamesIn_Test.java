@@ -81,7 +81,7 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
     if (actualFiles == null || actualFiles.isEmpty()) {
       return;
     }
-    HashSet<String> withoutDuplicates = new HashSet<String>(actualFiles);
+    HashSet<String> withoutDuplicates = new HashSet<>(actualFiles);
     assertEquals(withoutDuplicates.size(), actualFiles.size());
   }
 }

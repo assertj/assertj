@@ -33,7 +33,7 @@ public class AbstractAssert_has_Test extends AbstractAssertBaseTest {
 
   @BeforeClass
   public static void setUpOnce() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Override

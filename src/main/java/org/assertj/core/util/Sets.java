@@ -29,7 +29,7 @@ public final class Sets {
    * @return the created {@code HashSet}.
    */
   public static <T> HashSet<T> newHashSet() {
-    return new HashSet<T>();
+    return new HashSet<>();
   }
 
   /**
@@ -57,7 +57,7 @@ public final class Sets {
    * @return the created {@code LinkedHashSet}.
    */
   public static <T> LinkedHashSet<T> newLinkedHashSet() {
-    return new LinkedHashSet<T>();
+    return new LinkedHashSet<>();
   }
 
   /**

@@ -29,7 +29,7 @@ public class Not<T> extends Negative<T> {
    * @return The Not condition created.
    */
   public static <T> Not<T> not(Condition<? super T> condition) {
-    return new Not<T>(condition);
+    return new Not<>(condition);
   }
 
   private Not(Condition<? super T> condition) {

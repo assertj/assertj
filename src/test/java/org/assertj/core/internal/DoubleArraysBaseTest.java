@@ -52,7 +52,7 @@ public class DoubleArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected DoubleArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Double> absValueComparator = new AbsValueComparator<Double>();
+  private AbsValueComparator<Double> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

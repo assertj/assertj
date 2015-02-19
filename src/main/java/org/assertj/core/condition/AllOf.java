@@ -33,7 +33,7 @@ public class AllOf<T> extends Join<T> {
    */
   @SafeVarargs
   public static <T> Condition<T> allOf(Condition<? super T>... conditions) {
-    return new AllOf<T>(conditions);
+    return new AllOf<>(conditions);
   }
 
   /**
@@ -45,7 +45,7 @@ public class AllOf<T> extends Join<T> {
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
    */
   public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
-    return new AllOf<T>(conditions);
+    return new AllOf<>(conditions);
   }
 
   @SafeVarargs

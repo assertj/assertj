@@ -24,6 +24,6 @@ public abstract class ObjectAssertBaseTest extends BaseTestTemplate<ObjectAssert
 
   @Override
   protected ObjectAssert<Jedi> create_assertions() {
-    return new ObjectAssert<Jedi>(new Jedi("Yoda", "Green"));
+    return new ObjectAssert<>(new Jedi("Yoda", "Green"));
   }
 }

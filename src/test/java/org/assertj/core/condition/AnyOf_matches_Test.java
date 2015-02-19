@@ -34,8 +34,8 @@ public class AnyOf_matches_Test {
 
   @Before
   public void setUp() {
-    condition1 = new TestCondition<Object>();
-    condition2 = new TestCondition<Object>();
+    condition1 = new TestCondition<>();
+    condition2 = new TestCondition<>();
     anyOf = anyOf(condition1, condition2);
   }
 

@@ -422,7 +422,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
 	// to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
 	// elements with elementComparator parameter
-	objects = new Objects(new IterableElementComparisonStrategy<T>(elementComparator));
+	objects = new Objects(new IterableElementComparisonStrategy<>(elementComparator));
 	return myself;
   }
 
@@ -528,7 +528,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public ListAssert<Object> extracting(String propertyOrField) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-	return new ListAssert<Object>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -576,7 +576,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public ListAssert<Object> extractingResultOf(String method) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ListAssert<Object>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -626,7 +626,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ListAssert<P>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -723,7 +723,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-	return new ListAssert<P>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -870,7 +870,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
 	List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-	return new ListAssert<V>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -921,7 +921,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	  result.addAll(iterable);
 	}
 
-	return new ListAssert<V>(result);
+	return new ListAssert<>(result);
   }
 
   /**

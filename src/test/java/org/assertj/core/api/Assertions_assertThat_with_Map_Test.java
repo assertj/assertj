@@ -37,7 +37,7 @@ public class Assertions_assertThat_with_Map_Test {
 
   @Test
   public void should_pass_actual() {
-    Map<Object, Object> actual = new HashMap<Object, Object>();
+    Map<Object, Object> actual = new HashMap<>();
     AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }

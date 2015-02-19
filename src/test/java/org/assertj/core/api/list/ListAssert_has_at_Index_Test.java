@@ -36,7 +36,7 @@ public class ListAssert_has_at_Index_Test extends ListAssertBaseTest {
 
   @BeforeClass
   public static void setUpOnce() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
     index = someIndex();
   }
 

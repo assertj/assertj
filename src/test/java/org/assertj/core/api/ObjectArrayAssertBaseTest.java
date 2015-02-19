@@ -29,7 +29,7 @@ public abstract class ObjectArrayAssertBaseTest extends BaseTestTemplate<ObjectA
 
   @Override
   protected ObjectArrayAssert<Object> create_assertions() {
-    return new ObjectArrayAssert<Object>(emptyArray());
+    return new ObjectArrayAssert<>(emptyArray());
   }
 
   @Override

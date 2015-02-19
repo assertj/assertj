@@ -52,7 +52,7 @@ public class ShortArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected ShortArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<Short>();
+  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

@@ -29,7 +29,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  */
 public class IterableAssert_containsAll_Test extends IterableAssertBaseTest {
 
-  private List<Object> list = new ArrayList<Object>();
+  private List<Object> list = new ArrayList<>();
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

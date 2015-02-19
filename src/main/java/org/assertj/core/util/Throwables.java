@@ -36,7 +36,7 @@ public final class Throwables {
 
   private static List<StackTraceElement> stackTraceInCurrentThread(String methodToStartFrom) {
     List<StackTraceElement> filtered = stackTraceInCurrentThread();
-    List<StackTraceElement> toRemove = new ArrayList<StackTraceElement>();
+    List<StackTraceElement> toRemove = new ArrayList<>();
     for (StackTraceElement e : filtered) {
       if (methodToStartFrom.equals(e.getMethodName())) {
         break;

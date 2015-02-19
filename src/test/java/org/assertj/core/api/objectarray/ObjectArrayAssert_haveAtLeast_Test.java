@@ -33,7 +33,7 @@ public class ObjectArrayAssert_haveAtLeast_Test extends ObjectArrayAssertBaseTes
 
   @Before
   public void before() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Override

@@ -29,7 +29,7 @@ import org.junit.Test;
 public class Iterables_isNullOrEmpty_Test {
   @Test
   public void should_return_true_if_Collection_is_empty() {
-    Iterable<String> c = new ArrayList<String>();
+    Iterable<String> c = new ArrayList<>();
     assertTrue(Iterables.isNullOrEmpty(c));
   }
 

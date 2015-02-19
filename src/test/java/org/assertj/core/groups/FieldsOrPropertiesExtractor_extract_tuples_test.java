@@ -56,7 +56,7 @@ public class FieldsOrPropertiesExtractor_extract_tuples_test {
 
   @Test
   public void should_extract_tuples_with_consistent_iteration_order() {
-    Set<Employee> employeeSet = new HashSet<Employee>(employees);
+    Set<Employee> employeeSet = new HashSet<>(employees);
     List<Tuple> extractedValues = extract(employeeSet, byName("id", "name.first", "age"));
     assertThat(extractedValues).containsOnly(tuple(1L, "Yoda", 800), tuple(2L, "Luke", 26));
   }

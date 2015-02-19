@@ -33,7 +33,7 @@ public class ObjectArrayAssert_haveExactly_Test extends ObjectArrayAssertBaseTes
 
   @Before
   public void before() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
   }
 
   @Override

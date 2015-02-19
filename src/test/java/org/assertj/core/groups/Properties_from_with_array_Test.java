@@ -52,7 +52,7 @@ public class Properties_from_with_array_Test {
   public void setUp() {
     propertySupport = mock(PropertySupport.class);
     propertyName = "age";
-    properties = new Properties<Integer>(propertyName, Integer.class);
+    properties = new Properties<>(propertyName, Integer.class);
     properties.propertySupport = propertySupport;
   }
 

@@ -40,7 +40,7 @@ public class ObjectArraysWithConditionBaseTest extends ObjectArraysBaseTest {
     super.setUp();
     jediPower = new JediPowerCondition();
     jedi = new JediCondition();
-    testCondition = new TestCondition<Object>();
+    testCondition = new TestCondition<>();
   }
 
 }

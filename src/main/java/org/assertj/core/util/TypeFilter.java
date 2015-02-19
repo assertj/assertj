@@ -32,7 +32,7 @@ public class TypeFilter<T> implements CollectionFilter<T> {
    * @return the created filter.
    */
   public static <T> TypeFilter<T> byType(Class<T> type) {
-    return new TypeFilter<T>(type);
+    return new TypeFilter<>(type);
   }
 
   private final Class<T> type;
@@ -54,7 +54,7 @@ public class TypeFilter<T> implements CollectionFilter<T> {
     if (target == null) {
       throw new IllegalArgumentException("The collection to filter should not be null");
     }
-    List<Object> filtered = new ArrayList<Object>();
+    List<Object> filtered = new ArrayList<>();
     for (Object o : target) {
       if (o == null) {
         continue;

@@ -33,7 +33,7 @@ public class DoesNotHave_toString_Test {
 
   @Before
   public void setUp() {
-    condition = new TestCondition<Object>("JediPower");
+    condition = new TestCondition<>("JediPower");
     doesNotHave = doesNotHave(condition);
   }
 

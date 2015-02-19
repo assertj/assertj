@@ -111,7 +111,7 @@ public class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
   }
 
   private static HashSet<String> newHashSet(String entry) {
-    HashSet<String> notExpected = new HashSet<String>();
+    HashSet<String> notExpected = new HashSet<>();
     notExpected.add(entry);
     return notExpected;
   }

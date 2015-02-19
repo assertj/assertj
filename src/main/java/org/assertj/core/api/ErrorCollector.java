@@ -23,7 +23,7 @@ import java.util.List;
 /** Collects error messages of all AssertionErrors thrown by the proxied method. */
 class ErrorCollector implements MethodInterceptor {
 
-  private final List<Throwable> errors = new ArrayList<Throwable>();
+  private final List<Throwable> errors = new ArrayList<>();
 
   @Override
   public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {

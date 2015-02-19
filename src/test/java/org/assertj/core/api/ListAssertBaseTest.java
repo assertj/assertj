@@ -32,7 +32,7 @@ public abstract class ListAssertBaseTest extends BaseTestTemplate<ListAssert<Str
 
   @Override
   protected ListAssert<String> create_assertions() {
-    return new ListAssert<String>(Collections.<String> emptyList());
+    return new ListAssert<>(Collections.<String> emptyList());
   }
 
   @Override

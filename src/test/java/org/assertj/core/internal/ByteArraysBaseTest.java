@@ -52,7 +52,7 @@ public class ByteArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected ByteArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Byte> absValueComparator = new AbsValueComparator<Byte>();
+  private AbsValueComparator<Byte> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

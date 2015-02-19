@@ -25,7 +25,7 @@ public abstract class GenericComparableAssertBaseTest extends
 
   @Override
   protected GenericComparableAssert<Integer> create_assertions() {
-    return new GenericComparableAssert<Integer>(8);
+    return new GenericComparableAssert<>(8);
   }
 
   @Override

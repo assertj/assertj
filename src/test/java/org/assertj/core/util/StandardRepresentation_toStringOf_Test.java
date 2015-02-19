@@ -90,7 +90,7 @@ public class StandardRepresentation_toStringOf_Test {
 
   @Test
   public void should_return_toString_of_Collection_of_Collections() {
-    Collection<List<String>> collection = new ArrayList<List<String>>();
+    Collection<List<String>> collection = new ArrayList<>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
     assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", new StandardRepresentation().toStringOf(collection));
@@ -98,7 +98,7 @@ public class StandardRepresentation_toStringOf_Test {
 
   @Test
   public void should_return_toString_of_Map() {
-    Map<String, String> map = new LinkedHashMap<String, String>();
+    Map<String, String> map = new LinkedHashMap<>();
     map.put("key1", "value1");
     map.put("key2", "value2");
     assertEquals("{\"key1\"=\"value1\", \"key2\"=\"value2\"}", new StandardRepresentation().toStringOf(map));

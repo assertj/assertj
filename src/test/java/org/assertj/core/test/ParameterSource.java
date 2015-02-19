@@ -24,7 +24,7 @@ import java.util.*;
 public class ParameterSource {
 
   public static List<Object[]> parametersFrom(List<?> values) {
-    List<Object[]> parameters = new ArrayList<Object[]>();
+    List<Object[]> parameters = new ArrayList<>();
     for (Object value : values)
       parameters.add(new Object[] { value });
     return unmodifiableList(parameters);

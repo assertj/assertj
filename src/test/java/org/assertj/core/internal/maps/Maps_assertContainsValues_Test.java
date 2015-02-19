@@ -63,7 +63,7 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
-    actual = new HashMap<String, String>();
+    actual = new HashMap<>();
     maps.assertContainsValues(someInfo(), actual);
   }
   

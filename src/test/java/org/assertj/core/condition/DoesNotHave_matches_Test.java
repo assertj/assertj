@@ -34,7 +34,7 @@ public class DoesNotHave_matches_Test {
 
   @Before
   public void setUp() {
-    condition = new TestCondition<Object>();
+    condition = new TestCondition<>();
     doesNotHave = doesNotHave(condition);
   }
 

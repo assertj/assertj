@@ -41,7 +41,7 @@ public class IterablesWithConditionsBaseTest extends IterablesBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    testCondition = new TestCondition<Object>();
+    testCondition = new TestCondition<>();
     conditions = spy(new Conditions());
     jedi = new JediCondition();
     jediPower = new JediPowerCondition();
