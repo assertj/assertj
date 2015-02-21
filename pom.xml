@@ -26,7 +26,7 @@
   </organization>
   <scm>
     <developerConnection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</developerConnection>
-    <connection>git://github.com/joel-costigliola/assertj-maven-parent-pom.git</connection>
+    <connection>scm:git:git@github.com:joel-costigliola/assertj-maven-parent-pom.git</connection>
     <url>https://github.com/joel-costigliola/assertj-maven-parent-pom</url>
     <tag>HEAD</tag>
   </scm>
