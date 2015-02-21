@@ -36,7 +36,7 @@ public class ShouldBeAssignableFrom extends BasicErrorMessageFactory {
 
   private ShouldBeAssignableFrom(Class<?> actual, Set<Class<?>> expectedAssignableFrom,
       Set<Class<?>> missingAssignableFrom) {
-    super("\nExpecting\n  <%s>\nto be assignable from:\n  <%s>\nbut was not assignable from:\n  <%s>", actual,
+    super("%nExpecting%n  <%s>%nto be assignable from:%n  <%s>%nbut was not assignable from:%n  <%s>", actual,
           expectedAssignableFrom, missingAssignableFrom);
   }
 }

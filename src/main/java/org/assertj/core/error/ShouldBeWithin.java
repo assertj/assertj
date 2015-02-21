@@ -34,6 +34,6 @@ public class ShouldBeWithin extends BasicErrorMessageFactory {
   }
 
   private ShouldBeWithin(Date actual, String fieldDescription, int fieldValue) {
-    super("\nExpecting:\n <%s>\nto be on %s <%s>", actual, fieldDescription, fieldValue);
+    super("%nExpecting:%n <%s>%nto be on %s <%s>", actual, fieldDescription, fieldValue);
   }
 }

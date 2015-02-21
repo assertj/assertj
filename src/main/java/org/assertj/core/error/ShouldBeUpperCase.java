@@ -29,6 +29,6 @@ public class ShouldBeUpperCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeUpperCase(Character actual) {
-    super("\nExpecting:<%s> to be a uppercase character", actual);
+    super("%nExpecting:<%s> to be a uppercase character", actual);
   }
 }

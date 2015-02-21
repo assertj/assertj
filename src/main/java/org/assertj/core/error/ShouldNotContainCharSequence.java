@@ -46,6 +46,6 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainCharSequence(CharSequence actual, CharSequence sequence, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nnot to contain:\n <%s> %s", actual, sequence, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nnot to contain:%n <%s> %s", actual, sequence, comparisonStrategy);
   }
 }

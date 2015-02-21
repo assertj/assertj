@@ -29,6 +29,6 @@ public class ShouldBeAnArray extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAnArray(Object object) {
-    super("\nExpecting an array but was:<%s>", object);
+    super("%nExpecting an array but was:<%s>", object);
   }
 }

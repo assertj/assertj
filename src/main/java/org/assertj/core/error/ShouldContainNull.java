@@ -30,6 +30,6 @@ public class ShouldContainNull extends BasicErrorMessageFactory {
   }
 
   private ShouldContainNull(Object actual) {
-    super("\nExpecting:\n <%s>\nto contain a <null> element", actual);
+    super("%nExpecting:%n <%s>%nto contain a <null> element", actual);
   }
 }

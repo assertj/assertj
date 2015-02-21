@@ -35,6 +35,6 @@ public class ShouldHave extends BasicErrorMessageFactory {
   }
 
   private ShouldHave(Object actual, Condition<?> condition) {
-    super("\nExpecting:\n <%s>\nto have:\n <%s>", actual, condition);
+    super("%nExpecting:%n <%s>%nto have:%n <%s>", actual, condition);
   }
 }

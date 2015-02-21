@@ -31,6 +31,6 @@ public class ShouldMatchPattern extends BasicErrorMessageFactory {
   }
 
   private ShouldMatchPattern(CharSequence actual, CharSequence pattern) {
-    super("\nExpecting:\n %s\nto match pattern:\n %s", actual, pattern);
+    super("%nExpecting:%n %s%nto match pattern:%n %s", actual, pattern);
   }
 }

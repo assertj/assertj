@@ -34,6 +34,6 @@ public class ShouldHaveTime extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveTime(Date actual, long expectedTimestamp) {
-    super("\nExpecting\n <%s>\nto have time:\n <%s>\nbut was:\n <%s>", actual, expectedTimestamp, actual.getTime());
+    super("%nExpecting%n <%s>%nto have time:%n <%s>%nbut was:%n <%s>", actual, expectedTimestamp, actual.getTime());
   }
 }

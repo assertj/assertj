@@ -34,10 +34,10 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
   }
 
   private <K> ShouldContainKeys(Object actual, Set<K> key) {
-    super("\nExpecting:\n <%s>\nto contain keys:\n <%s>", actual, key);
+    super("%nExpecting:%n <%s>%nto contain keys:%n <%s>", actual, key);
   }
 
   private <K> ShouldContainKeys(Object actual, K key) {
-    super("\nExpecting:\n <%s>\nto contain key:\n <%s>", actual, key);
+    super("%nExpecting:%n <%s>%nto contain key:%n <%s>", actual, key);
   }
 }

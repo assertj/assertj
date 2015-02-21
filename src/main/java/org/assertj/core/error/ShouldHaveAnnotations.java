@@ -38,6 +38,6 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
 
   private ShouldHaveAnnotations(Class<?> actual, Collection<Class<? extends Annotation>> expected,
       Collection<Class<? extends Annotation>> missing) {
-    super("\nExpecting\n  <%s>\nto have annotations:\n  <%s>\nbut the following annotations were not found:\n  <%s>", actual, expected, missing);
+    super("%nExpecting%n  <%s>%nto have annotations:%n  <%s>%nbut the following annotations were not found:%n  <%s>", actual, expected, missing);
   }
 }

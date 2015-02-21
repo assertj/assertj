@@ -30,7 +30,7 @@ public class ShouldNotBeNull extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeNull() {
-    super("\nExpecting actual not to be null");
+    super("%nExpecting actual not to be null");
   }
 
 }

@@ -40,6 +40,6 @@ public class ShouldBeAnnotation extends BasicErrorMessageFactory {
   }
 
   private ShouldBeAnnotation(Class<?> actual, boolean toBeOrNotToBe) {
-    super("\nExpecting\n <%s>\nto " + (toBeOrNotToBe ? "" : " not ") + "be an annotation", actual);
+    super("%nExpecting%n <%s>%nto " + (toBeOrNotToBe ? "" : " not ") + "be an annotation", actual);
   }
 }

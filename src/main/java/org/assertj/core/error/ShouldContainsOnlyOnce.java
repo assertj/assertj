@@ -63,21 +63,21 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
 
   private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, Set<?> notOnlyOnce,
       ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\n"
-        + "but some elements were not found:\n <%s>\n"
-        + "and others were found more than once:\n <%s>\n%s",
+    super("%nExpecting:%n <%s>%nto contain only once:%n <%s>%n"
+        + "but some elements were not found:%n <%s>%n"
+        + "and others were found more than once:%n <%s>%n%s",
           actual, expected, notFound, notOnlyOnce, comparisonStrategy);
   }
 
   private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\nbut some elements were not found:\n <%s>\n%s",
+    super("%nExpecting:%n <%s>%nto contain only once:%n <%s>%nbut some elements were not found:%n <%s>%n%s",
           actual, expected, notFound, comparisonStrategy);
   }
 
   // change the order of parameters to avoid confusion with previous constructor
   private ShouldContainsOnlyOnce(Set<?> notOnlyOnce, Object actual, Object expected,
       ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain only once:\n <%s>\nbut some elements were found more than once:\n <%s>\n%s",
+    super("%nExpecting:%n <%s>%nto contain only once:%n <%s>%nbut some elements were found more than once:%n <%s>%n%s",
           actual, expected, notOnlyOnce, comparisonStrategy);
   }
 

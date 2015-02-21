@@ -45,7 +45,7 @@ public class ShouldContainSequence extends BasicErrorMessageFactory {
   }
 
   private ShouldContainSequence(Object actual, Object sequence, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain sequence:\n <%s>\n%s", actual, sequence, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto contain sequence:%n <%s>%n%s", actual, sequence, comparisonStrategy);
   }
 
 }

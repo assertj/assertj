@@ -36,6 +36,6 @@ public class ElementsShouldHaveAtLeast extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldHaveAtLeast(Object actual, int times, Condition<?> condition) {
-    super("\nExpecting elements:\n<%s>\n to have at least %s times <%s>", actual, times, condition);
+    super("%nExpecting elements:%n<%s>%n to have at least %s times <%s>", actual, times, condition);
   }
 }

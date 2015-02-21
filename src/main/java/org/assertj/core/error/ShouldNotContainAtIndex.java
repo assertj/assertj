@@ -50,6 +50,6 @@ public class ShouldNotContainAtIndex extends BasicErrorMessageFactory {
   }
 
   private ShouldNotContainAtIndex(Object actual, Object expected, Index index, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nnot to contain:\n <%s>\nat index <%s>\n%s", actual, expected, index.value, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nnot to contain:%n <%s>%nat index <%s>%n%s", actual, expected, index.value, comparisonStrategy);
   }
 }

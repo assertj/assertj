@@ -50,6 +50,6 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
   }
 
   private ShouldBeGreater(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be greater than:\n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto be greater than:%n <%s> %s", actual, other, comparisonStrategy);
   }
 }

@@ -70,6 +70,6 @@ public class ExpectedException implements TestRule {
   }
 
   public void expectMessage(String message) {
-    delegate.expectMessage(message);
+    delegate.expectMessage(String.format(message));
   }
 }

@@ -36,6 +36,6 @@ public class ElementsShouldHaveAtMost extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldHaveAtMost(Object actual, int times, Condition<?> condition) {
-    super("\nExpecting elements:\n<%s>\n to have at most %s times <%s>", actual, times, condition);
+    super("%nExpecting elements:%n<%s>%n to have at most %s times <%s>", actual, times, condition);
   }
 }

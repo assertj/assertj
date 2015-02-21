@@ -39,6 +39,6 @@ public class ShouldBeAtIndex extends BasicErrorMessageFactory {
   }
 
   private <T> ShouldBeAtIndex(List<? extends T> actual, Condition<? super T> condition, Index index, T found) {
-    super("\nExpecting:\n <%s>\nat index <%s> to be:\n <%s>\nin:\n <%s>\n", found, index.value, condition, actual);
+    super("%nExpecting:%n <%s>%nat index <%s> to be:%n <%s>%nin:%n <%s>%n", found, index.value, condition, actual);
   }
 }

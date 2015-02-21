@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.error.MessageFormatter;
+
 import java.util.List;
 
 /**
@@ -24,6 +26,7 @@ import java.util.List;
 public class SoftAssertionError extends AssertionError {
   private static final long serialVersionUID = 5034494920024670595L;
   private final List<String> errors;
+  private static final MessageFormatter formatter = MessageFormatter.instance();
 
   /**
    * Creates a new SoftAssertionError.
@@ -36,7 +39,7 @@ public class SoftAssertionError extends AssertionError {
   }
 
   private static String createMessage(List<String> errors) {
-    StringBuilder msg = new StringBuilder("\nThe following ");
+    StringBuilder msg = new StringBuilder("%nThe following ");
     int size = errors.size();
 
     if (size == 1) {
@@ -44,12 +47,12 @@ public class SoftAssertionError extends AssertionError {
     } else {
       msg.append(size).append(" assertions");
     }
-    msg.append(" failed:\n");
+    msg.append(" failed:%n");
 
     for (int i = 0; i < size; i++) {
-      msg.append(i + 1).append(") ").append(errors.get(i)).append("\n");
+      msg.append(i + 1).append(") ").append(errors.get(i)).append("%n");
     }
-    return msg.toString();
+    return formatter.format(null,null,msg.toString());
   }
 
   /**

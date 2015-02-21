@@ -23,8 +23,8 @@ import java.util.List;
  */
 public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
 
-  private static final String EXPECTED_MULTIPLE = "\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nbut were:\n  <%s>\nin <%s>.\n";
-  private static final String EXPECTED_SINGLE = "\nExpecting value <%s> in field <%s> but was <%s> in <%s>.\n";
+  private static final String EXPECTED_MULTIPLE = "%nExpecting values:%n  <%s>%nin fields:%n  <%s>%nbut were:%n  <%s>%nin <%s>.%n";
+  private static final String EXPECTED_SINGLE = "%nExpecting value <%s> in field <%s> but was <%s> in <%s>.%n";
   private static final String COMPARISON  = "Comparison was performed on all fields";
   private static final String EXCLUDING  = " but <%s>";
 

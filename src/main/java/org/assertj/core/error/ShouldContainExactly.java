@@ -90,26 +90,26 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, Object notExpected,
 	                           ComparisonStrategy comparisonStrategy) {
-	super("\n" +
-	      "Expecting:\n" +
-	      "  <%s>\n" +
-	      "to contain exactly (and in same order):\n" +
-	      "  <%s>\n" +
-	      "but some elements were not found:\n" +
-	      "  <%s>\n" +
-	      "and others were not expected:\n" +
-	      "  <%s>\n%s",
+	super("%n" +
+	      "Expecting:%n" +
+	      "  <%s>%n" +
+	      "to contain exactly (and in same order):%n" +
+	      "  <%s>%n" +
+	      "but some elements were not found:%n" +
+	      "  <%s>%n" +
+	      "and others were not expected:%n" +
+	      "  <%s>%n%s",
 	      actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainExactly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-	super("\n" +
-	      "Expecting:\n" +
-	      "  <%s>\n" +
-	      "to contain exactly (and in same order):\n" +
-	      "  <%s>\n" +
-	      "but could not find the following elements:\n" +
-	      "  <%s>\n%s",
+	super("%n" +
+	      "Expecting:%n" +
+	      "  <%s>%n" +
+	      "to contain exactly (and in same order):%n" +
+	      "  <%s>%n" +
+	      "but could not find the following elements:%n" +
+	      "  <%s>%n%s",
 	      actual, expected, notFound, comparisonStrategy);
   }
 
@@ -146,11 +146,11 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
 
   private ShouldContainExactly(Object actualElement, Object expectedElement, int indexOfDifferentElements,
 	                           ComparisonStrategy comparisonStrategy) {
-	super("\n" +
-	      "Actual and expected have the same elements but not in the same order, at index %s actual element was:\n" +
-	      "  <%s>\n" + 
-	      "whereas expected element was:\n" +
-	      "  <%s>\n%s",
+	super("%n" +
+	      "Actual and expected have the same elements but not in the same order, at index %s actual element was:%n" +
+	      "  <%s>%n" + 
+	      "whereas expected element was:%n" +
+	      "  <%s>%n%s",
 	      indexOfDifferentElements, actualElement, expectedElement, comparisonStrategy);
   }
 

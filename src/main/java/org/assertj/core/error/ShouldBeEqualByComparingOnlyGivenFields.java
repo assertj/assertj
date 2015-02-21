@@ -47,13 +47,13 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
 
   private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                                   List<Object> expectedValue, List<String> acceptedFields) {
-    super("\nExpecting values:\n  <%s>\nin fields:\n  <%s>\nbut were:\n  <%s>\nin <%s>.\nComparison was performed on fields:\n  <%s>",
+    super("%nExpecting values:%n  <%s>%nin fields:%n  <%s>%nbut were:%n  <%s>%nin <%s>.%nComparison was performed on fields:%n  <%s>",
         expectedValue, rejectedFields, rejectedValues, actual, acceptedFields);
   }
 
   private ShouldBeEqualByComparingOnlyGivenFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
                                                    List<String> acceptedFields) {
-    super("\nExpecting value <%s> in field <%s> but was <%s> in <%s>", expectedValue, rejectedField, rejectedValue, actual,
+    super("%nExpecting value <%s> in field <%s> but was <%s> in <%s>", expectedValue, rejectedField, rejectedValue, actual,
         acceptedFields);
   }
 
