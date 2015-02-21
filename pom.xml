@@ -104,7 +104,7 @@
                   <goal>jar</goal>
                 </goals>
               </execution>
-            </executions>      
+            </executions>
           </plugin>  
         </plugins>
       </build>
@@ -204,9 +204,9 @@
               <configuration>
                 <!-- default check ratio : can be overriden in inherited projects -->
                 <rules>
-            		  <rule implementation="org.jacoco.maven.RuleConfiguration">
-              		    <element>BUNDLE</element>
-              		    <limits>
+                    <rule implementation="org.jacoco.maven.RuleConfiguration">
+                        <element>BUNDLE</element>
+                        <limits>
                         <limit implementation="org.jacoco.report.check.Limit">
                           <counter>CLASS</counter>
                           <value>COVEREDRATIO</value>
@@ -237,9 +237,9 @@
                           <value>COVEREDRATIO</value>
                           <minimum>0.80</minimum>
                         </limit>
-              		    </limits>
-            		  </rule>
-          		  </rules>
+                        </limits>
+                      </rule>
+                  </rules>
               </configuration>
             </execution>
           </executions>
@@ -341,7 +341,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.4</version>            
+        <version>2.4</version>
         <executions>
           <execution>
             <id>attach-sources</id>
