@@ -131,12 +131,14 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
 
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
+   * </p> 
+   * We don't return {@link ClassAssert} as it has overriden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public ClassAssert assertThat(Class<?> actual) {
-	return proxy(ClassAssert.class, Class.class, actual);
+  public SoftAssertionClassAssert assertThat(Class<?> actual) {
+	return proxy(SoftAssertionClassAssert.class, Class.class, actual);
   }
 
   /**
@@ -348,13 +350,15 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
+   * <p>
+   * We don't return {@link MapAssert} as it has overriden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   @SuppressWarnings("unchecked")
-  public <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
-	return proxy(MapAssert.class, Map.class, actual);
+  public <K, V> SoftAssertionMapAssert<K, V> assertThat(Map<K, V> actual) {
+	return proxy(SoftAssertionMapAssert.class, Map.class, actual);
   }
 
   /**

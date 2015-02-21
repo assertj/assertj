@@ -15,18 +15,12 @@ package org.assertj.core.api;
 import java.lang.annotation.Annotation;
 
 /**
- * Assertion methods for {@code Class}es.
- * <p>
- * To create a new instance of this class, invoke <code>{@link org.assertj.core.api.Assertions#assertThat(Class)}</code>
- * </p>
- * 
- * @author William Delanoue
- * @author Mikhail Mazursky
+ * Concrete assertions for {@link Class}s without any final methods to allow proxying.
  */
-public class ClassAssert extends AbstractClassAssert<ClassAssert> {
+public class SoftAssertionClassAssert extends AbstractClassAssert<SoftAssertionClassAssert> {
 
-  protected ClassAssert(Class<?> actual) {
-    super(actual, ClassAssert.class);
+  protected SoftAssertionClassAssert(Class<?> actual) {
+    super(actual, SoftAssertionClassAssert.class);
   }
   
   // override method to annotate it with @SafeVarargs, we unfortunately can't do that in AbstractClassAssert as it is
@@ -35,7 +29,7 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
   
   @SafeVarargs
   @Override
-  public final ClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {
+  public final SoftAssertionClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {
     return super.hasAnnotations(annotations);
   }
 }

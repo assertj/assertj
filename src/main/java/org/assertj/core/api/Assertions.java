@@ -186,7 +186,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-	return new GenericComparableAssert<>(actual);
+    return new GenericComparableAssert<>(actual);
   }
 
   /**
@@ -196,7 +196,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterable<? extends T> actual) {
-	return new IterableAssert<>(actual);
+    return new IterableAssert<>(actual);
   }
 
   /**
@@ -210,7 +210,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractIterableAssert<?, ? extends Iterable<? extends T>, T> assertThat(Iterator<? extends T> actual) {
-	return new IterableAssert<>(actual);
+    return new IterableAssert<>(actual);
   }
 
   /**
@@ -341,7 +341,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> assertThat(List<? extends T> actual) {
-	return new ListAssert<>(actual);
+    return new ListAssert<>(actual);
   }
 
   /**
@@ -381,7 +381,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectAssert<?, T> assertThat(T actual) {
-	return new ObjectAssert<>(actual);
+    return new ObjectAssert<>(actual);
   }
 
   /**
@@ -467,17 +467,20 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractObjectArrayAssert<?, T> assertThat(T[] actual) {
-	return new ObjectArrayAssert<>(actual);
+    return new ObjectArrayAssert<>(actual);
   }
 
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
-   *
+   * <p>
+   * Returned type is {@link MapAssert} as it overrides method to annotate them with {@link SafeVarargs} avoiding
+   * annoying warnings.
+   * 
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <K, V> AbstractMapAssert<?, ? extends Map<K, V>, K, V> assertThat(Map<K, V> actual) {
-	return new MapAssert<>(actual);
+  public static <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
+    return new MapAssert<>(actual);
   }
 
   /**

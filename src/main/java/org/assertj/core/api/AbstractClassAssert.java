@@ -170,10 +170,10 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * &#64;Hero &#64;Force
    * class Jedi implements Jedi {}
    * 
-   * // Should pass if :
-   * assertThat(Jedi.class).containsAnnotations(Force.class, hero.class);
+   * // Should pass:
+   * assertThat(Jedi.class).containsAnnotations(Force.class, Hero.class);
    * 
-   * // Should fail if :
+   * // Should fail:
    * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);
    * </code></pre>
    * 
