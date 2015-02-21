@@ -61,7 +61,7 @@
     <dependency>
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
-      <version>0.6.3</version>
+      <version>0.6.4</version>
     </dependency>
   </dependencies>
   <build>
