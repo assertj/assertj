@@ -31,6 +31,6 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringCase(CharSequence actual, CharSequence expected) {
-    super("\nExpecting:\n <%s>\nto be equal to:\n <%s>\nignoring case considerations", actual, expected);
+    super("%nExpecting:%n <%s>%nto be equal to:%n <%s>%nignoring case considerations", actual, expected);
   }
 }

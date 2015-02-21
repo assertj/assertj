@@ -36,6 +36,6 @@ public class ShouldHaveLineCount extends BasicErrorMessageFactory {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     // Also don't indent actual first line since the remaining lines won't have any indentation
-    super(format("\nExpecting text:\n%s\nto have <%s> lines but had <%s>.", "%s", expectedSize, actualSize), actual);
+    super(format("%nExpecting text:%n%s%nto have <%s> lines but had <%s>.", "%s", expectedSize, actualSize), actual);
   }
 }

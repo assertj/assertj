@@ -24,7 +24,7 @@ import org.assertj.core.api.Condition;
 public class ConditionAndGroupGenericParameterTypeShouldBeTheSame extends BasicErrorMessageFactory {
 
   public ConditionAndGroupGenericParameterTypeShouldBeTheSame(Object actual, Condition<?> condition) {
-    super("\nExpecting: <%s> have the same generic type as condition <%s>", actual, condition);
+    super("%nExpecting: <%s> have the same generic type as condition <%s>", actual, condition);
   }
 
   /**

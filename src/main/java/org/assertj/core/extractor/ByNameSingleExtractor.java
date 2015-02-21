@@ -52,7 +52,7 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
 		return FieldSupport.extraction().fieldValue(propertyOrFieldName, Object.class, input);
 	  } catch (IntrospectionError propertyIntrospectionError) {
 		// no field nor property found with given name, it is considered as an error
-		String message = format("\nCan't find any field or property with name '%s'.\nError when introspecting fields was :\n- %s \nError when introspecting properties was :\n- %s",
+		String message = format("%nCan't find any field or property with name '%s'.%nError when introspecting fields was :%n- %s %nError when introspecting properties was :%n- %s",
 		                        propertyOrFieldName, fieldIntrospectionError.getMessage(),
 		                        propertyIntrospectionError.getMessage());
 		throw new IntrospectionError(message);

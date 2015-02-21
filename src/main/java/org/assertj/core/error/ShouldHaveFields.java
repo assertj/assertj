@@ -47,7 +47,7 @@ public class ShouldHaveFields extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveFields(Class<?> actual, Set<String> expected, Set<String> missing, boolean declared) {
-    super("\nExpecting\n  <%s>\nto have " + (declared ? "declared " : "")
-        + "fields:\n  <%s>\nbut it doesn't have:\n  <%s>", actual, expected, missing);
+    super("%nExpecting%n  <%s>%nto have " + (declared ? "declared " : "")
+        + "fields:%n  <%s>%nbut it doesn't have:%n  <%s>", actual, expected, missing);
   }
 }

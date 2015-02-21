@@ -1092,7 +1092,7 @@ public class Assertions {
   /**
    * Loads the text content of a file into a list of strings with the default charset, each string corresponding to a
    * line.
-   * The line endings are either \n, \r or \r\n.
+   * The line endings are either %n, \r or \r%n.
    *
    * @param file the file.
    * @return the content of the file.
@@ -1105,7 +1105,7 @@ public class Assertions {
 
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line.
-   * The line endings are either \n, \r or \r\n.
+   * The line endings are either %n, \r or \r%n.
    *
    * @param file the file.
    * @param charset the character set to use.
@@ -1119,7 +1119,7 @@ public class Assertions {
 
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
-   * either \n, \r or \r\n.
+   * either %n, \r or \r%n.
    *
    * @param file the file.
    * @param charsetName the name of the character set to use.

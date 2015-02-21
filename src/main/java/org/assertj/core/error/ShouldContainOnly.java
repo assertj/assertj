@@ -89,26 +89,26 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
 
   private ShouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected,
 	                        ComparisonStrategy comparisonStrategy) {
-	super("\n" +
-	      "Expecting:\n" +
-	      "  <%s>\n" +
-	      "to contain only:\n" +
-	      "  <%s>\n" +
-	      "elements not found:\n" +
-	      "  <%s>\n" +
-	      "and elements not expected:\n" +
-	      "  <%s>\n%s", actual,
+	super("%n" +
+	      "Expecting:%n" +
+	      "  <%s>%n" +
+	      "to contain only:%n" +
+	      "  <%s>%n" +
+	      "elements not found:%n" +
+	      "  <%s>%n" +
+	      "and elements not expected:%n" +
+	      "  <%s>%n%s", actual,
 	      expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainOnly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-	super("\n" +
-	      "Expecting:\n" +
-	      "  <%s>\n" +
-	      "to contain only:\n" +
-	      "  <%s>\n" +
-	      "but could not find the following elements:\n" +
-	      "  <%s>\n%s",
+	super("%n" +
+	      "Expecting:%n" +
+	      "  <%s>%n" +
+	      "to contain only:%n" +
+	      "  <%s>%n" +
+	      "but could not find the following elements:%n" +
+	      "  <%s>%n%s",
 	      actual, expected, notFound, comparisonStrategy);
   }
 

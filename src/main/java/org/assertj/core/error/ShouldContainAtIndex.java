@@ -52,6 +52,6 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
   }
 
   private ShouldContainAtIndex(Object actual, Object expected, Index index, Object found, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nat index <%s> but found:\n <%s>\nin:\n <%s>\n%s", expected, index.value, found, actual, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nat index <%s> but found:%n <%s>%nin:%n <%s>%n%s", expected, index.value, found, actual, comparisonStrategy);
   }
 }

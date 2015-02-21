@@ -25,7 +25,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeInstance}</code>.
    * 
    * @param object the object value in the failed assertion.
-   * @param type the type {@code object} is \nExpecting:\n to belong to.
+   * @param type the type {@code object} is %nExpecting:%n to belong to.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstance(Object object, Class<?> type) {
@@ -36,7 +36,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
    * Creates a new </code>{@link ShouldBeInstance}</code> when object we want to check type is null.
    * 
    * @param objectDescription the description of the null object we wanted to check type.
-   * @param type the \nExpecting:\n type.
+   * @param type the %nExpecting:%n type.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstanceButWasNull(String objectDescription, Class<?> type) {
@@ -44,11 +44,11 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInstance(Object object, Class<?> type) {
-    super("\nExpecting:\n <%s>\nto be an instance of:\n <%s>\nbut was instance of:\n <%s>", object, type, object
+    super("%nExpecting:%n <%s>%nto be an instance of:%n <%s>%nbut was instance of:%n <%s>", object, type, object
         .getClass());
   }
 
   private ShouldBeInstance(String objectDescription, Class<?> type) {
-    super("\nExpecting object:\n %s\nto be an instance of:\n <%s>\nbut was null", objectDescription, type);
+    super("%nExpecting object:%n %s%nto be an instance of:%n <%s>%nbut was null", objectDescription, type);
   }
 }

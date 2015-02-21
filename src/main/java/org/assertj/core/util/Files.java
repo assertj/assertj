@@ -303,7 +303,7 @@ public class Files {
 
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
-   * either \n, \r or \r\n.
+   * either %n, \r or \r%n.
    * 
    * @param file the file.
    * @param charset the character set to use.
@@ -324,7 +324,7 @@ public class Files {
 
   /**
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
-   * either \n, \r or \r\n.
+   * either %n, \r or \r%n.
    * 
    * @param file the file.
    * @param charsetName the name of the character set to use.

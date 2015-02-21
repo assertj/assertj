@@ -47,7 +47,7 @@ public class ShouldContainCharSequenceSequence extends BasicErrorMessageFactory 
       ComparisonStrategy comparisonStrategy) {
 
     return new ShouldContainCharSequenceSequence(
-                                           "\nExpecting:\n <%s>\nto contain the following CharSequences in this order:\n <%s>\nbut <%s> was found before <%s>\n%s",
+                                           "%nExpecting:%n <%s>%nto contain the following CharSequences in this order:%n <%s>%nbut <%s> was found before <%s>%n%s",
                                            actual, strings, strings[badOrderIndex + 1], strings[badOrderIndex],
                                            comparisonStrategy);
   }

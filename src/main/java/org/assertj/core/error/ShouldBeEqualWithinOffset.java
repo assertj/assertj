@@ -37,8 +37,8 @@ public class ShouldBeEqualWithinOffset extends BasicErrorMessageFactory {
 
   private <T extends Number> ShouldBeEqualWithinOffset(Number actual, Number expected, Offset<T> offset,
                                                        Number difference) {
-    super("\nExpecting:\n  <%s>\nto be close to:\n  <%s>\n" +
-          "by less than <%s> but difference was <%s>.\n" +
+    super("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%n" +
+          "by less than <%s> but difference was <%s>.%n" +
           "(a difference of exactly <%s> being considered valid)",
           actual, expected, offset.value, difference, offset.value);
   }

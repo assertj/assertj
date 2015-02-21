@@ -53,13 +53,13 @@ public class ShouldContainCharSequenceOnlyOnce extends BasicErrorMessageFactory 
   }
 
   private ShouldContainCharSequenceOnlyOnce(CharSequence actual, CharSequence expected, int occurences, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto appear only once in:\n <%s>\nbut it appeared %s times %s", expected, actual,
+    super("%nExpecting:%n <%s>%nto appear only once in:%n <%s>%nbut it appeared %s times %s", expected, actual,
         occurences,
         comparisonStrategy);
   }
 
   private ShouldContainCharSequenceOnlyOnce(CharSequence actual, CharSequence expected, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto appear only once in:\n <%s>\nbut it did not appear %s", expected, actual,
+    super("%nExpecting:%n <%s>%nto appear only once in:%n <%s>%nbut it did not appear %s", expected, actual,
         comparisonStrategy);
   }
 }

@@ -36,6 +36,6 @@ public class ElementsShouldBeExactly extends BasicErrorMessageFactory {
   }
 
   private ElementsShouldBeExactly(Object actual, int times, Condition<?> condition) {
-    super("\nExpecting elements:\n<%s>\n to be exactly %s times <%s>", actual, times, condition);
+    super("%nExpecting elements:%n<%s>%n to be exactly %s times <%s>", actual, times, condition);
   }
 }

@@ -33,6 +33,6 @@ public class ShouldBeInSameDay extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameDay(Date actual, Date other) {
-    super("\nExpecting:\n <%s>\nto be on same year, month and day as:\n <%s>", actual, other);
+    super("%nExpecting:%n <%s>%nto be on same year, month and day as:%n <%s>", actual, other);
   }
 }

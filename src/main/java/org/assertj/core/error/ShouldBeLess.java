@@ -47,6 +47,6 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
   }
 
   private ShouldBeLess(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be less than:\n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto be less than:%n <%s> %s", actual, other, comparisonStrategy);
   }
 }

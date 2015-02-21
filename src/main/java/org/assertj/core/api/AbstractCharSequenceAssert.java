@@ -156,13 +156,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   /**
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p/>
-   * A line is considered to be <a name="lt">terminated</a> by any one of a line feed ('\n'), a carriage return ('\r'),
+   * A line is considered to be <a name="lt">terminated</a> by any one of a line feed ('%n'), a carriage return ('\r'),
    * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
    * <p>
    * This assertion will succeed:
    * 
    * <pre><code class='java'>
-   * String multiLine = &quot;First line\n&quot; +
+   * String multiLine = &quot;First line%n&quot; +
    *                    &quot;Last line&quot;;
    * assertThat(multiLine).hasLineCount(2);
    * </code></pre>
@@ -558,14 +558,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *
    * <pre><code class='java'>
    * String expectedXml =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;  &lt;bearer&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;ring&gt;\n&quot; +
-   *         &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;    &lt;/ring&gt;\n&quot; +
-   *         &quot;  &lt;/bearer&gt;\n&quot; +
+   *     &quot;&lt;rings&gt;%n&quot; +
+   *         &quot;  &lt;bearer&gt;%n&quot; +
+   *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;%n&quot; +
+   *         &quot;    &lt;ring&gt;%n&quot; +
+   *         &quot;      &lt;name&gt;one ring&lt;/name&gt;%n&quot; +
+   *         &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;%n&quot; +
+   *         &quot;    &lt;/ring&gt;%n&quot; +
+   *         &quot;  &lt;/bearer&gt;%n&quot; +
    *         &quot;&lt;/rings&gt;&quot;;
    * 
    * // Whatever how formatted your xml string is, isXmlEqualTo assertion is able to compare it with another xml String.
@@ -573,14 +573,14 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
    * 
    * String xmlWithNewLine =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;&lt;bearer&gt;   \n&quot; +
-   *         &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;  &lt;ring&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;  &lt;/ring&gt;\n&quot; +
-   *         &quot;&lt;/bearer&gt;\n&quot; +
+   *     &quot;&lt;rings&gt;%n&quot; +
+   *         &quot;&lt;bearer&gt;   %n&quot; +
+   *         &quot;  &lt;name&gt;Frodo&lt;/name&gt;%n&quot; +
+   *         &quot;  &lt;ring&gt;%n&quot; +
+   *         &quot;    &lt;name&gt;one ring&lt;/name&gt;%n&quot; +
+   *         &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;%n&quot; +
+   *         &quot;  &lt;/ring&gt;%n&quot; +
+   *         &quot;&lt;/bearer&gt;%n&quot; +
    *         &quot;&lt;/rings&gt;&quot;;
    * assertThat(xmlWithNewLine).isXmlEqualTo(expectedXml);
    * 
