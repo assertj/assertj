@@ -94,7 +94,7 @@
                 <goal>check</goal>
               </goals>
               <configuration>
-		        <rules>
+                <rules>
                   <rule implementation="org.jacoco.maven.RuleConfiguration">
                     <element>BUNDLE</element>
                     <limits>
@@ -103,10 +103,10 @@
                         <value>COVEREDRATIO</value>
                         <minimum>0.99</minimum>
                       </limit>
-              	   </limits>
-		          </rule>
+                   </limits>
+                  </rule>
                 </rules>
-	      </configuration>
+              </configuration>
             </execution>
           </executions>
       </plugin>
