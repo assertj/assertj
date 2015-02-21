@@ -12,10 +12,10 @@
  */
 package org.assertj.core.util;
 
+import java.util.List;
+
 import static java.lang.String.format;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import java.util.List;
 
 /**
  * Utility methods related to {@code String}s.
@@ -83,7 +83,8 @@ public final class Strings {
    * @return the formatted string if any args were given
    */
   public static String formatIfArgs(String message, Object... args) {
-    return Arrays.isNullOrEmpty(args) ? message : format(message, args);
+    return Arrays.isNullOrEmpty(args) ? format(message.replaceAll("%","%%").replaceAll("%%n","%n")).intern() : format
+            (message, args);
   }
 
   /**
