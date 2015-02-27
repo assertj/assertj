@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.contentOf;
+
 import java.io.File;
 import java.io.LineNumberReader;
 import java.util.Comparator;
@@ -21,8 +23,6 @@ import java.util.regex.PatternSyntaxException;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.VisibleForTesting;
-
-import static org.assertj.core.api.Assertions.contentOf;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -216,6 +216,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *           in the array.
    * @throws NullPointerException if the given array is {@code null}.
    */
+  @Override
   public S hasSameSizeAs(Object other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
@@ -259,6 +260,34 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S isEqualToIgnoringCase(CharSequence expected) {
     strings.assertEqualsIgnoringCase(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains only digits. It fails if String contains non-digit
+   * characters or is empty.
+   * <p>
+   * This assertion succeeds:
+   *
+   * <pre><code class='java'>
+   * assertThat("10").containsOnlyDigits();
+   * </code></pre>
+   *
+   * Whereas these assertions fail:
+   *
+   * <pre><code class='java'>
+   * assertThat("10$").containsOnlyDigits();
+   * assertThat("").containsOnlyDigits();
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   */
+  public S containsOnlyDigits() {
+    strings.assertContainsOnlyDigits(info, actual);
     return myself;
   }
 

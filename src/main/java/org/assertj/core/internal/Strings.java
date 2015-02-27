@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Character.isDigit;
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -21,6 +22,7 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -30,12 +32,11 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
-import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkLineCounts;
+import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.io.IOException;
@@ -242,6 +243,23 @@ public class Strings {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
     throw failures.failure(info, shouldContain(actual, values, notFound, comparisonStrategy));
+  }
+
+  /**
+   * Verifies that the given {@code CharSequence} contains only digits.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code CharSequence}.
+   * @throws NullPointerException if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code actual} contains non-digit characters or contains no digits at all.
+   */
+  public void assertContainsOnlyDigits(AssertionInfo info, CharSequence actual) {
+    assertNotNull(info, actual);
+    if (actual.length() == 0) throw failures.failure(info, shouldContainOnlyDigits(actual));
+    for (int index = 0; index < actual.length(); index++) {
+      char character = actual.charAt(index);
+      if (!isDigit(character)) throw failures.failure(info, shouldContainOnlyDigits(actual, character, index));
+    }
   }
 
   private void checkIsNotNull(CharSequence... values) {
