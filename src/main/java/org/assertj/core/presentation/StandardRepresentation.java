@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Collections;
 import org.assertj.core.util.Dates;
 

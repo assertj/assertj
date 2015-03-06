@@ -73,6 +73,7 @@ public class SoftAssertionsTest {
     softly.assertAll();
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_be_able_to_catch_exceptions_thrown_by_map_assertions() {
     try {
