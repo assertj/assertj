@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.lang.annotation.Annotation;
 
 /**
  * Concrete assertions for {@link Class}s without any final methods to allow proxying.
@@ -23,13 +22,4 @@ public class SoftAssertionClassAssert extends AbstractClassAssert<SoftAssertionC
     super(actual, SoftAssertionClassAssert.class);
   }
   
-  // override method to annotate it with @SafeVarargs, we unfortunately can't do that in AbstractClassAssert as it is
-  // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
-  // using proxies.
-  
-  @SafeVarargs
-  @Override
-  public final SoftAssertionClassAssert hasAnnotations(Class<? extends Annotation>... annotations) {
-    return super.hasAnnotations(annotations);
-  }
 }

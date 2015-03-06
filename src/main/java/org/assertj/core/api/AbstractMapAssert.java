@@ -403,7 +403,6 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
    */
-  
   public S containsOnly(@SuppressWarnings("unchecked") MapEntry<? extends K, ? extends V>... entries) {
     maps.assertContainsOnly(info, actual, entries);
     return myself;
