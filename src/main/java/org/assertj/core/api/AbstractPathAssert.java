@@ -42,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * Canonicalization may lead to an I/O error if a path does not exist, in which case the given assertions will fail with
  * a {@link PathsException}. Also note that {@link Files#isSymbolicLink(Path) symbolic links} will be followed if the
- * filesystem supports them. Finally, if a path is not {@link Path#isAbsolute()} absolute}, canonicalization will
+ * filesystem supports them. Finally, if a path is not {@link Path#isAbsolute() absolute}, canonicalization will
  * resolve the path against the process' current working directory.
  * </p>
  *
