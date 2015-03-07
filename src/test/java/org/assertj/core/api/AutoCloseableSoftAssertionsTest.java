@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,18 +25,13 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 
-/**
- * Tests for <code>{@link SoftAssertions}</code>.
- *
- * @author Brian Laframboise
- */
 public class AutoCloseableSoftAssertionsTest {
 
   @Test
@@ -133,9 +128,9 @@ public class AutoCloseableSoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-	  softly.assertThatExceptionThrownBy(new Callable<Void>() {
+	  softly.assertThatThrownBy(new ThrowingCallable() {
 		@Override
-		public Void call() throws Exception {
+		public void call() throws Exception {
 		  throw new Exception("something was wrong");
 		}
 
@@ -224,22 +219,6 @@ public class AutoCloseableSoftAssertionsTest {
 	  return;
 	}
 	fail("Should not reach here");
-  }
-
-  @Test
-  public void should_be_able_to_use_try_with_resources() {
-	try {
-	  try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
-		softly.assertThat(false).isTrue();
-		softly.assertThat("48").isEqualTo("49");
-	  }
-	  fail("Should not reach here");
-	} catch (SoftAssertionError e) {
-	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(2);
-	  assertThat(errors.get(0)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
-	  assertThat(errors.get(1)).isEqualTo("expected:<\"4[9]\"> but was:<\"4[8]\">");
-	}
   }
 
 }

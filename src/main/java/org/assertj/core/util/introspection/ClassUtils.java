@@ -36,10 +36,10 @@ public class ClassUtils {
   static List<Class<?>> getAllInterfaces(Class<?> cls) {
     if (cls == null) return null;
   
-    LinkedHashSet<Class<?>> interfacesFound = new LinkedHashSet<Class<?>>();
+    LinkedHashSet<Class<?>> interfacesFound = new LinkedHashSet<>();
     getAllInterfaces(cls, interfacesFound);
   
-    return new ArrayList<Class<?>>(interfacesFound);
+    return new ArrayList<>(interfacesFound);
   }
 
   /**

@@ -13,7 +13,7 @@
 package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Fail.shouldHaveThrown;
 
 import org.assertj.core.test.Jedi;
@@ -23,7 +23,7 @@ public class ThrowableAssert_built_from_lambda_Test {
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown_by_lambda() {
-	assertThatExceptionThrownBy(() -> {
+	assertThatThrownBy(() -> {
 	  throw new IllegalArgumentException("something was wrong");
 	}).isInstanceOf(IllegalArgumentException.class)
 	  .hasMessage("something was wrong");
@@ -33,7 +33,7 @@ public class ThrowableAssert_built_from_lambda_Test {
   public void should_build_ThrowableAssert_with_checked_exception_thrown_by_lambda() {
 	Jedi yoda = new Jedi("Yoda", "Green");
 	// @format:off
-	assertThatExceptionThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
+	assertThatThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
 	  .isInstanceOf(Exception.class)
 	  .hasMessage(yoda + " is no Sith");
 	// @format:on
@@ -42,9 +42,9 @@ public class ThrowableAssert_built_from_lambda_Test {
   @Test
   public void should_fail_if_nothing_is_thrown_by_lambda() {
 	try {
-	  assertThatExceptionThrownBy(() -> null);
+	  assertThatThrownBy(() -> {});
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("Expecting code to throw an exception.");
+	  assertThat(e).hasMessage("Expecting code to raise a throwable.");
 	  return;
 	}
 	shouldHaveThrown(AssertionError.class);

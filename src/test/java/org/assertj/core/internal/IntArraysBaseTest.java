@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -52,7 +52,7 @@ public class IntArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected IntArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Integer> absValueComparator = new AbsValueComparator<Integer>();
+  private AbsValueComparator<Integer> absValueComparator = new AbsValueComparator<>();
 
   @Before
   public void setUp() {

@@ -31,8 +31,11 @@ import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
+import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
+import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -50,6 +53,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid;
+import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
@@ -139,7 +143,7 @@ public class Arrays {
 
   void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values)) return;
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	int valueCount = sizeOf(values);
 	for (int i = 0; i < valueCount; i++) {
 	  Object value = Array.get(values, i);
@@ -153,7 +157,7 @@ public class Arrays {
 	if (iterable == null) throw iterableToLookForIsNull();
 	assertNotNull(info, array);
 	Object[] values = newArrayList(iterable).toArray();
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	for (Object value : values) {
 	  if (!arrayContains(array, value)) notFound.add(value);
 	}
@@ -192,12 +196,33 @@ public class Arrays {
 	throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
+  void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
+	if (commonChecks(info, actual, values)) return;
+	assertHasSameSizeAs(info, actual, values);
+	Set<Object> actualWithoutDuplicates = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
+	Set<Object> notFound = containsOnly(actualWithoutDuplicates, values);
+	if (actualWithoutDuplicates.isEmpty() && notFound.isEmpty()) {
+	  // actual and values have the same elements but are they in the same order ?
+	  int arrayLength = sizeOf(actual);
+	  for (int i = 0; i < arrayLength; i++) {
+		Object actualElement = Array.get(actual, i);
+		Object expectedElement = Array.get(values, i);
+		if (!areEqual(actualElement, expectedElement)) {
+		  throw failures.failure(info, elementsDifferAtIndex(actualElement, expectedElement, i, comparisonStrategy));
+		}
+	  }
+	  return;
+	}
+	throw failures.failure(info,
+	                       shouldContainExactly(actual, values, notFound, actualWithoutDuplicates, comparisonStrategy));
+  }
+
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values))
 	  return;
 	Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
-	Set<Object> notFound = new LinkedHashSet<Object>();
-	Set<Object> notOnlyOnce = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
+	Set<Object> notOnlyOnce = new LinkedHashSet<>();
 	for (Object expectedElement : asList(values)) {
 	  if (!arrayContains(actual, expectedElement)) {
 		notFound.add(expectedElement);
@@ -211,7 +236,7 @@ public class Arrays {
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object values) {
-	Set<Object> notFound = new LinkedHashSet<Object>();
+	Set<Object> notFound = new LinkedHashSet<>();
 	for (Object o : asSetWithoutDuplicatesAccordingToComparisonStrategy(values)) {
 	  if (iterableContains(actual, o)) {
 		collectionRemoves(actual, o);
@@ -229,7 +254,7 @@ public class Arrays {
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
   private Set<Object> asSetWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
-	Set<Object> set = new LinkedHashSet<Object>();
+	Set<Object> set = new LinkedHashSet<>();
 	int size = sizeOf(array);
 	for (int i = 0; i < size; i++) {
 	  Object element = Array.get(array, i);
@@ -313,8 +338,9 @@ public class Arrays {
   void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object values) {
 	checkIsNotNullAndNotEmpty(values);
 	assertNotNull(info, array);
-	Set<Object> found = new LinkedHashSet<Object>();
-	for (int i = 0; i < sizeOf(values); i++) {
+	Set<Object> found = new LinkedHashSet<>();
+	int valuesSize = sizeOf(values);
+	for (int i = 0; i < valuesSize; i++) {
 	  Object value = Array.get(values, i);
 	  if (arrayContains(array, value)) found.add(value);
 	}
@@ -372,6 +398,22 @@ public class Arrays {
 	  int arrayIndex = arraySize - (i + 1);
 	  if (!areEqual(Array.get(sequence, sequenceIndex), Array.get(actual, arrayIndex)))
 		throw arrayDoesNotEndWithSequence(info, failures, actual, sequence);
+	}
+  }
+
+  public void assertIsSubsetOf(AssertionInfo info, Failures failures, Object actual, Iterable<?> values) {
+	assertNotNull(info, actual);
+	checkIterableIsNotNull(info, values);
+	List<Object> extra = newArrayList();
+	int sizeOfActual = sizeOf(actual);
+	for (int i = 0; i < sizeOfActual; i++) {
+	  Object actualElement = Array.get(actual, i);
+	  if (!iterableContains(values, actualElement)) {
+		extra.add(actualElement);
+	  }
+	}
+	if (extra.size() > 0) {
+	  throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
 	}
   }
 
@@ -436,23 +478,23 @@ public class Arrays {
   public <E> void assertHaveAtLeast(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                                int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() < times) 
+	if (matchingElements.size() < times)
 	  throw failures.failure(info, elementsShouldHaveAtLeast(array, times, condition));
-	
+
   }
 
   public <E> void assertHaveAtMost(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                               int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() > times) 
+	if (matchingElements.size() > times)
 	  throw failures.failure(info, elementsShouldHaveAtMost(array, times, condition));
-	
+
   }
 
   public <E> void assertHaveExactly(AssertionInfo info, Failures failures, Conditions conditions, Object array,
 	                                int times, Condition<E> condition) {
 	List<E> matchingElements = getElementsMatchingCondition(info, failures, conditions, array, condition);
-	if (matchingElements.size() != times) 
+	if (matchingElements.size() != times)
 	  throw failures.failure(info, elementsShouldHaveExactly(array, times, condition));
   }
 
@@ -472,7 +514,7 @@ public class Arrays {
 	assertNotNull(info, array);
 	conditions.assertIsNotNull(condition);
 	try {
-	  List<E> filteredElements = new LinkedList<E>();
+	  List<E> filteredElements = new LinkedList<>();
 	  int arraySize = sizeOf(array);
 	  for (int i = 0; i < arraySize; i++) {
 		E element = (E) Array.get(array, i);
@@ -541,7 +583,7 @@ public class Arrays {
 	if (array == null) return null;
 	if (!isArray(array)) throw new IllegalArgumentException("The object should be an array");
 	int length = getLength(array);
-	List<T> list = new ArrayList<T>(length);
+	List<T> list = new ArrayList<>(length);
 	for (int i = 0; i < length; i++) {
 	  list.add((T) Array.get(array, i));
 	}

@@ -17,11 +17,12 @@ import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Comparator;
-import java.util.function.Predicate;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
@@ -80,11 +81,11 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Utility method to ease writing custom assertions classes, you can use format specifiers in error message, they
-   * will be replaced by the given arguments.
+   * Utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in error message.
    * <p>
-   * Moreover, this method honors any description ({@link #as(String, Object...)} or overridden error message defined by
-   * the user ( {@link #overridingErrorMessage(String, Object...)}.
+   * Moreover, this method honors any description set with {@link #as(String, Object...)} or overidden error message
+   * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
    * 
@@ -107,7 +108,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
-	throw Failures.instance().failure(info, new BasicErrorMessageFactory(errorMessage, arguments));
+    AssertionError failureWithOverridenErrorMessage = Failures.instance().failureIfErrorMessageIsOverriden(info);
+    if (failureWithOverridenErrorMessage != null) throw failureWithOverridenErrorMessage;
+    String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
+    throw new AssertionError(description + String.format(errorMessage, arguments));
   }
 
   /**
@@ -386,15 +390,15 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   @SuppressWarnings("unchecked")
   @Override
   public AbstractListAssert<?, ?, Object> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
-    return Assertions.assertThat((List<Object>) actual);
+	objects.assertIsInstanceOf(info, actual, List.class);
+	return Assertions.assertThat((List<Object>) actual);
   }
 
   /** {@inheritDoc} */
   @Override
   public AbstractCharSequenceAssert<?, String> asString() {
-    objects.assertIsInstanceOf(info, actual, String.class);
-    return Assertions.assertThat((String) actual);
+	objects.assertIsInstanceOf(info, actual, String.class);
+	return Assertions.assertThat((String) actual);
   }
 
   /**
@@ -443,6 +447,12 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   public S usingDefaultComparator() {
 	// fall back to default strategy to compare actual with other objects.
 	this.objects = Objects.instance();
+	return myself;
+  }
+  
+  @Override
+  public S withThreadDumpOnError() {
+	Failures.instance().enablePrintThreadDump();
 	return myself;
   }
 

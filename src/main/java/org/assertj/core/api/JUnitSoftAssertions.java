@@ -18,6 +18,8 @@ import org.junit.runner.Description;
 import org.junit.runners.model.MultipleFailureException;
 import org.junit.runners.model.Statement;
 
+import java.util.List;
+
 /**
  * Same as {@link SoftAssertions}, but with the following differences: <br/>
  * First, it's a junit rule, which can be used without having to call {@link SoftAssertions#assertAll() assertAll()},
@@ -39,14 +41,14 @@ import org.junit.runners.model.Statement;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-public class JUnitSoftAssertions extends AbstractSoftAssertions implements TestRule {
+public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implements TestRule {
 
   public Statement apply(final Statement base, Description description) {
 	return new Statement() {
 	  @Override
 	  public void evaluate() throws Throwable {
 		base.evaluate();
-		MultipleFailureException.assertEmpty(collector.errors());
+		MultipleFailureException.assertEmpty(proxies.errorsCollected());
 	  }
 	};
   }
@@ -55,9 +57,8 @@ public class JUnitSoftAssertions extends AbstractSoftAssertions implements TestR
 	super();
   }
 
-  @VisibleForTesting
-  ErrorCollector getCollector() {
-	return collector;
+  @VisibleForTesting List<Throwable> getErrors() {
+	return proxies.errorsCollected();
   }
 
 }

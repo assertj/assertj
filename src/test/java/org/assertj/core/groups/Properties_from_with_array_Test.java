@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.groups;
 
@@ -52,7 +52,7 @@ public class Properties_from_with_array_Test {
   public void setUp() {
     propertySupport = mock(PropertySupport.class);
     propertyName = "age";
-    properties = new Properties<Integer>(propertyName, Integer.class);
+    properties = new Properties<>(propertyName, Integer.class);
     properties.propertySupport = propertySupport;
   }
 

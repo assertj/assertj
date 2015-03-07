@@ -452,7 +452,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    *           or values are the same but the order is not.
    */
   public S containsExactly(double... values) {
-    objects.assertEqual(info, actual, values);
+	arrays.assertContainsExactly(info, actual, values);
     return myself;
   }
 

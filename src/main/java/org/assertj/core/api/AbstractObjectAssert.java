@@ -31,23 +31,27 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
   protected AbstractObjectAssert(A actual, Class<?> selfType) {
-	super(actual, selfType);
+    super(actual, selfType);
   }
 
   /**
    * Assert that the actual object is equal to the given one by comparing actual's fields with <b>not null</b> other's
    * fields only (including inherited fields).
-   * <p>
+   * <p/>
    * It means that if an actual field is not null and the corresponding field in other is null, this field will be
    * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other).
    * <p/>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter. <br/>
-   * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
+   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
+   * <p/>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
+   * 
+   * Example:
    * 
    * <pre><code class='java'>
-   * Example:
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
@@ -66,25 +70,22 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public S isEqualToIgnoringNullFields(A other) {
-	objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToIgnoringNullFields(Object)} instead.
-   */
-  public S isLenientEqualsToByIgnoringNullFields(A other) {
-	objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
-	return myself;
+    objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+    return myself;
   }
 
   /**
    * Assert that the actual object is equal to given one using a field by field comparison on the given fields only
-   * (fields can be inherited fields or nested fields). This can be handy if <code>equals</code> implementation of objects to compare
+   * (fields can be inherited fields or nested fields). This can be handy if <code>equals</code> implementation of
+   * objects to compare
    * does not suit you.
    * <p/>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter.
+   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
+   * field using its <code>equals</code> method.
+   * <p/>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p/>
    * 
    * Example:
@@ -112,16 +113,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if a field does not exist in actual.
    */
   public S isEqualToComparingOnlyGivenFields(A other, String... fieldsUsedInComparison) {
-	objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fieldsUsedInComparison);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToComparingOnlyGivenFields(Object, String...)} instead.
-   */
-  public S isLenientEqualsToByAcceptingFields(A other, String... fields) {
-	objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fields);
-	return myself;
+    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, fieldsUsedInComparison);
+    return myself;
   }
 
   /**
@@ -129,13 +122,16 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * (inherited fields are taken into account). This can be handy if <code>equals</code> implementation of objects to
    * compare does not suit you.
    * <p/>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter. <br/>
-   * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
+   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
+   * <p/>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
    * 
-   * <pre><code class='java'>
    * Example:
+   * <pre><code class='java'>
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
@@ -155,29 +151,24 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public S isEqualToIgnoringGivenFields(A other, String... fieldsToIgnore) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fieldsToIgnore);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToIgnoringGivenFields(Object, String...)} instead.
-   */
-  public S isLenientEqualsToByIgnoringFields(A other, String... fields) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fields);
-	return myself;
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fieldsToIgnore);
+    return myself;
   }
 
   /**
    * Assert that the actual object is equal to the given object based on a field by field comparison (including
    * inherited fields). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
    * <p/>
-   * Note that only <b>accessible </b>fields values are compared, accessible fields include directly accessible fields
-   * (e.g. public) or fields with an accessible getter. <br/>
-   * Moreover comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
+   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
+   * <p/>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
    * 
-   * <pre><code class='java'>
    * Example:
+   * <pre><code class='java'>
    * 
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -196,16 +187,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public S isEqualToComparingFieldByField(A other) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
-	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #isEqualToComparingFieldByField(Object)} instead.
-   */
-  @Deprecated
-  public S isEqualsToByComparingFields(A other) {
-	objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
-	return myself;
+    objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
   }
 }

@@ -51,7 +51,7 @@ public class Properties<T> {
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     checkIsNotNullOrEmpty(propertyName);
-    return new Properties<T>(propertyName, propertyType);
+    return new Properties<>(propertyName, propertyType);
   }
 
   /**

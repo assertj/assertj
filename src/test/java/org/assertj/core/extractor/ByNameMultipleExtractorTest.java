@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -38,7 +38,7 @@ public class ByNameMultipleExtractorTest {
 
   @Test
   public void should_extract_tuples_from_fields_or_properties() {
-	Extractor<Employee, Tuple> extractor = new ByNameMultipleExtractor<Employee>("id", "age");
+	Extractor<Employee, Tuple> extractor = new ByNameMultipleExtractor<>("id", "age");
 
 	Tuple extractedValue = extractor.extract(yoda);
 	assertThat(extractedValue).isEqualTo(tuple(1L, 800));
@@ -46,7 +46,7 @@ public class ByNameMultipleExtractorTest {
 
   @Test
   public void should_extract_tuples_with_consistent_iteration_order() {
-	Extractor<Employee, Tuple> extractor = new ByNameMultipleExtractor<Employee>("id", "name.first", "age");
+	Extractor<Employee, Tuple> extractor = new ByNameMultipleExtractor<>("id", "name.first", "age");
 
 	Tuple extractedValues = extractor.extract(yoda);
 	assertThat(extractedValues).isEqualTo(tuple(1L, "Yoda", 800));

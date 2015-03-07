@@ -12,7 +12,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent-pom</artifactId>
-    <version>1.3.2</version>
+    <version>1.3.5</version>
   </parent>
   <mailingLists>
     <mailingList>
@@ -75,6 +75,23 @@
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
       <version>3.3.1</version>
+      <scope>test</scope>
+    </dependency>
+    <!--
+      NEEDED! Unlike File, a Path is not linked to the JRE's filesystem.
+
+      In order to accurately test assertions, we need a decent JSR 203 implementation
+      which lets us test our assertions. Right now, this is memoryfilesystem
+      (https://github.com/marschall/memoryfilesystem).
+
+      Another choice would be jimfs from Google (https://github.com/google/jimfs),
+      but its support for reading/writing file attributes is not as complete as that
+      of memoryfilesystem's.
+    -->
+    <dependency>
+      <groupId>com.github.marschall</groupId>
+      <artifactId>memoryfilesystem</artifactId>
+      <version>0.6.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

@@ -81,7 +81,7 @@ public final class Iterables {
     if (isNullOrEmpty(i)) {
       return emptyList();
     }
-    List<T> nonNull = new ArrayList<T>();
+    List<T> nonNull = new ArrayList<>();
     for (T element : i) {
       if (element != null) {
         nonNull.add(element);

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -141,7 +141,7 @@ public class Maps_assertContainsOnly_Test extends MapsBaseTest {
   }
 
   private static <K, V> HashSet<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
-    HashSet<MapEntry<K, V>> notExpected = new HashSet<MapEntry<K, V>>();
+    HashSet<MapEntry<K, V>> notExpected = new HashSet<>();
     notExpected.add(entry);
     return notExpected;
   }

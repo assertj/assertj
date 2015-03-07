@@ -230,7 +230,7 @@ public class Strings {
     checkIsNotNull(values);
     checkIsNotEmpty(values);
     checkCharSequenceIsNotNull(values[0]);
-    Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
+    Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value)) {
         notFound.add(value);
@@ -512,7 +512,7 @@ public class Strings {
     checkIsNotNull(values);
     checkIsNotEmpty(values);
     checkCharSequenceIsNotNull(values[0]);
-    Set<CharSequence> notFound = new LinkedHashSet<CharSequence>();
+    Set<CharSequence> notFound = new LinkedHashSet<>();
     for (CharSequence value : values) {
       if (!stringContains(actual, value))
         notFound.add(value);

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -44,16 +44,16 @@ public class Join_constructor_with_Collection_Test {
   @Test
   public void should_throw_error_if_Collection_contains_nulls() {
     thrown.expectNullPointerException("The given conditions should not have null entries");
-    Collection<Condition<Object>> conditions = new ArrayList<Condition<Object>>();
-    conditions.add(new TestCondition<Object>());
+    Collection<Condition<Object>> conditions = new ArrayList<>();
+    conditions.add(new TestCondition<>());
     conditions.add(null);
     new ConcreteJoin(conditions);
   }
 
   @Test
   public void should_create_new_Join_with_passed_Conditions() {
-    Collection<Condition<Object>> conditions = new ArrayList<Condition<Object>>();
-    conditions.add(new TestCondition<Object>());
+    Collection<Condition<Object>> conditions = new ArrayList<>();
+    conditions.add(new TestCondition<>());
     Join<Object> join = new ConcreteJoin(conditions);
     assertEquals(conditions, join.conditions);
   }

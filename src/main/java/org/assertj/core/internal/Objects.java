@@ -530,10 +530,10 @@ public class Objects {
   public <A> void assertIsLenientEqualsToIgnoringNullFields(AssertionInfo info, A actual, A other) {
 	assertNotNull(info, actual);
 	assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-	List<String> fieldsNames = new LinkedList<String>();
-	List<Object> rejectedValues = new LinkedList<Object>();
-	List<Object> expectedValues = new LinkedList<Object>();
-	List<String> nullFields = new LinkedList<String>();
+	List<String> fieldsNames = new LinkedList<>();
+	List<Object> rejectedValues = new LinkedList<>();
+	List<Object> expectedValues = new LinkedList<>();
+	List<String> nullFields = new LinkedList<>();
 	for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
 	  try {
 		Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
@@ -581,9 +581,9 @@ public class Objects {
   }
 
   private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other, String[] fields) {
-	List<String> rejectedFieldsNames = new LinkedList<String>();
-	List<Object> expectedValues = new LinkedList<Object>();
-	List<Object> rejectedValues = new LinkedList<Object>();
+	List<String> rejectedFieldsNames = new LinkedList<>();
+	List<Object> expectedValues = new LinkedList<>();
+	List<Object> rejectedValues = new LinkedList<>();
 	for (String fieldName : fields) {
 	  Object actualFieldValue = getFieldOrPropertyValue(actual, fieldName);
 	  Object otherFieldValue = getFieldOrPropertyValue(other, fieldName);
@@ -623,9 +623,9 @@ public class Objects {
   private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] givenIgnoredFields) {
 	Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
 	verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, givenIgnoredFields);
-	List<String> fieldsNames = new LinkedList<String>();
-	List<Object> expectedValues = new LinkedList<Object>();
-	List<Object> rejectedValues = new LinkedList<Object>();
+	List<String> fieldsNames = new LinkedList<>();
+	List<Object> expectedValues = new LinkedList<>();
+	List<Object> rejectedValues = new LinkedList<>();
 	Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
 	for (Field field : declaredFieldsIncludingInherited) {
 	  // ignore private field if user has decided not to use them in comparison
@@ -745,7 +745,7 @@ public class Objects {
 	}
 
 	public ByFieldsComparison() {
-	  this(new ArrayList<String>(), new ArrayList<Object>(), new ArrayList<Object>());
+	  this(new ArrayList<String>(), new ArrayList<>(), new ArrayList<>());
 	}
 
 	public boolean isFieldsNamesEmpty() {

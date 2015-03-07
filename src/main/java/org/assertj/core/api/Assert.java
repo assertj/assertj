@@ -285,4 +285,54 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   @Override
   @Deprecated
   boolean equals(Object obj);
+
+  /**
+   * In case of assertion error, the thread dump will be printed on {@link System#err}.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");
+   * </code></pre>
+   * will print the thread dump, something looking like:
+   * <pre><code>
+   * "JDWP Command Reader"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 
+   * "JDWP Event Helper Thread"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 
+   * "JDWP Transport Listener: dt_socket"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 
+   * "Signal Dispatcher"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 
+   * "Finalizer"
+   * 	java.lang.Thread.State: WAITING
+   * 		at java.lang.Object.wait(Native Method)
+   * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:135)
+   * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:151)
+   * 		at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:189)
+   * 
+   * "Reference Handler"
+   * 	java.lang.Thread.State: WAITING
+   * 		at java.lang.Object.wait(Native Method)
+   * 		at java.lang.Object.wait(Object.java:503)
+   * 		at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:133)
+   * 
+   * "main"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 		at sun.management.ThreadImpl.dumpThreads0(Native Method)
+   * 		at sun.management.ThreadImpl.dumpAllThreads(ThreadImpl.java:446)
+   * 		at org.assertj.core.internal.Failures.threadDumpDescription(Failures.java:193)
+   * 		at org.assertj.core.internal.Failures.printThreadDumpIfNeeded(Failures.java:141)
+   * 		at org.assertj.core.internal.Failures.failure(Failures.java:91)
+   * 		at org.assertj.core.internal.Objects.assertEqual(Objects.java:314)
+   * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
+   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)
+   * </code></pre>
+   * @return this assertion object.
+   */
+  S withThreadDumpOnError();
 }

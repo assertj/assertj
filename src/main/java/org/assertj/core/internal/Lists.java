@@ -247,7 +247,7 @@ public class Lists {
 
   @SuppressWarnings("unchecked")
   private static List<Comparable<Object>> listOfComparableElements(List<?> collection) {
-    List<Comparable<Object>> listOfComparableElements = new ArrayList<Comparable<Object>>();
+    List<Comparable<Object>> listOfComparableElements = new ArrayList<>();
     for (Object object : collection) {
       listOfComparableElements.add((Comparable<Object>) object);
     }

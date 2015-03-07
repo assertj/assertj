@@ -68,7 +68,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   protected Set<Object> newSetUsingComparisonStrategy() {
     // define a comparator so that we can use areEqual to compare objects in Set collections
     // the "less than" comparison does not make much sense here but need to be defined.
-    return new TreeSet<Object>(
+    return new TreeSet<>(
                                new Comparator<Object>() {
                                  @Override
                                  public int compare(Object o1, Object o2) {

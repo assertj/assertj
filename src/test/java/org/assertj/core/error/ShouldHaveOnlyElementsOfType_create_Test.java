@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -29,7 +29,7 @@ public class ShouldHaveOnlyElementsOfType_create_Test {
 
   @Test
   public void should_create_error_message_for_iterable() {
-	List<Object> list = new ArrayList<Object>();
+	List<Object> list = new ArrayList<>();
 	list.add("Yoda");
 	list.add(5L);
 	ErrorMessageFactory factory = shouldHaveOnlyElementsOfType(list, String.class, Long.class);

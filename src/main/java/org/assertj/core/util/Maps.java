@@ -37,7 +37,7 @@ public class Maps {
    * @return the created {@code HashMap}.
    */
   public static <K, V> Map<K, V> newHashMap() {
-    return new HashMap<K, V>();
+    return new HashMap<>();
   }
 
   /**
@@ -46,7 +46,7 @@ public class Maps {
    * @return the created {@code ConcurrentMap}.
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap() {
-    return new ConcurrentHashMap<K, V>();
+    return new ConcurrentHashMap<>();
   }
 
   /**
@@ -55,7 +55,7 @@ public class Maps {
    * @return the created {@code WeakHashMap}.
    */
   public static <K, V> WeakHashMap<K, V> newWeakHashMap() {
-    return new WeakHashMap<K, V>();
+    return new WeakHashMap<>();
   }
 
   /**

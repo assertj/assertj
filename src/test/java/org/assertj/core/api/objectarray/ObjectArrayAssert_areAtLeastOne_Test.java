@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -23,7 +23,7 @@ import org.assertj.core.api.TestCondition;
  * Tests for <code>{@link org.assertj.core.api.ObjectArrayAssert#areAtLeastOne(org.assertj.core.api.Condition)}</code>.
  */
 public class ObjectArrayAssert_areAtLeastOne_Test extends ObjectArrayAssertBaseTest {
-  private static final Condition<Object> condition = new TestCondition<Object>();
+  private static final Condition<Object> condition = new TestCondition<>();
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {

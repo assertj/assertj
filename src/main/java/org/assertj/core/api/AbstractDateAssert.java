@@ -76,7 +76,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {
 	@Override
 	protected LinkedHashSet<DateFormat> initialValue() {
-	  return new LinkedHashSet<DateFormat>();
+	  return new LinkedHashSet<>();
 	}
   };
   @VisibleForTesting
@@ -529,7 +529,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isInWithStringDateCollection(Collection<String> datesAsString) {
-	Collection<Date> dates = new ArrayList<Date>(datesAsString.size());
+	Collection<Date> dates = new ArrayList<>(datesAsString.size());
 	for (String dateAsString : datesAsString) {
 	  dates.add(parse(dateAsString));
 	}
@@ -617,7 +617,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotInWithStringDateCollection(Collection<String> datesAsString) {
-	Collection<Date> dates = new ArrayList<Date>(datesAsString.size());
+	Collection<Date> dates = new ArrayList<>(datesAsString.size());
 	for (String dateAsString : datesAsString) {
 	  dates.add(parse(dateAsString));
 	}
@@ -2445,56 +2445,6 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
 	super.usingDefaultComparator();
 	this.dates = Dates.instance();
 	return myself;
-  }
-
-  /**
-   * @deprecated : use {@link #registerCustomDateFormat(java.text.DateFormat)} instead.
-   */
-  @Deprecated
-  public static void useDateFormat(DateFormat userCustomDateFormat) {
-	registerCustomDateFormat(userCustomDateFormat);
-  }
-
-  /**
-   * @deprecated : use {@link #registerCustomDateFormat(String)} instead.
-   */
-  @Deprecated
-  public static void useDateFormat(String userCustomDateFormatPattern) {
-	registerCustomDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
-  }
-
-  /**
-   * @deprecated use {@link #withDefaultDateFormatsOnly()} instead.
-   */
-  @Deprecated
-  public S withIsoDateFormat() {
-	useDefaultDateFormatsOnly();
-	return myself;
-  }
-
-  /**
-   * @deprecated use {@link #withDefaultDateFormatsOnly()} instead.
-   */
-  @Deprecated
-  public S withDefaultDateFormats() {
-	useDefaultDateFormatsOnly();
-	return myself;
-  }
-
-  /**
-   * @deprecated use {@link #useDefaultDateFormatsOnly()} instead.
-   */
-  @Deprecated
-  public static void useIsoDateFormat() {
-	useDefaultDateFormatsOnly();
-  }
-
-  /**
-   * @deprecated : use {@link #useDefaultDateFormatsOnly()} instead.
-   */
-  @Deprecated
-  public static void useDefaultDateFormats() {
-	useDefaultDateFormatsOnly();
   }
 
 }

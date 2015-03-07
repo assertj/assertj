@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -35,7 +35,7 @@ public class AnyOf_anyOf_with_array_Test {
 
   @Test
   public void should_create_new_AnyOf_with_passed_Conditions() {
-    Condition<Object>[] conditions = array(new TestCondition<Object>(), new TestCondition<Object>());
+    Condition<Object>[] conditions = array(new TestCondition<>(), new TestCondition<>());
     Condition<Object> created = AnyOf.anyOf(conditions);
     assertEquals(AnyOf.class, created.getClass());
     AnyOf<Object> anyOf = (AnyOf<Object>) created;

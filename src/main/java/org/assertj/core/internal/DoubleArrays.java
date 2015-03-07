@@ -213,6 +213,10 @@ public class DoubleArrays {
     arrays.assertContainsOnlyOnce(info, failures, actual, values);
   }
 
+  public void assertContainsExactly(AssertionInfo info, double[] actual, double[] values) {
+	arrays.assertContainsExactly(info, failures, actual, values);
+  }
+  
   /**
    * Verifies that the given array contains the given sequence of values, without any other values between them.
    * 

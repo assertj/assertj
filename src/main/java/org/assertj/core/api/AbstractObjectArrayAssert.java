@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.extractor.Extractors.*;
+import static org.assertj.core.util.Iterables.toArray;
 import static org.assertj.core.util.Lists.*;
 
 import java.util.Arrays;
@@ -132,6 +133,18 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+	return containsOnly(toArray(iterable));
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S hasSameElementsAs(Iterable<? extends T> iterable) {
+	return containsOnlyElementsOf(iterable);
+  }
+  
+  /** {@inheritDoc} */
+  @Override
   public S containsOnlyOnce(@SuppressWarnings("unchecked")T... values) {
 	arrays.assertContainsOnlyOnce(info, actual, values);
 	return myself;
@@ -140,10 +153,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /** {@inheritDoc} */
   @Override
   public S containsExactly(@SuppressWarnings("unchecked")T... values) {
-	objects.assertEqual(info, actual, values);
+	arrays.assertContainsExactly(info, actual, values);
 	return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
+	return containsExactly(toArray(iterable));
+  }
+  
   /** {@inheritDoc} */
   @Override
   public S containsSequence(@SuppressWarnings("unchecked")T... sequence) {
@@ -181,6 +200,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 
   /** {@inheritDoc} */
   @Override
+  public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
+	arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable);
+	return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public S doesNotHaveDuplicates() {
 	arrays.assertDoesNotHaveDuplicates(info, actual);
 	return myself;
@@ -200,6 +226,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	return myself;
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public S isSubsetOf(Iterable<? extends T> values) {
+	arrays.assertIsSubsetOf(info, actual, values);
+	return myself;
+  }
+  
   /** {@inheritDoc} */
   @Override
   public S containsNull() {
@@ -394,7 +427,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public ObjectArrayAssert<Object> extracting(String fieldOrProperty) {
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-	return new ObjectArrayAssert<Object>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -449,7 +482,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <P> ObjectArrayAssert<P> extracting(String fieldOrProperty, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
-	return new ObjectArrayAssert<P>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -514,7 +547,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
 	Tuple[] result = Arrays.copyOf(values, values.length, Tuple[].class);
 
-	return new ObjectArrayAssert<Tuple>(result);
+	return new ObjectArrayAssert<>(result);
   }
 
   /**
@@ -562,7 +595,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <U> ObjectArrayAssert<U> extracting(Extractor<? super T, U> extractor) {
 	U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
-	return new ObjectArrayAssert<U>(extracted);
+	return new ObjectArrayAssert<>(extracted);
   }
 
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
@@ -573,7 +606,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	  result.addAll(e);
 	}
 
-	return new ObjectArrayAssert<U>(Iterables.toArray(result));
+	return new ObjectArrayAssert<>(Iterables.toArray(result));
   }
 
   /**
@@ -619,7 +652,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public ObjectArrayAssert<Object> extractingResultOf(String method) {
 	Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ObjectArrayAssert<Object>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -667,7 +700,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public <P> ObjectArrayAssert<P> extractingResultOf(String method, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ObjectArrayAssert<P>(values);
+	return new ObjectArrayAssert<>(values);
   }
 
   /**
@@ -714,6 +747,5 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   @Override
   public S inBinary() {
 	return super.inBinary();
-  }
-
+  }  
 }

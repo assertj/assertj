@@ -44,7 +44,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
     if (actual == null) {
       return null;
     }
-    return new LazyIteratorToIterableWrapper<T>(actual);
+    return new LazyIteratorToIterableWrapper<>(actual);
   }
 
   private static class LazyIteratorToIterableWrapper<T> extends AbstractCollection<T> {
@@ -76,7 +76,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
   }
 
   private static <T> Iterable<T> toIterable(Iterator<T> iterator) {
-    ArrayList<T> list = new ArrayList<T>();
+    ArrayList<T> list = new ArrayList<>();
     while (iterator.hasNext()) {
       list.add(iterator.next());
     }

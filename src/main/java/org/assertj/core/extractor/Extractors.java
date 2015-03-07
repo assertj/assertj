@@ -40,21 +40,21 @@ public class Extractors {
    * Provides extractor for extracting single field or property from any object using reflection
    */
   public static <F> Extractor<F, Object> byName(String fieldOrProperty) {
-    return new ByNameSingleExtractor<F>(fieldOrProperty);
+    return new ByNameSingleExtractor<>(fieldOrProperty);
   }
   
   /**
    * Provides extractor for extracting multiple fields or properties from any object using reflection
    */
   public static <F> Extractor<F, Tuple> byName(String... fieldsOrProperties) {
-    return new ByNameMultipleExtractor<F>(fieldsOrProperties);
+    return new ByNameMultipleExtractor<>(fieldsOrProperties);
   }
 
   /**
    * Provides extractor for extracting values by method name from any object using reflection
    */
   public static <F> Extractor<F, Object> resultOf(String methodName) {
-    return new ResultOfExtractor<F>(methodName);
+    return new ResultOfExtractor<>(methodName);
   }
   
 }

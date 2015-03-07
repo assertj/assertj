@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -32,8 +32,8 @@ public final class FolderFixture {
 
   private static Logger logger = Logger.getLogger(FolderFixture.class.getName());
 
-  private final List<FolderFixture> folders = new ArrayList<FolderFixture>();
-  private final List<FileFixture> files = new ArrayList<FileFixture>();
+  private final List<FolderFixture> folders = new ArrayList<>();
+  private final List<FileFixture> files = new ArrayList<>();
 
   private final String name;
   private final FolderFixture parent;

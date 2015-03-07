@@ -12,25 +12,47 @@
  */
 package org.assertj.core.error;
 
+import org.assertj.core.util.VisibleForTesting;
+
 import java.io.File;
+import java.nio.file.Path;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> exists failed.
+ * Creates an error message indicating that an assertion that verifies that a {@link File} or {@link Path} exists
+ * failed.
  * 
  * @author Yvonne Wang
  */
 public class ShouldExist extends BasicErrorMessageFactory {
 
+  @VisibleForTesting
+  public static final String PATH_SHOULD_EXIST = "%nExpecting path:%n  <%s>%nto exist (symbolic links were followed).";
+  public static final String PATH_SHOULD_EXIST_NO_FOLLOW_LINKS = "%nExpecting path:%n  <%s>%nto exist (symbolic links were not followed).";
+  public static final String FILE_SHOULD_EXIST = "%nExpecting file:%n  <%s>%nto exist.";
+
   /**
    * Creates a new <code>{@link ShouldExist}</code>.
+   * 
    * @param actual the actual value in the failed assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldExist(File actual) {
-    return new ShouldExist(actual);
+	return new ShouldExist(actual);
+  }
+
+  public static ErrorMessageFactory shouldExist(final Path actual) {
+	return new ShouldExist(actual, true);
+  }
+
+  public static ErrorMessageFactory shouldExistNoFollowLinks(final Path actual) {
+	return new ShouldExist(actual, false);
   }
 
   private ShouldExist(File actual) {
-    super("\nExpecting file:<%s> to exist", actual);
+	super(FILE_SHOULD_EXIST, actual);
+  }
+
+  private ShouldExist(final Path actual, boolean followLinks) {
+	super(followLinks ? PATH_SHOULD_EXIST : PATH_SHOULD_EXIST_NO_FOLLOW_LINKS, actual);
   }
 }

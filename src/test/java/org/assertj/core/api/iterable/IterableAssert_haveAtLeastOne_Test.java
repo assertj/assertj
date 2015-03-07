@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -25,7 +25,7 @@ import org.assertj.core.api.TestCondition;
  * @author Adam Ruka
  */
 public class IterableAssert_haveAtLeastOne_Test extends IterableAssertBaseTest {
-  private static final Condition<Object> condition = new TestCondition<Object>();
+  private static final Condition<Object> condition = new TestCondition<>();
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

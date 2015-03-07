@@ -14,9 +14,9 @@ package org.assertj.core.api;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenExceptionThrownBy;
+import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
@@ -32,8 +32,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.Callable;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -299,12 +299,12 @@ public class BDDAssertions_then_Test {
   @Test
   public void thenExceptionThrownBy_of_Callable_should_delegate_to_assertThatExceptionThrownBy() {
 	// GIVEN
-	Callable<Void> actual = () -> { throw new Exception("Boom !"); };
+	ThrowingCallable actual = () -> { throw new Exception("Boom !"); };
 	// WHEN
-	thenExceptionThrownBy(actual);
+	thenThrownBy(actual);
 	// THEN
 	verifyStatic();
-	assertThatExceptionThrownBy(actual);
+	assertThatThrownBy(actual);
   }
   
   @Test
@@ -516,4 +516,13 @@ public class BDDAssertions_then_Test {
 	assertThat(actual);
   }
 
+  public void should_build_ThrowableAssert_with_throwable_thrown() {
+    thenThrownBy(new ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        throw new Throwable("something was wrong");
+      }
+    }).isInstanceOf(Throwable.class)
+      .hasMessage("something was wrong");
+  }
 }

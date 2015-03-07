@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -153,19 +153,19 @@ public class ByNameSingleExtractorTest {
   }
 
   private ByNameSingleExtractor<Employee> idExtractor() {
-	return new ByNameSingleExtractor<Employee>("id");
+	return new ByNameSingleExtractor<>("id");
   }
 
   private ByNameSingleExtractor<Employee> ageExtractor() {
-	return new ByNameSingleExtractor<Employee>("age");
+	return new ByNameSingleExtractor<>("age");
   }
 
   private ByNameSingleExtractor<Employee> adultExtractor() {
-	return new ByNameSingleExtractor<Employee>("adult");
+	return new ByNameSingleExtractor<>("adult");
   }
 
   private ByNameSingleExtractor<Employee> nameExtractor() {
-	return new ByNameSingleExtractor<Employee>("name");
+	return new ByNameSingleExtractor<>("name");
   }
 
 }

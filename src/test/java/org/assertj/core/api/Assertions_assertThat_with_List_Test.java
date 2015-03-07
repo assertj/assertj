@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -48,8 +48,7 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractListAssert<?, ? extends List<? extends Object>, Object> assertions = Assertions.assertThat(emptyList());
-    assertNotNull(assertions);
+    assertNotNull(Assertions.assertThat(emptyList()));
   }
 
   @Test
@@ -62,8 +61,8 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert_with_list_extended() {
-    List<String> strings0 = new ArrayList<String>();
-    List<? extends String> strings1 = new ArrayList<String>();
+    List<String> strings0 = new ArrayList<>();
+    List<? extends String> strings1 = new ArrayList<>();
     Assertions.assertThat(strings0).isEqualTo(strings1);
     Assertions.assertThat(strings1).isEqualTo(strings0);
   }
@@ -82,7 +81,6 @@ public class Assertions_assertThat_with_List_Test {
   @Test
   public void should_pass_actual() {
     List<String> names = singletonList("Luke");
-    AbstractListAssert<?, ? extends List<? extends String>, String> assertions = Assertions.assertThat(names);
-    assertSame(names, assertions.actual);
+    assertSame(names, Assertions.assertThat(names).actual);
   }
 }

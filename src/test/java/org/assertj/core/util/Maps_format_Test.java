@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -47,7 +47,7 @@ public class Maps_format_Test {
 
   @Test
   public void should_format_Map() {
-    Map<String, Class<?>> map = new LinkedHashMap<String, Class<?>>();
+    Map<String, Class<?>> map = new LinkedHashMap<>();
     map.put("One", String.class);
     map.put("Two", File.class);
     assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");

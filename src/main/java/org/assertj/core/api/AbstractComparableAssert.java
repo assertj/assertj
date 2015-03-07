@@ -28,7 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractComparableAssert<S extends AbstractComparableAssert<S, A>, A extends Comparable<? super A>> extends
-    AbstractAssert<S, A> implements ComparableAssert<S, A> {
+    AbstractObjectAssert<S, A> implements ComparableAssert<S, A> {
 
   @VisibleForTesting
   Comparables comparables = Comparables.instance();

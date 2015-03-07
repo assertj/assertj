@@ -69,23 +69,6 @@ public enum FieldSupport {
   }
 
   /**
-   * Globally sets whether
-   * <code>{@link org.assertj.core.api.AbstractIterableAssert#extracting(String) IterableAssert#extracting(String)}</code>
-   * and
-   * <code>{@link org.assertj.core.api.AbstractObjectArrayAssert#extracting(String) ObjectArrayAssert#extracting(String)}</code>
-   * should be allowed to extract private fields, if not and they try it fails with exception.
-   *
-   * @param allowExtractingPrivateFields allow private fields extraction. Default {@code true}.
-   *
-   * @deprecated Use {@link #setAllowUsingPrivateFields(boolean)} instead
-   */
-  @Deprecated
-  public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
-	EXTRACTION.setAllowUsingPrivateFields(allowExtractingPrivateFields);
-  }
-
-
-  /**
    * Sets whether the use of private fields is allowed.
    * If a method tries to extract/compare private fields and is not allowed to, it will fail with an exception.
    *
@@ -142,7 +125,7 @@ public enum FieldSupport {
   }
 
   private <T> List<T> simpleFieldValues(String fieldName, Class<T> clazz, Iterable<?> target) {
-	List<T> fieldValues = new ArrayList<T>();
+	List<T> fieldValues = new ArrayList<>();
 	for (Object e : target) {
 	  fieldValues.add(e == null ? null : fieldValue(fieldName, clazz, e));
 	}

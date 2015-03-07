@@ -12,9 +12,9 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.groups.Properties.extractProperty;
-
 import java.util.List;
+
+import static org.assertj.core.groups.Properties.extractProperty;
 
 /**
  * <p>
@@ -105,7 +105,8 @@ import java.util.List;
  * <p>
  * Note that because SoftAssertions is stateful you should use a new instance of SoftAssertions per test method. Also,
  * if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any assertion
- * objects threw exceptions (because they're proxied, remember?). So don't forget.
+ * objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
+ * {@link JUnitSoftAssertions} or {@link AutoCloseableSoftAssertions} to get assertAll() to be called automatically.
  * </p>
  * 
  * <p>
@@ -115,16 +116,17 @@ import java.util.List;
  * 
  * @author Brian Laframboise
  * 
- * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the inspiration
+ * @see <a href="http://beust.com/weblog/2012/07/29/reinventing-assertions/">Reinventing assertions</a> for the
+ *      inspiration
  */
-public class SoftAssertions extends AbstractSoftAssertions {
+public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-    /**
-     * Creates a new </code>{@link SoftAssertions}</code>.
-     */
-    public SoftAssertions() {
-        super();
-    }
+  /**
+   * Creates a new </code>{@link SoftAssertions}</code>.
+   */
+  public SoftAssertions() {
+	super();
+  }
 
   /**
    * Verifies that no proxied assertion methods have failed.
@@ -132,10 +134,10 @@ public class SoftAssertions extends AbstractSoftAssertions {
    * @throws SoftAssertionError if any proxied assertion objects threw
    */
   public void assertAll() {
-    List<Throwable> errors = collector.errors();
-    if (!errors.isEmpty()) {
-      throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
-    }
+	List<Throwable> errors = proxies.errorsCollected();
+	if (!errors.isEmpty()) {
+	  throw new SoftAssertionError(extractProperty("message", String.class).from(errors));
+	}
   }
 
 }

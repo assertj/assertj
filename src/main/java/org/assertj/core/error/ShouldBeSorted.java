@@ -75,7 +75,7 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
     if (group.getClass().isArray()) {
       return wrap(group);
     } else if (group instanceof Collection<?>) {
-      List<Object> asList = new ArrayList<Object>();
+      List<Object> asList = new ArrayList<>();
       asList.addAll(((Collection<Object>) group));
       return asList;
     }

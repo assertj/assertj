@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Collections;
 import org.assertj.core.util.Dates;
 
@@ -59,8 +58,6 @@ public class StandardRepresentation implements Representation {
     } else if (object instanceof Character) {
       return toStringOf((Character) object);
     } else if (object instanceof Comparator) {
-      return toStringOf((Comparator<?>) object);
-    } else if (object instanceof ComparatorBasedComparisonStrategy) {
       return toStringOf((Comparator<?>) object);
     } else if (object instanceof SimpleDateFormat) {
       return toStringOf((SimpleDateFormat) object);

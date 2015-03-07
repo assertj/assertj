@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -79,7 +79,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
 
   @Test
   public void should_pass_within_time_constraints() {
-    List<String> generated = new ArrayList<String>(GENERATED_OBJECTS_NUMBER);
+    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
     for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
       generated.add(UUID.randomUUID().toString());
     }
@@ -133,7 +133,7 @@ public class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTes
   
   @Test
   public void should_pass_within_time_constraints_with_custom_comparison_strategy() {
-    List<String> generated = new ArrayList<String>(GENERATED_OBJECTS_NUMBER);
+    List<String> generated = new ArrayList<>(GENERATED_OBJECTS_NUMBER);
     for (int count = 0; count < GENERATED_OBJECTS_NUMBER; count++) {
       generated.add(UUID.randomUUID().toString());
     }

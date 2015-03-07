@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -34,21 +34,18 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-	AbstractIterableAssert<?, ? extends Iterable<? extends Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
-	assertNotNull(assertions);
+	assertNotNull(Assertions.assertThat(newLinkedHashSet()));
   }
 
   @Test
   public void should_initialise_actual() {
-	Iterator<String> names = asList("Luke", "Leia").iterator();
-	AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat(names);
-	assertThat(assertions.actual).containsOnly("Leia", "Luke");
+    Iterator<String> names = asList("Luke", "Leia").iterator();
+    assertThat(assertThat(names).actual).containsOnly("Leia", "Luke");
   }
 
   @Test
   public void should_allow_null() {
-	AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = assertThat((Iterator<String>) null);
-	assertThat(assertions.actual).isNull();
+	assertThat(assertThat((Iterator<String>) null).actual).isNull();
   }
 
   @Test

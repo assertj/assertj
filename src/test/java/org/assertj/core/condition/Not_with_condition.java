@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -28,7 +28,7 @@ public class Not_with_condition {
 
   @Test
   public void should_create_new_notOf_with_passed_Conditions() {
-    TestCondition<Object> condition = new TestCondition<Object>();
+    TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = not(condition);
     assertEquals(Not.class, created.getClass());
     Not<Object> not = (Not<Object>) created;

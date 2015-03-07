@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionThrownBy;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;
@@ -27,36 +27,36 @@ public class Introspection_getProperty_Test {
 
   @Before
   public void initData() {
-	judy = new Employee(100000.0, 31);
+    judy = new Employee(100000.0, 31);
   }
 
   @Test
   public void get_descriptor_for_property() {
-	PropertyDescriptor propertyDescriptor = getProperty("age", judy);
-	assertThat(propertyDescriptor).isNotNull();
-	assertThat(propertyDescriptor.getName()).isEqualTo("age");
+    PropertyDescriptor propertyDescriptor = getProperty("age", judy);
+    assertThat(propertyDescriptor).isNotNull();
+    assertThat(propertyDescriptor.getName()).isEqualTo("age");
   }
 
   @Test
   public void get_descriptor_for_property_from_interface_default_method() {
-	PropertyDescriptor propertyDescriptor = getProperty("degree", judy);
-	assertThat(propertyDescriptor).isNotNull();
-	assertThat(propertyDescriptor.getName()).isEqualTo("degree");
-	assertThat(propertyDescriptor.getPropertyType()).isEqualTo(String.class);
+    PropertyDescriptor propertyDescriptor = getProperty("degree", judy);
+    assertThat(propertyDescriptor).isNotNull();
+    assertThat(propertyDescriptor.getName()).isEqualTo("degree");
+    assertThat(propertyDescriptor.getPropertyType()).isEqualTo(String.class);
   }
 
   @Test
   public void should_raise_an_error_because_of_missing_getter() {
-	assertThatExceptionThrownBy(() -> getProperty("salary", judy)).isInstanceOf(IntrospectionError.class)
-	                                                              .hasMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
+    assertThatThrownBy(() -> getProperty("salary", judy)).isInstanceOf(IntrospectionError.class)
+                                                         .hasMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
   }
 
   @Test
   public void should_raise_an_error_because_of_non_public_getter() {
-	assertThatExceptionThrownBy(() -> getProperty("firstJob", judy)).isInstanceOf(IntrospectionError.class)
-	                                                                .hasMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
-	assertThatExceptionThrownBy(() -> getProperty("company", judy)).isInstanceOf(IntrospectionError.class)
-	                                                               .hasMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
+    assertThatThrownBy(() -> getProperty("firstJob", judy)).isInstanceOf(IntrospectionError.class)
+                                                           .hasMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
+    assertThatThrownBy(() -> getProperty("company", judy)).isInstanceOf(IntrospectionError.class)
+                                                          .hasMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
   }
 
 }

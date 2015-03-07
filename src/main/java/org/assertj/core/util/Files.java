@@ -61,7 +61,7 @@ public class Files {
    * @return the names of the files inside the specified directory.
    */
   private static List<String> fileNamesIn(File dir, boolean recurse) {
-    List<String> scriptNames = new ArrayList<String>();
+    List<String> scriptNames = new ArrayList<>();
     File[] existingFiles = dir.listFiles();
     if (isNullOrEmpty(existingFiles)) {
       return scriptNames;

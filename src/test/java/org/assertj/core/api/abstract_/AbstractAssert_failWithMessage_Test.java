@@ -8,18 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
+import org.junit.Before;
 import org.junit.Test;
-
 import org.assertj.core.api.ConcreteAssert;
-
 
 /**
  * Tests for <code>AbstractAssert#failWithMessage(String, Object...)</code>.
@@ -28,29 +26,55 @@ import org.assertj.core.api.ConcreteAssert;
  */
 public class AbstractAssert_failWithMessage_Test {
 
+  private ConcreteAssert assertion;
+
+  @Before
+  public void setup() {
+	assertion = new ConcreteAssert("foo");
+  }
+
   @Test
-  public void should_fail() {
-    // should not fail
-    new ConcreteAssert("foo").failIfTrue(false);
-    // should fail
-    try {
-      new ConcreteAssert("foo").failIfTrue(true);
-    } catch (AssertionError e) {
-      assertEquals("\"predefined\" error message", e.getMessage());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_fail_with_simple_message() {
+	try {
+	  assertion.failWithMessage("fail");
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("fail");
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_with_message_having_args() {
+	try {
+	  assertion.failWithMessage("fail %d %s", 5, "times");
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("fail 5 times");
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_keep_description_set_by_user() {
+	try {
+	  assertion.as("user description").failWithMessage("fail %d %s", 5, "times");
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("[user description] fail 5 times");
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_keep_specific_error_message_and_description_set_by_user() {
-    try {
-      new ConcreteAssert("foo").as("user description").overridingErrorMessage("my error %s", "!").failIfTrue(true);
-    } catch (AssertionError e) {
-      assertEquals("[user description] my error !", e.getMessage());
-      return;
-    }
-    failBecauseExpectedAssertionErrorWasNotThrown();
+	try {
+	  assertion.as("test context").overridingErrorMessage("my %d errors %s", 5, "!").failWithMessage("%d %s", 5, "time");
+	} catch (AssertionError e) {
+	  assertThat(e).hasMessage("[test context] my 5 errors !");
+	  return;
+	}
+	failBecauseExpectedAssertionErrorWasNotThrown();
   }
-  
+
 }

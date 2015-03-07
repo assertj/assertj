@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -16,6 +16,7 @@ import static java.util.Collections.emptyMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.test.ErrorMessages.entriesToLookForIsEmpty;
@@ -49,7 +50,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @Before
   public void initLinkedHashMap() throws Exception {
-    linkedActual = new LinkedHashMap<String, String>(2);
+    linkedActual = new LinkedHashMap<>(2);
     linkedActual.put("name", "Yoda");
     linkedActual.put("color", "green");
   }
@@ -94,7 +95,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     try {
       maps.assertContainsExactly(info, linkedActual, entry("color", "green"), entry("name", "Yoda"));
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainExactly(entry("name", "Yoda"), entry("color", "green"), 0));
+      verify(failures).failure(info, elementsDifferAtIndex(entry("name", "Yoda"), entry("color", "green"), 0));
       return;
     }
     shouldHaveThrown(AssertionError.class);
@@ -150,7 +151,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
 
   @SafeVarargs
   private static Map<String, String> newLinkedHashMap(MapEntry<String, String>... entries) {
-    LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+    LinkedHashMap<String, String> result = new LinkedHashMap<>();
     for (MapEntry<String, String> entry : entries) {
       result.put(entry.key, entry.value);
     }
@@ -158,7 +159,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
   }
 
   private static <K, V> Set<MapEntry<K, V>> newHashSet(MapEntry<K, V> entry) {
-    LinkedHashSet<MapEntry<K, V>> result = new LinkedHashSet<MapEntry<K, V>>();
+    LinkedHashSet<MapEntry<K, V>> result = new LinkedHashSet<>();
     result.add(entry);
     return result;
   }

@@ -123,7 +123,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actualElement, Object expectedElement,
+  public static ErrorMessageFactory elementsDifferAtIndex(Object actualElement, Object expectedElement,
 	                                                     int indexOfDifferentElements,
 	                                                     ComparisonStrategy comparisonStrategy) {
 	return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements, comparisonStrategy);
@@ -138,7 +138,7 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
    * @param indexOfDifferentElements index where actual and expect differs.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainExactly(Object actualElement, Object expectedElement,
+  public static ErrorMessageFactory elementsDifferAtIndex(Object actualElement, Object expectedElement,
 	                                                     int indexOfDifferentElements) {
 	return new ShouldContainExactly(actualElement, expectedElement, indexOfDifferentElements,
 	                                StandardComparisonStrategy.instance());

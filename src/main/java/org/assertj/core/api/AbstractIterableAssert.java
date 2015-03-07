@@ -40,6 +40,16 @@ import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+
+import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.Extractors.resultOf;
+import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.Lists.newArrayList;
+
 /**
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
  * <code>{@link Collection}</code>.
@@ -156,14 +166,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
   /**
-   * Verifies that all the elements of the actual {@code Iterable} are present in the given {@code Iterable}.
-   *
-   * @param values the {@code Iterable} that should contain all actual elements.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
-   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   * {@inheritDoc}
    */
+  @Override
   public S isSubsetOf(Iterable<? extends T> values) {
 	iterables.assertIsSubsetOf(info, actual, values);
 	return myself;
@@ -193,30 +198,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	return myself;
   }
 
-  /**
-   * Verifies that the actual group does not contain any elements of the given {@link Iterable} (i.e. none).
-   * <p/>
-   * Example:
-   * 
-   * <pre><code class='java'>
-   * // this assertion succeeds :
-   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;CVS&quot;, &quot;SOURCESAFE&quot;);
-   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
-   * assertThat(actual).doesNotContainAnyElementsOf(values);
-   * 
-   * // This one fails :
-   * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
-   * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
-   * assertThat(actual).doesNotContainAnyElementsOf(values);
-   * </code></pre>
-   *
-   * @param iterable the given {@link Iterable}
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
-   */
+  @Override
   public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
 	iterables.assertDoesNotContainAnyElementsOf(info, actual, iterable);
 	return myself;
@@ -453,7 +435,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	this.iterables = new Iterables(new ComparatorBasedComparisonStrategy(elementComparator));
 	// to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
 	// elements with elementComparator parameter
-	objects = new Objects(new IterableElementComparisonStrategy<T>(elementComparator));
+	objects = new Objects(new IterableElementComparisonStrategy<>(elementComparator));
 	return myself;
   }
 
@@ -559,7 +541,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public ListAssert<Object> extracting(String propertyOrField) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-	return new ListAssert<Object>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -607,7 +589,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public ListAssert<Object> extractingResultOf(String method) {
 	List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ListAssert<Object>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -657,7 +639,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <P> ListAssert<P> extractingResultOf(String method, Class<P> extractedType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
-	return new ListAssert<P>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -754,7 +736,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   public <P> ListAssert<P> extracting(String propertyOrField, Class<P> extractingType) {
 	@SuppressWarnings("unchecked")
 	List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
-	return new ListAssert<P>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -853,7 +835,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *           public) in one of the initial Iterable's element.
    */
   public ListAssert<Tuple> extracting(String... propertiesOrFields) {
-	return extracting(byName(propertiesOrFields));
+    List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
+    return new ListAssert<>(values);
   }
 
   /**
@@ -900,7 +883,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
 	List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-	return new ListAssert<V>(values);
+	return new ListAssert<>(values);
   }
 
   /**
@@ -951,7 +934,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	  result.addAll(iterable);
 	}
 
-	return new ListAssert<V>(result);
+	return new ListAssert<>(result);
   }
 
   /**
@@ -1043,62 +1026,25 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
+  @Override
   public S containsExactlyElementsOf(Iterable<? extends T> iterable) {
 	return containsExactly(toArray(iterable));
   }
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b>.
-   * <p/>
-   * Example :
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
-   * 
-   * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya));
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, nenya, vilya, vilya));
-   * 
-   * // assertion will fail as actual does not contain narya.
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
-   * // assertion will fail as actual contain nenya.
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));
-   * </code></pre>
-   * 
-   * @param iterable the given {@code Iterable} we will get elements from.
+   * {@inheritDoc}
    */
+  @Override
   public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
 	return containsOnly(toArray(iterable));
   }
 
   /**
-   * Same semantic as {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
-   * given iterable and nothing else, <b>in any order</b>.
-   * </p>
-   * Example:
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
-   * 
-   * // assertions will pass
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, nenya));
-   * 
-   * // assertions will fail
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));
-   * </code></pre>
-   * 
-   * @param iterable the Iterable whose elements we expect to be present
-   * @return this assertion object
-   * @throws AssertionError if the actual group is {@code null}
-   * @throws NullPointerException if the given {@code Iterable} is {@code null}
-   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
-   *           {@code Iterable}
+   * {@inheritDoc}
    */
+  @Override
   public S hasSameElementsAs(Iterable<? extends T> iterable) {
-	return containsOnly(toArray(iterable));
+	return containsOnlyElementsOf(iterable);
   }
 
   /**

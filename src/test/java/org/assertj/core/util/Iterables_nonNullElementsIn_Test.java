@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -34,14 +34,14 @@ public class Iterables_nonNullElementsIn_Test {
 
   @Test
   public void should_return_empty_List_if_given_Iterable_has_only_null_elements() {
-    Collection<String> c = new ArrayList<String>();
+    Collection<String> c = new ArrayList<>();
     c.add(null);
     assertTrue(Iterables.nonNullElementsIn(c).isEmpty());
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
-    Collection<String> c = new ArrayList<String>();
+    Collection<String> c = new ArrayList<>();
     assertTrue(Iterables.nonNullElementsIn(c).isEmpty());
   }
 

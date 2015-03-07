@@ -96,7 +96,7 @@ public class PropertySupport {
   }
 
   private <T> List<T> simplePropertyValues(String propertyName, Class<T> clazz, Iterable<?> target) {
-    List<T> propertyValues = new ArrayList<T>();
+    List<T> propertyValues = new ArrayList<>();
     for (Object e : target) {
       propertyValues.add(e == null ? null : propertyValue(propertyName, clazz, e));
     }

@@ -12,7 +12,12 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
+
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.Description;
@@ -23,7 +28,6 @@ import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Failure actions.
  * 
@@ -32,14 +36,22 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Failures {
 
+  private static final String LINE_SEPARATOR = System.lineSeparator();
+
   private static final Failures INSTANCE = new Failures();
 
   /**
+   * flag indicating that in case of a failure a threaddump is printed out.
+   */
+  private boolean printThreadDump = false;
+
+  /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Failures instance() {
-    return INSTANCE;
+	return INSTANCE;
   }
 
   /**
@@ -49,58 +61,64 @@ public class Failures {
 
   /**
    * Sets whether we remove elements related to AssertJ from assertion error stack trace.
+   * 
    * @param removeAssertJRelatedElementsFromStackTrace flag
    */
   public void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
-    this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
+	this.removeAssertJRelatedElementsFromStackTrace = removeAssertJRelatedElementsFromStackTrace;
   }
 
   @VisibleForTesting
-  Failures() {}
+  Failures() {
+  }
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:
    * <ol>
-   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code> as the
-   * error message if such value is not {@code null}, or</li>
-   * <li>uses the given <code>{@link AssertionErrorFactory}</code> to create an <code>{@link AssertionError}</code>, prepending
-   * the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
+   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
+   * as the error message if such value is not {@code null}, or</li>
+   * <li>uses the given <code>{@link AssertionErrorFactory}</code> to create an <code>{@link AssertionError}</code>,
+   * prepending the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
    * </ol>
+   * 
    * @param info contains information about the failed assertion.
    * @param factory knows how to create {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
-    AssertionError error = failureIfErrorMessageIsOverriden(info);
-    if (error != null) return error;
-    return factory.newAssertionError(info.description(), info.representation());
+	AssertionError error = failureIfErrorMessageIsOverriden(info);
+	if (error != null) return error;
+	printThreadDumpIfNeeded();
+	return factory.newAssertionError(info.description(), info.representation());
   }
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:
    * <ol>
-   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code> as the
-   * error message if such value is not {@code null}, or</li>
+   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
+   * as the error message if such value is not {@code null}, or</li>
    * <li>uses the given <code>{@link ErrorMessageFactory}</code> to create the detail message of the
-   * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to the error
-   * message</li>
+   * <code>{@link AssertionError}</code>, prepending the value of <code>{@link AssertionInfo#description()}</code> to
+   * the error message</li>
    * </ol>
+   * 
    * @param info contains information about the failed assertion.
    * @param message knows how to create detail messages for {@code AssertionError}s.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory message) {
-    AssertionError error = failureIfErrorMessageIsOverriden(info);
-    if (error != null) return error;
-    AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    return assertionError;
+	AssertionError error = failureIfErrorMessageIsOverriden(info);
+	if (error != null) return error;
+	AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
+	removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+	printThreadDumpIfNeeded();
+	return assertionError;
   }
 
-  private AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
-    String overridingErrorMessage = info.overridingErrorMessage();
-    return isNullOrEmpty(overridingErrorMessage) ? null : failure(MessageFormatter.instance().format(info.description(),
-        info.representation(), overridingErrorMessage));
+  public AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
+	String overridingErrorMessage = info.overridingErrorMessage();
+	return isNullOrEmpty(overridingErrorMessage) ? null :
+	    failure(MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage));
   }
 
   /**
@@ -108,13 +126,19 @@ public class Failures {
    * <p>
    * It filters the AssertionError stack trace be default, to have full stack trace use
    * {@link #setRemoveAssertJRelatedElementsFromStackTrace(boolean)}.
+   * 
    * @param message the message of the {@code AssertionError} to create.
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(String message) {
-    AssertionError assertionError = new AssertionError(message);
-    removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-    return assertionError;
+	AssertionError assertionError = new AssertionError(message);
+	removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
+	printThreadDumpIfNeeded();
+	return assertionError;
+  }
+
+  private void printThreadDumpIfNeeded() {
+	if (printThreadDump) System.err.println(threadDumpDescription());
   }
 
 /**
@@ -151,9 +175,30 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */
   public void removeAssertJRelatedElementsFromStackTraceIfNeeded(AssertionError assertionError) {
-    if (removeAssertJRelatedElementsFromStackTrace) {
-      Throwables.removeAssertJRelatedElementsFromStackTrace(assertionError);
-    }
+	if (removeAssertJRelatedElementsFromStackTrace) {
+	  Throwables.removeAssertJRelatedElementsFromStackTrace(assertionError);
+	}
   }
 
+  /**
+   * Set the flag indicating that in case of a failure a threaddump is printed out.
+   */
+  public void enablePrintThreadDump() {
+	printThreadDump = true;
+  }
+
+  private String threadDumpDescription() {
+	String threadDumpDescription = "";
+	ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+	ThreadInfo[] threadInfos = threadMXBean.dumpAllThreads(true, true);
+	for (ThreadInfo threadInfo : threadInfos) {
+	  threadDumpDescription += format("\"%s\"%n\tjava.lang.Thread.State: %s",
+		                              threadInfo.getThreadName(), threadInfo.getThreadState());
+	  for (StackTraceElement stackTraceElement : threadInfo.getStackTrace()) {
+		threadDumpDescription += LINE_SEPARATOR + "\t\tat " + stackTraceElement;
+	  }
+	  threadDumpDescription += LINE_SEPARATOR + LINE_SEPARATOR;
+	}
+	return threadDumpDescription;
+  }
 }

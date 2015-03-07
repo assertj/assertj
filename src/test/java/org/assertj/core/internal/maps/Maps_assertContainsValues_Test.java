@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -63,7 +63,7 @@ public class Maps_assertContainsValues_Test extends MapsBaseTest {
 
   @Test
   public void should_pass_if_actual_and_given_values_are_empty() {
-    actual = new HashMap<String, String>();
+    actual = new HashMap<>();
     maps.assertContainsValues(someInfo(), actual);
   }
   

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.test;
 
@@ -24,7 +24,7 @@ import org.assertj.core.data.MapEntry;
 public final class Maps {
   @SafeVarargs
   public static <K, V> Map<K, V> mapOf(MapEntry<K, V>... entries) {
-    Map<K, V> map = new LinkedHashMap<K, V>();
+    Map<K, V> map = new LinkedHashMap<>();
     for (MapEntry<K, V> entry : entries) {
       map.put(entry.key, entry.value);
     }

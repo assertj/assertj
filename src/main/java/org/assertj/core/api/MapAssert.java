@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
+import org.assertj.core.data.MapEntry;
+
 /**
  * Assertions for {@link Map}s.
  * <p>
@@ -30,5 +32,57 @@ public class MapAssert<K, V> extends AbstractMapAssert<MapAssert<K, V>, Map<K, V
 
   protected MapAssert(Map<K, V> actual) {
     super(actual, MapAssert.class);
+  }
+
+  // override methods to annotate them with @SafeVarargs, we unfortunately can't do that in AbstractMapAssert as it is
+  // used in soft assertions which need to be able to proxy method - @SafeVarargs requiring method to be final prevents
+  // using proxies.
+
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> contains(MapEntry<? extends K, ? extends V>... entries) {
+    return super.contains(entries);
+  }
+
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> containsOnly(MapEntry<? extends K, ? extends V>... entries) {
+    return super.containsOnly(entries);
+  }
+  
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> containsExactly(MapEntry<? extends K, ? extends V>... entries) {
+    return super.containsExactly(entries);
+  }
+  
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> containsKeys(K... keys) {
+    return super.containsKeys(keys);
+  }
+
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> containsOnlyKeys(K... keys) {
+    return super.containsOnlyKeys(keys);
+  }
+
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> containsValues(V... values) {
+    return super.containsValues(values);
+  }
+
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> doesNotContainKeys(K... keys) {
+    return super.doesNotContainKeys(keys);
+  }
+  
+  @SafeVarargs
+  @Override
+  public final MapAssert<K, V> doesNotContain(MapEntry<? extends K, ? extends V>... entries) {
+    return super.doesNotContain(entries);
   }
 }

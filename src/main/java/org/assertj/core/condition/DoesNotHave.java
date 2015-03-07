@@ -30,7 +30,7 @@ public class DoesNotHave<T> extends Negative<T> {
    * @return The Not condition created.
    */
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
-    return new DoesNotHave<T>(condition);
+    return new DoesNotHave<>(condition);
   }
 
   private DoesNotHave(Condition<? super T> condition) {

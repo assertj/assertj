@@ -8,19 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsEmpty;
+import static org.assertj.core.test.ErrorMessages.iterableValuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
@@ -39,8 +38,6 @@ import org.junit.Test;
  * @author William Delanoue
  */
 public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest {
-
-  private static List<String> actual = newArrayList("Luke", "Yoda", "Leia");
 
   @Test
   public void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable() {
@@ -61,7 +58,7 @@ public class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesB
   @Test
   public void should_throw_error_if_given_iterable_is_null() {
     thrown.expectNullPointerException(iterableValuesToLookForIsNull());
-    iterables.assertDoesNotContainAnyElementsOf(someInfo(), emptyList(), null);
+    iterables.assertDoesNotContainAnyElementsOf(someInfo(), actual, null);
   }
 
   @Test

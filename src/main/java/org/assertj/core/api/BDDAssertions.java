@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+
 /**
  * BDD style entry point for assertion methods for different data types. Each method in this class is a static factory
  * for the type-specific assertion objects. The purpose of this class is to make test code more readable.
@@ -184,6 +186,17 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractClassAssert<?> then(Class<?> actual) {
 	return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
+   * standard comparison semantics.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <T extends Comparable<? super T>> AbstractComparableAssert<?, T> then(T actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -458,39 +471,43 @@ public class BDDAssertions extends Assertions {
   public static AbstractThrowableAssert<?, ? extends Throwable> then(Throwable actual) {
 	return assertThat(actual);
   }
-
+  
   /**
-   * Creates a new instance of <code>{@link ThrowableAssert}</code> with the exception thrown by the given
-   * {@link Callable} execution.
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   * 
    * <p>
-   * Example with lambda:
+   * Java 8 example :
+   * </p>
    * 
    * <pre><code class='java'>
-   * Jedi yoda = new Jedi("Yoda", "Green");
-   * thenExceptionThrownBy(() -> { throw new Exception(yoda + " is no Sith"); })
-   *                      .isInstanceOf(Exception.class)
-   *                      .hasMessage(yoda + " is no Sith");
+   *  {@literal @}Test
+   *  public void testException() {
+   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
+   *                                                        .hasMessageContaining("boom");
+   *  }
    * </code></pre>
    * 
-   * Example with {@link Callable}:
+   * <p>
+   * Java 7 example :
+   * </p>
    * 
    * <pre><code class='java'>
-   * thenExceptionThrownBy(new Callable&lt;Void&gt;()
+   * thenThrownBy(new ThrowingCallable()
    * 
    *   {@literal @}Override
    *   public Void call() throws Exception {
-   *     throw new Exception("something was wrong");
+   *     throw new Exception("boom!");
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessage("something was wrong");
+   *   .hasMessageContaining("boom");
    * </code></pre>
    *
-   * @param callable the callable whose execution throws an exception we want to check.
-   * @return the created {@link ThrowableAssert}.
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
-  public static <V> ThrowableAssert thenExceptionThrownBy(Callable<V> callable) {
-	return assertThatExceptionThrownBy(callable);
+  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable) {
+    return assertThatThrownBy(shouldRaiseThrowable);
   }
 
   /**

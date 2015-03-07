@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -29,7 +29,7 @@ import org.assertj.core.api.IterableAssertBaseTest;
  */
 public class IterableAssert_containsAll_Test extends IterableAssertBaseTest {
 
-  private List<Object> list = new ArrayList<Object>();
+  private List<Object> list = new ArrayList<>();
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {

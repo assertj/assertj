@@ -85,7 +85,7 @@ public final class Lists {
    * @return the created {@code ArrayList}, of {@code null} if the given array of elements is {@code null}.
    */
   public static <T> ArrayList<T> newArrayList() {
-    return new ArrayList<T>();
+    return new ArrayList<>();
   }
 
   /**

@@ -121,7 +121,7 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("unchecked")
   @Override
   protected Set<Object> newSetUsingComparisonStrategy() {
-	return new TreeSet<Object>(comparator);
+	return new TreeSet<>(comparator);
   }
 
   @Override
