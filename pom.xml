@@ -62,6 +62,7 @@
       <groupId>com.github.marschall</groupId>
       <artifactId>memoryfilesystem</artifactId>
       <version>0.6.4</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
