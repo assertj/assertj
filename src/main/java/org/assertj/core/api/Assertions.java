@@ -12,6 +12,17 @@
  */
 package org.assertj.core.api;
 
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.AllOf;
@@ -26,17 +37,6 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.introspection.FieldSupport;
-
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the

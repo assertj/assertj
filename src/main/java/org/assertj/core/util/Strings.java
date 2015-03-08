@@ -12,10 +12,10 @@
  */
 package org.assertj.core.util;
 
-import java.util.List;
-
 import static java.lang.String.format;
 import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.List;
 
 /**
  * Utility methods related to {@code String}s.

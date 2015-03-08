@@ -12,16 +12,23 @@
  */
 package org.assertj.core.util;
 
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-
 import static java.io.File.separator;
 import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
-import static org.assertj.core.util.Strings.*;
+import static org.assertj.core.util.Strings.append;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringWriter;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility methods related to files.

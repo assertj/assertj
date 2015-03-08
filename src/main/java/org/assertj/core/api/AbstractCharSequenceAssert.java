@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Strings;
-import org.assertj.core.util.VisibleForTesting;
-
 import java.io.File;
 import java.io.LineNumberReader;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Strings;
+import org.assertj.core.util.VisibleForTesting;
 
 import static org.assertj.core.api.Assertions.contentOf;
 
