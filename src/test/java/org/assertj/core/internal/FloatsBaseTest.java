@@ -45,10 +45,6 @@ public class FloatsBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected Floats floatsWithAbsValueComparisonStrategy;
 
-  public FloatsBaseTest() {
-    super();
-  }
-
   @Before
   public void setUp() {
     failures = spy(new Failures());

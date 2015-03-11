@@ -60,7 +60,7 @@ public class MethodSupport {
     }
   }
 
-  private static Method findMethod(String methodName, Class<? extends Object> itemClass) {
+  private static Method findMethod(String methodName, Class<?> itemClass) {
     try {
       Method method = itemClass.getMethod(methodName);
       assertHasReturnType(itemClass, method);
@@ -73,13 +73,13 @@ public class MethodSupport {
   }
 
   private static IllegalArgumentException prepareMethodNotFoundException(String methodName,
-                                                                          Class<? extends Object> itemClass,
+                                                                          Class<?> itemClass,
                                                                           Exception cause) {
     String message = format(METHOD_NOT_FOUND, methodName, itemClass.getSimpleName());
     return new IllegalArgumentException(message, cause);
   }
 
-  private static void assertHasReturnType(Class<? extends Object> itemClass, Method method) {
+  private static void assertHasReturnType(Class<?> itemClass, Method method) {
     if (Void.TYPE.equals(method.getReturnType())) {
       String message = format(METHOD_HAS_NO_RETURN_VALUE, method.getName(), itemClass.getSimpleName());
       throw new IllegalArgumentException(message);
