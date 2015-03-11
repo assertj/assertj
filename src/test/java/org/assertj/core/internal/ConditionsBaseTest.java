@@ -40,10 +40,6 @@ public class ConditionsBaseTest {
   protected TestCondition<Object> condition;
   protected Conditions conditions;
 
-  public ConditionsBaseTest() {
-    super();
-  }
-
   @Before
   public void setUp() {
     failures = spy(new Failures());

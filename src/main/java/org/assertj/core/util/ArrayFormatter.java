@@ -43,7 +43,7 @@ final class ArrayFormatter {
     if (size == 0) {
       return "[]";
     }
-    StringBuilder buffer = new StringBuilder((20 * (size - 1)));
+    StringBuilder buffer = new StringBuilder(20 * (size - 1));
     deepToString(p, array, buffer, new HashSet<Object[]>());
     return buffer.toString();
   }

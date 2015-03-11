@@ -53,11 +53,7 @@ public class JUnitSoftAssertions extends AbstractStandardSoftAssertions implemen
 	};
   }
 
-  public JUnitSoftAssertions() {
-	super();
-  }
-
-  @VisibleForTesting List<Throwable> getErrors() {
+	@VisibleForTesting List<Throwable> getErrors() {
 	return proxies.errorsCollected();
   }
 

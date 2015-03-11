@@ -17,7 +17,6 @@ public class AbstractSoftAssertions {
   protected final SoftProxies proxies;
 
   public AbstractSoftAssertions() {
-	super();
     proxies = new SoftProxies();
   }
 
