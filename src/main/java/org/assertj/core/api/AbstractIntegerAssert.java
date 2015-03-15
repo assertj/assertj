@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.VisibleForTesting;
@@ -181,6 +182,64 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
     return myself;
   }
 
+  /**
+   * Verifies that the actual int is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(5).isCloseTo(7, within(3));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat(5).isCloseTo(7, within(2));
+   *
+   * // assertion will fail
+   * assertThat(5).isCloseTo(7, within(1));
+   * </code></pre>
+   *
+   * @param expected the given int to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(int expected, Offset<Integer> offset) {
+    integers.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual Integer is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(5).isCloseTo(new Integer(7), within(3));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(5).isCloseTo(new Integer(7), within(2));
+   *
+   * // assertion will fail
+   * assertThat(5).isCloseTo(new Integer(7), within(1));
+   * </code></pre>
+   *
+   * @param expected the given Integer to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected Integer is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(Integer expected, Offset<Integer> offset) {
+    integers.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+  
+  
   @Override
   public S usingComparator(Comparator<? super Integer> customComparator) {
     super.usingComparator(customComparator);

@@ -12,6 +12,13 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Math.abs;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
 import org.assertj.core.util.*;
 
 /**
@@ -44,6 +51,14 @@ public class Shorts extends Numbers<Short> {
   @Override
   protected Short zero() {
     return 0;
+  }
+
+  public void assertIsCloseTo(AssertionInfo info, Short actual, Short expected, Offset<Short> offset) {
+    assertNotNull(info, actual);
+    checkOffsetIsNotNull(offset);
+    checkNumberIsNotNull(expected);
+    Short absDiff = (short) abs(expected - actual);
+    if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
   }
 
 }

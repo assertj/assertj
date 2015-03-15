@@ -15,9 +15,6 @@ package org.assertj.core.api;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.ZERO;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 import java.math.BigDecimal;
 
@@ -33,22 +30,13 @@ public class Assertions_assertThat_with_BigDecimal_Test {
   @Test
   public void should_create_Assert() {
     AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ZERO);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     AbstractBigDecimalAssert<?> assertions = Assertions.assertThat(ONE);
-    assertSame(ONE, assertions.actual);
-  }
-
-  @Test
-  public void isCloseTo_within_offset_should_pass() {
-    final BigDecimal actual = new BigDecimal("8.1");
-    final BigDecimal other = new BigDecimal("8.0");
-    assertThat(actual).isCloseTo(other, within(new BigDecimal("0.2")));
-    // if difference is exactly equals to offset value, it's ok
-    assertThat(actual).isCloseTo(other, within(new BigDecimal("0.1")));
+    assertThat(assertions.actual).isSameAs(ONE);
   }
 
 }

@@ -899,6 +899,62 @@ public class Assertions {
     return Offset.offset(value);
   }
 
+  /**
+   * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * 
+   * <pre><code class='java'>
+   * assertThat((byte)10).isCloseTo((byte)11, within((byte)1));
+   * </code></pre>
+   */
+  public static Offset<Byte> within(Byte value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * 
+   * <pre><code class='java'>
+   * assertThat(10).isCloseTo(11, within(1));
+   * </code></pre>
+   */
+  public static Offset<Integer> within(Integer value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * 
+   * <pre><code class='java'>
+   * assertThat(10).isCloseTo(11, within(1));
+   * </code></pre>
+   */
+  public static Offset<Short> within(Short value) {
+    return Offset.offset(value);
+  }
+  
+  /**
+   * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
+   * <p/>
+   * Typical usage :
+   * <p/>
+   * 
+   * <pre><code class='java'>
+   * assertThat(5l).isCloseTo(7l, within(2l));
+   * </code></pre>
+   */
+  public static Offset<Long> within(Long value) {
+    return Offset.offset(value);
+  }
+  
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------

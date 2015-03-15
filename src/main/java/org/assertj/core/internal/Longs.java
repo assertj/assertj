@@ -12,7 +12,14 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.*;
+import static java.lang.Math.abs;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Long}</code>s.
@@ -26,6 +33,7 @@ public class Longs extends Numbers<Long> {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Longs instance() {
@@ -44,6 +52,14 @@ public class Longs extends Numbers<Long> {
 
   public Longs(ComparisonStrategy comparisonStrategy) {
     super(comparisonStrategy);
+  }
+
+  public void assertIsCloseTo(AssertionInfo info, Long actual, Long expected, Offset<Long> offset) {
+    assertNotNull(info, actual);
+    checkOffsetIsNotNull(offset);
+    checkNumberIsNotNull(expected);
+    long absDiff = abs(expected - actual);
+    if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
   }
 
 }

@@ -84,12 +84,58 @@ public class Offset<T extends Number> {
    * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
    */
+  public static Offset<Short> offset(Short value) {
+    checkNotNull(value);
+    if (value < 0) {
+      throw valueNotPositive();
+    }
+    return new Offset<>(value);
+  }
+  
+  /**
+   * Creates a new {@link Offset}.
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   */
+  public static Offset<Long> offset(Long value) {
+    checkNotNull(value);
+    if (value < 0) {
+      throw valueNotPositive();
+    }
+    return new Offset<>(value);
+  }
+  
+  /**
+   * Creates a new {@link Offset}.
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   */
   public static Offset<BigDecimal> offset(final BigDecimal value) {
     checkNotNull(value);
     if (value.compareTo(BigDecimal.ZERO) < 0) throw valueNotPositive();
     return new Offset<>(value);
   }
 
+  /**
+   * Creates a new {@link Offset}.
+   *
+   * @param value the value of the offset.
+   * @return the created {@code Offset}.
+   * @throws NullPointerException if the given value is {@code null}.
+   * @throws IllegalArgumentException if the given value is negative.
+   */
+  public static Offset<Byte> offset(final Byte value) {
+    checkNotNull(value);
+    if (value.compareTo((byte) 0) < 0) throw valueNotPositive();
+    return new Offset<>(value);
+  }
+  
   private static IllegalArgumentException valueNotPositive() {
     return new IllegalArgumentException("The value of the offset should be greater than zero");
   }

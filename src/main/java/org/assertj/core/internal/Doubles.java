@@ -23,7 +23,6 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
  * 
@@ -36,6 +35,7 @@ public class Doubles extends RealNumbers<Double> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Doubles instance() {
@@ -63,8 +63,10 @@ public class Doubles extends RealNumbers<Double> {
 
   /**
    * Verifies that two floats are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison
    * strategy.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
@@ -90,7 +92,7 @@ public class Doubles extends RealNumbers<Double> {
     return abs(expected - actual) <= offset.value.doubleValue();
   }
 
-  public void assertIsCloseTo(final WritableAssertionInfo info, final Double actual, final double other,
+  public void assertIsCloseTo(final AssertionInfo info, final Double actual, final Double other,
                               final Offset<Double> offset) {
     assertEqual(info, actual, other, offset);
   }
