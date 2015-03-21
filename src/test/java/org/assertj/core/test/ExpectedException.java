@@ -12,6 +12,8 @@
  */
 package org.assertj.core.test;
 
+import static java.lang.String.format;
+
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
@@ -70,6 +72,6 @@ public class ExpectedException implements TestRule {
   }
 
   public void expectMessage(String message) {
-    delegate.expectMessage(message);
+    delegate.expectMessage(format(message));
   }
 }

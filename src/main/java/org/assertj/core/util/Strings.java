@@ -83,7 +83,12 @@ public final class Strings {
    * @return the formatted string if any args were given
    */
   public static String formatIfArgs(String message, Object... args) {
-    return Arrays.isNullOrEmpty(args) ? message : format(message, args);
+    return Arrays.isNullOrEmpty(args)
+            // here we need to format %n but not other % since we do not have arguments. %% is formatted to % so
+            // replacing % into %% and then format it will have no effect. Nevertheless, we want to format %n
+            // correctly so we replace all % to %% except if they are followed by a 'n'.
+            ? format(message.replaceAll("%([^n])","%%$1"))
+            : format (message, args);
   }
 
   /**

@@ -18,14 +18,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.junit.Rule;
+import org.assertj.core.api.BaseTest;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-public class OptionalAssert_isEmpty_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+public class OptionalAssert_isEmpty_Test extends BaseTest {
 
   @Test
   public void should_pass_if_optional_is_empty() throws Exception {
@@ -34,8 +30,7 @@ public class OptionalAssert_isEmpty_Test {
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(actualIsNull());
+	thrown.expectAssertionError(actualIsNull());
 
 	assertThat((Optional<String>) null).isEmpty();
   }
@@ -44,8 +39,7 @@ public class OptionalAssert_isEmpty_Test {
   public void should_fail_if_optional_is_present() throws Exception {
 	Optional<String> actual = Optional.of("not-empty");
 
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(shouldBeEmpty(actual).create());
+    thrown.expectAssertionError(shouldBeEmpty(actual).create());
 
 	assertThat(actual).isEmpty();
   }

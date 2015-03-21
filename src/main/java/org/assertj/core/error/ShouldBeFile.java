@@ -32,6 +32,6 @@ public class ShouldBeFile extends BasicErrorMessageFactory {
   }
 
   private ShouldBeFile(File actual) {
-    super("\nExpecting:\n <%s>\nto be a file", actual);
+    super("%nExpecting:%n <%s>%nto be a file", actual);
   }
 }

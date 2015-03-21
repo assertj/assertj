@@ -118,13 +118,6 @@ package org.assertj.core.api;
  */
 public class AutoCloseableSoftAssertions extends SoftAssertions implements AutoCloseable {
 
-  /**
-   * Creates a new </code>{@link AutoCloseableSoftAssertions}</code>.
-   */
-  public AutoCloseableSoftAssertions() {
-	super();
-  }
-
   @Override
   public void close() throws SoftAssertionError {
 	assertAll();

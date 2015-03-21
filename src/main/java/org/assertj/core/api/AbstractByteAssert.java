@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.data.Offset;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
@@ -317,7 +318,64 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
     bytes.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
+  
+  /**
+   * Verifies that the actual byte is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat((byte)5).isCloseTo((byte)7, within((byte)3));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat((byte)5).isCloseTo((byte)7, within((byte)2));
+   *
+   * // assertion will fail
+   * assertThat((byte)5).isCloseTo((byte)7, within((byte)1));
+   * </code></pre>
+   *
+   * @param expected the given byte to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(byte expected, Offset<Byte> offset) {
+    bytes.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
 
+  /**
+   * Verifies that the actual Byte is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)3));
+   *
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)2));
+   *
+   * // assertion will fail
+   * assertThat((byte)5).isCloseTo(new Byte("7"), within((byte)1));
+   * </code></pre>
+   *
+   * @param expected the given Byte to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected Byte is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(Byte expected, Offset<Byte> offset) {
+    bytes.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+  
   @Override
   public S usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);

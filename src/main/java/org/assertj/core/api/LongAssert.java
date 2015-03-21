@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 
+
 /**
  * Assertion methods for {@link Long}s.
  * <p>
@@ -33,4 +34,5 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
   protected LongAssert(Long actual) {
     super(actual, LongAssert.class);
   }
+
 }

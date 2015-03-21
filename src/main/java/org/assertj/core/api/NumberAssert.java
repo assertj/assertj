@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.data.Offset;
+
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
@@ -115,4 +117,34 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
   S isStrictlyBetween(A start, A end);
+  
+  /**
+   * Verifies that the actual number is close to the given one within the given offset.<br>
+   * If difference is equal to offset value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
+   *
+   * // you can use offset if you prefer
+   * assertThat(8.1).isCloseTo(new Double(8.0), offset(0.2));
+   *
+   * // if difference is exactly equals to the offset (0.1), it's ok
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.1));
+   *
+   * // assertion will fail
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param offset the given positive offset.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  S isCloseTo(A expected, Offset<A> offset);
+
 }

@@ -121,14 +121,7 @@ import static org.assertj.core.groups.Properties.extractProperty;
  */
 public class SoftAssertions extends AbstractStandardSoftAssertions {
 
-  /**
-   * Creates a new </code>{@link SoftAssertions}</code>.
-   */
-  public SoftAssertions() {
-	super();
-  }
-
-  /**
+	/**
    * Verifies that no proxied assertion methods have failed.
    *
    * @throws SoftAssertionError if any proxied assertion objects threw

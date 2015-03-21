@@ -18,14 +18,10 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.junit.Rule;
+import org.assertj.core.api.BaseTest;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-public class OptionalAssert_isPresent_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+public class OptionalAssert_isPresent_Test extends BaseTest {
 
   @Test
   public void should_pass_when_optional_is_present() throws Exception {
@@ -34,16 +30,14 @@ public class OptionalAssert_isPresent_Test {
 
   @Test
   public void should_fail_when_optional_is_empty() throws Exception {
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(shouldBePresent().create());
+    thrown.expectAssertionError(shouldBePresent().create());
 
-	assertThat(Optional.empty()).isPresent();
+    assertThat(Optional.empty()).isPresent();
   }
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(actualIsNull());
+    thrown.expectAssertionError(actualIsNull());
 
 	assertThat((Optional<String>) null).isPresent();
   }

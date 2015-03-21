@@ -13,10 +13,6 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.offset;
-import static org.assertj.core.api.Assertions.within;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
 
 import org.junit.Test;
 
@@ -30,34 +26,14 @@ public class Assertions_assertThat_with_Float_Test {
   @Test
   public void should_create_Assert() {
     Float zero = 0f;
-    AbstractFloatAssert<?> assertions = Assertions.assertThat(zero);
-    assertNotNull(assertions);
+    AbstractFloatAssert<?> assertions = assertThat(zero);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Float eight = 8f;
-    AbstractFloatAssert<?> assertions = Assertions.assertThat(eight);
-    assertSame(eight, assertions.actual);
-  }
-
-  @Test
-  public void isCloseTo_within_offset_should_pass() {
-    assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
-    assertThat(8f).isCloseTo(new Float(8.2f), within(0.5f));
-    // you can use offset if you prefer
-    assertThat(8.1f).isCloseTo(8.2f, offset(0.2f));
-    // if difference is exactly equals to 0.1, it's ok
-    assertThat(8.1f).isCloseTo(8.2f, within(0.1f));
-  }
-
-  @Test
-  public void isEqualTo_with_offset_should_pass() {
-    assertThat(8.1f).isEqualTo(8.2f, offset(0.2f));
-    assertThat(8.1f).isEqualTo(new Float(8.2), offset(0.2f));
-    // within is an alias of offset
-    assertThat(8.1f).isEqualTo(8.2f, within(0.1f));
-    // if difference is exactly equals to the offset (0.1), it's ok
-    assertThat(8.1f).isEqualTo(new Float(8.2), offset(0.1f));
+    AbstractFloatAssert<?> assertions = assertThat(eight);
+    assertThat(assertions.actual).isSameAs(eight);
   }
 }

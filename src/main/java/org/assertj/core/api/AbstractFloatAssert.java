@@ -112,7 +112,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * Verifies that the actual number is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
-   * Example with double:
+   * Example:
    *
    * <pre><code class='java'>
    * // assertion will pass:
@@ -137,7 +137,6 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
@@ -175,7 +174,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws NullPointerException if the other number is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   @Override

@@ -68,7 +68,7 @@ public class InputStreams {
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveEqualContent(actual, expected, diffs));
     } catch (IOException e) {
-      String msg = format("Unable to compare contents of InputStreams:\n  <%s>\nand:\n  <%s>", actual, expected);
+      String msg = format("Unable to compare contents of InputStreams:%n  <%s>%nand:%n  <%s>", actual, expected);
       throw new InputStreamsException(msg, e);
     }
   }

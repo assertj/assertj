@@ -32,7 +32,7 @@ public class ShouldBeExactlyInstanceOf extends BasicErrorMessageFactory {
   }
 
   private ShouldBeExactlyInstanceOf(Object actual, Class<?> type) {
-    super("\nExpecting:\n <%s>\nto be exactly an instance of:\n <%s>\nbut was an instance of:\n <%s>", actual, type, actual
+    super("%nExpecting:%n <%s>%nto be exactly an instance of:%n <%s>%nbut was an instance of:%n <%s>", actual, type, actual
         .getClass());
   }
 }

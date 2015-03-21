@@ -29,6 +29,6 @@ public class ShouldHaveMessage extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveMessage(Throwable actual, String expectedMessage) {
-    super("\nExpecting message:\n <%s>\nbut was:\n <%s>", expectedMessage, actual.getMessage());
+    super("%nExpecting message:%n <%s>%nbut was:%n <%s>", expectedMessage, actual.getMessage());
   }
 }

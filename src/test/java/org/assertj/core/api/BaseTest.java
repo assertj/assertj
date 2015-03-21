@@ -12,11 +12,12 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.rules.ExpectedException.none;
 
+import static org.assertj.core.test.ExpectedException.none;
+
+import org.assertj.core.test.ExpectedException;
 import org.junit.Assert;
 import org.junit.Rule;
-import org.junit.rules.ExpectedException;
 
 /**
  * A simple base class for test.

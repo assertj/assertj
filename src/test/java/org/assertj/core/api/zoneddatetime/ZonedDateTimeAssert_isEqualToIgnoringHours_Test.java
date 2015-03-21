@@ -36,7 +36,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
   
   @Test
   public void should_pass_if_actual_is_equal_to_other_ignoring_hours_in_different_timezone() {
-      ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
+    ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
     // utcDateTime = new DateTime(2013, 6, 10, 2, 0, cestTimeZone)  
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 5, 0, 0, 0, cestTimeZone));
@@ -79,7 +79,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-    expectException(AssertionError.class, actualIsNull());
+    thrown.expectAssertionError(actualIsNull());
     ZonedDateTime actual = null;
     assertThat(actual).isEqualToIgnoringHours(ZonedDateTime.now());
   }

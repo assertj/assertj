@@ -49,7 +49,7 @@ public class ShouldContain extends BasicErrorMessageFactory {
   }
 
   private ShouldContain(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain:\n <%s>\nbut could not find:\n <%s>\n%s", actual, expected, notFound, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto contain:%n <%s>%nbut could not find:%n <%s>%n%s", actual, expected, notFound, comparisonStrategy);
   }
 
 }

@@ -43,7 +43,7 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).
-    super(format("\nExpecting:\n <%s>\nto be close to:\n <%s>\nby less than %sms but difference was %sms",
+    super(format("%nExpecting:%n <%s>%nto be close to:%n <%s>%nby less than %sms but difference was %sms",
         formatAsDatetimeWithMs(actual), formatAsDatetimeWithMs(other), deltaInMilliseconds, difference));
   }
 }

@@ -36,7 +36,7 @@ public class ShouldBeInSameMinuteWindow extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInSameMinuteWindow(Date actual, Date other) {
-    super("\nExpecting:\n  <%s>\nto be close to:\n  <%s>\nby less than one minute (strictly) but difference was: "
+    super("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%nby less than one minute (strictly) but difference was: "
             + formatTimeDifference(actual, other), actual, other);
   }
 }

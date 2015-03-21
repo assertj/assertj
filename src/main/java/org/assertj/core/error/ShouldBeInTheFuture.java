@@ -44,6 +44,6 @@ public class ShouldBeInTheFuture extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInTheFuture(Date actual, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be in the future%s but was not.", actual, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto be in the future%s but was not.", actual, comparisonStrategy);
   }
 }

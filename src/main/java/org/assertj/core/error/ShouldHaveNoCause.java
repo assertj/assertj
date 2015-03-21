@@ -29,6 +29,6 @@ public class ShouldHaveNoCause extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveNoCause(Throwable actual) {
-    super("\nExpecting exception without cause, but cause was:<%s>", actual.getCause());
+    super("%nExpecting exception without cause, but cause was:<%s>", actual.getCause());
   }
 }

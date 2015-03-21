@@ -30,6 +30,6 @@ public class ShouldNotBeInstance extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeInstance(Object actual, Class<?> type) {
-    super("\nExpecting:\n <%s>\nnot to be an instance of:<%s>", actual, type);
+    super("%nExpecting:%n <%s>%nnot to be an instance of:<%s>", actual, type);
   }
 }

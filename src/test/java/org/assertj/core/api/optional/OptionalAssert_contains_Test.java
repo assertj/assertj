@@ -18,27 +18,21 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Optional;
 
-import org.junit.Rule;
+import org.assertj.core.api.BaseTest;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 
-public class OptionalAssert_contains_Test {
-
-  @Rule
-  public ExpectedException thrown = ExpectedException.none();
+public class OptionalAssert_contains_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_null() throws Exception {
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(actualIsNull());
+    thrown.expectAssertionError(actualIsNull());
 
 	assertThat((Optional<String>) null).contains("something");
   }
 
   @Test
   public void should_fail_if_expected_value_is_null() throws Exception {
-	thrown.expect(IllegalArgumentException.class);
-	thrown.expectMessage("The expected value should not be <null>.");
+    thrown.expectIllegalArgumentException("The expected value should not be <null>.");
 
 	assertThat(Optional.of("something")).contains(null);
   }
@@ -53,8 +47,7 @@ public class OptionalAssert_contains_Test {
 	Optional<String> actual = Optional.of("not-expected");
 	String expectedValue = "something";
 
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(shouldContain(actual, expectedValue).create());
+    thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
 
 	assertThat(actual).contains(expectedValue);
   }
@@ -63,8 +56,7 @@ public class OptionalAssert_contains_Test {
   public void should_fail_if_optional_is_empty() throws Exception {
 	String expectedValue = "something";
 
-	thrown.expect(AssertionError.class);
-	thrown.expectMessage(shouldContain(expectedValue).create());
+    thrown.expectAssertionError(shouldContain(expectedValue).create());
 
 	assertThat(Optional.empty()).contains(expectedValue);
   }

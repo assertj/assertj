@@ -45,6 +45,6 @@ public class ShouldBeBefore extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBefore(Object actual, Object other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n  <%s>\nto be strictly before:\n  <%s>%s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n  <%s>%nto be strictly before:%n  <%s>%s", actual, other, comparisonStrategy);
   }
 }

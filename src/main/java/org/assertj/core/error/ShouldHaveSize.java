@@ -35,6 +35,6 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
   private ShouldHaveSize(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("\nExpected size:<%s> but was:<%s> in:\n<%s>", expectedSize, actualSize, "%s"), actual);
+    super(format("%nExpected size:<%s> but was:<%s> in:%n<%s>", expectedSize, actualSize, "%s"), actual);
   }
 }

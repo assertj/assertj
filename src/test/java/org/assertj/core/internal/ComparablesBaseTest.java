@@ -47,10 +47,6 @@ public class ComparablesBaseTest {
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
   protected Comparables comparablesWithCustomComparisonStrategy;
 
-  public ComparablesBaseTest() {
-    super();
-  }
-
   @Before
   public void setUp() {
     failures = spy(new Failures());

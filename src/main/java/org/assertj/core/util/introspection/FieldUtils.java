@@ -43,15 +43,6 @@ import java.lang.reflect.Modifier;
 public class FieldUtils {
 
   /**
-   * FieldUtils instances should NOT be constructed in standard programming.
-   * <p>
-   * This constructor is public to permit tools that require a JavaBean instance to operate.
-   */
-  public FieldUtils() {
-    super();
-  }
-
-  /**
    * Gets an accessible <code>Field</code> by name breaking scope if requested. Superclasses/interfaces will be
    * considered.
    * 

@@ -45,7 +45,7 @@ public class ShouldBeSubsetOf extends BasicErrorMessageFactory {
   }
 
   private ShouldBeSubsetOf(Object actual, Object values, Iterable<?> unexpected, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting %s:\n <%s>\nto be subset of\n <%s>\nbut found these extra elements:\n <%s>", comparisonStrategy, actual,
+    super("%nExpecting %s:%n <%s>%nto be subset of%n <%s>%nbut found these extra elements:%n <%s>", comparisonStrategy, actual,
         values, unexpected);
   }
 }

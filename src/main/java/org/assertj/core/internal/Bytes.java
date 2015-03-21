@@ -12,6 +12,13 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Math.abs;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
 import org.assertj.core.util.*;
 
 /**
@@ -26,6 +33,7 @@ public class Bytes extends Numbers<Byte> {
 
   /**
    * Returns the singleton instance of this class.
+   * 
    * @return the singleton instance of this class.
    */
   public static Bytes instance() {
@@ -45,5 +53,14 @@ public class Bytes extends Numbers<Byte> {
   protected Byte zero() {
     return 0;
   }
+
+  public void assertIsCloseTo(AssertionInfo info, Byte actual, Byte expected, Offset<Byte> offset) {
+      assertNotNull(info, actual);
+      checkOffsetIsNotNull(offset);
+      checkNumberIsNotNull(expected);
+      byte absDiff = (byte) abs(expected - actual);
+      if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+    }
+
 
 }

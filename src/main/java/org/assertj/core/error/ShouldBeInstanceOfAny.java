@@ -33,7 +33,7 @@ public class ShouldBeInstanceOfAny extends BasicErrorMessageFactory {
   }
 
   private ShouldBeInstanceOfAny(Object actual, Class<?>[] types) {
-    super("\nExpecting:\n <%s>\nto be an instance of any of:\n <%s>\nbut was instance of:\n <%s>", actual, types,
+    super("%nExpecting:%n <%s>%nto be an instance of any of:%n <%s>%nbut was instance of:%n <%s>", actual, types,
         actual.getClass());
   }
 }

@@ -35,7 +35,7 @@ public class ShouldHaveBinaryContent extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveBinaryContent(File actual, BinaryDiffResult diff) {
-    super("\nFile:\n <%s>\ndoes not have expected binary content at offset <%s>, expecting:\n <%s>\nbut was:\n <%s>", actual,
+    super("%nFile:%n <%s>%ndoes not have expected binary content at offset <%s>, expecting:%n <%s>%nbut was:%n <%s>", actual,
         diff.offset, diff.expected, diff.actual);
   }
 }

@@ -48,6 +48,6 @@ public class ShouldContainSubsequence extends BasicErrorMessageFactory {
   }
 
   private ShouldContainSubsequence(Object actual, Object subsequence, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto contain subsequence:\n <%s>\n%s", actual, subsequence, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto contain subsequence:%n <%s>%n%s", actual, subsequence, comparisonStrategy);
   }
 }

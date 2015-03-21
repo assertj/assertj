@@ -53,11 +53,7 @@ public class JUnitBDDSoftAssertions extends AbstractBDDSoftAssertions implements
 	};
   }
 
-  public JUnitBDDSoftAssertions() {
-	super();
-  }
-
-  @VisibleForTesting List<Throwable> getErrors() {
+	@VisibleForTesting List<Throwable> getErrors() {
 	return proxies.errorsCollected();
   }
 

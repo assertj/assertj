@@ -12,8 +12,10 @@
  */
 package org.assertj.core.internal.bigdecimals;
 
+import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.ONE;
 import static java.math.BigDecimal.TEN;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
@@ -24,7 +26,6 @@ import static org.mockito.Mockito.verify;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 
@@ -42,6 +43,16 @@ public class BigDecimals_assertIsCloseTo_Test extends BigDecimalsBaseTest {
     bigDecimals.assertIsCloseTo(someInfo(), null, ONE, offset(ONE));
   }
 
+  @Test(expected = NullPointerException.class)
+  public void should_fail_if__expected_value_is_null() {
+    bigDecimals.assertIsCloseTo(someInfo(), ONE, null, within(ONE));
+  }
+
+  @Test(expected = NullPointerException.class)
+  public void should_fail_if_offset_is_null() {
+    bigDecimals.assertIsCloseTo(someInfo(), ONE, ZERO, null);
+  }
+  
   @Test
   public void should_pass_if_big_decimals_difference_is_less_than_given_offset() {
     bigDecimals.assertIsCloseTo(someInfo(), new BigDecimal("5.0"), new BigDecimal("5.1"), offset(ONE));

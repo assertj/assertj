@@ -763,7 +763,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given type is {@code null}.
    * @throws AssertionError if one element is not of the expected type.
    */
-  public S hasOnlyElementsOfType(Class<?> expectedType);
+  S hasOnlyElementsOfType(Class<?> expectedType);
 
   /**
    * Same as {@link #containsExactly(Object...)} but handle the {@link Iterable} to array conversion : verifies that
@@ -785,7 +785,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  public S containsExactlyElementsOf(Iterable<? extends T> iterable);
+  S containsExactlyElementsOf(Iterable<? extends T> iterable);
 
   /**
    * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
@@ -810,7 +810,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    */
-  public S containsOnlyElementsOf(Iterable<? extends T> iterable);
+  S containsOnlyElementsOf(Iterable<? extends T> iterable);
 
   /**
    * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all the elements of the
@@ -839,7 +839,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
    *           {@code Iterable}
    */
-  public S hasSameElementsAs(Iterable<? extends T> iterable);
+  S hasSameElementsAs(Iterable<? extends T> iterable);
 
   /**
    * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
@@ -867,7 +867,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the actual group contains some elements of the given {@link Iterable}.
    */
-  public S doesNotContainAnyElementsOf(Iterable<? extends T> iterable);
+  S doesNotContainAnyElementsOf(Iterable<? extends T> iterable);
 
   /**
    * Verifies that all the elements of actual are present in the given {@code Iterable}.
@@ -893,5 +893,5 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
-  public S isSubsetOf(Iterable<? extends T> values);
+  S isSubsetOf(Iterable<? extends T> values);
 }

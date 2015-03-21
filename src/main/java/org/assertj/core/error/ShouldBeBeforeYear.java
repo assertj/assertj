@@ -46,6 +46,6 @@ public class ShouldBeBeforeYear extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBeforeYear(Date actual, int year, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting year of:\n <%s>\nto be strictly before year:\n <%s>%s", actual, year, comparisonStrategy);
+    super("%nExpecting year of:%n <%s>%nto be strictly before year:%n <%s>%s", actual, year, comparisonStrategy);
   }
 }

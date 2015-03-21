@@ -44,10 +44,6 @@ public class ObjectsBaseTest {
   protected ComparatorBasedComparisonStrategy customComparisonStrategy;
   protected Objects objectsWithCustomComparisonStrategy;
 
-  public ObjectsBaseTest() {
-    super();
-  }
-
   @Before
   public void setUp() {
     failures = spy(new Failures());

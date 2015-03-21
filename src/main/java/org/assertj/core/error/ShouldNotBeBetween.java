@@ -56,7 +56,7 @@ public class ShouldNotBeBetween extends BasicErrorMessageFactory {
 
   private ShouldNotBeBetween(Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd,
       ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nnot to be in period:\n "+(inclusiveStart ? '[' : ']') +
+    super("%nExpecting:%n <%s>%nnot to be in period:%n "+(inclusiveStart ? '[' : ']') +
         "%s, %s%s" + (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
   }
 }

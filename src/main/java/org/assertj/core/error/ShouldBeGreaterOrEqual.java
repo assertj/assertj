@@ -48,6 +48,6 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
   }
 
   private ShouldBeGreaterOrEqual(Comparable<?> actual, Comparable<?> other, ComparisonStrategy comparisonStrategy) {
-    super("\nExpecting:\n <%s>\nto be greater than or equal to:\n <%s> %s", actual, other, comparisonStrategy);
+    super("%nExpecting:%n <%s>%nto be greater than or equal to:%n <%s> %s", actual, other, comparisonStrategy);
   }
 }
