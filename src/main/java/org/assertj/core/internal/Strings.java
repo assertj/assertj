@@ -252,9 +252,12 @@ public class Strings {
    * @param info contains information about the assertion.
    * @param actual the given {@code CharSequence}.
    * @throws NullPointerException if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} contains non-digit characters.
+   * @throws AssertionError if {@code actual} contains non-digit characters or contains no digits at all.
    */
   public void assertContainsOnlyDigits(AssertionInfo info, CharSequence actual) {
+    if (actual.length() == 0) {
+      throw failures.failure(info, shouldContainOnlyDigits(actual));
+    }
     for (int index = 0; index < actual.length(); index++) {
       char character = actual.charAt(index);
       if (!isDigit(character)) {

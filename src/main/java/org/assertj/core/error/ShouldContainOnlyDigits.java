@@ -29,8 +29,22 @@ public class ShouldContainOnlyDigits extends BasicErrorMessageFactory {
     return new ShouldContainOnlyDigits(actual, character, index);
   }
 
+  /**
+   * Creates a new </code>{@link ShouldContainOnlyDigits}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainOnlyDigits(CharSequence actual) {
+    return new ShouldContainOnlyDigits(actual);
+  }
+
   private ShouldContainOnlyDigits(CharSequence actual, char character, int index) {
     super("\nExpecting:\n <%s>\nto contain only digits\nbut found non-digit character <%s> at index <%s>",
           actual, character, index);
+  }
+
+  private ShouldContainOnlyDigits(CharSequence actual) {
+    super("\nExpecting:\n <%s>\nto contain only digits\nbut could not found any digits at all", actual);
   }
 }
