@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.Index;
+import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -605,6 +606,25 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
 	for (C e : extractedValues) {
 	  result.addAll(e);
 	}
+
+	return new ObjectArrayAssert<>(Iterables.toArray(result));
+  }
+
+  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(String propertyName) {
+
+    final List<U> result = newArrayList();
+
+    Extractor extractor = Extractors.byName(propertyName);
+
+    try {
+      final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
+	  for (C e : extractedValues) {
+	    result.addAll(e);
+	  }
+    }catch(IllegalArgumentException e){
+      throw new NullPointerException();
+    }
+
 
 	return new ObjectArrayAssert<>(Iterables.toArray(result));
   }
