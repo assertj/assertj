@@ -10,20 +10,26 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.objectarray;
+package org.assertj.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.util.Lists.newArrayList;
 
-import java.util.List;
-
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class ObjectArrayAssert_flatExtracting_Test {
+/**
+ * Tests for
+ * <code>{@link org.assertj.core.api.AbstractIterableAssert#flatExtracting(org.assertj.core.api.iterable.Extractor)}</code>
+ *
+ * @author Alexander Bischof
+ */
+public class IterableAssert_flatExtracting_with_String_parameter_Test {
+
   @Rule
   public ExpectedException thrown = ExpectedException.none();
 
@@ -33,13 +39,6 @@ public class ObjectArrayAssert_flatExtracting_Test {
   private CartoonCharacter homer;
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
-
-  private final Extractor<CartoonCharacter, List<CartoonCharacter>> children = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
-    @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
-      return input.getChildren();
-    }
-  };
 
   @Before
   public void setUp() {
@@ -57,19 +56,32 @@ public class ObjectArrayAssert_flatExtracting_Test {
 
   @Test
   public void should_allow_assertions_on_joined_lists_when_extracting_children() {
-    assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting(children).containsOnly(bart, lisa, maggie,
-        pebbles);
+    assertThat(newArrayList(homer, fred)).flatExtracting("children").containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_allow_assertions_on_empty_result_lists() throws Exception {
-    assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting(children).isEmpty();
+  public void should_allow_assertions_on_joined_lists_when_extracting_children_array() {
+    assertThat(newArrayList(homer, fred)).flatExtracting("childrenArray").containsOnly(bart, lisa, maggie, pebbles);
   }
 
   @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() throws Exception {
-    thrown.expect(NullPointerException.class);
-    assertThat(new CartoonCharacter[] { homer, null }).flatExtracting(children);
+  public void should_allow_assertions_on_empty_result_lists() {
+    assertThat(newArrayList(bart, lisa, maggie)).flatExtracting("children").isEmpty();
   }
 
+  @Test
+  public void should_throw_exception_when_extracting_from_null() {
+    thrown.expect(IllegalArgumentException.class);
+    assertThat(newArrayList(homer, null)).flatExtracting("children");
+  }
+
+  @Test
+  public void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
+    try {
+      assertThat(newArrayList(homer, fred)).flatExtracting("name");
+      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
+    }
+  }
 }

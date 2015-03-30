@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api.iterable;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.util.Lists.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ import org.junit.Test;
  * 
  * @author Mateusz Haligowski
  */
-public class IterableAssert_flatExtracting_test {
+public class IterableAssert_flatExtracting_Test {
 
   @Rule
   public ExpectedException thrown = ExpectedException.none();
@@ -55,13 +55,11 @@ public class IterableAssert_flatExtracting_test {
     maggie = new CartoonCharacter("Maggie Simpson");
 
     homer = new CartoonCharacter("Homer Simpson");
-    homer.getChildren().add(bart);
-    homer.getChildren().add(lisa);
-    homer.getChildren().add(maggie);
+    homer.addChildren(bart, lisa, maggie);
 
     pebbles = new CartoonCharacter("Pebbles Flintstone");
     fred = new CartoonCharacter("Fred Flintstone");
-    fred.getChildren().add(pebbles);
+    fred.addChildren(pebbles);
   }
 
   @Test
