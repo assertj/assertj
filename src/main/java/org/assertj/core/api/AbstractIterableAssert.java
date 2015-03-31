@@ -905,7 +905,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *    }
    * }
    * 
-   * assertThat(Lists.newArrayList(homer, fred)).flatExtracting(childrenOf).containsOnly(bart, lisa, maggie, pebbles);
+   * assertThat(newArrayList(homer, fred))
+   *        .flatExtracting(childrenOf)
+   *        .containsOnly(bart, lisa, maggie, pebbles);
    * </code></pre>
    * 
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
@@ -926,8 +928,8 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   }
 
     /**
-     * Extract the Iterable values from Iterable's elements under test by applying an Iterable extracting function based
-     * a property or fieldname and concatenating the result lists. The returned iterable becomes a new object under test.
+     * Extract from Iterable's elements the Iterable values corresponding to the given property/field name and concatenate
+     * them into a single list becomes a new object under test.
      * <p/>
      * It allows testing the results of extracting values that are represented by Iterables.
      * <p/>
@@ -950,7 +952,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
      * fred.getChildren().add(pebbles);
      *
      *
-     * assertThat(Lists.newArrayList(homer, fred)).flatExtracting("children").containsOnly(bart, lisa, maggie, pebbles);
+     * assertThat(newArrayList(homer, fred))
+     *      .flatExtracting("children")
+     *      .containsOnly(bart, lisa, maggie, pebbles);
      * </code></pre>
      *
      * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
