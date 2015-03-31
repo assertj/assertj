@@ -330,6 +330,44 @@ public class Strings {
   }
 
   /**
+   * Verifies that two {@code CharSequence}s are equal, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   */
+  public void assertEqualsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence expected) {
+      if (areEqualIgnoringWhitespaces(actual, expected)) {
+          return;
+      }
+      throw failures.failure(info, shouldBeEqual(actual, expected));
+  }
+
+  private boolean areEqualIgnoringWhitespaces(CharSequence actual, CharSequence expected) {
+      if (actual == null) {
+          return expected == null;
+      }
+
+      StringBuilder result = new StringBuilder();
+      boolean lastWasSpace = true;
+      for (int i = 0; i < actual.length(); i++) {
+        char c = actual.charAt(i);
+        if (Character.isWhitespace(c)) {
+            if (!lastWasSpace) {
+                result.append(' ');
+            }
+            lastWasSpace = true;
+        } else {
+            result.append(c);
+            lastWasSpace = false;
+        }
+      }
+
+      return result.toString().trim().equals(expected.toString());
+  }
+
+  /**
    * Verifies that actual {@code CharSequence}s contains only once the given sequence.
    * 
    * @param info contains information about the assertion.
