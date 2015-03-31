@@ -961,11 +961,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
      */
     public <V, T> ListAssert<V> flatExtracting(String propertyName) {
         Extractor extractor = Extractors.byName(propertyName);
-        try {
-            return flatExtracting(extractor);
-        } catch (IllegalArgumentException e) {
-            throw new NullPointerException(e.getMessage());
-        }
+        return flatExtracting(extractor);
     }
 
   /**

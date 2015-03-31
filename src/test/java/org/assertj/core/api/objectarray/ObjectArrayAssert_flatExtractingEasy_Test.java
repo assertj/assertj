@@ -60,11 +60,4 @@ public class ObjectArrayAssert_flatExtractingEasy_Test {
   public void should_allow_assertions_on_empty_result_lists() throws Exception {
     assertThat(new CartoonCharacter[] { bart, lisa, maggie }).flatExtracting("children").isEmpty();
   }
-
-  @Test
-  public void should_throw_null_pointer_exception_when_extracting_from_null() throws Exception {
-    thrown.expect(NullPointerException.class);
-    assertThat(new CartoonCharacter[] { homer, null }).flatExtracting("children");
-  }
-
 }
