@@ -13,10 +13,12 @@
 package org.assertj.core.internal;
 
 import static java.lang.Character.isDigit;
+import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
@@ -169,7 +171,7 @@ public class Strings {
     assertNotNull(info, actual);
     LineNumberReader reader = new LineNumberReader(new StringReader(actual.toString()));
     try {
-        while ((reader.readLine()) != null);
+      while ((reader.readLine()) != null);
     } catch (IOException e) {
       String msg = format("Unable to count lines in `%s`", actual);
       throw new InputStreamsException(msg, e);
@@ -348,6 +350,43 @@ public class Strings {
   }
 
   /**
+   * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   */
+  public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (!areEqualIgnoringWhitespace(actual, expected)) {
+      throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+    }
+  }
+
+  private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
+    if (actual == null) return expected == null;
+    checkCharSequenceIsNotNull(expected);
+    return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
+  }
+
+  // same implementation as Hamcrest's IsEqualIgnoringWhiteSpace
+  private String removeAllWhitespaces(CharSequence toBeStripped) {
+    final StringBuilder result = new StringBuilder();
+    boolean lastWasSpace = true;
+    for (int i = 0; i < toBeStripped.length(); i++) {
+      char c = toBeStripped.charAt(i);
+      if (isWhitespace(c)) {
+        if (!lastWasSpace) result.append(' ');
+        lastWasSpace = true;
+      } else {
+        result.append(c);
+        lastWasSpace = false;
+      }
+    }
+    return result.toString().trim();
+  }
+
+  /**
    * Verifies that actual {@code CharSequence}s contains only once the given sequence.
    * 
    * @param info contains information about the assertion.
@@ -365,7 +404,7 @@ public class Strings {
     if (sequenceOccurencesInActual == 1)
       return;
     throw failures.failure(info,
-        shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
+                           shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
   }
 
   /**
@@ -566,7 +605,7 @@ public class Strings {
     final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
     if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
       throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
-          info.representation()));
+                                                 info.representation()));
   }
 
 }
