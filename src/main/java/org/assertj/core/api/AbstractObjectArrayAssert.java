@@ -611,22 +611,12 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(String propertyName) {
-
-    final List<U> result = newArrayList();
-
-    Extractor extractor = Extractors.byName(propertyName);
-
-    try {
-      final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
-	  for (C e : extractedValues) {
-	    result.addAll(e);
-	  }
-    }catch(IllegalArgumentException e){
-      throw new NullPointerException();
-    }
-
-
-	return new ObjectArrayAssert<>(Iterables.toArray(result));
+      Extractor extractor = Extractors.byName(propertyName);
+      try {
+          return flatExtracting(extractor);
+      } catch (IllegalArgumentException e) {
+          throw new NullPointerException(e.getMessage());
+      }
   }
 
   /**
