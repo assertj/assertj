@@ -18,19 +18,19 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isEqualToIgnoringWhitespaces(CharSequence)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isEqualToIgnoringWhitespace(CharSequence)}</code>.
  *
  * @author Alexander Bischof
  */
-public class CharSequenceAssert_isEqualToIgnoringWhitespaces_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_isEqualToIgnoringWhitespace_Test extends CharSequenceAssertBaseTest {
 
     @Override
     protected CharSequenceAssert invoke_api_method() {
-        return assertions.isEqualToIgnoringWhitespaces(" my\tfoo bar ");
+        return assertions.isEqualToIgnoringWhitespace(" my\tfoo bar ");
     }
 
     @Override
     protected void verify_internal_effects() {
-        verify(strings).assertEqualsIgnoringWhitespaces(getInfo(assertions), getActual(assertions), " my foo bar ");
+        verify(strings).assertEqualsIgnoringWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
     }
 }

@@ -337,14 +337,14 @@ public class Strings {
    * @param expected the expected {@code CharSequence}.
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
-  public void assertEqualsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence expected) {
-      if (areEqualIgnoringWhitespaces(actual, expected)) {
+  public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+      if (areEqualIgnoringWhitespace(actual, expected)) {
           return;
       }
       throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
-  private boolean areEqualIgnoringWhitespaces(CharSequence actual, CharSequence expected) {
+  private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
       if (actual == null) {
           return expected == null;
       }

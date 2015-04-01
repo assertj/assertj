@@ -708,8 +708,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     return myself;
   }
 
-  public S isEqualToIgnoringWhitespaces(CharSequence expected) {
-    strings.assertEqualsIgnoringWhitespaces(info, actual, expected);
+  public S isEqualToIgnoringWhitespace(CharSequence expected) {
+    strings.assertEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
   }
 }
