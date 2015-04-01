@@ -330,7 +330,7 @@ public class Strings {
   }
 
   /**
-   * Verifies that two {@code CharSequence}s are equal, ignoring case considerations.
+   * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
    *
    * @param info contains information about the assertion.
    * @param actual the actual {@code CharSequence}.
