@@ -3,7 +3,7 @@ Contributing
 
 Thank you for your interest in contributing to AssertJ assertions!
 
-We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines:
+We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines including legal contributor agreement:
 
 * If you contribute to Java 8 feature, please work in java-8 branch.
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it)
@@ -60,3 +60,12 @@ A good javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
 ```
 
 Not all AssertJ javadoc meets this standard but this is something we are working on.
+
+## Legal stuff:
+
+Project license(s): Apache License Version 2.0
+
+As a contributor:
+* You will only submit contributions where you have authored 100% of the content.
+* You will only submit contributions to which you have the necessary rights. This means that if you are employed, you have received the necessary permissions from your employer to make the contributions.
+* Whatever content you contribute will be provided under the project license(s). 
