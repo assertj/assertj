@@ -263,6 +263,31 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains only digits.
+   * <p>
+   * This assertion will succeed:
+   *
+   * <pre><code class='java'>
+   * assertThat("10").containsOnlyDigits();
+   * </code></pre>
+   *
+   * Whereas this assertion will fail:
+   *
+   * <pre><code class='java'>
+   * assertThat("10$").containsOnlyDigits();
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters.
+   */
+  public S containsOnlyDigits() {
+    strings.assertContainsOnlyDigits(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains the given sequence <b>only once</b>.
    * <p>
    * Example :
