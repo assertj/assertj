@@ -26,7 +26,7 @@ public class CharSequenceAssert_isEqualToIgnoringWhitespace_Test extends CharSeq
 
     @Override
     protected CharSequenceAssert invoke_api_method() {
-        return assertions.isEqualToIgnoringWhitespace(" my\tfoo bar ");
+        return assertions.isEqualToIgnoringWhitespace(" my foo bar ");
     }
 
     @Override
