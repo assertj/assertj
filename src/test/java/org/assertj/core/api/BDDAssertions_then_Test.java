@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -215,7 +218,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_List() {
-    then(Arrays.asList(5, 6)).hasSize(2);
+    then(asList(5, 6)).hasSize(2);
   }
 
   @Test
@@ -230,7 +233,7 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_Map() {
-    then(new HashMap<String, String>()).isEmpty();
+    then(new HashMap<>()).isEmpty();
   }
 
   @Test
@@ -243,4 +246,10 @@ public class BDDAssertions_then_Test {
     }).isInstanceOf(Throwable.class)
       .hasMessage("something was wrong");
   }
+
+  @Test
+  public void then_URI() throws URISyntaxException {
+    then(new URI("http://assertj.org")).hasNoPort();
+  }
+
 }

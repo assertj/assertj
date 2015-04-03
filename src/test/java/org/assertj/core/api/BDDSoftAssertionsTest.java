@@ -19,6 +19,8 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -45,7 +47,7 @@ public class BDDSoftAssertionsTest {
   }
 
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
 	try {
 	  softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -136,11 +138,13 @@ public class BDDSoftAssertionsTest {
 		}
 
 	  }).hasMessage("something was good");
+
+      softly.then(new URI("http://assertj.org")).hasPort(8888);
 	  softly.assertAll();
 	  fail("Should not reach here");
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(39);
+      assertThat(errors).hasSize(40);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -210,6 +214,8 @@ public class BDDSoftAssertionsTest {
 		                                   + " <\"something was good\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"something was wrong\">");
+      assertThat(errors.get(39)).contains("\nExpecting port of");
+
 	}
   }
 

@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.nio.file.Path;
 import java.util.Date;
 import java.util.Iterator;
@@ -470,5 +471,15 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
-  
+
+  /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public UriAssert assertThat(URI actual) {
+    return proxy(UriAssert.class, URI.class, actual);
+  }
+
 }
