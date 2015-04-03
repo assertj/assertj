@@ -40,7 +40,6 @@ public class Urls_assertHasScheme_Test extends UrlsBaseTest {
       urls.assertHasScheme(info, new URL("http://example.com/pages/"), "http");
   }
 
-    //http://finance.yahoo.com/q/h?s=^IXIC
   @Test
   public void should_throw_error_if_uri_is_not_malformed() throws MalformedURLException {
       thrown.expect(MalformedURLException.class);
