@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -348,22 +349,26 @@ public class Strings {
           return expected == null;
       }
 
-      StringBuilder result = new StringBuilder();
-      boolean lastWasSpace = true;
-      for (int i = 0; i < actual.length(); i++) {
-        char c = actual.charAt(i);
-        if (Character.isWhitespace(c)) {
-            if (!lastWasSpace) {
-                result.append(' ');
-            }
-            lastWasSpace = true;
-        } else {
-            result.append(c);
-            lastWasSpace = false;
-        }
-      }
 
-      return result.toString().trim().equals(expected.toString());
+      return stripSpace(actual).equals(stripSpace(expected));
+  }
+
+  private String stripSpace(CharSequence toBeStripped) {
+      final StringBuilder result = new StringBuilder();
+      boolean lastWasSpace = true;
+      for (int i = 0; i < toBeStripped.length(); i++) {
+          char c = toBeStripped.charAt(i);
+          if (isWhitespace(c)) {
+              if (!lastWasSpace) {
+                  result.append(' ');
+              }
+              lastWasSpace = true;
+          } else {
+              result.append(c);
+              lastWasSpace = false;
+          }
+      }
+      return result.toString().trim();
   }
 
   /**
