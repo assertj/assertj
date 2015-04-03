@@ -53,12 +53,36 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * assertThat(new URL("ftp://helloworld.org").hasSchemeEqualsTo("http")
    * </code></pre>
    *
-   * @param expected the expected length of the actual {@code CharSequence}.
+   * @param expected the expected scheme of the actual {@code URL}.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual length is not equal to the expected length.
+   * @throws AssertionError if the actual scheme is not equal to the expected scheme.
    */
   public S hasScheme(String expected) {
 	urls.assertHasScheme(info, actual, expected);
 	return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code URL} has the expected path.
+   * <p>
+   * This assertion will succeed:
+   *
+   * <pre><code class='java'>
+   * assertThat(new URL("http://helloworld.org/pages").hasPathEquals("/pages/")
+   * </code></pre>
+   *
+   * Whereas this assertion will fail:
+   *
+   * <pre><code class='java'>
+   * assertThat(new URL("http://helloworld.org/pickme").hasPathEquals("/pages/")
+   * </code></pre>
+   *
+   * @param expected the expected path of the actual {@code URL}.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual path is not equal to the expected path.
+   */
+  public S hasPathEquals(String expected) {
+      urls.assertHasScheme(info, actual, expected);
+      return myself;
   }
 }

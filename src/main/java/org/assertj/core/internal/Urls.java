@@ -50,4 +50,15 @@ public class Urls {
       throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
   }
   }
+
+  public void assertHasPathEquals(AssertionInfo info, URL actual, String expected) {
+  assertNotNull(info, actual);
+
+  try {
+    if (!actual.toURI().getPath().equals(expected))
+        throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
+    }catch(URISyntaxException e){
+        throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
+    }
+  }
 }
