@@ -338,10 +338,9 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
-      if (areEqualIgnoringWhitespace(actual, expected)) {
-          return;
+      if (!areEqualIgnoringWhitespace(actual, expected)) {
+        throw failures.failure(info, shouldBeEqual(actual, expected));
       }
-      throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
