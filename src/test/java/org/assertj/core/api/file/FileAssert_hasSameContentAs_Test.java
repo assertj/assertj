@@ -42,6 +42,6 @@ public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(files).assertEqualContent(getInfo(assertions), getActual(assertions), expected);
+    verify(files).assertSameContentAs(getInfo(assertions), getActual(assertions), expected);
   }
 }

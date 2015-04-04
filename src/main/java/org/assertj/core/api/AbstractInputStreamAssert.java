@@ -52,7 +52,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
 	 */
   @Deprecated
 	public S hasContentEqualTo(InputStream expected) {
-		inputStreams.assertEqualContent(info, actual, expected);
+		inputStreams.assertSameContentAs(info, actual, expected);
 		return myself;
 	}
 
@@ -67,7 +67,7 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
    * @throws InputStreamsException if an I/O error occurs.
    */
   public S hasSameContentAs(InputStream expected) {
-      inputStreams.assertEqualContent(info, actual, expected);
+      inputStreams.assertSameContentAs(info, actual, expected);
       return myself;
   }
 }

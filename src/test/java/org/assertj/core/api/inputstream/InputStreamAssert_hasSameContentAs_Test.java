@@ -44,7 +44,7 @@ public class InputStreamAssert_hasSameContentAs_Test extends InputStreamAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    verify(inputStreams).assertEqualContent(getInfo(assertions), getActual(assertions), expected);
+    verify(inputStreams).assertSameContentAs(getInfo(assertions), getActual(assertions), expected);
   }
 
 }

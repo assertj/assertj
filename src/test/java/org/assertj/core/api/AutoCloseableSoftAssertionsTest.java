@@ -155,7 +155,7 @@ public class AutoCloseableSoftAssertionsTest {
 	  assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
 	  assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
+	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have same content:"
 		                                   + System.getProperty("line.separator")
 		                                   + "line:<1>, expected:<B> but was:<A>");
 

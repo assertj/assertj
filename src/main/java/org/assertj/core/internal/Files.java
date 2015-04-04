@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -30,7 +31,6 @@ import static org.assertj.core.error.ShouldBeWritable.shouldBeWritable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
@@ -70,7 +70,7 @@ public class Files {
   Files() {}
 
   /**
-   * Asserts that the given files have equal content. Adapted from <a
+   * Asserts that the given files have same content. Adapted from <a
    * href="http://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
    * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
    * @param info contains information about the assertion.
@@ -81,15 +81,15 @@ public class Files {
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
    * @throws FilesException if an I/O error occurs.
-   * @throws AssertionError if the given files do not have equal content.
+   * @throws AssertionError if the given files do not have same content.
    */
-  public void assertEqualContent(AssertionInfo info, File actual, File expected) {
+  public void assertSameContentAs(AssertionInfo info, File actual, File expected) {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
       List<String> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
-      throw failures.failure(info, shouldHaveEqualContent(actual, expected, diffs));
+      throw failures.failure(info, ShouldHaveSameContent.shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
       throw new FilesException(msg, e);

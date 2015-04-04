@@ -12,40 +12,35 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
-
-import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
-
-
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldHaveSameContent;
+import org.assertj.core.internal.FilesBaseTest;
+import org.assertj.core.util.FilesException;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldHaveSameContent;
-import org.assertj.core.internal.Files;
-import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.FilesException;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import static junit.framework.Assert.assertSame;
+import static junit.framework.Assert.fail;
+import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
- * Tests for <code>{@link Files#assertSameContentAs(AssertionInfo, File, File)}</code>.
- * 
+ * Tests for <code>{@link org.assertj.core.internal.Files#assertSameContentAs(org.assertj.core.api.AssertionInfo, java.io.File, java.io.File)}</code>.
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class Files_assertEqualContent_Test extends FilesBaseTest {
+public class Files_assertSameContentAs_Test extends FilesBaseTest {
 
   private static File actual;
   private static File expected;

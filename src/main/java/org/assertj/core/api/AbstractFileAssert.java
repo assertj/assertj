@@ -134,7 +134,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    */
   @Deprecated
   public S hasContentEqualTo(File expected) {
-    files.assertEqualContent(info, actual, expected);
+    files.assertSameContentAs(info, actual, expected);
     return myself;
   }
 
@@ -151,7 +151,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public S hasSameContentAs(File expected) {
-      files.assertEqualContent(info, actual, expected);
+      files.assertSameContentAs(info, actual, expected);
       return myself;
   }
 
