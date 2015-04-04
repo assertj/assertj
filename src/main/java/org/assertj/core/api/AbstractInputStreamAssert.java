@@ -47,9 +47,27 @@ public abstract class AbstractInputStreamAssert<S extends AbstractInputStreamAss
 	 * @throws AssertionError if the actual {@code InputStream} is {@code null}.
 	 * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
 	 * @throws InputStreamsException if an I/O error occurs.
+   *
+   * @deprecated use hasSameContentAs
 	 */
+  @Deprecated
 	public S hasContentEqualTo(InputStream expected) {
 		inputStreams.assertEqualContent(info, actual, expected);
 		return myself;
 	}
+
+  /**
+   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
+   *
+   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws InputStreamsException if an I/O error occurs.
+   */
+  public S hasSameContentAs(InputStream expected) {
+      inputStreams.assertEqualContent(info, actual, expected);
+      return myself;
+  }
 }

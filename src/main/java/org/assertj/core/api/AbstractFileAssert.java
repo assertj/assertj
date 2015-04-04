@@ -129,10 +129,30 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws FilesException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   *
+   * @deprecated use hasSameContentAs
    */
+  @Deprecated
   public S hasContentEqualTo(File expected) {
     files.assertEqualContent(info, actual, expected);
     return myself;
+  }
+
+  /**
+   * Verifies that the content of the actual {@code File} is equal to the content of the given one.
+   *
+   * @param expected the given {@code File} to compare the actual {@code File} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code File} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
+   * @throws AssertionError if the actual {@code File} is {@code null}.
+   * @throws AssertionError if the actual {@code File} is not an existing file.
+   * @throws FilesException if an I/O error occurs.
+   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   */
+  public S hasSameContentAs(File expected) {
+      files.assertEqualContent(info, actual, expected);
+      return myself;
   }
 
   /**

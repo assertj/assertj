@@ -73,7 +73,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 	  softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
 	  softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-		    .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+		    .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
 	  softly.then(new Integer(20)).isEqualTo(new Integer(21));
 	  softly.then(22).isEqualTo(23);

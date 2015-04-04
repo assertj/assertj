@@ -129,7 +129,7 @@ public class SoftAssertionsTest {
       softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
       softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-            .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+            .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
       softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
       softly.assertThat(22).isEqualTo(23);

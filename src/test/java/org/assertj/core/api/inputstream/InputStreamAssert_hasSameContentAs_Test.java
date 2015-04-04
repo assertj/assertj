@@ -23,12 +23,12 @@ import org.junit.BeforeClass;
 
 
 /**
- * Tests for <code>{@link InputStreamAssert#hasContentEqualTo(InputStream)}</code>.
+ * Tests for <code>{@link InputStreamAssert#hasSameContentAs(java.io.InputStream)}</code>.
  * 
  * @author Matthieu Baechler
  * @author Joel Costigliola
  */
-public class InputStreamAssert_hasContentEqualTo_Test extends InputStreamAssertBaseTest {
+public class InputStreamAssert_hasSameContentAs_Test extends InputStreamAssertBaseTest {
 
   private static InputStream expected;
 
@@ -39,7 +39,7 @@ public class InputStreamAssert_hasContentEqualTo_Test extends InputStreamAssertB
 
   @Override
   protected InputStreamAssert invoke_api_method() {
-    return assertions.hasContentEqualTo(expected);
+    return assertions.hasSameContentAs(expected);
   }
 
   @Override
