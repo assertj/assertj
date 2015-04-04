@@ -16,7 +16,9 @@ import java.util.Comparator;
 
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
  * 
@@ -29,6 +31,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
@@ -37,6 +40,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
@@ -45,12 +49,14 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is {@code null}.
+   * 
    * @throws AssertionError if the actual value is not {@code null}.
    */
   void isNull();
 
   /**
    * Verifies that the actual value is not {@code null}.
+   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    */
@@ -58,6 +64,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is the same as the given one.
+   * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not the same as the given one.
@@ -66,6 +73,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not the same as the given one.
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is the same as the given one.
@@ -74,6 +82,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is present in the given array of values.
+   * 
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
@@ -84,6 +93,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not present in the given array of values.
+   * 
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
@@ -94,6 +104,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is present in the given values.
+   * 
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
@@ -104,6 +115,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not present in the given values.
+   * 
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
@@ -115,8 +127,8 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   /**
    * Use given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
    * <p>
-   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default comparison
-   * strategy.
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
    * <p>
    * Examples :
    * 
@@ -135,13 +147,16 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   /**
    * Revert to standard comparison for incoming assertion checks.
    * <p>
-   * This method should be used to disable a custom comparison strategy set by calling {@link #usingComparator(Comparator)}.
+   * This method should be used to disable a custom comparison strategy set by calling
+   * {@link #usingComparator(Comparator)}.
+   * 
    * @return {@code this} assertion object.
    */
   S usingDefaultComparator();
 
   /**
    * Verifies that the actual value is an instance of the given type.
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
@@ -152,6 +167,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is an instance of any of the given types.
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -163,6 +179,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not an instance of the given type.
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
@@ -173,6 +190,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not an instance of any of the given types.
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -184,6 +202,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value has the same class as the given object.
+   * 
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has not the same type has the given object.
@@ -193,7 +212,29 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S hasSameClassAs(Object other);
 
   /**
+   * Verifies that actual<code>actual.toString()</code> is equal to the given <code>String</code>.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * CartoonCaracter homer = new CartoonCaracter("Homer");
+   *
+   * // Instead of writing ...  
+   * assertThat(homer.toString()).isEqualTo("Homer");
+   * // ... you can simply use: 
+   * assertThat(homer).hasToString("Homer");
+   * </code></pre>
+   * 
+   * @param expectedToString the expected String description of actual.
+   * @return this assertion object.
+   * @throws AssertionError if <code>actual.toString()</code> result is not to the given <code>String</code>.
+   * @throws AssertionError if actual is {@code null}.
+   */
+  S hasToString(String expectedToString);
+
+  /**
    * Verifies that the actual value does not have the same class as the given object.
+   * 
    * @param other the object to check type against.
    * @return this assertion object.
    * @throws AssertionError if the actual has the same type has the given object.
@@ -204,6 +245,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is <b>exactly</b> an instance of the given type.
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual is not <b>exactly</b> an instance of given type.
@@ -214,6 +256,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value is not <b>exactly</b> an instance of given type.
+   * 
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual is exactly a instance of given type.
@@ -224,6 +267,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value type is in given types.
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value type is not in given type.
@@ -234,6 +278,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * Verifies that the actual value type is not in given types.
+   * 
    * @param types the types to check the actual value against.
    * @return this assertion object.
    * @throws AssertionError if the actual value type is in given types.
@@ -278,8 +323,8 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
 
   /**
    * @deprecated
-   * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
-   * <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
+   *             Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
+   *             <code>{@link #equals(Object)}</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
@@ -295,6 +340,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");
    * </code></pre>
    * will print the thread dump, something looking like:
+   * 
    * <pre><code>
    * "JDWP Command Reader"
    * 	java.lang.Thread.State: RUNNABLE
@@ -332,6 +378,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
    * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)
    * </code></pre>
+   * 
    * @return this assertion object.
    */
   S withThreadDumpOnError();
