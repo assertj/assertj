@@ -193,6 +193,16 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S hasSameClassAs(Object other);
 
   /**
+   * Verifies that <code>toString</code> of the actual object is equal to <code>toString</code> of the given object.
+   * @param other the object to check type against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual has not the same type has the given object.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
+   */
+  S hasToString(Object other);
+
+  /**
    * Verifies that the actual value does not have the same class as the given object.
    * @param other the object to check type against.
    * @return this assertion object.

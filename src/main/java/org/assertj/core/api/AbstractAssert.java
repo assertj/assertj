@@ -326,6 +326,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
 
   /** {@inheritDoc} */
   @Override
+  public S hasToString(Object other) {
+  objects.assertHasToString(info, actual, other);
+  return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public S doesNotHaveSameClassAs(Object other) {
 	objects.assertDoesNotHaveSameClassAs(info, actual, other);
 	return myself;
