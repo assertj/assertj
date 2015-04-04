@@ -26,7 +26,7 @@ public class UrlAssert_hasPath_Test extends UrlAssertBaseTest {
 
     @BeforeClass
     public static void beforeOnce() {
-        expected = "http://example.com/pages/";
+        expected = "/pages/";
     }
 
     @Override

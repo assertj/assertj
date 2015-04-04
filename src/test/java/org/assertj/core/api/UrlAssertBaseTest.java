@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import org.assertj.core.internal.Urls;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.mockito.Mockito.mock;
@@ -27,7 +28,12 @@ public abstract class UrlAssertBaseTest extends BaseTestTemplate<UrlAssert, URL>
 
   @Override
   protected UrlAssert create_assertions() {
-    return new UrlAssert(mock(URL.class));
+      try {
+          return new UrlAssert(new URL("http://example.com/pages/"));
+      } catch (MalformedURLException e) {
+          e.printStackTrace();
+      }
+      return null;
   }
 
   @Override
