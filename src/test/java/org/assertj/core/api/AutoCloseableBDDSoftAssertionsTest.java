@@ -73,7 +73,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 	  softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
 	  softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-		    .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+		    .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
 	  softly.then(new Integer(20)).isEqualTo(new Integer(21));
 	  softly.then(22).isEqualTo(23);
@@ -155,7 +155,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 	  assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
 	  assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
+	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have same content:"
 		                                   + System.getProperty("line.separator")
 		                                   + "line:<1>, expected:<B> but was:<A>");
 

@@ -15,7 +15,7 @@ package org.assertj.core.internal.inputstreams;
 import static junit.framework.Assert.assertSame;
 import static junit.framework.Assert.fail;
 
-import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -38,28 +38,28 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link InputStreams#assertEqualContent(AssertionInfo, InputStream, InputStream)}</code>.
+ * Tests for <code>{@link InputStreams#assertSameContentAs(AssertionInfo, InputStream, InputStream)}</code>.
  * 
  * @author Matthieu Baechler
  */
-public class InputStreams_assertEqualContent_Test extends InputStreamsBaseTest {
+public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest {
 
   @Test
   public void should_throw_error_if_expected_is_null() {
     thrown.expectNullPointerException("The InputStream to compare to should not be null");
-    inputStreams.assertEqualContent(someInfo(), actual, null);
+    inputStreams.assertSameContentAs(someInfo(), actual, null);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    inputStreams.assertEqualContent(someInfo(), null, expected);
+    inputStreams.assertSameContentAs(someInfo(), null, expected);
   }
 
   @Test
   public void should_pass_if_inputstreams_have_equal_content() throws IOException {
     when(diff.diff(actual, expected)).thenReturn(new ArrayList<String>());
-    inputStreams.assertEqualContent(someInfo(), actual, expected);
+    inputStreams.assertSameContentAs(someInfo(), actual, expected);
   }
 
   @Test
@@ -67,7 +67,7 @@ public class InputStreams_assertEqualContent_Test extends InputStreamsBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected)).thenThrow(cause);
     try {
-      inputStreams.assertEqualContent(someInfo(), actual, expected);
+      inputStreams.assertSameContentAs(someInfo(), actual, expected);
       fail("Expected a InputStreamsException to be thrown");
     } catch (InputStreamsException e) {
       assertSame(cause, e.getCause());
@@ -80,9 +80,9 @@ public class InputStreams_assertEqualContent_Test extends InputStreamsBaseTest {
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {
-      inputStreams.assertEqualContent(info, actual, expected);
+      inputStreams.assertSameContentAs(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveEqualContent(actual, expected, diffs));
+      verify(failures).failure(info, shouldHaveSameContent(actual, expected, diffs));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

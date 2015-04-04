@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.SystemProperties.LINE_SEPARATOR;
 
@@ -27,13 +27,13 @@ import org.junit.Test;
 
 /**
  * Tests for
- * <code>{@link ShouldHaveEqualContent#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * <code>{@link ShouldHaveSameContent#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
  * .
  * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
  */
-public class ShouldHaveEqualContent_create_Test {
+public class ShouldHaveSameContent_create_Test {
 
   private List<String> diffs;
 
@@ -46,8 +46,9 @@ public class ShouldHaveEqualContent_create_Test {
 
   @Test
   public void should_create_error_message_file_even_if_content_contains_format_specifier() {
-	ErrorMessageFactory factory = shouldHaveEqualContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
-	StringBuilder b = new StringBuilder("[Test] \nFile:\n  <abc>\nand file:\n  <xyz>\ndo not have equal content:");
+	ErrorMessageFactory factory = ShouldHaveSameContent
+      .shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
+	StringBuilder b = new StringBuilder("[Test] \nFile:\n  <abc>\nand file:\n  <xyz>\ndo not have same content:");
 	for (String diff : diffs)
 	  b.append(LINE_SEPARATOR).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
@@ -55,10 +56,10 @@ public class ShouldHaveEqualContent_create_Test {
 
   @Test
   public void should_create_error_message_inputstream_even_if_content_contains_format_specifier() {
-	ErrorMessageFactory factory = shouldHaveEqualContent(new ByteArrayInputStream(new byte[] { 'a' }),
-	                                                     new ByteArrayInputStream(new byte[] { 'b' }),
-	                                                     diffs);
-	StringBuilder b = new StringBuilder("[Test] \nInputStreams do not have equal content:");
+	ErrorMessageFactory factory = shouldHaveSameContent(new ByteArrayInputStream(new byte[] { 'a' }),
+                                                      new ByteArrayInputStream(new byte[] { 'b' }),
+                                                      diffs);
+	StringBuilder b = new StringBuilder("[Test] \nInputStreams do not have same content:");
 	for (String diff : diffs)
 	  b.append(LINE_SEPARATOR).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());

@@ -18,43 +18,43 @@ import java.io.InputStream;
 import java.util.List;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two files/inputStreams have equal content failed.
+ * Creates an error message indicating that an assertion that verifies that two files/inputStreams have same content failed.
  * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
  * @author Joel Costigliola
  */
-public class ShouldHaveEqualContent extends AbstractShouldHaveTextContent {
+public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
 
   /**
-   * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
+   * Creates a new <code>{@link ShouldHaveSameContent}</code>.
    * @param actual the actual file in the failed assertion.
    * @param expected the expected file in the failed assertion.
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveEqualContent(File actual, File expected, List<String> diffs) {
-    return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
+  public static ErrorMessageFactory shouldHaveSameContent(File actual, File expected, List<String> diffs) {
+    return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
 
   /**
-   * Creates a new <code>{@link ShouldHaveEqualContent}</code>.
+   * Creates a new <code>{@link ShouldHaveSameContent}</code>.
    * @param actual the actual InputStream in the failed assertion.
    * @param expected the expected Stream in the failed assertion.
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldHaveEqualContent(InputStream actual, InputStream expected, List<String> diffs) {
-    return new ShouldHaveEqualContent(actual, expected, diffsAsString(diffs));
+  public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, InputStream expected, List<String> diffs) {
+    return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
 
-  private ShouldHaveEqualContent(File actual, File expected, String diffs) {
-    super("%nFile:%n  <%s>%nand file:%n  <%s>%ndo not have equal content:", actual, expected);
+  private ShouldHaveSameContent(File actual, File expected, String diffs) {
+    super("%nFile:%n  <%s>%nand file:%n  <%s>%ndo not have same content:", actual, expected);
     this.diffs = diffs;
   }
 
-  private ShouldHaveEqualContent(InputStream actual, InputStream expected, String diffs) {
-    super("%nInputStreams do not have equal content:", actual, expected);
+  private ShouldHaveSameContent(InputStream actual, InputStream expected, String diffs) {
+    super("%nInputStreams do not have same content:", actual, expected);
     this.diffs = diffs;
   }
 }

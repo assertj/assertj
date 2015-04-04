@@ -22,11 +22,11 @@ import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.BeforeClass;
 
 /**
- * Tests for <code>{@link FileAssert#hasContentEqualTo(File)}</code>.
+ * Tests for <code>{@link FileAssert#hasSameContentAs(java.io.File)}</code>.
  * 
  * @author Yvonne Wang
  */
-public class FileAssert_hasContentEqualTo_Test extends FileAssertBaseTest {
+public class FileAssert_hasSameContentAs_Test extends FileAssertBaseTest {
 
   private static File expected;
 
@@ -37,11 +37,11 @@ public class FileAssert_hasContentEqualTo_Test extends FileAssertBaseTest {
 
   @Override
   protected FileAssert invoke_api_method() {
-    return assertions.hasContentEqualTo(expected);
+    return assertions.hasSameContentAs(expected);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(files).assertEqualContent(getInfo(assertions), getActual(assertions), expected);
+    verify(files).assertSameContentAs(getInfo(assertions), getActual(assertions), expected);
   }
 }
