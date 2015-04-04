@@ -51,7 +51,7 @@ public class Urls {
   }
   }
 
-  public void assertHasPathEquals(AssertionInfo info, URL actual, String expected) {
+  public void assertHasPath(AssertionInfo info, URL actual, String expected) {
   assertNotNull(info, actual);
 
   try {

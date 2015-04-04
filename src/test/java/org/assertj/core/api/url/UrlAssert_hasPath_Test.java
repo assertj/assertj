@@ -19,9 +19,9 @@ import org.junit.BeforeClass;
 import static org.mockito.Mockito.verify;
 
 /**
- * Test for <code>{@link org.assertj.core.api.UrlAssert#hasPathEquals(String)}</code>.
+ * Test for <code>{@link org.assertj.core.api.UrlAssert#hasPath(String)}</code>.
  */
-public class UrlAssert_hasPathEquals_Test extends UrlAssertBaseTest {
+public class UrlAssert_hasPath_Test extends UrlAssertBaseTest {
     private static String expected;
 
     @BeforeClass
@@ -31,11 +31,11 @@ public class UrlAssert_hasPathEquals_Test extends UrlAssertBaseTest {
 
     @Override
     protected UrlAssert invoke_api_method() {
-        return assertions.hasPathEquals(expected);
+        return assertions.hasPath(expected);
     }
 
     @Override
     protected void verify_internal_effects() {
-        verify(urls).assertHasPathEquals(getInfo(assertions), getActual(assertions), expected);
+        verify(urls).assertHasPath(getInfo(assertions), getActual(assertions), expected);
     }
 }

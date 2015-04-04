@@ -22,32 +22,32 @@ import java.net.URL;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Urls#assertHasPathEquals(org.assertj.core.api.AssertionInfo, java.net.URL, String)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Urls#assertHasPath(org.assertj.core.api.AssertionInfo, java.net.URL, String)}</code>.
  *
  * @author Alexander Bischof
  */
-public class Urls_assertHasPathEquals_Test extends UrlsBaseTest {
+public class Urls_assertHasPath_Test extends UrlsBaseTest {
   
   @Test
   public void should_fail_if_actual_is_null() {
 	thrown.expectAssertionError(actualIsNull());
-	urls.assertHasPathEquals(info, null, "http");
+	urls.assertHasPath(info, null, "http");
   }
 
   @Test
   public void should_pass_if_actual_url_has_the_given_path() throws MalformedURLException {
-      urls.assertHasPathEquals(info, new URL("http://example.com/pages/"), "/pages/");
+      urls.assertHasPath(info, new URL("http://example.com/pages/"), "/pages/");
   }
 
   @Test
   public void should_throw_error_if_uri_is_not_malformed() throws MalformedURLException {
       thrown.expect(MalformedURLException.class);
-      urls.assertHasPathEquals(info, new URL("helloworld"), "http");
+      urls.assertHasPath(info, new URL("helloworld"), "http");
   }
 
   @Test
   public void should_throw_error_if_urisyntax_is_not_valid() throws MalformedURLException {
       thrown.expect(UrlsException.class, "http://finance.yahoo.com/q/h?s=^IXIC");
-      urls.assertHasPathEquals(info, new URL("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+      urls.assertHasPath(info, new URL("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
   }
 }

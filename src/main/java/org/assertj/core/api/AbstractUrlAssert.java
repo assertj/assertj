@@ -68,21 +68,21 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * This assertion will succeed:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("http://helloworld.org/pages").hasPathEquals("/pages/")
+   * assertThat(new URL("http://helloworld.org/pages").hasPath("/pages/")
    * </code></pre>
    *
    * Whereas this assertion will fail:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("http://helloworld.org/pickme").hasPathEquals("/pages/")
+   * assertThat(new URL("http://helloworld.org/pickme").hasPath("/pages/")
    * </code></pre>
    *
    * @param expected the expected path of the actual {@code URL}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual path is not equal to the expected path.
    */
-  public S hasPathEquals(String expected) {
-      urls.assertHasScheme(info, actual, expected);
+  public S hasPath(String expected) {
+      urls.assertHasPath(info, actual, expected);
       return myself;
   }
 }
