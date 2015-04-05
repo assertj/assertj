@@ -24,22 +24,16 @@ public class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   public void should_build_ThrowableAssert_with_runtime_exception_thrown() {
-    assertThatThrownBy(new ThrowingCallable() {
-      @Override
-      public void call() {
-        throw new IllegalArgumentException("something was wrong");
-      }
+    assertThatThrownBy(() -> {
+      throw new IllegalArgumentException("something was wrong");
     }).isInstanceOf(IllegalArgumentException.class)
       .hasMessage("something was wrong");
   }
 
   @Test
   public void should_build_ThrowableAssert_with_throwable_thrown() {
-    assertThatThrownBy(new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        throw new Throwable("something was wrong");
-      }
+    assertThatThrownBy(() -> {
+      throw new Throwable("something was wrong");
     }).isInstanceOf(Throwable.class)
       .hasMessage("something was wrong");
   }
@@ -47,7 +41,7 @@ public class Assertions_assertThat_with_Throwable_Test {
   @Test
   public void should_fail_if_no_throwable_was_thrown() {
     try {
-      assertThatThrownBy(notRaisingException()).hasMessage("yo");
+      assertThatThrownBy(() -> {}).hasMessage("yo");
     } catch (AssertionError e) {
       assertThat(e).hasMessage("Expecting code to raise a throwable.");
       return;
@@ -82,20 +76,9 @@ public class Assertions_assertThat_with_Throwable_Test {
     shouldHaveThrown(AssertionError.class);
   }
 
-  private ThrowingCallable notRaisingException() {
-    return new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-      }
-    };
-  }
-
   private ThrowingCallable raisingException(final String reason) {
-    return new ThrowingCallable() {
-      @Override
-      public void call() throws Throwable {
-        throw new Exception(reason);
-      }
+    return () -> {
+      throw new Exception(reason);
     };
   }
 }
