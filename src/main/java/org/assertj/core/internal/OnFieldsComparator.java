@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import org.assertj.core.presentation.StandardRepresentation;
