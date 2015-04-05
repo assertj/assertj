@@ -12,6 +12,8 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
+
 import static org.assertj.core.util.Arrays.format;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
