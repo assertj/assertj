@@ -708,6 +708,25 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     return myself;
   }
 
+   /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring whitespace differences (mostly).
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foobar&quot;);
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given one.
+   */
   public S isEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
     return myself;
