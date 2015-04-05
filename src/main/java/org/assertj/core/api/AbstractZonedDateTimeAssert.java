@@ -27,7 +27,8 @@ import java.time.format.DateTimeFormatter;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 
-public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTimeAssert<S>> extends AbstractAssert<S, ZonedDateTime> {
+public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTimeAssert<S>> extends
+    AbstractAssert<S, ZonedDateTime> {
 
   public static final String NULL_DATE_TIME_PARAMETER_MESSAGE = "The ZonedDateTime to compare actual with should not be null";
 
@@ -50,6 +51,8 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
 
   /**
    * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> before the given one.
+   * <p>
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
    * <p>
    * Example :
    *
@@ -97,11 +100,13 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isBefore(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBefore(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return isBefore(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
    * Verifies that the actual {@code ZonedDateTime} is before or equals to the given one.
+   * <p>
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
    * <p>
    * Example :
    *
@@ -153,11 +158,13 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isBeforeOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isBeforeOrEqualTo(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return isBeforeOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
    * Verifies that the actual {@code ZonedDateTime} is after or equals to the given one.
+   * <p>
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
    * <p>
    * Example :
    *
@@ -209,11 +216,13 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isAfterOrEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfterOrEqualTo(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return isAfterOrEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
    * Verifies that the actual {@code ZonedDateTime} is <b>strictly</b> after the given one.
+   * <p>
+   * Comparison is done on {@code ZonedDateTime}'s instant (i.e. {@link ZonedDateTime#toEpochSecond()})
    * <p>
    * Example :
    *
@@ -261,7 +270,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isAfter(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isAfter(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return isAfter(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
@@ -299,8 +308,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   public S isEqualToIgnoringNanos(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringNanos(actual, other.withZoneSameInstant(actual.getZone()))) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
+    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
+    if (!areEqualIgnoringNanos(actual, otherInActualTimeZone)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, otherInActualTimeZone));
     }
     return myself;
   }
@@ -341,8 +351,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   public S isEqualToIgnoringSeconds(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringSeconds(actual, other.withZoneSameInstant(actual.getZone()))) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
+    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
+    if (!areEqualIgnoringSeconds(actual, otherInActualTimeZone)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, otherInActualTimeZone));
     }
     return myself;
   }
@@ -383,8 +394,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   public S isEqualToIgnoringMinutes(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringMinutes(actual, other.withZoneSameInstant(actual.getZone()))) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringMinutes(actual, other));
+    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
+    if (!areEqualIgnoringMinutes(actual, otherInActualTimeZone)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringMinutes(actual, otherInActualTimeZone));
     }
     return myself;
   }
@@ -405,13 +417,13 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    *
    * <pre><code class='java'>
    * // successfull assertions
-   * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 59, 59, 999);
-   * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 00, 00, 00, 000);
+   * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneId.systemDefault());
+   * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 00, 00, 00, 000, ZoneId.systemDefault());
    * assertThat(dateTime1).isEqualToIgnoringHours(dateTime2);
    *
    * // failing assertions (even if time difference is only 1ms)
-   * ZonedDateTime dateTimeA = ZonedDateTime.of(2000, 1, 2, 00, 00, 00, 000);
-   * ZonedDateTime dateTimeB = ZonedDateTime.of(2000, 1, 1, 23, 59, 59, 999);
+   * ZonedDateTime dateTimeA = ZonedDateTime.of(2000, 1, 2, 00, 00, 00, 000, ZoneId.systemDefault());
+   * ZonedDateTime dateTimeB = ZonedDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneId.systemDefault());
    * assertThat(dateTimeA).isEqualToIgnoringHours(dateTimeB);
    * </code></pre>
    *
@@ -425,8 +437,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   public S isEqualToIgnoringHours(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
-    if (!haveSameYearMonthAndDayOfMonth(actual, other.withZoneSameInstant(actual.getZone()))) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
+    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
+    if (!haveSameYearMonthAndDayOfMonth(actual, otherInActualTimeZone)) {
+      throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, otherInActualTimeZone));
     }
     return myself;
   }
@@ -438,8 +451,12 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * Example :
    *
    * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(ZonedDateTime.parse("2000-01-01T00:00:00Z")).isEqualTo(ZonedDateTime.parse("2000-01-01T00:00:00Z"));
+   * ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * assertThat(firstOfJanuary2000InUTC).isEqualTo(ZonedDateTime.parse("2000-01-01T00:00:00Z"));
+   * 
+   * // the following assertion succeeds as ZonedDateTime are compared in actual's time zone
+   * // 2000-01-01T01:00:00+01:00 = 2000-01-01T00:00:00 in UTC
+   * assertThat(firstOfJanuary2000InUTC).isEqualTo(ZonedDateTime.parse("2000-01-01T01:00:00+01:00"));
    * </code></pre>
    *
    * @param expected the given value to compare the actual value to.
@@ -448,7 +465,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    *           ZonedDateTime's java.time.ZoneId.
    */
   public S isEqualTo(ZonedDateTime expected) {
-    return super.isEqualTo(expected.withZoneSameInstant(actual.getZone()));
+    return super.isEqualTo(sameInstantInActualTimeZone(expected));
   }
 
   /**
@@ -464,7 +481,12 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    *
    * <pre><code class='java'>
    * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(ZonedDateTime.parse("2000-01-01T00:00:00Z")).isEqualTo("2000-01-01T00:00:00Z");
+   * ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   * assertThat(firstOfJanuary2000InUTC).isEqualTo("2000-01-01T00:00:00Z");
+   * 
+   * // the following assertion succeeds as ZonedDateTime are compared in actual's time zone
+   * // 2000-01-01T01:00:00+01:00 = 2000-01-01T00:00:00 in UTC
+   * assertThat(firstOfJanuary2000InUTC).isEqualTo("2000-01-01T01:00:00+01:00");
    * </code></pre>
    *
    * @param dateTimeAsString String representing a {@link ZonedDateTime}.
@@ -476,7 +498,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isEqualTo(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return super.isEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
@@ -494,7 +516,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    *           ZonedDateTime's java.time.ZoneId.
    */
   public S isNotEqualTo(ZonedDateTime expected) {
-    return super.isNotEqualTo(expected.withZoneSameInstant(actual.getZone()));
+    return super.isNotEqualTo(sameInstantInActualTimeZone(expected));
   }
 
   /**
@@ -522,7 +544,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   public S isNotEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return super.isNotEqualTo(parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimeAsString));
+    return super.isNotEqualTo(parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimeAsString));
   }
 
   /**
@@ -614,7 +636,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link ZonedDateTime}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} built from
-   *            given String.
+   *           given String.
    */
   public S isNotIn(String... dateTimesAsString) {
     checkIsNotNullAndNotEmpty(dateTimesAsString);
@@ -625,7 +647,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
     ZonedDateTime[] dates = new ZonedDateTime[dateTimesAsString.length];
     for (int i = 0; i < dateTimesAsString.length; i++) {
       // building the ZonedDateTime in actual's ZoneId
-      dates[i] = parseStringAsIsoDateTimeAndMoveToZoneSameActual(dateTimesAsString[i]);
+      dates[i] = parseStringAsIsoDateTimeAndMoveToActualTimeZone(dateTimesAsString[i]);
     }
     return dates;
   }
@@ -633,8 +655,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   private ZonedDateTime[] changeToActualTimeZone(ZonedDateTime... dateTimes) {
     ZonedDateTime[] dates = new ZonedDateTime[dateTimes.length];
     for (int i = 0; i < dateTimes.length; i++) {
-      // building the ZonedDateTime in actual's ZoneId
-      dates[i] = dateTimes[i].withZoneSameInstant(actual.getZone());
+      dates[i] = sameInstantInActualTimeZone(dateTimes[i]);
     }
     return dates;
   }
@@ -648,9 +669,13 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
     }
   }
 
-  private ZonedDateTime parseStringAsIsoDateTimeAndMoveToZoneSameActual(String dateTimeAsString) {
-    ZonedDateTime parsedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
-    return parsedDateTime.withZoneSameInstant(actual.getZone());
+  private ZonedDateTime parseStringAsIsoDateTimeAndMoveToActualTimeZone(String dateTimeAsString) {
+    ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateTimeAsString, DateTimeFormatter.ISO_DATE_TIME);
+    return sameInstantInActualTimeZone(zonedDateTime);
+  }
+
+  private ZonedDateTime sameInstantInActualTimeZone(ZonedDateTime zonedDateTime) {
+    return zonedDateTime.withZoneSameInstant(actual.getZone());
   }
 
   /**
@@ -662,8 +687,9 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    */
   private static void assertDateTimeAsStringParameterIsNotNull(String dateTimeAsString) {
     if (dateTimeAsString == null) {
-      throw new IllegalArgumentException(
-          "The String representing the ZonedDateTime to compare actual with should not be null");
+      // @format:off
+      throw new IllegalArgumentException("The String representing the ZonedDateTime to compare actual with should not be null");
+      // @format:on
     }
   }
 
@@ -736,7 +762,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
   }
 
   AbstractZonedDateTimeAssert(ZonedDateTime actual, Class<?> selfType) {
-	super(actual, selfType);
+    super(actual, selfType);
   }
-  
+
 }

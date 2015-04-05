@@ -13,9 +13,8 @@
 package org.assertj.core.api.zoneddatetime;
 
 import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.ZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
@@ -23,7 +22,6 @@ import java.time.ZonedDateTime;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
-
 
 public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
 
@@ -33,22 +31,23 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
   public void should_pass_if_actual_is_equal_to_other_ignoring_hours() {
     assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.plusHours(1));
   }
-  
+
   @Test
   public void should_pass_if_actual_is_equal_to_other_ignoring_hours_in_different_timezone() {
     ZonedDateTime utcDateTime = ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, UTC);
     ZoneId cestTimeZone = ZoneId.of("Europe/Berlin");
-    // utcDateTime = new DateTime(2013, 6, 10, 2, 0, cestTimeZone)  
+    // new DateTime(2013, 6, 10, 5, 0, cestTimeZone) = DateTime(2013, 6, 10, 3, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 5, 0, 0, 0, cestTimeZone));
-    // new DateTime(2013, 6, 11, 1, 0, cestTimeZone) =  DateTime(2013, 6, 10, 23, 0, DateTimeZone.UTC)
+    // new DateTime(2013, 6, 11, 1, 0, cestTimeZone) = DateTime(2013, 6, 10, 23, 0, DateTimeZone.UTC)
     assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 11, 1, 0, 0, 0, cestTimeZone));
     try {
-      // DateTime(2013, 6, 10, 0, 0, cestTimeZone) =  DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC) 
+      // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
       assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone));
     } catch (AssertionError e) {
+      assertThat(e).hasMessage("\nExpecting:\n  <2013-06-10T00:00Z>\nto have same year, month and day as:\n  <2013-06-09T22:00Z>\nbut had not.");
       return;
     }
-    fail("Should have thrown AssertionError");
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
@@ -56,9 +55,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     try {
       assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:00Z>\nbut had not.");
+      assertThat(e).hasMessage("\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:00Z>\nbut had not.");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -70,8 +67,8 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
       assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:59:59.999999999Z>\nbut had not.");
+                                .isEqualTo(
+                                           "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:59:59.999999999Z>\nbut had not.");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
