@@ -12,8 +12,9 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.*;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import java.beans.PropertyDescriptor;
 

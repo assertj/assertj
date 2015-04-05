@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.*;
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someTextDescription;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
