@@ -77,10 +77,9 @@ public class Maps {
    * @throws AssertionError if the given {@code Map} is not {@code null} *and* contains one or more entries.
    */
   public void assertNullOrEmpty(AssertionInfo info, Map<?, ?> actual) {
-    if (actual == null || actual.isEmpty()) {
-      return;
+    if (!(actual == null || actual.isEmpty())) {
+      throw failures.failure(info, shouldBeNullOrEmpty(actual));
     }
-    throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -93,10 +92,9 @@ public class Maps {
    */
   public void assertEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (actual.isEmpty()) {
-      return;
+    if (!actual.isEmpty()) {
+      throw failures.failure(info, shouldBeEmpty(actual));
     }
-    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -109,10 +107,9 @@ public class Maps {
    */
   public void assertNotEmpty(AssertionInfo info, Map<?, ?> actual) {
     assertNotNull(info, actual);
-    if (!actual.isEmpty()) {
-      return;
+    if (actual.isEmpty()) {
+      throw failures.failure(info, shouldNotBeEmpty());
     }
-    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   /**
@@ -268,10 +265,9 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
     assertNotNull(info, actual);
-    if (!actual.containsKey(key)) {
-      return;
+    if (actual.containsKey(key)) {
+        throw failures.failure(info, shouldNotContainKey(actual, key));
     }
-    throw failures.failure(info, shouldNotContainKey(actual, key));
   }
 
   /**
@@ -341,10 +337,9 @@ public class Maps {
    */
   public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (actual.containsValue(value)) {
-      return;
+    if (!actual.containsValue(value)) {
+      throw failures.failure(info, shouldContainValue(actual, value));
     }
-    throw failures.failure(info, shouldContainValue(actual, value));
   }
 
   /**
@@ -381,10 +376,9 @@ public class Maps {
    */
   public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
     assertNotNull(info, actual);
-    if (!actual.containsValue(value)) {
-      return;
+    if (actual.containsValue(value)) {
+      throw failures.failure(info, shouldNotContainValue(actual, value));
     }
-    throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
   /**
