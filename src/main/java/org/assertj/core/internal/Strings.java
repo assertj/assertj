@@ -12,10 +12,12 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
@@ -327,6 +329,46 @@ public class Strings {
       return expected == null;
     }
     return actual.toString().equalsIgnoreCase(expected.toString());
+  }
+
+  /**
+   * Verifies that two {@code CharSequence}s are equal, ignoring any changes in whitespace.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are not equal.
+   */
+  public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
+      if (!areEqualIgnoringWhitespace(actual, expected)) {
+        throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
+      }
+  }
+
+  private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
+      if (actual == null) {
+          return expected == null;
+      }
+      checkCharSequenceIsNotNull(expected);
+      return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
+  }
+
+  private String removeAllWhitespaces(CharSequence toBeStripped) {
+      final StringBuilder result = new StringBuilder();
+      boolean lastWasSpace = true;
+      for (int i = 0; i < toBeStripped.length(); i++) {
+          char c = toBeStripped.charAt(i);
+          if (isWhitespace(c)) {
+              if (!lastWasSpace) {
+                  result.append(' ');
+              }
+              lastWasSpace = true;
+          } else {
+              result.append(c);
+              lastWasSpace = false;
+          }
+      }
+      return result.toString().trim();
   }
 
   /**
