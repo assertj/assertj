@@ -348,8 +348,7 @@ public class Strings {
       if (actual == null) {
           return expected == null;
       }
-
-
+      checkCharSequenceIsNotNull(expected);
       return stripSpace(actual).equals(stripSpace(expected));
   }
 
