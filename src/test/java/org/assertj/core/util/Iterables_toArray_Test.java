@@ -27,7 +27,7 @@ import org.junit.Test;
  */
 public class Iterables_toArray_Test {
 
-  private final ArrayList<String> values = newArrayList("one", "two");;
+  private final ArrayList<String> values = newArrayList("one", "two");
 
   @Test
   public void should_return_null_when_given_iterable_is_null() throws Exception {

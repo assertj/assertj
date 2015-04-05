@@ -36,7 +36,7 @@ import org.junit.Test;
 public class ShouldContainExactly_create_Test {
 
   private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(
-	                                                                                                                                  CaseInsensitiveStringComparator.instance);;
+	                                                                                                                                  CaseInsensitiveStringComparator.instance);
 
   @Test
   public void should_create_error_message() {
