@@ -614,7 +614,7 @@ public class Assertions {
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    * 
    * <p>
-   * Java 8 example :
+   * Example :
    * </p>
    * 
    * <pre><code class='java'>
@@ -625,22 +625,6 @@ public class Assertions {
    *  }
    * </code></pre>
    * 
-   * <p>
-   * Java 7 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * assertThatThrownBy(new ThrowingCallable()
-   * 
-   *   {@literal @}Override
-   *   public Void call() throws Exception {
-   *     throw new Exception("boom!");
-   *   }
-   *   
-   * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");
-   * </code></pre>
-   *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */
@@ -656,7 +640,7 @@ public class Assertions {
    * </p>
    * 
    * <p>
-   * Java 8 example:
+   * Example:
    * </p>
    * 
    * <pre><code class='java'>
@@ -669,28 +653,6 @@ public class Assertions {
    *    assertThat(thrown).isInstanceOf(Exception.class)
    *                      .hasMessageContaining("boom");
    *  }
-   * </code></pre>
-   *
-   * <p>
-   * Java 7 example:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * {@literal @}Test
-   * public void testException() {
-   *   // when
-   *   Throwable thrown = catchThrowable(new ThrowingCallable()
-   *   
-   *     {@literal @}Override
-   *     public Void call() throws Exception {
-   *       throw new Exception("boom!");
-   *     }
-   *     
-   *   })
-   *   // then
-   *   assertThat(thrown).isInstanceOf(Exception.class)
-   *                     .hasMessageContaining("boom");
-   * }
    * </code></pre>
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
