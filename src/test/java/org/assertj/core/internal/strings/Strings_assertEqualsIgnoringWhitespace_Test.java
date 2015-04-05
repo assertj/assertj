@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.test.CharArrays.arrayOf;
+import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -41,6 +42,12 @@ public class Strings_assertEqualsIgnoringWhitespace_Test extends StringsBaseTest
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_not_null_and_expected_is_null() {
+    thrown.expectNullPointerException(charSequenceToLookForIsNull());
+    strings.assertEqualsIgnoringWhitespace(someInfo(), "Luke", null);
   }
 
   @Test
