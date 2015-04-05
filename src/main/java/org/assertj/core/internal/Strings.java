@@ -349,10 +349,10 @@ public class Strings {
           return expected == null;
       }
       checkCharSequenceIsNotNull(expected);
-      return stripSpace(actual).equals(stripSpace(expected));
+      return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  private String stripSpace(CharSequence toBeStripped) {
+  private String removeAllWhitespaces(CharSequence toBeStripped) {
       final StringBuilder result = new StringBuilder();
       boolean lastWasSpace = true;
       for (int i = 0; i < toBeStripped.length(); i++) {
