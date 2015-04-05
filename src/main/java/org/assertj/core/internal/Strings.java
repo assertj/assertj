@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
@@ -340,7 +341,7 @@ public class Strings {
    */
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
       if (!areEqualIgnoringWhitespace(actual, expected)) {
-        throw failures.failure(info, shouldBeEqual(actual, expected));
+        throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
       }
   }
 
