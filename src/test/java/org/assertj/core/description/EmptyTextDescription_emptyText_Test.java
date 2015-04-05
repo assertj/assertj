@@ -12,10 +12,8 @@
  */
 package org.assertj.core.description;
 
-import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 import org.junit.Test;
 
 /**
@@ -29,11 +27,11 @@ public class EmptyTextDescription_emptyText_Test {
   public void should_return_singleton_instance() {
     Description description = EmptyTextDescription.emptyText();
     for (int i = 0; i < 6; i++)
-      assertSame(description, EmptyTextDescription.emptyText());
+      assertThat(EmptyTextDescription.emptyText()).isSameAs(description);
   }
 
   @Test
   public void should_have_empty_text_as_value() {
-    assertEquals("", EmptyTextDescription.emptyText().value());
+    assertThat(EmptyTextDescription.emptyText().value()).isEmpty();
   }
 }

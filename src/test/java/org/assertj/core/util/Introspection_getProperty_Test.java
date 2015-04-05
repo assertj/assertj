@@ -12,13 +12,14 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;
 
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class Introspection_getProperty_Test {
   private Employee judy;
@@ -31,8 +32,8 @@ public class Introspection_getProperty_Test {
   @Test
   public void get_descriptor_for_property() {
     PropertyDescriptor propertyDescriptor = getProperty("age", judy);
-    assertNotNull(propertyDescriptor);
-    assertEquals("age", propertyDescriptor.getName());
+    assertThat(propertyDescriptor).isNotNull();
+    assertThat(propertyDescriptor.getName()).isEqualTo("age");
   }
 
   @Test
@@ -40,7 +41,7 @@ public class Introspection_getProperty_Test {
     try {
       getProperty("salary", judy);
     } catch (IntrospectionError error) {
-      assertEquals("No getter for property 'salary' in org.assertj.core.util.Employee", error.getMessage());
+      assertThat(error).hasMessage("No getter for property 'salary' in org.assertj.core.util.Employee");
     }
   }
 
@@ -49,12 +50,12 @@ public class Introspection_getProperty_Test {
     try {
       getProperty("company", judy);
     } catch (IntrospectionError error) {
-      assertEquals("No public getter for property 'company' in org.assertj.core.util.Employee", error.getMessage());
+      assertThat(error).hasMessage("No public getter for property 'company' in org.assertj.core.util.Employee");
     }
     try {
       getProperty("firstJob", judy);
     } catch (IntrospectionError error) {
-      assertEquals("No public getter for property 'firstJob' in org.assertj.core.util.Employee", error.getMessage());
+      assertThat(error).hasMessage("No public getter for property 'firstJob' in org.assertj.core.util.Employee");
     }
   }
 

@@ -36,7 +36,7 @@ public class DateAssert_isNotBetweenSpecifyingBoundariesInclusion_Test extends A
     super.setUp();
     inclusiveStart = false;
     inclusiveEnd = true;
-  };
+  }
 
   @Override
   protected DateAssert assertionInvocationWithDateArg() {

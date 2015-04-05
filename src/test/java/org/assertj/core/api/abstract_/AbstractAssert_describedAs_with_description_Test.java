@@ -12,17 +12,18 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someDescription;
-
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.description.Description;
 import org.assertj.core.test.ExpectedException;
-import org.junit.*;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link AbstractAssert#describedAs(Description)}</code>
@@ -35,24 +36,23 @@ public class AbstractAssert_describedAs_with_description_Test {
   public ExpectedException thrown = none();
 
   private ConcreteAssert assertions;
-  private Description d;
+  private Description description;
 
   @Before
   public void setUp() {
     assertions = new ConcreteAssert(6L);
-    d = someDescription();
+    description = someDescription();
   }
 
   @Test
   public void should_set_description() {
-    assertions.describedAs(d);
-    assertEquals(d.value(), assertions.descriptionText());
+    assertions.describedAs(description);
+    assertThat(assertions.descriptionText()).isEqualTo(description.value());
   }
 
   @Test
   public void should_return_this() {
-    ConcreteAssert descriptable = assertions.describedAs(d);
-    assertSame(assertions, descriptable);
+    assertThat(assertions.describedAs(description)).isSameAs(assertions);
   }
 
   @Test

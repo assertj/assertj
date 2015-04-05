@@ -36,12 +36,8 @@ public final class Iterables {
    * @return {@code true} if the given {@code Iterable} is {@code null} or empty, otherwise {@code false}.
    */
   public static boolean isNullOrEmpty(Iterable<?> iterable) {
-    if (iterable == null) {
-      return true;
-    }
-    if (iterable instanceof Collection && ((Collection<?>) iterable).isEmpty()) {
-      return true;
-    }
+    if (iterable == null) return true;
+    if (iterable instanceof Collection && ((Collection<?>) iterable).isEmpty()) return true;
     return !iterable.iterator().hasNext();
   }
 

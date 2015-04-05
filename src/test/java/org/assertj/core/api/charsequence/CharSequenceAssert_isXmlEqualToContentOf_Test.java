@@ -27,7 +27,7 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
  */
 public class CharSequenceAssert_isXmlEqualToContentOf_Test extends CharSequenceAssertBaseTest {
 
-  private File xmlFile = new File("src/test/resources/expected.xml");;
+  private File xmlFile = new File("src/test/resources/expected.xml");
 
   @Override
   protected CharSequenceAssert invoke_api_method() {

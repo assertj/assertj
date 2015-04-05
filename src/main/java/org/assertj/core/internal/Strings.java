@@ -102,10 +102,7 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence} is not {@code null} *and* it is not empty.
    */
   public void assertNullOrEmpty(AssertionInfo info, CharSequence actual) {
-    if (actual == null || !hasContents(actual)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeNullOrEmpty(actual));
+    if (actual != null && hasContent(actual)) throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -118,10 +115,7 @@ public class Strings {
    */
   public void assertEmpty(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (!hasContents(actual)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeEmpty(actual));
+    if (hasContent(actual)) throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -134,13 +128,10 @@ public class Strings {
    */
   public void assertNotEmpty(AssertionInfo info, CharSequence actual) {
     assertNotNull(info, actual);
-    if (hasContents(actual)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeEmpty());
+    if (!hasContent(actual)) throw failures.failure(info, shouldNotBeEmpty());
   }
 
-  private static boolean hasContents(CharSequence s) {
+  private static boolean hasContent(CharSequence s) {
     return s.length() > 0;
   }
 
@@ -171,10 +162,9 @@ public class Strings {
     assertNotNull(info, actual);
     LineNumberReader reader = new LineNumberReader(new StringReader(actual.toString()));
     try {
-      while ((reader.readLine()) != null);
+      while (reader.readLine() != null);
     } catch (IOException e) {
-      String msg = format("Unable to count lines in `%s`", actual);
-      throw new InputStreamsException(msg, e);
+      throw new InputStreamsException(format("Unable to count lines in `%s`", actual), e);
     }
     checkLineCounts(actual, reader.getLineNumber(), expectedLineCount, info);
   }
@@ -239,8 +229,7 @@ public class Strings {
         notFound.add(value);
       }
     }
-    if (notFound.isEmpty())
-      return;
+    if (notFound.isEmpty()) return;
     if (notFound.size() == 1 && values.length == 1) {
       throw failures.failure(info, shouldContain(actual, values[0], comparisonStrategy));
     }
@@ -265,15 +254,11 @@ public class Strings {
   }
 
   private void checkIsNotNull(CharSequence... values) {
-    if (values == null) {
-      throw arrayOfValuesToLookForIsNull();
-    }
+    if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
   private void checkIsNotEmpty(CharSequence... values) {
-    if (values.length == 0) {
-      throw arrayOfValuesToLookForIsEmpty();
-    }
+    if (values.length == 0) throw arrayOfValuesToLookForIsEmpty();
   }
 
   /**
@@ -296,10 +281,8 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (actual.toString().toLowerCase().contains(sequence.toString().toLowerCase())) {
-      return;
-    }
-    throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+    if (!actual.toString().toLowerCase().contains(sequence.toString().toLowerCase()))
+      throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   /**
@@ -315,16 +298,12 @@ public class Strings {
   public void assertDoesNotContain(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!stringContains(actual, sequence)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
+    if (stringContains(actual, sequence))
+      throw failures.failure(info, shouldNotContain(actual, sequence, comparisonStrategy));
   }
 
   private void checkCharSequenceIsNotNull(CharSequence sequence) {
-    if (sequence == null) {
-      throw new NullPointerException("The char sequence to look for should not be null");
-    }
+    if (sequence == null) throw new NullPointerException("The char sequence to look for should not be null");
   }
 
   /**
@@ -336,16 +315,11 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
   public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (areEqualIgnoringCase(actual, expected)) {
-      return;
-    }
-    throw failures.failure(info, shouldBeEqual(actual, expected));
+    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
   private boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
-    if (actual == null) {
-      return expected == null;
-    }
+    if (actual == null) return expected == null;
     return actual.toString().equalsIgnoreCase(expected.toString());
   }
 
@@ -358,9 +332,8 @@ public class Strings {
    * @throws AssertionError if the given {@code CharSequence}s are not equal.
    */
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualIgnoringWhitespace(actual, expected)) {
+    if (!areEqualIgnoringWhitespace(actual, expected))
       throw failures.failure(info, shouldBeEqualIgnoringWhitespace(actual, expected));
-    }
   }
 
   private boolean areEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
@@ -401,8 +374,7 @@ public class Strings {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
     int sequenceOccurencesInActual = countOccurences(sequence, actual);
-    if (sequenceOccurencesInActual == 1)
-      return;
+    if (sequenceOccurencesInActual == 1) return;
     throw failures.failure(info,
                            shouldContainOnlyOnce(actual, sequence, sequenceOccurencesInActual, comparisonStrategy));
   }
@@ -437,14 +409,10 @@ public class Strings {
    * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix.
    */
   public void assertStartsWith(AssertionInfo info, CharSequence actual, CharSequence prefix) {
-    if (prefix == null) {
-      throw new NullPointerException("The given prefix should not be null");
-    }
+    if (prefix == null) throw new NullPointerException("The given prefix should not be null");
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringStartsWith(actual.toString(), prefix.toString())) {
-      return;
-    }
-    throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
+    if (!comparisonStrategy.stringStartsWith(actual.toString(), prefix.toString()))
+      throw failures.failure(info, shouldStartWith(actual, prefix, comparisonStrategy));
   }
 
   /**
@@ -458,14 +426,10 @@ public class Strings {
    * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix.
    */
   public void assertEndsWith(AssertionInfo info, CharSequence actual, CharSequence suffix) {
-    if (suffix == null) {
-      throw new NullPointerException("The given suffix should not be null");
-    }
+    if (suffix == null) throw new NullPointerException("The given suffix should not be null");
     assertNotNull(info, actual);
-    if (comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString())) {
-      return;
-    }
-    throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
+    if (!comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString())) 
+      throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
   }
 
   /**
@@ -482,10 +446,7 @@ public class Strings {
   public void assertMatches(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
-    if (Pattern.matches(regex.toString(), actual)) {
-      return;
-    }
-    throw failures.failure(info, shouldMatch(actual, regex));
+    if (!Pattern.matches(regex.toString(), actual)) throw failures.failure(info, shouldMatch(actual, regex));
   }
 
   /**
@@ -502,16 +463,11 @@ public class Strings {
   public void assertDoesNotMatch(AssertionInfo info, CharSequence actual, CharSequence regex) {
     checkRegexIsNotNull(regex);
     assertNotNull(info, actual);
-    if (!Pattern.matches(regex.toString(), actual)) {
-      return;
-    }
-    throw failures.failure(info, shouldNotMatch(actual, regex));
+    if (Pattern.matches(regex.toString(), actual)) throw failures.failure(info, shouldNotMatch(actual, regex));
   }
 
   private void checkRegexIsNotNull(CharSequence regex) {
-    if (regex == null) {
-      throw patternToMatchIsNull();
-    }
+    if (regex == null) throw patternToMatchIsNull();
   }
 
   /**
@@ -527,10 +483,7 @@ public class Strings {
   public void assertMatches(AssertionInfo info, CharSequence actual, Pattern pattern) {
     checkIsNotNull(pattern);
     assertNotNull(info, actual);
-    if (pattern.matcher(actual).matches()) {
-      return;
-    }
-    throw failures.failure(info, shouldMatch(actual, pattern.pattern()));
+    if (!pattern.matcher(actual).matches()) throw failures.failure(info, shouldMatch(actual, pattern.pattern()));
   }
 
   /**
@@ -544,16 +497,12 @@ public class Strings {
    */
   public void assertDoesNotMatch(AssertionInfo info, CharSequence actual, Pattern pattern) {
     checkIsNotNull(pattern);
-    if (actual == null || !pattern.matcher(actual).matches()) {
-      return;
-    }
-    throw failures.failure(info, shouldNotMatch(actual, pattern.pattern()));
+    if (!(actual == null || !pattern.matcher(actual).matches()))
+      throw failures.failure(info, shouldNotMatch(actual, pattern.pattern()));
   }
 
   private void checkIsNotNull(Pattern pattern) {
-    if (pattern == null) {
-      throw patternToMatchIsNull();
-    }
+    if (pattern == null) throw patternToMatchIsNull();
   }
 
   private NullPointerException patternToMatchIsNull() {

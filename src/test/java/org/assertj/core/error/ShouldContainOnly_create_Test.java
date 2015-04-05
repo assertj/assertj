@@ -17,13 +17,13 @@ import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.util.Collections;
+
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
-
-import java.util.Collections;
 
 /**
  * Tests for
@@ -36,8 +36,8 @@ import java.util.Collections;
  */
 public class ShouldContainOnly_create_Test {
 
-  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(
-	                                                                                                                                  CaseInsensitiveStringComparator.instance);;
+  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY =
+      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
 
   @Test
   public void should_create_error_message() {
