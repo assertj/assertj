@@ -27,29 +27,47 @@ import static org.assertj.core.internal.Comparables.assertNotNull;
  */
 public class Uris {
 
-  private static final Uris INSTANCE = new Uris();
+    private static final Uris INSTANCE = new Uris();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+    @VisibleForTesting
+    Failures failures = Failures.instance();
 
-  public static Uris instance() {
-	return INSTANCE;
-  }
+    public static Uris instance() {
+        return INSTANCE;
+    }
 
-  Uris() {
-  }
+    Uris() {
+    }
 
-  public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
-	  assertNotNull(info, actual);
-    String scheme = actual.getScheme();
-    if (!areEqual(scheme, expected))
-        throw failures.failure(info, shouldBeEqual(scheme, expected, info.representation()));
-  }
+    /**
+     * Verifies that actual {@code URI}s has the same scheme as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError       if the given {@code String} is {@code null}.
+     * @throws AssertionError       if the actual {@code URI} has not the given scheme {@code String}.
+     */
+    public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
+        assertNotNull(info, actual);
+        String scheme = actual.getScheme();
+        if (!areEqual(scheme, expected))
+            throw failures.failure(info, shouldBeEqual(scheme, expected, info.representation()));
+    }
 
-  public void assertHasPath(AssertionInfo info, URI actual, String expected) {
-    assertNotNull(info, actual);
-    String path = actual.getPath();
-    if (!path.equals(expected))
-        throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
-  }
+    /**
+     * Verifies that actual {@code URI}s has the same path as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError       if the given {@code String} is {@code null}.
+     * @throws AssertionError       if the actual {@code URI} has not the given path {@code String}.
+     */
+    public void assertHasPath(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String path = actual.getPath();
+        if (!path.equals(expected))
+            throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
+    }
 }

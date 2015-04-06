@@ -86,6 +86,7 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
    */
   public static AbstractUriAssert<?> assertThat(URI actual) {
       return new UriAssert(actual);
@@ -96,6 +97,7 @@ public class Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
    */
   public static AbstractUriAssert<?> assertThat(URL actual) throws URISyntaxException {
       return new UriAssert(actual.toURI());

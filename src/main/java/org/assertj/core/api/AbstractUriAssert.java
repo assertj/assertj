@@ -43,18 +43,23 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
    * This assertion will succeed:
    *
    * <pre><code class='java'>
-   * assertThat(new URI("http://helloworld.org")).hasScheme("http")
+   * assertThat(new URI("http://helloworld.org")).hasScheme("http");
+   * assertThat(new URI("ftp://helloworld.org")).hasScheme("ftp");
+   * assertThat(new URI("helloworld.org")).hasScheme(null);
    * </code></pre>
    *
    * Whereas this assertion will fail:
    *
    * <pre><code class='java'>
-   * assertThat(new URI("ftp://helloworld.org")).hasScheme("http")
+   * assertThat(new URI("http://helloworld.org")).hasScheme("ftp");
+   * assertThat(new URI("http://helloworld.org")).hasScheme(null);
+   * assertThat((URI)null).hasScheme(null);
    * </code></pre>
    *
    * @param expected the expected scheme of the actual {@code URI}.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual scheme is not equal to the expected scheme.
+   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
    */
   public S hasScheme(String expected) {
 	uris.assertHasScheme(info, actual, expected);
