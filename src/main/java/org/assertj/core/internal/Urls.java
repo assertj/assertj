@@ -44,8 +44,9 @@ public class Urls {
 	assertNotNull(info, actual);
 
   try {
-    if (!actual.toURI().getScheme().equals(expected))
-        throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
+      String scheme = actual.toURI().getScheme();
+      if (!scheme.equals(expected))
+        throw failures.failure(info, shouldBeEqual(scheme, expected, info.representation()));
     }catch(URISyntaxException e){
       throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
   }
@@ -55,8 +56,9 @@ public class Urls {
   assertNotNull(info, actual);
 
   try {
-    if (!actual.toURI().getPath().equals(expected))
-        throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
+      String path = actual.toURI().getPath();
+      if (!path.equals(expected))
+        throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
     }catch(URISyntaxException e){
         throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
     }
