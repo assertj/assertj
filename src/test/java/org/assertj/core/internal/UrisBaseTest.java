@@ -24,24 +24,24 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 /**
- * Base test class for {@link java.net.URL} tests.
+ * Base test class for {@link java.net.URI} tests.
  *
  * @author Alexander Bischof
  */
-public abstract class UrlsBaseTest {
+public abstract class UrisBaseTest {
 
   @Rule
   public ExpectedException thrown = none();
   protected Failures failures;
-  protected Urls urls;
+  protected Uris uris;
   protected AssertionInfo info;
 
 
   @Before
   public void setUp() throws IOException {
 	failures = spy(new Failures());
-	urls = new Urls();
-	urls.failures = failures;
+	uris = new Uris();
+	uris.failures = failures;
 	info = someInfo();
   }
 }

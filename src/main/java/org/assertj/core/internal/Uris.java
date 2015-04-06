@@ -13,54 +13,43 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.UrlsException;
 import org.assertj.core.util.VisibleForTesting;
 
-import java.net.URISyntaxException;
-import java.net.URL;
+import static org.assertj.core.util.Objects.areEqual;
 
-import static java.lang.String.format;
+import java.net.URI;
+
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.internal.Comparables.assertNotNull;
 
 /**
- * Core assertion class for {@link java.net.URL} assertions
+ * Core assertion class for {@link java.net.URI} assertions
  */
-public class Urls {
+public class Uris {
 
-  private static final Urls INSTANCE = new Urls();
+  private static final Uris INSTANCE = new Uris();
 
   @VisibleForTesting
   Failures failures = Failures.instance();
 
-  public static Urls instance() {
+  public static Uris instance() {
 	return INSTANCE;
   }
 
-  Urls() {
+  Uris() {
   }
 
-  public void assertHasScheme(final AssertionInfo info, final URL actual, final String expected) {
-	assertNotNull(info, actual);
-
-  try {
-      String scheme = actual.toURI().getScheme();
-      if (!scheme.equals(expected))
+  public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
+	  assertNotNull(info, actual);
+    String scheme = actual.getScheme();
+    if (!areEqual(scheme, expected))
         throw failures.failure(info, shouldBeEqual(scheme, expected, info.representation()));
-    }catch(URISyntaxException e){
-      throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
-  }
   }
 
-  public void assertHasPath(AssertionInfo info, URL actual, String expected) {
-  assertNotNull(info, actual);
-
-  try {
-      String path = actual.toURI().getPath();
-      if (!path.equals(expected))
+  public void assertHasPath(AssertionInfo info, URI actual, String expected) {
+    assertNotNull(info, actual);
+    String path = actual.getPath();
+    if (!path.equals(expected))
         throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
-    }catch(URISyntaxException e){
-        throw new UrlsException(format("Unable to parse URI reference:<%s>", actual), e);
-    }
   }
 }

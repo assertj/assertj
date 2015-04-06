@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 /**
- * Exception thrown by <code>{@link org.assertj.core.internal.Urls}</code>.
+ * Exception thrown by <code>{@link org.assertj.core.internal.Uris}</code>.
  *
  * @author Alexander Bischof
  */

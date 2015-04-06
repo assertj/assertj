@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api.url;
 
-import org.assertj.core.api.UrlAssert;
-import org.assertj.core.api.UrlAssertBaseTest;
+import org.assertj.core.api.UriAssert;
+import org.assertj.core.api.UriAssertBaseTest;
 import org.junit.BeforeClass;
 
 import static org.mockito.Mockito.verify;
 
 /**
- * Test for <code>{@link org.assertj.core.api.UrlAssert#hasPath(String)}</code>.
+ * Test for <code>{@link org.assertj.core.api.UriAssert#hasPath(String)}</code>.
  */
-public class UrlAssert_hasPath_Test extends UrlAssertBaseTest {
+public class UriAssert_hasPath_Test extends UriAssertBaseTest {
     private static String expected;
 
     @BeforeClass
@@ -30,12 +30,12 @@ public class UrlAssert_hasPath_Test extends UrlAssertBaseTest {
     }
 
     @Override
-    protected UrlAssert invoke_api_method() {
+    protected UriAssert invoke_api_method() {
         return assertions.hasPath(expected);
     }
 
     @Override
     protected void verify_internal_effects() {
-        verify(urls).assertHasPath(getInfo(assertions), getActual(assertions), expected);
+        verify(uris).assertHasPath(getInfo(assertions), getActual(assertions), expected);
     }
 }

@@ -12,25 +12,26 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.internal.Urls;
+import org.assertj.core.internal.Uris;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.mock;
 
 /**
- * Base class for {@link org.assertj.core.api.UrlAssert} tests.
+ * Base class for {@link UriAssert} tests.
  */
-public abstract class UrlAssertBaseTest extends BaseTestTemplate<UrlAssert, URL> {
+public abstract class UriAssertBaseTest extends BaseTestTemplate<UriAssert, URI> {
 
-  protected Urls urls;
+  protected Uris uris;
 
   @Override
-  protected UrlAssert create_assertions() {
+  protected UriAssert create_assertions() {
       try {
-          return new UrlAssert(new URL("http://example.com/pages/"));
-      } catch (MalformedURLException e) {
+          return new UriAssert(new URI("example.com/pages/"));
+      } catch (URISyntaxException e) {
           e.printStackTrace();
       }
       return null;
@@ -39,11 +40,11 @@ public abstract class UrlAssertBaseTest extends BaseTestTemplate<UrlAssert, URL>
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
-    urls = mock(Urls.class);
-    assertions.urls = urls;
+    uris = mock(Uris.class);
+    assertions.uris = uris;
   }
 
-  protected Urls getUrls(UrlAssert someAssertions) {
-    return someAssertions.urls;
+  protected Uris getUris(UriAssert someAssertions) {
+    return someAssertions.uris;
   }
 }

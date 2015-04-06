@@ -12,20 +12,20 @@
  */
 package org.assertj.core.api;
 
-import java.net.URL;
+import java.net.URI;
 
 /**
- * Assertion class for {@link java.net.URL}s
+ * Assertion class for {@link java.net.URI}s
  */
-public class UrlAssert extends AbstractUrlAssert<UrlAssert>
+public class UriAssert extends AbstractUriAssert<UriAssert>
 {
     /**
      * Constructor
      *
      * @param actual the url to test
      */
-    protected UrlAssert(URL actual)
+    protected UriAssert(URI actual)
     {
-        super(actual, UrlAssert.class);
+        super(actual, UriAssert.class);
     }
 }

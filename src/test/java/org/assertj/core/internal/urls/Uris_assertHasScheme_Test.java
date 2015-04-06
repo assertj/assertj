@@ -12,42 +12,44 @@
  */
 package org.assertj.core.internal.urls;
 
-import org.assertj.core.internal.UrlsBaseTest;
+import org.assertj.core.internal.UrisBaseTest;
 import org.assertj.core.util.UrlsException;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Urls#assertHasPath(org.assertj.core.api.AssertionInfo, java.net.URL, String)}</code>.
+ * Tests for <code>{@link org.assertj.core.internal.Uris#assertHasScheme(org.assertj.core.api.AssertionInfo, java.net.URI, String)}</code>.
  *
  * @author Alexander Bischof
  */
-public class Urls_assertHasPath_Test extends UrlsBaseTest {
+public class Uris_assertHasScheme_Test extends UrisBaseTest {
   
   @Test
   public void should_fail_if_actual_is_null() {
 	thrown.expectAssertionError(actualIsNull());
-	urls.assertHasPath(info, null, "http");
+	uris.assertHasScheme(info, null, "http");
   }
 
   @Test
-  public void should_pass_if_actual_url_has_the_given_path() throws MalformedURLException {
-      urls.assertHasPath(info, new URL("http://example.com/pages/"), "/pages/");
+  public void should_pass_if_actual_url_has_the_given_scheme() throws URISyntaxException {
+      uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
   }
 
   @Test
-  public void should_throw_error_if_uri_is_not_malformed() throws MalformedURLException {
-      thrown.expect(MalformedURLException.class);
-      urls.assertHasPath(info, new URL("helloworld"), "http");
+  public void should_throw_error_if_uri_is_not_malformed() throws URISyntaxException {
+      thrown.expect(AssertionError.class);
+      uris.assertHasScheme(info, new URI("helloworld"), "http");
   }
 
   @Test
-  public void should_throw_error_if_urisyntax_is_not_valid() throws MalformedURLException {
-      thrown.expect(UrlsException.class, "http://finance.yahoo.com/q/h?s=^IXIC");
-      urls.assertHasPath(info, new URL("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+  public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
+      thrown.expect(URISyntaxException.class);
+      uris.assertHasScheme(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
   }
 }
