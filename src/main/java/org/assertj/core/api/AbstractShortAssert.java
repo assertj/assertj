@@ -8,17 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2015 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.within;
 
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Shorts;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -231,6 +229,7 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * @throws NullPointerException if the expected Short is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isCloseTo(Short expected, Offset<Short> offset) {
     shorts.assertIsCloseTo(info, actual, expected, offset);
     return myself;
