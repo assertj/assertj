@@ -44,13 +44,13 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * This assertion will succeed:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("http://helloworld.org").hasSchemeEqualsTo("http")
+   * assertThat(new URL("http://helloworld.org")).hasScheme("http")
    * </code></pre>
    *
    * Whereas this assertion will fail:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("ftp://helloworld.org").hasSchemeEqualsTo("http")
+   * assertThat(new URL("ftp://helloworld.org")).hasScheme("http")
    * </code></pre>
    *
    * @param expected the expected scheme of the actual {@code URL}.
@@ -68,13 +68,13 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * This assertion will succeed:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("http://helloworld.org/pages").hasPath("/pages/")
+   * assertThat(new URL("http://helloworld.org/pages")).hasPath("/pages/")
    * </code></pre>
    *
    * Whereas this assertion will fail:
    *
    * <pre><code class='java'>
-   * assertThat(new URL("http://helloworld.org/pickme").hasPath("/pages/")
+   * assertThat(new URL("http://helloworld.org/pickme")).hasPath("/pages/")
    * </code></pre>
    *
    * @param expected the expected path of the actual {@code URL}.

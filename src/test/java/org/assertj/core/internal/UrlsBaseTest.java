@@ -24,7 +24,7 @@ import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 /**
- * Base test class for {@link java.net.URL} instances
+ * Base test class for {@link java.net.URL} tests.
  *
  * @author Alexander Bischof
  */
