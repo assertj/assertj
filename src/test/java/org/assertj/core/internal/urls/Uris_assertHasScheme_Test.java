@@ -13,13 +13,11 @@
 package org.assertj.core.internal.urls;
 
 import org.assertj.core.internal.UrisBaseTest;
-import org.assertj.core.util.UrlsException;
+import org.junit.ComparisonFailure;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -29,27 +27,35 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
  * @author Alexander Bischof
  */
 public class Uris_assertHasScheme_Test extends UrisBaseTest {
-  
-  @Test
-  public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	uris.assertHasScheme(info, null, "http");
-  }
 
-  @Test
-  public void should_pass_if_actual_url_has_the_given_scheme() throws URISyntaxException {
-      uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
-  }
+    @Test
+    public void should_fail_if_actual_is_null() {
+        thrown.expectAssertionError(actualIsNull());
+        uris.assertHasScheme(info, null, "http");
+    }
 
-  @Test
-  public void should_throw_error_if_uri_is_not_malformed() throws URISyntaxException {
-      thrown.expect(AssertionError.class);
-      uris.assertHasScheme(info, new URI("helloworld"), "http");
-  }
+    @Test
+    public void should_fail_if_actual_is_not_null_but_expected_is_null() throws URISyntaxException {
+        thrown.expect(ComparisonFailure.class);
+        uris.assertHasScheme(info, new URI("http://example.com/pages/"), null);
+    }
 
-  @Test
-  public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
-      thrown.expect(URISyntaxException.class);
-      uris.assertHasScheme(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
-  }
+
+
+    @Test
+    public void should_pass_if_actual_url_has_the_given_scheme() throws URISyntaxException {
+        uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
+    }
+
+    @Test
+    public void should_throw_error_if_uri_is_not_malformed() throws URISyntaxException {
+        thrown.expect(AssertionError.class);
+        uris.assertHasScheme(info, new URI("helloworld"), "http");
+    }
+
+    @Test
+    public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
+        thrown.expect(URISyntaxException.class);
+        uris.assertHasScheme(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+    }
 }

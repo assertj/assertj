@@ -13,10 +13,8 @@
 package org.assertj.core.internal.urls;
 
 import org.assertj.core.internal.UrisBaseTest;
-import org.assertj.core.util.UrlsException;
 import org.junit.Test;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
