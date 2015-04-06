@@ -12,10 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
-import static org.assertj.core.error.OptionalShouldContain.shouldContain;
-
 import java.util.Optional;
 
 /**
@@ -24,83 +20,10 @@ import java.util.Optional;
  * @param <T> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
  */
-public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optional<T>> {
+public class OptionalAssert<T> extends AbstractOptionalAssert<OptionalAssert<T>, T> {
 
   protected OptionalAssert(Optional<T> actual) {
 	super(actual, OptionalAssert.class);
   }
 
-  /**
-   * Verifies that there is a value present in the actual {@link java.util.Optional}.
-   * </p>
-   * Assertion will pass :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.of("something")).isPresent();
-   * </code></pre>
-   * 
-   * Assertion will fail :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.empty()).isPresent();
-   * </code></pre>
-   *
-   * @return this assertion object.
-   */
-  public OptionalAssert<T> isPresent() {
-	isNotNull();
-	if (!actual.isPresent()) throw failure(shouldBePresent());
-	return this;
-  }
-
-  /**
-   * Verifies that the actual {@link java.util.Optional} is empty.
-   * </p>
-   * Assertion will pass :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.empty()).isEmpty();
-   * </code></pre>
-   * 
-   * Assertion will fail :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.of("something")).isEmpty();
-   * </code></pre>
-   *
-   * @return this assertion object.
-   */
-  public OptionalAssert<T> isEmpty() {
-	isNotNull();
-	if (actual.isPresent()) throw failure(shouldBeEmpty(actual));
-	return this;
-  }
-
-  /**
-   * Verifies that the actual {@link java.util.Optional} contains the value in argument.
-   * </p>
-   * Assertion will pass :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.of("something")).contains("something");
-   * assertThat(Optional.of(10)).contains(10);
-   * </code></pre>
-   * 
-   * Assertion will fail :
-   * 
-   * <pre><code class='java'>
-   * assertThat(Optional.of("something")).contains("something else");
-   * assertThat(Optional.of(20)).contains(10);
-   * </code></pre>
-   *
-   * @param expectedValue the expected value inside the {@link java.util.Optional}.
-   * @return this assertion object.
-   */
-  public OptionalAssert<T> contains(T expectedValue) {
-	isNotNull();
-	if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
-	if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-	if (!actual.get().equals(expectedValue)) throw failure(shouldContain(actual, expectedValue));
-	return this;
-  }
 }
