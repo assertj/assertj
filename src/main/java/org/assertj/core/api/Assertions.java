@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -79,6 +80,17 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link UrlAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractUrlAssert<?> assertThat(URL actual) {
+      return new UrlAssert(actual);
+  }
+
+
+    /**
    * Creates a new instance of <code>{@link BooleanAssert}</code>.
    *
    * @param actual the actual value.
