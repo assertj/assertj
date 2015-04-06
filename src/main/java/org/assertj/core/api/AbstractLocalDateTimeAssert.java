@@ -59,7 +59,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalDateTime.parse("2000-01-01T23:59:59")).isBefore(LocalDateTime.parse("2000-01-02T00:00:00"));
+   * assertThat(parse("2000-01-01T23:59:59")).isBefore(parse("2000-01-02T00:00:00"));
    * </code></pre>
    * 
    * @param other the given {@link LocalDateTime}.
@@ -87,7 +87,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T23:59:59")).isBefore("2000-01-02T00:00:00");
+   * assertThat(parse("2000-01-01T23:59:59")).isBefore("2000-01-02T00:00:00");
    * </code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
@@ -108,9 +108,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalDateTime.parse("2000-01-01T23:59:59"))
-   *           .isBeforeOrEqualTo(LocalDateTime.parse("2000-01-01T23:59:59"))
-   *           .isBeforeOrEqualTo(LocalDateTime.parse("2000-01-02T00:00:00"));
+   * assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59"))
+   *                                         .isBeforeOrEqualTo(parse("2000-01-02T00:00:00"));
    * </code></pre>
    * 
    * @param other the given {@link LocalDateTime}.
@@ -138,9 +137,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use String in comparison to avoid conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T23:59:59"))
-   *            .isBeforeOrEqualTo("2000-01-01T23:59:59")
-   *            .isBeforeOrEqualTo("2000-01-02T00:00:00");
+   * assertThat(parse("2000-01-01T23:59:59")).isBeforeOrEqualTo("2000-01-01T23:59:59")
+   *                                         .isBeforeOrEqualTo("2000-01-02T00:00:00");
    * </code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
@@ -161,9 +159,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00"))
-   *            .isAfterOrEqualTo(LocalDateTime.parse("2000-01-01T00:00:00"))
-   *            .isAfterOrEqualTo(LocalDateTime.parse("1999-12-31T23:59:59"));
+   * assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo(parse("2000-01-01T00:00:00"))
+   *                                         .isAfterOrEqualTo(parse("1999-12-31T23:59:59"));
    * </code></pre>
    * 
    * @param other the given {@link LocalDateTime}.
@@ -191,9 +188,8 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use String in comparison to avoid conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00"))
-   *            .isAfterOrEqualTo("2000-01-01T00:00:00")
-   *            .isAfterOrEqualTo("1999-12-31T23:59:59");
+   * assertThat(parse("2000-01-01T00:00:00")).isAfterOrEqualTo("2000-01-01T00:00:00")
+   *                                         .isAfterOrEqualTo("1999-12-31T23:59:59");
    * </code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
@@ -214,7 +210,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isAfter(LocalDateTime.parse("1999-12-31T23:59:59"));
+   * assertThat(parse("2000-01-01T00:00:00")).isAfter(parse("1999-12-31T23:59:59"));
    * </code></pre>
    * 
    * @param other the given {@link LocalDateTime}.
@@ -242,7 +238,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use String in comparison to avoid conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isAfter("1999-12-31T23:59:59");
+   * assertThat(parse("2000-01-01T00:00:00")).isAfter("1999-12-31T23:59:59");
    * </code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDateTime}.
@@ -267,7 +263,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isEqualTo("2000-01-01T00:00:00");
+   * assertThat(parse("2000-01-01T00:00:00")).isEqualTo("2000-01-01T00:00:00");
    * </code></pre>
    * 
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
@@ -292,7 +288,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isNotEqualTo("2000-01-15T00:00:00");
+   * assertThat(parse("2000-01-01T00:00:00")).isNotEqualTo("2000-01-15T00:00:00");
    * </code></pre>
    * 
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
@@ -317,7 +313,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use String based representation of LocalDateTime
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isIn("1999-12-31T00:00:00", "2000-01-01T00:00:00");
+   * assertThat(parse("2000-01-01T00:00:00")).isIn("1999-12-31T00:00:00", "2000-01-01T00:00:00");
    * </code></pre>
    * 
    * @param dateTimesAsString String array representing {@link LocalDateTime}s.
@@ -342,7 +338,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * 
    * <pre><code class='java'>
    * // use String based representation of LocalDateTime
-   * assertThat(LocalDateTime.parse("2000-01-01T00:00:00")).isNotIn("1999-12-31T00:00:00", "2000-01-02T00:00:00");
+   * assertThat(parse("2000-01-01T00:00:00")).isNotIn("1999-12-31T00:00:00", "2000-01-02T00:00:00");
    * </code></pre>
    * 
    * @param dateTimesAsString Array of String representing a {@link LocalDateTime}.

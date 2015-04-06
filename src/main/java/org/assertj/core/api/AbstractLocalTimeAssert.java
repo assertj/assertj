@@ -54,7 +54,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalTime.parse("12:00:00")).isBefore(LocalTime.parse("13:00:00"));
+   * assertThat(parse("12:00:00")).isBefore(parse("13:00:00"));
    * </code></pre>
    * 
    * @param other the given {@link LocalTime}.
@@ -82,7 +82,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("12:59")).isBefore("13:00");
+   * assertThat(parse("12:59")).isBefore("13:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -103,8 +103,8 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalTime.parse("12:00:00")).isBeforeOrEqualTo(LocalTime.parse("12:00:00"))
-   *                                        .isBeforeOrEqualTo(LocalTime.parse("12:00:01"));
+   * assertThat(parse("12:00:00")).isBeforeOrEqualTo(parse("12:00:00"))
+   *                                        .isBeforeOrEqualTo(parse("12:00:01"));
    * </code></pre>
    * 
    * @param other the given {@link LocalTime}.
@@ -132,8 +132,8 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("12:00:00")).isBeforeOrEqualTo("12:00:00")
-   *                                        .isBeforeOrEqualTo("13:00:00");
+   * assertThat(parse("12:00:00")).isBeforeOrEqualTo("12:00:00")
+   *                              .isBeforeOrEqualTo("13:00:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -154,8 +154,8 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalTime.parse("13:00:00")).isAfterOrEqualTo(LocalTime.parse("13:00:00"))
-   *                                        .isAfterOrEqualTo(LocalTime.parse("12:00:00"));
+   * assertThat(parse("13:00:00")).isAfterOrEqualTo(parse("13:00:00"))
+   *                              .isAfterOrEqualTo(parse("12:00:00"));
    * </code></pre>
    * 
    * @param other the given {@link LocalTime}.
@@ -183,8 +183,8 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isAfterOrEqualTo("13:00:00")
-   *                                        .isAfterOrEqualTo("12:00:00");
+   * assertThat(parse("13:00:00")).isAfterOrEqualTo("13:00:00")
+   *                              .isAfterOrEqualTo("12:00:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -205,7 +205,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * Example :
    * 
    * <pre><code class='java'>
-   * assertThat(LocalTime.parse("13:00:00")).isAfter(LocalTime.parse("12:00:00"));
+   * assertThat(parse("13:00:00")).isAfter(parse("12:00:00"));
    * </code></pre>
    * 
    * @param other the given {@link LocalTime}.
@@ -233,7 +233,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isAfter("12:00:00");
+   * assertThat(parse("13:00:00")).isAfter("12:00:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -258,7 +258,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isEqualTo("13:00:00");
+   * assertThat(parse("13:00:00")).isEqualTo("13:00:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -283,7 +283,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTime as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isNotEqualTo("12:00:00");
+   * assertThat(parse("13:00:00")).isNotEqualTo("12:00:00");
    * </code></pre>
    * 
    * @param localTimeAsString String representing a {@link LocalTime}.
@@ -308,7 +308,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTimes as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isIn("12:00:00", "13:00:00");
+   * assertThat(parse("13:00:00")).isIn("12:00:00", "13:00:00");
    * </code></pre>
    * 
    * @param localTimesAsString String array representing {@link LocalTime}s.
@@ -333,7 +333,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * 
    * <pre><code class='java'>
    * // you can express expected LocalTimes as String (AssertJ taking care of the conversion)
-   * assertThat(LocalTime.parse("13:00:00")).isNotIn("12:00:00", "14:00:00");
+   * assertThat(parse("13:00:00")).isNotIn("12:00:00", "14:00:00");
    * </code></pre>
    * 
    * @param localTimesAsString Array of String representing a {@link LocalTime}.
