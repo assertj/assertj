@@ -227,4 +227,34 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
         uris.assertHasQuery(info, actual, expected);
         return myself;
     }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected userinfo.
+     * <p/>
+     * These assertions will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test:pass");
+     * assertThat(new URI("http://test@www.helloworld.org/index.html")).hasUserInfo("test");
+     * assertThat(new URI("http://:pass@www.helloworld.org/index.html")).hasUserInfo(":pass");
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasUserInfo(null);
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasUserInfo(null);
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasUserInfo("test:pass");
+     * assertThat(new URI("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test2:pass2");
+     * </code></pre>
+     *
+     * @param expected the expected userinfo of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual userinfo is not equal to the expected userinfo.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasUserInfo(String expected) {
+        uris.assertHasUserInfo(info, actual, expected);
+        return myself;
+    }
 }

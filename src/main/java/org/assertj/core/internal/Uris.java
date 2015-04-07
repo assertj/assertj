@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.*;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.net.URI;
 
@@ -150,5 +150,21 @@ public class Uris {
         String query = actual.getQuery();
         if (!org.assertj.core.util.Objects.areEqual(query, expected))
             throw failures.failure(info, shouldBeEqual(query, expected, info.representation()));
+    }
+
+    /**
+     * Verifies that actual {@code URI}s has the same user info as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given user info {@code String}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public void assertHasUserInfo(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String userinfo = actual.getUserInfo();
+        if (!org.assertj.core.util.Objects.areEqual(userinfo, expected))
+            throw failures.failure(info, shouldBeEqual(userinfo, expected, info.representation()));
     }
 }
