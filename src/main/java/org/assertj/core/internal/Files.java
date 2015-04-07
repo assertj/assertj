@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.util.Objects.areEqual;
 
@@ -89,7 +90,7 @@ public class Files {
     try {
       List<String> diffs = diff.diff(actual, expected);
       if (diffs.isEmpty()) return;
-      throw failures.failure(info, ShouldHaveSameContent.shouldHaveSameContent(actual, expected, diffs));
+      throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
       throw new FilesException(msg, e);

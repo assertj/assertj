@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.assertj.core.error.ShouldExist.shouldExist;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -129,7 +130,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	try {
 	  paths.assertHasSameContentAs(info, actual, other);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, ShouldHaveSameContent.shouldHaveSameContent(actual.toFile(), other.toFile(), diffs));
+	  verify(failures).failure(info, shouldHaveSameContent(actual.toFile(), other.toFile(), diffs));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
