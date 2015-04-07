@@ -257,4 +257,20 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
         uris.assertHasUserInfo(info, actual, expected);
         return myself;
     }
+
+    /**
+     * Verifies that the actual {@code URI} has no userinfo. This method is a convinience method for
+     *
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasUserInfo(null);
+     * </code></pre>
+     *
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual userinfo is not equal to the expected userinfo.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasNoUserInfo() {
+        uris.assertHasUserInfo(info, actual, null);
+        return myself;
+    }
 }
