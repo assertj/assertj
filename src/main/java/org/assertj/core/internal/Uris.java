@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.*;
 
 import java.net.URI;
 
@@ -68,7 +68,7 @@ public class Uris {
     public void assertHasPath(AssertionInfo info, URI actual, String expected) {
         assertNotNull(info, actual);
         String path = actual.getPath();
-        if (!path.equals(expected))
+        if (!org.assertj.core.util.Objects.areEqual(path, expected))
             throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
     }
 
@@ -118,5 +118,21 @@ public class Uris {
         String authority = actual.getAuthority();
         if (!authority.equals(expected))
             throw failures.failure(info, shouldBeEqual(authority, expected, info.representation()));
+    }
+
+    /**
+     * Verifies that actual {@code URI}s has the same fragment as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError if the actual {@code URI} has not the given fragment {@code int}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String fragment = actual.getFragment();
+        if (!org.assertj.core.util.Objects.areEqual(fragment, expected))
+            throw failures.failure(info, shouldBeEqual(fragment, expected, info.representation()));
     }
 }

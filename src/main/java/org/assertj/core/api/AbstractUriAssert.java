@@ -174,4 +174,29 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
         uris.assertHasAuthority(info, actual, expected);
         return myself;
     }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected fragment.
+     * <p/>
+     * This assertion will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasFragment("print");
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasFragment("hello");
+     * </code></pre>
+     *
+     * @param expected the expected path of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual path is not equal to the expected fragment.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasFragment(String expected) {
+        uris.assertHasFragment(info, actual, expected);
+        return myself;
+    }
 }
