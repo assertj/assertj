@@ -91,12 +91,29 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
     }
 
     /**
+     * Verifies that the actual {@code URI} has no path. This method is a convinience method for
+     *
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org")).hasPath("");
+     * </code></pre>
+     *
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual has no path.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasNoPath() {
+        uris.assertHasPath(info, actual, "");
+        return myself;
+    }
+
+    /**
      * Verifies that the actual {@code URI} has the expected path.
      * <p/>
      * This assertion will succeed:
      * <p/>
      * <pre><code class='java'>
      * assertThat(new URI("http://helloworld.org:8080")).hasPort(8080);
+     * assertThat(new URI("http://helloworld.org")).hasPort(-1);
      * </code></pre>
      * <p/>
      * Whereas this assertion will fail:
@@ -109,7 +126,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * assertThat(new URI("helloworld.org/pages:8080000")).hasPort(0);
      * </code></pre>
      *
-     * @param expected the expected port of the actual {@code URI}.
+     * @param expected the expected port of the actual {@code URI}. Use -1 for no port.
      * @return {@code this} assertion object.
      * @throws AssertionError                 if the actual port is not equal to the expected path.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
