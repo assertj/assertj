@@ -229,6 +229,22 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
     }
 
     /**
+     * Verifies that the actual {@code URI} has no query. This method is a convinience method for
+     *
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasQuery(null);
+     * </code></pre>
+     *
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual has no query.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasNoQuery() {
+        uris.assertHasQuery(info, actual, null);
+        return myself;
+    }
+
+    /**
      * Verifies that the actual {@code URI} has the expected userinfo.
      * <p/>
      * These assertions will succeed:
@@ -266,7 +282,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * </code></pre>
      *
      * @return {@code this} assertion object.
-     * @throws AssertionError                 if the actual userinfo is not equal to the expected userinfo.
+     * @throws AssertionError                 if the actual has no userinfo.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasNoUserInfo() {
