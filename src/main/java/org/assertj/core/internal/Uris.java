@@ -46,6 +46,7 @@ public class Uris {
      * @param expected the given {@code String}.
      * @throws AssertionError if the given {@code String} is {@code null}.
      * @throws AssertionError if the actual {@code URI} has not the given scheme {@code String}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
         assertNotNull(info, actual);
@@ -62,6 +63,7 @@ public class Uris {
      * @param expected the given {@code String}.
      * @throws AssertionError if the given {@code String} is {@code null}.
      * @throws AssertionError if the actual {@code URI} has not the given path {@code String}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasPath(AssertionInfo info, URI actual, String expected) {
         assertNotNull(info, actual);
@@ -77,11 +79,28 @@ public class Uris {
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code int}.
      * @throws AssertionError if the actual {@code URI} has not the given port {@code int}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasPort(AssertionInfo info, URI actual, int expected) {
         assertNotNull(info, actual);
         int port = actual.getPort();
         if (port != expected)
             throw failures.failure(info, shouldBeEqual(port, expected, info.representation()));
+    }
+
+    /**
+     * Verifies that actual {@code URI}s has the same host as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError if the actual {@code URI} has not the given host {@code int}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public void assertHasHost(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String host = actual.getHost();
+        if (!host.equals(expected))
+            throw failures.failure(info, shouldBeEqual(host, expected, info.representation()));
     }
 }

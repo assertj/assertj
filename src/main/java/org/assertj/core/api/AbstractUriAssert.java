@@ -58,6 +58,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * @return {@code this} assertion object.
      * @throws AssertionError              if the actual scheme is not equal to the expected scheme.
      * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasScheme(String expected) {
         uris.assertHasScheme(info, actual, expected);
@@ -82,6 +83,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * @param expected the expected path of the actual {@code URI}.
      * @return {@code this} assertion object.
      * @throws AssertionError if the actual path is not equal to the expected path.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasPath(String expected) {
         uris.assertHasPath(info, actual, expected);
@@ -110,9 +112,39 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * @param expected the expected path of the actual {@code URI}.
      * @return {@code this} assertion object.
      * @throws AssertionError if the actual path is not equal to the expected path.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasPort(int expected) {
         uris.assertHasPort(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected host.
+     * <p/>
+     * These assertions will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org:8080")).hasHost("helloworld.org");
+     * assertThat(new URI("http://helloworld.org")).hasHost("helloworld.org");
+     * assertThat(new URI("http://www.helloworld.org:8080")).hasHost("www.helloworld.org");
+     * </code></pre>
+     * <p/>
+     * Whereas these assertions will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org:8080")).hasHost("helloworld.org");
+     * assertThat(new URI("http://helloworld.org:8080")).hasHost("www.helloworld.org");
+     * assertThat(new URI("http://www.helloworld.org/pages")).hasHost("helloworld.org");
+     * </code></pre>
+     *
+     * @param expected the expected path of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError if the actual path is not equal to the expected host.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasHost(String expected) {
+        uris.assertHasHost(info, actual, expected);
         return myself;
     }
 }
