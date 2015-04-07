@@ -21,49 +21,49 @@ import java.net.URISyntaxException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Uris#assertHasFragment(org.assertj.core.api.AssertionInfo, java.net.URI, String)}  </code>.
+ * Tests for <code>{@link org.assertj.core.internal.Uris#assertHasQuery(org.assertj.core.api.AssertionInfo, java.net.URI, String)}  </code>.
  *
  * @author Alexander Bischof
  */
-public class Uris_assertHasFragment_Test extends UrisBaseTest {
+public class Uris_assertHasQuery_Test extends UrisBaseTest {
 
     @Test
     public void should_fail_if_actual_is_null() {
         thrown.expectAssertionError(actualIsNull());
-        uris.assertHasFragment(info, null, "http://www.helloworld.org/index.html#print");
+        uris.assertHasQuery(info, null, "http://www.helloworld.org/index.html?type=test");
     }
 
     @Test
     public void should_fail_if_actual_is_not_null_but_expected_is_null() throws URISyntaxException {
-        thrown.expectAssertionError("expected:<null> but was:<\"print\">");
-        uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html#print"), null);
+        thrown.expectAssertionError("expected:<null> but was:<\"type=test\">");
+        uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html?type=test"), null);
     }
 
     @Test
-    public void should_throw_error_if_actual_uri_has_no_fragment() throws URISyntaxException {
+    public void should_throw_error_if_actual_uri_has_no_query() throws URISyntaxException {
         thrown.expectNullPointerException(null);
-        uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html"), "print");
+        uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html"), "type=test");
     }
 
     @Test
-    public void should_pass_if_actual_uri_has_no_fragment_and_given_is_null() throws URISyntaxException {
-        uris.assertHasFragment(info, new URI("http://www.helloworld.org/index.html"), null);
+    public void should_pass_if_actual_uri_has_no_query_and_given_is_null() throws URISyntaxException {
+        uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html"), null);
     }
 
     @Test
-    public void should_pass_if_actual_uri_has_the_given_fragment_with_pages() throws URISyntaxException {
-        uris.assertHasFragment(info, new URI("http://www.helloworld.org/pages/index.html#print"), "print");
+    public void should_pass_if_actual_uri_has_the_given_query_with_pages() throws URISyntaxException {
+        uris.assertHasQuery(info, new URI("http://www.helloworld.org/index.html?type=test"), "type=test");
     }
 
     @Test
     public void should_throw_error_if_actual_uri_has_no_scheme() throws URISyntaxException {
         thrown.expectNullPointerException(null);
-        uris.assertHasFragment(info, new URI("helloworld.org/pages"), "helloworld.org");
+        uris.assertHasQuery(info, new URI("helloworld.org/index.html?type=test"), "helloworld.org");
     }
 
     @Test
     public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
         thrown.expect(URISyntaxException.class);
-        uris.assertHasFragment(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+        uris.assertHasQuery(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
     }
 }

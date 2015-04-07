@@ -109,9 +109,9 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * assertThat(new URI("helloworld.org/pages:8080000")).hasPort(0);
      * </code></pre>
      *
-     * @param expected the expected path of the actual {@code URI}.
+     * @param expected the expected port of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError                 if the actual path is not equal to the expected path.
+     * @throws AssertionError                 if the actual port is not equal to the expected path.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasPort(int expected) {
@@ -138,9 +138,9 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * assertThat(new URI("http://www.helloworld.org/pages")).hasHost("helloworld.org");
      * </code></pre>
      *
-     * @param expected the expected path of the actual {@code URI}.
+     * @param expected the expected host of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError                 if the actual path is not equal to the expected host.
+     * @throws AssertionError                 if the actual host is not equal to the expected host.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasHost(String expected) {
@@ -165,9 +165,9 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * assertThat(new URI("http://www.helloworld.org")).hasAuthority("www.helloworld.org:8080");
      * </code></pre>
      *
-     * @param expected the expected path of the actual {@code URI}.
+     * @param expected the expected authority of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError                 if the actual path is not equal to the expected authority.
+     * @throws AssertionError                 if the actual authority is not equal to the expected authority.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasAuthority(String expected) {
@@ -190,13 +190,41 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      * assertThat(new URI("http://helloworld.org:8080/index.html#print")).hasFragment("hello");
      * </code></pre>
      *
-     * @param expected the expected path of the actual {@code URI}.
+     * @param expected the expected fragment of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError                 if the actual path is not equal to the expected fragment.
+     * @throws AssertionError                 if the actual fragment is not equal to the expected fragment.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasFragment(String expected) {
         uris.assertHasFragment(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected query.
+     * <p/>
+     * This assertion will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasQuery("type=test");
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasQuery(null);
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasQuery("type=hello");
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasQuery("type=hello");
+     * assertThat(new URI("http://www.helloworld.org/index.html?type=test")).hasQuery(null);
+     * </code></pre>
+     *
+     * @param expected the expected query of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual query is not equal to the expected query.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasQuery(String expected) {
+        uris.assertHasQuery(info, actual, expected);
         return myself;
     }
 }

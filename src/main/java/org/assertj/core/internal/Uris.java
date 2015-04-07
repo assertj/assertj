@@ -44,8 +44,8 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError if the given {@code String} is {@code null}.
-     * @throws AssertionError if the actual {@code URI} has not the given scheme {@code String}.
+     * @throws AssertionError                 if the given {@code String} is {@code null}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given scheme {@code String}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
@@ -61,8 +61,8 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError if the given {@code String} is {@code null}.
-     * @throws AssertionError if the actual {@code URI} has not the given path {@code String}.
+     * @throws AssertionError                 if the given {@code String} is {@code null}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given path {@code String}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasPath(AssertionInfo info, URI actual, String expected) {
@@ -78,7 +78,7 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code int}.
-     * @throws AssertionError if the actual {@code URI} has not the given port {@code int}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given port {@code int}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasPort(AssertionInfo info, URI actual, int expected) {
@@ -94,7 +94,7 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError if the actual {@code URI} has not the given host {@code int}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given host {@code String}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasHost(AssertionInfo info, URI actual, String expected) {
@@ -110,7 +110,7 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError if the actual {@code URI} has not the given authority {@code int}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given authority {@code String}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
@@ -126,7 +126,7 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError if the actual {@code URI} has not the given fragment {@code int}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given fragment {@code String}.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public void assertHasFragment(AssertionInfo info, URI actual, String expected) {
@@ -134,5 +134,21 @@ public class Uris {
         String fragment = actual.getFragment();
         if (!org.assertj.core.util.Objects.areEqual(fragment, expected))
             throw failures.failure(info, shouldBeEqual(fragment, expected, info.representation()));
+    }
+
+    /**
+     * Verifies that actual {@code URI}s has the same query as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError                 if the actual {@code URI} has not the given query {@code String}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public void assertHasQuery(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String query = actual.getQuery();
+        if (!org.assertj.core.util.Objects.areEqual(query, expected))
+            throw failures.failure(info, shouldBeEqual(query, expected, info.representation()));
     }
 }
