@@ -120,6 +120,22 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
     }
 
     /**
+     * Verifies that the actual {@code URI} has no port.
+     *
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasNoPort();
+     * </code></pre>
+     *
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual has no fragment.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasNoPort() {
+        uris.assertHasPort(info, actual, -1);
+        return myself;
+    }
+
+    /**
      * Verifies that the actual {@code URI} has the expected host.
      * <p/>
      * These assertions will succeed:
@@ -197,6 +213,22 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      */
     public S hasFragment(String expected) {
         uris.assertHasFragment(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@code URI} has no fragment. This method is a convinience method for
+     *
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org/index.html")).hasFragment(null);
+     * </code></pre>
+     *
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual has no fragment.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasNoFragment() {
+        uris.assertHasFragment(info, actual, null);
         return myself;
     }
 
