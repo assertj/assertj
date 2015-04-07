@@ -196,7 +196,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Verifies that <code>toString</code> of the actual object is equal to <code>toString</code> of the given object.
    * @param other the object to check type against.
    * @return this assertion object.
-   * @throws AssertionError if the actual has not the same type has the given object.
+   * @throws AssertionError if the actual has not the same toString result as the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */

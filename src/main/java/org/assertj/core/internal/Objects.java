@@ -732,6 +732,16 @@ public class Objects {
 	return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
+  /**
+   * Verifies that actual {@code Object}s has the same toString result as expected has.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the actual {@code Object}.
+   * @param expected the given {@code Object}.
+   * @throws AssertionError if the actual {@code Object} has not an equal toString result as expected has {@code Object}.
+   * @throws java.lang.NullPointerException if the actual {@code Object} has no scheme.
+   * @throws java.lang.NullPointerException if the actual {@code Object} has no scheme.
+   */
   public boolean assertHasToString(AssertionInfo info, Object actual, Object expected) {
   assertNotNull(info, actual);
   assertNotNull(info, expected);

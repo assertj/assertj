@@ -46,7 +46,7 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_throw_error_if_type_is_null() {
+  public void should_throw_error_if_given_is_null() {
     thrown.expectNullPointerException("The given object should not be null");
     objects.assertHasSameClassAs(someInfo(), actual, null);
   }
@@ -58,7 +58,7 @@ public class Objects_assertHasToString_Test extends ObjectsBaseTest {
   }
 
   @Test
-  public void should_pass_if_actual_not_has_same_type_as_other() {
+  public void should_fail_if_actual_not_has_same_type_as_other() {
     AssertionInfo info = someInfo();
     try {
       objects.assertHasSameClassAs(info, actual, "Yoda");
