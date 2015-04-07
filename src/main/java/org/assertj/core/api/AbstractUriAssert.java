@@ -56,8 +56,8 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      *
      * @param expected the expected scheme of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError              if the actual scheme is not equal to the expected scheme.
-     * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
+     * @throws AssertionError                 if the actual scheme is not equal to the expected scheme.
+     * @throws java.net.URISyntaxException    if actual can not be parsed as a URI reference.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasScheme(String expected) {
@@ -82,7 +82,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      *
      * @param expected the expected path of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError if the actual path is not equal to the expected path.
+     * @throws AssertionError                 if the actual path is not equal to the expected path.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasPath(String expected) {
@@ -111,7 +111,7 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      *
      * @param expected the expected path of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError if the actual path is not equal to the expected path.
+     * @throws AssertionError                 if the actual path is not equal to the expected path.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasPort(int expected) {
@@ -140,11 +140,38 @@ public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends 
      *
      * @param expected the expected path of the actual {@code URI}.
      * @return {@code this} assertion object.
-     * @throws AssertionError if the actual path is not equal to the expected host.
+     * @throws AssertionError                 if the actual path is not equal to the expected host.
      * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
      */
     public S hasHost(String expected) {
         uris.assertHasHost(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected authority.
+     * <p/>
+     * These assertions will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org:8080")).hasAuthority("helloworld.org:8080");
+     * assertThat(new URI("http://www.helloworld.org:8080")).hasAuthority("www.helloworld.org:8080");
+     * </code></pre>
+     * <p/>
+     * Whereas these assertions will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://www.helloworld.org:8080")).hasAuthority("www.helloworld.org");
+     * assertThat(new URI("http://www.helloworld.org")).hasAuthority("www.helloworld.org:8080");
+     * </code></pre>
+     *
+     * @param expected the expected path of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError                 if the actual path is not equal to the expected authority.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public S hasAuthority(String expected) {
+        uris.assertHasAuthority(info, actual, expected);
         return myself;
     }
 }

@@ -103,4 +103,20 @@ public class Uris {
         if (!host.equals(expected))
             throw failures.failure(info, shouldBeEqual(host, expected, info.representation()));
     }
+
+    /**
+     * Verifies that actual {@code URI}s has the same authority as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code String}.
+     * @throws AssertionError if the actual {@code URI} has not the given authority {@code int}.
+     * @throws java.lang.NullPointerException if the actual {@code URI} has no scheme.
+     */
+    public void assertHasAuthority(AssertionInfo info, URI actual, String expected) {
+        assertNotNull(info, actual);
+        String authority = actual.getAuthority();
+        if (!authority.equals(expected))
+            throw failures.failure(info, shouldBeEqual(authority, expected, info.representation()));
+    }
 }
