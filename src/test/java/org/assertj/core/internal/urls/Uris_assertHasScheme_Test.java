@@ -40,10 +40,8 @@ public class Uris_assertHasScheme_Test extends UrisBaseTest {
         uris.assertHasScheme(info, new URI("http://example.com/pages/"), null);
     }
 
-
-
     @Test
-    public void should_pass_if_actual_url_has_the_given_scheme() throws URISyntaxException {
+    public void should_pass_if_actual_uri_has_the_given_scheme() throws URISyntaxException {
         uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
     }
 
@@ -57,5 +55,11 @@ public class Uris_assertHasScheme_Test extends UrisBaseTest {
     public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
         thrown.expect(URISyntaxException.class);
         uris.assertHasScheme(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+    }
+
+    @Test
+    public void should_throw_error_if_actual_uri_has_no_scheme() throws URISyntaxException {
+        thrown.expectNullPointerException(null);
+        uris.assertHasScheme(info, new URI("http://example.com/pages/"), "http");
     }
 }

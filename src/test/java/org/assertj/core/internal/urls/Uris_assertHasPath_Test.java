@@ -26,21 +26,27 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
  * @author Alexander Bischof
  */
 public class Uris_assertHasPath_Test extends UrisBaseTest {
-  
-  @Test
-  public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	uris.assertHasPath(info, null, "http");
-  }
 
-  @Test
-  public void should_pass_if_actual_url_has_the_given_path() throws URISyntaxException {
-      uris.assertHasPath(info, new URI("http://example.com/pages/"), "/pages/");
-  }
+    @Test
+    public void should_fail_if_actual_is_null() {
+        thrown.expectAssertionError(actualIsNull());
+        uris.assertHasPath(info, null, "http");
+    }
 
-  @Test
-  public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
-      thrown.expect(URISyntaxException.class);
-      uris.assertHasPath(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
-  }
+    @Test
+    public void should_pass_if_actual_uri_has_the_given_path() throws URISyntaxException {
+        uris.assertHasPath(info, new URI("http://example.com/pages/"), "/pages/");
+    }
+
+    @Test
+    public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
+        thrown.expect(URISyntaxException.class);
+        uris.assertHasPath(info, new URI("http://finance.yahoo.com/q/h?s=^IXIC"), "http");
+    }
+
+    @Test
+    public void should_throw_error_if_actual_uri_has_no_scheme() throws URISyntaxException {
+        thrown.expectNullPointerException(null);
+        uris.assertHasPath(info, new URI("helloworld.org/pages"), "http");
+    }
 }

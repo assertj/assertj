@@ -13,7 +13,6 @@
 package org.assertj.core.internal.urls;
 
 import org.assertj.core.internal.UrisBaseTest;
-import org.junit.ComparisonFailure;
 import org.junit.Test;
 
 import java.net.URI;
@@ -35,7 +34,7 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
     }
 
     @Test
-    public void should_pass_if_actual_url_has_the_given_port() throws URISyntaxException {
+    public void should_pass_if_actual_uri_has_the_given_port() throws URISyntaxException {
         uris.assertHasPort(info, new URI("http://example.com:8080/pages/"), 8080);
     }
 
@@ -55,5 +54,11 @@ public class Uris_assertHasPort_Test extends UrisBaseTest {
     public void should_throw_error_if_urisyntax_is_not_valid() throws URISyntaxException {
         thrown.expect(URISyntaxException.class);
         uris.assertHasPort(info, new URI("http://finance.yahoo.com:8080/q/h?s=^IXIC"), 8080);
+    }
+
+    @Test
+    public void should_throw_error_if_actual_uri_has_no_scheme() throws URISyntaxException {
+        thrown.expectNullPointerException(null);
+        uris.assertHasPort(info, new URI("http://example.com:8080/pages/"), 8080);
     }
 }
