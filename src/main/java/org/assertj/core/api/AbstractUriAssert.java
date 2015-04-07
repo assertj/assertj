@@ -21,72 +21,98 @@ import java.net.URI;
  * Base class for all implementations of assertions for {@link URI}s.
  *
  * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- *
- * @see java.net.URI
- *
+ *            target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *            for more details.
  * @author Alexander Bischof
+ * @see java.net.URI
  */
 public abstract class AbstractUriAssert<S extends AbstractUriAssert<S>> extends AbstractAssert<S, URI> {
 
-  @VisibleForTesting
-  protected Uris uris = Uris.instance();
+    @VisibleForTesting
+    protected Uris uris = Uris.instance();
 
-  protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
-	super(actual, selfType);
-  }
+    protected AbstractUriAssert(final URI actual, final Class<?> selfType) {
+        super(actual, selfType);
+    }
 
-  /**
-   * Verifies that the actual {@code URI} has the expected scheme.
-   * <p>
-   * This assertion will succeed:
-   *
-   * <pre><code class='java'>
-   * assertThat(new URI("http://helloworld.org")).hasScheme("http");
-   * assertThat(new URI("ftp://helloworld.org")).hasScheme("ftp");
-   * assertThat(new URI("helloworld.org")).hasScheme(null);
-   * </code></pre>
-   *
-   * Whereas this assertion will fail:
-   *
-   * <pre><code class='java'>
-   * assertThat(new URI("http://helloworld.org")).hasScheme("ftp");
-   * assertThat(new URI("http://helloworld.org")).hasScheme(null);
-   * assertThat((URI)null).hasScheme(null);
-   * </code></pre>
-   *
-   * @param expected the expected scheme of the actual {@code URI}.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual scheme is not equal to the expected scheme.
-   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
-   */
-  public S hasScheme(String expected) {
-	uris.assertHasScheme(info, actual, expected);
-	return myself;
-  }
+    /**
+     * Verifies that the actual {@code URI} has the expected scheme.
+     * <p/>
+     * This assertion will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org")).hasScheme("http");
+     * assertThat(new URI("ftp://helloworld.org")).hasScheme("ftp");
+     * assertThat(new URI("helloworld.org")).hasScheme(null);
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org")).hasScheme("ftp");
+     * assertThat(new URI("http://helloworld.org")).hasScheme(null);
+     * assertThat((URI)null).hasScheme(null);
+     * </code></pre>
+     *
+     * @param expected the expected scheme of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError              if the actual scheme is not equal to the expected scheme.
+     * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
+     */
+    public S hasScheme(String expected) {
+        uris.assertHasScheme(info, actual, expected);
+        return myself;
+    }
 
-  /**
-   * Verifies that the actual {@code URI} has the expected path.
-   * <p>
-   * This assertion will succeed:
-   *
-   * <pre><code class='java'>
-   * assertThat(new URI("http://helloworld.org/pages")).hasPath("/pages/")
-   * </code></pre>
-   *
-   * Whereas this assertion will fail:
-   *
-   * <pre><code class='java'>
-   * assertThat(new URI("http://helloworld.org/pickme")).hasPath("/pages/")
-   * </code></pre>
-   *
-   * @param expected the expected path of the actual {@code URI}.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual path is not equal to the expected path.
-   */
-  public S hasPath(String expected) {
-      uris.assertHasPath(info, actual, expected);
-      return myself;
-  }
+    /**
+     * Verifies that the actual {@code URI} has the expected path.
+     * <p/>
+     * This assertion will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org/pages")).hasPath("/pages/")
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org/pickme")).hasPath("/pages/")
+     * </code></pre>
+     *
+     * @param expected the expected path of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError if the actual path is not equal to the expected path.
+     */
+    public S hasPath(String expected) {
+        uris.assertHasPath(info, actual, expected);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual {@code URI} has the expected path.
+     * <p/>
+     * This assertion will succeed:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org:8080")).hasPort(8080);
+     * </code></pre>
+     * <p/>
+     * Whereas this assertion will fail:
+     * <p/>
+     * <pre><code class='java'>
+     * assertThat(new URI("http://helloworld.org")).hasPort(0);
+     * assertThat(new URI("helloworld.org")).hasPort(0);
+     * assertThat(new URI("helloworld.org:8080")).hasPort(0);
+     * assertThat(new URI("helloworld.org:8080000")).hasPort(0);
+     * assertThat(new URI("helloworld.org/pages:8080000")).hasPort(0);
+     * </code></pre>
+     *
+     * @param expected the expected path of the actual {@code URI}.
+     * @return {@code this} assertion object.
+     * @throws AssertionError if the actual path is not equal to the expected path.
+     */
+    public S hasPort(int expected) {
+        uris.assertHasPort(info, actual, expected);
+        return myself;
+    }
 }

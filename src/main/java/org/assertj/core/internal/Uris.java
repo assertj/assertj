@@ -15,12 +15,11 @@ package org.assertj.core.internal;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
-import static org.assertj.core.util.Objects.areEqual;
-
 import java.net.URI;
 
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.internal.Comparables.assertNotNull;
+import static org.assertj.core.util.Objects.areEqual;
 
 /**
  * Core assertion class for {@link java.net.URI} assertions
@@ -45,8 +44,8 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError       if the given {@code String} is {@code null}.
-     * @throws AssertionError       if the actual {@code URI} has not the given scheme {@code String}.
+     * @throws AssertionError if the given {@code String} is {@code null}.
+     * @throws AssertionError if the actual {@code URI} has not the given scheme {@code String}.
      */
     public void assertHasScheme(final AssertionInfo info, final URI actual, final String expected) {
         assertNotNull(info, actual);
@@ -61,13 +60,28 @@ public class Uris {
      * @param info     contains information about the assertion.
      * @param actual   the actual {@code URI}.
      * @param expected the given {@code String}.
-     * @throws AssertionError       if the given {@code String} is {@code null}.
-     * @throws AssertionError       if the actual {@code URI} has not the given path {@code String}.
+     * @throws AssertionError if the given {@code String} is {@code null}.
+     * @throws AssertionError if the actual {@code URI} has not the given path {@code String}.
      */
     public void assertHasPath(AssertionInfo info, URI actual, String expected) {
         assertNotNull(info, actual);
         String path = actual.getPath();
         if (!path.equals(expected))
             throw failures.failure(info, shouldBeEqual(path, expected, info.representation()));
+    }
+
+    /**
+     * Verifies that actual {@code URI}s has the same port as expected.
+     *
+     * @param info     contains information about the assertion.
+     * @param actual   the actual {@code URI}.
+     * @param expected the given {@code int}.
+     * @throws AssertionError if the actual {@code URI} has not the given port {@code int}.
+     */
+    public void assertHasPort(AssertionInfo info, URI actual, int expected) {
+        assertNotNull(info, actual);
+        int port = actual.getPort();
+        if (port != expected)
+            throw failures.failure(info, shouldBeEqual(port, expected, info.representation()));
     }
 }
