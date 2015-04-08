@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -904,7 +905,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *    }
    * }
    * 
-   * assertThat(Lists.newArrayList(homer, fred)).flatExtracting(childrenOf).containsOnly(bart, lisa, maggie, pebbles);
+   * assertThat(newArrayList(homer, fred))
+   *        .flatExtracting(childrenOf)
+   *        .containsOnly(bart, lisa, maggie, pebbles);
    * </code></pre>
    * 
    * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
@@ -923,6 +926,47 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 
 	return new ListAssert<>(result);
   }
+
+    /**
+     * Extract from Iterable's elements the Iterable values corresponding to the given property/field name and concatenate
+     * them into a single list becomes a new object under test.
+     * <p/>
+     * It allows testing the results of extracting values that are represented by Iterables.
+     * <p/>
+     * For example:
+     *
+     * <pre><code class='java'>
+     * List&lt;CartoonCharacter&gt; cartoonCharacters = newArrayList();
+     *
+     * CartoonCharacter bart = new CartoonCharacter("Bart Simpson");
+     * CartoonCharacter lisa = new CartoonCharacter("Lisa Simpson");
+     * CartoonCharacter maggie = new CartoonCharacter("Maggie Simpson");
+     *
+     * CartoonCharacter homer = new CartoonCharacter("Homer Simpson");
+     * homer.getChildren().add(bart);
+     * homer.getChildren().add(lisa);
+     * homer.getChildren().add(maggie);
+     *
+     * CartoonCharacter pebbles = new CartoonCharacter("Pebbles Flintstone");
+     * CartoonCharacter fred = new CartoonCharacter("Fred Flintstone");
+     * fred.getChildren().add(pebbles);
+     *
+     *
+     * assertThat(newArrayList(homer, fred))
+     *      .flatExtracting("children")
+     *      .containsOnly(bart, lisa, maggie, pebbles);
+     * </code></pre>
+     *
+     * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+     * collections.
+     *
+     * @param propertyName the object transforming input object to an Iterable of desired ones
+     * @return a new assertion object whose object under test is the list of values extracted
+     */
+    public <V, T> ListAssert<V> flatExtracting(String propertyName) {
+        Extractor extractor = Extractors.byName(propertyName);
+        return flatExtracting(extractor);
+    }
 
   /**
    * {@inheritDoc}
