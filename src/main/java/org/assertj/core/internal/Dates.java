@@ -712,7 +712,7 @@ public class Dates {
    * @throws AssertionError if the actual {@code Date} time is not equal to the given date time.
    * @throws NullPointerException if other {@code Date} is {@code null}.
    */
-  public void hasSameTimeAs(WritableAssertionInfo info, Date actual, Date date) {
+  public void hasSameTimeAs(AssertionInfo info, Date actual, Date date) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(date);
     assertHasTime(info, actual, date.getTime());

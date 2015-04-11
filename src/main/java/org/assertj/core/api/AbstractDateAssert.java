@@ -2188,6 +2188,54 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
+   * Verifies that the actual {@code Date} represents the same time as the given date in {@code String} format.
+   * <p>
+   * It is same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of the
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * <p>
+   * Beware that the default formats are expressed in the current local time zone.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * Date date = parseDatetime("2003-04-26T12:00:00");
+   *
+   * // assertion will pass
+   * assertThat(date).hasSameTimeAs("2003-04-26T12:00:00");
+   *
+   * // assertion will fail
+   * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
+   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");
+   * </code></pre>
+   * Default date formats (expressed in the local time zone) are:
+   * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p/>
+   * Example of valid string date representations:
+   * <ul>
+   * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26</code></li>
+   * </ul>
+   *
+   * @param dateAsString the given {@code Date} represented as {@code String} in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date as String is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the time from date represented as
+   *           String.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @author Michal Kordas
+   */
+  public S hasSameTimeAs(String dateAsString) {
+	dates.hasSameTimeAs(info, actual, parse(dateAsString));
+	return myself;
+  }
+
+  /**
    * Instead of using default date formats for the date String based Date assertions like {@link #isEqualTo(String)},
    * AssertJ is gonna use any date formats registered with one of these methods :
    * <ul>
