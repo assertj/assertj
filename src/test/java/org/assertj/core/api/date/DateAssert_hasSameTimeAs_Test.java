@@ -12,48 +12,31 @@
  */
 package org.assertj.core.api.date;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessages.dateToCompareActualWithIsNull;
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import org.assertj.core.api.DateAssert;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
-import org.assertj.core.api.DateAssertBaseTest;
-import org.assertj.core.test.ExpectedException;
-import org.junit.Rule;
-import org.junit.Test;
+import static org.mockito.Mockito.verify;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.DateAssert#hasSameTimeAs(java.util.Date)} </code>.
+ * Tests for <code>{@link DateAssert#hasSameTimeAs}</code>.
  *
- * @author Alexander Bischof
+ * @author Michal Kordas
  */
-public class DateAssert_hasSameTimeAs_Test extends DateAssertBaseTest {
+public class DateAssert_hasSameTimeAs_Test extends AbstractDateAssertWithDateArg_Test {
 
-  @Rule
-  public ExpectedException thrown = none();
+    @Override
+    protected DateAssert assertionInvocationWithDateArg() {
+        return assertions.hasSameTimeAs(otherDate);
+    }
 
-  @Test
-  public void should_verify_that_actual_has_time_equals_to_expected() {
-	Date date = new Date();
-	Timestamp timestamp = new java.sql.Timestamp(date.getTime());
-	assertThat(date).hasSameTimeAs(timestamp);
-	assertThat(timestamp).hasSameTimeAs(date);
-  }
+    @Override
+    protected DateAssert assertionInvocationWithStringArg(String date) {
+        return assertions.hasSameTimeAs(date);
+    }
 
-  @Test
-  public void should_fail_when_actual_is_null() {
-    thrown.expectAssertionError(actualIsNull());
-
-	assertThat((Date)null).hasSameTimeAs(new Date());
-  }
-  
-  @Test
-  public void should_throw_exception_when_date_is_null() {
-    thrown.expectNullPointerException(dateToCompareActualWithIsNull());
-	
-	assertThat(new Date()).hasSameTimeAs(null);
-  }
+    @Override
+    protected void verifyAssertionInvocation(Date date) {
+        verify(dates).hasSameTimeAs(getInfo(assertions), getActual(assertions), date);
+    }
 }

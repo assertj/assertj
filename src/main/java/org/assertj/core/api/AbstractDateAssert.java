@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api;
 
-import static java.util.concurrent.TimeUnit.*;
+import static java.util.concurrent.TimeUnit.HOURS;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.util.Dates.newIsoDateFormat;
 import static org.assertj.core.util.Dates.newIsoDateTimeFormat;
 import static org.assertj.core.util.Dates.newIsoDateTimeWithMsFormat;
@@ -61,8 +64,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * the default DateFormat used to parse any String date representation.
    */
   private static final List<DateFormat> DEFAULT_DATE_FORMATS = newArrayList(newIsoDateTimeWithMsFormat(),
-	                                                                        newIsoDateTimeFormat(),
-	                                                                        newIsoDateFormat());
+                                                                            newIsoDateTimeFormat(),
+                                                                            newIsoDateFormat());
 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
@@ -74,16 +77,16 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    */
   @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = new ThreadLocal<LinkedHashSet<DateFormat>>() {
-	@Override
-	protected LinkedHashSet<DateFormat> initialValue() {
-	  return new LinkedHashSet<>();
-	}
+    @Override
+    protected LinkedHashSet<DateFormat> initialValue() {
+      return new LinkedHashSet<>();
+    }
   };
   @VisibleForTesting
   Dates dates = Dates.instance();
 
   protected AbstractDateAssert(Date actual, Class<?> selfType) {
-	super(actual, selfType);
+    super(actual, selfType);
   }
 
   /**
@@ -122,7 +125,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualTo(String dateAsString) {
-	return isEqualTo(parse(dateAsString));
+    return isEqualTo(parse(dateAsString));
   }
 
   /**
@@ -162,7 +165,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringHours(String dateAsString) {
-	return isEqualToIgnoringHours(parse(dateAsString));
+    return isEqualToIgnoringHours(parse(dateAsString));
   }
 
   /**
@@ -193,8 +196,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringHours(Date date) {
-	dates.assertIsEqualWithPrecision(info, actual, date, HOURS);
-	return myself;
+    dates.assertIsEqualWithPrecision(info, actual, date, HOURS);
+    return myself;
   }
 
   /**
@@ -235,7 +238,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringMinutes(String dateAsString) {
-	return isEqualToIgnoringMinutes(parse(dateAsString));
+    return isEqualToIgnoringMinutes(parse(dateAsString));
   }
 
   /**
@@ -263,8 +266,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringMinutes(Date date) {
-	dates.assertIsEqualWithPrecision(info, actual, date, MINUTES);
-	return myself;
+    dates.assertIsEqualWithPrecision(info, actual, date, MINUTES);
+    return myself;
   }
 
   /**
@@ -307,7 +310,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringSeconds(String dateAsString) {
-	return isEqualToIgnoringSeconds(parse(dateAsString));
+    return isEqualToIgnoringSeconds(parse(dateAsString));
   }
 
   /**
@@ -335,8 +338,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringSeconds(Date date) {
-	dates.assertIsEqualWithPrecision(info, actual, date, SECONDS);
-	return myself;
+    dates.assertIsEqualWithPrecision(info, actual, date, SECONDS);
+    return myself;
   }
 
   /**
@@ -377,7 +380,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringMillis(String dateAsString) {
-	return isEqualToIgnoringMillis(parse(dateAsString));
+    return isEqualToIgnoringMillis(parse(dateAsString));
   }
 
   /**
@@ -404,8 +407,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isEqualToIgnoringMillis(Date date) {
-	dates.assertIsEqualWithPrecision(info, actual, date, MILLISECONDS);
-	return myself;
+    dates.assertIsEqualWithPrecision(info, actual, date, MILLISECONDS);
+    return myself;
   }
 
   /**
@@ -444,7 +447,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isNotEqualTo(String dateAsString) {
-	return isNotEqualTo(parse(dateAsString));
+    return isNotEqualTo(parse(dateAsString));
   }
 
   /**
@@ -482,11 +485,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isIn(String... datesAsString) {
-	Date[] dates = new Date[datesAsString.length];
-	for (int i = 0; i < datesAsString.length; i++) {
-	  dates[i] = parse(datesAsString[i]);
-	}
-	return isIn((Object[]) dates);
+    Date[] dates = new Date[datesAsString.length];
+    for (int i = 0; i < datesAsString.length; i++) {
+      dates[i] = parse(datesAsString[i]);
+    }
+    return isIn((Object[]) dates);
   }
 
   /**
@@ -529,11 +532,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isInWithStringDateCollection(Collection<String> datesAsString) {
-	Collection<Date> dates = new ArrayList<>(datesAsString.size());
-	for (String dateAsString : datesAsString) {
-	  dates.add(parse(dateAsString));
-	}
-	return isIn(dates);
+    Collection<Date> dates = new ArrayList<>(datesAsString.size());
+    for (String dateAsString : datesAsString) {
+      dates.add(parse(dateAsString));
+    }
+    return isIn(dates);
   }
 
   /**
@@ -571,11 +574,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotIn(String... datesAsString) {
-	Date[] dates = new Date[datesAsString.length];
-	for (int i = 0; i < datesAsString.length; i++) {
-	  dates[i] = parse(datesAsString[i]);
-	}
-	return isNotIn((Object[]) dates);
+    Date[] dates = new Date[datesAsString.length];
+    for (int i = 0; i < datesAsString.length; i++) {
+      dates[i] = parse(datesAsString[i]);
+    }
+    return isNotIn((Object[]) dates);
   }
 
   /**
@@ -617,11 +620,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotInWithStringDateCollection(Collection<String> datesAsString) {
-	Collection<Date> dates = new ArrayList<>(datesAsString.size());
-	for (String dateAsString : datesAsString) {
-	  dates.add(parse(dateAsString));
-	}
-	return isNotIn(dates);
+    Collection<Date> dates = new ArrayList<>(datesAsString.size());
+    for (String dateAsString : datesAsString) {
+      dates.add(parse(dateAsString));
+    }
+    return isNotIn(dates);
   }
 
   /**
@@ -644,8 +647,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not strictly before the given one.
    */
   public S isBefore(Date other) {
-	dates.assertIsBefore(info, actual, other);
-	return myself;
+    dates.assertIsBefore(info, actual, other);
+    return myself;
   }
 
   /**
@@ -687,7 +690,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isBefore(String dateAsString) {
-	return isBefore(parse(dateAsString));
+    return isBefore(parse(dateAsString));
   }
 
   /**
@@ -700,8 +703,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
    */
   public S isBeforeOrEqualsTo(Date other) {
-	dates.assertIsBeforeOrEqualsTo(info, actual, other);
-	return myself;
+    dates.assertIsBeforeOrEqualsTo(info, actual, other);
+    return myself;
   }
 
   /**
@@ -743,7 +746,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isBeforeOrEqualsTo(String dateAsString) {
-	return isBeforeOrEqualsTo(parse(dateAsString));
+    return isBeforeOrEqualsTo(parse(dateAsString));
   }
 
   /**
@@ -766,8 +769,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not strictly after the given one.
    */
   public S isAfter(Date other) {
-	dates.assertIsAfter(info, actual, other);
-	return myself;
+    dates.assertIsAfter(info, actual, other);
+    return myself;
   }
 
   /**
@@ -809,7 +812,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isAfter(String dateAsString) {
-	return isAfter(parse(dateAsString));
+    return isAfter(parse(dateAsString));
   }
 
   /**
@@ -822,8 +825,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
    */
   public S isAfterOrEqualsTo(Date other) {
-	dates.assertIsAfterOrEqualsTo(info, actual, other);
-	return myself;
+    dates.assertIsAfterOrEqualsTo(info, actual, other);
+    return myself;
   }
 
   /**
@@ -865,7 +868,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isAfterOrEqualsTo(String dateAsString) {
-	return isAfterOrEqualsTo(parse(dateAsString));
+    return isAfterOrEqualsTo(parse(dateAsString));
   }
 
   /**
@@ -892,7 +895,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not in [start, end[ period.
    */
   public S isBetween(Date start, Date end) {
-	return isBetween(start, end, true, false);
+    return isBetween(start, end, true, false);
   }
 
   /**
@@ -934,7 +937,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isBetween(String start, String end) {
-	return isBetween(parse(start), parse(end));
+    return isBetween(parse(start), parse(end));
   }
 
   /**
@@ -955,8 +958,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
    */
   public S isBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
-	dates.assertIsBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-	return myself;
+    dates.assertIsBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
+    return myself;
   }
 
   /**
@@ -1002,8 +1005,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isBetween(String start, String end, boolean inclusiveStart, boolean inclusiveEnd) {
-	dates.assertIsBetween(info, actual, parse(start), parse(end), inclusiveStart, inclusiveEnd);
-	return myself;
+    dates.assertIsBetween(info, actual, parse(start), parse(end), inclusiveStart, inclusiveEnd);
+    return myself;
   }
 
   /**
@@ -1024,8 +1027,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not in (start, end) period.
    */
   public S isNotBetween(Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd) {
-	dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
-	return myself;
+    dates.assertIsNotBetween(info, actual, start, end, inclusiveStart, inclusiveEnd);
+    return myself;
   }
 
   /**
@@ -1074,7 +1077,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotBetween(String start, String end, boolean inclusiveStart, boolean inclusiveEnd) {
-	return isNotBetween(parse(start), parse(end), inclusiveStart, inclusiveEnd);
+    return isNotBetween(parse(start), parse(end), inclusiveStart, inclusiveEnd);
   }
 
   /**
@@ -1090,7 +1093,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotBetween(Date start, Date end) {
-	return isNotBetween(start, end, true, false);
+    return isNotBetween(start, end, true, false);
   }
 
   /**
@@ -1132,7 +1135,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if one of the given date as String could not be converted to a Date.
    */
   public S isNotBetween(String start, String end) {
-	return isNotBetween(parse(start), parse(end), true, false);
+    return isNotBetween(parse(start), parse(end), true, false);
   }
 
   /**
@@ -1150,8 +1153,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not in the past.
    */
   public S isInThePast() {
-	dates.assertIsInThePast(info, actual);
-	return myself;
+    dates.assertIsInThePast(info, actual);
+    return myself;
   }
 
   /**
@@ -1173,8 +1176,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not today.
    */
   public S isToday() {
-	dates.assertIsToday(info, actual);
-	return myself;
+    dates.assertIsToday(info, actual);
+    return myself;
   }
 
   /**
@@ -1192,8 +1195,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is not in the future.
    */
   public S isInTheFuture() {
-	dates.assertIsInTheFuture(info, actual);
-	return myself;
+    dates.assertIsInTheFuture(info, actual);
+    return myself;
   }
 
   /**
@@ -1216,8 +1219,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} year is after or equals to the given year.
    */
   public S isBeforeYear(int year) {
-	dates.assertIsBeforeYear(info, actual, year);
-	return myself;
+    dates.assertIsBeforeYear(info, actual, year);
+    return myself;
   }
 
   /**
@@ -1240,8 +1243,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} year is before or equals to the given year.
    */
   public S isAfterYear(int year) {
-	dates.assertIsAfterYear(info, actual, year);
-	return myself;
+    dates.assertIsAfterYear(info, actual, year);
+    return myself;
   }
 
   /**
@@ -1265,8 +1268,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} year is not equal to the given year.
    */
   public S isWithinYear(int year) {
-	dates.assertIsWithinYear(info, actual, year);
-	return myself;
+    dates.assertIsWithinYear(info, actual, year);
+    return myself;
   }
 
   /**
@@ -1291,8 +1294,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} month is not equal to the given month.
    */
   public S isWithinMonth(int month) {
-	dates.assertIsWithinMonth(info, actual, month);
-	return myself;
+    dates.assertIsWithinMonth(info, actual, month);
+    return myself;
   }
 
   /**
@@ -1316,8 +1319,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} month is not equal to the given day of month.
    */
   public S isWithinDayOfMonth(int dayOfMonth) {
-	dates.assertIsWithinDayOfMonth(info, actual, dayOfMonth);
-	return myself;
+    dates.assertIsWithinDayOfMonth(info, actual, dayOfMonth);
+    return myself;
   }
 
   /**
@@ -1343,8 +1346,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} week is not equal to the given day of week.
    */
   public S isWithinDayOfWeek(int dayOfWeek) {
-	dates.assertIsWithinDayOfWeek(info, actual, dayOfWeek);
-	return myself;
+    dates.assertIsWithinDayOfWeek(info, actual, dayOfWeek);
+    return myself;
   }
 
   /**
@@ -1368,8 +1371,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} hour is not equal to the given hour.
    */
   public S isWithinHourOfDay(int hourOfDay) {
-	dates.assertIsWithinHourOfDay(info, actual, hourOfDay);
-	return myself;
+    dates.assertIsWithinHourOfDay(info, actual, hourOfDay);
+    return myself;
   }
 
   /**
@@ -1393,8 +1396,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} minute is not equal to the given minute.
    */
   public S isWithinMinute(int minute) {
-	dates.assertIsWithinMinute(info, actual, minute);
-	return myself;
+    dates.assertIsWithinMinute(info, actual, minute);
+    return myself;
   }
 
   /**
@@ -1418,8 +1421,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} second is not equal to the given second.
    */
   public S isWithinSecond(int second) {
-	dates.assertIsWithinSecond(info, actual, second);
-	return myself;
+    dates.assertIsWithinSecond(info, actual, second);
+    return myself;
   }
 
   /**
@@ -1442,8 +1445,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} millisecond is not equal to the given millisecond.
    */
   public S isWithinMillisecond(int millisecond) {
-	dates.assertIsWithinMillisecond(info, actual, millisecond);
-	return myself;
+    dates.assertIsWithinMillisecond(info, actual, millisecond);
+    return myself;
   }
 
   /**
@@ -1466,8 +1469,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same year.
    */
   public S isInSameYearAs(Date other) {
-	dates.assertIsInSameYearAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameYearAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1504,7 +1507,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the given date as String could not be converted to a Date.
    */
   public S isInSameYearAs(String dateAsString) {
-	return isInSameYearAs(parse(dateAsString));
+    return isInSameYearAs(parse(dateAsString));
   }
 
   /**
@@ -1527,8 +1530,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same month.
    */
   public S isInSameMonthAs(Date other) {
-	dates.assertIsInSameMonthAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameMonthAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1564,7 +1567,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same month.
    */
   public S isInSameMonthAs(String dateAsString) {
-	return isInSameMonthAs(parse(dateAsString));
+    return isInSameMonthAs(parse(dateAsString));
   }
 
   /**
@@ -1587,8 +1590,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same day of month.
    */
   public S isInSameDayAs(Date other) {
-	dates.assertIsInSameDayAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameDayAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1624,7 +1627,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same day of month.
    */
   public S isInSameDayAs(String dateAsString) {
-	return isInSameDayAs(parse(dateAsString));
+    return isInSameDayAs(parse(dateAsString));
   }
 
   /**
@@ -1669,8 +1672,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same hour.
    */
   public S isInSameHourWindowAs(Date other) {
-	dates.assertIsInSameHourWindowAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameHourWindowAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1701,7 +1704,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same day of month.
    */
   public S isInSameHourWindowAs(String dateAsString) {
-	return isInSameHourWindowAs(parse(dateAsString));
+    return isInSameHourWindowAs(parse(dateAsString));
   }
 
   /**
@@ -1741,8 +1744,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same hour.
    */
   public S isInSameHourAs(Date other) {
-	dates.assertIsInSameHourAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameHourAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1772,7 +1775,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same hour.
    */
   public S isInSameHourAs(String dateAsString) {
-	return isInSameHourAs(parse(dateAsString));
+    return isInSameHourAs(parse(dateAsString));
   }
 
   /**
@@ -1815,8 +1818,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
    */
   public S isInSameMinuteWindowAs(Date other) {
-	dates.assertIsInSameMinuteWindowAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameMinuteWindowAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1847,7 +1850,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
    */
   public S isInSameMinuteWindowAs(String dateAsString) {
-	return isInSameMinuteWindowAs(parse(dateAsString));
+    return isInSameMinuteWindowAs(parse(dateAsString));
   }
 
   /**
@@ -1890,8 +1893,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
    */
   public S isInSameMinuteAs(Date other) {
-	dates.assertIsInSameMinuteAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameMinuteAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1921,7 +1924,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same minute.
    */
   public S isInSameMinuteAs(String dateAsString) {
-	return isInSameMinuteAs(parse(dateAsString));
+    return isInSameMinuteAs(parse(dateAsString));
   }
 
   /**
@@ -1968,8 +1971,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
    */
   public S isInSameSecondWindowAs(Date other) {
-	dates.assertIsInSameSecondWindowAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameSecondWindowAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -1999,7 +2002,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
    */
   public S isInSameSecondWindowAs(String dateAsString) {
-	return isInSameSecondWindowAs(parse(dateAsString));
+    return isInSameSecondWindowAs(parse(dateAsString));
   }
 
   /**
@@ -2041,8 +2044,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if actual and given {@code Date} are not in the same second.
    */
   public S isInSameSecondAs(Date other) {
-	dates.assertIsInSameSecondAs(info, actual, other);
-	return myself;
+    dates.assertIsInSameSecondAs(info, actual, other);
+    return myself;
   }
 
   /**
@@ -2066,7 +2069,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * </ul>
    */
   public S isInSameSecondAs(String dateAsString) {
-	return isInSameSecondAs(parse(dateAsString));
+    return isInSameSecondAs(parse(dateAsString));
   }
 
   /**
@@ -2101,8 +2104,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} week is not close to the given date by less than delta.
    */
   public S isCloseTo(Date other, long deltaInMilliseconds) {
-	dates.assertIsCloseTo(info, actual, other, deltaInMilliseconds);
-	return myself;
+    dates.assertIsCloseTo(info, actual, other, deltaInMilliseconds);
+    return myself;
   }
 
   /**
@@ -2133,7 +2136,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} week is not close to the given date by less than delta.
    */
   public S isCloseTo(String dateAsString, long deltaInMilliseconds) {
-	return isCloseTo(parse(dateAsString), deltaInMilliseconds);
+    return isCloseTo(parse(dateAsString), deltaInMilliseconds);
   }
 
   /**
@@ -2154,8 +2157,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @see Date#getTime()
    */
   public S hasTime(long timestamp) {
-	dates.assertHasTime(info, actual, timestamp);
-	return myself;
+    dates.assertHasTime(info, actual, timestamp);
+    return myself;
   }
 
   /**
@@ -2183,8 +2186,56 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @see Date#getTime()
    */
   public S hasSameTimeAs(Date date) {
-	dates.hasSameTimeAs(info, actual, date);
-	return myself;
+    dates.hasSameTimeAs(info, actual, date);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Date} represents the same time as the given date in {@code String} format.
+   * <p>
+   * It is same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of the
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * <p>
+   * Beware that the default formats are expressed in the current local time zone.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * Date date = parseDatetime("2003-04-26T12:00:00");
+   *
+   * // assertion will pass
+   * assertThat(date).hasSameTimeAs("2003-04-26T12:00:00");
+   *
+   * // assertion will fail
+   * assertThat(date).hasSameTimeAs("2003-04-26T12:00:01");
+   * assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");
+   * </code></pre>
+   * Default date formats (expressed in the local time zone) are:
+   * <ul>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
+   * <li><code>yyyy-MM-dd</code></li>
+   * </ul>
+   * <p/>
+   * Example of valid string date representations:
+   * <ul>
+   * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26T13:01:02</code></li>
+   * <li><code>2003-04-26</code></li>
+   * </ul>
+   *
+   * @param dateAsString the given {@code Date} represented as {@code String} in default or custom date format.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Date} is {@code null}.
+   * @throws NullPointerException if given date as String is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the time from date represented as
+   *           String.
+   * @throws AssertionError if the given date as String could not be converted to a Date.
+   * @author Michal Kordas
+   */
+  public S hasSameTimeAs(String dateAsString) {
+    dates.hasSameTimeAs(info, actual, parse(dateAsString));
+    return myself;
   }
 
   /**
@@ -2209,8 +2260,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @return this assertion object.
    */
   public S withDateFormat(DateFormat userCustomDateFormat) {
-	registerCustomDateFormat(userCustomDateFormat);
-	return myself;
+    registerCustomDateFormat(userCustomDateFormat);
+    return myself;
   }
 
   /**
@@ -2235,8 +2286,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @return this assertion object.
    */
   public S withDateFormat(String userCustomDateFormatPattern) {
-	checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
-	return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
+    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    return withDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
   /**
@@ -2284,8 +2335,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
-	checkNotNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
-	userDateFormats.get().add(userCustomDateFormat);
+    checkNotNull(userCustomDateFormat, DATE_FORMAT_SHOULD_NOT_BE_NULL);
+    userDateFormats.get().add(userCustomDateFormat);
   }
 
   /**
@@ -2333,8 +2384,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
-	checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
-	registerCustomDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
+    checkNotNull(userCustomDateFormatPattern, DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL);
+    registerCustomDateFormat(new SimpleDateFormat(userCustomDateFormatPattern));
   }
 
   /**
@@ -2357,7 +2408,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * </ul>
    */
   public static void useDefaultDateFormatsOnly() {
-	userDateFormats.get().clear();
+    userDateFormats.get().clear();
   }
 
   /**
@@ -2382,8 +2433,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @return this assertion
    */
   public S withDefaultDateFormatsOnly() {
-	useDefaultDateFormatsOnly();
-	return myself;
+    useDefaultDateFormatsOnly();
+    return myself;
   }
 
   /**
@@ -2397,54 +2448,54 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    */
   @VisibleForTesting
   Date parse(String dateAsString) {
-	if (dateAsString == null) return null;
-	// parse with date format specified by user if any, otherwise use default formats
-	// no synchronization needed as userCustomDateFormat is thread local
-	Date date = parseDateWith(dateAsString, userDateFormats.get());
-	if (date != null) return date;
-	// no matching user date format, let's try default format
-	date = parseDateWithDefaultDateFormats(dateAsString);
-	if (date != null) return date;
-	// no matching date format, throw an error
-	throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
-	                         + info.representation().toStringOf(dateFormatsInOrderOfUsage()));
+    if (dateAsString == null) return null;
+    // parse with date format specified by user if any, otherwise use default formats
+    // no synchronization needed as userCustomDateFormat is thread local
+    Date date = parseDateWith(dateAsString, userDateFormats.get());
+    if (date != null) return date;
+    // no matching user date format, let's try default format
+    date = parseDateWithDefaultDateFormats(dateAsString);
+    if (date != null) return date;
+    // no matching date format, throw an error
+    throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
+                             + info.representation().toStringOf(dateFormatsInOrderOfUsage()));
   }
 
   private Date parseDateWithDefaultDateFormats(final String dateAsString) {
-	synchronized (DEFAULT_DATE_FORMATS) {
-	  return parseDateWith(dateAsString, DEFAULT_DATE_FORMATS);
-	}
+    synchronized (DEFAULT_DATE_FORMATS) {
+      return parseDateWith(dateAsString, DEFAULT_DATE_FORMATS);
+    }
   }
 
   private List<DateFormat> dateFormatsInOrderOfUsage() {
-	List<DateFormat> allDateFormatsInOrderOfUsage = newArrayList(userDateFormats.get());
-	allDateFormatsInOrderOfUsage.addAll(DEFAULT_DATE_FORMATS);
-	return allDateFormatsInOrderOfUsage;
+    List<DateFormat> allDateFormatsInOrderOfUsage = newArrayList(userDateFormats.get());
+    allDateFormatsInOrderOfUsage.addAll(DEFAULT_DATE_FORMATS);
+    return allDateFormatsInOrderOfUsage;
   }
 
   private Date parseDateWith(final String dateAsString, final Collection<DateFormat> dateFormats) {
-	for (DateFormat defaultDateFormat : dateFormats) {
-	  try {
-		return defaultDateFormat.parse(dateAsString);
-	  } catch (ParseException e) {
-		// ignore and try next date format
-	  }
-	}
-	return null;
+    for (DateFormat defaultDateFormat : dateFormats) {
+      try {
+        return defaultDateFormat.parse(dateAsString);
+      } catch (ParseException e) {
+        // ignore and try next date format
+      }
+    }
+    return null;
   }
 
   @Override
   public S usingComparator(Comparator<? super Date> customComparator) {
-	super.usingComparator(customComparator);
-	this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
-	return myself;
+    super.usingComparator(customComparator);
+    this.dates = new Dates(new ComparatorBasedComparisonStrategy(customComparator));
+    return myself;
   }
 
   @Override
   public S usingDefaultComparator() {
-	super.usingDefaultComparator();
-	this.dates = Dates.instance();
-	return myself;
+    super.usingDefaultComparator();
+    this.dates = Dates.instance();
+    return myself;
   }
 
 }

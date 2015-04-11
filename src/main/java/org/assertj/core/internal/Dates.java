@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
+import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.util.Dates.dayOfMonthOf;
@@ -53,7 +54,6 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -704,6 +704,22 @@ public class Dates {
   }
 
   /**
+   * Verifies that the actual {@code Date} has same time as the given {@code Date}.
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Date}.
+   * @param expected the "expected" {@code Date} to compare actual time to
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if {@code expected} is {@code null}.
+   * @throws AssertionError if the actual {@code Date} time is not equal to the given {@code Date}.
+   */
+  public void assertHasSameTime(AssertionInfo info, Date actual, Date expected) {
+    assertNotNull(info, actual);
+    assertNotNull(info, expected);
+    if (actual.getTime() == expected.getTime()) return;
+    throw failures.failure(info, shouldHaveSameTime(actual, expected));
+  }
+
+  /**
    * Verifies that the actual {@code Date} is equal to the given date by comparing their time.
    * @param info contains information about the assertion.
    * @param actual the "actual" {@code Date}.
@@ -712,10 +728,10 @@ public class Dates {
    * @throws AssertionError if the actual {@code Date} time is not equal to the given date time.
    * @throws NullPointerException if other {@code Date} is {@code null}.
    */
-  public void hasSameTimeAs(WritableAssertionInfo info, Date actual, Date date) {
+  public void hasSameTimeAs(AssertionInfo info, Date actual, Date date) {
     assertNotNull(info, actual);
     dateParameterIsNotNull(date);
-    assertHasTime(info, actual, date.getTime());
+    assertHasSameTime(info, actual, date);
   }
 
   /**
