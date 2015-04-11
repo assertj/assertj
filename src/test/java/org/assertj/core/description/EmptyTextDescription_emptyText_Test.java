@@ -12,11 +12,10 @@
  */
 package org.assertj.core.description;
 
-import static junit.framework.Assert.*;
-
-import org.assertj.core.description.Description;
-import org.assertj.core.description.EmptyTextDescription;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 
 /**
  * Tests for <code>{@link EmptyTextDescription#emptyText()}</code>.

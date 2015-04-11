@@ -20,9 +20,6 @@ import static org.assertj.core.util.Strings.quote;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
 import org.assertj.core.presentation.*;
-import org.assertj.core.presentation.BinaryRepresentation;
-import org.assertj.core.presentation.HexadecimalRepresentation;
-
 
 /**
  * Writable information about an assertion.

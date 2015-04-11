@@ -115,10 +115,9 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} is not {@code null} *and* contains one or more elements.
    */
   public void assertNullOrEmpty(AssertionInfo info, Iterable<?> actual) {
-    if (actual == null || isNullOrEmpty(actual)) {
-      return;
+    if (!isNullOrEmpty(actual)) {
+      throw failures.failure(info, shouldBeNullOrEmpty(actual));
     }
-    throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
   /**
@@ -131,10 +130,9 @@ public class Iterables {
    */
   public void assertEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (isNullOrEmpty(actual)) {
-      return;
+    if (!isNullOrEmpty(actual)) {
+      throw failures.failure(info, shouldBeEmpty(actual));
     }
-    throw failures.failure(info, shouldBeEmpty(actual));
   }
 
   /**
@@ -147,10 +145,9 @@ public class Iterables {
    */
   public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
-    if (!isNullOrEmpty(actual)) {
-      return;
+    if (isNullOrEmpty(actual)) {
+      throw failures.failure(info, shouldNotBeEmpty());
     }
-    throw failures.failure(info, shouldNotBeEmpty());
   }
 
   /**
@@ -260,10 +257,9 @@ public class Iterables {
     // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
-    if (notExpected.isEmpty() && notFound.isEmpty()) {
-      return;
+    if (!notExpected.isEmpty() && !notFound.isEmpty()) {
+      throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
     }
-    throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
   }
 
   private Set<Object> containsOnly(Set<Object> actual, Object[] values) {
@@ -491,10 +487,9 @@ public class Iterables {
         found.add(o);
       }
     }
-    if (found.isEmpty()) {
-      return;
+    if (!found.isEmpty()) {
+      throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
     }
-    throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
 
   /**
@@ -528,10 +523,9 @@ public class Iterables {
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
-    if (isNullOrEmpty(duplicates)) {
-      return;
+    if (!isNullOrEmpty(duplicates)) {
+      throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
     }
-    throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
   }
 
   /**

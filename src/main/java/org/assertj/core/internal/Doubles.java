@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.CommonValidations.*;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
