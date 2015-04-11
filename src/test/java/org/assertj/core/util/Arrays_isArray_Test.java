@@ -12,7 +12,8 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -26,6 +27,7 @@ public class Arrays_isArray_Test {
   @Test
   public void should_return_true_if_object_is_an_array() {
     assertTrue(Arrays.isArray(new String[0]));
+    assertTrue(Arrays.isArray(new int[0]));
   }
 
   @Test
