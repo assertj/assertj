@@ -33,6 +33,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
+import static org.assertj.core.internal.CommonValidations.checkIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -731,7 +732,23 @@ public class Objects {
 	return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
-  public static class ByFieldsComparison {
+  /**
+   * Verifies that actual {@code Object}s has the same toString result as expected has.
+   *
+   * @param info     contains information about the assertion.
+   * @param actual   the actual {@code Object}.
+   * @param expected the given {@code Object}.
+   * @throws AssertionError if the actual {@code Object} has not an equal toString result as expected has {@code Object}.
+   * @throws java.lang.NullPointerException if the actual {@code Object} has no scheme.
+   * @throws java.lang.NullPointerException if the actual {@code Object} has no scheme.
+   */
+  public boolean assertHasToString(AssertionInfo info, Object actual, Object expected) {
+  assertNotNull(info, actual);
+  assertNotNull(info, expected);
+  return areEqual(actual.toString(), expected.toString());
+  }
+
+    public static class ByFieldsComparison {
 
 	private final List<String> fieldsNames;
 	private final List<Object> expectedValues;
