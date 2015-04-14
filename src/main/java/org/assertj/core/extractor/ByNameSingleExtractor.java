@@ -14,14 +14,14 @@ package org.assertj.core.extractor;
 
 import static java.lang.String.*;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 import java.util.Map;
+import java.util.function.Function;
 
-class ByNameSingleExtractor<T> implements Extractor<T, Object> {
+class ByNameSingleExtractor<T> implements Function<T, Object> {
   private final String propertyOrFieldName;
 
   ByNameSingleExtractor(String propertyOrFieldName) {
@@ -29,7 +29,7 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
   }
 
   @Override
-  public Object extract(T input) {
+  public Object apply(T input) {
 	if (propertyOrFieldName == null)
 	  throw new IllegalArgumentException("The name of the field/property to read should not be null");
 	if (propertyOrFieldName.length() == 0)

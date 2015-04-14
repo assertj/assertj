@@ -20,6 +20,7 @@ import static org.assertj.core.data.TolkienCharacter.Race.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.data.TolkienCharacter;
@@ -46,19 +47,9 @@ public class IterableAssert_extracting_Test {
   private Iterable<Employee> employees;
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
-  private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
-	@Override
-	public String extract(Employee input) {
-	  return input.getName().getFirst();
-	}
-  };
+  private static final Function<Employee, String> firstName = input -> input.getName().getFirst();
 
-  private static final Extractor<Employee, Integer> age = new Extractor<Employee, Integer>() {
-	@Override
-	public Integer extract(Employee input) {
-	  return input.getAge();
-	}
-  };
+  private static final Function<Employee, Integer> age = Employee::getAge;
 
   @Before
   public void setUp() {
@@ -175,12 +166,8 @@ public class IterableAssert_extracting_Test {
 
   @Test
   public void sohuld_allow_extracting_multiple_values_using_extractor() throws Exception {
-	assertThat(employees).extracting(new Extractor<Employee, Tuple>() {
-	  @Override
-	  public Tuple extract(Employee input) {
-		return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
-	  }
-	}).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+	assertThat(employees).extracting(employee -> new Tuple(employee.getName().getFirst(), employee.getAge(), employee.id)
+    ).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test

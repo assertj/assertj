@@ -16,8 +16,9 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.test.ExpectedException.*;
 import static org.assertj.core.util.Arrays.*;
 
+import java.util.function.Function;
+
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -88,11 +89,6 @@ public class ObjectArrayAssert_extracting_Test {
 
   @Test
   public void should_allow_assertions_on_extractor_assertions_extracted_from_given_array() throws Exception {
-    assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        return input.getName().getFirst();
-      }
-    }).containsOnly("Yoda", "Luke");
+    assertThat(employees).extracting(employee -> employee.getName().getFirst()).containsOnly("Yoda", "Luke");
   }
 }

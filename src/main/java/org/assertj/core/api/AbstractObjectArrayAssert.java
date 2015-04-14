@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.Index;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
@@ -593,13 +593,13 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <U> ObjectArrayAssert<U> extracting(Extractor<? super T, U> extractor) {
+  public <U> ObjectArrayAssert<U> extracting(Function<? super T, U> extractor) {
 	U[] extracted = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
 	return new ObjectArrayAssert<>(extracted);
   }
 
-  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Extractor<? super T, C> extractor) {
+  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(Function<? super T, C> extractor) {
 	final List<C> extractedValues = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
 
 	final List<U> result = newArrayList();

@@ -25,9 +25,9 @@ import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Maps;
@@ -178,13 +178,8 @@ public class SoftAssertionsTest {
       final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
           ("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
-      softly.assertThatThrownBy(new ThrowingCallable() {
-
-        @Override
-        public void call() throws Exception {
-          throw new Exception("something was wrong");
-        }
-
+      softly.assertThatThrownBy(() -> {
+        throw new Exception("something was wrong");
       }).hasMessage("something was good");
       softly.assertThat(Maps.mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
       softly.assertAll();
@@ -282,9 +277,9 @@ public class SoftAssertionsTest {
           .contains("Jane");
 
     softly.assertThat(names)
-          .extracting(new Extractor<Name, String>() {
+          .extracting(new Function<Name, String>() {
             @Override
-            public String extract(Name input) {
+            public String apply(Name input) {
               return input.getFirst();
             }
           })
@@ -332,9 +327,9 @@ public class SoftAssertionsTest {
             .contains("Jane");
 
       softly.assertThat(names)
-            .extracting(new Extractor<Name, String>() {
+            .extracting(new Function<Name, String>() {
               @Override
-              public String extract(Name input) {
+              public String apply(Name input) {
                 return input.getFirst();
               }
             })
@@ -381,9 +376,9 @@ public class SoftAssertionsTest {
             .contains("Jane");
 
       softly.assertThat(namesAsArray)
-            .extracting(new Extractor<Name, String>() {
+            .extracting(new Function<Name, String>() {
               @Override
-              public String extract(Name input) {
+              public String apply(Name input) {
                 return input.getFirst();
               }
             })
@@ -504,9 +499,9 @@ public class SoftAssertionsTest {
     return new ChildrenExtractor();
   }
 
-  private static class ChildrenExtractor implements Extractor<CartoonCharacter, Collection<CartoonCharacter>> {
+  private static class ChildrenExtractor implements Function<CartoonCharacter, Collection<CartoonCharacter>> {
     @Override
-    public Collection<CartoonCharacter> extract(CartoonCharacter input) {
+    public Collection<CartoonCharacter> apply(CartoonCharacter input) {
       return input.getChildren();
     }
   }

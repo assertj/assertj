@@ -10,20 +10,33 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.iterable;
+package org.assertj.core.extractor;
 
-import org.assertj.core.api.ListAssert;
-import org.assertj.core.api.ObjectArrayAssert;
+import java.util.function.Function;
+
+import org.assertj.core.util.introspection.MethodSupport;
 
 /**
- * Function converting an element to another element. Used in {@link ListAssert#extracting(Extractor)} and
- * {@link ObjectArrayAssert#extracting(Extractor)}.
  * 
+ * Extractor for extracting data by a method name.
+ * 
+ * @author Michał Piotrkowski
  * @author Mateusz Haligowski
- *
- * @param <F> type of element from which the conversion happens
- * @param <T> target element type
  */
-public interface Extractor<F, T> {
-  T extract(F input);
+class ResultOfFunction<F> implements Function<F, Object> {
+
+  private final String methodName;
+  
+  ResultOfFunction(String methodName) {
+    this.methodName = methodName;
+  }
+
+  /**
+   * Behavior is described in {@link MethodSupport#methodResultFor(Object, String)}
+   */
+  @Override
+  public Object apply(F input) {
+    return MethodSupport.methodResultFor(input, methodName);
+  }
+
 }

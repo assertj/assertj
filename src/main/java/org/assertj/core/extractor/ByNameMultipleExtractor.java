@@ -14,11 +14,11 @@ package org.assertj.core.extractor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.Tuple;
 
-class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
+class ByNameMultipleExtractor<T> implements Function<T, Tuple> {
 
   private final String[] fieldsOrProperties;
 
@@ -27,7 +27,7 @@ class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
   }
 
   @Override
-  public Tuple extract(T input) {
+  public Tuple apply(T input) {
     if (fieldsOrProperties == null)
       throw new IllegalArgumentException("The names of the fields/properties to read should not be null");
     if (fieldsOrProperties.length == 0)
@@ -35,26 +35,26 @@ class ByNameMultipleExtractor<T> implements Extractor<T, Tuple>{
     if (input == null)
       throw new IllegalArgumentException("The object to extract fields/properties from should not be null");
 
-    List<Extractor<T, Object>> extractors = buildExtractors();
+    List<Function<T, Object>> extractors = buildExtractors();
     List<Object> values = extractValues(input, extractors);
     
     return new Tuple(values.toArray());
   }
 
-  private List<Object> extractValues(T input, List<Extractor<T, Object>> singleExtractors) {
+  private List<Object> extractValues(T input, List<Function<T, Object>> singleExtractors) {
     List<Object> values = new ArrayList<>();
     
-    for (Extractor<T, Object> extractor : singleExtractors) {
-      values.add(extractor.extract(input));
+    for (Function<T, Object> extractor : singleExtractors) {
+      values.add(extractor.apply(input));
     }
     return values;
   }
 
-  private List<Extractor<T, Object>> buildExtractors() {
-    List<Extractor<T, Object>> result = new ArrayList<>();
+  private List<Function<T, Object>> buildExtractors() {
+    List<Function<T, Object>> result = new ArrayList<>();
     
     for (String name : fieldsOrProperties) {
-      result.add(new ByNameSingleExtractor<T>(name));
+      result.add(new ByNameSingleExtractor<>(name));
     }
     
     return result;

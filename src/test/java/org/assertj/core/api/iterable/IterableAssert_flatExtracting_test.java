@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.util.Lists.*;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.test.CartoonCharacter;
@@ -25,7 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link AbstractIterableAssert#flatExtracting(Extractor)}</code>
+ * Tests for <code>{@link AbstractIterableAssert#flatExtracting(Function)}</code>
  * 
  * @author Mateusz Haligowski
  */
@@ -41,12 +42,7 @@ public class IterableAssert_flatExtracting_test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private final Extractor<CartoonCharacter, List<CartoonCharacter>> children = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
-    @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
-      return input.getChildren();
-    }
-  };
+  private final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
   @Before
   public void setUp() {

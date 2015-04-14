@@ -34,21 +34,21 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_extract_field_values_even_if_property_exist() {
-	Object extractedValues = idExtractor().extract(yoda);
+	Object extractedValues = idExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(1L);
   }
 
   @Test
   public void should_extract_property_values_when_no_public_field_match_given_name() {
-	Object extractedValues = ageExtractor().extract(yoda);
+	Object extractedValues = ageExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(800);
   }
 
   @Test
   public void should_extract_pure_property_values() {
-	Object extractedValues = adultExtractor().extract(yoda);
+	Object extractedValues = adultExtractor().apply(yoda);
 
 	assertThat(extractedValues).isEqualTo(true);
   }
@@ -57,33 +57,33 @@ public class ByNameSingleExtractorTest {
   public void should_throw_error_when_no_property_nor_public_field_match_given_name() {
 	thrown.expect(IntrospectionError.class);
 
-	new ByNameSingleExtractor<Employee>("unknown").extract(yoda);
+	new ByNameSingleExtractor<Employee>("unknown").apply(yoda);
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_null() {
 	thrown.expectIllegalArgumentException("The name of the field/property to read should not be null");
 
-	new ByNameSingleExtractor<Employee>(null).extract(yoda);
+	new ByNameSingleExtractor<Employee>(null).apply(yoda);
   }
 
   @Test
   public void should_throw_exception_when_given_name_is_empty() {
 	thrown.expectIllegalArgumentException("The name of the field/property to read should not be empty");
 
-	new ByNameSingleExtractor<Employee>("").extract(yoda);
+	new ByNameSingleExtractor<Employee>("").apply(yoda);
   }
 
   @Test
   public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
-	Object extractedValue = nameExtractor().extract(employeeWithBrokenName("Name"));
+	Object extractedValue = nameExtractor().apply(employeeWithBrokenName("Name"));
 
 	assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
   public void should_prefer_properties_over_fields() throws Exception {
-	Object extractedValue = nameExtractor().extract(employeeWithOverridenName("Overriden Name"));
+	Object extractedValue = nameExtractor().apply(employeeWithOverridenName("Overriden Name"));
 
 	assertThat(extractedValue).isEqualTo(new Name("Overriden Name"));
   }
@@ -94,14 +94,14 @@ public class ByNameSingleExtractorTest {
 	thrown.expect(IntrospectionError.class);
 
 	Employee employee = brokenEmployee();
-	adultExtractor().extract(employee);
+	adultExtractor().apply(employee);
   }
 
   @Test
   public void should_throw_exception_if_no_object_is_given() throws Exception {
 	thrown.expect(IllegalArgumentException.class);
 
-	idExtractor().extract(null);
+	idExtractor().apply(null);
   }
 
   @Test

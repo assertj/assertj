@@ -16,17 +16,17 @@ import static org.assertj.core.util.Iterables.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
+import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectArrayAssert;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.util.Lists;
 
 /**
  * 
  * Understands how to retrieve fields or values from a collection/array of objects.
  * <p>
- * You just have to give the field/property name or an {@link Extractor} implementation, a collection/array of objects
+ * You just have to give the field/property name or an {@link Function} implementation, a collection/array of objects
  * and it will extract the list of field/values from the given objects.
  * 
  * @author Joel Costigliola
@@ -36,23 +36,23 @@ import org.assertj.core.util.Lists;
 public class FieldsOrPropertiesExtractor {
   
   /**
-   * Call {@link #extract(Iterable, Extractor)} after converting objects to an iterable.
+   * Call {@link #extract(Iterable, Function)} after converting objects to an iterable.
    * <p>
-   * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Extractor)}
+   * Behavior is described in javadoc {@link AbstractObjectArrayAssert#extracting(Function)}
    */
-  public static <F, T> T[] extract(F[] objects, Extractor<? super F, T> extractor) {    
+  public static <F, T> T[] extract(F[] objects, Function<? super F, T> extractor) {
     List<T> result = extract(newArrayList(objects), extractor);
     return toArray(result);
   }
 
   /**
-   * Behavior is described in {@link AbstractIterableAssert#extracting(Extractor)} 
+   * Behavior is described in {@link AbstractIterableAssert#extracting(Function)}
    */
-  public static <F, T> List<T> extract(Iterable<? extends F> objects, Extractor<? super F, T> extractor) {
+  public static <F, T> List<T> extract(Iterable<? extends F> objects, Function<? super F, T> extractor) {
     List<T> result = Lists.newArrayList();
     
     for (F object : objects) {
-      final T newValue = extractor.extract(object);
+      final T newValue = extractor.apply(object);
       result.add(newValue);
     }
     

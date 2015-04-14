@@ -12,7 +12,8 @@
  */
 package org.assertj.core.extractor;
 
-import org.assertj.core.api.iterable.Extractor;
+import java.util.function.Function;
+
 import org.assertj.core.groups.Tuple;
 
 /**
@@ -32,29 +33,29 @@ public class Extractors {
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
    */
-  public static Extractor<?, String> toStringMethod() {
+  public static Function<?, String> toStringMethod() {
     return new ToStringExtractor();
   }
   
   /**
    * Provides extractor for extracting single field or property from any object using reflection
    */
-  public static <F> Extractor<F, Object> byName(String fieldOrProperty) {
+  public static <F> Function<F, Object> byName(String fieldOrProperty) {
     return new ByNameSingleExtractor<>(fieldOrProperty);
   }
   
   /**
    * Provides extractor for extracting multiple fields or properties from any object using reflection
    */
-  public static <F> Extractor<F, Tuple> byName(String... fieldsOrProperties) {
+  public static <F> Function<F, Tuple> byName(String... fieldsOrProperties) {
     return new ByNameMultipleExtractor<>(fieldsOrProperties);
   }
 
   /**
    * Provides extractor for extracting values by method name from any object using reflection
    */
-  public static <F> Extractor<F, Object> resultOf(String methodName) {
-    return new ResultOfExtractor<>(methodName);
+  public static <F> Function<F, Object> resultOf(String methodName) {
+    return new ResultOfFunction<>(methodName);
   }
   
 }

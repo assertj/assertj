@@ -15,7 +15,7 @@
  */
 package org.assertj.core.extractor;
 
-import org.assertj.core.api.iterable.Extractor;
+import java.util.function.Function;
 
 /**
  * Extracts {@link Object#toString()} from any object
@@ -23,9 +23,9 @@ import org.assertj.core.api.iterable.Extractor;
  * @author Mateusz Haligowski
  *
  */
-public class ToStringExtractor implements Extractor<Object, String> {
+public class ToStringExtractor implements Function<Object, String> {
   @Override
-  public String extract(Object input) {
+  public String apply(Object input) {
     return input.toString();
   }
   

@@ -25,7 +25,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -871,7 +870,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> extracting(Extractor<? super T, V> extractor) {
+  public <V> ListAssert<V> extracting(Function<? super T, V> extractor) {
 	List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
 	return new ListAssert<>(values);
   }
@@ -916,7 +915,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    */
-  public <V> ListAssert<V> flatExtracting(Extractor<? super T, ? extends Collection<V>> extractor) {
+  public <V> ListAssert<V> flatExtracting(Function<? super T, ? extends Collection<V>> extractor) {
 	List<V> result = newArrayList();
 	final List<? extends Collection<V>> extractedValues = FieldsOrPropertiesExtractor.extract(actual, extractor);
 
@@ -983,7 +982,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   @SafeVarargs
   public final ListAssert<Tuple> extracting(Function<T, ?>... extractors) {
 	// combine all extractors into one function
-	Function<T, Tuple> tupleExtractor = objectToExtractValueFrom -> {
+	Function<T, Tuple> tupleFunction = objectToExtractValueFrom -> {
 	  Tuple tuple = new Tuple();
 	  for (Function<T, ?> extractor : extractors) {
 		// extract value one by one
@@ -992,9 +991,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	  return tuple;
 	};
 
-	List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
+	List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleFunction)
 	                                                        .collect(toList());
-	return new ListAssert<Tuple>(tuples);
+	return new ListAssert<>(tuples);
   }
 
   /**

@@ -15,8 +15,8 @@ package org.assertj.core.api.objectarray;
 import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
+import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
@@ -34,12 +34,7 @@ public class ObjectArrayAssert_flatExtracting_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private final Extractor<CartoonCharacter, List<CartoonCharacter>> children = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
-    @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
-      return input.getChildren();
-    }
-  };
+  private final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
   @Before
   public void setUp() {
