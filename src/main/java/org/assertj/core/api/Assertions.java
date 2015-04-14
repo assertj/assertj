@@ -576,7 +576,7 @@ public class Assertions {
    * assertThatThrownBy(new ThrowingCallable()
    * 
    *   {@literal @}Override
-   *   public Void call() throws Exception {
+   *   public void call() throws Exception {
    *     throw new Exception("boom!");
    *   }
    *   
@@ -625,11 +625,11 @@ public class Assertions {
    *   Throwable thrown = catchThrowable(new ThrowingCallable()
    *   
    *     {@literal @}Override
-   *     public Void call() throws Exception {
+   *     public void call() throws Exception {
    *       throw new Exception("boom!");
    *     }
    *     
-   *   })
+   *   });
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
    *                     .hasMessageContaining("boom");
