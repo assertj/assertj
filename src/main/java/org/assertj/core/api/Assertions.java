@@ -629,7 +629,7 @@ public class Assertions {
    *       throw new Exception("boom!");
    *     }
    *     
-   *   })
+   *   });
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
    *                     .hasMessageContaining("boom");
