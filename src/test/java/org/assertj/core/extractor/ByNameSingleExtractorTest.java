@@ -83,9 +83,9 @@ public class ByNameSingleExtractorTest {
 
   @Test
   public void should_prefer_properties_over_fields() throws Exception {
-	Object extractedValue = nameExtractor().extract(employeeWithOverridenName("Overriden Name"));
+	Object extractedValue = nameExtractor().extract(employeeWithOverriddenName("Overridden Name"));
 
-	assertThat(extractedValue).isEqualTo(new Name("Overriden Name"));
+	assertThat(extractedValue).isEqualTo(new Name("Overridden Name"));
   }
 
   @Test
@@ -134,11 +134,11 @@ public class ByNameSingleExtractorTest {
 	};
   }
 
-  private Employee employeeWithOverridenName(final String overridenName) {
+  private Employee employeeWithOverriddenName(final String overriddenName) {
 	return new Employee(1L, new Name("Name"), 0) {
 	  @Override
 	  public Name getName() {
-		return new Name(overridenName);
+		return new Name(overriddenName);
 	  }
 	};
   }

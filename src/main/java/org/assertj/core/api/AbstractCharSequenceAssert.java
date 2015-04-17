@@ -641,7 +641,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * </p>
    *
    * <pre><code class='java'>
-   * // You can easily compare your XML String to the content of an XML file, whatever how formatted thay are.
+   * // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
    * </code></pre>
