@@ -38,12 +38,12 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_pass_with_error_message_overriden() {
+  public void should_pass_with_error_message_overridden() {
     assertions.overridingErrorMessage("new error message").isEqualTo(6L);
   }
 
   @Test
-  public void should_fail_with_overriden_error_message() {
+  public void should_fail_with_overridden_error_message() {
     try {
       assertions.overridingErrorMessage("new error message").isEqualTo(8L);
     } catch (AssertionError err) {
@@ -54,7 +54,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_overriden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
+  public void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
     try {
       assertions.overridingErrorMessage("new error message with special character like (%)").isEqualTo(8L);
     } catch (AssertionError err) {
@@ -65,7 +65,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
   
   @Test
-  public void should_fail_with_overriden_error_message_interpreted_with_string_format_feature() {
+  public void should_fail_with_overridden_error_message_interpreted_with_string_format_feature() {
     try {
       long expected = 8L;
       assertions.overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
@@ -77,7 +77,7 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_fail_with_description_and_overriden_error_message_using_string_format_feature() {
+  public void should_fail_with_description_and_overridden_error_message_using_string_format_feature() {
     try {
       long expected = 8L;
       assertions.as("test").overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);

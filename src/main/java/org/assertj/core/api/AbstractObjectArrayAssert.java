@@ -755,10 +755,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Extract the result of given method invocation from the array's elements under test into a new array, this new array
    * becoming the array under test.
    * <p>
-   * It allows you to test a method reslts of the array's elements instead of testing the elements themselves, it can be
+   * It allows you to test a method results of the array's elements instead of testing the elements themselves, it can be
    * sometimes much less work!
    * <p>
-   * It is especially usefull for classes that does not conform to Java Bean's getter specification (i.e. public String
+   * It is especially useful for classes that does not conform to Java Bean's getter specification (i.e. public String
    * toString() or public String status() instead of public String getStatus()).
    * <p>
    * Let's take an example to make things clearer :
@@ -800,7 +800,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   /**
-   * Enable hexadecimal object representation of Itearble elements instead of standard java representation in error
+   * Enable hexadecimal object representation of Iterable elements instead of standard java representation in error
    * messages.
    * <p/>
    * It can be useful to better understand what the error was with a more meaningful error message.

@@ -103,8 +103,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
    */
   protected void failWithMessage(String errorMessage, Object... arguments) {
-    AssertionError failureWithOverridenErrorMessage = Failures.instance().failureIfErrorMessageIsOverriden(info);
-    if (failureWithOverridenErrorMessage != null) throw failureWithOverridenErrorMessage;
+    AssertionError failureWithOverriddenErrorMessage = Failures.instance().failureIfErrorMessageIsOverridden(info);
+    if (failureWithOverriddenErrorMessage != null) throw failureWithOverriddenErrorMessage;
     String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
     throw new AssertionError(description + String.format(errorMessage, arguments));
   }
