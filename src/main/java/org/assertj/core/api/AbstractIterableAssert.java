@@ -549,7 +549,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * 
    * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
-   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;));
@@ -559,7 +559,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * // let's verify the words of great houses in Westeros:
    * 
    * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;)
-   *                        .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *                        .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                        .doesNotContain(&quot;Lannisters always pay their debts&quot;);
    * </code></pre>
    * 
@@ -596,7 +596,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <pre><code class='java'>
    * // Build a array of WesterosHouse, a WesterosHouse has a method: public String sayTheWords()
    * List&lt;WesterosHouse&gt; greatHouses = new ArrayList&lt;WesterosHouse&gt;();
-   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Comming&quot;));
+   * greatHouses.add(new WesterosHouse(&quot;Stark&quot;, &quot;Winter is Coming&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Lannister&quot;, &quot;Hear Me Roar!&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Greyjoy&quot;, &quot;We Do Not Sow&quot;));
    * greatHouses.add(new WesterosHouse(&quot;Baratheon&quot;, &quot;Our is the Fury&quot;));
@@ -606,7 +606,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * // let's verify the words of great houses in Westeros:
    * 
    * assertThat(greatHouses).extractingResultOf(&quot;sayTheWords&quot;, String.class)
-   *                        .contains(&quot;Winter is Comming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
+   *                        .contains(&quot;Winter is Coming&quot;, &quot;We Do Not Sow&quot;, &quot;Hear Me Roar&quot;)
    *                        .doesNotContain(&quot;Lannisters always pay their debts&quot;);
    * </code></pre>
    * 
