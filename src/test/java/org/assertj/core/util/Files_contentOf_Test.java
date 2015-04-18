@@ -17,6 +17,8 @@ import static junit.framework.Assert.assertFalse;
 import static org.junit.rules.ExpectedException.none;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.Charset;
 
 import org.junit.Rule;
@@ -33,6 +35,7 @@ public class Files_contentOf_Test {
   public ExpectedException thrown = none();
 
   private final File sampleFile = new File("src/test/resources/utf8.txt");
+  private final URL sampleResourceURL = ClassLoader.getSystemResource("utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test
@@ -58,13 +61,33 @@ public class Files_contentOf_Test {
   }
 
   @Test
+  public void should_throw_exception_if_url_not_found() throws MalformedURLException {
+    File missingFile = new File("missing.txt");
+    assertFalse(missingFile.exists());
+
+    thrown.expect(FilesException.class);
+    Files.contentOf(missingFile.toURI().toURL(), Charset.defaultCharset());
+  }
+
+  @Test
   public void should_load_file_using_charset() {
     // NB: UTF-8 must be supported by every Java implementation
     assertEquals(expectedContent, Files.contentOf(sampleFile, Charset.forName("UTF-8")));
   }
 
   @Test
+  public void should_load_resource_from_url_using_charset() {
+    // NB: UTF-8 must be supported by every Java implementation
+    assertEquals(expectedContent, Files.contentOf(sampleResourceURL, Charset.forName("UTF-8")));
+  }
+
+  @Test
   public void should_load_file_using_charset_name() {
     assertEquals(expectedContent, Files.contentOf(sampleFile, "UTF-8"));
+  }
+
+  @Test
+  public void should_load_resource_from_url_using_charset_name() {
+    assertEquals(expectedContent, Files.contentOf(sampleResourceURL, "UTF-8"));
   }
 }
