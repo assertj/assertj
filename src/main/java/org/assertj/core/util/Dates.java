@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -69,7 +70,16 @@ public class Dates {
   }
 
   /**
-   * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br> Method in synchronized
+   * {@link Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
+   * <code>2003-04-26 03:01:02.999</code>
+   */
+  public static DateFormat newTimestampDateFormat() {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+  }
+
+  /**
+   * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
+   * Method in synchronized
    * because SimpleDateFormat is not thread safe (sigh).
    * <p/>
    * Returns null if given the date is null.

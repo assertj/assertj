@@ -19,12 +19,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-
 import org.assertj.core.api.DateAssert;
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.test.ExpectedException;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -32,11 +30,14 @@ import org.junit.Test;
 /**
  * Abstract class that factorize DateAssert tests with a date arg (either Date or String based).
  * <p/>
- * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) : <ul>
- * <li>successfull assertion test with a date</li> <li>successfull assertion test with a date as string following
- * default date format</li> <li>successfull assertion test with a date as string following custom date format</li>
- * <li>failed assertion test when date as string does not follow the expected date format</li> <li>checking that
- * DateAssert instance used for assertions is returned to allow fluent assertions chaining</li> </ul>
+ * For the most part, date assertion tests are (whatever the concrete date assertion method invoked is) :
+ * <ul>
+ * <li>successfull assertion test with a date</li>
+ * <li>successfull assertion test with a date as string following default date format</li>
+ * <li>successfull assertion test with a date as string following custom date format</li>
+ * <li>failed assertion test when date as string does not follow the expected date format</li>
+ * <li>checking that DateAssert instance used for assertions is returned to allow fluent assertions chaining</li>
+ * </ul>
  * <p/>
  * Subclasses are expected to define the invoked assertion method.
  *
@@ -85,8 +86,11 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
 
   @Test
   public void should_fail_because_date_string_representation_does_not_follow_expected_format() {
-    thrown.expectAssertionError("Failed to parse " + dateAsStringWithBadFormat + " with any of these date formats: " +
-                                "[yyyy-MM-dd'T'HH:mm:ss.SSS, yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd]");
+    thrown.expectAssertionError("Failed to parse " + dateAsStringWithBadFormat + " with any of these date formats: [" +
+                                "yyyy-MM-dd'T'HH:mm:ss.SSS, " +
+                                "yyyy-MM-dd HH:mm:ss.SSS, " +
+                                "yyyy-MM-dd'T'HH:mm:ss, " +
+                                "yyyy-MM-dd]");
     assertionInvocationWithStringArg(dateAsStringWithBadFormat);
   }
 
@@ -99,7 +103,8 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   /**
    * Overrides to invoke the {@link DateAssert} assertion method under test with the {@link #otherDate} attribute.
    * <p/>
-   * example with <code>isBefore</code> date assertion:<br> <code>assertions.isBefore(otherDate);</code>
+   * example with <code>isBefore</code> date assertion:<br>
+   * <code>assertions.isBefore(otherDate);</code>
    *
    * @return the DateAssert instance called
    */
@@ -108,7 +113,8 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   /**
    * Overrides to invoke the {@link DateAssert} assertion method under test with the given date as String.
    * <p/>
-   * example with <code>isBefore</code> date assertion:<br> <code>assertions.isBefore(date);</code>
+   * example with <code>isBefore</code> date assertion:<br>
+   * <code>assertions.isBefore(date);</code>
    *
    * @param dateAsString a date in String based format
    * @return the DateAssert instance called
@@ -118,7 +124,8 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   /**
    * Overrides to verify that the {@link Dates} assertion method was invoked with the given date.
    * <p/>
-   * example with <code>isBefore</code> date assertion:<br> <code>verify(dates).assertIsBefore(getInfo(assertions),
+   * example with <code>isBefore</code> date assertion:<br>
+   * <code>verify(dates).assertIsBefore(getInfo(assertions),
    * getActual(assertions), date);</code>
    *
    * @param date the given date (not the actual date !)
