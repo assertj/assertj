@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-
 import static org.assertj.core.util.Arrays.format;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.areEqual;
@@ -85,18 +84,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
     @Override
     public boolean equals(Object obj) {
-      if (this == obj)
-        return true;
-      if (obj == null)
-        return false;
-      if (getClass() != obj.getClass())
-        return false;
+      if (this == obj) return true;
+      if (obj == null) return false;
+      if (getClass() != obj.getClass()) return false;
       UnquotedString other = (UnquotedString) obj;
       if (string == null) {
-        if (other.string != null)
-          return false;
-      } else if (!string.equals(other.string))
-        return false;
+        if (other.string != null) return false;
+      } else if (!string.equals(other.string)) return false;
       return true;
     }
   }
@@ -116,6 +110,12 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   @Override
   public String create(Description d, Representation representation) {
     return formatter.format(d, representation, format, arguments);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public String create(Description d) {
+    return formatter.format(d, new StandardRepresentation(), format, arguments);
   }
 
   /** {@inheritDoc} */
