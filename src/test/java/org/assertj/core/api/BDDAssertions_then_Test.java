@@ -322,6 +322,17 @@ public class BDDAssertions_then_Test {
       verifyStatic();
       assertThat(actual);
   }
+
+  @Test
+  public void then_of_OptionalInt_should_delegate_to_assertThat() {
+      // GIVEN
+      OptionalInt actual = OptionalInt.of(10);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
   
   @Test
   public void then_of_BigDecimal_should_delegate_to_assertThat() {

@@ -557,7 +557,14 @@ public interface WithAssertions {
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalDouble)}
    */
-  default public <T> OptionalDoubleAssert assertThat(final OptionalDouble optional) {
+  default public OptionalDoubleAssert assertThat(final OptionalDouble optional) {
+      return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalInt)}
+   */
+  default public OptionalIntAssert assertThat(final OptionalInt optional) {
       return Assertions.assertThat(optional);
   }
 

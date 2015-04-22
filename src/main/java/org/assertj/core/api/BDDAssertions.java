@@ -74,15 +74,26 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Create assertion for {@link java.util.OptionalDouble}.
+   * Create assertion for {@link java.util.OptionalInt}.
    *
    * @param optional the actual value.
    *
    * @return the created assertion object.
    */
-  public static OptionalDoubleAssert then(OptionalDouble optional) {
+  public static OptionalIntAssert then(OptionalInt optional) {
       return assertThat(optional);
   }
+
+    /**
+     * Create assertion for {@link java.util.OptionalDouble}.
+     *
+     * @param optional the actual value.
+     *
+     * @return the created assertion object.
+     */
+    public static OptionalDoubleAssert then(OptionalDouble optional) {
+        return assertThat(optional);
+    }
 
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.BigDecimalAssert}</code>.

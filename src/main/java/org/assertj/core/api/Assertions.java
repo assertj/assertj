@@ -92,6 +92,17 @@ public class Assertions {
   public static  OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
       return new OptionalDoubleAssert(optionalDouble);
   }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param optionalInt the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static  OptionalIntAssert assertThat(OptionalInt optionalInt) {
+      return new OptionalIntAssert(optionalInt);
+  }
   
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
