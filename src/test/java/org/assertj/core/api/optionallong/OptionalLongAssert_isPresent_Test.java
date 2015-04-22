@@ -10,35 +10,35 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.core.api.optionallong;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.util.Optional;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
-public class OptionalAssert_isPresent_Test extends BaseTest {
+public class OptionalLongAssert_isPresent_Test extends BaseTest {
 
   @Test
-  public void should_pass_when_optional_is_present() throws Exception {
-	assertThat(Optional.of("present")).isPresent();
+  public void should_pass_when_OptionalLong_is_present() {
+    assertThat(OptionalLong.of(10l)).isPresent();
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() throws Exception {
-    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
+  public void should_fail_when_OptionalLong_is_empty() {
+    thrown.expectAssertionError(shouldBePresent(OptionalLong.empty()).create());
 
-    assertThat(Optional.empty()).isPresent();
+    assertThat(OptionalLong.empty()).isPresent();
   }
 
   @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_OptionalLong_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-	assertThat((Optional<String>) null).isPresent();
+    assertThat((OptionalLong) null).isPresent();
   }
 }

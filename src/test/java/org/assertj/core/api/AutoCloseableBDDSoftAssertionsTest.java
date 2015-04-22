@@ -19,7 +19,7 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.List;
+import java.util.*;
 
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
@@ -122,9 +122,14 @@ public class AutoCloseableBDDSoftAssertionsTest {
 	  final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
 		  ("IllegalArgumentException message");
 	  softly.then(illegalArgumentException).hasMessage("NullPointerException message");
+
+    softly.then(Optional.of("not empty")).isEqualTo("empty");
+    softly.then(OptionalInt.of(0)).isEqualTo(1);
+    softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
+    softly.then(OptionalLong.of(0L)).isEqualTo(1L);
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(38);
+	  assertThat(errors).hasSize(42);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -190,6 +195,12 @@ public class AutoCloseableBDDSoftAssertionsTest {
 		                                   + " <\"NullPointerException message\">\n"
 		                                   + "but was:\n"
 		                                   + " <\"IllegalArgumentException message\">");
+
+    assertThat(errors.get(38)).isEqualTo("expected:<[\"empty\"]> but was:<[Optional[not empty]]>");
+    assertThat(errors.get(39)).isEqualTo("expected:<[1]> but was:<[OptionalInt[0]]>");
+    assertThat(errors.get(40)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
+    assertThat(errors.get(41)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
+
 	  return;
 	}
 	fail("Should not reach here");

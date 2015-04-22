@@ -16,37 +16,41 @@ import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
-import java.util.Optional;
+import java.util.OptionalLong;
 
 /**
- * Assertions for {@link java.util.Optional}.
+ * Assertions for {@link java.util.OptionalLong}.
  *
- * @param <T> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
+ * @author Alexander Bischof
  */
-public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
-    AbstractAssert<S, Optional<T>> {
+public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongAssert<S>> extends
+    AbstractAssert<S, OptionalLong> {
 
-  protected AbstractOptionalAssert(Optional<T> actual, Class<?> selfType) {
+  protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
   /**
-   * Verifies that there is a value present in the actual {@link java.util.Optional}.
+   * Verifies that there is a value present in the actual {@link java.util.OptionalLong}.
    * </p>
    * Assertion will pass :
+   * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.of("something")).isPresent();
+   * assertThat(OptionalLong.of(10)).isPresent();
    * </code></pre>
-   * 
+   * <p>
    * Assertion will fail :
+   * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.empty()).isPresent();
+   * assertThat(OptionalLong.empty()).isPresent();
    * </code></pre>
    *
    * @return this assertion object.
+   * @throws AssertionError if actual value is empty.
+   * @throws AssertionError if actual is null.
    */
   public S isPresent() {
     isNotNull();
@@ -55,21 +59,25 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Verifies that the actual {@link java.util.Optional} is empty.
+   * Verifies that the actual {@link java.util.OptionalLong} is empty.
    * </p>
    * Assertion will pass :
+   * <p>
    * 
    * <pre><code class='java'>
    * assertThat(Optional.empty()).isEmpty();
    * </code></pre>
-   * 
+   * <p>
    * Assertion will fail :
+   * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.of("something")).isEmpty();
+   * assertThat(OptionalLong.of(10)).isEmpty();
    * </code></pre>
    *
    * @return this assertion object.
+   * @throws AssertionError if actual value is present.
+   * @throws AssertionError if actual is null.
    */
   public S isEmpty() {
     isNotNull();
@@ -78,30 +86,34 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Verifies that the actual {@link java.util.Optional} contains the value in argument.
+   * Verifies that the actual {@link java.util.OptionalLong} has the value in argument.
    * </p>
    * Assertion will pass :
+   * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.of("something")).contains("something");
-   * assertThat(Optional.of(10)).contains(10);
+   * assertThat(OptionalLong.of(8)).hasValue(8);
+   * assertThat(OptionalLong.of(8)).hasValue(Integer.valueOf(8));
    * </code></pre>
-   * 
+   * <p>
    * Assertion will fail :
+   * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.of("something")).contains("something else");
-   * assertThat(Optional.of(20)).contains(10);
+   * assertThat(OptionalLong.empty()).hasValue(8);
+   * assertThat(OptionalLong.of(7)).hasValue(8);
    * </code></pre>
    *
-   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @param expectedValue the expected value inside the {@link java.util.OptionalLong}.
    * @return this assertion object.
+   * @throws AssertionError if actual value is empty.
+   * @throws AssertionError if actual is null.
+   * @throws AssertionError if actual has not the value as expected.
    */
-  public S contains(T expectedValue) {
+  public S hasValue(long expectedValue) {
     isNotNull();
-    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
     if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (!actual.get().equals(expectedValue)) throw failure(shouldContain(actual, expectedValue));
+    if (expectedValue != actual.getAsLong()) throw failure(shouldContain(actual, expectedValue));
     return myself;
   }
 }

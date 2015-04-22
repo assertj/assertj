@@ -10,35 +10,37 @@
  *
  * Copyright 2012-2014 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.core.api.optionalint;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.util.Optional;
+import java.util.OptionalInt;
 
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
-public class OptionalAssert_isPresent_Test extends BaseTest {
+public class OptionalIntAssert_isEmpty_Test extends BaseTest {
 
   @Test
-  public void should_pass_when_optional_is_present() throws Exception {
-	assertThat(Optional.of("present")).isPresent();
+  public void should_pass_if_OptionalInt_is_empty() {
+    assertThat(OptionalInt.empty()).isEmpty();
   }
 
   @Test
-  public void should_fail_when_optional_is_empty() throws Exception {
-    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
-
-    assertThat(Optional.empty()).isPresent();
-  }
-
-  @Test
-  public void should_fail_when_optional_is_null() throws Exception {
+  public void should_fail_when_OptionalInt_is_null() {
     thrown.expectAssertionError(actualIsNull());
 
-	assertThat((Optional<String>) null).isPresent();
+    assertThat((OptionalInt) null).isEmpty();
+  }
+
+  @Test
+  public void should_fail_if_OptionalInt_is_present() {
+    OptionalInt actual = OptionalInt.of(10);
+
+    thrown.expectAssertionError(shouldBeEmpty(actual).create());
+
+    assertThat(actual).isEmpty();
   }
 }
