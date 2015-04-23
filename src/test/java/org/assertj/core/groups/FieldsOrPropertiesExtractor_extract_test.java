@@ -136,7 +136,11 @@ public class FieldsOrPropertiesExtractor_extract_test {
 
   @Test
   public void should_extract_property_field_combinations() throws Exception {
-    List<Object> extractedValues = extract(employees, byName("surname.name"));
+    Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
+    darth.field = luke;
+    luke.field = yoda;
+    employees = newArrayList(darth);
+    List<Object> extractedValues = extract(employees, byName("method.field.method.field.method.surname.name"));
     assertThat(extractedValues).containsOnly("Master Jedi");
   }
 
