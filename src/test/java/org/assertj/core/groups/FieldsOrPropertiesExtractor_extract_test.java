@@ -134,6 +134,12 @@ public class FieldsOrPropertiesExtractor_extract_test {
     extract(employees, byName("adult"));
   }
 
+  @Test
+  public void should_extract_property_field_combinations() throws Exception {
+    List<Object> extractedValues = extract(employees, byName("surname.name"));
+    assertThat(extractedValues).containsOnly("Master Jedi");
+  }
+
   // --
   
   private Employee employeeWithBrokenName(String name) {
