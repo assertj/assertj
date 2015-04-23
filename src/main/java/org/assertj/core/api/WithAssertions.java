@@ -569,6 +569,13 @@ public interface WithAssertions {
   }
 
   /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalLong)}
+   */
+  default public OptionalLongAssert assertThat(final OptionalLong optional) {
+      return Assertions.assertThat(optional);
+  }
+
+  /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalDateTime)}
    */
   default public AbstractLocalDateTimeAssert<?> assertThat(final LocalDateTime localDateTime) {

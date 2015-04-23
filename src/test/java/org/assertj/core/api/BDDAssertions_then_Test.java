@@ -333,6 +333,17 @@ public class BDDAssertions_then_Test {
       verifyStatic();
       assertThat(actual);
   }
+
+  @Test
+  public void then_of_OptionalLong_should_delegate_to_assertThat() {
+      // GIVEN
+      OptionalLong actual = OptionalLong.of(10l);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
   
   @Test
   public void then_of_BigDecimal_should_delegate_to_assertThat() {

@@ -89,7 +89,7 @@ public class Assertions {
    *
    * @return the created assertion object.
    */
-  public static  OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
+  public static OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
       return new OptionalDoubleAssert(optionalDouble);
   }
 
@@ -100,11 +100,22 @@ public class Assertions {
    *
    * @return the created assertion object.
    */
-  public static  OptionalIntAssert assertThat(OptionalInt optionalInt) {
+  public static OptionalIntAssert assertThat(OptionalInt optionalInt) {
       return new OptionalIntAssert(optionalInt);
   }
-  
+
   /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param optionalLong the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalLongAssert assertThat(OptionalLong optionalLong) {
+        return new OptionalLongAssert(optionalLong);
+    }
+
+    /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
    * @param actual the actual value.
