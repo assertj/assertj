@@ -22,6 +22,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import java.util.Map;
 
 class ByNameSingleExtractor<T> implements Extractor<T, Object> {
+		private static final String SEPARATOR = ".";
+		
   private final String propertyOrFieldName;
 
   ByNameSingleExtractor(String propertyOrFieldName) {
@@ -43,21 +45,52 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
 	  return map.get(propertyOrFieldName);
 	}
 
-	// first try to get given property values from objects, then try properties
-	try {
-	  return PropertySupport.instance().propertyValueOf(propertyOrFieldName, Object.class, input);
-	} catch (IntrospectionError fieldIntrospectionError) {
-	  // no luck with properties, let's try fields
-	  try {
-		return FieldSupport.extraction().fieldValue(propertyOrFieldName, Object.class, input);
-	  } catch (IntrospectionError propertyIntrospectionError) {
-		// no field nor property found with given name, it is considered as an error
-		String message = format("%nCan't find any field or property with name '%s'.%nError when introspecting fields was :%n- %s %nError when introspecting properties was :%n- %s",
-		                        propertyOrFieldName, fieldIntrospectionError.getMessage(),
-		                        propertyIntrospectionError.getMessage());
-		throw new IntrospectionError(message);
-	  }
-	}
+	return extract(propertyOrFieldName, input);
   }
+    
+    private Object extract(String propertyOrFieldName, Object input){
+		    if (isNested(propertyOrFieldName)) {
+				    String firstPropertyName = popNameFrom(propertyOrFieldName);
+				    Object propertyValue = extractValue(firstPropertyName, input);
+				    // extract next sub-property values until reaching the last sub-property
+				    return extract(nextNameFrom(propertyOrFieldName), propertyValue);
+		    }
+		    return extractValue(propertyOrFieldName, input);
+    }
+		
+		private Object extractValue(String propertyOrFieldName, Object input){
+				// first try to get given property values from objects, then try properties
+				try {
+						return PropertySupport.instance().propertyValueOf(propertyOrFieldName, Object.class, input);
+				} catch (IntrospectionError fieldIntrospectionError) {
+						// no luck with properties, let's try fields
+						try {
+								return FieldSupport.extraction().fieldValue(propertyOrFieldName, Object.class, input);
+						} catch (IntrospectionError propertyIntrospectionError) {
+								// no field nor property found with given name, it is considered as an error
+								String message = format("%nCan't find any field or property with name '%s'.%nError when introspecting fields was :%n- %s %nError when introspecting properties was :%n- %s",
+								                        propertyOrFieldName, fieldIntrospectionError.getMessage(),
+								                        propertyIntrospectionError.getMessage());
+								throw new IntrospectionError(message);
+						}
+				}
+		}
 
+		private String popNameFrom(String propertyOrFieldNameChain) {
+				if (!isNested(propertyOrFieldNameChain)) {
+						return propertyOrFieldNameChain;
+				}
+				return propertyOrFieldNameChain.substring(0, propertyOrFieldNameChain.indexOf(SEPARATOR));
+		}
+
+		private String nextNameFrom(String propertyOrFieldNameChain) {
+				if (!isNested(propertyOrFieldNameChain)) {
+						return "";
+				}
+				return propertyOrFieldNameChain.substring(propertyOrFieldNameChain.indexOf(SEPARATOR) + 1);
+		}
+		
+		private boolean isNested(String propertyOrFieldName) {
+				return propertyOrFieldName.contains(SEPARATOR) && !propertyOrFieldName.startsWith(SEPARATOR) && !propertyOrFieldName.endsWith(SEPARATOR);
+		}
 }
