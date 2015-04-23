@@ -57,6 +57,12 @@ public class Employee {
   public boolean isAdult() {
     return age > 18;
   }
+  
+  // testing nested combinations of field/property
+  public Employee field;
+  public Employee getMe(){
+    return this;
+  }
 
   @Override
   public String toString() {
