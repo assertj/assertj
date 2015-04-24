@@ -2345,6 +2345,45 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
+   * Instead of using default strict date/time parsing it is possible to enforce mode when for default date formats
+   * parser uses heuristics to interpret inputs that do not precisely match supported date formats (lenient parsing).
+   *
+   * With strict parsing, inputs must match exactly date/time format.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * final Date date = Dates.parse("2001-02-03");
+   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
+   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
+   *
+   * AbstractDateAssert.setLenientDateParsing(true);
+   *
+   * // assertions will pass
+   * assertThat(date).isEqualTo("2001-01-34");
+   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
+   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
+   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
+   *
+   * // assertions will fail
+   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
+   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here
+   * </code></pre>
+   *
+   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
+   *
+   * @param value whether lenient parsing mode should be enabled or not
+   * @author Michal Kordas
+   */
+  public static void setLenientDateParsing(boolean value) {
+    for (DateFormat defaultDateFormat : DEFAULT_DATE_FORMATS) {
+      defaultDateFormat.setLenient(value);
+    }
+  }
+
+  /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link #isEqualTo(String)}.
    * <p/>

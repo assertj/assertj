@@ -51,14 +51,14 @@ public class Dates {
    * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
    */
   public static DateFormat newIsoDateFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd");
+    return strictDateFormatForPattern("yyyy-MM-dd");
   }
 
   /**
    * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
    */
   public static DateFormat newIsoDateTimeFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss");
   }
 
   /**
@@ -66,7 +66,7 @@ public class Dates {
    * <code>2003-04-26T03:01:02.999</code>
    */
   public static DateFormat newIsoDateTimeWithMsFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
   }
 
   /**
@@ -74,7 +74,13 @@ public class Dates {
    * <code>2003-04-26 03:01:02.999</code>
    */
   public static DateFormat newTimestampDateFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+    return strictDateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS");
+  }
+
+  private static DateFormat strictDateFormatForPattern(String pattern) {
+    DateFormat dateFormat = new SimpleDateFormat(pattern);
+    dateFormat.setLenient(false);
+    return dateFormat;
   }
 
   /**
