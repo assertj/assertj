@@ -15,6 +15,9 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.Timestamp;
@@ -80,6 +83,28 @@ public class Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
+   */
+  public static AbstractUriAssert<?> assertThat(URI actual) {
+      return new UriAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @throws java.net.URISyntaxException if actual can not be parsed as a URI reference.
+   */
+  public static AbstractUriAssert<?> assertThat(URL actual) throws URISyntaxException {
+      return new UriAssert(actual.toURI());
+  }
+
+    /**
    * Creates a new instance of <code>{@link BooleanAssert}</code>.
    *
    * @param actual the actual value.
