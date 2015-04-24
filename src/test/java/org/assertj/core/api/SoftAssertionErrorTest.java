@@ -22,13 +22,13 @@ public class SoftAssertionErrorTest {
   @Test
   public void should_format_a_single_error_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One"));
-    assertThat(error.getMessage()).isEqualTo("\nThe following assertion failed:\n1) One\n");
+    assertThat(error.getMessage()).isEqualTo(String.format("%nThe following assertion failed:%n1) One%n"));
   }
 
   @Test
   public void should_format_multiple_errors_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One", "Two"));
-    assertThat(error.getMessage()).isEqualTo("\nThe following 2 assertions failed:\n1) One\n2) Two\n");
+    assertThat(error.getMessage()).isEqualTo(String.format("%nThe following 2 assertions failed:%n1) One%n2) Two%n"));
   }
 
 }

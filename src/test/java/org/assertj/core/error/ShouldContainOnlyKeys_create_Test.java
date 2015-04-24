@@ -42,15 +42,15 @@ public class ShouldContainOnlyKeys_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n"
-	                              + "to contain only following keys:\n"
-	                              + "  <[\"jedi\", \"color\"]>\n"
-	                              + "keys not found:\n"
-	                              + "  <[\"jedi\"]>\n"
-	                              + "and keys not expected:\n"
-	                              + "  <[\"name\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>%n"
+	                              + "to contain only following keys:%n"
+	                              + "  <[\"jedi\", \"color\"]>%n"
+	                              + "keys not found:%n"
+	                              + "  <[\"jedi\"]>%n"
+	                              + "and keys not expected:%n"
+	                              + "  <[\"name\"]>%n"));
   }
 
   @Test
@@ -61,13 +61,13 @@ public class ShouldContainOnlyKeys_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <{\"color\"=\"green\"}>\n"
-	                              + "to contain only following keys:\n"
-	                              + "  <[\"jedi\", \"color\"]>\n"
-	                              + "but could not find the following keys:\n"
-	                              + "  <[\"jedi\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <{\"color\"=\"green\"}>%n"
+	                              + "to contain only following keys:%n"
+	                              + "  <[\"jedi\", \"color\"]>%n"
+	                              + "but could not find the following keys:%n"
+	                              + "  <[\"jedi\"]>%n"));
   }
 
 }

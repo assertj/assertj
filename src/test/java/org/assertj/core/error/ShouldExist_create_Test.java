@@ -53,7 +53,7 @@ public class ShouldExist_create_Test {
     factory = shouldExist(new FakeFile("xyz"));
     actualMessage = factory.create(description, representation);
 
-    expectedMessage = "[Test] \nExpecting file:\n  <xyz>\nto exist.";
+    expectedMessage = String.format("[Test] %nExpecting file:%n  <xyz>%nto exist.");
 
     assertThat(actualMessage).isEqualTo(expectedMessage);
   }

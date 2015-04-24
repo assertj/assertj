@@ -20,7 +20,6 @@ import java.text.ParseException;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 import org.assertj.core.description.TextDescription;
 
 
@@ -38,9 +37,9 @@ public class ShouldBeInSameMinuteWindow_create_Test {
                                                              parseDatetime("2011-01-01T05:02:01"));
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n  <2011-01-01T05:00:00>\nto be close to:\n  " +
-                                    "<2011-01-01T05:02:01>\n" +
-                                    "by less than one minute (strictly) but difference was: 2m and 1s");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n  <2011-01-01T05:00:00>%nto be close to:%n  " +
+                                    "<2011-01-01T05:02:01>%n" +
+                                    "by less than one minute (strictly) but difference was: 2m and 1s"));
   }
 
 }

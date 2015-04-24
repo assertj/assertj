@@ -35,21 +35,21 @@ public class ShouldContainOnlyDigits_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <\"10$\">\n" +
-                                  "to contain only digits\n" +
-                                  "but found non-digit character <'$'> at index <2>");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <\"10$\">%n" +
+                                  "to contain only digits%n" +
+                                  "but found non-digit character <'$'> at index <2>"));
   }
 
   @Test
   public void should_create_error_message_for_empty_string() {
     factory = shouldContainOnlyDigits("");
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <\"\">\n" +
-                                  "to contain only digits\n" +
-                                  "but could not found any digits at all");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <\"\">%n" +
+                                  "to contain only digits%n" +
+                                  "but could not found any digits at all"));
   }
 }

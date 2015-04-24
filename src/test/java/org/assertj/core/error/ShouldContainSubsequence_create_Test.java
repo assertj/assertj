@@ -41,7 +41,7 @@ public class ShouldContainSubsequence_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto contain subsequence:\n <[\"Han\", \"Leia\"]>\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"), message);
   }
 
   @Test
@@ -49,7 +49,7 @@ public class ShouldContainSubsequence_create_Test {
     ErrorMessageFactory factory = shouldContainSubsequence(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nto contain subsequence:\n <[\"Han\", \"Leia\"]>\n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"
+        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 }

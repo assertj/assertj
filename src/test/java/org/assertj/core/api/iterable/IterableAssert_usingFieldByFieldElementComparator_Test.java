@@ -72,11 +72,11 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
 	try {
 	  assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n" +
-		                       " <[Foo(id=id, bar=1)]>\n" +
-		                       "to be equal to:\n" +
-		                       " <[Foo(id=id, bar=2)]>\n" +
-		                       "when comparing elements using 'field by field comparator on all fields' but was not.");
+	  assertThat(e).hasMessage(String.format("%nExpecting:%n" +
+		                       " <[Foo(id=id, bar=1)]>%n" +
+		                       "to be equal to:%n" +
+		                       " <[Foo(id=id, bar=2)]>%n" +
+		                       "when comparing elements using 'field by field comparator on all fields' but was not."));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -89,11 +89,11 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
 	try {
 	  assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n" +
-		                       " <[Foo(id=id, bar=1)]>\n" +
-		                       "to be in:\n" +
-		                       " <[[Foo(id=id, bar=2)]]>\n" +
-		                       "when comparing elements using 'field by field comparator on all fields'");
+	  assertThat(e).hasMessage(String.format("%nExpecting:%n" +
+		                       " <[Foo(id=id, bar=1)]>%n" +
+		                       "to be in:%n" +
+		                       " <[[Foo(id=id, bar=2)]]>%n" +
+		                       "when comparing elements using 'field by field comparator on all fields'"));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

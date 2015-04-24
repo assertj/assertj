@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import org.assertj.core.internal.*;
@@ -41,14 +40,14 @@ public class ShouldNotBeEqual_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
-    assertEquals("[Jedi] \nExpecting:\n <\"Yoda\">\nnot to be equal to:\n <\"Luke\">\n", message);
+    assertEquals(String.format("[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%n"), message);
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
     factory = shouldNotBeEqual("Yoda", "Luke", new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TestDescription("Jedi"), new StandardRepresentation());
-    assertEquals(
-        "[Jedi] \nExpecting:\n <\"Yoda\">\nnot to be equal to:\n <\"Luke\">\nwhen comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format(
+        "[Jedi] %nExpecting:%n <\"Yoda\">%nnot to be equal to:%n <\"Luke\">%nwhen comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 }

@@ -13,7 +13,6 @@
 package org.assertj.core.internal.integers;
 
 import static org.assertj.core.test.TestData.someInfo;
-
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.AssertionInfo;
@@ -37,7 +36,7 @@ public class Integers_assertIsNotZero_Test extends IntegersBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
+    thrown.expectAssertionError("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n");
     integers.assertIsNotZero(someInfo(), 0);
   }
 
@@ -51,7 +50,7 @@ public class Integers_assertIsNotZero_Test extends IntegersBaseTest {
     try {
       integersWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0>\nnot to be equal to:\n <0>\n");
+      assertEquals(e.getMessage(), String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
     }
   }
 

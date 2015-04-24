@@ -39,10 +39,10 @@ public class ShouldContainSequenceString_create_Test {
 
     factory = shouldContainSequence(actual, sequenceValues, 1);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"" + actual + "\">\n"
-        + "to contain the following CharSequences in this order:\n"
-        + " <[\"{\", \"author\", \"title\", \"}\"]>\n"
-        + "but <\"title\"> was found before <\"author\">\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <\"" + actual + "\">%n"
+        + "to contain the following CharSequences in this order:%n"
+        + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
+        + "but <\"title\"> was found before <\"author\">%n"), message);
   }
 
   @Test
@@ -53,11 +53,11 @@ public class ShouldContainSequenceString_create_Test {
     factory = shouldContainSequence(actual, sequenceValues, 1,
                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"" + actual + "\">\n"
-        + "to contain the following CharSequences in this order:\n"
-        + " <[\"{\", \"author\", \"title\", \"}\"]>\n"
-        + "but <\"title\"> was found before <\"author\">\n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <\"" + actual + "\">%n"
+        + "to contain the following CharSequences in this order:%n"
+        + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
+        + "but <\"title\"> was found before <\"author\">%n"
+        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 
 }
