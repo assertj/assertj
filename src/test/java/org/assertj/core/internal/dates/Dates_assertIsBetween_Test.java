@@ -13,12 +13,11 @@
 package org.assertj.core.internal.dates;
 
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.endDateToCompareActualWithIsNull;
+import static org.assertj.core.test.ErrorMessages.startDateToCompareActualWithIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Date;
@@ -161,7 +160,7 @@ public class Dates_assertIsBetween_Test extends DatesBaseTest {
   public void should_fail_if_actual_is_equals_to_start_of_given_period_and_start_is_not_included_in_given_period_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
     actual = parseDate("2011-09-01");
-    Date start = parseDate("2011-09-31"); // = 2011-09-01 according to comparison strategy
+    Date start = parseDate("2011-09-30"); // = 2011-09-01 according to comparison strategy
     Date end = parseDate("2011-10-30");
     boolean inclusiveStart = false;
     boolean inclusiveEnd = true;

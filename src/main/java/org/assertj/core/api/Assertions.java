@@ -88,7 +88,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractUriAssert<?> assertThat(URI actual) {
-      return new UriAssert(actual);
+    return new UriAssert(actual);
   }
 
   /**
@@ -101,7 +101,7 @@ public class Assertions {
     return new UrlAssert(actual);
   }
 
-    /**
+  /**
    * Creates a new instance of <code>{@link BooleanAssert}</code>.
    *
    * @param actual the actual value.
@@ -935,7 +935,7 @@ public class Assertions {
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -949,7 +949,7 @@ public class Assertions {
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -963,7 +963,7 @@ public class Assertions {
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -977,7 +977,7 @@ public class Assertions {
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
   }
-  
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -1215,6 +1215,44 @@ public class Assertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
+   * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
+   * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
+   * <p/>
+   * With strict parsing, inputs must match exactly date/time format.
+   *
+   * <p>
+   * Example:
+   * </p>
+   * 
+   * <pre><code class='java'>
+   * final Date date = Dates.parse("2001-02-03");
+   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
+   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
+   *
+   * Assertions.setLenientDateParsing(true);
+   *
+   * // assertions will pass
+   * assertThat(date).isEqualTo("2001-01-34");
+   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
+   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
+   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
+   *
+   * // assertions will fail
+   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
+   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here
+   * </code></pre>
+   *
+   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
+   *
+   * @param value whether lenient parsing mode should be enabled or not
+   */
+  public static void setLenientDateParsing(boolean value) {
+    AbstractDateAssert.setLenientDateParsing(value);
+  }
+
+  /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
@@ -1235,7 +1273,7 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   * 
+   *
    * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -1338,6 +1376,5 @@ public class Assertions {
   /**
    * Creates a new </code>{@link Assertions}</code>.
    */
-  protected Assertions() {
-  }
+  protected Assertions() {}
 }
