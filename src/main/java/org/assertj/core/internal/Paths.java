@@ -43,7 +43,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.PathsException;
 import org.assertj.core.util.VisibleForTesting;
