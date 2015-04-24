@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
 import org.assertj.core.error.BasicErrorMessageFactory;

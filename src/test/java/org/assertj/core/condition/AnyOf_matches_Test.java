@@ -12,8 +12,8 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.assertj.core.condition.AnyOf.anyOf;
 
 import org.assertj.core.api.Condition;

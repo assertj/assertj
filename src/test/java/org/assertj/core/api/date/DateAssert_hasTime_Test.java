@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static junit.framework.Assert.assertSame;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.verify;
 
 
