@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 

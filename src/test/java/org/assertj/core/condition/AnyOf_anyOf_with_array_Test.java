@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;

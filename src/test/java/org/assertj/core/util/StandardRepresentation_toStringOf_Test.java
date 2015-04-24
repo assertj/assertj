@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;

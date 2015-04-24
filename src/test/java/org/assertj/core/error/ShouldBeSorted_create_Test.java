@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.util.Arrays.array;
 import static org.junit.rules.ExpectedException.none;

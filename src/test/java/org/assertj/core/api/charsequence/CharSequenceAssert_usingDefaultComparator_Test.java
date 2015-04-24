@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static junit.framework.Assert.assertSame;
+import static org.junit.Assert.assertSame;
 
 
 import org.assertj.core.api.CharSequenceAssert;

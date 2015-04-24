@@ -13,7 +13,7 @@
 package org.assertj.core.description;
 
 import static java.util.UUID.randomUUID;
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.rules.ExpectedException.none;
 
 import org.assertj.core.description.TextDescription;

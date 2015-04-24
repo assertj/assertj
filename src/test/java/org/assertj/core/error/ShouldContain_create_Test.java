@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;

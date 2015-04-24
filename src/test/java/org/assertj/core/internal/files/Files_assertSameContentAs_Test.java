@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;

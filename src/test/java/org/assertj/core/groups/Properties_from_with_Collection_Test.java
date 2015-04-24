@@ -12,7 +12,7 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertSame;
+import static org.junit.Assert.assertSame;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.*;
 

@@ -21,7 +21,7 @@ import org.junit.Test;
 import java.io.File;
 import java.nio.file.Path;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 import static org.assertj.core.error.ShouldBeDirectory.FILE_SHOULD_BE_DIRECTORY;
 import static org.assertj.core.error.ShouldBeDirectory.PATH_SHOULD_BE_DIRECTORY;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;

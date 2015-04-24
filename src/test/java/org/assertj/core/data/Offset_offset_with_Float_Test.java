@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertSame;
+import static org.junit.Assert.assertSame;
 import static org.assertj.core.test.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.test.ExpectedException.none;
 

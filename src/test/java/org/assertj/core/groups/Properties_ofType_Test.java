@@ -12,7 +12,7 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.groups.Properties;
 import org.junit.Test;

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.doublearray;
 
-import static junit.framework.Assert.assertSame;
+import static org.junit.Assert.assertSame;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
