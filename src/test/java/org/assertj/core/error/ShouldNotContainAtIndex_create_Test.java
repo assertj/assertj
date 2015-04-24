@@ -42,7 +42,7 @@ public class ShouldNotContainAtIndex_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\nat index <1>\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%nat index <1>%n"), message);
   }
 
   @Test
@@ -50,7 +50,7 @@ public class ShouldNotContainAtIndex_create_Test {
     factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\n"
-        + "at index <1>\n" + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%n"
+        + "at index <1>%n" + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 }

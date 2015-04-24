@@ -13,7 +13,6 @@
 package org.assertj.core.internal.longs;
 
 import static org.assertj.core.test.TestData.someInfo;
-
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.AssertionInfo;
@@ -37,7 +36,7 @@ public class Longs_assertIsNotZero_Test extends LongsBaseTest {
 
   @Test
   public void should_fail_since_actual_is_zero() {
-    thrown.expectAssertionError("\nExpecting:\n <0L>\nnot to be equal to:\n <0L>\n");
+    thrown.expectAssertionError("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n");
     longs.assertIsNotZero(someInfo(), 0l);
   }
 
@@ -51,7 +50,7 @@ public class Longs_assertIsNotZero_Test extends LongsBaseTest {
     try {
       longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0L>\nnot to be equal to:\n <0L>\n");
+      assertEquals(e.getMessage(), String.format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));
 
     }
   }

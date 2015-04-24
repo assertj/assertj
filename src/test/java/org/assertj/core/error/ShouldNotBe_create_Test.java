@@ -16,6 +16,7 @@ import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.junit.Assert.assertEquals;
 
 
+
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.*;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -38,6 +39,6 @@ public class ShouldNotBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to be <Sith>", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to be <Sith>"), message);
   }
 }

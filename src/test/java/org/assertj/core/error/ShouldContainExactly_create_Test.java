@@ -45,16 +45,16 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", \"Han\"]>\n"
-	                              + "to contain exactly (and in same order):\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but some elements were not found:\n"
-	                              + "  <[\"Luke\"]>\n"
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Han\"]>%n"
+	                              + "to contain exactly (and in same order):%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but some elements were not found:%n"
+	                              + "  <[\"Luke\"]>%n"
 	                              + "and others were not "
-	                              + "expected:\n"
-	                              + "  <[\"Han\"]>\n");
+	                              + "expected:%n"
+	                              + "  <[\"Han\"]>%n"));
   }
 
   @Test
@@ -67,16 +67,16 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", \"Han\"]>\n"
-	                              + "to contain exactly (and in same order):\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but some elements were not found:\n"
-	                              + "  <[\"Luke\"]>\n"
-	                              + "and others were not expected:\n"
-	                              + "  <[\"Han\"]>\n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Han\"]>%n"
+	                              + "to contain exactly (and in same order):%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but some elements were not found:%n"
+	                              + "  <[\"Luke\"]>%n"
+	                              + "and others were not expected:%n"
+	                              + "  <[\"Han\"]>%n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 
   @Test
@@ -86,13 +86,13 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\"]>\n"
-	                              + "to contain exactly (and in same order):\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but could not find the following elements:\n"
-	                              + "  <[\"Luke\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\"]>%n"
+	                              + "to contain exactly (and in same order):%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but could not find the following elements:%n"
+	                              + "  <[\"Luke\"]>%n"));
   }
 
   @Test
@@ -105,14 +105,14 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\"]>\n"
-	                              + "to contain exactly (and in same order):\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but could not find the following elements:\n"
-	                              + "  <[\"Luke\"]>\n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\"]>%n"
+	                              + "to contain exactly (and in same order):%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but could not find the following elements:%n"
+	                              + "  <[\"Luke\"]>%n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 
   @Test
@@ -121,11 +121,11 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                                  + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
-	                                  + "  <\"Luke\">\n"
-	                                  + "whereas expected element was:\n"
-	                                  + "  <\"Han\">\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                                  + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
+	                                  + "  <\"Luke\">%n"
+	                                  + "whereas expected element was:%n"
+	                                  + "  <\"Han\">%n"));
   }
 
   @Test
@@ -134,10 +134,10 @@ public class ShouldContainExactly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                                  + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:\n"
-	                                  + "  <\"Luke\">\nwhereas expected element was:\n"
-	                                  + "  <\"Han\">\n"
-	                                  + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                                  + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
+	                                  + "  <\"Luke\">%nwhereas expected element was:%n"
+	                                  + "  <\"Han\">%n"
+	                                  + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

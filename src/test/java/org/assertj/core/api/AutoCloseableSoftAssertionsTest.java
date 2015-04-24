@@ -155,21 +155,21 @@ public class AutoCloseableSoftAssertionsTest {
 	  assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
 	  assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have same content:"
+	  assertThat(errors.get(20)).isEqualTo(String.format("%nInputStreams do not have same content:"
 		                                   + System.getProperty("line.separator")
-		                                   + "line:<1>, expected:<B> but was:<A>");
+		                                   + "line:<1>, expected:<B> but was:<A>"));
 
 	  assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
 	  assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
 	  assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
 	  assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
-	  assertThat(errors.get(25)).isEqualTo("\nExpecting:\n" +
-		                                   " <[\"28\"]>\n" +
-		                                   "to contain:\n" +
-		                                   " <[\"29\"]>\n" +
-		                                   "but could not find:\n" +
-		                                   " <[\"29\"]>\n");
+	  assertThat(errors.get(25)).isEqualTo(String.format("%nExpecting:%n" +
+		                                   " <[\"28\"]>%n" +
+		                                   "to contain:%n" +
+		                                   " <[\"29\"]>%n" +
+		                                   "but could not find:%n" +
+		                                   " <[\"29\"]>%n"));
 	  assertThat(errors.get(26)).isEqualTo("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
 	  assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
@@ -186,10 +186,10 @@ public class AutoCloseableSoftAssertionsTest {
 
 	  assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
 	  assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
-	  assertThat(errors.get(37)).isEqualTo("\nExpecting message:\n"
-		                                   + " <\"NullPointerException message\">\n"
-		                                   + "but was:\n"
-		                                   + " <\"IllegalArgumentException message\">");
+	  assertThat(errors.get(37)).isEqualTo(String.format("%nExpecting message:%n"
+		                                   + " <\"NullPointerException message\">%n"
+		                                   + "but was:%n"
+		                                   + " <\"IllegalArgumentException message\">"));
 	  return;
 	}
 	fail("Should not reach here");

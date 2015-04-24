@@ -19,6 +19,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.io.File;
 
 
+
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
@@ -41,7 +42,7 @@ public class ShouldBeOfClassIn_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be of one these types:\n <[java.lang.Long, java.io.File]>\nbut was:\n <java.lang.String>",
+    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nto be of one these types:%n <[java.lang.Long, java.io.File]>%nbut was:%n <java.lang.String>"),
         message);
   }
 }

@@ -17,6 +17,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
 
 
+
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -41,7 +42,7 @@ public class ShouldBeSameGenericBetweenIterableAndCondition_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting: <[\"Yoda\", \"Leia\"]> have the same generic type as condition <Not a Jedi>", message);
+    assertEquals(String.format("[Test] %nExpecting: <[\"Yoda\", \"Leia\"]> have the same generic type as condition <Not a Jedi>"), message);
   }
 
 }

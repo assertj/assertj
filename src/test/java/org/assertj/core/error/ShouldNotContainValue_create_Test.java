@@ -30,11 +30,11 @@ public class ShouldNotContainValue_create_Test {
 	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
 	ErrorMessageFactory factory = shouldNotContainValue(map, "green");
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n" +
-	                              "Expecting:\n" +
-	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
-	                              "not to contain value:\n" +
-	                              "  <\"green\">");
+	assertThat(message).isEqualTo(String.format("[Test] %n" +
+	                              "Expecting:%n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>%n" +
+	                              "not to contain value:%n" +
+	                              "  <\"green\">"));
   }
 
 }

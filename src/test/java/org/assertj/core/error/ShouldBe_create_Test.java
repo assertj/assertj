@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.error.ShouldBe.shouldBe;
-
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.TestCondition;
@@ -41,6 +40,6 @@ public class ShouldBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be <green>", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nto be <green>"), message);
   }
 }

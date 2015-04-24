@@ -38,10 +38,10 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n  <2011-01-01T05:00:00>\n" +
-                                    "to have same year, month, day, hour, minute and second as:\n  " +
-                                    "<2011-01-01T06:05:17>\n" +
-                                    "but had not.");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n  <2011-01-01T05:00:00>%n" +
+                                    "to have same year, month, day, hour, minute and second as:%n  " +
+                                    "<2011-01-01T06:05:17>%n" +
+                                    "but had not."));
   }
 
   @Test
@@ -50,10 +50,10 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.SECONDS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n  <2011-01-01T05:00:00>\n" +
-                                    "to have same year, month, day, hour and minute as:\n  " +
-                                    "<2011-01-01T06:05:17>\n" +
-                                    "but had not.");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n  <2011-01-01T05:00:00>%n" +
+                                    "to have same year, month, day, hour and minute as:%n  " +
+                                    "<2011-01-01T06:05:17>%n" +
+                                    "but had not."));
   }
 
   @Test
@@ -62,10 +62,10 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n  <2011-01-01T05:00:00>\n" +
-                                    "to have same year, month, day and hour as:\n  " +
-                                    "<2011-01-01T06:05:17>\n" +
-                                    "but had not.");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n  <2011-01-01T05:00:00>%n" +
+                                    "to have same year, month, day and hour as:%n  " +
+                                    "<2011-01-01T06:05:17>%n" +
+                                    "but had not."));
   }
 
   @Test
@@ -74,10 +74,10 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.HOURS);
 
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting:\n  <2011-01-01T05:00:00>\n" +
-                                    "to have same year, month and day as:\n  " +
-                                    "<2011-01-01T06:05:17>\n" +
-                                    "but had not.");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n  <2011-01-01T05:00:00>%n" +
+                                    "to have same year, month and day as:%n  " +
+                                    "<2011-01-01T06:05:17>%n" +
+                                    "but had not."));
   }
 
 }

@@ -40,11 +40,11 @@ public class ShouldContainOnlyDigits extends BasicErrorMessageFactory {
   }
 
   private ShouldContainOnlyDigits(CharSequence actual, char character, int index) {
-    super("\nExpecting:\n  <%s>\nto contain only digits\nbut found non-digit character <%s> at index <%s>",
+    super("%nExpecting:%n  <%s>%nto contain only digits%nbut found non-digit character <%s> at index <%s>",
           actual, character, index);
   }
 
   private ShouldContainOnlyDigits(CharSequence actual) {
-    super("\nExpecting:\n  <%s>\nto contain only digits\nbut could not found any digits at all", actual);
+    super("%nExpecting:%n  <%s>%nto contain only digits%nbut could not found any digits at all", actual);
   }
 }
