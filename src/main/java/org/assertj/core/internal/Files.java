@@ -13,7 +13,6 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.VisibleForTesting;
 
