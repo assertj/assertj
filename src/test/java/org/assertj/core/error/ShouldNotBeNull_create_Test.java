@@ -16,6 +16,7 @@ import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 
+
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.*;
@@ -38,6 +39,6 @@ public class ShouldNotBeNull_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting actual not to be null", message);
+    assertEquals(String.format("[Test] %nExpecting actual not to be null"), message);
   }
 }

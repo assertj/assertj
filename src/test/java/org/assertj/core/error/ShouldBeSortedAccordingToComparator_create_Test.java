@@ -35,8 +35,8 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "A"),
         new CaseInsensitiveStringComparator());
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \ngroup is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"A\">\ngroup was:\n <[\"b\", \"c\", \"A\"]>",
+    assertEquals(String.format(
+        "[Test] %ngroup is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"A\">%ngroup was:%n <[\"b\", \"c\", \"A\"]>"),
         message);
   }
 
@@ -45,8 +45,8 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
         new StaticStringComparator());
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \ngroup is not sorted according to 'StaticStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"a\">\ngroup was:\n <[\"b\", \"c\", \"a\"]>",
+    assertEquals(String.format(
+        "[Test] %ngroup is not sorted according to 'StaticStringComparator' comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"a\">%ngroup was:%n <[\"b\", \"c\", \"a\"]>"),
         message);
   }
 

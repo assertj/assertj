@@ -37,11 +37,11 @@ public class ShouldNotEndWith_create_Test {
   public void should_create_error_message() {
     factory = shouldNotEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <[\"Yoda\", \"Luke\"]>\n" +
-                                  "not to end with:\n" +
-                                  "  <[\"Han\", \"Leia\"]>\n");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <[\"Yoda\", \"Luke\"]>%n" +
+                                  "not to end with:%n" +
+                                  "  <[\"Han\", \"Leia\"]>%n"));
   }
 
   @Test
@@ -49,11 +49,11 @@ public class ShouldNotEndWith_create_Test {
     factory = shouldNotEndWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
                                new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <[\"Yoda\", \"Luke\"]>\n" +
-                                  "not to end with:\n" +
-                                  "  <[\"Han\", \"Leia\"]>\n" +
-                                  "when comparing values using 'CaseInsensitiveStringComparator'");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <[\"Yoda\", \"Luke\"]>%n" +
+                                  "not to end with:%n" +
+                                  "  <[\"Han\", \"Leia\"]>%n" +
+                                  "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

@@ -14,7 +14,6 @@ package org.assertj.core.error;
 
 import static org.assertj.core.error.ElementsShouldHaveAtLeast.elementsShouldHaveAtLeast;
 import static org.assertj.core.util.Lists.newArrayList;
-
 import static org.junit.Assert.assertEquals;
 
 import org.assertj.core.api.TestCondition;
@@ -42,7 +41,7 @@ public class ElementsShouldHaveAtLeast_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting elements:\n<[\"Yoda\", \"Solo\", \"Leia\"]>\n to have at least 2 times <Jedi power>", message);
+    assertEquals(String.format("[Test] %nExpecting elements:%n<[\"Yoda\", \"Solo\", \"Leia\"]>%n to have at least 2 times <Jedi power>"), message);
   }
 
 }

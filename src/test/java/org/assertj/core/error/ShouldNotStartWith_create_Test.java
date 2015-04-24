@@ -42,11 +42,11 @@ public class ShouldNotStartWith_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <[\"Yoda\", \"Luke\"]>\n" +
-                                  "not to start with:\n  " +
-                                  "<[\"Han\", \"Leia\"]>\n");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <[\"Yoda\", \"Luke\"]>%n" +
+                                  "not to start with:%n  " +
+                                  "<[\"Han\", \"Leia\"]>%n"));
   }
 
   @Test
@@ -54,11 +54,11 @@ public class ShouldNotStartWith_create_Test {
     factory = shouldNotStartWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
                                  new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <[\"Yoda\", \"Luke\"]>\n" +
-                                  "not to start with:\n" +
-                                  "  <[\"Han\", \"Leia\"]>\n" +
-                                  "when comparing values using 'CaseInsensitiveStringComparator'");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting:%n" +
+                                  "  <[\"Yoda\", \"Luke\"]>%n" +
+                                  "not to start with:%n" +
+                                  "  <[\"Han\", \"Leia\"]>%n" +
+                                  "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

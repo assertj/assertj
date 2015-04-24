@@ -17,6 +17,7 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
 
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -40,6 +41,6 @@ public class ShouldBeEmpty_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting empty but was:<[\"Luke\", \"Yoda\"]>", message);
+    assertEquals(String.format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"), message);
   }
 }

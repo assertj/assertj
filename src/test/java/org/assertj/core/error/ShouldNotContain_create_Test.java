@@ -39,13 +39,13 @@ public class ShouldNotContain_create_Test {
 	ErrorMessageFactory factory = shouldNotContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"),
 	                                               newLinkedHashSet("Yoda"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n" +
-	                              "Expecting\n" +
-	                              " <[\"Yoda\"]>\n" +
-	                              "not to contain\n" +
-	                              " <[\"Luke\", \"Yoda\"]>\n" +
-	                              "but found\n" +
-	                              " <[\"Yoda\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n" +
+	                              "Expecting%n" +
+	                              " <[\"Yoda\"]>%n" +
+	                              "not to contain%n" +
+	                              " <[\"Luke\", \"Yoda\"]>%n" +
+	                              "but found%n" +
+	                              " <[\"Yoda\"]>%n"));
   }
 
   @Test
@@ -56,12 +56,12 @@ public class ShouldNotContain_create_Test {
 	                                               new ComparatorBasedComparisonStrategy(
 	                                                                                     CaseInsensitiveStringComparator.instance));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n" +
-	                              "Expecting\n" +
-	                              " <[\"Yoda\"]>\n" +
-	                              "not to contain\n" +
-	                              " <[\"Luke\", \"Yoda\"]>\n" +
-	                              "but found\n <[\"Yoda\"]>\n" +
-	                              "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n" +
+	                              "Expecting%n" +
+	                              " <[\"Yoda\"]>%n" +
+	                              "not to contain%n" +
+	                              " <[\"Luke\", \"Yoda\"]>%n" +
+	                              "but found%n <[\"Yoda\"]>%n" +
+	                              "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

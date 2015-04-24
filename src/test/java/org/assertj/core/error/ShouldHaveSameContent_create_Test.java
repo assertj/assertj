@@ -39,16 +39,15 @@ public class ShouldHaveSameContent_create_Test {
 
   @Before
   public void setUp() {
-	diffs = newArrayList("line:<0>, \nExpecting:\n<line0> but was:<line_0>",
-	                     "line:<1>, \nExpecting:\n<line1> but was:<line_1>",
-	                     "line:<2>, \nExpecting:\n<line2> but was:<line_%s>");
+    diffs = newArrayList("line:<0>, %nExpecting:%n<line0> but was:<line_0>",
+                         "line:<1>, %nExpecting:%n<line1> but was:<line_1>",
+                         "line:<2>, %nExpecting:%n<line2> but was:<line_%s>");
   }
 
   @Test
   public void should_create_error_message_file_even_if_content_contains_format_specifier() {
-	ErrorMessageFactory factory = ShouldHaveSameContent
-      .shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
-	StringBuilder b = new StringBuilder("[Test] \nFile:\n  <abc>\nand file:\n  <xyz>\ndo not have same content:");
+    ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
+	StringBuilder b = new StringBuilder(String.format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:"));
 	for (String diff : diffs)
 	  b.append(LINE_SEPARATOR).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
@@ -59,7 +58,7 @@ public class ShouldHaveSameContent_create_Test {
 	ErrorMessageFactory factory = shouldHaveSameContent(new ByteArrayInputStream(new byte[] { 'a' }),
                                                       new ByteArrayInputStream(new byte[] { 'b' }),
                                                       diffs);
-	StringBuilder b = new StringBuilder("[Test] \nInputStreams do not have same content:");
+	StringBuilder b = new StringBuilder(String.format("[Test] %nInputStreams do not have same content:"));
 	for (String diff : diffs)
 	  b.append(LINE_SEPARATOR).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());

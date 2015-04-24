@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -43,7 +42,7 @@ public class ShouldNotHaveDuplicates_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nFound duplicate(s):\n <[\"Yoda\"]>\nin:\n <[\"Yoda\", \"Yoda\", \"Luke\"]>\n", message);
+    assertEquals(String.format("[Test] %nFound duplicate(s):%n <[\"Yoda\"]>%nin:%n <[\"Yoda\", \"Yoda\", \"Luke\"]>%n"), message);
   }
 
   @Test
@@ -51,7 +50,7 @@ public class ShouldNotHaveDuplicates_create_Test {
     factory = shouldNotHaveDuplicates(newArrayList("Yoda", "Yoda", "Luke"), newArrayList("Yoda"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nFound duplicate(s):\n <[\"Yoda\"]>\nin:\n <[\"Yoda\", \"Yoda\", \"Luke\"]>\n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format("[Test] %nFound duplicate(s):%n <[\"Yoda\"]>%nin:%n <[\"Yoda\", \"Yoda\", \"Luke\"]>%n"
+        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 }

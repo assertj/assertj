@@ -42,14 +42,14 @@ public class ShouldContainsOnlyOnce_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n" +
-        " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
-        "to contain only once:\n" +
-        " <[\"Luke\", \"Yoda\"]>\n" +
-        "but some elements were not found:\n" +
-        " <[\"Luke\"]>\n" +
-        "and others were found more than once:\n" +
-        " <[\"Han\"]>\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n" +
+        " <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+        "to contain only once:%n" +
+        " <[\"Luke\", \"Yoda\"]>%n" +
+        "but some elements were not found:%n" +
+        " <[\"Luke\"]>%n" +
+        "and others were found more than once:%n" +
+        " <[\"Han\"]>%n"), message);
   }
 
   @Test
@@ -58,16 +58,16 @@ public class ShouldContainsOnlyOnce_create_Test {
                                                          newLinkedHashSet("Luke"), newLinkedHashSet("Han"), new ComparatorBasedComparisonStrategy(
                                                                                                                                                   CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \n" +
-        "Expecting:\n" +
-        " <[\"Yoda\", \"Han\"]>\n" +
-        "to contain only once:\n" +
-        " <[\"Luke\", \"Yoda\"]>\n" +
-        "but some elements were not found:\n" +
-        " <[\"Luke\"]>\n" +
-        "and others were found more than once:\n" +
-        " <[\"Han\"]>\n" +
-        "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertEquals(String.format("[Test] %n" +
+        "Expecting:%n" +
+        " <[\"Yoda\", \"Han\"]>%n" +
+        "to contain only once:%n" +
+        " <[\"Luke\", \"Yoda\"]>%n" +
+        "but some elements were not found:%n" +
+        " <[\"Luke\"]>%n" +
+        "and others were found more than once:%n" +
+        " <[\"Han\"]>%n" +
+        "when comparing values using 'CaseInsensitiveStringComparator'"), message);
   }
 
   @Test
@@ -75,12 +75,12 @@ public class ShouldContainsOnlyOnce_create_Test {
     factory = shouldContainsOnlyOnce(newArrayList("Yoda", "Han", "Han"), newArrayList("Yoda"), newLinkedHashSet(),
                                      newLinkedHashSet("Han"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n" +
-        " <[\"Yoda\", \"Han\", \"Han\"]>\n" +
-        "to contain only once:\n" +
-        " <[\"Yoda\"]>\n" +
-        "but some elements were found more than once:\n" +
-        " <[\"Han\"]>\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n" +
+        " <[\"Yoda\", \"Han\", \"Han\"]>%n" +
+        "to contain only once:%n" +
+        " <[\"Yoda\"]>%n" +
+        "but some elements were found more than once:%n" +
+        " <[\"Han\"]>%n"), message);
   }
 
   @Test
@@ -88,12 +88,12 @@ public class ShouldContainsOnlyOnce_create_Test {
     factory = shouldContainsOnlyOnce(newArrayList("Yoda", "Han"), newArrayList("Luke"), newLinkedHashSet("Luke"),
                                      newLinkedHashSet());
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n" +
-        " <[\"Yoda\", \"Han\"]>\n" +
-        "to contain only once:\n" +
-        " <[\"Luke\"]>\n" +
-        "but some elements were not found:\n" +
-        " <[\"Luke\"]>\n", message);
+    assertEquals(String.format("[Test] %nExpecting:%n" +
+        " <[\"Yoda\", \"Han\"]>%n" +
+        "to contain only once:%n" +
+        " <[\"Luke\"]>%n" +
+        "but some elements were not found:%n" +
+        " <[\"Luke\"]>%n"), message);
   }
   
 }

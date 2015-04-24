@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 
 import org.assertj.core.description.TextDescription;
@@ -36,7 +35,7 @@ public class ShouldNotContainString_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od");
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> ", message);
+    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to contain:%n <\"od\"> "), message);
   }
 
   @Test
@@ -44,7 +43,7 @@ public class ShouldNotContainString_create_Test {
     ErrorMessageFactory factory = shouldNotContain("Yoda", "od", new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to contain:\n <\"od\"> when comparing values using 'CaseInsensitiveStringComparator'",
+    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to contain:%n <\"od\"> when comparing values using 'CaseInsensitiveStringComparator'"),
         message);
   }
 }

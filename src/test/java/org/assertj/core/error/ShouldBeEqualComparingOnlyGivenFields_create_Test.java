@@ -20,7 +20,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.Jedi;
-
 import org.junit.Test;
 
 /**
@@ -39,16 +38,16 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
                                                     newArrayList((Object) "Yoda", "green"), newArrayList("name",
                                                                                                          "lightSaberColor"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting values:\n" +
-                                  "  <[\"Yoda\", \"green\"]>\n" +
-                                  "in fields:\n" +
-                                  "  <[\"name\", \"lightSaberColor\"]>\n" +
-                                  "but were:\n" +
-                                  "  <[\"Luke\", \"blue\"]>\n" +
-                                  "in <Luke the Jedi>.\n" +
-                                  "Comparison was performed on fields:\n" +
-                                  "  <[\"name\", \"lightSaberColor\"]>");
+    assertThat(message).isEqualTo(String.format("[Test] %n" +
+                                  "Expecting values:%n" +
+                                  "  <[\"Yoda\", \"green\"]>%n" +
+                                  "in fields:%n" +
+                                  "  <[\"name\", \"lightSaberColor\"]>%n" +
+                                  "but were:%n" +
+                                  "  <[\"Luke\", \"blue\"]>%n" +
+                                  "in <Luke the Jedi>.%n" +
+                                  "Comparison was performed on fields:%n" +
+                                  "  <[\"name\", \"lightSaberColor\"]>"));
   }
 
   @Test
@@ -57,10 +56,10 @@ public class ShouldBeEqualComparingOnlyGivenFields_create_Test {
                                                     newArrayList((Object) "green"), newArrayList((Object) "blue"),
                                                     newArrayList("lightSaberColor"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpecting value <\"blue\">" +
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting value <\"blue\">" +
                                   " in field <\"lightSaberColor\">" +
                                   " but was <\"green\">" +
-                                  " in <Yoda the Jedi>");
+                                  " in <Yoda the Jedi>"));
   }
 
 }
