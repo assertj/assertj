@@ -152,6 +152,48 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
   }
 
   /**
+   * Verifies that the actual {@code Class} is final (has {@code final} modifier).
+   *
+   * <pre><code class='java'>
+   * // These assertions succeed:
+   * assertThat(String.class).isFinal();
+   * assertThat(Math.class).isFinal();
+   *
+   * // These assertions fail:
+   * assertThat(Object.class).isFinal();
+   * assertThat(Throwable.class).isFinal();
+   * </code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not final.
+   */
+  public S isFinal() {
+    classes.assertIsFinal(info, actual);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not final (does not have {@code final} modifier).
+   *
+   * <pre><code class='java'>
+   * // These assertions succeed:
+   * assertThat(Object.class).isNotFinal();
+   * assertThat(Throwable.class).isNotFinal();
+   *
+   * // These assertions fail:
+   * assertThat(String.class).isNotFinal();
+   * assertThat(Math.class).isNotFinal();
+   * </code></pre>
+   *
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is final.
+   */
+  public S isNotFinal() {
+    classes.assertIsNotFinal(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given {@code Annotation}s.
    * 
    * <pre><code class='java'>
