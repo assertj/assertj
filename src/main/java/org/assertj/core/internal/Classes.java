@@ -15,6 +15,8 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
 import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
+import static org.assertj.core.error.ShouldBeFinal.shouldBeFinal;
+import static org.assertj.core.error.ShouldBeFinal.shouldNotBeFinal;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
@@ -24,6 +26,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -145,6 +148,40 @@ public class Classes {
 	  return;
 	}
 	throw failures.failure(info, shouldBeAnnotation(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is final.
+   *
+   * @author Michal Kordas
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not final.
+   */
+  public void assertIsFinal(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if (Modifier.isFinal(actual.getModifiers())) {
+      return;
+    }
+    throw failures.failure(info, shouldBeFinal(actual));
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not final.
+   *
+   * @author Michal Kordas
+   * @param info contains information about the assertion.
+   * @param actual the "actual" {@code Class}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is final.
+   */
+  public void assertIsNotFinal(AssertionInfo info, Class<?> actual) {
+    assertNotNull(info, actual);
+    if (!Modifier.isFinal(actual.getModifiers())) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeFinal(actual));
   }
 
   /**
