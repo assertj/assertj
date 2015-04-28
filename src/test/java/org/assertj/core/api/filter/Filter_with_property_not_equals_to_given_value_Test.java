@@ -12,12 +12,10 @@
  */
 package org.assertj.core.api.filter;
 
-import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -46,7 +44,7 @@ public class Filter_with_property_not_equals_to_given_value_Test extends Abstrac
       filter(players).with(null).notEqualsTo("foo");
       fail("NullPointerException expected");
     } catch (NullPointerException e) {
-      assertEquals("The property name to filter on should not be null", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("The property name to filter on should not be null");
     }
   }
 
@@ -56,7 +54,7 @@ public class Filter_with_property_not_equals_to_given_value_Test extends Abstrac
       filter(players).with("nickname").notEqualsTo("dude");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertEquals("No getter for property 'nickname' in org.assertj.core.test.Player", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("No getter for property 'nickname' in org.assertj.core.test.Player");
     }
   }
 

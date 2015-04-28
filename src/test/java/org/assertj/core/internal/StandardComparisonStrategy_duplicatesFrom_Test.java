@@ -17,8 +17,7 @@ import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +36,10 @@ public class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest
     List<String> list = newArrayList("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
     
-    assertEquals(3, sizeOf(duplicates));
-    assertTrue(standardComparisonStrategy.iterableContains(duplicates, "Frodo"));
-    assertTrue(standardComparisonStrategy.iterableContains(duplicates, "Merry"));
-    assertTrue(standardComparisonStrategy.iterableContains(duplicates, null));
+    assertThat(sizeOf(duplicates)).isEqualTo(3);
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, "Frodo")).isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, "Merry")).isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, null)).isTrue();
   }
 
   @Test
@@ -49,28 +48,28 @@ public class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest
                                        array("Merry"), array("Sam"), array("Frodo"));
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
 
-    assertTrue("must contains null", standardComparisonStrategy.iterableContains(duplicates, new String[] { null }));
-    assertTrue("must contains Frodo", standardComparisonStrategy.iterableContains(duplicates, array("Frodo")));
-    assertTrue("must contains Merry", standardComparisonStrategy.iterableContains(duplicates, array("Merry")));
-    assertEquals(3, sizeOf(duplicates));
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, new String[] { null })).as("must contains null").isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, array("Frodo"))).as("must contains Frodo").isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(duplicates, array("Merry"))).as("must contains Merry").isTrue();
+    assertThat(sizeOf(duplicates)).isEqualTo(3);
   }
 
   @Test
   public void should_not_return_any_duplicates() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(newArrayList("Frodo", "Sam", "Gandalf"));
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_empty() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(new ArrayList<String>());
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_null() {
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(null);
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
 }

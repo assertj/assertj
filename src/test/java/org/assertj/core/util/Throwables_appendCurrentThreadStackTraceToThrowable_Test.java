@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static java.lang.Thread.currentThread;
 import static org.assertj.core.util.Strings.concat;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -54,11 +54,11 @@ public class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
     RuntimeException thrown = exceptionReference.get();
     Throwables.appendStackTraceInCurentThreadToThrowable(thrown, "should_add_stack_trace_of_current_thread");
     StackTraceElement[] stackTrace = thrown.getStackTrace();
-    assertEquals("org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run",
-        asString(stackTrace[0]));
-    assertEquals(
-        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread",
-        asString(stackTrace[1]));
+    assertThat(asString(stackTrace[0])).isEqualTo(
+        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");
+    assertThat(asString(stackTrace[1])).isEqualTo(
+        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread"
+    );
   }
 
   private String asString(StackTraceElement e) {

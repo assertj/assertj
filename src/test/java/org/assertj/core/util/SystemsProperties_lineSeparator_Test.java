@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -24,6 +24,6 @@ import org.junit.Test;
 public class SystemsProperties_lineSeparator_Test {
   @Test
   public void should_return_line_separator() {
-    assertEquals(System.getProperty("line.separator"), SystemProperties.LINE_SEPARATOR);
+    assertThat(SystemProperties.LINE_SEPARATOR).isEqualTo(System.getProperty("line.separator"));
   }
 }

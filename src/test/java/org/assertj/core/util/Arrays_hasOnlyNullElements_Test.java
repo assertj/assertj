@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.rules.ExpectedException.none;
 
 import org.junit.Rule;
@@ -38,17 +38,17 @@ public class Arrays_hasOnlyNullElements_Test {
   @Test
   public void should_return_true_if_array_has_only_null_elements() {
     String[] array = { null, null };
-    assertTrue(Arrays.hasOnlyNullElements(array));
+    assertThat(Arrays.hasOnlyNullElements(array)).isTrue();
   }
 
   @Test
   public void should_return_false_if_array_has_at_least_one_element_not_null() {
     String[] array = { null, "Frodo", null };
-    assertFalse(Arrays.hasOnlyNullElements(array));
+    assertThat(Arrays.hasOnlyNullElements(array)).isFalse();
   }
 
   @Test
   public void should_return_false_if_array_is_empty() {
-    assertFalse(Arrays.hasOnlyNullElements(new String[0]));
+    assertThat(Arrays.hasOnlyNullElements(new String[0])).isFalse();
   }
 }

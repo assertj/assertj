@@ -18,7 +18,7 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.assertj.core.util.CaseInsensitiveCharSequenceComparator;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingComparator(Comparator)}</code>.
@@ -35,7 +35,7 @@ public class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceA
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions).getComparator(), CaseInsensitiveCharSequenceComparator.instance);
-    assertSame(getStrings(assertions).getComparator(), CaseInsensitiveCharSequenceComparator.instance);
+    assertThat(CaseInsensitiveCharSequenceComparator.instance).isSameAs(getObjects(assertions).getComparator());
+    assertThat(CaseInsensitiveCharSequenceComparator.instance).isSameAs(getStrings(assertions).getComparator());
   }
 }

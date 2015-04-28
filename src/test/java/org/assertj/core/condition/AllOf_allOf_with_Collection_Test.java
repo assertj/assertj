@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.ArrayList;
@@ -39,8 +39,8 @@ public class AllOf_allOf_with_Collection_Test {
     Collection<Condition<Object>> conditions = new ArrayList<>();
     conditions.add(new TestCondition<>());
     Condition<Object> created = AllOf.allOf(conditions);
-    assertEquals(AllOf.class, created.getClass());
+    assertThat(created.getClass()).isEqualTo(AllOf.class);
     AllOf<Object> allOf = (AllOf<Object>) created;
-    assertEquals(conditions, allOf.conditions);
+    assertThat(allOf.conditions).isEqualTo(conditions);
   }
 }

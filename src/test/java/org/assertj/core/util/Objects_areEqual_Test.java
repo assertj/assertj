@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
@@ -26,62 +26,62 @@ public class Objects_areEqual_Test {
 
   @Test
   public void should_return_true_if_both_Objects_are_null() {
-    assertTrue(Objects.areEqual(null, null));
+    assertThat(Objects.areEqual(null, null)).isTrue();
   }
 
   @Test
   public void should_return_true_if_Objects_are_equal() {
-    assertTrue(Objects.areEqual("Yoda", "Yoda"));
+    assertThat(Objects.areEqual("Yoda", "Yoda")).isTrue();
   }
 
   @Test
   public void should_return_are_not_equal_if_first_Object_is_null_and_second_is_not() {
-    assertFalse(Objects.areEqual(null, "Yoda"));
+    assertThat(Objects.areEqual(null, "Yoda")).isFalse();
   }
 
   @Test
   public void should_return_are_not_equal_if_second_Object_is_null_and_first_is_not() {
-    assertFalse(Objects.areEqual("Yoda", null));
+    assertThat(Objects.areEqual("Yoda", null)).isFalse();
   }
 
   @Test
   public void should_return_are_not_equal_if_Objects_are_not_equal() {
-    assertFalse(Objects.areEqual("Yoda", 2));
+    assertThat(Objects.areEqual("Yoda", 2)).isFalse();
   }
 
   @Test
   public void should_return_true_if_arrays_of_Objects_are_equal() {
     Object[] a1 = { "Luke", "Yoda", "Leia" };
     Object[] a2 = { "Luke", "Yoda", "Leia" };
-    assertTrue(Objects.areEqual(a1, a1));
-    assertTrue(Objects.areEqual(a1, a2));
+    assertThat(Objects.areEqual(a1, a1)).isTrue();
+    assertThat(Objects.areEqual(a1, a2)).isTrue();
   }
 
   @Test
   public void should_return_true_if_arrays_of_primitives_are_equal() {
     int[] a1 = { 6, 8, 10 };
     int[] a2 = { 6, 8, 10 };
-    assertTrue(Objects.areEqual(a1, a2));
+    assertThat(Objects.areEqual(a1, a2)).isTrue();
   }
 
   @Test
   public void should_return_false_if_arrays_of_Objects_are_not_equal() {
     Object[] a1 = { "Luke", "Yoda", "Leia" };
     Object[] a2 = new Object[0];
-    assertFalse(Objects.areEqual(a1, a2));
+    assertThat(Objects.areEqual(a1, a2)).isFalse();
   }
 
   @Test
   public void should_return_false_if_arrays_of_primitives_are_not_equal() {
     int[] a1 = { 6, 8, 10 };
     boolean[] a2 = { true };
-    assertFalse(Objects.areEqual(a1, a2));
+    assertThat(Objects.areEqual(a1, a2)).isFalse();
   }
 
   @Test
   public void should_return_false_if_one_parameter_is_not_an_array() {
     Object[] a1 = { "Luke", "Yoda", "Leia" };
-    assertFalse(Objects.areEqual(a1, ""));
-    assertFalse(Objects.areEqual("", a1));
+    assertThat(Objects.areEqual(a1, "")).isFalse();
+    assertThat(Objects.areEqual("", a1)).isFalse();
   }
 }

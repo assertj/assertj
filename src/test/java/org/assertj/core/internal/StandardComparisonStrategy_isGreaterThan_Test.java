@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.awt.Rectangle;
@@ -39,9 +39,9 @@ public class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_
   public void should_pass() {
     Employee boss = new Employee(10000, 35);
     Employee young = new Employee(10000, 25);
-    assertTrue(standardComparisonStrategy.isGreaterThan(boss, young));
-    assertFalse(standardComparisonStrategy.isGreaterThan(young, boss));
-    assertFalse(standardComparisonStrategy.isGreaterThan(boss, boss));
+    assertThat(standardComparisonStrategy.isGreaterThan(boss, young)).isTrue();
+    assertThat(standardComparisonStrategy.isGreaterThan(young, boss)).isFalse();
+    assertThat(standardComparisonStrategy.isGreaterThan(boss, boss)).isFalse();
   }
 
   @Test

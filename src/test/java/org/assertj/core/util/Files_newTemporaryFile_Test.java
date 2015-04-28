@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 
@@ -31,7 +31,7 @@ public class Files_newTemporaryFile_Test extends Files_TestCase {
     File f = null;
     try {
       f = Files.newTemporaryFile();
-      assertTrue(f.isFile());
+      assertThat(f.isFile()).isTrue();
     } finally {
       if (f != null) f.delete();
     }

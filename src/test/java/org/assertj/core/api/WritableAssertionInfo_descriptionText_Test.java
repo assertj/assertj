@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,7 +36,7 @@ public class WritableAssertionInfo_descriptionText_Test {
 
   @Test
   public void should_return_null_if_description_is_null() {
-    assertNull(info.descriptionText());
+    assertThat(info.descriptionText()).isNull();
   }
 
   @Test
@@ -45,6 +44,6 @@ public class WritableAssertionInfo_descriptionText_Test {
     Description description = mock(Description.class);
     info.description(description);
     when(description.value()).thenReturn("Yoda");
-    assertEquals("Yoda", info.descriptionText());
+    assertThat(info.descriptionText()).isEqualTo("Yoda");
   }
 }

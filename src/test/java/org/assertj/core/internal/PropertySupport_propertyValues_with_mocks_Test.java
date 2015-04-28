@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -66,9 +65,9 @@ public class PropertySupport_propertyValues_with_mocks_Test {
       propertySupport.propertyValues("age", Long.class, employees);
       fail("expecting an IntrospectionError to be thrown");
     } catch (IntrospectionError expected) {
-      assertSame(thrownOnPurpose, expected.getCause());
+      assertThat(expected.getCause()).isSameAs(thrownOnPurpose);
       String msg = String.format("Unable to obtain the value of the property <'age'> from <%s>", yoda.toString());
-      assertEquals(msg, expected.getMessage());
+      assertThat(expected.getMessage()).isEqualTo(msg);
     }
   }
 }

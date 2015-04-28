@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
@@ -54,6 +54,6 @@ public class DescriptionFormatter_format_expectingEmptyText_Test {
 
   @Test
   public void should_return_empty_String() {
-    assertEquals("", formatter.format(description));
+    assertThat(formatter.format(description)).isEqualTo("");
   }
 }

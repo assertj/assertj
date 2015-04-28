@@ -27,7 +27,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Objects#assertNotSame(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertThat(Object).isNotSameAs(AssertionInfo, Object)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

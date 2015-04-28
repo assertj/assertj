@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.integer_;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -46,7 +46,7 @@ public class IntegerAssert_usingComparator_Test extends IntegerAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions).getComparator(), comparator);
-    assertSame(getIntegers(assertions).getComparator(), comparator);
+    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(comparator).isSameAs(getIntegers(assertions).getComparator());
   }
 }

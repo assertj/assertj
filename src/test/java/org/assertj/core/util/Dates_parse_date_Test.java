@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.*;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.rules.ExpectedException.none;
 
 import java.util.Date;
@@ -36,18 +36,18 @@ public class Dates_parse_date_Test {
   @Test
   public void should_parse_string_with_date_time_format() {
     Date date = parse("1994-08-26");
-    assertEquals("1994-08-26T00:00:00", formatAsDatetime(date));
+    assertThat(formatAsDatetime(date)).isEqualTo("1994-08-26T00:00:00");
   }
 
   @Test
   public void should_return_null_if_string_to_parse_is_null() {
-    assertNull(parse(null));
+    assertThat(parse(null)).isNull();
   }
 
   @Test
   public void should_fail_if_string_does_not_respect_date_format() {
     thrown.expect(RuntimeException.class);
-    assertNull(parse("invalid date format"));
+    assertThat(parse("invalid date format")).isNull();
   }
 
 }

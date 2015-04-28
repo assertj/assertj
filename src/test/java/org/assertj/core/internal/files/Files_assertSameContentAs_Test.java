@@ -24,8 +24,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -97,7 +97,7 @@ public class Files_assertSameContentAs_Test extends FilesBaseTest {
       files.assertSameContentAs(someInfo(), actual, expected);
       fail("Expected a FilesException to be thrown");
     } catch (FilesException e) {
-      assertSame(cause, e.getCause());
+      assertThat(e.getCause()).isSameAs(cause);
     }
   }
 

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 
 import java.io.File;
@@ -40,8 +40,8 @@ public class ShouldBeExactlyInstance_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format(
-        "[Test] %nExpecting:%n <\"Yoda\">%nto be exactly an instance of:%n <java.io.File>%nbut was an instance of:%n <java.lang.String>"),
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nto be exactly an instance of:%n <java.io.File>%nbut was an instance of:%n <java.lang.String>"
+    ));
   }
 }

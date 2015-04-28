@@ -12,9 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-
 
 
 import org.assertj.core.description.Description;
@@ -39,6 +38,6 @@ public class ShouldBeFile_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <xyz>%nto be a file"), message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n <xyz>%nto be a file"));
   }
 }

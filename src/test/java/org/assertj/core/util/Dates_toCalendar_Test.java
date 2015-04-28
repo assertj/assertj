@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.toCalendar;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 import java.util.*;
@@ -36,12 +36,12 @@ public class Dates_toCalendar_Test {
     // clear all fields to have a Date without time (no hours, minutes...).
     calendar.clear();
     calendar.set(1994, 07, 26); // month is 0 value based.
-    assertEquals(calendar, toCalendar(date));
+    assertThat(toCalendar(date)).isEqualTo(calendar);
   }
 
   @Test
   public void should_return_null_if_date_to_convert_is_null() {
-    assertNull(toCalendar(null));
+    assertThat(toCalendar(null)).isNull();
   }
 
 }

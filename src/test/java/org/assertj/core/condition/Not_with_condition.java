@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.Not.not;
 
 import org.assertj.core.api.Condition;
@@ -30,9 +30,9 @@ public class Not_with_condition {
   public void should_create_new_notOf_with_passed_Conditions() {
     TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = not(condition);
-    assertEquals(Not.class, created.getClass());
+    assertThat(created.getClass()).isEqualTo(Not.class);
     Not<Object> not = (Not<Object>) created;
-    assertEquals(condition, not.condition);
+    assertThat(not.condition).isEqualTo(condition);
   }
 
 }

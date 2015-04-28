@@ -19,7 +19,7 @@ import org.junit.runners.model.MultipleFailureException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 public class JUnitBDDSoftAssertionsFailureTest {
 

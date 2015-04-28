@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.description.Description;
@@ -36,6 +36,6 @@ public class DescriptionFormatter_format_Test {
 
   @Test
   public void should_format_description_if_value_is_not_empty_or_null() {
-    assertEquals("[Leia] ", formatter.format(new TestDescription("Leia")));
+    assertThat(formatter.format(new TestDescription("Leia"))).isEqualTo("[Leia] ");
   }
 }

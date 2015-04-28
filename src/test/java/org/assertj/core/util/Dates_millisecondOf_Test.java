@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.millisecondOf;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.text.*;
@@ -37,7 +37,7 @@ public class Dates_millisecondOf_Test {
   public void should_return_millisecond_of_date() throws ParseException {
     String dateAsString = "26/08/1994T22:35:17:29";
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss:SS").parse(dateAsString);
-    assertEquals(29, millisecondOf(date));
+    assertThat(millisecondOf(date)).isEqualTo(29);
   }
 
   @Test

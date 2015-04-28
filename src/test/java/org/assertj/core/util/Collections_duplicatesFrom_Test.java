@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.util.Collections.duplicatesFrom;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,24 +32,24 @@ public class Collections_duplicatesFrom_Test {
   @Test
   public void should_return_existing_duplicates() {
     Collection<String> duplicates = duplicatesFrom(asList("Merry", "Frodo", "Merry", "Sam", "Frodo"));
-    assertArrayEquals(new String[] { "Merry", "Frodo" }, duplicates.toArray());
+    assertThat(duplicates.toArray()).isEqualTo(new String[] { "Merry", "Frodo" });
   }
 
   @Test
   public void should_not_return_any_duplicates() {
     Collection<String> duplicates = duplicatesFrom(asList("Frodo", "Sam", "Gandalf"));
-    assertTrue(duplicates.isEmpty());
+    assertThat(duplicates.isEmpty()).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_empty() {
     Collection<String> duplicates = duplicatesFrom(new ArrayList<String>());
-    assertTrue(duplicates.isEmpty());
+    assertThat(duplicates.isEmpty()).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_null() {
     Collection<String> duplicates = duplicatesFrom(null);
-    assertTrue(duplicates.isEmpty());
+    assertThat(duplicates.isEmpty()).isTrue();
   }
 }

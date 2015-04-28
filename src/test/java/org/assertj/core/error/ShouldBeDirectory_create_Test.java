@@ -21,7 +21,7 @@ import org.junit.Test;
 import java.io.File;
 import java.nio.file.Path;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeDirectory.FILE_SHOULD_BE_DIRECTORY;
 import static org.assertj.core.error.ShouldBeDirectory.PATH_SHOULD_BE_DIRECTORY;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
@@ -54,7 +54,7 @@ public class ShouldBeDirectory_create_Test
         expectedMessage = String.format("[Test] " + PATH_SHOULD_BE_DIRECTORY,
             path);
 
-        assertEquals(expectedMessage, message);
+        assertThat(message).isEqualTo(expectedMessage);
     }
 
     @Test
@@ -68,6 +68,6 @@ public class ShouldBeDirectory_create_Test
         expectedMessage = String.format("[Test] " + FILE_SHOULD_BE_DIRECTORY,
             file);
 
-        assertEquals(expectedMessage, message);
+        assertThat(message).isEqualTo(expectedMessage);
     }
 }

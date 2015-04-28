@@ -13,8 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.ObjectArrays.emptyArray;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -29,13 +28,13 @@ public class Assertions_assertThat_with_ObjectArray_Test {
   @Test
   public void should_create_Assert() {
     AbstractObjectArrayAssert<?, Object> assertions = Assertions.assertThat(emptyArray());
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Object[] actual = emptyArray();
     AbstractObjectArrayAssert<?, Object> assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(assertions.actual).isSameAs(actual);
   }
 }

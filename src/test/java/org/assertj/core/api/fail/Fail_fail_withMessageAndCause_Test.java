@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.fail;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.api.Fail;
 import org.junit.Test;
@@ -34,8 +34,8 @@ public class Fail_fail_withMessageAndCause_Test {
       Fail.fail(message, cause);
       fail("AssertionError should have been thrown");
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), message);
-      assertSame(e.getCause(), cause);
+      assertThat(message).isEqualTo(e.getMessage());
+      assertThat(cause).isSameAs(e.getCause());
     }
   }
 }

@@ -18,7 +18,7 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 
-import static org.junit.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
@@ -56,7 +56,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
     BigDecimal e = new BigDecimal("10.000");
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
     // 'compareTo' is not consistent with 'equals'
-    assertFalse(a.equals(e));
+    assertThat(a.equals(e)).isFalse();
     comparables.assertEqualByComparison(someInfo(), a, e);
   }
 
@@ -88,7 +88,7 @@ public class Comparables_assertEqualByComparison_Test extends ComparablesBaseTes
     BigDecimal e = new BigDecimal("10.000");
     // we use BigDecimal to ensure that 'compareTo' is being called, since BigDecimal is the only Comparable where
     // 'compareTo' is not consistent with 'equals'
-    assertFalse(a.equals(e));
+    assertThat(a.equals(e)).isFalse();
     comparablesWithCustomComparisonStrategy.assertEqualByComparison(someInfo(), a, e);
   }
 

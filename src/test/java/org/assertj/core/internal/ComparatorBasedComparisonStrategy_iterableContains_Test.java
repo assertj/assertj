@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -31,24 +31,24 @@ public class ComparatorBasedComparisonStrategy_iterableContains_Test extends Abs
   @Test
   public void should_return_true_if_collections_contains_value_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Sam"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "sAm"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "sam"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(hobbits, null));
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Sam")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "sAm")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "sam")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_collections_does_not_contain_value_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", "Merry", null, "Sam");
-    assertFalse(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Pippin"));
-    assertFalse(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM "));
-    assertFalse(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Sam "));
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Pippin")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "SAM ")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, "Sam ")).isFalse();
   }
 
   @Test
   public void should_return_false_if_collections_is_empty_whatever_given_comparator_is() {
-    assertFalse(caseInsensitiveComparisonStrategy.iterableContains(newArrayList(), "anyone"));
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(newArrayList(), "anyone")).isFalse();
   }
 
 }

@@ -13,7 +13,6 @@
 package org.assertj.core.util.introspection;
 
 import static java.util.Collections.emptySet;
-import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -88,10 +87,10 @@ public class PropertySupport_propertyValues_Test {
   public void should_return_values_of_simple_property_as_objects() {
     Iterable<Integer> ages = PropertySupport.instance().propertyValues("age", Integer.class, employees);
     Iterable<Object> agesAsObjects = PropertySupport.instance().propertyValues("age", employees);
-    assertEquals(agesAsObjects, ages);
+    assertThat(ages).isEqualTo(agesAsObjects);
     Iterable<String> firstNames = PropertySupport.instance().propertyValues("name.first", String.class, employees);
     Iterable<Object> firstNamesAsObjects = PropertySupport.instance().propertyValues("name.first", employees);
-    assertEquals(firstNamesAsObjects, firstNames);
+    assertThat(firstNames).isEqualTo(firstNamesAsObjects);
   }
 
   @Test

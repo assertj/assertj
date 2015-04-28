@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -56,7 +56,7 @@ public class Diff_diff_InputStream_Test {
     actual = stream("base", "line0", "line1");
     expected = stream("base", "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(0, diffs.size());
+    assertThat(diffs).isEmpty();
   }
 
   @Test
@@ -64,9 +64,9 @@ public class Diff_diff_InputStream_Test {
     actual = stream("base", "line_0", "line_1");
     expected = stream("base", "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(2, diffs.size());
-    assertEquals("line:<2>, expected:<line0> but was:<line_0>", diffs.get(0));
-    assertEquals("line:<3>, expected:<line1> but was:<line_1>", diffs.get(1));
+    assertThat(diffs).hasSize(2);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line0> but was:<line_0>");
+    assertThat(diffs.get(1)).isEqualTo("line:<3>, expected:<line1> but was:<line_1>");
   }
 
   @Test
@@ -74,8 +74,8 @@ public class Diff_diff_InputStream_Test {
     actual = stream("base", "line_0");
     expected = stream("base", "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<3>, expected:<line_1> but was:<EOF>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<line_1> but was:<EOF>");
   }
 
   @Test
@@ -83,7 +83,7 @@ public class Diff_diff_InputStream_Test {
     actual = stream("base", "line_0", "line_1");
     expected = stream("base", "line_0");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<3>, expected:<EOF> but was:<line_1>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<3>, expected:<EOF> but was:<line_1>");
   }
 }

@@ -13,7 +13,7 @@
 package org.assertj.core.description;
 
 import static java.util.UUID.randomUUID;
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import org.assertj.core.description.TextDescription;
@@ -35,7 +35,7 @@ public class TextDescription_constructor_Test {
   public void should_set_value() {
     String value = randomText();
     TextDescription description = new TextDescription(value);
-    assertEquals(value, description.value);
+    assertThat(description.value).isEqualTo(value);
   }
 
   private static String randomText() {

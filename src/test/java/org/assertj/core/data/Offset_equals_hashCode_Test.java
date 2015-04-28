@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
@@ -55,16 +55,16 @@ public class Offset_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(offset.equals("8"));
+    assertThat(offset.equals("8")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(offset.equals(null));
+    assertThat(offset.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_Offset_with_different_value() {
-    assertFalse(offset.equals(offset(6)));
+    assertThat(offset.equals(offset(6))).isFalse();
   }
 }

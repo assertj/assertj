@@ -12,12 +12,11 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldNotBeInstance.shouldNotBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -65,7 +64,7 @@ public class Objects_assertIsNotInstanceOf_Test extends ObjectsBaseTest {
     AssertionInfo info = someInfo();
     try {
       objects.assertIsNotInstanceOf(info, actual, Person.class);
-      fail();
+      failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError err) {}
     verify(failures).failure(info, shouldNotBeInstance(actual, Person.class));
   }

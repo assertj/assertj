@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
@@ -26,8 +26,8 @@ public class StandardComparisonStrategy_stringContains_Test extends AbstractTest
 
   @Test
   public void should_pass() {
-    assertTrue(standardComparisonStrategy.stringContains("Frodo", "ro"));
-    assertFalse(standardComparisonStrategy.stringContains("rodo", "Fr"));
+    assertThat(standardComparisonStrategy.stringContains("Frodo", "ro")).isTrue();
+    assertThat(standardComparisonStrategy.stringContains("rodo", "Fr")).isFalse();
   }
 
 }

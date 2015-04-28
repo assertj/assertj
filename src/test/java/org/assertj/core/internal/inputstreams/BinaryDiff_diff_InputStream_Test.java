@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -47,7 +46,7 @@ public class BinaryDiff_diff_InputStream_Test {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBA, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertTrue(result.hasNoDiff());
+    assertThat(result.hasNoDiff()).isTrue();
   }
   
   @Test
@@ -55,9 +54,9 @@ public class BinaryDiff_diff_InputStream_Test {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBE, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(2, result.offset);
-    assertEquals("0xBA", result.actual);
-    assertEquals("0xBE", result.expected);
+    assertThat(result.offset).isEqualTo(2);
+    assertThat(result.actual).isEqualTo("0xBA");
+    assertThat(result.expected).isEqualTo("0xBE");
   }
   
   @Test
@@ -65,9 +64,9 @@ public class BinaryDiff_diff_InputStream_Test {
     actual = stream(0xCA, 0xFE, 0xBA);
     expected = stream(0xCA, 0xFE, 0xBA, 0xBE);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(3, result.offset);
-    assertEquals("EOF", result.actual);
-    assertEquals("0xBE", result.expected);
+    assertThat(result.offset).isEqualTo(3);
+    assertThat(result.actual).isEqualTo("EOF");
+    assertThat(result.expected).isEqualTo("0xBE");
   }
   
   @Test
@@ -75,9 +74,9 @@ public class BinaryDiff_diff_InputStream_Test {
     actual = stream(0xCA, 0xFE, 0xBA, 0xBE);
     expected = stream(0xCA, 0xFE, 0xBA);
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(3, result.offset);
-    assertEquals("0xBE", result.actual);
-    assertEquals("EOF", result.expected);
+    assertThat(result.offset).isEqualTo(3);
+    assertThat(result.actual).isEqualTo("0xBE");
+    assertThat(result.expected).isEqualTo("EOF");
   }
 
   private InputStream stream(int... contents) {

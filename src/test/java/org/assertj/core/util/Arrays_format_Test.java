@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -28,83 +28,83 @@ public class Arrays_format_Test {
   @Test
   public void should_return_null_if_array_is_null() {
     final Object array = null;
-    assertNull(Arrays.format(new StandardRepresentation(), array));
-    assertNull(Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isNull();
+    assertThat(Arrays.format(array)).isNull();
   }
 
   @Test
   public void should_return_empty_brackets_if_array_is_empty() {
     final Object[] array = new Object[0];
-    assertEquals("[]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[]");
+    assertThat(Arrays.format(array)).isEqualTo("[]");
   }
 
   @Test
   public void should_format_Object_array() {
     Object array = new Object[] { "First", 3 };
-    assertEquals("[\"First\", 3]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[\"First\", 3]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[\"First\", 3]");
+    assertThat(Arrays.format(array)).isEqualTo("[\"First\", 3]");
   }
 
   @Test
   public void should_format_boolean_array() {
     Object array = new boolean[] { true, false };
-    assertEquals("[true, false]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[true, false]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[true, false]");
+    assertThat(Arrays.format(array)).isEqualTo("[true, false]");
   }
 
   @Test
   public void should_format_byte_array() {
     Object array = new byte[] { (byte) 3, (byte) 8 };
-    assertEquals("[3, 8]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[3, 8]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[3, 8]");
+    assertThat(Arrays.format(array)).isEqualTo("[3, 8]");
   }
 
   @Test
   public void should_format_byte_array_in_hex_representation() {
     Object array = new byte[] { (byte) 3, (byte) 8 };
-    assertEquals("[0x03, 0x08]", Arrays.format(new HexadecimalRepresentation(), array));
+    assertThat(Arrays.format(new HexadecimalRepresentation(), array)).isEqualTo("[0x03, 0x08]");
   }
 
   @Test
   public void should_format_char_array() {
     Object array = new char[] { 'a', 'b' };
-    assertEquals("['a', 'b']", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("['a', 'b']", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("['a', 'b']");
+    assertThat(Arrays.format(array)).isEqualTo("['a', 'b']");
   }
 
   @Test
   public void should_format_double_array() {
     Object array = new double[] { 6.8, 8.3 };
-    assertEquals("[6.8, 8.3]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[6.8, 8.3]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[6.8, 8.3]");
+    assertThat(Arrays.format(array)).isEqualTo("[6.8, 8.3]");
   }
 
   @Test
   public void should_format_float_array() {
     Object array = new float[] { 6.1f, 8.6f };
-    assertEquals("[6.1f, 8.6f]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[6.1f, 8.6f]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[6.1f, 8.6f]");
+    assertThat(Arrays.format(array)).isEqualTo("[6.1f, 8.6f]");
   }
 
   @Test
   public void should_format_int_array() {
     Object array = new int[] { 78, 66 };
-    assertEquals("[78, 66]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[78, 66]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[78, 66]");
+    assertThat(Arrays.format(array)).isEqualTo("[78, 66]");
   }
 
   @Test
   public void should_format_long_array() {
     Object array = new long[] { 160l, 98l };
-    assertEquals("[160L, 98L]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[160L, 98L]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[160L, 98L]");
+    assertThat(Arrays.format(array)).isEqualTo("[160L, 98L]");
   }
 
   @Test
   public void should_format_short_array() {
     Object array = new short[] { (short) 5, (short) 8 };
-    assertEquals("[5, 8]", Arrays.format(new StandardRepresentation(), array));
-    assertEquals("[5, 8]", Arrays.format(array));
+    assertThat(Arrays.format(new StandardRepresentation(), array)).isEqualTo("[5, 8]");
+    assertThat(Arrays.format(array)).isEqualTo("[5, 8]");
   }
 }

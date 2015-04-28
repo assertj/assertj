@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 
 import org.assertj.core.test.ExpectedException;
@@ -33,13 +33,13 @@ public class ArrayWrapperList_wrap_Test {
   public void should_create_ArrayWrapperList_if_array_is_not_null() {
     int[] array = { 6, 8 };
     ArrayWrapperList list = ArrayWrapperList.wrap(array);
-    assertNotNull(list);
-    assertSame(array, list.array);
+    assertThat(list).isNotNull();
+    assertThat(list.array).isSameAs(array);
   }
 
   @Test
   public void should_return_null_if_array_is_null() {
-    assertNull(ArrayWrapperList.wrap(null));
+    assertThat(ArrayWrapperList.wrap(null)).isNull();
   }
 
   @Test

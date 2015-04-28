@@ -13,9 +13,8 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.filter.Filters.filter;
-
-import static org.junit.Assert.fail;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.IntrospectionError;

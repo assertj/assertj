@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -42,7 +42,8 @@ public class ShouldStartWith_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"));
   }
 
   @Test
@@ -50,7 +51,8 @@ public class ShouldStartWith_create_Test {
     factory = shouldStartWith(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"), new ComparatorBasedComparisonStrategy(
         CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto start with:%n <[\"Han\", \"Leia\"]>%n"
+            + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

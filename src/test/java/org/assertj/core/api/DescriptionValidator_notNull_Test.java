@@ -14,8 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -52,13 +51,13 @@ public class DescriptionValidator_notNull_Test {
   @Test
   public void should_return_description_with_given_text() {
     Description d = DescriptionValidations.checkIsNotNull("Yoda");
-    assertEquals("Yoda", d.value());
+    assertThat(d.value()).isEqualTo("Yoda");
   }
 
   @Test
   public void should_return_same_description() {
     Description e = new TextDescription("Yoda");
     Description d = DescriptionValidations.checkIsNotNull(e);
-    assertSame(e, d);
+    assertThat(d).isSameAs(e);
   }
 }

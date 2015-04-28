@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
@@ -25,16 +25,16 @@ public class Strings_quoteString_Test {
 
   @Test
   public void should_quote_String() {
-    assertEquals("'foo'", Strings.quote("foo"));
+    assertThat(Strings.quote("foo")).isEqualTo("'foo'");
   }
 
   @Test
   public void should_quote_empty_String() {
-    assertEquals("''", Strings.quote(""));
+    assertThat(Strings.quote("")).isEqualTo("''");
   }
 
   @Test
   public void should_return_null_if_String_is_null() {
-    assertNull(Strings.quote(null));
+    assertThat(Strings.quote(null)).isNull();
   }
 }

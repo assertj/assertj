@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.util.Arrays.array;
 import static org.junit.rules.ExpectedException.none;
@@ -43,9 +43,9 @@ public class ShouldBeSorted_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format(
-        "[Test] %ngroup is not sorted because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"a\">%ngroup was:%n <[\"b\", \"c\", \"a\"]>"),
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %ngroup is not sorted because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"a\">%ngroup was:%n <[\"b\", \"c\", \"a\"]>"
+    ));
   }
 
   @Test

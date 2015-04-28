@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.intarray;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -51,7 +51,7 @@ public class IntArrayAssert_usingComparator_Test extends IntArrayAssertBaseTest 
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions).getComparator(), comparator);
-    assertSame(getArrays(assertions), arraysBefore);
+    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(arraysBefore).isSameAs(getArrays(assertions));
   }
 }

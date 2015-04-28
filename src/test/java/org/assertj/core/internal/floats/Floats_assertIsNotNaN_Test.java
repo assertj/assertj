@@ -14,7 +14,7 @@ package org.assertj.core.internal.floats;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
@@ -40,7 +40,7 @@ public class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
     try {
       floats.assertIsNotNaN(someInfo(), 6f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
+      assertThat(e.getMessage()).isEqualTo("<6.0> should not be equal to:<NaN>");
     }
   }
 
@@ -54,7 +54,7 @@ public class Floats_assertIsNotNaN_Test extends FloatsBaseTest {
     try {
       floatsWithAbsValueComparisonStrategy.assertIsNotNaN(someInfo(), 6f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "<6.0> should not be equal to:<NaN>");
+      assertThat(e.getMessage()).isEqualTo("<6.0> should not be equal to:<NaN>");
     }
   }
 }

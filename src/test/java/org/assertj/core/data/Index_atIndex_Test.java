@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 
@@ -38,6 +38,6 @@ public class Index_atIndex_Test {
   @Test
   public void should_create_new_Index() {
     Index index = Index.atIndex(8);
-    assertEquals(8, index.value);
+    assertThat(index.value).isEqualTo(8);
   }
 }

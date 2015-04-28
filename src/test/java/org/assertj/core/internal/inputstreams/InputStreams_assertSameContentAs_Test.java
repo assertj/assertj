@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.inputstreams;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.test.TestData.someInfo;
@@ -70,7 +70,7 @@ public class InputStreams_assertSameContentAs_Test extends InputStreamsBaseTest 
       inputStreams.assertSameContentAs(someInfo(), actual, expected);
       fail("Expected a InputStreamsException to be thrown");
     } catch (InputStreamsException e) {
-      assertSame(cause, e.getCause());
+      assertThat(e.getCause()).isSameAs(cause);
     }
   }
 

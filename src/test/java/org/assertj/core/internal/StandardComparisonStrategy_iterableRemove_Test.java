@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -31,11 +31,11 @@ public class StandardComparisonStrategy_iterableRemove_Test extends AbstractTest
   @Test
   public void should_pass() {
     List<?> list = newArrayList("Sam", "Merry", null, "Frodo");
-    assertTrue(list.contains("Frodo"));
+    assertThat(list.contains("Frodo")).isTrue();
     standardComparisonStrategy.iterableRemoves(list, "Frodo");
-    assertFalse(list.contains("Frodo"));
+    assertThat(list.contains("Frodo")).isFalse();
     standardComparisonStrategy.iterableRemoves(list, null);
-    assertFalse(list.contains(null));
+    assertThat(list.contains(null)).isFalse();
   }
 
   @Test

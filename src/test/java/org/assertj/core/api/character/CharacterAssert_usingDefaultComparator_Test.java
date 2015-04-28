@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.character;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -48,7 +48,7 @@ public class CharacterAssert_usingDefaultComparator_Test extends CharacterAssert
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getCharacters(assertions), Characters.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Characters.instance()).isSameAs(getCharacters(assertions));
   }
 }

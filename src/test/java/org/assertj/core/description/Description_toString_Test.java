@@ -12,7 +12,7 @@
  */
 package org.assertj.core.description;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 import org.assertj.core.description.Description;
@@ -37,7 +37,7 @@ public class Description_toString_Test {
   @Test
   public void should_return_value_in_toString() {
     when(valueSource.value()).thenReturn("Yoda");
-    assertEquals("Yoda", description.toString());
+    assertThat(description.toString()).isEqualTo("Yoda");
   }
 
   private static interface ValueSource {

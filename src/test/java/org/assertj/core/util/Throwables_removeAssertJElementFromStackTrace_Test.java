@@ -12,8 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -28,9 +27,9 @@ public class Throwables_removeAssertJElementFromStackTrace_Test {
     try {
       throw new AssertJThrowable();
     } catch (AssertJThrowable throwable) {
-      assertTrue(hasStackTraceElementContainingAssertJClass(throwable));
+      assertThat(hasStackTraceElementContainingAssertJClass(throwable)).isTrue();
       Throwables.removeAssertJRelatedElementsFromStackTrace(throwable);
-      assertFalse(hasStackTraceElementContainingAssertJClass(throwable));
+      assertThat(hasStackTraceElementContainingAssertJClass(throwable)).isFalse();
     }
   }
 

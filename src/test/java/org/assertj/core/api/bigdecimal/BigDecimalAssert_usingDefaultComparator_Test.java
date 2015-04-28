@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.bigdecimal;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.math.BigDecimal;
@@ -50,7 +50,7 @@ public class BigDecimalAssert_usingDefaultComparator_Test extends BigDecimalAsse
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getBigDecimals(assertions), BigDecimals.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(BigDecimals.instance()).isSameAs(getBigDecimals(assertions));
   }
 }

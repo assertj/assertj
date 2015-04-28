@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal.failures;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -49,7 +48,7 @@ public class Failures_failure_with_AssertionErrorFactory_Test {
   public void should_create_own_AssertionError_when_overriding_error_message_is_specified() {
     info.overridingErrorMessage("my message");
     AssertionError failure = failures.failure(info, errorFactory);
-    assertEquals("my message", failure.getMessage());
+    assertThat(failure.getMessage()).isEqualTo("my message");
   }
 
   @Test
@@ -59,7 +58,7 @@ public class Failures_failure_with_AssertionErrorFactory_Test {
     info.description(description);
     when(errorFactory.newAssertionError(description, info.representation())).thenReturn(expectedError);
     AssertionError failure = failures.failure(info, errorFactory);
-    assertSame(expectedError, failure);
+    assertThat(failure).isSameAs(expectedError);
   }
 
   private static class MyOwnAssertionError extends AssertionError {

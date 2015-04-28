@@ -13,7 +13,7 @@
 package org.assertj.core.api.date;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,7 +97,7 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   @Test
   public void should_return_this() {
     DateAssert returned = assertionInvocationWithDateArg();
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 
   /**

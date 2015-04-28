@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -29,18 +29,18 @@ public class Lists_newArrayList_withVarArgs_Test {
   public void should_return_List_containing_all_elements_in_array() {
     String[] expected = { "One", "Two" };
     ArrayList<String> list = Lists.newArrayList(expected);
-    assertArrayEquals(expected, list.toArray());
+    assertThat(list.toArray()).isEqualTo(expected);
   }
 
   @Test
   public void should_return_null_if_array_is_null() {
     Object[] elements = null;
-    assertNull(Lists.newArrayList(elements));
+    assertThat(Lists.newArrayList(elements)).isNull();
   }
 
   @Test
   public void should_return_empty_List_if_array_is_empty() {
     ArrayList<Object> list = Lists.newArrayList(new Object[0]);
-    assertTrue(list.isEmpty());
+    assertThat(list.isEmpty()).isTrue();
   }
 }

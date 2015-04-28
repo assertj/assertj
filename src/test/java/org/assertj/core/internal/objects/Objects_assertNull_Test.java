@@ -26,7 +26,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Objects#assertNull(AssertionInfo, Object)}</code>.
+ * Tests for <code>{@link Objects#assertThat(AssertionInfo, Object).isNull()}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

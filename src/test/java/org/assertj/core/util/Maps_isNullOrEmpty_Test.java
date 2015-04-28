@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,18 +28,18 @@ import org.junit.Test;
 public class Maps_isNullOrEmpty_Test {
   @Test
   public void should_return_true_if_Map_is_empty() {
-    assertTrue(Maps.isNullOrEmpty(new HashMap<String, String>()));
+    assertThat(Maps.isNullOrEmpty(new HashMap<String, String>())).isTrue();
   }
 
   @Test
   public void should_return_true_if_Map_is_null() {
-    assertTrue(Maps.isNullOrEmpty(null));
+    assertThat(Maps.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_Map_has_elements() {
     Map<String, Integer> map = new HashMap<>();
     map.put("First", 1);
-    assertFalse(Maps.isNullOrEmpty(map));
+    assertThat(Maps.isNullOrEmpty(map)).isFalse();
   }
 }

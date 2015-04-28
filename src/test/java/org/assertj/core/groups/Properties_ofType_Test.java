@@ -12,7 +12,7 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.groups.Properties;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class Properties_ofType_Test {
   @Test
   public void should_create_a_new_Properties() {
     Properties<String> properties = Properties.extractProperty("id").ofType(String.class);
-    assertEquals("id", properties.propertyName);
-    assertEquals(String.class, properties.propertyType);
+    assertThat(properties.propertyName).isEqualTo("id");
+    assertThat(properties.propertyType).isEqualTo(String.class);
   }
 }

@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -27,12 +26,12 @@ public class Assertions_assertThat_with_primitive_float_Test {
   @Test
   public void should_create_Assert() {
     AbstractFloatAssert<?> assertions = Assertions.assertThat(0f);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     AbstractFloatAssert<?> assertions = Assertions.assertThat(8f);
-    assertEquals(new Float(8), assertions.actual);
+    assertThat(assertions.actual).isEqualTo(new Float(8));
   }
 }
