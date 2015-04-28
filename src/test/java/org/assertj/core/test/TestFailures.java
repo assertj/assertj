@@ -12,7 +12,7 @@
  */
 package org.assertj.core.test;
 
-import org.junit.Assert;
+import static org.assertj.core.api.Assertions.fail;
 
 /**
  * @author Yvonne Wang
@@ -21,7 +21,7 @@ import org.junit.Assert;
 public final class TestFailures {
 
   public static void failBecauseExpectedAssertionErrorWasNotThrown() {
-    Assert.fail("Assertion error expected");
+    fail("Assertion error expected");
   }
 
   public static void wasExpectingAssertionError() {

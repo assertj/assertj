@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.test.TestData.someTextDescription;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
@@ -51,7 +51,7 @@ public class Condition_describedAs_Description_Test {
   @Test
   public void should_set_description() {
     condition.describedAs(description);
-    assertSame(description, condition.description());
+    assertThat(condition.description()).isSameAs(description);
   }
 
   @Test
@@ -63,6 +63,6 @@ public class Condition_describedAs_Description_Test {
   @Test
   public void should_return_same_condition() {
     Condition<Object> returnedCondition = condition.describedAs(description);
-    assertSame(condition, returnedCondition);
+    assertThat(returnedCondition).isSameAs(condition);
   }
 }

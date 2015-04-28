@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 
 import org.assertj.core.data.MapEntry;
@@ -33,6 +33,6 @@ public class MapEntry_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertEquals("MapEntry[key='name', value='Yoda']", entry.toString());
+    assertThat(entry.toString()).isEqualTo("MapEntry[key='name', value='Yoda']");
   }
 }

@@ -12,8 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -26,17 +25,17 @@ public class Arrays_isArray_Test {
 
   @Test
   public void should_return_true_if_object_is_an_array() {
-    assertTrue(Arrays.isArray(new String[0]));
-    assertTrue(Arrays.isArray(new int[0]));
+    assertThat(Arrays.isArray(new String[0])).isTrue();
+    assertThat(Arrays.isArray(new int[0])).isTrue();
   }
 
   @Test
   public void should_return_false_if_object_is_null() {
-    assertFalse(Arrays.isArray(null));
+    assertThat(Arrays.isArray(null)).isFalse();
   }
 
   @Test
   public void should_return_false_if_object_is_not_an_array() {
-    assertFalse(Arrays.isArray("I'm not an array"));
+    assertThat(Arrays.isArray("I'm not an array")).isFalse();
   }
 }

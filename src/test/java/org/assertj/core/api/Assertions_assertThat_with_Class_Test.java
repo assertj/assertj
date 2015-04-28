@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class Assertions_assertThat_with_Class_Test {
   public void should_create_Assert() {
     Class<Assertions_assertThat_with_Class_Test> clazz = Assertions_assertThat_with_Class_Test.class;
     AbstractClassAssert<?> assertions = Assertions.assertThat(clazz);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Class<Assertions_assertThat_with_Class_Test> clazz = Assertions_assertThat_with_Class_Test.class;
     AbstractClassAssert<?> assertions = Assertions.assertThat(clazz);
-    assertSame(clazz, assertions.actual);
+    assertThat(assertions.actual).isSameAs(clazz);
   }
 }

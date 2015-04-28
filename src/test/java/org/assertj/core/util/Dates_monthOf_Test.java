@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.monthOf;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.text.*;
@@ -37,7 +37,7 @@ public class Dates_monthOf_Test {
   public void should_return_month_of_date() throws ParseException {
     String dateAsString = "26/08/1994";
     Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
-    assertEquals(8, monthOf(date));
+    assertThat(monthOf(date)).isEqualTo(8);
   }
 
   @Test

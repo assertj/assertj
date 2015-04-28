@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 
@@ -37,6 +37,6 @@ public class DateAssert_hasTime_Test extends DateAssertBaseTest {
   @Test
   public void should_return_this() {
     DateAssert returned = assertions.hasTime(42L);
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 }

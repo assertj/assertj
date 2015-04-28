@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.test.ExpectedException;
@@ -40,7 +40,7 @@ public class ArrayWrapperList_get_Test {
 
   @Test
   public void should_return_value_at_index() {
-    assertEquals(8, list.get(1));
+    assertThat(list.get(1)).isEqualTo(8);
   }
 
   @Test

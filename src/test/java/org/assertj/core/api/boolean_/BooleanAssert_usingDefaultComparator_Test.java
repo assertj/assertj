@@ -16,7 +16,7 @@ import org.assertj.core.api.BooleanAssert;
 import org.assertj.core.api.BooleanAssertBaseTest;
 import org.assertj.core.internal.Objects;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
@@ -34,6 +34,6 @@ public class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertBase
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
   }
 }

@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static java.io.File.separator;
 import static org.assertj.core.util.Strings.join;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.io.File;
@@ -52,7 +52,7 @@ public class Files_newFile_Test extends Files_TestCase {
     File f = null;
     try {
       f = Files.newFile("file");
-      assertTrue(f.isFile());
+      assertThat(f.isFile()).isTrue();
     } finally {
       if (f != null) f.delete();
     }

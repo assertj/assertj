@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.DoesNotHave.doesNotHave;
 
 import org.assertj.core.api.Condition;
@@ -40,7 +40,7 @@ public class DoesNotHave_toString_Test {
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "does not have :<JediPower>";
-    assertEquals(expected, doesNotHave.toString());
+    assertThat(doesNotHave.toString()).isEqualTo(expected);
   }
 
 }

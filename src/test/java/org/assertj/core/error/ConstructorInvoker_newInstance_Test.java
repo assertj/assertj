@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.error.ConstructorInvoker;
 import org.junit.*;
@@ -34,8 +34,8 @@ public class ConstructorInvoker_newInstance_Test {
   @Test
   public void should_create_Object_using_reflection() throws Exception {
     Object o = invoker.newInstance("java.lang.Exception", new Class<?>[] { String.class }, new Object[] { "Hi" });
-    assertTrue(o instanceof Exception);
+    assertThat(o instanceof Exception).isTrue();
     Exception e = (Exception) o;
-    assertEquals("Hi", e.getMessage());
+    assertThat(e.getMessage()).isEqualTo("Hi");
   }
 }

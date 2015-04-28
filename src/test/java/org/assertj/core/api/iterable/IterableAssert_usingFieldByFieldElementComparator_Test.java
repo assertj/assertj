@@ -13,10 +13,8 @@
 package org.assertj.core.api.iterable;
 
 import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -45,9 +43,9 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
 
   @Override
   protected void verify_internal_effects() {
-	assertNotSame(getIterables(assertions), iterablesBefore);
-	assertTrue(getIterables(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy);
-	assertTrue(getObjects(assertions).getComparisonStrategy() instanceof IterableElementComparisonStrategy);
+	assertThat(iterablesBefore).isNotSameAs(getIterables(assertions));
+	assertThat(getIterables(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
+	assertThat(getObjects(assertions).getComparisonStrategy() instanceof IterableElementComparisonStrategy).isTrue();
   }
 
   @Test

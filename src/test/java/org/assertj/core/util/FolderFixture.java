@@ -16,7 +16,7 @@ import static java.io.File.separator;
 import static java.lang.String.format;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.*;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.*;
 import java.util.*;
@@ -58,7 +58,7 @@ public final class FolderFixture {
     String path = relativePath();
     dir = new File(path);
     if (!dir.exists()) {
-      assertTrue(dir.mkdir());
+      assertThat(dir.mkdir()).isTrue();
       logger.info(format("Created directory %s", quote(path)));
       return;
     }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -52,7 +52,7 @@ public class ObjectArrayAssert_usingDefaultElementComparator_Test extends Object
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), objectsBefore);
-    assertSame(getArrays(assertions), ObjectArrays.instance());
+    assertThat(objectsBefore).isSameAs(getObjects(assertions));
+    assertThat(ObjectArrays.instance()).isSameAs(getArrays(assertions));
   }
 }

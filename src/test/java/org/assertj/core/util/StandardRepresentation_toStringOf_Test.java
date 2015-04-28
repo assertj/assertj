@@ -12,15 +12,11 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.assertFalse;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,17 +41,17 @@ public class StandardRepresentation_toStringOf_Test {
 
   @Test
   public void should_return_null_if_object_is_null() {
-    assertNull(new StandardRepresentation().toStringOf(null));
+    assertThat(new StandardRepresentation().toStringOf(null)).isNull();
   }
 
   @Test
   public void should_quote_String() {
-    assertEquals("\"Hello\"", new StandardRepresentation().toStringOf("Hello"));
+    assertThat(new StandardRepresentation().toStringOf("Hello")).isEqualTo("\"Hello\"");
   }
 
   @Test
   public void should_quote_empty_String() {
-    assertEquals("\"\"", new StandardRepresentation().toStringOf(""));
+    assertThat(new StandardRepresentation().toStringOf("")).isEqualTo("\"\"");
   }
 
   @Test
@@ -68,24 +64,24 @@ public class StandardRepresentation_toStringOf_Test {
         return path;
       }
     };
-    assertEquals(path, new StandardRepresentation().toStringOf(o));
+    assertThat(new StandardRepresentation().toStringOf(o)).isEqualTo(path);
   }
 
   @Test
   public void should_return_toString_of_Class_with_its_name() {
-    assertEquals("java.lang.Object", new StandardRepresentation().toStringOf(Object.class));
+    assertThat(new StandardRepresentation().toStringOf(Object.class)).isEqualTo("java.lang.Object");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
-    assertEquals("[\"s1\", \"s2\"]", new StandardRepresentation().toStringOf(collection));
+    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays() {
     List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true));
-    assertEquals("[[true, false], [true, false, true]]", new StandardRepresentation().toStringOf(collection));
+    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[[true, false], [true, false, true]]");
   }
 
   @Test
@@ -93,7 +89,7 @@ public class StandardRepresentation_toStringOf_Test {
     Collection<List<String>> collection = new ArrayList<>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
-    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", new StandardRepresentation().toStringOf(collection));
+    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
@@ -101,36 +97,36 @@ public class StandardRepresentation_toStringOf_Test {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("key1", "value1");
     map.put("key2", "value2");
-    assertEquals("{\"key1\"=\"value1\", \"key2\"=\"value2\"}", new StandardRepresentation().toStringOf(map));
+    assertThat(new StandardRepresentation().toStringOf(map)).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"}");
   }
 
   @Test
   public void should_return_toString_of_array() {
-    assertEquals("[\"s1\", \"s2\"]", new StandardRepresentation().toStringOf(array("s1", "s2")));
+    assertThat( new StandardRepresentation().toStringOf(array("s1", "s2"))).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
-    assertEquals("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]", new StandardRepresentation().toStringOf(array));
+    assertThat(new StandardRepresentation().toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   public void should_return_toString_of_array_of_Class() {
     Class<?>[] array = { String.class, File.class };
-    assertEquals("[java.lang.String, java.io.File]", new StandardRepresentation().toStringOf(array));
+    assertThat(new StandardRepresentation().toStringOf(array)).isEqualTo("[java.lang.String, java.io.File]");
   }
 
   @Test
   public void should_return_toString_of_calendar() {
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
-    assertEquals("2011-01-18T23:53:17", new StandardRepresentation().toStringOf(calendar));
+    assertThat(new StandardRepresentation().toStringOf(calendar)).isEqualTo("2011-01-18T23:53:17");
   }
 
   @Test
   public void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertEquals("2011-06-18T23:53:17", new StandardRepresentation().toStringOf(date));
+    assertThat(new StandardRepresentation().toStringOf(date)).isEqualTo("2011-06-18T23:53:17");
   }
 
   @Test
@@ -141,28 +137,28 @@ public class StandardRepresentation_toStringOf_Test {
         return s1.length() - s2.length();
       }
     };
-    assertEquals("'anonymous comparator class'", new StandardRepresentation().toStringOf(anonymousComparator));
+    assertThat(new StandardRepresentation().toStringOf(anonymousComparator)).isEqualTo("'anonymous comparator class'");
   }
 
   @Test
   public void should_format_longs_and_integers() {
-    assertFalse(new StandardRepresentation().toStringOf(20L).equals(toStringOf(20)));
-    assertEquals("20", toStringOf(20));
-    assertEquals("20L", toStringOf(20L));
+    assertThat(new StandardRepresentation().toStringOf(20L).equals(toStringOf(20))).isFalse();
+    assertThat(toStringOf(20)).isEqualTo("20");
+    assertThat(toStringOf(20L)).isEqualTo("20L");
   }
 
   @Test
   public void should_format_bytes_as_hex() {
-    assertFalse(toStringOf((byte) 20).equals(toStringOf((char) 20)));
-    assertEquals(toStringOf((byte) 20), (toStringOf((short) 20)));
-    assertEquals("32", toStringOf((byte) 32));
+    assertThat(toStringOf((byte) 20).equals(toStringOf((char) 20))).isFalse();
+    assertThat((toStringOf((short) 20))).isEqualTo(toStringOf((byte) 20));
+    assertThat(toStringOf((byte) 32)).isEqualTo("32");
   }
 
   @Test
   public void should_format_doubles_and_floats() {
-    assertFalse(toStringOf(20.0f).equals(toStringOf(20.0)));
-    assertEquals("20.0", toStringOf(20.0));
-    assertEquals("20.0f", toStringOf(20.0f));
+    assertThat(toStringOf(20.0f).equals(toStringOf(20.0))).isFalse();
+    assertThat(toStringOf(20.0)).isEqualTo("20.0");
+    assertThat(toStringOf(20.0f)).isEqualTo("20.0f");
   }
 
   @Test

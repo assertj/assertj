@@ -15,7 +15,7 @@ package org.assertj.core.util;
 import static org.assertj.core.test.IntArrays.emptyArray;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 
@@ -47,6 +47,6 @@ public class ArrayWrapperList_size_Test {
   @Test
   public void should_return_size_of_array() {
     ArrayWrapperList list = new ArrayWrapperList(array);
-    assertEquals(array.length, list.size());
+    assertThat(list.size()).isEqualTo(array.length);
   }
 }

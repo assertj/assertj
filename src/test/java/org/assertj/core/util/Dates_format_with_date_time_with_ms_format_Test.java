@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.formatAsDatetimeWithMs;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 import java.util.Date;
@@ -32,12 +32,12 @@ public class Dates_format_with_date_time_with_ms_format_Test {
   public void should_format_date_with_date_time_with_ms_format() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    assertEquals("1994-08-26T00:00:00.000", formatAsDatetimeWithMs(formatter.parse(dateAsString)));
+    assertThat(formatAsDatetimeWithMs(formatter.parse(dateAsString))).isEqualTo("1994-08-26T00:00:00.000");
   }
 
   @Test
   public void should_return_null_if_date_is_null() {
-    assertNull(formatAsDatetimeWithMs((Date) null));
+    assertThat(formatAsDatetimeWithMs((Date) null)).isNull();
   }
 
 }

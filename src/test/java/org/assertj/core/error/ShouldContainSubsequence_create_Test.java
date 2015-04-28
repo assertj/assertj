@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -41,7 +41,9 @@ public class ShouldContainSubsequence_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"
+    ));
   }
 
   @Test
@@ -49,7 +51,9 @@ public class ShouldContainSubsequence_create_Test {
     ErrorMessageFactory factory = shouldContainSubsequence(newArrayList("Yoda", "Luke"), newArrayList("Han", "Leia"),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nto contain subsequence:%n <[\"Han\", \"Leia\"]>%n"
+            + "when comparing values using 'CaseInsensitiveStringComparator'"
+    ));
   }
 }

@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.truncateTime;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 import java.util.Date;
@@ -32,12 +32,12 @@ public class Dates_truncateTime_Test {
   public void should_return_millisecond_of_date() throws ParseException {
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss:SS").parse("26/08/1994T22:35:17:29");
     Date expectedDate = new SimpleDateFormat("dd/MM/yyyy").parse("26/08/1994");
-    assertEquals(expectedDate, truncateTime(date));
+    assertThat(truncateTime(date)).isEqualTo(expectedDate);
   }
 
   @Test
   public void should_return_null_if_date_is_null() {
-    assertNull(truncateTime(null));
+    assertThat(truncateTime(null)).isNull();
   }
 
 }

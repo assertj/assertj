@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -42,7 +42,7 @@ public class Condition_constructor_with_description_Test {
         return false;
       }
     };
-    assertSame(d, condition.description);
+    assertThat(condition.description).isSameAs(d);
   }
 
   @Test

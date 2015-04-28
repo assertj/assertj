@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
@@ -26,8 +26,8 @@ public class StandardComparisonStrategy_stringStartsWith_Test extends AbstractTe
 
   @Test
   public void should_pass() {
-    assertTrue(standardComparisonStrategy.stringStartsWith("Frodo", "Fro"));
-    assertFalse(standardComparisonStrategy.stringStartsWith("rodo", "Fro"));
+    assertThat(standardComparisonStrategy.stringStartsWith("Frodo", "Fro")).isTrue();
+    assertThat(standardComparisonStrategy.stringStartsWith("rodo", "Fro")).isFalse();
   }
 
 }

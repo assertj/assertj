@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -32,6 +32,6 @@ public class Condition_default_constructor_Test {
         return false;
       }
     };
-    assertEquals(condition.getClass().getSimpleName(), condition.description.value());
+    assertThat(condition.description.value()).isEqualTo(condition.getClass().getSimpleName());
   }
 }

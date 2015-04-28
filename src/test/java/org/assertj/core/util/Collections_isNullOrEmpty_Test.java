@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,17 +30,17 @@ public class Collections_isNullOrEmpty_Test {
   @Test
   public void should_return_true_if_Collection_is_empty() {
     Collection<String> c = new ArrayList<>();
-    assertTrue(Collections.isNullOrEmpty(c));
+    assertThat(Collections.isNullOrEmpty(c)).isTrue();
   }
 
   @Test
   public void should_return_true_if_Collection_is_null() {
-    assertTrue(Collections.isNullOrEmpty(null));
+    assertThat(Collections.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_Collection_has_elements() {
     Collection<String> c = newArrayList("Frodo");
-    assertFalse(Collections.isNullOrEmpty(c));
+    assertThat(Collections.isNullOrEmpty(c)).isFalse();
   }
 }

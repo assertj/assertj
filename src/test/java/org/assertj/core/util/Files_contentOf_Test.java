@@ -12,8 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.io.File;
@@ -51,7 +50,7 @@ public class Files_contentOf_Test {
   @Test
   public void should_throw_exception_if_file_not_found() {
     File missingFile = new File("missing.txt");
-    assertFalse(missingFile.exists());
+    assertThat(missingFile.exists()).isFalse();
 
     thrown.expect(FilesException.class);
     Files.contentOf(missingFile, Charset.defaultCharset());
@@ -60,11 +59,11 @@ public class Files_contentOf_Test {
   @Test
   public void should_load_file_using_charset() {
     // NB: UTF-8 must be supported by every Java implementation
-    assertEquals(expectedContent, Files.contentOf(sampleFile, Charset.forName("UTF-8")));
+    assertThat(Files.contentOf(sampleFile, Charset.forName("UTF-8"))).isEqualTo(expectedContent);
   }
 
   @Test
   public void should_load_file_using_charset_name() {
-    assertEquals(expectedContent, Files.contentOf(sampleFile, "UTF-8"));
+    assertThat(Files.contentOf(sampleFile, "UTF-8")).isEqualTo(expectedContent);
   }
 }

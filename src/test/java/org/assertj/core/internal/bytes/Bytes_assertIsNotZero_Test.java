@@ -14,7 +14,8 @@ package org.assertj.core.internal.bytes;
 
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
-import static org.junit.Assert.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -62,7 +63,7 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (byte) 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
     }
   }
 
@@ -71,7 +72,7 @@ public class Bytes_assertIsNotZero_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertIsNotZero(someHexInfo(), (byte) 0x00);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), String.format("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n"));
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0x00>%nnot to be equal to:%n <0x00>%n"));
     }
   }
 

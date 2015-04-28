@@ -12,8 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.AnyOf.anyOf;
 
 import org.assertj.core.api.Condition;
@@ -43,13 +42,13 @@ public class AnyOf_matches_Test {
   public void should_match_if_at_least_one_Condition_matches() {
     condition1.shouldMatch(false);
     condition2.shouldMatch(true);
-    assertTrue(anyOf.matches("Yoda"));
+    assertThat(anyOf.matches("Yoda")).isTrue();
   }
 
   @Test
   public void should_not_match_if_none_of_the_Conditions_match() {
     condition1.shouldMatch(false);
     condition2.shouldMatch(false);
-    assertFalse(anyOf.matches("Yoda"));
+    assertThat(anyOf.matches("Yoda")).isFalse();
   }
 }

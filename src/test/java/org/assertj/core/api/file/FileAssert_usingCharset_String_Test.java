@@ -15,7 +15,7 @@ package org.assertj.core.api.file;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 /**
@@ -32,6 +32,6 @@ public class FileAssert_usingCharset_String_Test extends FileAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertEquals(otherCharset, getCharset(assertions));
+    assertThat(getCharset(assertions)).isEqualTo(otherCharset);
   }
 }

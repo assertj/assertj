@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.test.ExpectedException.none;
 
@@ -47,6 +47,6 @@ public class Offset_offset_with_Integer_Test {
   public void should_create_Offset() {
     Integer value = 8;
     Offset<Integer> offset = Offset.offset(value);
-    assertSame(value, offset.value);
+    assertThat(offset.value).isSameAs(value);
   }
 }

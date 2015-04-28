@@ -13,8 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Collections.emptyMap;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,13 +31,13 @@ public class Assertions_assertThat_with_Map_Test {
   @Test
   public void should_create_Assert() {
     AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(emptyMap());
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Map<Object, Object> actual = new HashMap<>();
     AbstractMapAssert<?, ? extends Map<Object, Object>, Object, Object> assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(assertions.actual).isSameAs(actual);
   }
 }

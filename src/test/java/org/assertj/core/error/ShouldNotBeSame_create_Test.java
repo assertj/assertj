@@ -12,9 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
-
 
 
 import org.assertj.core.internal.TestDescription;
@@ -39,6 +38,6 @@ public class ShouldNotBeSame_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpected not same:<\"Yoda\">"), message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpected not same:<\"Yoda\">"));
   }
 }

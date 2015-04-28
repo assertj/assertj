@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.failures;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,7 +47,7 @@ public class Failures_failure_with_ErrorMessage_Test {
   public void should_create_use_overriding_error_message_if_it_is_specified() {
     info.overridingErrorMessage("my message");
     AssertionError failure = failures.failure(info, errorMessage);
-    assertEquals("my message", failure.getMessage());
+    assertThat(failure.getMessage()).isEqualTo("my message");
   }
 
   @Test
@@ -56,6 +56,6 @@ public class Failures_failure_with_ErrorMessage_Test {
     info.description(description);
     when(errorMessage.create(description, info.representation())).thenReturn("[description] my message");
     AssertionError failure = failures.failure(info, errorMessage);
-    assertEquals("[description] my message", failure.getMessage());
+    assertThat(failure.getMessage()).isEqualTo("[description] my message");
   }
 }

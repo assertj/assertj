@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import static org.assertj.core.error.ShouldHaveAtIndex.shouldHaveAtIndex;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 /**
  * Tests for <code>{@link ShouldHaveAtIndex#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -33,7 +33,8 @@ public class ShouldHaveAtIndex_create_Test {
   @Test public void should_create_error_message() {
     ErrorMessageFactory factory = shouldHaveAtIndex(newArrayList("Yoda", "Luke"), new TestCondition<String>("red lightsaber"), Index.atIndex(1), "Luke");
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <\"Luke\">%nat index <1> to have:%n <red lightsaber>%nin:%n" +
-                 " <[\"Yoda\", \"Luke\"]>%n"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Luke\">%nat index <1> to have:%n <red lightsaber>%nin:%n" +
+            " <[\"Yoda\", \"Luke\"]>%n"));
   }
 }

@@ -12,9 +12,11 @@
  */
 package org.assertj.core.internal.doubles;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
-import org.junit.Assert;
 import org.junit.Test;
 
 
@@ -27,6 +29,6 @@ public class Doubles_NaN_Test extends DoublesBaseTest {
 
   @Test
   public void check_double_NaN_method() {
-    Assert.assertEquals(Double.NaN, NaN(), 0d);
+    assertThat(NaN()).isCloseTo(Double.NaN, within(0d));
   }
 }

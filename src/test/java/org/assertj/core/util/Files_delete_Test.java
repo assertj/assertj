@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,6 +35,6 @@ public class Files_delete_Test extends Files_TestCase {
     File d = dir3.dir();
     String path = d.getCanonicalPath();
     Files.delete(d);
-    assertFalse(new File(path).exists());
+    assertThat(new File(path).exists()).isFalse();
   }
 }

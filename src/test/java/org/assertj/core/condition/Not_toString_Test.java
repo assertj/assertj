@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.Not.not;
 
 import org.assertj.core.api.Condition;
@@ -39,7 +39,7 @@ public class Not_toString_Test {
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "not :<Jedi>";
-    assertEquals(expected, not.toString());
+    assertThat(not.toString()).isEqualTo(expected);
   }
 
 }

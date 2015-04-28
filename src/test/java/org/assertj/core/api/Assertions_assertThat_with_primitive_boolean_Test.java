@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -27,12 +26,12 @@ public class Assertions_assertThat_with_primitive_boolean_Test {
   @Test
   public void should_create_Assert() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     AbstractBooleanAssert<?> assertions = Assertions.assertThat(true);
-    assertEquals(true, assertions.actual);
+    assertThat(assertions.actual).isEqualTo(true);
   }
 }

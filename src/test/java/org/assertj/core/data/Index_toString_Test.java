@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Index.atIndex;
 
 import org.assertj.core.data.Index;
@@ -33,6 +33,6 @@ public class Index_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertEquals("Index[value=8]", index.toString());
+    assertThat(index.toString()).isEqualTo("Index[value=8]");
   }
 }

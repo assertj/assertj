@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -25,11 +25,11 @@ public class Strings_append_Test {
 
   @Test
   public void should_append_String() {
-    assertEquals("abc", Strings.append("c").to("ab"));
+    assertThat(Strings.append("c").to("ab")).isEqualTo("abc");
   }
 
   @Test
   public void should_not_append_String_if_already_present() {
-    assertEquals("abc", Strings.append("c").to("abc"));
+    assertThat(Strings.append("c").to("abc")).isEqualTo("abc");
   }
 }

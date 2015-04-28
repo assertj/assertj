@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
@@ -26,8 +26,8 @@ public class StandardComparisonStrategy_stringEndsWith_Test extends AbstractTest
 
   @Test
   public void should_pass() {
-    assertTrue(standardComparisonStrategy.stringEndsWith("Frodo", "do"));
-    assertFalse(standardComparisonStrategy.stringEndsWith("Frodo", "d"));
+    assertThat(standardComparisonStrategy.stringEndsWith("Frodo", "do")).isTrue();
+    assertThat(standardComparisonStrategy.stringEndsWith("Frodo", "d")).isFalse();
   }
 
 }

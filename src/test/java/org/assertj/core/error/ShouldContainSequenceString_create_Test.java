@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.error.ShouldContainCharSequenceSequence.shouldContainSequence;
 
@@ -39,10 +39,12 @@ public class ShouldContainSequenceString_create_Test {
 
     factory = shouldContainSequence(actual, sequenceValues, 1);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <\"" + actual + "\">%n"
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"" + actual + "\">%n"
         + "to contain the following CharSequences in this order:%n"
         + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
-        + "but <\"title\"> was found before <\"author\">%n"), message);
+        + "but <\"title\"> was found before <\"author\">%n"
+    ));
   }
 
   @Test
@@ -53,11 +55,13 @@ public class ShouldContainSequenceString_create_Test {
     factory = shouldContainSequence(actual, sequenceValues, 1,
                                     new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <\"" + actual + "\">%n"
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"" + actual + "\">%n"
         + "to contain the following CharSequences in this order:%n"
         + " <[\"{\", \"author\", \"title\", \"}\"]>%n"
         + "but <\"title\"> was found before <\"author\">%n"
-        + "when comparing values using 'CaseInsensitiveStringComparator'"), message);
+        + "when comparing values using 'CaseInsensitiveStringComparator'"
+    ));
   }
 
 }

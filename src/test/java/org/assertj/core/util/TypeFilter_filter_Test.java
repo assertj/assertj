@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class TypeFilter_filter_Test {
     original.add("Frodo");
     original.add(5);
     List<String> filtered = new TypeFilter<>(String.class).filter(original);
-    assertEquals(1, filtered.size());
-    assertEquals("Frodo", filtered.get(0));
+    assertThat(filtered).hasSize(1);
+    assertThat(filtered.get(0)).isEqualTo("Frodo");
   }
 }

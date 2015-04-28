@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
@@ -57,21 +57,21 @@ public class BasicErrorMessageFactory_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(factory.equals("Yoda"));
+    assertThat(factory.equals("Yoda")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(factory.equals(null));
+    assertThat(factory.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_BasicErrorMessage_with_different_format() {
-    assertFalse(factory.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda")));
+    assertThat(factory.equals(new BasicErrorMessageFactory("How are you, %s?", "Yoda"))).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_BasicErrorMessage_with_different_arguments() {
-    assertFalse(factory.equals(new BasicErrorMessageFactory("Hello %s", "Luke")));
+    assertThat(factory.equals(new BasicErrorMessageFactory("Hello %s", "Luke"))).isFalse();
   }
 }

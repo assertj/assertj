@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -43,6 +43,6 @@ public class WritableAssertionInfo_toString_Test {
   @Test
   public void should_implement_toString() {
     when(description.value()).thenReturn("Yoda");
-    assertEquals("WritableAssertionInfo[overridingErrorMessage='Jedi', description='Yoda']", info.toString());
+    assertThat(info.toString()).isEqualTo("WritableAssertionInfo[overridingErrorMessage='Jedi', description='Yoda']");
   }
 }

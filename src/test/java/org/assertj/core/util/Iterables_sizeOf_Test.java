@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -31,7 +31,7 @@ import org.junit.Test;
 public class Iterables_sizeOf_Test {
   @Test
   public void should_return_zero_if_iterable_is_empty() {
-    assertEquals(0, Iterables.sizeOf(new ArrayList<String>()));
+    assertThat(Iterables.sizeOf(new ArrayList<String>())).isEqualTo(0);
   }
 
   @Test(expected = NullPointerException.class)
@@ -42,12 +42,12 @@ public class Iterables_sizeOf_Test {
   @Test
   public void should_return_iterable_size() {
     List<String> list = newArrayList("Frodo", "Sam");
-    assertEquals(2, Iterables.sizeOf(list));
+    assertThat(Iterables.sizeOf(list)).isEqualTo(2);
   }
 
   @Test
   public void should_return_correct_size_for_non_collection_iterable() {
     Iterable<Throwable> sqlException = new SQLException(new Exception(new Exception()));
-    assertEquals(3, Iterables.sizeOf(sqlException));
+    assertThat(Iterables.sizeOf(sqlException)).isEqualTo(3);
   }
 }

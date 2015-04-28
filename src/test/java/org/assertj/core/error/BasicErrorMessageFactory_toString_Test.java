@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.junit.*;
@@ -33,6 +33,6 @@ public class BasicErrorMessageFactory_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertEquals("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]", factory.toString());
+    assertThat(factory.toString()).isEqualTo("BasicErrorMessageFactory[format='Hello %s', arguments=[\"Yoda\"]]");
   }
 }

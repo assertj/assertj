@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
@@ -40,7 +40,7 @@ public class Condition_constructor_with_text_description_Test {
         return false;
       }
     };
-    assertEquals(text, condition.description.value());
+    assertThat(condition.description.value()).isEqualTo(text);
   }
 
   @Test

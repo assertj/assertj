@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.Before;
@@ -37,6 +37,6 @@ public class Condition_description_Test {
   public void should_return_description() {
     String description = "do or do not, there is not try";
     condition.description = new TextDescription(description);
-    assertEquals(description, condition.description().value());
+    assertThat(condition.description().value()).isEqualTo(description);
   }
 }

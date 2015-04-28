@@ -12,7 +12,7 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -61,6 +61,6 @@ public class Properties_from_with_array_Test {
     List<Integer> ages = newArrayList();
     ages.add(yoda.getAge());
     when(propertySupport.propertyValues(propertyName, Integer.class, wrap(employees))).thenReturn(ages);
-    assertSame(ages, properties.from(employees));
+    assertThat(properties.from(employees)).isSameAs(ages);
   }
 }

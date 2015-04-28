@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal.floats;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 
 import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
@@ -28,6 +29,6 @@ public class Floats_NaN_Test extends FloatsBaseTest {
 
   @Test
   public void check_float_NaN_method() {
-    assertEquals(Float.NaN, NaN(), 0d);
+    assertThat(NaN()).isCloseTo(Float.NaN, within(0f));
   }
 }

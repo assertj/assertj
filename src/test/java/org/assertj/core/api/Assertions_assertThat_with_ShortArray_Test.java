@@ -13,8 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.ShortArrays.emptyArray;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class Assertions_assertThat_with_ShortArray_Test {
   @Test
   public void should_create_Assert() {
     AbstractShortArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     short[] actual = emptyArray();
     AbstractShortArrayAssert<?> assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(assertions.actual).isSameAs(actual);
   }
 }

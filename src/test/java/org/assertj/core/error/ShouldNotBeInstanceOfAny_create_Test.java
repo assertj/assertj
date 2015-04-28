@@ -12,9 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
-
 
 
 import org.assertj.core.internal.TestDescription;
@@ -40,6 +39,8 @@ public class ShouldNotBeInstanceOfAny_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to be an instance of any of these types:%n <[java.lang.String, java.lang.Object]>"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nnot to be an instance of any of these types:%n <[java.lang.String, java.lang.Object]>"
+    ));
   }
 }

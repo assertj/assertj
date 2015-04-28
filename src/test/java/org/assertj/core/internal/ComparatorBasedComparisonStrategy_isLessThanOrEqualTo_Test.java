@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.awt.Rectangle;
 
@@ -30,13 +30,13 @@ public class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends 
   public void should_pass() {
     String string = "string";
     String greaterString = "STRINGA";
-    assertTrue(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, greaterString));
-    assertTrue(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, "STRING"));
-    assertTrue(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, string));
-    assertFalse(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(greaterString, string));
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, greaterString)).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, "STRING")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, string)).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(greaterString, string)).isFalse();
     String lowerString = "stringA";
-    assertTrue(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, lowerString));
-    assertFalse(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(lowerString, string));
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(string, lowerString)).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(lowerString, string)).isFalse();
   }
 
   @Test

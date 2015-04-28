@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -46,15 +46,15 @@ public class DateAssert_usingComparator_Test extends DateAssertBaseTest {
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getDates(assertions), Dates.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Dates.instance()).isSameAs(getDates(assertions));
   }
 
   @Test
   public void using_custom_comparator_test() {
     // in that, we don't care of the comparator, the point to check is that we switch correctly of comparator
     assertions.usingComparator(comparator);
-    assertSame(getObjects(assertions).getComparator(), comparator);
-    assertSame(getDates(assertions).getComparator(), comparator);
+    assertThat(comparator).isSameAs(getObjects(assertions).getComparator());
+    assertThat(comparator).isSameAs(getDates(assertions).getComparator());
   }
 }

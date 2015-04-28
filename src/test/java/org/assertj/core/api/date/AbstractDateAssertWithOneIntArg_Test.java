@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.api.DateAssert;
@@ -56,7 +56,7 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   @Test
   public void should_return_this() {
     DateAssert returned = assertionInvocationWithOneIntArg();
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 
   /**

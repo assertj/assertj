@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 
@@ -36,7 +36,7 @@ public class DateAssert_isInThePast_Test extends DateAssertBaseTest {
   @Test
   public void should_return_this() {
     DateAssert returned = assertions.isInThePast();
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 
 }

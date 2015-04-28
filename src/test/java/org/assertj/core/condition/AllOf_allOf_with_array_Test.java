@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -37,8 +37,8 @@ public class AllOf_allOf_with_array_Test {
   public void should_create_new_AllOf_with_passed_Conditions() {
     Condition<Object>[] conditions = array(new TestCondition<>(), new TestCondition<>());
     Condition<Object> created = AllOf.allOf(conditions);
-    assertEquals(AllOf.class, created.getClass());
+    assertThat(created.getClass()).isEqualTo(AllOf.class);
     AllOf<Object> allOf = (AllOf<Object>) created;
-    assertEquals(newArrayList(conditions), allOf.conditions);
+    assertThat(allOf.conditions).isEqualTo(newArrayList(conditions));
   }
 }

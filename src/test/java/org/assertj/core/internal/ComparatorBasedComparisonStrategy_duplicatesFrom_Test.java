@@ -15,7 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.util.Iterables.isNullOrEmpty;
 import static org.assertj.core.util.Iterables.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 
@@ -33,28 +33,28 @@ public class ComparatorBasedComparisonStrategy_duplicatesFrom_Test extends Abstr
   public void should_return_existing_duplicates() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Merry", "Frodo", "Merry", "Sam", "FrODO",
         null, null));
-    assertEquals(3, sizeOf(duplicates));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "frodo"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "MERRY"));
-    assertTrue(caseInsensitiveComparisonStrategy.iterableContains(duplicates, null));
+    assertThat(sizeOf(duplicates)).isEqualTo(3);
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "frodo")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(duplicates, "MERRY")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.iterableContains(duplicates, null)).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(newArrayList("Frodo", "Sam", "Gandalf"));
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_empty() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(new ArrayList<String>());
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
   @Test
   public void should_not_return_any_duplicates_if_collection_is_null() {
     Iterable<?> duplicates = caseInsensitiveComparisonStrategy.duplicatesFrom(null);
-    assertTrue(isNullOrEmpty(duplicates));
+    assertThat(isNullOrEmpty(duplicates)).isTrue();
   }
 
 }

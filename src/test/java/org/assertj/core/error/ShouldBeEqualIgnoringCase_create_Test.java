@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 
 import org.assertj.core.description.Description;
@@ -40,6 +40,8 @@ public class ShouldBeEqualIgnoringCase_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format("[Test] %nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nignoring case considerations"), message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nto be equal to:%n <\"Luke\">%nignoring case considerations"
+    ));
   }
 }

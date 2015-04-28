@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static java.io.File.separator;
 import static org.assertj.core.util.Strings.append;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.io.File;
 
@@ -31,9 +31,9 @@ public class Files_temporaryFolder_Test extends Files_TestCase {
   @Test
   public void should_find_temporary_folder() {
     File temporaryFolder = Files.temporaryFolder();
-    assertTrue(temporaryFolder.isDirectory());
+    assertThat(temporaryFolder.isDirectory()).isTrue();
     String a = append(separator).to(temporaryFolder.getAbsolutePath());
     String e = append(separator).to(systemTemporaryFolder());
-    assertEquals(e, a);
+    assertThat(a).isEqualTo(e);
   }
 }

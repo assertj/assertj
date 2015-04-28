@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Arrays.array;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
@@ -29,22 +29,22 @@ public class StandardComparisonStrategy_arrayContains_Test extends AbstractTest_
   @Test
   public void should_return_true_if_array_contains_value() {
     String[] hobbits = array("Merry", "Frodo", null, "Merry", "Sam");
-    assertTrue(standardComparisonStrategy.arrayContains(hobbits, "Sam"));
-    assertTrue(standardComparisonStrategy.arrayContains(hobbits, "Merry"));
-    assertTrue(standardComparisonStrategy.arrayContains(hobbits, null));
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, "Sam")).isTrue();
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, "Merry")).isTrue();
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_array_does_not_contain_value() {
     String[] hobbits = array("Merry", "Frodo", "Merry", "Sam");
-    assertFalse(standardComparisonStrategy.arrayContains(hobbits, "Pippin"));
-    assertFalse(standardComparisonStrategy.arrayContains(hobbits, "SAM "));
-    assertFalse(standardComparisonStrategy.arrayContains(hobbits, null));
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, "Pippin")).isFalse();
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, "SAM ")).isFalse();
+    assertThat(standardComparisonStrategy.arrayContains(hobbits, null)).isFalse();
   }
 
   @Test
   public void should_return_false_if_array_is_empty() {
-    assertFalse(standardComparisonStrategy.arrayContains(new String[] {}, "Pippin"));
+    assertThat(standardComparisonStrategy.arrayContains(new String[] {}, "Pippin")).isFalse();
   }
 
   @Test

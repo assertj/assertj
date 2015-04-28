@@ -13,7 +13,8 @@
 package org.assertj.core.internal.shorts;
 
 import static org.assertj.core.test.TestData.someInfo;
-import static org.junit.Assert.assertEquals;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
@@ -50,7 +51,7 @@ public class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
     try {
       shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0>%nnot to be equal to:%n <0>%n"));
     }
   }
 

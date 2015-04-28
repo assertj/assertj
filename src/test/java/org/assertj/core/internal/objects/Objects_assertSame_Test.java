@@ -15,8 +15,7 @@ package org.assertj.core.internal.objects;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.test.TestData.someInfo;
 
-
-import static org.junit.Assert.fail;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -47,7 +46,7 @@ public class Objects_assertSame_Test extends ObjectsBaseTest {
     Object e = new Person("Yoda");
     try {
       objects.assertSame(info, a, e);
-      fail();
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {}
     verify(failures).failure(info, shouldBeSame(a, e));
   }

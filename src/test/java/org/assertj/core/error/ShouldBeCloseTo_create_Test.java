@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
 
@@ -37,9 +37,9 @@ public class ShouldBeCloseTo_create_Test {
     ErrorMessageFactory factory = shouldBeCloseTo(Dates.parseDatetimeWithMs("2011-01-01T00:00:00.000"),
         Dates.parseDatetimeWithMs("2011-01-01T00:00:00.101"), 100, 101);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals(String.format(
-        "[Test] %nExpecting:%n <2011-01-01T00:00:00.000>%nto be close to:%n <2011-01-01T00:00:00.101>%nby less than 100ms but difference was 101ms"),
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <2011-01-01T00:00:00.000>%nto be close to:%n <2011-01-01T00:00:00.101>%nby less than 100ms but difference was 101ms"
+    ));
   }
 
 }
