@@ -44,6 +44,17 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isEqualTo((short) 1);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;-1&quot;)).isEqualTo((short) 1);
+   * </code></pre>
+   * </p>
    *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -57,6 +68,17 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf((&quot;-1&quot;)).isNotEqualTo((short) 1);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isNotEqualTo((short) 1);
+   * </code></pre>
+   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -112,7 +134,18 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is less than the given one.
-   *
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 2);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 1);
+   * </code></pre>
+   * </p>
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -125,7 +158,18 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is less than or equal to the given one.
-   *
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 1);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 0);
+   * </code></pre>
+   * </p>
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -138,7 +182,18 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is greater than the given one.
-   *
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThan((short) 0);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 1);
+   * </code></pre>
+   * </p>
+   * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -151,6 +206,17 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
 
   /**
    * Verifies that the actual value is greater than or equal to the given one.
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass:
+   * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThanOrEqualTo((short) 1);
+   * 
+   * // assertion will fail:
+   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThanOrEqualTo((short) 1);
+   * </code></pre>
+   * </p>
    *
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
