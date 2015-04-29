@@ -31,7 +31,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class FieldsOrPropertiesExtractor_extract_tuples_test {
+public class FieldsOrPropertiesExtractor_extract_tuples_Test {
 
   @Rule
   public ExpectedException thrown = none();
