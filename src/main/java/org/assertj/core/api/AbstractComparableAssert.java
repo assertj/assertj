@@ -14,27 +14,43 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.Comparables;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Base class for all implementations of <code>{@link ComparableAssert}</code>.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
  * 
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  */
-public abstract class AbstractComparableAssert<S extends AbstractComparableAssert<S, A>, A extends Comparable<? super A>> extends
-    AbstractObjectAssert<S, A> implements ComparableAssert<S, A> {
+public abstract class AbstractComparableAssert<S extends AbstractComparableAssert<S, A>, A extends Comparable<? super A>>
+    extends AbstractObjectAssert<S, A> implements ComparableAssert<S, A> {
 
   @VisibleForTesting
   Comparables comparables = Comparables.instance();
 
   protected AbstractComparableAssert(A actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isEqualByComparingTo(A other) {
+    comparables.assertEqualByComparison(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isNotEqualByComparingTo(A other) {
+    comparables.assertNotEqualByComparison(info, actual, other);
+    return myself;
   }
 
   /** {@inheritDoc} */

@@ -10,29 +10,27 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.unevencomparable;
-
-import org.assertj.core.api.AbstractUnevenComparableAssert;
-import org.assertj.core.api.AbstractUnevenComparableAssertBaseTest;
-import org.assertj.core.api.ConcreteUnevenComparableAssert;
+package org.assertj.core.api.comparable;
 
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.GenericComparableAssert;
+import org.assertj.core.api.GenericComparableAssertBaseTest;
 
 /**
- * Tests for <code>{@link AbstractUnevenComparableAssert#isEqualByComparingTo(Comparable)}</code>.
- * 
- * @author Yvonne Wang
+ * Tests for <code>{@link GenericComparableAssert#isEqualByComparingTo(Comparable)}</code>.
+ *
+ * @author Michal Kordas
  */
-public class AbstractUnevenComparableAssert_isEqualToByComparingTo_Test extends AbstractUnevenComparableAssertBaseTest {
+public class GenericComparableAssert_isEqualByComparingTo_Test extends GenericComparableAssertBaseTest {
 
   @Override
-  protected ConcreteUnevenComparableAssert invoke_api_method() {
-    return assertions.isEqualByComparingTo(6);
+  protected GenericComparableAssert<Integer> invoke_api_method() {
+    return assertions.isEqualByComparingTo(0);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(comparables).assertEqualByComparison(getInfo(assertions), getActual(assertions), 6);
+    verify(comparables).assertEqualByComparison(getInfo(assertions), getActual(assertions), 0);
   }
 }
