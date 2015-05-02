@@ -34,7 +34,7 @@ public class ComparableAssertion_should_be_flexible_Test {
   }
 
   // we'd like to get rid of the compile error here
-  private static final class TestClassAssert extends AbstractUnevenComparableAssert<TestClassAssert, TestClass> {
+  private static final class TestClassAssert extends AbstractComparableAssert<TestClassAssert, TestClass> {
 
     TestClassAssert(TestClass actual) {
       super(actual, TestClassAssert.class);

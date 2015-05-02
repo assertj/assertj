@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAssert<S>> extends
-    AbstractUnevenComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal> {
+    AbstractComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal> {
 
   @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
@@ -238,7 +238,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   }
 
   /**
-   * Same as {@link AbstractUnevenComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)}
+   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)}
    * but takes care of converting given String to {@link BigDecimal} for you.
    * <p>
    * Example:

@@ -39,6 +39,20 @@ public abstract class AbstractComparableAssert<S extends AbstractComparableAsser
 
   /** {@inheritDoc} */
   @Override
+  public S isEqualByComparingTo(A other) {
+    comparables.assertEqualByComparison(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isNotEqualByComparingTo(A other) {
+    comparables.assertNotEqualByComparison(info, actual, other);
+    return myself;
+  }
+
+  /** {@inheritDoc} */
+  @Override
   public S isLessThan(A other) {
     comparables.assertLessThan(info, actual, other);
     return myself;
