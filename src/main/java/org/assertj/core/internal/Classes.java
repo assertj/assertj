@@ -71,15 +71,10 @@ public class Classes {
     Set<Class<?>> missing = new LinkedHashSet<>();
     for (Class<?> other : expected) {
       classParameterIsNotNull(other);
-      if (!actual.isAssignableFrom(other)) {
-        missing.add(other);
-      }
+      if (!actual.isAssignableFrom(other)) missing.add(other);
     }
 
-    if (missing.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
+    if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
   }
 
   /**
@@ -92,11 +87,7 @@ public class Classes {
    */
   public void assertIsNotInterface(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-
-    if (!actual.isInterface()) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeInterface(actual));
+    if (actual.isInterface()) throw failures.failure(info, shouldNotBeInterface(actual));
   }
 
   /**
@@ -109,11 +100,7 @@ public class Classes {
    */
   public void assertIsInterface(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-
-    if (actual.isInterface()) {
-      return;
-    }
-    throw failures.failure(info, shouldBeInterface(actual));
+    if (!actual.isInterface()) throw failures.failure(info, shouldBeInterface(actual));
   }
 
   /**
@@ -126,11 +113,7 @@ public class Classes {
    */
   public void assertIsNotAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-
-    if (!actual.isAnnotation()) {
-      return;
-    }
-    throw failures.failure(info, shouldNotBeAnnotation(actual));
+    if (actual.isAnnotation()) throw failures.failure(info, shouldNotBeAnnotation(actual));
   }
 
   /**
@@ -143,11 +126,7 @@ public class Classes {
    */
   public void assertIsAnnotation(AssertionInfo info, Class<?> actual) {
     assertNotNull(info, actual);
-
-    if (actual.isAnnotation()) {
-      return;
-    }
-    throw failures.failure(info, shouldBeAnnotation(actual));
+    if (!actual.isAnnotation()) throw failures.failure(info, shouldBeAnnotation(actual));
   }
 
   /**
@@ -192,15 +171,10 @@ public class Classes {
     Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
     for (Class<? extends Annotation> other : expected) {
       classParameterIsNotNull(other);
-      if (actual.getAnnotation(other) == null) {
-        missing.add(other);
-      }
+      if (actual.getAnnotation(other) == null) missing.add(other);
     }
 
-    if (missing.isEmpty()) {
-      return;
-    }
-    throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
+    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
   }
 
   /**
@@ -224,9 +198,7 @@ public class Classes {
   private static boolean noMissingFields(Set<String> actualFieldNames, Set<String> expectedFieldNames,
                                          Set<String> missingFieldNames) {
     for (String field : expectedFieldNames) {
-      if (!actualFieldNames.contains(field)) {
-        missingFieldNames.add(field);
-      }
+      if (!actualFieldNames.contains(field)) missingFieldNames.add(field);
     }
     return missingFieldNames.isEmpty();
   }
