@@ -24,6 +24,7 @@ import java.util.List;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.groups.TypedTuples;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
@@ -141,11 +142,12 @@ public class IterableAssert_extracting_Test {
 	  throws Exception {
 	// extract field that is also a property and check generic for comparator.
 	assertThat(employees).extracting("name", Name.class).usingElementComparator(new Comparator<Name>() {
-	  @Override
-	  public int compare(Name o1, Name o2) {
-		return o1.getFirst().compareTo(o2.getFirst());
-	  }
-	}).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
+        @Override
+        public int compare(Name o1, Name o2) {
+
+            return o1.getFirst().compareTo(o2.getFirst());
+        }
+    }).containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
   @Test
@@ -219,14 +221,14 @@ public class IterableAssert_extracting_Test {
 	assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getName,
 	                                           TolkienCharacter::getAge,
 	                                           TolkienCharacter::getRace)
-	                               .containsOnly(tuple("Frodo", 33, HOBBIT),
-	                                             tuple("Sam", 38, HOBBIT),
-	                                             tuple("Gandalf", 2020, MAIA),
-	                                             tuple("Legolas", 1000, ELF),
-	                                             tuple("Pippin", 28, HOBBIT),
-	                                             tuple("Gimli", 139, DWARF),
-	                                             tuple("Aragorn", 87, MAN),
-	                                             tuple("Boromir", 37, MAN));
+	                               .containsOnly(TypedTuples.tuple("Frodo", 33, HOBBIT),
+	                                             TypedTuples.tuple("Sam", 38, HOBBIT),
+	                                             TypedTuples.tuple("Gandalf", 2020, MAIA),
+	                                             TypedTuples.tuple("Legolas", 1000, ELF),
+	                                             TypedTuples.tuple("Pippin", 28, HOBBIT),
+	                                             TypedTuples.tuple("Gimli", 139, DWARF),
+	                                             TypedTuples.tuple("Aragorn", 87, MAN),
+	                                             TypedTuples.tuple("Boromir", 37, MAN));
   }
 
   @Test

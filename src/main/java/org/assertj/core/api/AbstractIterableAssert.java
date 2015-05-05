@@ -27,6 +27,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
+import org.assertj.core.groups.TripleTuple;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -131,8 +132,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * {@inheritDoc}
    */
+  @SafeVarargs
   @Override
-  public S containsOnly(@SuppressWarnings("unchecked") T... values) {
+  public final S containsOnly(@SuppressWarnings("unchecked") T... values) {
 	iterables.assertContainsOnly(info, actual, values);
 	return myself;
   }
@@ -996,6 +998,18 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
 	                                                        .collect(toList());
 	return new ListAssert<Tuple>(tuples);
   }
+
+    public final <U, V, X> ListAssert<TripleTuple<U, V, X>> extracting(Function<T, U> firstExtractor, Function<T, V> secondExtractor, Function<T, X> thirdExtractor) {
+
+        Function<T, TripleTuple<U, V, X>> tupleExtractor = objectToExtractValueFrom ->
+            new TripleTuple<>(firstExtractor.apply(objectToExtractValueFrom),
+                              secondExtractor.apply(objectToExtractValueFrom),
+                              thirdExtractor.apply(objectToExtractValueFrom));
+
+        List<TripleTuple<U, V, X>> tuples = stream(actual.spliterator(), false).map(tupleExtractor).collect(toList());
+
+        return new ListAssert<>(tuples);
+    }
 
   /**
    * Same as {@link #containsExactly(Object[])} but handle the {@link Iterable} to array conversion. Same semantic as
