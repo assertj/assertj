@@ -51,9 +51,9 @@ public abstract class AbstractClassAssert<S extends AbstractClassAssert<S>> exte
    * @see Class#isAssignableFrom(Class)
    * @param others {@code Class} who can be assignable from.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws NullPointerException if other {@code Date} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
+   * @throws AssertionError if the actual {@code Class} is {@code null}.
+   * @throws IllegalArgumentException if no {@code others} classes have been specified.
+   * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
    */
   public S isAssignableFrom(Class<?>... others) {
     classes.assertIsAssignableFrom(info, actual, others);

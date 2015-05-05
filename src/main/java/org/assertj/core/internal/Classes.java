@@ -66,6 +66,8 @@ public class Classes {
    */
   public void assertIsAssignableFrom(AssertionInfo info, Class<?> actual, Class<?>... others) {
     assertNotNull(info, actual);
+    if (others == null || others.length == 0)
+      throw new IllegalArgumentException("Expecting at least one Class to be specified");
 
     Set<Class<?>> expected = newLinkedHashSet(others);
     Set<Class<?>> missing = new LinkedHashSet<>();
