@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 public class IgnoringFieldsComparator extends FieldByFieldComparator {
 
@@ -31,7 +32,11 @@ public class IgnoringFieldsComparator extends FieldByFieldComparator {
   
   @Override
   protected boolean areEqual(Object actualElement, Object otherElement) {
-    return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, fields);
+    try {
+      return Objects.instance().areEqualToIgnoringGivenFields(actualElement, otherElement, fields);
+    } catch (IntrospectionError e) {
+      return false;
+    }
   }
   
   @Override

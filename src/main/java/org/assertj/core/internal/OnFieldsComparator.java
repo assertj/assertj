@@ -17,6 +17,7 @@ import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 public class OnFieldsComparator extends FieldByFieldComparator {
 
@@ -41,7 +42,11 @@ public class OnFieldsComparator extends FieldByFieldComparator {
 
   @Override
   protected boolean areEqual(Object actualElement, Object otherElement) {
-	return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, fields);
+    try {
+      return Objects.instance().areEqualToComparingOnlyGivenFields(actualElement, otherElement, fields);
+    } catch (IntrospectionError e) {
+      return false;
+    }
   }
 
   @Override
