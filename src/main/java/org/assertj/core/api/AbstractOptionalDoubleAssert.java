@@ -20,7 +20,7 @@ import org.assertj.core.util.VisibleForTesting;
 import java.util.OptionalDouble;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.error.OptionalDoubleShouldContainValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;

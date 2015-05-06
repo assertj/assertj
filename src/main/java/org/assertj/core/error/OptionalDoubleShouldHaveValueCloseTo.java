@@ -22,17 +22,17 @@ import java.util.OptionalDouble;
  * @author Jean-Christophe Gay
  * @author Alexander Bischof
  */
-public class OptionalDoubleShouldContainValueCloseTo extends BasicErrorMessageFactory {
+public class OptionalDoubleShouldHaveValueCloseTo extends BasicErrorMessageFactory {
 
-    private OptionalDoubleShouldContainValueCloseTo(OptionalDouble actual, double expected, Offset<Double> offset,
-                                                    double difference) {
+    private OptionalDoubleShouldHaveValueCloseTo(OptionalDouble actual, double expected, Offset<Double> offset,
+                                                 double difference) {
         super("%nExpecting:%n  <%s>%nto be close to:%n  <%s>%n" +
               "by less than <%s> but difference was <%s>.%n" +
               "(a difference of exactly <%s> being considered valid)",
               actual, expected, offset.value, difference, offset.value);
     }
 
-    private OptionalDoubleShouldContainValueCloseTo(double expected) {
+    private OptionalDoubleShouldHaveValueCloseTo(double expected) {
         super("%nExpecting an OptionalDouble with value:%n  <%s>%nbut was empty.", expected);
     }
 
@@ -45,11 +45,11 @@ public class OptionalDoubleShouldContainValueCloseTo extends BasicErrorMessageFa
      * @param difference    the effective difference between actual and expected.
      * @return a error message factory
      */
-    public static OptionalDoubleShouldContainValueCloseTo shouldHaveValueCloseTo(OptionalDouble optional,
+    public static OptionalDoubleShouldHaveValueCloseTo shouldHaveValueCloseTo(OptionalDouble optional,
                                                                               double expectedValue,
                                                                               Offset<Double> offset,
                                                                               double difference) {
-        return new OptionalDoubleShouldContainValueCloseTo(optional, expectedValue, offset, difference);
+        return new OptionalDoubleShouldHaveValueCloseTo(optional, expectedValue, offset, difference);
     }
 
     /**
@@ -58,7 +58,7 @@ public class OptionalDoubleShouldContainValueCloseTo extends BasicErrorMessageFa
      * @param expectedValue the value we expect to be in an {@link java.util.OptionalDouble}.
      * @return a error message factory.
      */
-    public static OptionalDoubleShouldContainValueCloseTo shouldHaveValueCloseTo(double expectedValue) {
-        return new OptionalDoubleShouldContainValueCloseTo(expectedValue);
+    public static OptionalDoubleShouldHaveValueCloseTo shouldHaveValueCloseTo(double expectedValue) {
+        return new OptionalDoubleShouldHaveValueCloseTo(expectedValue);
     }
 }

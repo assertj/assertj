@@ -18,9 +18,9 @@ import java.util.OptionalDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
-import static org.assertj.core.error.OptionalDoubleShouldContainValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
 
-public class OptionalDoubleShouldContainValueCloseTo_create_Test {
+public class OptionalDoubleShouldHaveValueCloseTo_create_Test {
 
     @Test
     public void should_create_error_message_when_optionaldouble_is_empty() throws Exception {
