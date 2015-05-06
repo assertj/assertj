@@ -22,11 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -476,10 +472,43 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
-   * @return the created assertion objet.
+   * @return the created assertion object.
    */
   public <T> OptionalAssert<T> assertThat(Optional<T> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalDouble}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalDoubleAssert assertThat(OptionalDouble actual) {
+      return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalLongAssert assertThat(OptionalLong actual) {
+      return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalIntAssert assertThat(OptionalInt actual) {
+      return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
   }
 
   /**
