@@ -35,7 +35,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -121,8 +121,8 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	try {
 	  paths.assertHasContent(someInfo(), path, expected, charset);
-	  failBecauseExceptionWasNotThrown(FilesException.class);
-	} catch (FilesException e) {
+	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
+	} catch (RuntimeIOException e) {
 	  assertThat(e.getCause()).isSameAs(cause);
 	}
   }

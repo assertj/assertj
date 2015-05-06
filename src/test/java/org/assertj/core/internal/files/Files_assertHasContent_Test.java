@@ -35,7 +35,7 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -97,8 +97,8 @@ public class Files_assertHasContent_Test extends FilesBaseTest {
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
     try {
       files.assertHasContent(someInfo(), actual, expected, charset);
-      fail("Expected a FilesException to be thrown");
-    } catch (FilesException e) {
+      fail("Expected a RuntimeIOException to be thrown");
+    } catch (RuntimeIOException e) {
       assertThat(e.getCause()).isSameAs(cause);
     }
   }

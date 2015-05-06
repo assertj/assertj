@@ -14,7 +14,7 @@ package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.junit.Test;
 
 import java.io.File;
@@ -95,7 +95,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_exception_when_canonical_form_representation_fail() throws Exception {
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
 
     File actual = mock(File.class);
     File expectedParent = mock(File.class);
@@ -108,7 +108,7 @@ public class Files_assertHasParent_Test extends FilesBaseTest {
 
   @Test
   public void should_throw_exception_when_canonical_form_representation_fail_for_expected_parent() throws Exception {
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
 
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());

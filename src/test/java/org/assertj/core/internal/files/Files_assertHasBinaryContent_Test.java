@@ -32,7 +32,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -92,8 +92,8 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
     try {
       files.assertHasBinaryContent(someInfo(), actual, expected);
-      fail("Expected a FilesException to be thrown");
-    } catch (FilesException e) {
+      fail("Expected a RuntimeIOException to be thrown");
+    } catch (RuntimeIOException e) {
       assertThat(e.getCause()).isSameAs(cause);
     }
   }

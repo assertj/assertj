@@ -60,7 +60,7 @@ public class Files_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     linesOf(missingFile, Charset.defaultCharset());
   }
 

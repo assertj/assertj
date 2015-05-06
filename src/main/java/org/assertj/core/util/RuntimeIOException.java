@@ -13,30 +13,30 @@
 package org.assertj.core.util;
 
 /**
- * Exception thrown by <code>{@link Files}</code>.
+ * Exception thrown by <code>{@link Files}</code> and <code>{@link URLs}</code>.
  * 
  * @author Yvonne Wang
  */
-public final class FilesException extends RuntimeException {
+public final class RuntimeIOException extends RuntimeException {
 
   private static final long serialVersionUID = -8328554403430790831L;
 
   /**
-   * Creates a new {@link FilesException}.
+   * Creates a new {@link RuntimeIOException}.
    * 
    * @param message the detail message.
    */
-  public FilesException(String message) {
+  public RuntimeIOException(String message) {
     super(message);
   }
 
   /**
-   * Creates a new {@link FilesException}.
+   * Creates a new {@link RuntimeIOException}.
    * 
    * @param message the detail message.
    * @param cause the cause of the error.
    */
-  public FilesException(String message, Throwable cause) {
+  public RuntimeIOException(String message, Throwable cause) {
     super(message, cause);
   }
 }
