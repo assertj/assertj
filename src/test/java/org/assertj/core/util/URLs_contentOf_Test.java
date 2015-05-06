@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util;
 
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -20,44 +21,42 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Lists.newArrayList;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static org.junit.rules.ExpectedException.none;
 
 /*
- * Tests for {@link Resources#linesOf(File, Charset)} and {@link Resources#linesOf(File, String)}.
+ * Tests for {@link URLs#contentOf(File, Charset)} and {@link URLs#contentOf(File, String)}.
  *
  * @author Turbo87
  * @author dorzey
  */
-public class Resources_linesOf_Test {
-
-  private static final URL SAMPLE_RESOURCE_URL = ClassLoader.getSystemResource("utf8.txt");
-
-  private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
-  public static final String UTF_8 = "UTF-8";
+public class URLs_contentOf_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
+  private final URL sampleResourceURL = ClassLoader.getSystemResource("utf8.txt");
+  private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
+
   @Test
   public void should_throw_exception_if_url_not_found() throws MalformedURLException {
     File missingFile = new File("missing.txt");
-    assertThat(missingFile).doesNotExist();
+    assertFalse(missingFile.exists());
 
     thrown.expect(FilesException.class);
-    Resources.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset());
+    URLs.contentOf(missingFile.toURI().toURL(), Charset.defaultCharset());
   }
 
   @Test
-  public void should_pass_if_resource_file_is_split_into_lines() {
-    assertThat(Resources.linesOf(SAMPLE_RESOURCE_URL, Charset.forName(UTF_8))).isEqualTo(EXPECTED_CONTENT);
+  public void should_load_resource_from_url_using_charset() {
+    // NB: UTF-8 must be supported by every Java implementation
+    assertEquals(expectedContent, URLs.contentOf(sampleResourceURL, Charset.forName("UTF-8")));
   }
 
   @Test
-  public void should_pass_if_resource_file_is_split_into_lines_using_charset() {
-    assertThat(Resources.linesOf(SAMPLE_RESOURCE_URL, UTF_8)).isEqualTo(EXPECTED_CONTENT);
+  public void should_load_resource_from_url_using_charset_name() {
+    assertEquals(expectedContent, URLs.contentOf(sampleResourceURL, "UTF-8"));
   }
 }

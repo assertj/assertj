@@ -18,12 +18,12 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 /**
- * Utility methods related to resources.
+ * Utility methods related to URLs.
  *
  * @author Turbo87
  * @author dorzey
  */
-public class Resources {
+public class URLs {
 
   /**
    * Loads the text content of a URL into a character string.

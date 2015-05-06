@@ -39,7 +39,7 @@ import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
-import org.assertj.core.util.Resources;
+import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
@@ -1227,7 +1227,7 @@ public class Assertions {
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws FilesException       if an I/O exception occurs.
    */
-  public static String contentOf(URL url, Charset charset) { return Resources.contentOf(url, charset); }
+  public static String contentOf(URL url, Charset charset) { return URLs.contentOf(url, charset); }
 
   /**
    * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
@@ -1240,7 +1240,7 @@ public class Assertions {
    * @throws FilesException           if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
-    return Resources.contentOf(url, charsetName);
+    return URLs.contentOf(url, charsetName);
   }
 
   /**
@@ -1252,7 +1252,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static String contentOf(URL url) {
-    return Resources.contentOf(url, Charset.defaultCharset());
+    return URLs.contentOf(url, Charset.defaultCharset());
   }
 
   /**
@@ -1265,7 +1265,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url) {
-    return Resources.linesOf(url, Charset.defaultCharset());
+    return URLs.linesOf(url, Charset.defaultCharset());
   }
 
   /**
@@ -1279,7 +1279,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
-    return Resources.linesOf(url, charset);
+    return URLs.linesOf(url, charset);
   }
 
   /**
@@ -1293,7 +1293,7 @@ public class Assertions {
    * @throws FilesException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, String charsetName) {
-    return Resources.linesOf(url, charsetName);
+    return URLs.linesOf(url, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------
