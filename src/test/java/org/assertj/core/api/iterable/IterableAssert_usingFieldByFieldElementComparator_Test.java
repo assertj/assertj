@@ -49,14 +49,14 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   }
 
   @Test
-  public void succesful_isEqualTo_assertion_using_field_by_field_element_comparator() {
+  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
 	List<Foo> list1 = singletonList(new Foo("id", 1));
 	List<Foo> list2 = singletonList(new Foo("id", 1));
 	assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
   }
 
   @Test
-  public void succesful_isIn_assertion_using_field_by_field_element_comparator() {
+  public void successful_isIn_assertion_using_field_by_field_element_comparator() {
 	List<Foo> list1 = singletonList(new Foo("id", 1));
 	List<Foo> list2 = singletonList(new Foo("id", 1));
 	System.out.println(new FieldByFieldComparator());
