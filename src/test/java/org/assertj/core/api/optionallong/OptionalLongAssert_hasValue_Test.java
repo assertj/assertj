@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalLongShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalLongAssert_hasValue_Test extends BaseTest {
@@ -40,7 +40,7 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
         OptionalLong actual = OptionalLong.of(5l);
         long expectedValue = 10l;
 
-        thrown.expectAssertionError(shouldHaveValue(actual, expectedValue).create());
+        thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
 
         assertThat(actual).hasValue(expectedValue);
     }
@@ -49,7 +49,7 @@ public class OptionalLongAssert_hasValue_Test extends BaseTest {
     public void should_fail_if_OptionalLong_is_empty() throws Exception {
         long expectedValue = 10l;
 
-        thrown.expectAssertionError(shouldHaveValue(expectedValue).create());
+        thrown.expectAssertionError(shouldContain(expectedValue).create());
 
         assertThat(OptionalLong.empty()).hasValue(expectedValue);
     }

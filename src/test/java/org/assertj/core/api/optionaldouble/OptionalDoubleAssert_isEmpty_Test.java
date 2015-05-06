@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalDoubleShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalDoubleAssert_isEmpty_Test extends BaseTest {

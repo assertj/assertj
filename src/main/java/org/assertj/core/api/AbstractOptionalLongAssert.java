@@ -18,9 +18,9 @@ import org.assertj.core.util.VisibleForTesting;
 
 import java.util.OptionalLong;
 
-import static org.assertj.core.error.OptionalLongShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.OptionalLongShouldBePresent.shouldBePresent;
-import static org.assertj.core.error.OptionalLongShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 /**
  * Assertions for {@link java.util.OptionalLong}.
@@ -81,7 +81,6 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
      * </code></pre>
      *
      * @return this assertion object.
-     *
      * @throws AssertionError if actual value is present.
      * @throws AssertionError if actual is null.
      */
@@ -111,19 +110,18 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
      *
      * @param expectedValue the expected value inside the {@link java.util.OptionalLong}.
      * @return this assertion object.
-     *
      * @throws AssertionError if actual value is empty.
      * @throws AssertionError if actual is null.
      * @throws AssertionError if actual has not the value as expected.
      */
     public S hasValue(long expectedValue) {
         isNotNull();
-        if (!actual.isPresent()) throw failure(shouldHaveValue(expectedValue));
+        if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
         //Reuses integers functionality, catches possible assertionerror and throw correct one
         try {
             integers.assertEqual(info, actual.getAsLong(), expectedValue);
         } catch (AssertionError assertionError) {
-            throw Failures.instance().failure(info, shouldHaveValue(actual, expectedValue));
+            throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
         }
         return myself;
     }

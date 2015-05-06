@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalIntShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalIntAssert_isPresent_Test extends BaseTest {

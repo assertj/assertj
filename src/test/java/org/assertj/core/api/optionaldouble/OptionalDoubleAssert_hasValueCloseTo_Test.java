@@ -21,7 +21,7 @@ import java.util.OptionalDouble;
 import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldContainValueCloseTo.shouldHaveValueCloseTo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalDoubleAssert_hasValueCloseTo_Test extends BaseTest {

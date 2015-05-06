@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalIntShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalIntAssert_isEmpty_Test extends BaseTest {

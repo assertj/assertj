@@ -20,10 +20,10 @@ import org.assertj.core.util.VisibleForTesting;
 import java.util.OptionalDouble;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.error.OptionalDoubleShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.error.OptionalDoubleShouldBePresent.shouldBePresent;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValue.shouldHaveValue;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalDoubleShouldContainValueCloseTo.shouldHaveValueCloseTo;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 /**
  * Assertions for {@link java.util.OptionalDouble}.
@@ -84,7 +84,6 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
      * </code></pre>
      *
      * @return this assertion object.
-     *
      * @throws java.lang.AssertionError if actual value is present.
      * @throws java.lang.AssertionError if actual is null.
      */
@@ -115,19 +114,18 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
      *
      * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
      * @return this assertion object.
-     *
      * @throws java.lang.AssertionError if actual value is empty.
      * @throws java.lang.AssertionError if actual is null.
      * @throws java.lang.AssertionError if actual has not the value as expected.
      */
     public S hasValue(double expectedValue) {
         isNotNull();
-        if (!actual.isPresent()) throw failure(shouldHaveValue(expectedValue));
+        if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
         //Reuses doubles functionality, catches possible assertionerror and throw correct one
         try {
             doubles.assertEqual(info, actual.getAsDouble(), expectedValue);
         } catch (AssertionError assertionError) {
-            throw Failures.instance().failure(info, shouldHaveValue(actual, expectedValue));
+            throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
         }
         return myself;
     }
@@ -154,13 +152,12 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
      * </code></pre>
      *
      * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
-     * @param offset the given positive offset.
+     * @param offset        the given positive offset.
      * @return this assertion object.
-     *
-     * @throws java.lang.AssertionError if actual value is empty.
-     * @throws java.lang.AssertionError if actual is null.
-     * @throws java.lang.AssertionError if actual has not the value as expected.
-     * @throws java.lang.NullPointerException if offset is null
+     * @throws java.lang.AssertionError           if actual value is empty.
+     * @throws java.lang.AssertionError           if actual is null.
+     * @throws java.lang.AssertionError           if actual has not the value as expected.
+     * @throws java.lang.NullPointerException     if offset is null
      * @throws java.lang.IllegalArgumentException if offset is not positive.
      */
     public S hasValueCloseTo(Double expectedValue, Offset<Double> offset) {

@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalDoubleShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
@@ -40,7 +40,7 @@ public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
         OptionalDouble actual = OptionalDouble.of(5.0);
         double expectedValue = 10.0;
 
-        thrown.expectAssertionError(shouldHaveValue(actual, expectedValue).create());
+        thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
 
         assertThat(actual).hasValue(expectedValue);
     }
@@ -49,7 +49,7 @@ public class OptionalDoubleAssert_hasValue_Test extends BaseTest {
     public void should_fail_if_optionaldouble_is_empty() throws Exception {
         double expectedValue = 10.0;
 
-        thrown.expectAssertionError(shouldHaveValue(expectedValue).create());
+        thrown.expectAssertionError(shouldContain(expectedValue).create());
 
         assertThat(OptionalDouble.empty()).hasValue(expectedValue);
     }

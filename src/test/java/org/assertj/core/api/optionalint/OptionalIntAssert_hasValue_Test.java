@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalIntShouldHaveValue.shouldHaveValue;
+import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalIntAssert_hasValue_Test extends BaseTest {
@@ -40,7 +40,7 @@ public class OptionalIntAssert_hasValue_Test extends BaseTest {
         OptionalInt actual = OptionalInt.of(5);
         int expectedValue = 10;
 
-        thrown.expectAssertionError(shouldHaveValue(actual, expectedValue).create());
+        thrown.expectAssertionError(shouldContain(actual, expectedValue).create());
 
         assertThat(actual).hasValue(expectedValue);
     }
@@ -49,7 +49,7 @@ public class OptionalIntAssert_hasValue_Test extends BaseTest {
     public void should_fail_if_OptionalInt_is_empty() throws Exception {
         int expectedValue = 10;
 
-        thrown.expectAssertionError(shouldHaveValue(expectedValue).create());
+        thrown.expectAssertionError(shouldContain(expectedValue).create());
 
         assertThat(OptionalInt.empty()).hasValue(expectedValue);
     }

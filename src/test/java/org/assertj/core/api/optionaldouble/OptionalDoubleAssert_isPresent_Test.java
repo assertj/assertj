@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalDoubleShouldBePresent.shouldBePresent;
+import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalDoubleAssert_isPresent_Test extends BaseTest {

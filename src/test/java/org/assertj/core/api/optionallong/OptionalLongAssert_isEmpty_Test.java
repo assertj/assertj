@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.OptionalLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.OptionalLongShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OptionalLongAssert_isEmpty_Test extends BaseTest {
