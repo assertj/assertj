@@ -15,6 +15,7 @@ package org.assertj.core.util;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -27,7 +28,6 @@ import java.util.List;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-// TODO(alexRuiz): Get rid of this class.
 public final class Iterables {
   /**
    * Indicates whether the given {@link Iterable} is {@code null} or empty.
@@ -49,12 +49,8 @@ public final class Iterables {
    * @throws NullPointerException if given {@link Iterable} is null.
    */
   public static int sizeOf(Iterable<?> iterable) {
-    if (iterable == null) {
-      throw new NullPointerException("Iterable must not be null");
-    }
-    if (iterable instanceof Collection) {
-      return ((Collection<?>) iterable).size();
-    }
+    if (iterable == null) throw new NullPointerException("Iterable must not be null");
+    if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
     int size = 0;
     Iterator<?> iterator = iterable.iterator();
     while (iterator.hasNext()) {
@@ -70,24 +66,29 @@ public final class Iterables {
    * @param <T> the type of elements of the {@code Iterable}.
    * @param i the given {@code Iterable}.
    * @return all the non-{@code null} elements in the given {@code Iterable}. An empty list is returned if the given
-   *        {@code Iterable} is {@code null}.
+   *         {@code Iterable} is {@code null}.
    * @since 1.1.3
    */
   public static <T> List<T> nonNullElementsIn(Iterable<? extends T> i) {
-    if (isNullOrEmpty(i)) {
-      return emptyList();
-    }
+    if (isNullOrEmpty(i)) return emptyList();
     List<T> nonNull = new ArrayList<>();
     for (T element : i) {
-      if (element != null) {
-        nonNull.add(element);
-      }
+      if (element != null) nonNull.add(element);
     }
     return nonNull;
   }
 
   /**
    * Create an array from an {@link Iterable}.
+   * <p/>
+   * Note: this method will return Object[]. If you require a typed array please use {@link #toArray(Iterable, Class)}.
+   * It's main usage is to keep the generic type for chaining call like in:
+   * 
+   * <pre><code class='java'>
+   * public S containsOnlyElementsOf(Iterable<? extends T> iterable) {
+   *   return containsOnly(toArray(iterable));
+   * }
+   * </code></pre>
    * 
    * @param iterable an {@link Iterable} to translate in an array.
    * @param <T> the type of elements of the {@code Iterable}.
@@ -96,10 +97,33 @@ public final class Iterables {
    */
   @SuppressWarnings("unchecked")
   public static <T> T[] toArray(Iterable<? extends T> iterable) {
-    if (iterable == null) {
-      return null;
-    }
+    if (iterable == null) return null;
     return (T[]) newArrayList(iterable).toArray();
+  }
+
+  /**
+   * Create an typed array from an {@link Iterable}.
+   *
+   * @param iterable an {@link Iterable} to translate in an array.
+   * @param type the type of the resulting array.
+   * @param <T> the type of elements of the {@code Iterable}.
+   * @return all the elements from the given {@link Iterable} in an array. {@code null} if given {@link Iterable} is
+   *         null.
+   */
+  public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
+    if (iterable == null) return null;
+    Collection<? extends T> collection = toCollection(iterable);
+    T[] array = newArray(type, collection.size());
+    return collection.toArray(array);
+  }
+
+  private static <T> Collection<T> toCollection(Iterable<T> iterable) {
+    return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T[] newArray(Class<T> type, int length) {
+    return (T[]) Array.newInstance(type, length);
   }
 
   private Iterables() {}
