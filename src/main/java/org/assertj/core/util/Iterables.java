@@ -15,6 +15,7 @@ package org.assertj.core.util;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -88,6 +89,8 @@ public final class Iterables {
 
   /**
    * Create an array from an {@link Iterable}.
+   * <p/>
+   * Note: this method will return Object[]. If you require a typed array please use {@link #toArray(Iterable, Class)}.
    * 
    * @param iterable an {@link Iterable} to translate in an array.
    * @param <T> the type of elements of the {@code Iterable}.
@@ -102,5 +105,37 @@ public final class Iterables {
     return (T[]) newArrayList(iterable).toArray();
   }
 
+  /**
+   * Create an typed array from an {@link Iterable}.
+   *
+   * @param iterable an {@link Iterable} to translate in an array.
+   * @param type the type of the resulting array.
+   * @param <T> the type of elements of the {@code Iterable}.
+   * @return all the elements from the given {@link Iterable} in an array. {@code null} if given {@link Iterable} is
+   *         null.
+   */
+  public static <T> T[] toArray(Iterable<? extends T> iterable, Class<T> type) {
+    if (iterable == null) {
+      return null;
+    }
+
+    Collection<? extends T> collection = toCollection(iterable);
+    T[] array = newArray(type, collection.size());
+    return collection.toArray(array);
+  }
+
+  private static <T> Collection<T> toCollection(Iterable<T> iterable) {
+    if (iterable instanceof Collection) {
+      return (Collection<T>) iterable;
+    } else {
+      return Lists.newArrayList(iterable);
+    }
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T[] newArray(Class<T> type, int length) {
+    return (T[]) Array.newInstance(type, length);
+  }
+  
   private Iterables() {}
 }
