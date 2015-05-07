@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import java.util.Comparator;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Compare Object field by field including private fields unless
@@ -33,7 +34,11 @@ public class FieldByFieldComparator implements Comparator<Object> {
   }
 
   protected boolean areEqual(Object actual, Object other) {
-	return Objects.instance().areEqualToIgnoringGivenFields(actual, other);
+    try {
+      return Objects.instance().areEqualToIgnoringGivenFields(actual, other);
+    } catch (IntrospectionError e) {
+      return false;
+    }
   }
 
   @Override
