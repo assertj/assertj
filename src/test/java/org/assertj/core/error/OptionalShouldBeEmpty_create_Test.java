@@ -14,10 +14,7 @@ package org.assertj.core.error;
 
 import org.junit.Test;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
@@ -28,6 +25,11 @@ public class OptionalShouldBeEmpty_create_Test {
     public void should_create_error_message_for_optional() throws Exception {
         String errorMessage = shouldBeEmpty(Optional.of("not-empty")).create();
         assertThat(errorMessage).isEqualTo("\nExpecting an empty Optional but was containing value: <\"not-empty\">.");
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void should_fail_with_empty_optional() throws Exception {
+        shouldBeEmpty(Optional.empty()).create();
     }
 
     @Test
