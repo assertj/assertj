@@ -24,8 +24,8 @@ import java.util.OptionalLong;
  */
 public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
 
-    private OptionalShouldBeEmpty(Object optionalValue) {
-        super("%nExpecting an empty Optional but was containing value: <%s>.", optionalValue);
+    private OptionalShouldBeEmpty(Class optionalClass, Object optionalValue) {
+        super("%nExpecting an empty " + optionalClass.getSimpleName() + " but was containing value: <%s>.", optionalValue);
     }
 
     /**
@@ -36,7 +36,7 @@ public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
      * @return a error message factory.
      */
     public static <T> OptionalShouldBeEmpty shouldBeEmpty(Optional<T> optional) {
-        return new OptionalShouldBeEmpty(optional.get());
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.get());
     }
 
     /**
@@ -46,7 +46,7 @@ public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
      * @return a error message factory.
      */
     public static OptionalShouldBeEmpty shouldBeEmpty(OptionalDouble optional) {
-        return new OptionalShouldBeEmpty(optional.getAsDouble());
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsDouble());
     }
 
     /**
@@ -56,7 +56,7 @@ public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
      * @return a error message factory.
      */
     public static OptionalShouldBeEmpty shouldBeEmpty(OptionalInt optional) {
-        return new OptionalShouldBeEmpty(optional.getAsInt());
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsInt());
     }
 
     /**
@@ -66,6 +66,6 @@ public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
      * @return a error message factory.
      */
     public static OptionalShouldBeEmpty shouldBeEmpty(OptionalLong optional) {
-        return new OptionalShouldBeEmpty(optional.getAsLong());
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsLong());
     }
 }
