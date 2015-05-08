@@ -27,7 +27,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
@@ -1112,6 +1116,84 @@ public class Assertions {
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
+  }
+
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches one of the given values.
+   * <p/>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", in(800, 26))
+   *                      .containsOnly(yoda, obiwan, luke);
+   * </code></pre>
+   * 
+   * @param values values to match (one match is sufficient)
+   * @return the created "in" filter
+   */
+  public static InFilter in(Object... values) {
+    return InFilter.in(values);
+  }
+
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches does not match any of the given values.
+   * <p/>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", notIn(800, 50))
+   *                      .containsOnly(luke);
+   * </code></pre>
+   * 
+   * @param valuesNotToMatch values not to match (none of the values must match)
+   * @return the created "not in" filter
+   */
+  public static NotInFilter notIn(Object... valuesNotToMatch) {
+    return NotInFilter.notIn(valuesNotToMatch);
+  }
+
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches does not match the given value.
+   * <p>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", not(800))
+   *                      .containsOnly(luke, noname);
+   * </code></pre>
+   * 
+   * @param valueNotToMatch the value not to match
+   * @return the created "not" filter
+   */
+  public static NotFilter not(Object valueNotToMatch) {
+    return NotFilter.not(valueNotToMatch);
   }
 
   // --------------------------------------------------------------------------------------------------

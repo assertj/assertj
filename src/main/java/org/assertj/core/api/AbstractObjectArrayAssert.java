@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Iterables.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -25,7 +27,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
+import org.assertj.core.api.filter.FilterOperator;
+import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.Extractor;
+import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
@@ -844,4 +849,249 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S inBinary() {
     return super.inBinary();
   }
+
+  /**
+   * Filter the array under test keeping only elements having a property or field equal to {@code expectedValue}, the
+   * property/field is specified by {@code propertyOrFieldName} parameter.
+   * <p>
+   * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
+   * exists it tries to read the value from a field. Reading private fields is supported by default, this can be
+   * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
+   * Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
+   * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
+   * <p>
+   * 
+   * As an example, let's check all employees 800 years old (yes, special employees):
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
+   *
+   * assertThat(employees).filterOn("age", 800)
+   *                      .containsOnly(yoda, obiwan);
+   * </code></pre>
+   * Nested properties/fields are supported:
+   * 
+   * <pre><code class='java'>
+   * // Name is bean class with 'first' and 'last' String properties 
+   *
+   * // name is null for noname => it does not match the filter on "name.first" 
+   * assertThat(employees).filterOn("name.first", "Luke")
+   *                      .containsOnly(luke);
+   * 
+   * assertThat(employees).filterOn("name.last", "Vader")
+   *                      .isEmpty();
+   * </code></pre>
+   * <p>
+   * If you want to filter on null value, use {@link #filteredOnNull(String)} as Java will resolve the call to
+   * {@link #filteredOn(String, FilterOperator)} instead of this method.
+   * <p>
+   * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
+   * elements.
+   * <p>
+   * You can chain filters:
+   * 
+   * <pre><code class='java'>
+   * // fellowshipOfTheRing is an array of TolkienCharacter having race and name fields
+   * // 'not' filter is statically imported from Assertions.not 
+   * 
+   * assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
+   *                                .filteredOn("name", not("Boromir"))
+   *                                .containsOnly(aragorn);
+   * </code></pre>
+   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
+   * filter to apply.
+   * 
+   * @param propertyOrFieldName the name of the property or field to read
+   * @param expectedValue the value to compare element's property or field with
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
+   * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
+   */
+  @SuppressWarnings("unchecked")
+  public S filteredOn(String propertyOrFieldName, Object expectedValue) {
+    Iterable<? extends T> filteredIterable = filter(actual).with(propertyOrFieldName, expectedValue).get();
+    return (S) new ObjectArrayAssert<>(toArray(filteredIterable));
+  }
+
+  /**
+   * Filter the array under test keeping only elements whose property or field specified by {@code propertyOrFieldName}
+   * is null.
+   * <p>
+   * exists it tries to read the value from a field. Reading private fields is supported by default, this can be
+   * globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
+   * Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
+   * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
+   * <p>
+   * As an example, let's check all employees 800 years old (yes, special employees):
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
+   *
+   * assertThat(employees).filterOnNull("name")
+   *                      .containsOnly(noname);
+   * </code></pre>
+   * Nested properties/fields are supported:
+   * 
+   * <pre><code class='java'>
+   * // Name is bean class with 'first' and 'last' String properties 
+   *
+   * assertThat(employees).filterOnNull("name.last")
+   *                      .containsOnly(yoda, obiwan, noname);
+   * </code></pre>
+   * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
+   * elements.
+   * <p>
+   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
+   * filter to apply.
+   * 
+   * @param propertyOrFieldName the name of the property or field to read
+   * @return a new assertion object with the filtered array under test
+   * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
+   */
+  public S filteredOnNull(String propertyOrFieldName) {
+    // need to cast nulll to Object otherwise it calls :
+    // filterOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
+    return filteredOn(propertyOrFieldName, (Object) null);
+  }
+
+  /**
+   * Filter the array under test keeping only elements having a property or field matching the filter expressed with
+   * the {@link FilterOperator}, the property/field is specified by {@code propertyOrFieldName} parameter.
+   * <p>
+   * The existing filters are :
+   * <ul>
+   * <li> {@link Assertions#not(Object) not(Object)}</li>
+   * <li> {@link Assertions#in(Object...) in(Object...)}</li>
+   * <li> {@link Assertions#notIn(Object...) notIn(Object...)}</li>
+   * </ul>
+   * <p>
+   * Whatever filter is applied, it first tries to get the value from a property (named {@code propertyOrFieldName}), if
+   * no such property exists it tries to read the value from a field. Reading private fields is supported by default,
+   * this can be globally disabled by calling {@link Assertions#setAllowExtractingPrivateFields(boolean)
+   * Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p>
+   * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
+   * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
+   * <p>
+   * 
+   * As an example, let's check stuff on some special employees :
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * 
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
+   *
+   * // 'not' filter is statically imported from Assertions.not 
+   * assertThat(employees).filterOn("age", not(800))
+   *                      .containsOnly(luke);
+   * 
+   * // 'in' filter is statically imported from Assertions.in
+   * // Name is bean class with 'first' and 'last' String properties 
+   * assertThat(employees).filterOn("name.first", in("Yoda", "Luke"))
+   *                      .containsOnly(yoda, luke);
+   * 
+   * // 'notIn' filter is statically imported from Assertions.notIn
+   * assertThat(employees).filterOn("name.first", notIn("Yoda", "Luke"))
+   *                      .containsOnly(obiwan);
+   * </code></pre>
+   * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
+   * elements.
+   * <p>
+   * Note that combining filter operators is not supported, thus the following code is not correct:
+   * 
+   * <pre><code class='java'>
+   * // Combining filter operators like not(in(800)) is NOT supported
+   * // -&gt; throws UnsupportedOperationException
+   * assertThat(employees).filterOn("age", not(in(800)))
+   *                      .contains(luke);
+   * </code></pre>
+   * <p>
+   * You can chain filters:
+   * 
+   * <pre><code class='java'>
+   * // fellowshipOfTheRing is an array of TolkienCharacter having race and name fields
+   * // 'not' filter is statically imported from Assertions.not 
+   * 
+   * assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
+   *                                .filteredOn("name", not("Boromir"))
+   *                                .containsOnly(aragorn);
+   * </code></pre>
+   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
+   * filter to apply.
+   * 
+   * @param propertyOrFieldName the name of the property or field to read
+   * @param filterOperator the filter operator to apply
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
+   */
+  @SuppressWarnings("unchecked")
+  public S filteredOn(String propertyOrFieldName, FilterOperator<?> filterOperator) {
+    checkNotNull(filterOperator);
+    Filters<? extends T> filter = filter(actual).with(propertyOrFieldName);
+    filterOperator.applyOn(filter);
+    return (S) new ObjectArrayAssert<>(toArray(filter.get()));
+  }
+
+  /**
+   * Filter the array under test keeping only elements matching the given {@link Condition}.
+   * <p>
+   * Let's check old employees whose age > 100:
+   * 
+   * 
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
+   * 
+   * // old employee condition, "old employees" describes the condition in error message
+   * // you just have to implement 'matches' method 
+   * Condition&lt;Employee&gt; oldEmployees = new Condition&lt;Employee&gt;("old employees") {
+   *       {@literal @}Override
+   *       public boolean matches(Employee employee) {
+   *         return employee.getAge() > 100;
+   *       }
+   *     };
+   *   }
+   * assertThat(employees).filteredOn(oldEmployees)
+   *                      .containsOnly(yoda, obiwan);
+   *                      
+   * </code></pre>
+   * You can combine {@link Condition} with condition operator like {@link Not}:
+   * 
+   * <pre><code class='java'>
+   * // 'not' filter is statically imported from Assertions.not 
+   * assertThat(employees).filteredOn(not(oldEmployees))
+   *                      .contains(luke, noname);
+   * </code></pre>
+   * 
+   * @param condition the filter condition / predicate
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given condition is {@code null}.
+   */
+  @SuppressWarnings("unchecked")
+  public S filteredOn(Condition<? super T> condition) {
+    Iterable<? extends T> filteredIterable = filter(actual).being(condition).get();
+    return (S) new ObjectArrayAssert<>(toArray(filteredIterable));
+  }
+
 }

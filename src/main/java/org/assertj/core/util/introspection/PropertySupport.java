@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static java.util.Collections.*;
@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
  * Utility methods for properties access.

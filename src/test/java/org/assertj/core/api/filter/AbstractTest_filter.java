@@ -35,18 +35,22 @@ public class AbstractTest_filter {
     rose.setAssistsPerGame(8);
     rose.setPointsPerGame(25);
     rose.setReboundsPerGame(5);
+    rose.setHighestScore(50);
     james = new Player(new Name("Lebron", "James"), "Miami Heat");
     james.setAssistsPerGame(6);
     james.setPointsPerGame(27);
     james.setReboundsPerGame(8);
+    james.setHighestScore(50);
     durant = new Player(new Name("Kevin", "Durant"), "OKC");
     durant.setAssistsPerGame(4);
     durant.setPointsPerGame(30);
     durant.setReboundsPerGame(5);
+    durant.setHighestScore(60);
     noah = new Player(new Name("Joachim", "Noah"), "Chicago Bulls");
     noah.setAssistsPerGame(4);
     noah.setPointsPerGame(10);
     noah.setReboundsPerGame(11);
+    noah.setHighestScore(20);
     players = newArrayList(rose, james, durant, noah);
   }
 

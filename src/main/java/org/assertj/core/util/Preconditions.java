@@ -12,6 +12,10 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.String.format;
+
+import org.assertj.core.api.filter.FilterOperator;
+
 /**
  * Verifies correct argument values and state. Borrowed from Guava.
  * 
@@ -94,8 +98,20 @@ public final class Preconditions {
     return reference;
   }
 
-  private Preconditions() {
+  /**
+   * Verifies that the given FilterOperator reference is not {@code null}.
+   * 
+   * @param reference the given object reference.
+   * @throws NullPointerException if the given object reference is {@code null}.
+   */
+  public static <T> void checkNotNull(FilterOperator<T> filterOperator) {
+    // @format:off
+    if (filterOperator == null) throw new IllegalArgumentException(format("The expected value should not be null.%n"
+        + "If you were trying to filter on a null value, please use filterOnNull(String propertyOrFieldName) instead"));
+    // @format:on
   }
+
+  private Preconditions() {}
 
   private static void throwExceptionForBeingEmpty() {
     throwExceptionForBeingEmpty(ARGUMENT_EMPTY);

@@ -251,7 +251,7 @@ public class Iterables {
     // check for elements in values that are missing in actual.
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
-    if (!notExpected.isEmpty() && !notFound.isEmpty()) {
+    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
       throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
     }
   }

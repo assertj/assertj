@@ -20,7 +20,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;

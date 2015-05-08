@@ -13,13 +13,12 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.filter.Filters.filter;
-
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.filter.Filters.filter;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.IntrospectionError;
-
 import org.junit.Test;
 
 
@@ -42,19 +41,19 @@ public class Filter_with_property_in_given_values_Test extends AbstractTest_filt
   public void should_fail_if_property_to_filter_on_is_null() {
     try {
       filter(players).with(null).in("foo", "bar");
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      assertThat(e.getMessage()).isEqualTo("The property name to filter on should not be null");
+      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage("The property/field name to filter on should not be null or empty");
     }
   }
 
   @Test
-  public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
+  public void should_fail_if_elements_to_filter_do_not_have_property_or_field_used_by_filter() {
     try {
-      filter(players).with("nickname").in("dude", "al");
+      filter(players).with("country").in("France", "Italy");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertThat(e.getMessage()).isEqualTo("No getter for property 'nickname' in org.assertj.core.test.Player");
+      assertThat(e).hasMessageContaining("Can't find any field or property with name 'country'");
     }
   }
 

@@ -10,22 +10,26 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.filter;
 
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import static org.assertj.core.util.Objects.areEqual;
 
-/**
- * Wrapper for <code>{@link PropertyDescriptor}</code>.
- * 
- * @author Alex Ruiz
- */
-class JavaBeanDescriptor {
+public class NotFilter extends FilterOperator<Object> {
 
-  Object invokeReadMethod(PropertyDescriptor d, Object o) throws IllegalAccessException, InvocationTargetException {
-    Method readMethod = d.getReadMethod();
-    readMethod.setAccessible(true);
-    return readMethod.invoke(o);
+  private NotFilter(Object filterParameter) {
+    super(filterParameter);
+  }
+
+  public static NotFilter not(Object valueNotToMatch) {
+    return new NotFilter(valueNotToMatch);
+  }
+
+  boolean filter(Object propertyValueOfCurrentElement) {
+    return !areEqual(propertyValueOfCurrentElement, filterParameter);
+  }
+
+  @Override
+  public <E> Filters<E> applyOn(Filters<E> filters) {
+    return filters.notEqualsTo(filterParameter);
   }
 }

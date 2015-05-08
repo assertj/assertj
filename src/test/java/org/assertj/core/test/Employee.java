@@ -28,6 +28,9 @@ public class Employee {
   public Name surname;
   // keep private to test we are able to read property that is not a public field
   private int age;
+  // keep private to test we are able to read private field without property
+  @SuppressWarnings("unused")
+  private String city = "New York";
 
   public Employee() {}
 

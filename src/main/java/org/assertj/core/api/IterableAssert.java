@@ -73,6 +73,7 @@ public class IterableAssert<T> extends AbstractIterableAssert<IterableAssert<T>,
       }
       return size;
     }
+
   }
 
   private static <T> Iterable<T> toIterable(Iterator<T> iterator) {

@@ -10,12 +10,13 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.util.introspection;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
-import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -24,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.test.Name;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -65,9 +65,8 @@ public class PropertySupport_propertyValues_with_mocks_Test {
       propertySupport.propertyValues("age", Long.class, employees);
       fail("expecting an IntrospectionError to be thrown");
     } catch (IntrospectionError expected) {
-      assertThat(expected.getCause()).isSameAs(thrownOnPurpose);
-      String msg = String.format("Unable to obtain the value of the property <'age'> from <%s>", yoda.toString());
-      assertThat(expected.getMessage()).isEqualTo(msg);
+      assertThat(expected).hasCause(thrownOnPurpose)
+                          .hasMessage(format("Unable to obtain the value of the property <'age'> from <%s>", yoda));
     }
   }
 }

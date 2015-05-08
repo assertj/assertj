@@ -49,6 +49,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -677,6 +678,7 @@ public class Objects {
    * @throws IntrospectionError is field value can't get retrieved.
    */
   private <A> Object getFieldOrPropertyValue(A a, String fieldName) {
+    // TODO use PropertyOrFieldSupport but the order is not the same
     try {
       return fieldSupport.fieldValue(fieldName, Object.class, a);
     } catch (IntrospectionError e) {

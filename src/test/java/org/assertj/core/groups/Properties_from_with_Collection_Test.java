@@ -18,10 +18,9 @@ import static org.mockito.Mockito.*;
 
 import java.util.*;
 
-
 import org.assertj.core.groups.Properties;
-import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.*;
+import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.*;
 
 /**
