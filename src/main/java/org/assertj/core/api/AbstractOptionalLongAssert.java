@@ -31,9 +31,6 @@ import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongAssert<S>> extends
     AbstractAssert<S, OptionalLong> {
 
-    @VisibleForTesting
-    Integers integers = Integers.instance();
-
     protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
         super(actual, selfType);
     }
