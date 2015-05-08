@@ -15,6 +15,7 @@ package org.assertj.core.api.optionalint;
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.OptionalInt;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ public class OptionalIntAssert_isPresent_Test extends BaseTest {
 
     @Test
     public void should_fail_when_OptionalInt_is_empty() throws Exception {
-        thrown.expectAssertionError(shouldBePresent().create());
+        thrown.expectAssertionError(shouldBePresent(OptionalInt.empty()).create());
 
         assertThat(OptionalInt.empty()).isPresent();
     }

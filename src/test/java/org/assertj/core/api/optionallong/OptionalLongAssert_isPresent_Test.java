@@ -15,6 +15,7 @@ package org.assertj.core.api.optionallong;
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.OptionalLong;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ public class OptionalLongAssert_isPresent_Test extends BaseTest {
 
     @Test
     public void should_fail_when_OptionalLong_is_empty() throws Exception {
-        thrown.expectAssertionError(shouldBePresent().create());
+        thrown.expectAssertionError(shouldBePresent(OptionalLong.empty()).create());
 
         assertThat(OptionalLong.empty()).isPresent();
     }

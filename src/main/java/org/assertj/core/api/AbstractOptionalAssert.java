@@ -50,7 +50,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    */
   public S isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent());
+    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
     return myself;
   }
 

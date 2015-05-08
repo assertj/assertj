@@ -15,6 +15,7 @@ package org.assertj.core.api.optionaldouble;
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
+import java.util.Optional;
 import java.util.OptionalDouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,7 +31,7 @@ public class OptionalDoubleAssert_isPresent_Test extends BaseTest {
 
     @Test
     public void should_fail_when_optionaldouble_is_empty() throws Exception {
-        thrown.expectAssertionError(shouldBePresent().create());
+        thrown.expectAssertionError(shouldBePresent(OptionalDouble.empty()).create());
 
         assertThat(OptionalDouble.empty()).isPresent();
     }

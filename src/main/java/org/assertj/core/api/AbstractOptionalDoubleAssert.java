@@ -63,7 +63,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
      */
     public S isPresent() {
         isNotNull();
-        if (!actual.isPresent()) throw failure(shouldBePresent());
+        if (!actual.isPresent()) throw failure(shouldBePresent(actual));
         return myself;
     }
 

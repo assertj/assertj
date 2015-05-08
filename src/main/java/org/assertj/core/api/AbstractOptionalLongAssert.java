@@ -60,7 +60,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
      */
     public S isPresent() {
         isNotNull();
-        if (!actual.isPresent()) throw failure(shouldBePresent());
+        if (!actual.isPresent()) throw failure(shouldBePresent(actual));
         return myself;
     }
 

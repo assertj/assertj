@@ -60,7 +60,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
      */
     public S isPresent() {
         isNotNull();
-        if (!actual.isPresent()) throw failure(shouldBePresent());
+        if (!actual.isPresent()) throw failure(shouldBePresent(actual));
         return myself;
     }
 
