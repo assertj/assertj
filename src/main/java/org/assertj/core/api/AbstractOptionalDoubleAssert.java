@@ -121,12 +121,9 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
     public S hasValue(double expectedValue) {
         isNotNull();
         if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-        //Reuses doubles functionality, catches possible assertionerror and throw correct one
-        try {
-            doubles.assertEqual(info, actual.getAsDouble(), expectedValue);
-        } catch (AssertionError assertionError) {
-            throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
-        }
+
+        if (expectedValue != actual.getAsDouble()) throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
+
         return myself;
     }
 
@@ -171,6 +168,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
                                                                            abs(expectedValue - actual.getAsDouble()
                                                                            )));
         }
+
         return myself;
     }
 }

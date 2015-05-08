@@ -117,12 +117,9 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
     public S hasValue(int expectedValue) {
         isNotNull();
         if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-        //Reuses integers functionality, catches possible assertionerror and throw correct one
-        try {
-            integers.assertEqual(info, actual.getAsInt(), expectedValue);
-        } catch (AssertionError assertionError) {
-            throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
-        }
+
+        if (expectedValue != actual.getAsInt()) throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
+
         return myself;
     }
 }

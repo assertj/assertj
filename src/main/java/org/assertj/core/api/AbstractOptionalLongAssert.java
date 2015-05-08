@@ -117,12 +117,9 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
     public S hasValue(long expectedValue) {
         isNotNull();
         if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-        //Reuses integers functionality, catches possible assertionerror and throw correct one
-        try {
-            integers.assertEqual(info, actual.getAsLong(), expectedValue);
-        } catch (AssertionError assertionError) {
-            throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
-        }
+
+        if (expectedValue != actual.getAsLong()) throw Failures.instance().failure(info, shouldContain(actual, expectedValue));
+
         return myself;
     }
 }
