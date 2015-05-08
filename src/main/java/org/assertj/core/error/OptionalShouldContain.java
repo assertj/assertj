@@ -25,11 +25,7 @@ import java.util.OptionalLong;
 public class OptionalShouldContain extends BasicErrorMessageFactory {
 
     private OptionalShouldContain(Object actual, Object expected) {
-        super("%nExpecting:%n  <%s>%nto contains:%n  <%s>%nbut was not.", actual, expected);
-    }
-
-    private OptionalShouldContain(Object expected) {
-        super("%nExpecting an Optional with value:%n  <%s>%nbut was empty.", expected);
+        super("%nExpecting:%n  <%s>%nto contain:%n  <%s>%nbut was not.", actual, expected);
     }
 
     /**
@@ -84,6 +80,6 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
      * @return a error message factory.
      */
     public static OptionalShouldContain shouldContain(Object expectedValue) {
-        return new OptionalShouldContain(expectedValue);
+        return new OptionalShouldContain(Optional.ofNullable(null), expectedValue);
     }
 }
