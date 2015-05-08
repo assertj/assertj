@@ -22,11 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -476,13 +472,46 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
-   * @return the created assertion objet.
+   * @return the created assertion object.
    */
   public <T> OptionalAssert<T> then(Optional<T> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
 
   /**
+   * Create assertion for {@link java.util.OptionalDouble}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalDoubleAssert then(OptionalDouble actual) {
+        return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalIntAssert then(OptionalInt actual) {
+      return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalLong}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public OptionalLongAssert then(OptionalLong actual) {
+      return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+    /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
    * @param actual the actual value.

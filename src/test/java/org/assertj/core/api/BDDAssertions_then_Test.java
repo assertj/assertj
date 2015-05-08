@@ -25,13 +25,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Before;
@@ -316,6 +310,39 @@ public class BDDAssertions_then_Test {
 	// THEN
 	verifyStatic();
 	assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OptionalDouble_should_delegate_to_assertThat() {
+      // GIVEN
+      OptionalDouble actual = OptionalDouble.of(10.0);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OptionalInt_should_delegate_to_assertThat() {
+      // GIVEN
+      OptionalInt actual = OptionalInt.of(10);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OptionalLong_should_delegate_to_assertThat() {
+      // GIVEN
+      OptionalLong actual = OptionalLong.of(10l);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
   }
   
   @Test

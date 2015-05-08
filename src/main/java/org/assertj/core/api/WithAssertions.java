@@ -20,11 +20,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
@@ -556,6 +552,27 @@ public interface WithAssertions {
    */
   default public <T> OptionalAssert<T> assertThat(final Optional<T> optional) {
 	return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalDouble)}
+   */
+  default public OptionalDoubleAssert assertThat(final OptionalDouble optional) {
+      return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalInt)}
+   */
+  default public OptionalIntAssert assertThat(final OptionalInt optional) {
+      return Assertions.assertThat(optional);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(java.util.OptionalLong)}
+   */
+  default public OptionalLongAssert assertThat(final OptionalLong optional) {
+      return Assertions.assertThat(optional);
   }
 
   /**

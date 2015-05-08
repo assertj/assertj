@@ -22,11 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
@@ -80,13 +76,46 @@ public class Assertions {
    * @param optional the actual value.
    * @param <T>      the type of the value contained in the {@link java.util.Optional}.
    *
-   * @return the created assertion objet.
+   * @return the created assertion object.
    */
   public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
     return new OptionalAssert<>(optional);
   }
-  
+
   /**
+   * Create assertion for {@link java.util.OptionalDouble}.
+   *
+   * @param optionalDouble the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
+      return new OptionalDoubleAssert(optionalDouble);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param optionalInt the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalIntAssert assertThat(OptionalInt optionalInt) {
+      return new OptionalIntAssert(optionalInt);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param optionalLong the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalLongAssert assertThat(OptionalLong optionalLong) {
+        return new OptionalLongAssert(optionalLong);
+    }
+
+    /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
    * @param actual the actual value.

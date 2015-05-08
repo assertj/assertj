@@ -21,16 +21,18 @@ import org.assertj.core.error.BasicErrorMessageFactory;
  */
 public class OptionalShouldBePresent extends BasicErrorMessageFactory {
 
-  private OptionalShouldBePresent() {
-	super("Expecting Optional to contain a value but was empty.");
+  private OptionalShouldBePresent(Object optional) {
+      super("%nExpecting:%n  <%s>%n to contain a value but was empty.", optional);
   }
 
   /**
    * Indicates that a value should be present in an empty {@link java.util.Optional}.
    *
    * @return a error message factory.
+   * @param optional
+   * @throws java.lang.NullPointerException if optional is null.
    */
-  public static OptionalShouldBePresent shouldBePresent() {
-	return new OptionalShouldBePresent();
+  public static OptionalShouldBePresent shouldBePresent(Object optional) {
+	  return new OptionalShouldBePresent(optional);
   }
 }

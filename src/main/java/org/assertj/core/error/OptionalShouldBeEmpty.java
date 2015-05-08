@@ -12,9 +12,10 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 /**
  * Build error message when an {@link java.util.Optional} should be empty.
@@ -23,18 +24,48 @@ import java.util.Optional;
  */
 public class OptionalShouldBeEmpty extends BasicErrorMessageFactory {
 
-  private OptionalShouldBeEmpty(Object optionalValue) {
-	super("%nExpecting an empty Optional but was containing value: <%s>.", optionalValue);
-  }
+    private OptionalShouldBeEmpty(Class optionalClass, Object optionalValue) {
+        super("%nExpecting an empty " + optionalClass.getSimpleName() + " but was containing value: <%s>.", optionalValue);
+    }
 
-  /**
-   * Indicates that the provided {@link java.util.Optional} should be empty.
-   *
-   * @param optional the actual {@link Optional} to test.
-   * @param <T> the type of the value contained in the {@link java.util.Optional}.
-   * @return a error message factory.
-   */
-  public static <T> OptionalShouldBeEmpty shouldBeEmpty(Optional<T> optional) {
-	return new OptionalShouldBeEmpty(optional.get());
-  }
+    /**
+     * Indicates that the provided {@link java.util.Optional} should be empty.
+     *
+     * @param optional the actual {@link Optional} to test.
+     * @param <T>      the type of the value contained in the {@link java.util.Optional}.
+     * @return a error message factory.
+     */
+    public static <T> OptionalShouldBeEmpty shouldBeEmpty(Optional<T> optional) {
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.get());
+    }
+
+    /**
+     * Indicates that the provided {@link java.util.OptionalDouble} should be empty.
+     *
+     * @param optional the actual {@link OptionalDouble} to test.
+     * @return a error message factory.
+     */
+    public static OptionalShouldBeEmpty shouldBeEmpty(OptionalDouble optional) {
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsDouble());
+    }
+
+    /**
+     * Indicates that the provided {@link java.util.OptionalInt} should be empty.
+     *
+     * @param optional the actual {@link OptionalInt} to test.
+     * @return a error message factory.
+     */
+    public static OptionalShouldBeEmpty shouldBeEmpty(OptionalInt optional) {
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsInt());
+    }
+
+    /**
+     * Indicates that the provided {@link java.util.OptionalLong} should be empty.
+     *
+     * @param optional the actual {@link OptionalLong} to test.
+     * @return a error message factory.
+     */
+    public static OptionalShouldBeEmpty shouldBeEmpty(OptionalLong optional) {
+        return new OptionalShouldBeEmpty(optional.getClass(), optional.getAsLong());
+    }
 }

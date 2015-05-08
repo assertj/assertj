@@ -19,13 +19,7 @@ import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.data.MapEntry;
@@ -634,6 +628,30 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   public void WithAssertions_assertThat_optional_Test() {
 	assertThat(Optional.of("Not empty")).isPresent();
   }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_optionaldouble_Test() {
+        assertThat(OptionalDouble.of(1.0)).isPresent();
+    }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_optionallong_Test() {
+        assertThat(OptionalLong.of(1L)).isPresent();
+    }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void WithAssertions_assertThat_optionalint_Test() {
+        assertThat(OptionalInt.of(1)).isPresent();
+    }
 
   /**
    * Test that the delegate method is called.

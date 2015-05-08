@@ -17,11 +17,34 @@ import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 
 import org.junit.Test;
 
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+
 public class OptionalShouldBePresent_create_Test {
 
   @Test
-  public void should_create_error_message() throws Exception {
-	String errorMessage = shouldBePresent().create();
-	assertThat(errorMessage).isEqualTo("Expecting Optional to contain a value but was empty.");
+  public void should_create_error_message_with_optional() throws Exception {
+	String errorMessage = shouldBePresent(Optional.empty()).create();
+	assertThat(errorMessage).isEqualTo("\nExpecting:\n  <Optional.empty>\n to contain a value but was empty.");
   }
+
+    @Test
+    public void should_create_error_message_with_optionaldouble() throws Exception {
+        String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n  <OptionalDouble.empty>\n to contain a value but was empty.");
+    }
+
+    @Test
+    public void should_create_error_message_with_optionalint() throws Exception {
+        String errorMessage = shouldBePresent(OptionalInt.empty()).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n  <OptionalInt.empty>\n to contain a value but was empty.");
+    }
+
+    @Test
+    public void should_create_error_message_with_optionallong() throws Exception {
+        String errorMessage = shouldBePresent(OptionalLong.empty()).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n  <OptionalLong.empty>\n to contain a value but was empty.");
+    }
 }

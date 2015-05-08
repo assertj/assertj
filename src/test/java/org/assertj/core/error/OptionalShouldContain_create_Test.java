@@ -16,26 +16,61 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.junit.Test;
 
 public class OptionalShouldContain_create_Test {
 
-  @Test
-  public void should_create_error_message_when_optional_is_empty() throws Exception {
-	String errorMessage = shouldContain(10).create();
-	assertThat(errorMessage).isEqualTo("\nExpecting an Optional with value:\n" +
-	                                   "  <10>\n" +
-	                                   "but was empty.");
-  }
+    @Test
+    public void should_create_error_message_when_optional_is_empty() throws Exception {
+        String errorMessage = shouldContain(Optional.empty(), 10).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
+                                           "  <Optional.empty>\n" +
+                                           "to contain:\n" +
+                                           "  <10>\n" +
+                                           "but was not.");
+    }
 
-  @Test
-  public void should_create_error_message() throws Exception {
-	String errorMessage = shouldContain(Optional.of(20), 10).create();
-	assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
-	                                   "  <Optional[20]>\n" +
-	                                   "to contains:\n" +
-	                                   "  <10>\n" +
-	                                   "but was not.");
-  }
+    @Test
+    public void should_create_error_message() throws Exception {
+        String errorMessage = shouldContain(Optional.of(20), 10).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
+                                           "  <Optional[20]>\n" +
+                                           "to contain:\n" +
+                                           "  <10>\n" +
+                                           "but was not.");
+    }
+
+    @Test
+    public void should_create_error_message_with_optionaldouble() throws Exception {
+        String errorMessage = shouldContain(OptionalDouble.of(20.0), 10.0).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
+                                           "  <OptionalDouble[20.0]>\n" +
+                                           "to contain:\n" +
+                                           "  <10.0>\n" +
+                                           "but was not.");
+    }
+
+    @Test
+    public void should_create_error_message_with_optionalint() throws Exception {
+        String errorMessage = shouldContain(OptionalInt.of(20), 10).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
+                                           "  <OptionalInt[20]>\n" +
+                                           "to contain:\n" +
+                                           "  <10>\n" +
+                                           "but was not.");
+    }
+
+    @Test
+    public void should_create_error_message_with_optionallong() throws Exception {
+        String errorMessage = shouldContain(OptionalLong.of(20L), 10L).create();
+        assertThat(errorMessage).isEqualTo("\nExpecting:\n" +
+                                           "  <OptionalLong[20]>\n" +
+                                           "to contain:\n" +
+                                           "  <10L>\n" +
+                                           "but was not.");
+    }
 }

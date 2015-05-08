@@ -19,11 +19,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -71,10 +67,43 @@ public class BDDAssertions extends Assertions {
    * @param optional the actual value.
    * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
-   * @return the created assertion objet.
+   * @return the created assertion object.
    */
   public static <T> OptionalAssert<T> then(Optional<T> optional) {
 	return assertThat(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalInt}.
+   *
+   * @param optional the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalIntAssert then(OptionalInt optional) {
+      return assertThat(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.util.OptionalLong}.
+   *
+   * @param optional the actual value.
+   *
+   * @return the created assertion object.
+   */
+   public static OptionalLongAssert then(OptionalLong optional) {
+      return assertThat(optional);
+   }
+
+  /**
+   * Create assertion for {@link java.util.OptionalDouble}.
+   *
+   * @param optional the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OptionalDoubleAssert then(OptionalDouble optional) {
+      return assertThat(optional);
   }
 
   /**

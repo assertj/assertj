@@ -30,7 +30,7 @@ public class OptionalAssert_isPresent_Test extends BaseTest {
 
   @Test
   public void should_fail_when_optional_is_empty() throws Exception {
-    thrown.expectAssertionError(shouldBePresent().create());
+    thrown.expectAssertionError(shouldBePresent(Optional.empty()).create());
 
     assertThat(Optional.empty()).isPresent();
   }
