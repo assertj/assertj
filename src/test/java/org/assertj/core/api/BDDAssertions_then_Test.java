@@ -12,6 +12,17 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,20 +30,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.*;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.BDDAssertions#then(String)}</code>.
@@ -541,6 +538,17 @@ public class BDDAssertions_then_Test {
 	// THEN
 	verifyStatic();
 	assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OffsetTime_should_delegate_to_assertThat() {
+  // GIVEN
+  OffsetTime actual = OffsetTime.of(23, 59, 59,0, ZoneOffset.UTC);
+  // WHEN
+  then(actual);
+  // THEN
+  verifyStatic();
+  assertThat(actual);
   }
 
   public void should_build_ThrowableAssert_with_throwable_thrown() {

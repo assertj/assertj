@@ -12,18 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
-import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.*;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.AllOf;
@@ -38,6 +26,15 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.FilesException;
 import org.assertj.core.util.introspection.FieldSupport;
+
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.nio.file.Path;
+import java.text.DateFormat;
+import java.time.*;
+import java.util.*;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -115,7 +112,18 @@ public class Assertions {
         return new OptionalLongAssert(optionalLong);
     }
 
-    /**
+  /**
+   * Create assertion for {@link java.time.OffsetTime}.
+   *
+   * @param offsetTime the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OffsetTimeAssert assertThat(OffsetTime offsetTime) {
+      return new OffsetTimeAssert(offsetTime);
+  }
+
+  /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
    * @param actual the actual value.
@@ -592,7 +600,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link ZonedDateTimeAssert}</code>.
    *
-   * @param actual the actual value.
+   * @param date the actual value.
    * @return the created assertion object.
    */
   public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime date) {
@@ -602,7 +610,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link LocalDateTimeAssert}</code>.
    *
-   * @param actual the actual value.
+   * @param localDateTime the actual value.
    * @return the created assertion object.
    */
   public static AbstractLocalDateTimeAssert<?> assertThat(LocalDateTime localDateTime) {
@@ -622,7 +630,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
-   * @param actual the actual value.
+   * @param localDate the actual value.
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {

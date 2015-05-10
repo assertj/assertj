@@ -17,9 +17,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -612,5 +610,19 @@ public interface WithAssertions {
    */
   default public <E> Filters<E> filter(final Iterable<E> iterableToFilter) {
     return Assertions.filter(iterableToFilter);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalTime)}
+   */
+  default public AbstractLocalTimeAssert<?> assertThat(final LocalTime localTime) {
+      return Assertions.assertThat(localTime);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(OffsetTime)}
+   */
+  default public AbstractOffsetTimeAssert<?> assertThat(final OffsetTime offsetTime) {
+      return Assertions.assertThat(offsetTime);
   }
 }

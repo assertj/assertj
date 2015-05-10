@@ -12,24 +12,22 @@
  */
 package org.assertj.core.api;
 
-import static java.time.ZoneOffset.UTC;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.*;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.Maps;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+
+import static java.time.ZoneOffset.UTC;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Dates.parseDatetime;
+import static org.junit.Assert.fail;
 
 public class AutoCloseableSoftAssertionsTest {
 
@@ -139,14 +137,17 @@ public class AutoCloseableSoftAssertionsTest {
 	  softly.assertThat(LocalDateTime.of(2015, 1, 1, 23, 59, 59)).isEqualTo(LocalDateTime.of(2015, 1, 1, 23, 59, 0));
 	  softly.assertThat(ZonedDateTime.of(2015, 1, 1, 23, 59, 59, 0, UTC)).isEqualTo(ZonedDateTime.of(2015, 1, 1, 23,
 		                                                                                             59, 0, 0, UTC));
-
     softly.assertThat(OptionalInt.of(0)).isEqualTo(1);
     softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
     softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
 
+    softly.assertThat(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13,0));
+    softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(46);
+	  assertThat(errors).hasSize(48);
+
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -224,6 +225,9 @@ public class AutoCloseableSoftAssertionsTest {
     assertThat(errors.get(43)).isEqualTo("expected:<[1]> but was:<[OptionalInt[0]]>");
     assertThat(errors.get(44)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
     assertThat(errors.get(45)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
+
+    assertThat(errors.get(46)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
+    assertThat(errors.get(47)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
 
 	  return;
 	}

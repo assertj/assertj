@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api;
 
-import java.time.LocalTime;
+import java.time.OffsetTime;
 
-public class LocalTimeAssert extends AbstractLocalTimeAssert<LocalTimeAssert> {
+public class OffsetTimeAssert extends AbstractOffsetTimeAssert<OffsetTimeAssert> {
 
   /**
-   * Creates a new <code>{@link LocalTimeAssert}</code>.
+   * Creates a new <code>{@link org.assertj.core.api.OffsetTimeAssert}</code>.
    *
    * @param actual the actual value to verify
    */
-  protected LocalTimeAssert(LocalTime actual) {
-    super(actual, LocalTimeAssert.class);
+  protected OffsetTimeAssert(OffsetTime actual) {
+    super(actual, OffsetTimeAssert.class);
   }
 }
