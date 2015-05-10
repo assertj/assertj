@@ -15,6 +15,7 @@ package org.assertj.core.api.iterable;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
@@ -33,83 +34,143 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
 
   @Before
   public void before() {
-	iterablesBefore = getIterables(assertions);
+    iterablesBefore = getIterables(assertions);
   }
 
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
-	return assertions.usingFieldByFieldElementComparator();
+    return assertions.usingFieldByFieldElementComparator();
   }
 
   @Override
   protected void verify_internal_effects() {
-	assertThat(iterablesBefore).isNotSameAs(getIterables(assertions));
-	assertThat(getIterables(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
-	assertThat(getObjects(assertions).getComparisonStrategy() instanceof IterableElementComparisonStrategy).isTrue();
+    assertThat(iterablesBefore).isNotSameAs(getIterables(assertions));
+    assertThat(getIterables(assertions).getComparisonStrategy() instanceof ComparatorBasedComparisonStrategy).isTrue();
+    assertThat(getObjects(assertions).getComparisonStrategy() instanceof IterableElementComparisonStrategy).isTrue();
   }
 
   @Test
-  public void succesful_isEqualTo_assertion_using_field_by_field_element_comparator() {
-	List<Foo> list1 = singletonList(new Foo("id", 1));
-	List<Foo> list2 = singletonList(new Foo("id", 1));
-	assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
+  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator() {
+    List<Foo> list1 = singletonList(new Foo("id", 1));
+    List<Foo> list2 = singletonList(new Foo("id", 1));
+    assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
   }
 
   @Test
-  public void succesful_isIn_assertion_using_field_by_field_element_comparator() {
-	List<Foo> list1 = singletonList(new Foo("id", 1));
-	List<Foo> list2 = singletonList(new Foo("id", 1));
-	System.out.println(new FieldByFieldComparator());
-	assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
+  public void successful_isIn_assertion_using_field_by_field_element_comparator() {
+    List<Foo> list1 = singletonList(new Foo("id", 1));
+    List<Foo> list2 = singletonList(new Foo("id", 1));
+    System.out.println(new FieldByFieldComparator());
+    assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
+  }
+
+  @Test
+  public void successful_isEqualTo_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+    List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
+    List<Animal> list2 = newArrayList(new Bird("White"), new Snake(15));
+    assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
+  }
+
+  @Test
+  public void successful_isIn_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+    List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
+    List<Animal> list2 = newArrayList(new Bird("White"), new Snake(15));
+    System.out.println(new FieldByFieldComparator());
+    assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
+  }
+
+  @Test
+  public void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
+    List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
+    System.out.println(new FieldByFieldComparator());
+    assertThat(list1).usingFieldByFieldElementComparator().containsExactly(new Bird("White"), new Snake(15));
   }
 
   @Test
   public void failed_isEqualTo_assertion_using_field_by_field_element_comparator() {
-	List<Foo> list1 = singletonList(new Foo("id", 1));
-	List<Foo> list2 = singletonList(new Foo("id", 2));
-	try {
-	  assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(String.format("%nExpecting:%n" +
-		                       " <[Foo(id=id, bar=1)]>%n" +
-		                       "to be equal to:%n" +
-		                       " <[Foo(id=id, bar=2)]>%n" +
-		                       "when comparing elements using 'field by field comparator on all fields' but was not."));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    List<Foo> list1 = singletonList(new Foo("id", 1));
+    List<Foo> list2 = singletonList(new Foo("id", 2));
+    try {
+      assertThat(list1).usingFieldByFieldElementComparator().isEqualTo(list2);
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
+          " <[Foo(id=id, bar=1)]>%n" +
+          "to be equal to:%n" +
+          " <[Foo(id=id, bar=2)]>%n" +
+          "when comparing elements using 'field by field comparator on all fields' but was not."));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void failed_isIn_assertion_using_field_by_field_element_comparator() {
-	List<Foo> list1 = singletonList(new Foo("id", 1));
-	List<Foo> list2 = singletonList(new Foo("id", 2));
-	try {
-	  assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(String.format("%nExpecting:%n" +
-		                       " <[Foo(id=id, bar=1)]>%n" +
-		                       "to be in:%n" +
-		                       " <[[Foo(id=id, bar=2)]]>%n" +
-		                       "when comparing elements using 'field by field comparator on all fields'"));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    List<Foo> list1 = singletonList(new Foo("id", 1));
+    List<Foo> list2 = singletonList(new Foo("id", 2));
+    try {
+      assertThat(list1).usingFieldByFieldElementComparator().isIn(singletonList(list2));
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
+          " <[Foo(id=id, bar=1)]>%n" +
+          "to be in:%n" +
+          " <[[Foo(id=id, bar=2)]]>%n" +
+          "when comparing elements using 'field by field comparator on all fields'"));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   public static class Foo {
-	public final String id;
-	public final int bar;
+    public final String id;
+    public final int bar;
 
-	public Foo(final String id, final int bar) {
-	  this.id = id;
-	  this.bar = bar;
-	}
+    public Foo(final String id, final int bar) {
+      this.id = id;
+      this.bar = bar;
+    }
 
-	@Override
-	public String toString() {
-	  return "Foo(id=" + id + ", bar=" + bar + ")";
-	}
+    @Override
+    public String toString() {
+      return "Foo(id=" + id + ", bar=" + bar + ")";
+    }
 
+  }
+
+  private static class Animal {
+    private final String name;
+
+    private Animal(String name) {
+      this.name = name;
+    }
+
+    public String getName() {
+      return name;
+    }
+  }
+
+  private static class Bird extends Animal {
+    private final String color;
+
+    private Bird(String color) {
+      super("Bird");
+      this.color = color;
+    }
+
+    public String getColor() {
+      return color;
+    }
+  }
+
+  private static class Snake extends Animal {
+    private final int length;
+
+    private Snake(int length) {
+      super("Snake");
+      this.length = length;
+    }
+
+    public int getLength() {
+      return length;
+    }
   }
 }

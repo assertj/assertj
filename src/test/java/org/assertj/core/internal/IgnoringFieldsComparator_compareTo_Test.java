@@ -13,18 +13,11 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ExpectedException.none;
 
-import org.assertj.core.test.ExpectedException;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 
 public class IgnoringFieldsComparator_compareTo_Test {
-
-  @Rule
-  public ExpectedException thrown = none();
 
   private IgnoringFieldsComparator ignoringFieldsComparator;
 
@@ -61,9 +54,8 @@ public class IgnoringFieldsComparator_compareTo_Test {
   }
 
   @Test
-  public void should_throw_exception_if_Objects_have_not_the_same_properties() {
-	thrown.expect(IntrospectionError.class);
-	assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), 2)).isNotZero();
+  public void should_return_false_if_Objects_do_not_have_the_same_properties() {
+    assertThat(ignoringFieldsComparator.compare(new DarthVader("I like you", "I'll kill you"), 2)).isNotZero();
   }
 
   public static class DarthVader {
