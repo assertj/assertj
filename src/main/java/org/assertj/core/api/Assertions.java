@@ -18,10 +18,7 @@ import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -80,12 +77,23 @@ public class Assertions {
    * @param optional the actual value.
    * @param <T>      the type of the value contained in the {@link java.util.Optional}.
    *
-   * @return the created assertion objet.
+   * @return the created assertion object.
    */
   public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
     return new OptionalAssert<>(optional);
   }
-  
+
+  /**
+   * Create assertion for {@link java.time.OffsetTime}.
+   *
+   * @param offsetTime the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OffsetTimeAssert assertThat(OffsetTime offsetTime) {
+      return new OffsetTimeAssert(offsetTime);
+  }
+
   /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *

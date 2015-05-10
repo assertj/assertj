@@ -21,10 +21,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -514,6 +511,17 @@ public class BDDAssertions_then_Test {
 	// THEN
 	verifyStatic();
 	assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OffsetTime_should_delegate_to_assertThat() {
+  // GIVEN
+  OffsetTime actual = OffsetTime.of(23, 59, 59,0, ZoneOffset.UTC);
+  // WHEN
+  then(actual);
+  // THEN
+  verifyStatic();
+  assertThat(actual);
   }
 
   public void should_build_ThrowableAssert_with_throwable_thrown() {
