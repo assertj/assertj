@@ -17,13 +17,15 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
 /**
  * Creates an error message indicating that an assertion that verifies that :
  * <ul>
  * <li>two {@link ZonedDateTime}, {@link LocalDateTime} have same year, month, day, hour, minute and second failed.</li>
- * <li>two {@link LocalTime} have hour, minute and second failed.</li>
+ * <li>two {@link LocalTime} have same hour, minute and second failed.</li>
+ * <li>two {@link java.time.OffsetTime} have same hour, minute and second failed.</li>
  * </ul>
  * 
  * @author Joel Costigliola
@@ -52,6 +54,17 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
 	return new ShouldBeEqualIgnoringNanos(actual, other);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringNanos}</code>.
+   *
+   * @param actual the actual OffsetTime in the failed assertion.
+   * @param other the OffsetTime used in the failed assertion to compare the actual OffsetTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
+      return new ShouldBeEqualIgnoringNanos(actual, other);
+  }
+
   private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
 	super("\nExpecting:\n  <%s>\nto have same year, month, day, hour, minute and second as:\n  <%s>\nbut had not.",
 	      actual, other);
@@ -59,5 +72,9 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
 
   private ShouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
 	super("\nExpecting:\n  <%s>\nto have same hour, minute and second as:\n  <%s>\nbut had not.", actual, other);
+  }
+
+  private ShouldBeEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
+      super("\nExpecting:\n  <%s>\nto have same hour, minute and second as:\n  <%s>\nbut had not.", actual, other);
   }
 }

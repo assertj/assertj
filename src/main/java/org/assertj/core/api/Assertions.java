@@ -601,7 +601,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
-   * @param actual the actual value.
+   * @param localDate the actual value.
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {

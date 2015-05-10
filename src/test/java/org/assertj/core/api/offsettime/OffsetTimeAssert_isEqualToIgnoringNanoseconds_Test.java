@@ -15,7 +15,8 @@ package org.assertj.core.api.offsettime;
 import org.assertj.core.api.BaseTest;
 import org.junit.Test;
 
-import java.time.LocalTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 
 import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,23 +24,23 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest {
 
-  private final LocalTime refLocalTime = LocalTime.of(0, 0, 1, 0);
+  private final OffsetTime refOffsetTime = OffsetTime.of(0, 0, 1, 0, ZoneOffset.UTC);
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_ignoring_nanosecond_fields() {
-	assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.withNano(55));
-	assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusNanos(1));
+	assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.withNano(55));
+	assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.plusNanos(1));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_localtimetime_with_nanoseconds_ignored() {
+  public void should_fail_if_actual_is_not_equal_to_given_OffsetTime_with_nanoseconds_ignored() {
 	try {
-	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusSeconds(1));
+	  assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.plusSeconds(1));
 	} catch (AssertionError e) {
 	  assertThat(e).hasMessage("\nExpecting:\n  " +
-		                       "<00:00:01>\n" +
+		                       "<00:00:01Z>\n" +
 		                       "to have same hour, minute and second as:\n" +
-		                       "  <00:00:02>\n" +
+		                       "  <00:00:02Z>\n" +
 		                       "but had not.");
 	  return;
 	}
@@ -49,12 +50,12 @@ public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest
   @Test
   public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
 	try {
-	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.minusNanos(1));
+	  assertThat(refOffsetTime).isEqualToIgnoringNanos(refOffsetTime.minusNanos(1));
 	} catch (AssertionError e) {
 	  assertThat(e).hasMessage("\nExpecting:\n" +
-		                       "  <00:00:01>\n" +
+		                       "  <00:00:01Z>\n" +
 		                       "to have same hour, minute and second as:\n" +
-		                       "  <00:00:00.999999999>\n" +
+		                       "  <00:00:00.999999999Z>\n" +
 		                       "but had not.");
 	  return;
 	}
@@ -64,14 +65,14 @@ public class OffsetTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest
   @Test
   public void should_fail_if_actual_is_null() {
 	expectException(AssertionError.class, actualIsNull());
-	LocalTime actual = null;
-	assertThat(actual).isEqualToIgnoringNanos(LocalTime.now());
+	OffsetTime actual = null;
+	assertThat(actual).isEqualToIgnoringNanos(OffsetTime.now());
   }
 
   @Test
-  public void should_throw_error_if_given_localtimetime_is_null() {
+  public void should_throw_error_if_given_OffsetTimetime_is_null() {
 	expectIllegalArgumentException(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
-	assertThat(refLocalTime).isEqualToIgnoringNanos(null);
+	assertThat(refOffsetTime).isEqualToIgnoringNanos(null);
   }
 
 }

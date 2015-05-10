@@ -22,41 +22,24 @@ import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PAR
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-public class OffsetTimeAssert_hasSameHourAs_Test extends BaseTest {
+public class OffsetTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTest {
 
-  private final OffsetTime refOffsetTime = OffsetTime.of(23, 0, 0, 0, ZoneOffset.UTC);
+  private final OffsetTime actual = OffsetTime.of(12, 0, 0, 0, ZoneOffset.MAX);
 
   @Test
-  public void should_pass_if_actual_andexpected_have_same_hour() {
-	assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.plusMinutes(1));
+  public void should_pass_if_actual_is_equal_to_other_ignoring_timezone_fields() {
+	assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC));
   }
 
   @Test
-  public void should_fail_if_actual_is_not_equal_to_given_OffsetTimetime_with_minute_ignored() {
+  public void should_fail_if_actual_is_not_equal_to_given_OffsetTime_with_timezone_ignored() {
 	try {
-	  assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusMinutes(1));
+	  assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <23:00Z>\n" +
-		                       "to have same hour as:\n" +
-		                       "  <22:59Z>\n" +
-		                       "but had not.");
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_as_minutes_fields_are_different_even_if_time_difference_is_less_than_a_minute() {
-	try {
-	  assertThat(refOffsetTime).hasSameHourAs(refOffsetTime.minusNanos(1));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <23:00Z>\n" +
-		                       "to have same hour as:\n" +
-		                       "  <22:59:59.999999999Z>\n" +
+	  assertThat(e).hasMessage("\nExpecting:\n  " +
+		                       "<12:00+18:00>\n" +
+		                       "to have same time fields except timezone as:\n" +
+		                       "  <12:01Z>\n" +
 		                       "but had not.");
 	  return;
 	}
@@ -67,13 +50,13 @@ public class OffsetTimeAssert_hasSameHourAs_Test extends BaseTest {
   public void should_fail_if_actual_is_null() {
 	expectException(AssertionError.class, actualIsNull());
 	OffsetTime actual = null;
-	assertThat(actual).hasSameHourAs(OffsetTime.now());
+	assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.now());
   }
 
   @Test
   public void should_throw_error_if_given_OffsetTimetime_is_null() {
 	expectIllegalArgumentException(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
-	assertThat(refOffsetTime).hasSameHourAs(null);
+	assertThat(actual).isEqualToIgnoringTimezone(null);
   }
 
 }
