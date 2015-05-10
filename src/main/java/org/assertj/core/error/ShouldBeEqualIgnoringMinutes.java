@@ -12,15 +12,21 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-
+import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
  * month, day and hour fields failed.
- * 
+ *
+ * Creates an error message indicating that an assertion that verifies that :
+ * <ul>
+ * <li>two {@link ZonedDateTime}, {@link java.time.LocalDateTime} have same year, month, day, hour fields failed.</li>
+ * <li>two {@link LocalTime} have same hour failed.</li>
+ * <li>two {@link java.time.OffsetTime} have same hour failed.</li>
+ * </ul>
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
@@ -36,7 +42,37 @@ public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
     return new ShouldBeEqualIgnoringMinutes(actual, other);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringSeconds}</code>.
+   *
+   * @param actual the actual LocalTime in the failed assertion.
+   * @param other the LocalTime used in the failed assertion to compare the actual LocalTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringMinutes(LocalTime actual, LocalTime other) {
+      return new ShouldBeEqualIgnoringMinutes(actual, other);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringSeconds}</code>.
+   *
+   * @param actual the actual OffsetTime in the failed assertion.
+   * @param other the OffsetTime used in the failed assertion to compare the actual OffsetTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringMinutes(OffsetTime actual, OffsetTime other) {
+      return new ShouldBeEqualIgnoringMinutes(actual, other);
+  }
+
   private ShouldBeEqualIgnoringMinutes(Object actual, Object other) {
     super("\nExpecting:\n  <%s>\nto have same year, month, day and hour as:\n  <%s>\nbut had not.", actual, other);
+  }
+
+  private ShouldBeEqualIgnoringMinutes(LocalTime actual, LocalTime other) {
+      super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
+  }
+
+  private ShouldBeEqualIgnoringMinutes(OffsetTime actual, OffsetTime other) {
+      super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
   }
 }

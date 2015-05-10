@@ -23,11 +23,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.*;
+import java.time.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -94,6 +95,17 @@ public class Assertions {
    */
   public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
     return new OptionalAssert<>(optional);
+  }
+
+  /**
+   * Create assertion for {@link java.time.OffsetTime}.
+   *
+   * @param offsetTime the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static OffsetTimeAssert assertThat(OffsetTime offsetTime) {
+      return new OffsetTimeAssert(offsetTime);
   }
 
   /**
@@ -656,7 +668,7 @@ public class Assertions {
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
-   * @param actual the actual value.
+   * @param localDate the actual value.
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {

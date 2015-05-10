@@ -17,10 +17,8 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+
+import java.time.*;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -588,6 +586,16 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractOffsetTimeAssert<?> then(OffsetTime actual) {
+        return assertThat(actual);
+    }
+    
+    /**
    * Creates a new instance of <code>{@link UriAssert}</code>.
    *
    * @param actual the actual value.
