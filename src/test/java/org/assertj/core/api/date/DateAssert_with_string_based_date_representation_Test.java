@@ -67,7 +67,7 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
     Date date = new Date();
     Timestamp timestamp = new Timestamp(date.getTime());
     // 2015-04-12 21:25:12.293
-    String timestampAsString = timestamp.toString(); // 2015-04-12 21:25:12.293
+    String timestampAsString = Dates.newTimestampDateFormat().format(timestamp); // 2015-04-12 21:25:12.293
 
     assertThat(date).isEqualTo(timestampAsString);
   }
