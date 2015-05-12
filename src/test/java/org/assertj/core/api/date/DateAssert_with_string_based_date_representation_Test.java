@@ -20,6 +20,7 @@ import static org.assertj.core.util.Dates.parseDatetime;
 import static org.assertj.core.util.Dates.parseDatetimeWithMs;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -63,8 +64,8 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_timestamp_string_representation() {
-    Date date = new Date();
+  public void date_assertion_should_support_timestamp_string_representation() throws ParseException {
+    Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").parse("2015-04-12 21:25:12.293");
     Timestamp timestamp = new Timestamp(date.getTime());
     // 2015-04-12 21:25:12.293
     String timestampAsString = timestamp.toString(); // 2015-04-12 21:25:12.293
