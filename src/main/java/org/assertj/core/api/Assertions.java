@@ -1219,23 +1219,23 @@ public class Assertions {
 
   /**
    * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire file in memory. </p>
+   * load the entire contents in memory. </p>
    *
    * @param url the URL.
    * @param charset the character set to use.
-   * @return the content of the file.
+   * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException       if an I/O exception occurs.
+   * @throws FilesException   if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) { return URLs.contentOf(url, charset); }
 
   /**
    * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire file in memory. </p>
+   * load the entire contents in memory. </p>
    *
    * @param url the URL.
    * @param charsetName the name of the character set to use.
-   * @return the content of the file.
+   * @return the content of the URL.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
    * @throws FilesException           if an I/O exception occurs.
    */

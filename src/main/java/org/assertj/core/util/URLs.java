@@ -46,7 +46,7 @@ public class URLs {
    *
    * @param url the URL.
    * @param charset the character set to use.
-   * @return the content of the file.
+   * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws FilesException if an I/O exception occurs.
    */
@@ -62,12 +62,12 @@ public class URLs {
   }
 
   /**
-   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * Loads the text content of a URL into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
    * @param url the URL.
    * @param charset the character set to use.
-   * @return the content of the file.
+   * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws FilesException if an I/O exception occurs.
    */
@@ -83,12 +83,12 @@ public class URLs {
   }
 
   /**
-   * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
+   * Loads the text content of a URL into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
    * @param url the URL.
    * @param charsetName the name of the character set to use.
-   * @return the content of the file.
+   * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws FilesException if an I/O exception occurs.
    */
