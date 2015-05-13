@@ -22,8 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 /*
@@ -43,7 +42,7 @@ public class URLs_contentOf_Test {
   @Test
   public void should_throw_exception_if_url_not_found() throws MalformedURLException {
     File missingFile = new File("missing.txt");
-    assertFalse(missingFile.exists());
+    assertThat(missingFile.exists()).isFalse();
 
     thrown.expect(FilesException.class);
     URLs.contentOf(missingFile.toURI().toURL(), Charset.defaultCharset());
@@ -52,11 +51,11 @@ public class URLs_contentOf_Test {
   @Test
   public void should_load_resource_from_url_using_charset() {
     // NB: UTF-8 must be supported by every Java implementation
-    assertEquals(expectedContent, URLs.contentOf(sampleResourceURL, Charset.forName("UTF-8")));
+    assertThat(URLs.contentOf(sampleResourceURL, Charset.forName("UTF-8"))).isEqualTo(expectedContent);
   }
 
   @Test
   public void should_load_resource_from_url_using_charset_name() {
-    assertEquals(expectedContent, URLs.contentOf(sampleResourceURL, "UTF-8"));
+    assertThat(URLs.contentOf(sampleResourceURL, "UTF-8")).isEqualTo(expectedContent);
   }
 }
