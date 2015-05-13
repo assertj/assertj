@@ -32,7 +32,7 @@ public class URLs {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
     if (!Charset.isSupported(charsetName)) {
@@ -48,7 +48,7 @@ public class URLs {
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, Charset charset) {
     if (charset == null) {
@@ -57,7 +57,7 @@ public class URLs {
     try {
       return loadContents(url.openStream(), charset);
     } catch (IOException e) {
-      throw new FilesException("Unable to read " + url, e);
+      throw new RuntimeIOException("Unable to read " + url, e);
     }
   }
 
@@ -69,7 +69,7 @@ public class URLs {
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, Charset charset) {
     if (charset == null) {
@@ -78,7 +78,7 @@ public class URLs {
     try {
       return loadLines(url.openStream(), charset);
     } catch (IOException e) {
-      throw new FilesException("Unable to read " + url, e);
+      throw new RuntimeIOException("Unable to read " + url, e);
     }
   }
 
@@ -90,7 +90,7 @@ public class URLs {
    * @param charsetName the name of the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(URL url, String charsetName) {
     if (!Charset.isSupported(charsetName)) {

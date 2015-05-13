@@ -34,7 +34,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -100,8 +100,8 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
     when(diff.diff(actual, expected)).thenThrow(cause);
     try {
       files.assertSameContentAs(someInfo(), actual, expected);
-      fail("Expected a FilesException to be thrown");
-    } catch (FilesException e) {
+      fail("Expected a RuntimeIOException to be thrown");
+    } catch (RuntimeIOException e) {
       assertThat(e.getCause()).isSameAs(cause);
     }
   }

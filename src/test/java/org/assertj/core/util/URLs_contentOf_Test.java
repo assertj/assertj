@@ -44,7 +44,7 @@ public class URLs_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     URLs.contentOf(missingFile.toURI().toURL(), Charset.defaultCharset());
   }
 

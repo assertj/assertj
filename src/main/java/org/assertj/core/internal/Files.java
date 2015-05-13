@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 
 import java.io.File;
@@ -80,7 +80,7 @@ public class Files {
    * @throws IllegalArgumentException if {@code expected} is not an existing file.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the given files do not have same content.
    */
   public void assertSameContentAs(AssertionInfo info, File actual, File expected) {
@@ -92,7 +92,7 @@ public class Files {
       throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to compare contents of files:<%s> and:<%s>", actual, expected);
-      throw new FilesException(msg, e);
+      throw new RuntimeIOException(msg, e);
     }
   }
 
@@ -104,7 +104,7 @@ public class Files {
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the file does not have the binary content.
    */
   public void assertHasBinaryContent(AssertionInfo info, File actual, byte[] expected) {
@@ -116,7 +116,7 @@ public class Files {
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
       String msg = String.format("Unable to verify binary contents of file:<%s>", actual);
-      throw new FilesException(msg, e);
+      throw new RuntimeIOException(msg, e);
     }
   }
 
@@ -129,7 +129,7 @@ public class Files {
    * @throws NullPointerException if {@code expected} is {@code null}.
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if {@code actual} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the file does not have the text content.
    */
   public void assertHasContent(AssertionInfo info, File actual, String expected, Charset charset) {
@@ -141,7 +141,7 @@ public class Files {
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
       String msg = String.format("Unable to verify text contents of file:<%s>", actual);
-      throw new FilesException(msg, e);
+      throw new RuntimeIOException(msg, e);
     }
   }
 
@@ -265,7 +265,7 @@ public class Files {
    * @param actual the given file.
    * @param expected the expected parent {@code File}.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the given {@code File} is {@code null}.
    * @throws AssertionError if the given {@code File} does not have a parent.
    * @throws AssertionError if the given {@code File} parent is not equal to the expected one.
@@ -278,7 +278,7 @@ public class Files {
           && areEqual(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
-      throw new FilesException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+      throw new RuntimeIOException(String.format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
     }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }

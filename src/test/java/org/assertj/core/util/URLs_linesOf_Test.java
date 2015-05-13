@@ -47,7 +47,7 @@ public class URLs_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset());
   }
 

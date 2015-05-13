@@ -52,7 +52,7 @@ public class Files_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     Files.contentOf(missingFile, Charset.defaultCharset());
   }
 

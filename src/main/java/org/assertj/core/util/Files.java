@@ -85,12 +85,12 @@ public class Files {
    * Returns the system's temporary directory.
    * 
    * @return the system's temporary directory.
-   * @throws FilesException if this method cannot find or create the system's temporary directory.
+   * @throws RuntimeIOException if this method cannot find or create the system's temporary directory.
    */
   public static File temporaryFolder() {
     File temp = new File(temporaryFolderPath());
     if (!temp.isDirectory()) {
-      throw new FilesException("Unable to find temporary directory");
+      throw new RuntimeIOException("Unable to find temporary directory");
     }
     return temp;
   }
@@ -140,9 +140,9 @@ public class Files {
    * 
    * @param path the path of the new file.
    * @return the new created file.
-   * @throws FilesException if the path belongs to an existing non-empty directory.
-   * @throws FilesException if the path belongs to an existing file.
-   * @throws FilesException if any I/O error is thrown when creating the new file.
+   * @throws RuntimeIOException if the path belongs to an existing non-empty directory.
+   * @throws RuntimeIOException if the path belongs to an existing file.
+   * @throws RuntimeIOException if any I/O error is thrown when creating the new file.
    */
   public static File newFile(String path) {
     File file = createFileIfPathIsNotANonEmptyDirectory(path);
@@ -161,9 +161,9 @@ public class Files {
    * 
    * @param path the path of the new directory.
    * @return the new created directory.
-   * @throws FilesException if the path belongs to an existing non-empty directory.
-   * @throws FilesException if the path belongs to an existing file.
-   * @throws FilesException if any I/O error is thrown when creating the new directory.
+   * @throws RuntimeIOException if the path belongs to an existing non-empty directory.
+   * @throws RuntimeIOException if the path belongs to an existing file.
+   * @throws RuntimeIOException if any I/O error is thrown when creating the new directory.
    */
   public static File newFolder(String path) {
     File file = createFileIfPathIsNotANonEmptyDirectory(path);
@@ -185,36 +185,36 @@ public class Files {
     return file;
   }
 
-  private static FilesException cannotCreateNewFile(String path, String reason) {
+  private static RuntimeIOException cannotCreateNewFile(String path, String reason) {
     throw cannotCreateNewFile(path, reason, null);
   }
 
-  private static FilesException cannotCreateNewFile(String path, Exception cause) {
+  private static RuntimeIOException cannotCreateNewFile(String path, Exception cause) {
     throw cannotCreateNewFile(path, null, cause);
   }
 
-  private static FilesException cannotCreateNewFile(String path, String reason, Exception cause) {
+  private static RuntimeIOException cannotCreateNewFile(String path, String reason, Exception cause) {
     String message = String.format("Unable to create the new file %s", quote(path));
     if (!Strings.isNullOrEmpty(reason)) {
       message = concat(message, ": ", reason);
     }
     if (cause != null) {
-      throw new FilesException(message, cause);
+      throw new RuntimeIOException(message, cause);
     }
-    throw new FilesException(message);
+    throw new RuntimeIOException(message);
   }
 
   /**
    * Returns the current directory.
    * 
    * @return the current directory.
-   * @throws FilesException if the current directory cannot be obtained.
+   * @throws RuntimeIOException if the current directory cannot be obtained.
    */
   public static File currentFolder() {
     try {
       return new File(".").getCanonicalFile();
     } catch (IOException e) {
-      throw new FilesException("Unable to get current directory", e);
+      throw new RuntimeIOException("Unable to get current directory", e);
     }
   }
 
@@ -247,7 +247,7 @@ public class Files {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
     if (!Charset.isSupported(charsetName)) {
@@ -263,7 +263,7 @@ public class Files {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
     if (charset == null) {
@@ -272,7 +272,7 @@ public class Files {
     try {
       return loadContents(file, charset);
     } catch (IOException e) {
-      throw new FilesException("Unable to read " + file.getAbsolutePath(), e);
+      throw new RuntimeIOException("Unable to read " + file.getAbsolutePath(), e);
     }
   }
 
@@ -309,7 +309,7 @@ public class Files {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
     if (charset == null) {
@@ -318,7 +318,7 @@ public class Files {
     try {
       return loadLines(file, charset);
     } catch (IOException e) {
-      throw new FilesException("Unable to read " + file.getAbsolutePath(), e);
+      throw new RuntimeIOException("Unable to read " + file.getAbsolutePath(), e);
     }
   }
 
@@ -330,7 +330,7 @@ public class Files {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
     if (!Charset.isSupported(charsetName)) {
