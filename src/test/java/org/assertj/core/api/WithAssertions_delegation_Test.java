@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -669,4 +670,11 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThat(LocalDate.now()).isNotNull();
   }
 
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_offset_date_time_Test() {
+        assertThat(OffsetDateTime.now()).isNotNull();
+    }
 }

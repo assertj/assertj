@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.*;
@@ -132,9 +133,12 @@ public class AutoCloseableBDDSoftAssertionsTest {
     softly.then(OptionalLong.of(0L)).isEqualTo(1L);
     softly.then(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
     softly.then(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+    softly.then(OffsetDateTime.MIN).isEqualTo(OffsetDateTime.MAX);
+
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(44);
+	  assertThat(errors).hasSize(45);
+
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -208,6 +212,7 @@ public class AutoCloseableBDDSoftAssertionsTest {
 
     assertThat(errors.get(42)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
     assertThat(errors.get(43)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
+    assertThat(errors.get(44)).isEqualTo("expected:<[+999999999-12-31T23:59:59.999999999-]18:00> but was:<[-999999999-01-01T00:00+]18:00>");
 	  return;
 	}
 	fail("Should not reach here");

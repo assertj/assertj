@@ -20,9 +20,18 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
@@ -145,10 +154,12 @@ public class AutoCloseableSoftAssertionsTest {
 
     softly.assertThat(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13,0));
     softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
-    
+    softly.assertThat(OffsetDateTime.MIN).isEqualTo(OffsetDateTime.MAX);
+
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(48);
+	  assertThat(errors).hasSize(49);
+
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -230,6 +241,7 @@ public class AutoCloseableSoftAssertionsTest {
     assertThat(errors.get(46)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
     assertThat(errors.get(47)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
 
+    assertThat(errors.get(48)).isEqualTo("expected:<[+999999999-12-31T23:59:59.999999999-]18:00> but was:<[-999999999-01-01T00:00+]18:00>");
 	  return;
 	}
 	fail("Should not reach here");

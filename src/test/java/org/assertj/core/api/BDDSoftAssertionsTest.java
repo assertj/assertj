@@ -21,14 +21,16 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.time.LocalTime;
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
@@ -154,13 +156,16 @@ public class BDDSoftAssertionsTest {
 
     softly.then(LocalTime.of(12,0)).isEqualTo(LocalTime.of(13,0));
     softly.then(OffsetTime.of(12, 0,0,0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0,0,0, ZoneOffset.UTC));
+    softly.then(OffsetDateTime.MIN).isEqualTo(LocalDateTime.MAX);
 
 	  softly.assertAll();
+
 	  fail("Should not reach here");
 
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(46);
+	  assertThat(errors).hasSize(47);
+
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -238,6 +243,7 @@ public class BDDSoftAssertionsTest {
     assertThat(errors.get(43)).contains(String.format("%nExpecting port of"));
     assertThat(errors.get(44)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
     assertThat(errors.get(45)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
+    assertThat(errors.get(46)).isEqualTo("expected:<[+999999999-12-31T23:59:59.999999999]> but was:<[-999999999-01-01T00:00+18:00]>");
 	}
   }
 

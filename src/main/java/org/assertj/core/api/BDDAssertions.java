@@ -17,8 +17,12 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
-
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -374,7 +378,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static <T> AbstractListAssert<?, ? extends List<? extends T>, T> then(List<? extends T> actual) {
-	return assertThat(actual);
+    return new ListAssert<>(actual);
   }
 
   /**
@@ -615,6 +619,16 @@ public class BDDAssertions extends Assertions {
     return assertThat(actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractOffsetDateTimeAssert<?> then(OffsetDateTime actual) {
+        return assertThat(actual);
+    }
+  
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.
    */

@@ -12,14 +12,13 @@
  */
 package org.assertj.core.api;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import java.time.OffsetTime;
-import java.util.Optional;
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
+
+import java.time.OffsetTime;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link Assertions#assertThat(OffsetTime)}</code>.
@@ -28,22 +27,22 @@ import static org.junit.Assert.assertSame;
  */
 public class Assertions_assertThat_with_OffsetTime_Test {
 
-    private OffsetTime actual;
+  private OffsetTime actual;
 
-    @Before
-    public void before(){
-        actual = OffsetTime.now();
-    }
+  @Before
+  public void before() {
+    actual = OffsetTime.now();
+  }
 
-    @Test
-    public void should_create_Assert() {
-        OffsetTimeAssert assertions = Assertions.assertThat(actual);
-        assertNotNull(assertions);
-    }
+  @Test
+  public void should_create_Assert() {
+    OffsetTimeAssert assertions = Assertions.assertThat(actual);
+    assertNotNull(assertions);
+  }
 
-    @Test
-    public void should_pass_actual() {
-        OffsetTimeAssert assertions = Assertions.assertThat(actual);
-        assertSame(actual, assertions.actual);
-    }
+  @Test
+  public void should_pass_actual() {
+    OffsetTimeAssert assertions = Assertions.assertThat(actual);
+    assertSame(actual, assertions.actual);
+  }
 }

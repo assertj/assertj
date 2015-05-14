@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 
 /**
@@ -31,6 +32,17 @@ public class ShouldBeEqualIgnoringTimezone extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBeEqualIgnoringTimezone(OffsetTime actual, OffsetTime other) {
     return new ShouldBeEqualIgnoringTimezone(actual, other);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringTimezone}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param other the value used in the failed assertion to compare the actual value to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringTimezone(OffsetDateTime actual, OffsetDateTime other) {
+      return new ShouldBeEqualIgnoringTimezone(actual, other);
   }
 
   private ShouldBeEqualIgnoringTimezone(Object actual, Object other) {

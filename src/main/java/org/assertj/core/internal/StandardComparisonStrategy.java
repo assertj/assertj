@@ -69,21 +69,21 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     // define a comparator so that we can use areEqual to compare objects in Set collections
     // the "less than" comparison does not make much sense here but need to be defined.
     return new TreeSet<>(
-                               new Comparator<Object>() {
-                                 @Override
-                                 public int compare(Object o1, Object o2) {
-                                   if (areEqual(o1, o2)) return 0;
-                                   return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
-                                 }
-                               });
+                         new Comparator<Object>() {
+                           @Override
+                           public int compare(Object o1, Object o2) {
+                             if (areEqual(o1, o2)) return 0;
+                             return Objects.hashCodeFor(o1) < Objects.hashCodeFor(o2) ? -1 : 1;
+                           }
+                         });
   }
 
-    @Override
-    public String asText() {
-        return "";
-    }
+  @Override
+  public String asText() {
+    return "";
+  }
 
-    /**
+  /**
    * Returns true if actual and other are equal based on {@link Objects#areEqual(Object, Object)}, false otherwise.
    * 
    * @param actual the object to compare to other
@@ -135,7 +135,8 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   /**
-   * Returns any duplicate elements from the given collection according to {@link Objects#areEqual(Object, Object)} comparison
+   * Returns any duplicate elements from the given collection according to {@link Objects#areEqual(Object, Object)}
+   * comparison
    * strategy.
    * 
    * @param iterable the given {@link Iterable} we want to extract duplicate elements.
@@ -164,7 +165,6 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public boolean isGreaterThan(Object actual, Object other) {
     if (!(actual instanceof Comparable)) {
       throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
@@ -173,12 +173,11 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public boolean isLessThan(Object actual, Object other) {
-	if (!(actual instanceof Comparable)) {
-	  throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
-	}
-	return Comparable.class.cast(actual).compareTo(other) < 0;
+    if (!(actual instanceof Comparable)) {
+      throw new IllegalArgumentException(format("argument '%s' should be Comparable but is not", actual));
+    }
+    return Comparable.class.cast(actual).compareTo(other) < 0;
   }
 
   @Override
