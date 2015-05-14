@@ -584,7 +584,16 @@ public class BDDAssertions extends Assertions {
   public static AbstractOffsetTimeAssert<?> then(OffsetTime actual) {
         return assertThat(actual);
     }
-  
+
+  /**
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractOffsetDateTimeAssert<?> then(OffsetDateTime actual) {
+        return assertThat(actual);
+    }
 
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.

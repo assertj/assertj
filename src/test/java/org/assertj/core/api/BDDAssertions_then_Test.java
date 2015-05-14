@@ -542,13 +542,23 @@ public class BDDAssertions_then_Test {
 
   @Test
   public void then_of_OffsetTime_should_delegate_to_assertThat() {
-  // GIVEN
-  OffsetTime actual = OffsetTime.of(23, 59, 59,0, ZoneOffset.UTC);
-  // WHEN
-  then(actual);
-  // THEN
-  verifyStatic();
-  assertThat(actual);
+      // GIVEN
+      OffsetTime actual = OffsetTime.of(23, 59, 59, 0, ZoneOffset.UTC);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
+
+  public void then_of_OffsetDateTime_should_delegate_to_assertThat() {
+      // GIVEN
+      OffsetDateTime actual = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
   }
 
   public void should_build_ThrowableAssert_with_throwable_thrown() {

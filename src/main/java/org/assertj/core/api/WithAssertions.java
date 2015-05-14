@@ -12,21 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.time.*;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
@@ -35,6 +20,14 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.time.*;
+import java.util.*;
 
 /**
  *
@@ -592,6 +585,13 @@ public interface WithAssertions {
    */
   default public AbstractLocalDateAssert<?> assertThat(final LocalDate localDate) {
     return Assertions.assertThat(localDate);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(OffsetDateTime)}
+   */
+  default public AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
+      return Assertions.assertThat(offsetDateTime);
   }
 
   // --------------------------------------------------------------------------------------------------
