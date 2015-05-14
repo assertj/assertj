@@ -13,12 +13,20 @@
 package org.assertj.core.error;
 
 import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.time.ZonedDateTime;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
  * month, day, hour and minute failed.
- * 
+ *
+ * Creates an error message indicating that an assertion that verifies that :
+ * <ul>
+ * <li>two {@link ZonedDateTime}, {@link java.time.LocalDateTime} have same year, month, day, hour and minute failed.</li>
+ * <li>two {@link LocalTime} have same hour and minute failed.</li>
+ * <li>two {@link java.time.OffsetTime} have same hour and minute failed.</li>
+ * </ul>
+ *
  * @author Joel Costigliola
  */
 public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
@@ -50,7 +58,22 @@ public class ShouldBeEqualIgnoringSeconds extends BasicErrorMessageFactory {
 	return new ShouldBeEqualIgnoringSeconds(actual, other);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeEqualIgnoringSeconds}</code>.
+   *
+   * @param actual the actual OffsetTime in the failed assertion.
+   * @param other the OffsetTime used in the failed assertion to compare the actual OffsetTime to.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeEqualIgnoringSeconds(OffsetTime actual, OffsetTime other) {
+      return new ShouldBeEqualIgnoringSeconds(actual, other);
+  }
+
   private ShouldBeEqualIgnoringSeconds(LocalTime actual, LocalTime other) {
 	super("\nExpecting:\n  <%s>\nto have same hour and minute as:\n  <%s>\nbut had not.", actual, other);
+  }
+
+  private ShouldBeEqualIgnoringSeconds(OffsetTime actual, OffsetTime other) {
+      super("\nExpecting:\n  <%s>\nto have same hour and minute as:\n  <%s>\nbut had not.", actual, other);
   }
 }

@@ -12,19 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.nio.file.Path;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.util.*;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 public abstract class AbstractStandardSoftAssertions extends AbstractSoftAssertions {
 
@@ -550,5 +547,15 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   public LocalTimeAssert assertThat(LocalTime actual) {
     return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
-  
+
+
+  /**
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public OffsetTimeAssert assertThat(OffsetTime actual) {
+      return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
+  }
 }
