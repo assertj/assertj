@@ -153,7 +153,7 @@
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
           <!-- (2) Highlight Javascript file -->
           <top><![CDATA[
-            <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+            <script src="http://cdn.jsdelivr.net/highlight.js/8.6/highlight.min.js"></script>
           ]]></top>
           <!-- init Highlight -->
           <footer><![CDATA[
