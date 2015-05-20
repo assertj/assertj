@@ -63,7 +63,23 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S isNotNull();
 
   /**
-   * Verifies that the actual value is the same as the given one.
+   * Verifies that the actual value is the same as the given one, ie using == comparison.
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * Name tyrion = new Name("Tyrion", "Lannister");
+   * Name alias  = tyrion;
+   * Name clone  = new Name("Tyrion", "Lannister");
+   * 
+   * // assertions succeed:
+   * assertThat(tyrion).isSameAs(alias)
+   *                   .isEqualTo(clone);
+   *                      
+   * // assertion fails:
+   * assertThat(tyrion).isSameAs(clone);
+   * </code></pre>
    * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -72,7 +88,23 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S isSameAs(Object expected);
 
   /**
-   * Verifies that the actual value is not the same as the given one.
+   * Verifies that the actual value is not the same as the given one, ie using == comparison.
+   * <p>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * Name tyrion = new Name("Tyrion", "Lannister");
+   * Name alias  = tyrion;
+   * Name clone  = new Name("Tyrion", "Lannister");
+   * 
+   * // assertions succeed:
+   * assertThat(clone).isNotSameAs(tyrion)
+   *                  .isEqualTo(tyrion);
+   *                      
+   * // assertion fails:
+   * assertThat(alias).isNotSameAs(tyrion);
+   * </code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
