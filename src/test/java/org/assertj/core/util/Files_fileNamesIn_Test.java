@@ -15,7 +15,7 @@ package org.assertj.core.util;
 import static java.io.File.separator;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Strings.concat;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.rules.ExpectedException.none;
 
 import java.io.File;
@@ -68,9 +68,9 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
   private void assertThatContainsFiles(List<String> expectedFiles, List<String> actualFiles) {
     assertThereAreNoDuplicates(actualFiles);
     for (String fileName : actualFiles) {
-      assertTrue(expectedFiles.remove(pathNameFor(fileName)));
+      assertThat(expectedFiles.remove(pathNameFor(fileName))).isTrue();
     }
-    assertTrue(expectedFiles.isEmpty());
+    assertThat(expectedFiles.isEmpty()).isTrue();
   }
 
   private String pathNameFor(String fileName) {
@@ -82,6 +82,6 @@ public class Files_fileNamesIn_Test extends Files_TestCase {
       return;
     }
     HashSet<String> withoutDuplicates = new HashSet<>(actualFiles);
-    assertEquals(withoutDuplicates.size(), actualFiles.size());
+    assertThat(actualFiles.size()).isEqualTo(withoutDuplicates.size());
   }
 }

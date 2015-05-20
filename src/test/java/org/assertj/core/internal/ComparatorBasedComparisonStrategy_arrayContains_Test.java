@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Arrays.array;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.Test;
@@ -29,22 +29,22 @@ public class ComparatorBasedComparisonStrategy_arrayContains_Test extends Abstra
   @Test
   public void should_return_true_if_array_contains_value_according_to_comparison_strategy() {
     String[] hobbits = array("Merry", "Frodo", "Merry", "Sam");
-    assertTrue(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Sam"));
-    assertTrue(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "SAM"));
-    assertTrue(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Merry"));
-    assertTrue(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "MerRy"));
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Sam")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "SAM")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Merry")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "MerRy")).isTrue();
   }
 
   @Test
   public void should_return_false_if_array_does_not_contain_value_according_to_comparison_strategy() {
     String[] hobbits = array("Merry", "Frodo", "Merry", "Sam");
-    assertFalse(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Pippin"));
-    assertFalse(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Sam  "));
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Pippin")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(hobbits, "Sam  ")).isFalse();
   }
 
   @Test
   public void should_return_false_if_array_is_empty() {
-    assertFalse(caseInsensitiveComparisonStrategy.arrayContains(new String[] {}, "Pippin"));
+    assertThat(caseInsensitiveComparisonStrategy.arrayContains(new String[] {}, "Pippin")).isFalse();
   }
 
   @Test

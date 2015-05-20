@@ -12,8 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.Arrays;
 
@@ -29,18 +28,20 @@ public class Objects_namesOf_Test {
 
   @Test
   public void should_return_empty_array_if_type_array_is_null() {
-    assertEquals(Objects.namesOf((Class<?>[]) null).length, 0);
+    assertThat(0).isEqualTo(Objects.namesOf((Class<?>[]) null).length);
   }
 
   @Test
   public void should_return_empty_array_if_type_array_is_empty() {
-    assertEquals(Objects.namesOf(new Class<?>[0]).length, 0);
+    assertThat(0).isEqualTo(Objects.namesOf(new Class<?>[0]).length);
   }
 
   @Test
   public void should_return_class_names() {
     String[] e = { String.class.getName(), Integer.class.getName() };
     String[] a = Objects.namesOf(String.class, Integer.class);
-    assertTrue(format("expected:<%s> but got:<%s>", Arrays.toString(e), Arrays.toString(a)), Arrays.equals(e, a));
+    assertThat(Arrays.equals(e, a))
+        .as("expected:<%s> but got:<%s>", Arrays.toString(e), Arrays.toString(a))
+        .isTrue();
   }
 }

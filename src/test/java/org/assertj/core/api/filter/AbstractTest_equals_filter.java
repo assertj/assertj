@@ -13,13 +13,13 @@
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
+import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.api.filter.Filters.filter;
-
-import static org.junit.Assert.fail;
 
 import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.IntrospectionError;
-
 import org.junit.Test;
 
 
@@ -38,25 +38,34 @@ public abstract class AbstractTest_equals_filter extends AbstractTest_filter {
     assertThat(players).hasSize(4);
   }
 
+  @Test
+  public void should_filter_iterable_elements_with_field_equals_to_given_value() {
+    setAllowExtractingPrivateFields(true);
+    Iterable<Player> bullsPlayers = filterIterable(players, "highestScore", 50);
+    assertThat(bullsPlayers).containsOnly(rose, james);
+    // players is not modified
+    assertThat(players).hasSize(4);
+  }
+
   protected abstract Iterable<Player> filterIterable(Iterable<Player> players, String propertyName, Object propertyValue);
 
   @Test
   public void should_fail_if_property_to_filter_on_is_null() {
     try {
       filterIterable(players, null, 6000L);
-      fail("NullPointerException expected");
-    } catch (NullPointerException e) {
-      assertThat(e).hasMessage("The property name to filter on should not be null");
+      failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
+    } catch (IllegalArgumentException e) {
+      assertThat(e).hasMessage("The property/field name to filter on should not be null or empty");
     }
   }
 
   @Test
   public void should_fail_if_elements_to_filter_do_not_have_property_used_by_filter() {
     try {
-      filterIterable(players, "nickname", "dude");
+      filterIterable(players, "country", "France");
       fail("IntrospectionError expected");
     } catch (IntrospectionError e) {
-      assertThat(e).hasMessage("No getter for property 'nickname' in org.assertj.core.test.Player");
+      assertThat(e).hasMessageContaining("Can't find any field or property with name 'country'");
     }
   }
 

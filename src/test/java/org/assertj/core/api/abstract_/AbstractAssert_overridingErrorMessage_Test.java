@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -38,51 +37,51 @@ public class AbstractAssert_overridingErrorMessage_Test {
   }
 
   @Test
-  public void should_pass_with_error_message_overriden() {
+  public void should_pass_with_error_message_overridden() {
     assertions.overridingErrorMessage("new error message").isEqualTo(6L);
   }
 
   @Test
-  public void should_fail_with_overriden_error_message() {
+  public void should_fail_with_overridden_error_message() {
     try {
       assertions.overridingErrorMessage("new error message").isEqualTo(8L);
     } catch (AssertionError err) {
-      assertEquals("new error message", err.getMessage());
+      assertThat(err.getMessage()).isEqualTo("new error message");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_with_overriden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
+  public void should_fail_with_overridden_error_message_not_interpreted_with_string_format_feature_as_no_args_are_given() {
     try {
       assertions.overridingErrorMessage("new error message with special character like (%)").isEqualTo(8L);
     } catch (AssertionError err) {
-      assertEquals("new error message with special character like (%)", err.getMessage());
+      assertThat(err.getMessage()).isEqualTo("new error message with special character like (%)");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
   
   @Test
-  public void should_fail_with_overriden_error_message_interpreted_with_string_format_feature() {
+  public void should_fail_with_overridden_error_message_interpreted_with_string_format_feature() {
     try {
       long expected = 8L;
       assertions.overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
     } catch (AssertionError err) {
-      assertEquals("new error message, expected value was : '8'", err.getMessage());
+      assertThat(err.getMessage()).isEqualTo("new error message, expected value was : '8'");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_with_description_and_overriden_error_message_using_string_format_feature() {
+  public void should_fail_with_description_and_overridden_error_message_using_string_format_feature() {
     try {
       long expected = 8L;
       assertions.as("test").overridingErrorMessage("new error message, expected value was : '%s'", expected).isEqualTo(expected);
     } catch (AssertionError err) {
-      assertEquals("[test] new error message, expected value was : '8'", err.getMessage());
+      assertThat(err.getMessage()).isEqualTo("[test] new error message, expected value was : '8'");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -90,6 +89,6 @@ public class AbstractAssert_overridingErrorMessage_Test {
 
   @Test
   public void should_return_this() {
-    assertSame(assertions, assertions.overridingErrorMessage(""));
+    assertThat(assertions.overridingErrorMessage("")).isSameAs(assertions);
   }
 }

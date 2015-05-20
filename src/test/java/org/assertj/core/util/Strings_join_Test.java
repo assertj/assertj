@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -38,21 +38,21 @@ public class Strings_join_Test {
 
   @Test
   public void should_return_empty_String_if_array_to_join_is_null() {
-    assertEquals("", Strings.join((String[]) null).with("|"));
+    assertThat( Strings.join((String[]) null).with("|")).isEmpty();
   }
 
   @Test
   public void should_join_using_delimeter() {
-    assertEquals("Luke|Leia|Han", Strings.join("Luke", "Leia", "Han").with("|"));
+    assertThat(Strings.join("Luke", "Leia", "Han").with("|")).isEqualTo("Luke|Leia|Han");
   }
 
   @Test
   public void should_join_using_delimeter_and_escape() {
-    assertEquals("'Luke'|'Leia'|'Han'", Strings.join("Luke", "Leia", "Han").with("|", "'"));
+    assertThat(Strings.join("Luke", "Leia", "Han").with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 
   @Test
   public void should_join_using_iterable_delimeter_and_escape() {
-    assertEquals("'Luke'|'Leia'|'Han'", Strings.join(newArrayList("Luke", "Leia", "Han")).with("|", "'"));
+    assertThat(Strings.join(newArrayList("Luke", "Leia", "Han")).with("|", "'")).isEqualTo("'Luke'|'Leia'|'Han'");
   }
 }

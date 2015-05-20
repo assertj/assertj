@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
@@ -55,16 +55,16 @@ public class MapEntry_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(entry.equals("{'key', 'value'}"));
+    assertThat(entry.equals("{'key', 'value'}")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(entry.equals(null));
+    assertThat(entry.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_MapEntry_with_different_value() {
-    assertFalse(entry.equals(entry("key0", "value0")));
+    assertThat(entry.equals(entry("key0", "value0"))).isFalse();
   }
 }

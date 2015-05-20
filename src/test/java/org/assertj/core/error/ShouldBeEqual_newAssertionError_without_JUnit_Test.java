@@ -67,7 +67,7 @@ public class ShouldBeEqual_newAssertionError_without_JUnit_Test {
     createComparisonFailure(verify(constructorInvoker));
     assertThat(error).isNotInstanceOf(ComparisonFailure.class);
     assertThat(error.getMessage())
-        .isEqualTo("[Jedi] \nExpecting:\n <\"Luke\">\nto be equal to:\n <\"Yoda\">\nbut was not.");
+        .isEqualTo(String.format("[Jedi] %nExpecting:%n <\"Luke\">%nto be equal to:%n <\"Yoda\">%nbut was not."));
   }
 
   private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {

@@ -26,9 +26,9 @@ class FakeFile extends File {
     this.absolutePath = absolutePath;
   }
 
-  // ToStringOf uses absolute path instead of toString
   @Override
   public String getAbsolutePath() {
+    // ToStringOf uses absolute path instead of toString
     return absolutePath;
   }
 }

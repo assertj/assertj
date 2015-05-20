@@ -25,7 +25,6 @@ import org.assertj.core.api.ClassAssertBaseTest;
  */
 public class ClassAssert_hasAnnotations_Test extends ClassAssertBaseTest {
 
-  @SuppressWarnings("unchecked")
   @Override
   protected ClassAssert invoke_api_method() {
     return assertions.hasAnnotations(MyAnnotation.class, AnotherAnnotation.class);

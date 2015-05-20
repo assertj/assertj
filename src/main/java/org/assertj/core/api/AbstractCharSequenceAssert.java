@@ -167,6 +167,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * assertThat(multiLine).hasLineCount(2);
    * </code></pre>
    * Whereas this assertion will fail:
+   * 
    * <pre><code class='java'>
    * String bookName = &quot;A Clash of Kings&quot;;
    * assertThat(bookName).hasLineCount(3);
@@ -216,6 +217,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *           in the array.
    * @throws NullPointerException if the given array is {@code null}.
    */
+  @Override
   public S hasSameSizeAs(Object other) {
     strings.assertHasSameSizeAs(info, actual, other);
     return myself;
@@ -259,6 +261,34 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S isEqualToIgnoringCase(CharSequence expected) {
     strings.assertEqualsIgnoringCase(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains only digits. It fails if String contains non-digit
+   * characters or is empty.
+   * <p>
+   * This assertion succeeds:
+   *
+   * <pre><code class='java'>
+   * assertThat("10").containsOnlyDigits();
+   * </code></pre>
+   *
+   * Whereas these assertions fail:
+   *
+   * <pre><code class='java'>
+   * assertThat("10$").containsOnlyDigits();
+   * assertThat("").containsOnlyDigits();
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   */
+  public S containsOnlyDigits() {
+    strings.assertContainsOnlyDigits(info, actual);
     return myself;
   }
 
@@ -419,6 +449,32 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} does not start with the given prefix.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;fro&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWith(&quot;grey&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWith(&quot;Gandalf&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;&quot;);
+   * </code></pre>
+   *
+   * @param prefix the given prefix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given prefix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix.
+   */
+  public S doesNotStartWith(CharSequence prefix) {
+    strings.assertDoesNotStartWith(info, actual, prefix);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
    * <p>
    * Example :
@@ -441,6 +497,31 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S endsWith(CharSequence suffix) {
     strings.assertEndsWith(info, actual, suffix);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not end with the given suffix.
+   * <p/>
+   * Example:
+   * 
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;Fro&quot;);
+   *
+   * // assertions will fail
+   * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;do&quot;);
+   * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;&quot;);
+   * </code></pre>
+   *
+   * @param suffix the given suffix.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given suffix is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix.
+   */
+  public S doesNotEndWith(CharSequence suffix) {
+    strings.assertDoesNotEndWith(info, actual, suffix);
     return myself;
   }
 
@@ -612,7 +693,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * </p>
    *
    * <pre><code class='java'>
-   * // You can easily compare your XML String to the content of an XML file, whatever how formatted thay are.
+   * // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
    * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
    * </code></pre>
@@ -708,4 +789,38 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
     return myself;
   }
 
+  /**
+   * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring whitespace differences
+   * (mostly).<br/>
+   * To be exact, the following whitespace rules are applied:
+   * <ul>
+   * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>
+   * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
+   * </ul>
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat(&quot;my      foo bar&quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot;  my foo bar  &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my     foo bar &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foo bar&quot;);
+   * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
+   *
+   * // assertion will fail
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foobar&quot;);
+   * </code></pre>
+   *
+   * </p>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given
+   *           one.
+   */
+  public S isEqualToIgnoringWhitespace(CharSequence expected) {
+    strings.assertEqualsIgnoringWhitespace(info, actual, expected);
+    return myself;
+  }
 }

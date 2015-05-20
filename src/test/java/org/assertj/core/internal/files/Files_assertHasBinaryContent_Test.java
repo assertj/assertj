@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
@@ -94,7 +94,7 @@ public class Files_assertHasBinaryContent_Test extends FilesBaseTest {
       files.assertHasBinaryContent(someInfo(), actual, expected);
       fail("Expected a FilesException to be thrown");
     } catch (FilesException e) {
-      assertSame(cause, e.getCause());
+      assertThat(e.getCause()).isSameAs(cause);
     }
   }
 

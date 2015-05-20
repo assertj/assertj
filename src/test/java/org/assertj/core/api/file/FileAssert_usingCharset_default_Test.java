@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.file;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.Charset;
 
@@ -35,6 +35,6 @@ public class FileAssert_usingCharset_default_Test extends FileAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertEquals(getCharset(assertions), Charset.defaultCharset());
+    assertThat(Charset.defaultCharset()).isEqualTo(getCharset(assertions));
   }
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.util.Arrays.array;
 
@@ -35,9 +35,9 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "A"),
         new CaseInsensitiveStringComparator());
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \ngroup is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"A\">\ngroup was:\n <[\"b\", \"c\", \"A\"]>",
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %ngroup is not sorted according to 'CaseInsensitiveStringComparator' comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"A\">%ngroup was:%n <[\"b\", \"c\", \"A\"]>"
+    ));
   }
 
   @Test
@@ -45,9 +45,9 @@ public class ShouldBeSortedAccordingToComparator_create_Test {
     ErrorMessageFactory factory = shouldBeSortedAccordingToGivenComparator(1, array("b", "c", "a"),
         new StaticStringComparator());
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \ngroup is not sorted according to 'StaticStringComparator' comparator because element 1:\n <\"c\">\nis not less or equal than element 2:\n <\"a\">\ngroup was:\n <[\"b\", \"c\", \"a\"]>",
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %ngroup is not sorted according to 'StaticStringComparator' comparator because element 1:%n <\"c\">%nis not less or equal than element 2:%n <\"a\">%ngroup was:%n <[\"b\", \"c\", \"a\"]>"
+    ));
   }
 
   private static class StaticStringComparator implements Comparator<String> {

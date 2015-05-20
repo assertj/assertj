@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 
 
@@ -38,6 +38,8 @@ public class ShouldNotHaveSameClass_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to have not the same class as:\n <\"Luke\"> (java.lang.String)", message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nnot to have not the same class as:%n <\"Luke\"> (java.lang.String)"
+    ));
   }
 }

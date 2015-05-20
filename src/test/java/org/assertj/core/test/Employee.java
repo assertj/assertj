@@ -28,6 +28,9 @@ public class Employee {
   public Name surname;
   // keep private to test we are able to read property that is not a public field
   private int age;
+  // keep private to test we are able to read private field without property
+  @SuppressWarnings("unused")
+  private String city = "New York";
 
   public Employee() {}
 
@@ -56,6 +59,12 @@ public class Employee {
   // pure property not backed by a field
   public boolean isAdult() {
     return age > 18;
+  }
+  
+  // testing nested combinations of field/property
+  public Employee field;
+  public Employee getMe(){
+    return this;
   }
 
   @Override

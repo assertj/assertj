@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.awt.Rectangle;
 
@@ -30,9 +30,9 @@ public class StandardComparisonStrategy_isLessThan_Test extends AbstractTest_Sta
   public void should_pass() {
     Employee boss = new Employee(10000, 35);
     Employee young = new Employee(10000, 25);
-    assertTrue(standardComparisonStrategy.isLessThan(young, boss));
-    assertFalse(standardComparisonStrategy.isLessThan(boss, young));
-    assertFalse(standardComparisonStrategy.isLessThan(boss, boss));
+    assertThat(standardComparisonStrategy.isLessThan(young, boss)).isTrue();
+    assertThat(standardComparisonStrategy.isLessThan(boss, young)).isFalse();
+    assertThat(standardComparisonStrategy.isLessThan(boss, boss)).isFalse();
   }
 
   @Test

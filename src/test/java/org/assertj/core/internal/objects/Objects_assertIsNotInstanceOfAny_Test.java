@@ -14,10 +14,9 @@ package org.assertj.core.internal.objects;
 
 import static org.assertj.core.error.ShouldNotBeInstanceOfAny.shouldNotBeInstanceOfAny;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -83,7 +82,7 @@ public class Objects_assertIsNotInstanceOfAny_Test extends ObjectsBaseTest {
     Class<?>[] types = { String.class, Person.class };
     try {
       objects.assertIsNotInstanceOfAny(info, actual, types);
-      fail();
+      failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError err) {}
     verify(failures).failure(info, shouldNotBeInstanceOfAny(actual, types));
   }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.date;
 
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.api.DateAssert;
@@ -56,11 +56,11 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   @Test
   public void should_return_this() {
     DateAssert returned = assertionInvocationWithOneIntArg();
-    assertSame(assertions, returned);
+    assertThat(returned).isSameAs(assertions);
   }
 
   /**
-   * Must be overriden to invoke the {@link DateAssert} assertion method under test with the {@link #intArg} attribute.
+   * Must be overridden to invoke the {@link DateAssert} assertion method under test with the {@link #intArg} attribute.
    * <p>
    * example with <code>isWithinMonth</code> date assertion:<br>
    * <code>assertions.isWithinMonth(5);</code>
@@ -70,7 +70,7 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   protected abstract DateAssert assertionInvocationWithOneIntArg();
 
   /**
-   * Must be overriden to verify that the {@link Dates} assertion method was invoked with the {@link #intArg} attribute.
+   * Must be overridden to verify that the {@link Dates} assertion method was invoked with the {@link #intArg} attribute.
    * <p>
    * example with <code>isWithinMonth</code> date assertion:<br>
    * <code>verify(dates).isWithinMonth(getInfo(assertions), getActual(assertions), intArg);</code>

@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -34,7 +33,8 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-	assertNotNull(Assertions.assertThat(newLinkedHashSet()));
+	AbstractIterableAssert<?, ? extends Iterable<? extends Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
+	assertThat(assertions).isNotNull();
   }
 
   @Test

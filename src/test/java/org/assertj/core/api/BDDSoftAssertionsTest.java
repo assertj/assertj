@@ -13,13 +13,19 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
-import java.util.*;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.MapEntry;
@@ -45,7 +51,7 @@ public class BDDSoftAssertionsTest {
   }
 
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
 	try {
 	  softly.then(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -80,7 +86,7 @@ public class BDDSoftAssertionsTest {
 	  softly.then(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
 	  softly.then(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-		    .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+		    .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
 	  softly.then(new Integer(20)).isEqualTo(new Integer(21));
 	  softly.then(22).isEqualTo(23);
@@ -137,17 +143,17 @@ public class BDDSoftAssertionsTest {
 
 	  }).hasMessage("something was good");
 
-    softly.then(Optional.of("not empty")).isEqualTo("empty");
-    softly.then(OptionalInt.of(0)).isEqualTo(1);
-    softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
-    softly.then(OptionalLong.of(0L)).isEqualTo(1L);
-
+      softly.then(Optional.of("not empty")).isEqualTo("empty");
+      softly.then(OptionalInt.of(0)).isEqualTo(1);
+      softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
+      softly.then(OptionalLong.of(0L)).isEqualTo(1L);
+      softly.then(new URI("http://assertj.org")).hasPort(8888);
 	  softly.assertAll();
 	  fail("Should not reach here");
 
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(43);
+	  assertThat(errors).hasSize(44);
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -178,21 +184,21 @@ public class BDDSoftAssertionsTest {
 	  assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
 	  assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-	  assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
+	  assertThat(errors.get(20)).isEqualTo(String.format("%nInputStreams do not have same content:"
 		                                   + System.getProperty("line.separator")
-		                                   + "line:<1>, expected:<B> but was:<A>");
+		                                   + "line:<1>, expected:<B> but was:<A>"));
 
 	  assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
 	  assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
 	  assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
 	  assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
-	  assertThat(errors.get(25)).isEqualTo("\nExpecting:\n" +
-		                                   " <[\"28\"]>\n" +
-		                                   "to contain:\n" +
-		                                   " <[\"29\"]>\n" +
-		                                   "but could not find:\n" +
-		                                   " <[\"29\"]>\n");
+	  assertThat(errors.get(25)).isEqualTo(String.format("%nExpecting:%n" +
+		                                   " <[\"28\"]>%n" +
+		                                   "to contain:%n" +
+		                                   " <[\"29\"]>%n" +
+		                                   "but could not find:%n" +
+		                                   " <[\"29\"]>%n"));
 	  assertThat(errors.get(26)).isEqualTo("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
 	  assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
@@ -209,19 +215,20 @@ public class BDDSoftAssertionsTest {
 
 	  assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
 	  assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
-	  assertThat(errors.get(37)).isEqualTo("\nExpecting message:\n"
-		                                   + " <\"NullPointerException message\">\n"
-		                                   + "but was:\n"
-		                                   + " <\"IllegalArgumentException message\">");
-	  assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
-		                                   + " <\"something was good\">\n"
-		                                   + "but was:\n"
-		                                   + " <\"something was wrong\">");
+	  assertThat(errors.get(37)).isEqualTo(String.format("%nExpecting message:%n"
+		                                   + " <\"NullPointerException message\">%n"
+		                                   + "but was:%n"
+		                                   + " <\"IllegalArgumentException message\">"));
+	  assertThat(errors.get(38)).isEqualTo(String.format("%nExpecting message:%n"
+		                                   + " <\"something was good\">%n"
+		                                   + "but was:%n"
+		                                   + " <\"something was wrong\">"));
 
     assertThat(errors.get(39)).isEqualTo("expected:<[\"empty\"]> but was:<[Optional[not empty]]>");
     assertThat(errors.get(40)).isEqualTo("expected:<[1]> but was:<[OptionalInt[0]]>");
     assertThat(errors.get(41)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
     assertThat(errors.get(42)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
+    assertThat(errors.get(43)).contains(String.format("%nExpecting port of"));
 	}
   }
 

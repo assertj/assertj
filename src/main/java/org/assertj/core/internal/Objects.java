@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
+import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.error.ShouldNotBeExactlyInstanceOf.shouldNotBeExactlyInstance;
 import static org.assertj.core.error.ShouldNotBeIn.shouldNotBeIn;
@@ -48,6 +49,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -73,27 +75,27 @@ public class Objects {
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Objects instance() {
-	return INSTANCE;
+    return INSTANCE;
   }
 
   @VisibleForTesting
   Objects() {
-	this(StandardComparisonStrategy.instance());
+    this(StandardComparisonStrategy.instance());
   }
 
   public Objects(ComparisonStrategy comparisonStrategy) {
-	this.comparisonStrategy = comparisonStrategy;
+    this.comparisonStrategy = comparisonStrategy;
   }
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-	return comparisonStrategy instanceof ComparatorBasedComparisonStrategy ?
-	    ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator() : null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy ?
+        ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator() : null;
   }
 
   @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
-	return comparisonStrategy;
+    return comparisonStrategy;
   }
 
   /**
@@ -107,7 +109,7 @@ public class Objects {
    * @throws AssertionError if the given object is not an instance of the given type.
    */
   public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-	if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
+    if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
   /**
@@ -123,23 +125,23 @@ public class Objects {
    * @throws AssertionError if the given object is not an instance of any of the given types.
    */
   public void assertIsInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-	if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
-	throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
+    if (objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
+    throw failures.failure(info, shouldBeInstanceOfAny(actual, types));
   }
 
   private boolean objectIsInstanceOfOneOfGivenClasses(Object actual, Class<?>[] types, AssertionInfo info) {
-	checkIsNotNullAndIsNotEmpty(types);
-	assertNotNull(info, actual);
-	for (Class<?> type : types) {
-	  if (type == null) {
-		String format = "The given array of types:<%s> should not have null elements";
-		throw new NullPointerException(format(format, info.representation().toStringOf(types)));
-	  }
-	  if (type.isInstance(actual)) {
-		return true;
-	  }
-	}
-	return false;
+    checkIsNotNullAndIsNotEmpty(types);
+    assertNotNull(info, actual);
+    for (Class<?> type : types) {
+      if (type == null) {
+        String format = "The given array of types:<%s> should not have null elements";
+        throw new NullPointerException(format(format, info.representation().toStringOf(types)));
+      }
+      if (type.isInstance(actual)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -153,13 +155,13 @@ public class Objects {
    * @throws AssertionError if the given object is an instance of the given type.
    */
   public void assertIsNotInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-	if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
+    if (isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldNotBeInstance(actual, type));
   }
 
   private boolean isInstanceOfClass(Object actual, Class<?> clazz, AssertionInfo info) {
-	assertNotNull(info, actual);
-	checkTypeIsNotNull(clazz);
-	return clazz.isInstance(actual);
+    assertNotNull(info, actual);
+    checkTypeIsNotNull(clazz);
+    return clazz.isInstance(actual);
   }
 
   /**
@@ -175,8 +177,8 @@ public class Objects {
    * @throws AssertionError if the given object is an instance of any of the given types.
    */
   public void assertIsNotInstanceOfAny(AssertionInfo info, Object actual, Class<?>[] types) {
-	if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
-	throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
+    if (!objectIsInstanceOfOneOfGivenClasses(actual, types, info)) return;
+    throw failures.failure(info, shouldNotBeInstanceOfAny(actual, types));
   }
 
   /**
@@ -189,17 +191,17 @@ public class Objects {
    * @throws NullPointerException if the given object is null.
    */
   public void assertHasSameClassAs(AssertionInfo info, Object actual, Object other) {
-	if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
+    if (!haveSameClass(actual, other, info)) throw failures.failure(info, shouldHaveSameClass(actual, other));
   }
 
   private boolean haveSameClass(Object actual, Object other, AssertionInfo info) {
-	assertNotNull(info, actual);
-	if (other == null) {
-	  throw new NullPointerException("The given object should not be null");
-	}
-	Class<?> actualClass = actual.getClass();
-	Class<?> otherClass = other.getClass();
-	return actualClass.equals(otherClass);
+    assertNotNull(info, actual);
+    if (other == null) {
+      throw new NullPointerException("The given object should not be null");
+    }
+    Class<?> actualClass = actual.getClass();
+    Class<?> otherClass = other.getClass();
+    return actualClass.equals(otherClass);
   }
 
   /**
@@ -213,7 +215,7 @@ public class Objects {
    * @throws NullPointerException if the given object is null.
    */
   public void assertDoesNotHaveSameClassAs(AssertionInfo info, Object actual, Object other) {
-	if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
+    if (haveSameClass(actual, other, info)) throw failures.failure(info, shouldNotHaveSameClass(actual, other));
   }
 
   /**
@@ -227,14 +229,14 @@ public class Objects {
    * @throws NullPointerException if the given object is null.
    */
   public void assertIsExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-	if (!actualIsExactlyInstanceOfType(actual, type, info))
-	  throw failures.failure(info, shouldBeExactlyInstance(actual, type));
+    if (!actualIsExactlyInstanceOfType(actual, type, info))
+      throw failures.failure(info, shouldBeExactlyInstance(actual, type));
   }
 
   private boolean actualIsExactlyInstanceOfType(Object actual, Class<?> expectedType, AssertionInfo info) {
-	assertNotNull(info, actual);
-	checkTypeIsNotNull(expectedType);
-	return expectedType.equals(actual.getClass());
+    assertNotNull(info, actual);
+    checkTypeIsNotNull(expectedType);
+    return expectedType.equals(actual.getClass());
   }
 
   /**
@@ -248,8 +250,8 @@ public class Objects {
    * @throws NullPointerException if the given object is null.
    */
   public void assertIsNotExactlyInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
-	if (actualIsExactlyInstanceOfType(actual, type, info))
-	  throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
+    if (actualIsExactlyInstanceOfType(actual, type, info))
+      throw failures.failure(info, shouldNotBeExactlyInstance(actual, type));
   }
 
   /**
@@ -263,14 +265,14 @@ public class Objects {
    * @throws NullPointerException if the given types is null.
    */
   public void assertIsOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
-	boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
-	if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
+    boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
+    if (!itemInArray) throw failures.failure(info, shouldBeOfClassIn(actual, types));
   }
 
   private boolean isOfOneOfGivenTypes(Object actual, Class<?>[] types, AssertionInfo info) {
-	assertNotNull(info, actual);
-	if (types == null) throw new NullPointerException("The given types should not be null");
-	return isItemInArray(actual.getClass(), types);
+    assertNotNull(info, actual);
+    if (types == null) throw new NullPointerException("The given types should not be null");
+    return isItemInArray(actual.getClass(), types);
   }
 
   /**
@@ -284,17 +286,17 @@ public class Objects {
    * @throws NullPointerException if the given types is null.
    */
   public void assertIsNotOfAnyClassIn(AssertionInfo info, Object actual, Class<?>[] types) {
-	boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
-	if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
+    boolean itemInArray = isOfOneOfGivenTypes(actual, types, info);
+    if (itemInArray) throw failures.failure(info, shouldNotBeOfClassIn(actual, types));
   }
 
   private void checkIsNotNullAndIsNotEmpty(Class<?>[] types) {
-	if (types == null) {
-	  throw new NullPointerException("The given array of types should not be null");
-	}
-	if (types.length == 0) {
-	  throw new IllegalArgumentException("The given array of types should not be empty");
-	}
+    if (types == null) {
+      throw new NullPointerException("The given array of types should not be null");
+    }
+    if (types.length == 0) {
+      throw new IllegalArgumentException("The given array of types should not be empty");
+    }
   }
 
   /**
@@ -308,10 +310,10 @@ public class Objects {
    *           equal.
    */
   public void assertEqual(AssertionInfo info, Object actual, Object expected) {
-	if (areEqual(actual, expected)) {
-	  return;
-	}
-	throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
+    if (areEqual(actual, expected)) {
+      return;
+    }
+    throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -323,10 +325,10 @@ public class Objects {
    * @throws AssertionError if {@code actual} is equal to {@code other}.
    */
   public void assertNotEqual(AssertionInfo info, Object actual, Object other) {
-	if (!areEqual(actual, other)) {
-	  return;
-	}
-	throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
+    if (!areEqual(actual, other)) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeEqual(actual, other, comparisonStrategy));
   }
 
   /**
@@ -337,7 +339,7 @@ public class Objects {
    * @return true if actual and other are equal (null safe equals check), false otherwise.
    */
   private boolean areEqual(Object actual, Object other) {
-	return comparisonStrategy.areEqual(actual, other);
+    return comparisonStrategy.areEqual(actual, other);
   }
 
   /**
@@ -348,10 +350,10 @@ public class Objects {
    * @throws AssertionError if the given object is not {@code null}.
    */
   public void assertNull(AssertionInfo info, Object actual) {
-	if (actual == null) {
-	  return;
-	}
-	throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+    if (actual == null) {
+      return;
+    }
+    throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   /**
@@ -362,10 +364,10 @@ public class Objects {
    * @throws AssertionError if the given object is {@code null}.
    */
   public void assertNotNull(AssertionInfo info, Object actual) {
-	if (actual != null) {
-	  return;
-	}
-	throw failures.failure(info, shouldNotBeNull());
+    if (actual != null) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeNull());
   }
 
   /**
@@ -377,10 +379,10 @@ public class Objects {
    * @throws AssertionError if the given objects do not refer to the same object.
    */
   public void assertSame(AssertionInfo info, Object actual, Object expected) {
-	if (actual == expected) {
-	  return;
-	}
-	throw failures.failure(info, shouldBeSame(actual, expected));
+    if (actual == expected) {
+      return;
+    }
+    throw failures.failure(info, shouldBeSame(actual, expected));
   }
 
   /**
@@ -392,10 +394,16 @@ public class Objects {
    * @throws AssertionError if the given objects refer to the same object.
    */
   public void assertNotSame(AssertionInfo info, Object actual, Object other) {
-	if (actual != other) {
-	  return;
-	}
-	throw failures.failure(info, shouldNotBeSame(actual));
+    if (actual != other) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeSame(actual));
+  }
+
+  public void assertHasToString(AssertionInfo info, Object actual, String expectedToString) {
+    assertNotNull(info, actual);
+    if (!actual.toString().equals(expectedToString))
+      throw failures.failure(info, shouldHaveToString(actual, expectedToString));
   }
 
   /**
@@ -409,12 +417,12 @@ public class Objects {
    * @throws AssertionError if the given object is not present in the given array.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Object[] values) {
-	checkIsNotNullAndNotEmpty(values);
-	assertNotNull(info, actual);
-	if (isItemInArray(actual, values)) {
-	  return;
-	}
-	throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (isItemInArray(actual, values)) {
+      return;
+    }
+    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -428,21 +436,21 @@ public class Objects {
    * @throws AssertionError if the given object is present in the given array.
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Object[] values) {
-	checkIsNotNullAndNotEmpty(values);
-	assertNotNull(info, actual);
-	if (!isItemInArray(actual, values)) {
-	  return;
-	}
-	throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (!isItemInArray(actual, values)) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Object[] values) {
-	if (values == null) {
-	  throw new NullPointerException("The given array should not be null");
-	}
-	if (values.length == 0) {
-	  throw new IllegalArgumentException("The given array should not be empty");
-	}
+    if (values == null) {
+      throw new NullPointerException("The given array should not be null");
+    }
+    if (values.length == 0) {
+      throw new IllegalArgumentException("The given array should not be empty");
+    }
   }
 
   /**
@@ -453,10 +461,10 @@ public class Objects {
    * @return <code>true</code> if given item is in given array, <code>false</code> otherwise.
    */
   private boolean isItemInArray(Object item, Object[] arrayOfValues) {
-	for (Object value : arrayOfValues) {
-	  if (areEqual(value, item)) return true;
-	}
-	return false;
+    for (Object value : arrayOfValues) {
+      if (areEqual(value, item)) return true;
+    }
+    return false;
   }
 
   /**
@@ -470,12 +478,12 @@ public class Objects {
    * @throws AssertionError if the given object is not present in the given collection.
    */
   public void assertIsIn(AssertionInfo info, Object actual, Iterable<?> values) {
-	checkIsNotNullAndNotEmpty(values);
-	assertNotNull(info, actual);
-	if (isActualIn(actual, values)) {
-	  return;
-	}
-	throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (isActualIn(actual, values)) {
+      return;
+    }
+    throw failures.failure(info, shouldBeIn(actual, values, comparisonStrategy));
   }
 
   /**
@@ -489,30 +497,30 @@ public class Objects {
    * @throws AssertionError if the given object is present in the given collection.
    */
   public void assertIsNotIn(AssertionInfo info, Object actual, Iterable<?> values) {
-	checkIsNotNullAndNotEmpty(values);
-	assertNotNull(info, actual);
-	if (!isActualIn(actual, values)) {
-	  return;
-	}
-	throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
+    checkIsNotNullAndNotEmpty(values);
+    assertNotNull(info, actual);
+    if (!isActualIn(actual, values)) {
+      return;
+    }
+    throw failures.failure(info, shouldNotBeIn(actual, values, comparisonStrategy));
   }
 
   private void checkIsNotNullAndNotEmpty(Iterable<?> values) {
-	if (values == null) {
-	  throw new NullPointerException("The given iterable should not be null");
-	}
-	if (!values.iterator().hasNext()) {
-	  throw new IllegalArgumentException("The given iterable should not be empty");
-	}
+    if (values == null) {
+      throw new NullPointerException("The given iterable should not be null");
+    }
+    if (!values.iterator().hasNext()) {
+      throw new IllegalArgumentException("The given iterable should not be empty");
+    }
   }
 
   private boolean isActualIn(Object actual, Iterable<?> values) {
-	for (Object value : values) {
-	  if (areEqual(value, actual)) {
-		return true;
-	  }
-	}
-	return false;
+    for (Object value : values) {
+      if (areEqual(value, actual)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -528,32 +536,32 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public <A> void assertIsLenientEqualsToIgnoringNullFields(AssertionInfo info, A actual, A other) {
-	assertNotNull(info, actual);
-	assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-	List<String> fieldsNames = new LinkedList<>();
-	List<Object> rejectedValues = new LinkedList<>();
-	List<Object> expectedValues = new LinkedList<>();
-	List<String> nullFields = new LinkedList<>();
-	for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
-	  try {
-		Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
-		if (otherFieldValue == null) {
-		  nullFields.add(field.getName());
-		} else {
-		  Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
-		  if (!otherFieldValue.equals(actualFieldValue)) {
-			fieldsNames.add(field.getName());
-			rejectedValues.add(actualFieldValue);
-			expectedValues.add(otherFieldValue);
-		  }
-		}
-	  } catch (IntrospectionError e) {
-		// Not readable field, skip.
-	  }
-	}
-	if (!fieldsNames.isEmpty())
-	  throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames,
-	                                                                  rejectedValues, expectedValues, nullFields));
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
+    List<String> fieldsNames = new LinkedList<>();
+    List<Object> rejectedValues = new LinkedList<>();
+    List<Object> expectedValues = new LinkedList<>();
+    List<String> nullFields = new LinkedList<>();
+    for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
+      try {
+        Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+        if (otherFieldValue == null) {
+          nullFields.add(field.getName());
+        } else {
+          Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
+          if (!otherFieldValue.equals(actualFieldValue)) {
+            fieldsNames.add(field.getName());
+            rejectedValues.add(actualFieldValue);
+            expectedValues.add(otherFieldValue);
+          }
+        }
+      } catch (IntrospectionError e) {
+        // Not readable field, skip.
+      }
+    }
+    if (!fieldsNames.isEmpty())
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, fieldsNames,
+                                                                      rejectedValues, expectedValues, nullFields));
   }
 
   /**
@@ -570,30 +578,30 @@ public class Objects {
    * @throws IntrospectionError if a field does not exist in actual.
    */
   public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
-	assertNotNull(info, actual);
-	assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-	ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
-	if (byFieldsComparison.isFieldsNamesNotEmpty())
-	  throw failures.failure(info, shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames,
-	                                                                     byFieldsComparison.rejectedValues,
-	                                                                     byFieldsComparison.expectedValues,
-	                                                                     newArrayList(fields)));
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
+    ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
+    if (byFieldsComparison.isFieldsNamesNotEmpty())
+      throw failures.failure(info, shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames,
+                                                                         byFieldsComparison.rejectedValues,
+                                                                         byFieldsComparison.expectedValues,
+                                                                         newArrayList(fields)));
   }
 
   private <A> ByFieldsComparison isEqualToComparingOnlyGivenFields(A actual, A other, String[] fields) {
-	List<String> rejectedFieldsNames = new LinkedList<>();
-	List<Object> expectedValues = new LinkedList<>();
-	List<Object> rejectedValues = new LinkedList<>();
-	for (String fieldName : fields) {
-	  Object actualFieldValue = getFieldOrPropertyValue(actual, fieldName);
-	  Object otherFieldValue = getFieldOrPropertyValue(other, fieldName);
-	  if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-		rejectedFieldsNames.add(fieldName);
-		expectedValues.add(otherFieldValue);
-		rejectedValues.add(actualFieldValue);
-	  }
-	}
-	return new ByFieldsComparison(rejectedFieldsNames, expectedValues, rejectedValues);
+    List<String> rejectedFieldsNames = new LinkedList<>();
+    List<Object> expectedValues = new LinkedList<>();
+    List<Object> rejectedValues = new LinkedList<>();
+    for (String fieldName : fields) {
+      Object actualFieldValue = getFieldOrPropertyValue(actual, fieldName);
+      Object otherFieldValue = getFieldOrPropertyValue(other, fieldName);
+      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+        rejectedFieldsNames.add(fieldName);
+        expectedValues.add(otherFieldValue);
+        rejectedValues.add(actualFieldValue);
+      }
+    }
+    return new ByFieldsComparison(rejectedFieldsNames, expectedValues, rejectedValues);
   }
 
   /**
@@ -610,52 +618,52 @@ public class Objects {
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
-	assertNotNull(info, actual);
-	assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
-	ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
-	if (byFieldsComparison.isFieldsNamesNotEmpty())
-	  throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames,
-	                                                                  byFieldsComparison.rejectedValues,
-	                                                                  byFieldsComparison.expectedValues,
-	                                                                  newArrayList(fields)));
+    assertNotNull(info, actual);
+    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
+    ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
+    if (byFieldsComparison.isFieldsNamesNotEmpty())
+      throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames,
+                                                                      byFieldsComparison.rejectedValues,
+                                                                      byFieldsComparison.expectedValues,
+                                                                      newArrayList(fields)));
   }
 
   private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] givenIgnoredFields) {
-	Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
-	verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, givenIgnoredFields);
-	List<String> fieldsNames = new LinkedList<>();
-	List<Object> expectedValues = new LinkedList<>();
-	List<Object> rejectedValues = new LinkedList<>();
-	Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
-	for (Field field : declaredFieldsIncludingInherited) {
-	  // ignore private field if user has decided not to use them in comparison
-	  if (ignoredFields.contains(field.getName()) || !canReadFieldValue(field, actual)) {
-		continue;
-	  }
-	  Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
-	  Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
-	  if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
-		fieldsNames.add(field.getName());
-		rejectedValues.add(actualFieldValue);
-		expectedValues.add(otherFieldValue);
-	  }
-	}
-	return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
+    Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
+    verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, givenIgnoredFields);
+    List<String> fieldsNames = new LinkedList<>();
+    List<Object> expectedValues = new LinkedList<>();
+    List<Object> rejectedValues = new LinkedList<>();
+    Set<String> ignoredFields = newLinkedHashSet(givenIgnoredFields);
+    for (Field field : declaredFieldsIncludingInherited) {
+      // ignore private field if user has decided not to use them in comparison
+      if (ignoredFields.contains(field.getName()) || !canReadFieldValue(field, actual)) {
+        continue;
+      }
+      Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
+      Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+      if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
+        fieldsNames.add(field.getName());
+        rejectedValues.add(actualFieldValue);
+        expectedValues.add(otherFieldValue);
+      }
+    }
+    return new ByFieldsComparison(fieldsNames, expectedValues, rejectedValues);
   }
 
   private <A> boolean canReadFieldValue(Field field, A actual) {
-	return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
+    return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
   }
 
   private <A> void verifyIgnoredFieldsExist(A actual, Set<Field> declaredFields, String[] ignoredFields) {
-	Set<String> ignoredFieldsNotDefined = newLinkedHashSet(ignoredFields);
-	for (Field f : declaredFields) {
-	  ignoredFieldsNotDefined.remove(f.getName());
-	}
-	if (!ignoredFieldsNotDefined.isEmpty()) {
-	  throw new IllegalArgumentException(format("Fields to ignore <%s> not defined for type <%s>",
-		                                        ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
-	}
+    Set<String> ignoredFieldsNotDefined = newLinkedHashSet(ignoredFields);
+    for (Field f : declaredFields) {
+      ignoredFieldsNotDefined.remove(f.getName());
+    }
+    if (!ignoredFieldsNotDefined.isEmpty()) {
+      throw new IllegalArgumentException(format("Fields to ignore <%s> not defined for type <%s>",
+                                                ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
+    }
   }
 
   /**
@@ -670,19 +678,20 @@ public class Objects {
    * @throws IntrospectionError is field value can't get retrieved.
    */
   private <A> Object getFieldOrPropertyValue(A a, String fieldName) {
-	try {
-	  return fieldSupport.fieldValue(fieldName, Object.class, a);
-	} catch (IntrospectionError e) {
-	  try {
-		// field is not accessible, let's try to get its value from its getter if any.
-		return propertySupport.propertyValueOf(fieldName, Object.class, a);
-	  } catch (IntrospectionError e2) {
-		// this time, we really fail
-		String msg = format("Unable to obtain the value of <'%s'> field/property from <%s>, expecting a public field or getter",
-		                    fieldName, a);
-		throw new IntrospectionError(msg);
-	  }
-	}
+    // TODO use PropertyOrFieldSupport but the order is not the same
+    try {
+      return fieldSupport.fieldValue(fieldName, Object.class, a);
+    } catch (IntrospectionError e) {
+      try {
+        // field is not accessible, let's try to get its value from its getter if any.
+        return propertySupport.propertyValueOf(fieldName, Object.class, a);
+      } catch (IntrospectionError e2) {
+        // this time, we really fail
+        String msg = format("Unable to obtain the value of <'%s'> field/property from <%s>, expecting a public field or getter",
+                            fieldName, a);
+        throw new IntrospectionError(msg);
+      }
+    }
   }
 
   /**
@@ -693,15 +702,15 @@ public class Objects {
    * @return the declared fields of given class and its superclasses.
    */
   private static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
-	if (clazz == null) throw new NullPointerException("expecting Class parameter not to be null");
-	Set<Field> declaredFields = newLinkedHashSet(clazz.getDeclaredFields());
-	// get fields declared in superclass
-	Class<?> superclazz = clazz.getSuperclass();
-	while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
-	  declaredFields.addAll(newLinkedHashSet(superclazz.getDeclaredFields()));
-	  superclazz = superclazz.getSuperclass();
-	}
-	return declaredFields;
+    if (clazz == null) throw new NullPointerException("expecting Class parameter not to be null");
+    Set<Field> declaredFields = newLinkedHashSet(clazz.getDeclaredFields());
+    // get fields declared in superclass
+    Class<?> superclazz = clazz.getSuperclass();
+    while (superclazz != null && !superclazz.getName().startsWith("java.lang")) {
+      declaredFields.addAll(newLinkedHashSet(superclazz.getDeclaredFields()));
+      superclazz = superclazz.getSuperclass();
+    }
+    return declaredFields;
   }
 
   /**
@@ -715,45 +724,46 @@ public class Objects {
    * @throws AssertionError if other is not an instance of the given type.
    */
   private void assertOtherTypeIsCompatibleWithActualClass(AssertionInfo info, Object other, Class<?> clazz) {
-	if (other == null) throw failures.failure(info, shouldBeInstanceButWasNull("other", clazz));
-	isInstanceOf(other, clazz, info);
+    if (other == null) throw failures.failure(info, shouldBeInstanceButWasNull("other", clazz));
+    isInstanceOf(other, clazz, info);
   }
 
   private void isInstanceOf(Object object, Class<?> clazz, AssertionInfo info) {
-	if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
+    if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other, String... fields) {
-	return isEqualToIgnoringGivenFields(actual, other, fields).isFieldsNamesEmpty();
+    return isEqualToIgnoringGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
   public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other, String... fields) {
-	return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
+    return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
   public static class ByFieldsComparison {
 
-	private final List<String> fieldsNames;
-	private final List<Object> expectedValues;
-	private final List<Object> rejectedValues;
+    private final List<String> fieldsNames;
+    private final List<Object> expectedValues;
+    private final List<Object> rejectedValues;
 
-	public ByFieldsComparison(final List<String> fieldsNames, final List<Object> expectedValues,
-	                          final List<Object> rejectedValues) {
-	  this.fieldsNames = fieldsNames;
-	  this.expectedValues = expectedValues;
-	  this.rejectedValues = rejectedValues;
-	}
+    public ByFieldsComparison(final List<String> fieldsNames,
+                              final List<Object> expectedValues,
+                              final List<Object> rejectedValues) {
+      this.fieldsNames = fieldsNames;
+      this.expectedValues = expectedValues;
+      this.rejectedValues = rejectedValues;
+    }
 
-	public ByFieldsComparison() {
-	  this(new ArrayList<String>(), new ArrayList<>(), new ArrayList<>());
-	}
+    public ByFieldsComparison() {
+      this(new ArrayList<String>(), new ArrayList<>(), new ArrayList<>());
+    }
 
-	public boolean isFieldsNamesEmpty() {
-	  return fieldsNames.isEmpty();
-	}
+    public boolean isFieldsNamesEmpty() {
+      return fieldsNames.isEmpty();
+    }
 
-	public boolean isFieldsNamesNotEmpty() {
-	  return !isFieldsNamesEmpty();
-	}
+    public boolean isFieldsNamesNotEmpty() {
+      return !isFieldsNamesEmpty();
+    }
   }
 }

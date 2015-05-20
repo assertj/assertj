@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.junit.Test;
 
@@ -24,16 +24,16 @@ import org.junit.Test;
 public class Arrays_isNullOrEmpty_Test {
   @Test
   public void should_return_true_if_array_is_empty() {
-    assertTrue(Arrays.isNullOrEmpty(new String[0]));
+    assertThat(Arrays.isNullOrEmpty(new String[0])).isTrue();
   }
 
   @Test
   public void should_return_true_if_array_is_null() {
-    assertTrue(Arrays.isNullOrEmpty(null));
+    assertThat(Arrays.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_array_has_elements() {
-    assertFalse(Arrays.isNullOrEmpty(new String[] { "Tuzi" }));
+    assertThat(Arrays.isNullOrEmpty(new String[] { "Tuzi" })).isFalse();
   }
 }

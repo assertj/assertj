@@ -12,6 +12,8 @@
  */
 package org.assertj.core.test;
 
+import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +31,14 @@ public class CartoonCharacter {
 
   public List<CartoonCharacter> getChildren() {
     return children;
+  }
+
+  public CartoonCharacter[] getChildrenArray() {
+    return children.toArray(new CartoonCharacter[0]);
+  }
+
+  public void addChildren(CartoonCharacter... kids) {
+    children.addAll(asList(kids));
   }
 
   @Override

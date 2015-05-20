@@ -40,7 +40,7 @@ order of the "expected" and "actual" values. Our assertions are very readable as
 English, making it easier for non-technical people to read test code.
 A lot of effort have been done to provide intuitive error messages showing as clearly as possible what the problem is.
 
-Note that AssertJ requires at least Java 6.
+Note that AssertJ 2.x requires at least Java 7 and AssertJ 3.x requires at least Java 8.
 
 AssertJ core javadoc is published [here](http://joel-costigliola.github.io/assertj/core/api/index.html).
 

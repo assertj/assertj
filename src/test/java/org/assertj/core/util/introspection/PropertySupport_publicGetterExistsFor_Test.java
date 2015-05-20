@@ -14,7 +14,6 @@ package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.Person;
 import org.junit.Before;
 import org.junit.Test;

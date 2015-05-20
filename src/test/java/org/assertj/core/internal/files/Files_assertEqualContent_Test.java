@@ -12,11 +12,10 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertSame;
-import static junit.framework.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
-import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.assertj.core.util.FilesException;
@@ -40,7 +40,7 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Files#assertEqualContent(AssertionInfo, File, File)}</code>.
+ * Tests for <code>{@link Files#assertSameContentAs(AssertionInfo, File, File)}</code>.
  * 
  * @author Yvonne Wang
  * @author Joel Costigliola
@@ -59,20 +59,20 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
   @Test
   public void should_throw_error_if_expected_is_null() {
     thrown.expectNullPointerException("The file to compare to should not be null");
-    files.assertEqualContent(someInfo(), actual, null);
+    files.assertSameContentAs(someInfo(), actual, null);
   }
 
   @Test
   public void should_throw_error_if_expected_is_not_file() {
     thrown.expectIllegalArgumentException("Expected file:<'xyz'> should be an existing file");
     File notAFile = new File("xyz");
-    files.assertEqualContent(someInfo(), actual, notAFile);
+    files.assertSameContentAs(someInfo(), actual, notAFile);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    files.assertEqualContent(someInfo(), null, expected);
+    files.assertSameContentAs(someInfo(), null, expected);
   }
 
   @Test
@@ -80,7 +80,7 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
     AssertionInfo info = someInfo();
     File notAFile = new File("xyz");
     try {
-      files.assertEqualContent(info, notAFile, expected);
+      files.assertSameContentAs(info, notAFile, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info, shouldBeFile(notAFile));
       return;
@@ -91,7 +91,7 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
   @Test
   public void should_pass_if_files_have_equal_content() throws IOException {
     when(diff.diff(actual, expected)).thenReturn(new ArrayList<String>());
-    files.assertEqualContent(someInfo(), actual, expected);
+    files.assertSameContentAs(someInfo(), actual, expected);
   }
 
   @Test
@@ -99,10 +99,10 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected)).thenThrow(cause);
     try {
-      files.assertEqualContent(someInfo(), actual, expected);
+      files.assertSameContentAs(someInfo(), actual, expected);
       fail("Expected a FilesException to be thrown");
     } catch (FilesException e) {
-      assertSame(cause, e.getCause());
+      assertThat(e.getCause()).isSameAs(cause);
     }
   }
 
@@ -112,9 +112,9 @@ public class Files_assertEqualContent_Test extends FilesBaseTest {
     when(diff.diff(actual, expected)).thenReturn(diffs);
     AssertionInfo info = someInfo();
     try {
-      files.assertEqualContent(info, actual, expected);
+      files.assertSameContentAs(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldHaveEqualContent(actual, expected, diffs));
+      verify(failures).failure(info, ShouldHaveSameContent.shouldHaveSameContent(actual, expected, diffs));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

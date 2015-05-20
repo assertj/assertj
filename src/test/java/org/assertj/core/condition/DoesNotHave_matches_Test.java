@@ -12,8 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.DoesNotHave.doesNotHave;
 
 import org.assertj.core.api.Condition;
@@ -41,13 +40,13 @@ public class DoesNotHave_matches_Test {
   @Test
   public void should_match_if_Condition_not_match() {
     condition.shouldMatch(false);
-    assertTrue(doesNotHave.matches("Yoda"));
+    assertThat(doesNotHave.matches("Yoda")).isTrue();
   }
 
   @Test
   public void should_not_match_Conditions_match() {
     condition.shouldMatch(true);
-    assertFalse(doesNotHave.matches("Yoda"));
+    assertThat(doesNotHave.matches("Yoda")).isFalse();
   }
 
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
 
 import org.assertj.core.description.*;
@@ -36,6 +36,6 @@ public class ShouldNotMatchPattern_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n \"Yoda\"\nnot to match pattern:\n \"Luke\"", message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n \"Yoda\"%nnot to match pattern:%n \"Luke\""));
   }
 }

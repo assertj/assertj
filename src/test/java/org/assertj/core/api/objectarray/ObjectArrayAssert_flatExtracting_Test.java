@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.objectarray;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -48,13 +48,11 @@ public class ObjectArrayAssert_flatExtracting_Test {
     maggie = new CartoonCharacter("Maggie Simpson");
 
     homer = new CartoonCharacter("Homer Simpson");
-    homer.getChildren().add(bart);
-    homer.getChildren().add(lisa);
-    homer.getChildren().add(maggie);
+    homer.addChildren(bart, lisa, maggie);
 
     pebbles = new CartoonCharacter("Pebbles Flintstone");
     fred = new CartoonCharacter("Fred Flintstone");
-    fred.getChildren().add(pebbles);
+    fred.addChildren(pebbles);
   }
 
   @Test

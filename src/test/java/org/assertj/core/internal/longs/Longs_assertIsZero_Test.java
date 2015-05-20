@@ -14,7 +14,7 @@ package org.assertj.core.internal.longs;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
@@ -40,7 +40,7 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
     try {
       longs.assertIsZero(someInfo(), 2l);
     } catch (AssertionError e) {
-      assertEquals("expected:<[0]L> but was:<[2]L>", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("expected:<[0]L> but was:<[2]L>");
     }
   }
 
@@ -54,7 +54,7 @@ public class Longs_assertIsZero_Test extends LongsBaseTest {
     try {
       longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0L);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0L>\nnot to be equal to:\n <0L>\n");
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0L>%nnot to be equal to:%n <0L>%n"));
 
     }
   }

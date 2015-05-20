@@ -25,6 +25,9 @@ public class Player {
   private int assistsPerGame;
   private int reboundsPerGame;
   private String team;
+  // used to test private field access
+  @SuppressWarnings("unused")
+  private int highestScore;
 
   public Player() {}
 
@@ -71,6 +74,10 @@ public class Player {
 
   public void setTeam(String team) {
     this.team = team;
+  }
+
+  public void setHighestScore(int highestScore) {
+    this.highestScore = highestScore;
   }
 
   @Override

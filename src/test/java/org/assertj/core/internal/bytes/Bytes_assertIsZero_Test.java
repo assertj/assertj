@@ -15,7 +15,7 @@ package org.assertj.core.internal.bytes;
 import static org.assertj.core.test.TestData.someHexInfo;
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -47,7 +47,7 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
     try {
       bytes.assertIsZero(someInfo(), (byte) 2);
     } catch (AssertionError e) {
-      assertEquals("expected:<[0]> but was:<[2]>", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[2]>");
     }
   }
 
@@ -56,7 +56,7 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
     try {
       bytes.assertIsZero(someHexInfo(), (byte) 0x02);
     } catch (AssertionError e) {
-      assertEquals("expected:<0x0[0]> but was:<0x0[2]>", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("expected:<0x0[0]> but was:<0x0[2]>");
     }
   }
 
@@ -75,7 +75,7 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (byte) 1);
     } catch (AssertionError e) {
-      assertEquals("expected:<[0]> but was:<[1]>", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
     }
   }
 
@@ -84,7 +84,7 @@ public class Bytes_assertIsZero_Test extends BytesBaseTest {
     try {
       bytesWithAbsValueComparisonStrategy.assertIsZero(someHexInfo(), (byte) 0x01);
     } catch (AssertionError e) {
-      assertEquals("expected:<0x0[0]> but was:<0x0[1]>", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("expected:<0x0[0]> but was:<0x0[1]>");
     }
   }
 

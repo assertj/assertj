@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.LinkedHashSet;
 
@@ -29,18 +29,18 @@ public class Sets_newLinkedHashSet_GenericArray_Test {
   public void should_return_Set_containing_all_elements_in_array() {
     String[] expected = { "One", "Two" };
     LinkedHashSet<String> set = Sets.newLinkedHashSet(expected);
-    assertArrayEquals(expected, set.toArray());
+    assertThat(set.toArray()).isEqualTo(expected);
   }
 
   @Test
   public void should_return_null_if_array_is_null() {
     Object[] elements = null;
-    assertNull(Sets.newLinkedHashSet(elements));
+    assertThat(Sets.newLinkedHashSet(elements)).isNull();
   }
 
   @Test
   public void should_return_empty_Set_if_array_is_empty() {
     LinkedHashSet<Object> set = Sets.newLinkedHashSet(new Object[0]);
-    assertTrue(set.isEmpty());
+    assertThat(set.isEmpty()).isTrue();
   }
 }

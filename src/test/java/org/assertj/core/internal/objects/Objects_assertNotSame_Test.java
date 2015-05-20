@@ -15,19 +15,16 @@ package org.assertj.core.internal.objects;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.test.Person;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Objects#assertNotSame(AssertionInfo, Object, Object)}</code>.
+ * Tests for <code>{@link Objects#assertThat(Object).isNotSameAs(AssertionInfo, Object)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

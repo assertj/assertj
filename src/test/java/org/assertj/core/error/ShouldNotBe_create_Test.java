@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.api.TestCondition;
@@ -38,6 +38,6 @@ public class ShouldNotBe_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nnot to be <Sith>", message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n <\"Yoda\">%nnot to be <Sith>"));
   }
 }

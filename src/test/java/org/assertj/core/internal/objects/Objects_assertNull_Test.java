@@ -15,18 +15,15 @@ package org.assertj.core.internal.objects;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Objects#assertNull(AssertionInfo, Object)}</code>.
+ * Tests for <code>{@link Objects#assertThat(AssertionInfo, Object).isNull()}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola

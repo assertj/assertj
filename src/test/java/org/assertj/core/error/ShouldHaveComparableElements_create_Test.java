@@ -12,8 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveMutuallyComparableElements;
 
 import org.assertj.core.internal.TestDescription;
@@ -37,7 +36,7 @@ public class ShouldHaveComparableElements_create_Test {
 
   @Test
   public void should_create_error_message() {
-    assertEquals("[Test] \nsome elements are not mutually comparable in group:\n<[\"b\", 5, \"a\"]>",
-        factory.create(new TestDescription("Test"), new StandardRepresentation()));
+    assertThat(factory.create(new TestDescription("Test"), new StandardRepresentation()))
+        .isEqualTo(String.format("[Test] %nsome elements are not mutually comparable in group:%n<[\"b\", 5, \"a\"]>"));
   }
 }

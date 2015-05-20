@@ -31,6 +31,7 @@ import java.util.List;
 public enum FieldSupport {
 
   EXTRACTION(true),
+  EXTRACTION_OF_PUBLIC_FIELD_ONLY(false),
   COMPARISON(true);
 
   private static final String SEPARATOR = ".";

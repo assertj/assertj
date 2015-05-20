@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static org.assertj.core.error.ElementsShouldHave.elementsShouldHave;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.TestCondition;
 import org.assertj.core.description.Description;
@@ -42,7 +42,9 @@ public class ElementsShouldHave_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting elements:\n<[\"Leia\"]>\n of \n<[\"Yoda\", \"Luke\", \"Leia\"]>\n to have <jedi power>", message);
+    assertThat(message).isEqualTo(String.format(
+            "[Test] %nExpecting elements:%n<[\"Leia\"]>%n of %n<[\"Yoda\", \"Luke\", \"Leia\"]>%n to have <jedi power>"
+    ));
   }
 
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 import org.assertj.core.api.CharSequenceAssert;
@@ -41,7 +41,7 @@ public class CharSequenceAssert_usingDefaultComparator_Test extends CharSequence
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getStrings(assertions), Strings.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Strings.instance()).isSameAs(getStrings(assertions));
   }
 }

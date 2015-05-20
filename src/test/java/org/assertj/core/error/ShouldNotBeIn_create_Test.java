@@ -43,11 +43,11 @@ public class ShouldNotBeIn_create_Test {
   @Test
   public void should_create_error_message() {
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + " <\"Luke\">\n"
-	                              + "not to be in:\n"
-	                              + " <[\"Luke\", \"Leia\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + " <\"Luke\">%n"
+	                              + "not to be in:%n"
+	                              + " <[\"Luke\", \"Leia\"]>%n"));
   }
 
   @Test
@@ -55,11 +55,11 @@ public class ShouldNotBeIn_create_Test {
 	factory = shouldNotBeIn("Luke", array("Luke", "Leia"),
 	                        new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + " <\"Luke\">\n"
-	                              + "not to be in:\n"
-	                              + " <[\"Luke\", \"Leia\"]>\n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + " <\"Luke\">%n"
+	                              + "not to be in:%n"
+	                              + " <[\"Luke\", \"Leia\"]>%n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

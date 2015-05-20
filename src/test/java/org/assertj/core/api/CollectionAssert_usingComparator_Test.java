@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -44,15 +44,15 @@ public class CollectionAssert_usingComparator_Test {
   @Test
   public void using_default_comparator_test() {
     assertions.usingDefaultComparator();
-    assertSame(assertions.objects, Objects.instance());
-    assertSame(assertions.bytes, Bytes.instance());
+    assertThat(Objects.instance()).isSameAs(assertions.objects);
+    assertThat(Bytes.instance()).isSameAs(assertions.bytes);
   }
 
   @Test
   public void using_custom_comparator_test() {
     // in that test, the comparator type is not important, we only check that we correctly switch of comparator
     assertions.usingComparator(comparator);
-    assertSame(assertions.objects.getComparator(), comparator);
-    assertSame(assertions.bytes.getComparator(), comparator);
+    assertThat(comparator).isSameAs(assertions.objects.getComparator());
+    assertThat(comparator).isSameAs(assertions.bytes.getComparator());
   }
 }

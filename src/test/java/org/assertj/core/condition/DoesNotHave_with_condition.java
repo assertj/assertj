@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.DoesNotHave.doesNotHave;
 
 import org.assertj.core.api.Condition;
@@ -31,9 +31,9 @@ public class DoesNotHave_with_condition {
   public void should_create_new_doesNotHave_with_passed_Condition() {
     TestCondition<Object> condition = new TestCondition<>();
     Condition<Object> created = doesNotHave(condition);
-    assertEquals(DoesNotHave.class, created.getClass());
+    assertThat(created.getClass()).isEqualTo(DoesNotHave.class);
     DoesNotHave<Object> doesNotHave = (DoesNotHave<Object>) created;
-    assertEquals(condition, doesNotHave.condition);
+    assertThat(doesNotHave.condition).isEqualTo(condition);
   }
 
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
@@ -60,9 +60,9 @@ public class Diff_diff_File_String_Test {
   public void should_return_empty_diff_list_if_file_and_string_have_equal_content() throws IOException {
     String[] content = array("line0", "line1");
     writer.write(actual, content);
-    String expected = "line0\nline1";
+    String expected = String.format("line0%nline1");
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
-    assertEquals(0, diffs.size());
+    assertThat(diffs).isEmpty();
   }
 
   @Test
@@ -70,18 +70,18 @@ public class Diff_diff_File_String_Test {
     writer.write(actual, UTF8, "Touché");
     String expected = "Touché";
     List<String> diffs = diff.diff(actual, expected, ISO_8859_1);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<1>, expected:<Touché> but was:<TouchÃ©>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<Touché> but was:<TouchÃ©>");
   }
 
   @Test
   public void should_return_diffs_if_content_of_actual_is_shorter_than_content_of_expected() throws IOException {
     writer.write(actual, "line_0");
-    String expected = "line_0\nline_1";
+    String expected = String.format("line_0%nline_1");
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
     System.out.println(diffs);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<2>, expected:<line_1> but was:<EOF>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
   }
 
   @Test
@@ -89,7 +89,7 @@ public class Diff_diff_File_String_Test {
     writer.write(actual, "line_0", "line_1");
     String expected = "line_0";
     List<String> diffs = diff.diff(actual, expected, Charset.defaultCharset());
-    assertEquals(1, diffs.size());
-    assertEquals("line:<2>, expected:<EOF> but was:<line_1>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
   }
 }

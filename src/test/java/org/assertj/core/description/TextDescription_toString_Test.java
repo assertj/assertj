@@ -12,7 +12,7 @@
  */
 package org.assertj.core.description;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.description.TextDescription;
 import org.junit.Test;
@@ -28,12 +28,12 @@ public class TextDescription_toString_Test {
   @Test
   public void should_return_value() {
     TextDescription description = new TextDescription("Flash");
-    assertEquals(description.value, description.toString());
+    assertThat(description.toString()).isEqualTo(description.value);
   }
 
   @Test
   public void should_return_formatted_value() {
     TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
-    assertEquals("Flash MacQueen {}", description.toString());
+    assertThat(description.toString()).isEqualTo("Flash MacQueen {}");
   }
 }

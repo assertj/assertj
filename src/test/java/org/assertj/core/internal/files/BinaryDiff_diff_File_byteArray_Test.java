@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +63,7 @@ public class BinaryDiff_diff_File_byteArray_Test {
     // Note: writer inserts a new line after each line so we need it in our expected content
     expected = ("test" + LINE_SEPARATOR).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertTrue(result.hasNoDiff());
+    assertThat(result.hasNoDiff()).isTrue();
   }
 
   @Test
@@ -72,9 +71,9 @@ public class BinaryDiff_diff_File_byteArray_Test {
     writer.write(actual, "test");
     expected = ("fest" + LINE_SEPARATOR).getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(0, result.offset);
-    assertEquals("0x74", result.actual);
-    assertEquals("0x66", result.expected);
+    assertThat(result.offset).isEqualTo(0);
+    assertThat(result.actual).isEqualTo("0x74");
+    assertThat(result.expected).isEqualTo("0x66");
   }
 
   @Test
@@ -82,9 +81,9 @@ public class BinaryDiff_diff_File_byteArray_Test {
     writer.write(actual, "foo");
     expected = ("foo" + LINE_SEPARATOR + "bar").getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(3 + LINE_SEPARATOR.length(), result.offset);
-    assertEquals("EOF", result.actual);
-    assertEquals("0x62", result.expected);
+    assertThat(result.offset).isEqualTo(3 + LINE_SEPARATOR.length());
+    assertThat(result.actual).isEqualTo("EOF");
+    assertThat(result.expected).isEqualTo("0x62");
   }
 
   @Test
@@ -92,8 +91,8 @@ public class BinaryDiff_diff_File_byteArray_Test {
     writer.write(actual, "foobar");
     expected = "foo".getBytes();
     BinaryDiffResult result = binaryDiff.diff(actual, expected);
-    assertEquals(3, result.offset);
-    assertEquals("0x62", result.actual);
-    assertEquals("EOF", result.expected);
+    assertThat(result.offset).isEqualTo(3);
+    assertThat(result.actual).isEqualTo("0x62");
+    assertThat(result.expected).isEqualTo("EOF");
   }
 }

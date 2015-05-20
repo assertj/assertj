@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.dayOfWeekOf;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.text.*;
@@ -37,7 +37,7 @@ public class Dates_dayOfWeekOf_Test {
   public void should_return_day_of_month_of_date() throws ParseException {
     String dateAsString = "26/08/1994";
     Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
-    assertEquals(Calendar.FRIDAY, dayOfWeekOf(date));
+    assertThat(dayOfWeekOf(date)).isEqualTo(Calendar.FRIDAY);
   }
 
   @Test

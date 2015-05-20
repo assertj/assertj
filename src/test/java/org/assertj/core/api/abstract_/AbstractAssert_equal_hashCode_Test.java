@@ -13,7 +13,7 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 
 import org.assertj.core.api.AbstractAssert;
@@ -43,7 +43,7 @@ public class AbstractAssert_equal_hashCode_Test {
 
   @Test
   public void shouldReturnOneAsHashCode() {
-    assertEquals(1, assertions.hashCode());
+    assertThat(assertions.hashCode()).isEqualTo(1);
   }
 
 }

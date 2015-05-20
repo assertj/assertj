@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.condition.AllOf.allOf;
 
 import org.assertj.core.api.Condition;
@@ -40,6 +40,6 @@ public class AllOf_toString_Test {
   @Test
   public void should_implement_toString_showing_descriptions_of_inner_Conditions() {
     String expected = "all of:<[Condition 1, Condition 2]>";
-    assertEquals(expected, allOf.toString());
+    assertThat(allOf.toString()).isEqualTo(expected);
   }
 }

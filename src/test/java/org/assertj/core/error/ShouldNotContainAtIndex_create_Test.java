@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
 import static org.assertj.core.util.Lists.*;
@@ -42,7 +42,9 @@ public class ShouldNotContainAtIndex_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\nat index <1>\n", message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%nat index <1>%n"
+    ));
   }
 
   @Test
@@ -50,7 +52,8 @@ public class ShouldNotContainAtIndex_create_Test {
     factory = shouldNotContainAtIndex(newArrayList("Yoda", "Luke"), "Luke", atIndex(1),
         new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <[\"Yoda\", \"Luke\"]>\nnot to contain:\n <\"Luke\">\n"
-        + "at index <1>\n" + "when comparing values using 'CaseInsensitiveStringComparator'", message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting:%n <[\"Yoda\", \"Luke\"]>%nnot to contain:%n <\"Luke\">%n"
+        + "at index <1>%n" + "when comparing values using 'CaseInsensitiveStringComparator'"
+    ));
   }
 }

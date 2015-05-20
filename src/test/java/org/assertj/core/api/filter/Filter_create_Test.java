@@ -12,12 +12,10 @@
  */
 package org.assertj.core.api.filter;
 
-import static junit.framework.Assert.assertEquals;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.util.List;
 
@@ -31,14 +29,14 @@ public class Filter_create_Test extends AbstractTest_filter {
   @Test
   public void should_create_filter_from_iterable() {
     Filters<Player> filter = filter(players);
-    assertEquals(players, filter.get());
+    assertThat(filter.get()).isEqualTo(players);
   }
 
   @Test
   public void should_create_filter_from_array() {
     Player[] playersArray = players.toArray(new Player[0]);
     Filters<Player> filter = filter(playersArray);
-    assertEquals(players, filter.get());
+    assertThat(filter.get()).isEqualTo(players);
   }
 
   @Test

@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.test.ErrorMessages.descriptionIsNull;
 import static org.assertj.core.test.ExpectedException.none;
@@ -50,13 +49,13 @@ public class AbstractAssert_as_with_description_Test {
   @Test
   public void should_set_description() {
     assertions.as(d);
-    assertEquals(d.value(), assertions.descriptionText());
+    assertThat(assertions.descriptionText()).isEqualTo(d.value());
   }
 
   @Test
   public void should_return_this() {
     ConcreteAssert descriptable = assertions.as(d);
-    assertSame(assertions, descriptable);
+    assertThat(descriptable).isSameAs(assertions);
   }
 
   @Test

@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -133,7 +134,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   /**
    * Creates a new instance of <code>{@link ClassAssert}</code>
    * </p> 
-   * We don't return {@link ClassAssert} as it has overriden methods to annotated with {@link SafeVarargs}.
+   * We don't return {@link ClassAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -347,7 +348,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   /**
    * Creates a new instance of <code>{@link MapAssert}</code>.
    * <p>
-   * We don't return {@link MapAssert} as it has overriden methods to annotated with {@link SafeVarargs}.
+   * We don't return {@link MapAssert} as it has overridden methods to annotated with {@link SafeVarargs}.
    *
    * @param actual the actual value.
    * @return the created assertion object.
@@ -550,5 +551,14 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   public LocalTimeAssert assertThat(LocalTime actual) {
     return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
-  
+
+  /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public UriAssert assertThat(URI actual) {
+    return proxy(UriAssert.class, URI.class, actual);
+  }
 }

@@ -27,20 +27,32 @@ import org.junit.Test;
  */
 public class Iterables_toArray_Test {
 
-  private final ArrayList<String> values = newArrayList("one", "two");;
+  private final ArrayList<String> values = newArrayList("one", "two");
 
   @Test
-  public void should_return_null_when_given_iterable_is_null() throws Exception {
+  public void should_return_null_when_given_iterable_is_null() {
     assertThat(Iterables.toArray(null)).isNull();
+    assertThat(Iterables.toArray(null, Object.class)).isNull();
   }
 
   @Test
-  public void should_return_array_of_given_iterable_elements() throws Exception {
-    assertThat(Iterables.toArray(values)).containsExactly("one", "two");
+  public void should_return_an_object_array_with_given_iterable_elements() {
+    Object[] objects = Iterables.toArray(values);
+    assertThat(objects).containsExactly("one", "two");
+    String[] strings = Iterables.toArray(values, String.class);
+    assertThat(strings).containsExactly("one", "two");
   }
 
   @Test
-  public void should_return_empty_array_when_given_iterable_is_empty() throws Exception {
+  public void should_return_empty_array_when_given_iterable_is_empty() {
     assertThat(Iterables.toArray(emptyList())).isEmpty();
+    assertThat(Iterables.toArray(emptyList(), Object.class)).isEmpty();
+  }
+
+  @Test
+  public void should_return_an_array_of_given_iterable_type_with_given_iterable_elements() {
+    CharSequence[] result = Iterables.toArray(values, CharSequence.class);
+
+    assertThat(result).containsExactly("one", "two");
   }
 }

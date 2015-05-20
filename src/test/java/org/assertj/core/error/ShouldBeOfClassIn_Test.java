@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -41,7 +41,8 @@ public class ShouldBeOfClassIn_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n <\"Yoda\">\nto be of one these types:\n <[java.lang.Long, java.io.File]>\nbut was:\n <java.lang.String>",
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nto be of one these types:%n <[java.lang.Long, java.io.File]>%nbut was:%n <java.lang.String>"
+    ));
   }
 }

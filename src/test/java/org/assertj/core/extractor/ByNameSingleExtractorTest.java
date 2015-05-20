@@ -14,6 +14,7 @@ package org.assertj.core.extractor;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.extractor.Extractors.byName;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class ByNameSingleExtractorTest {
   public ExpectedException thrown = ExpectedException.none();
 
   @Test
-  public void should_extract_field_values_even_if_property_exist() {
+  public void should_extract_field_values_even_if_property_does_not_exist() {
 	Object extractedValues = idExtractor().extract(yoda);
 
 	assertThat(extractedValues).isEqualTo(1L);
@@ -75,22 +76,21 @@ public class ByNameSingleExtractorTest {
   }
 
   @Test
-  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() throws Exception {
+  public void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
 	Object extractedValue = nameExtractor().extract(employeeWithBrokenName("Name"));
 
 	assertThat(extractedValue).isEqualTo(new Name("Name"));
   }
 
   @Test
-  public void should_prefer_properties_over_fields() throws Exception {
-	Object extractedValue = nameExtractor().extract(employeeWithOverridenName("Overriden Name"));
+  public void should_prefer_properties_over_fields() {
+    Object extractedValue = nameExtractor().extract(employeeWithOverridenName("Overriden Name"));
 
-	assertThat(extractedValue).isEqualTo(new Name("Overriden Name"));
+    assertThat(extractedValue).isEqualTo(new Name("Overriden Name"));
   }
 
   @Test
-  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access()
-	  throws Exception {
+  public void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
 	thrown.expect(IntrospectionError.class);
 
 	Employee employee = brokenEmployee();
@@ -98,7 +98,7 @@ public class ByNameSingleExtractorTest {
   }
 
   @Test
-  public void should_throw_exception_if_no_object_is_given() throws Exception {
+  public void should_throw_exception_if_no_object_is_given() {
 	thrown.expect(IllegalArgumentException.class);
 
 	idExtractor().extract(null);
@@ -123,6 +123,17 @@ public class ByNameSingleExtractorTest {
 	assertThat(maps).extracting(key2, Employee.class).containsExactly(luke, han);
 	assertThat(maps).extracting(key1).containsExactly(yoda, yoda);
 	assertThat(maps).extracting("bad key").containsExactly(null, null);
+  }
+
+  @Test
+  public void should_extract_property_field_combinations() {
+    Employee darth = new Employee(1L, new Name("Darth", "Vader"), 100);
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    darth.field = luke;
+    luke.field = darth;
+    luke.surname = new Name("Young", "Padawan");
+    Object extracted = byName("me.field.me.field.me.field.surname.name").extract(darth);
+    assertThat(extracted).isEqualTo("Young Padawan");
   }
 
   private Employee employeeWithBrokenName(String name) {

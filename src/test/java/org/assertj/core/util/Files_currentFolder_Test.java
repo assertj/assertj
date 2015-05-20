@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +31,6 @@ public class Files_currentFolder_Test extends Files_TestCase {
   public void should_return_current_folder() throws IOException {
     File e = new File(".");
     File a = Files.currentFolder();
-    assertEquals(e.getCanonicalPath(), a.getCanonicalPath());
+    assertThat(a.getCanonicalPath()).isEqualTo(e.getCanonicalPath());
   }
 }

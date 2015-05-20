@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 
@@ -33,7 +33,7 @@ public class AbstractAssert_get_writable_info_Test {
     try {
       new ConcreteAssert(6L).as("user description").checkNull();
     } catch (AssertionError e) {
-      assertEquals("[user description] specific error message", e.getMessage());
+      assertThat(e.getMessage()).isEqualTo("[user description] specific error message");
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

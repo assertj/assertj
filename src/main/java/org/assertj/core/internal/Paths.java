@@ -28,10 +28,10 @@ import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveContent.shouldHaveContent;
-import static org.assertj.core.error.ShouldHaveEqualContent.shouldHaveEqualContent;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 
@@ -309,7 +309,7 @@ public class Paths {
 	try {
 	  List<String> diffs = diff.diff(actualFile, expectedFile);
 	  if (diffs.isEmpty()) return;
-	  throw failures.failure(info, shouldHaveEqualContent(actualFile, expectedFile, diffs));
+	  throw failures.failure(info, shouldHaveSameContent(actualFile, expectedFile, diffs));
 	} catch (IOException e) {
 	  throw new FilesException(format("Unable to compare contents of files:<%s> and:<%s>", actualFile, expectedFile), e);
 	}

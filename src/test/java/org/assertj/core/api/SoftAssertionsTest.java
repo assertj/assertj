@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Dates.parseDatetime;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -82,12 +82,12 @@ public class SoftAssertionsTest {
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors( );
-      assertThat(errors).contains("\nExpecting:\n"
-                                  + " <{\"54\"=\"55\"}>\n"
-                                  + "to contain:\n"
-                                  + " <[MapEntry[key='1', value='2']]>\n"
-                                  + "but could not find:\n"
-                                  + " <[MapEntry[key='1', value='2']]>\n");
+      assertThat(errors).contains(String.format("%nExpecting:%n"
+                                  + " <{\"54\"=\"55\"}>%n"
+                                  + "to contain:%n"
+                                  + " <[MapEntry[key='1', value='2']]>%n"
+                                  + "but could not find:%n"
+                                  + " <[MapEntry[key='1', value='2']]>%n"));
 
     }
   }
@@ -129,7 +129,7 @@ public class SoftAssertionsTest {
       softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
 
       softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-            .hasContentEqualTo(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+            .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
 
       softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
       softly.assertThat(22).isEqualTo(23);
@@ -222,21 +222,21 @@ public class SoftAssertionsTest {
       assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
       assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-      assertThat(errors.get(20)).isEqualTo("\nInputStreams do not have equal content:"
+      assertThat(errors.get(20)).isEqualTo(String.format("%nInputStreams do not have same content:"
                                            + System.getProperty("line.separator")
-                                           + "line:<1>, expected:<B> but was:<A>");
+                                           + "line:<1>, expected:<B> but was:<A>"));
 
       assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
       assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
       assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
-      assertThat(errors.get(25)).isEqualTo("\nExpecting:\n" +
-                                           " <[\"28\"]>\n" +
-                                           "to contain:\n" +
-                                           " <[\"29\"]>\n" +
-                                           "but could not find:\n" +
-                                           " <[\"29\"]>\n");
+      assertThat(errors.get(25)).isEqualTo(String.format("%nExpecting:%n" +
+                                           " <[\"28\"]>%n" +
+                                           "to contain:%n" +
+                                           " <[\"29\"]>%n" +
+                                           "but could not find:%n" +
+                                           " <[\"29\"]>%n"));
       assertThat(errors.get(26)).isEqualTo("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
       assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
@@ -253,20 +253,20 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
-      assertThat(errors.get(37)).isEqualTo("\nExpecting message:\n"
-                                           + " <\"NullPointerException message\">\n"
-                                           + "but was:\n"
-                                           + " <\"IllegalArgumentException message\">");
-      assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
-                                           + " <\"something was good\">\n"
-                                           + "but was:\n"
-                                           + " <\"something was wrong\">");
-      assertThat(errors.get(39)).isEqualTo("\nExpecting:\n"
-                                           + " <{\"54\"=\"55\"}>\n"
-                                           + "to contain:\n"
-                                           + " <[MapEntry[key='1', value='2']]>\n"
-                                           + "but could not find:\n"
-                                           + " <[MapEntry[key='1', value='2']]>\n");
+      assertThat(errors.get(37)).isEqualTo(String.format("%nExpecting message:%n"
+                                           + " <\"NullPointerException message\">%n"
+                                           + "but was:%n"
+                                           + " <\"IllegalArgumentException message\">"));
+      assertThat(errors.get(38)).isEqualTo(String.format("%nExpecting message:%n"
+                                           + " <\"something was good\">%n"
+                                           + "but was:%n"
+                                           + " <\"something was wrong\">"));
+      assertThat(errors.get(39)).isEqualTo(String.format("%nExpecting:%n"
+                                           + " <{\"54\"=\"55\"}>%n"
+                                           + "to contain:%n"
+                                           + " <[MapEntry[key='1', value='2']]>%n"
+                                           + "but could not find:%n"
+                                           + " <[MapEntry[key='1', value='2']]>%n"));
     }
   }  
 

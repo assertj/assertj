@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.short_;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -48,7 +48,7 @@ public class ShortAssert_usingDefaultComparator_Test extends ShortAssertBaseTest
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getShorts(assertions), Shorts.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Shorts.instance()).isSameAs(getShorts(assertions));
   }
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
 
@@ -34,12 +34,12 @@ public class ComparatorBasedComparisonStrategy_toString_Test extends AbstractTes
         return s1.length() - s2.length();
       }
     });
-    assertEquals("'anonymous comparator class'", lengthComparisonStrategy.toString());
+    assertThat(lengthComparisonStrategy.toString()).isEqualTo("'anonymous comparator class'");
   }
 
   @Test
   public void toString_with_non_anonymous_comparator() {
-    assertEquals("'CaseInsensitiveStringComparator'", caseInsensitiveComparisonStrategy.toString());
+    assertThat(caseInsensitiveComparisonStrategy.toString()).isEqualTo("'CaseInsensitiveStringComparator'");
   }
 
 }

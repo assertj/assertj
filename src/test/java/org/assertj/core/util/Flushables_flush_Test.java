@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.Flushable;
 import java.io.IOException;
@@ -67,6 +67,6 @@ public class Flushables_flush_Test {
 
   private void assertFlushed(FlushableStub... toFlush) {
     for (FlushableStub c : toFlush)
-      assertTrue(c.flushed);
+      assertThat(c.flushed).isTrue();
   }
 }

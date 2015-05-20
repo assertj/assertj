@@ -13,7 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.test.ExpectedException.none;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 
@@ -61,7 +61,7 @@ public class MessageFormatter_format_Test {
     Description description = new TextDescription("Test");
     Representation representation = new StandardRepresentation();
     String s = messageFormatter.format(description, representation, "Hello %s", "World");
-    assertEquals("[Test] Hello \"World\"", s);
+    assertThat(s).isEqualTo("[Test] Hello \"World\"");
     verify(descriptionFormatter).format(description);
   }
 }

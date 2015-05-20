@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -49,7 +49,7 @@ public class Closeables_closeQuietly_Test {
 
   private void assertClosed(CloseableStub... supposelyClosed) {
     for (CloseableStub c : supposelyClosed) {
-      assertTrue(c.closed);
+      assertThat(c.closed).isTrue();
     }
   }
 

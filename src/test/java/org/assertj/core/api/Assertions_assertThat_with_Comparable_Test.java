@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -26,14 +25,14 @@ public class Assertions_assertThat_with_Comparable_Test {
   public void should_create_Assert() {
     SomeComparable comparable = new SomeComparable();
     AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     SomeComparable comparable = new SomeComparable();
     AbstractComparableAssert<?, SomeComparable> assertions = Assertions.assertThat(comparable);
-    assertSame(comparable, assertions.actual);
+    assertThat(assertions.actual).isSameAs(comparable);
   }
 
   private static class SomeComparable implements Comparable<SomeComparable> {

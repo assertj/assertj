@@ -18,6 +18,7 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -50,14 +51,14 @@ public class Dates {
    * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
    */
   public static DateFormat newIsoDateFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd");
+    return strictDateFormatForPattern("yyyy-MM-dd");
   }
 
   /**
    * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
    */
   public static DateFormat newIsoDateTimeFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss");
   }
 
   /**
@@ -65,11 +66,26 @@ public class Dates {
    * <code>2003-04-26T03:01:02.999</code>
    */
   public static DateFormat newIsoDateTimeWithMsFormat() {
-    return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
   }
 
   /**
-   * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br> Method in synchronized
+   * {@link Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
+   * <code>2003-04-26 03:01:02.999</code>
+   */
+  public static DateFormat newTimestampDateFormat() {
+    return strictDateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS");
+  }
+
+  private static DateFormat strictDateFormatForPattern(String pattern) {
+    DateFormat dateFormat = new SimpleDateFormat(pattern);
+    dateFormat.setLenient(false);
+    return dateFormat;
+  }
+
+  /**
+   * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
+   * Method in synchronized
    * because SimpleDateFormat is not thread safe (sigh).
    * <p/>
    * Returns null if given the date is null.

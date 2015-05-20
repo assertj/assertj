@@ -12,8 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 
@@ -43,15 +42,17 @@ public class ShouldBeInstance_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals(
-        "[Test] \nExpecting:\n <\"Yoda\">\nto be an instance of:\n <java.io.File>\nbut was instance of:\n <java.lang.String>",
-        message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting:%n <\"Yoda\">%nto be an instance of:%n <java.io.File>%nbut was instance of:%n <java.lang.String>"
+    ));
   }
 
   @Test
   public void should_create_shouldBeInstanceButWasNull_error_message() {
     factory = shouldBeInstanceButWasNull("other", File.class);
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting object:\n \"other\"\nto be an instance of:\n <java.io.File>\nbut was null", message);
+    assertThat(message).isEqualTo(String.format(
+        "[Test] %nExpecting object:%n \"other\"%nto be an instance of:%n <java.io.File>%nbut was null"
+    ));
   }
 }

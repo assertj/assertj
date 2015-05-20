@@ -15,11 +15,20 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -577,7 +586,26 @@ public class BDDAssertions extends Assertions {
   public static AbstractLocalTimeAssert<?> then(LocalTime actual) {
 	return assertThat(actual);
   }
-  
+
+  /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractUriAssert<?> then(URI actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UrlAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractUrlAssert<?> then(URL actual) {
+    return assertThat(actual);
+  }
 
   /**
    * Creates a new </code>{@link org.assertj.core.api.BDDAssertions}</code>.

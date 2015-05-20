@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.byte_;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -48,7 +48,7 @@ public class ByteAssert_usingDefaultComparator_Test extends ByteAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
-    assertSame(getBytes(assertions), Bytes.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
+    assertThat(Bytes.instance()).isSameAs(getBytes(assertions));
   }
 }

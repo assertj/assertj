@@ -14,7 +14,7 @@ package org.assertj.core.internal.floats;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Floats;
@@ -40,7 +40,7 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
     try {
       floats.assertIsNotZero(someInfo(), 0.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0.0f>\nnot to be equal to:\n <0.0f>\n");
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
     }
   }
 
@@ -54,7 +54,7 @@ public class Floats_assertIsNotZero_Test extends FloatsBaseTest {
     try {
       floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0f);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0.0f>\nnot to be equal to:\n <0.0f>\n");
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0f>%nnot to be equal to:%n <0.0f>%n"));
     }
   }
 

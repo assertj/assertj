@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.parse;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 
@@ -31,12 +31,12 @@ public class Dates_parse_Test {
   public void should_parse_string() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    assertEquals(formatter.parse(dateAsString), parse("1994-08-26"));
+    assertThat(parse("1994-08-26")).isEqualTo(formatter.parse(dateAsString));
   }
 
   @Test
   public void should_return_null_if_string_to_parse_is_null() {
-    assertNull(parse(null));
+    assertThat(parse(null)).isNull();
   }
 
 }

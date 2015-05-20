@@ -86,7 +86,7 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
-	AssertionError error = failureIfErrorMessageIsOverriden(info);
+	AssertionError error = failureIfErrorMessageIsOverridden(info);
 	if (error != null) return error;
 	printThreadDumpIfNeeded();
 	return factory.newAssertionError(info.description(), info.representation());
@@ -107,7 +107,7 @@ public class Failures {
    * @return the created <code>{@link AssertionError}</code>.
    */
   public AssertionError failure(AssertionInfo info, ErrorMessageFactory message) {
-	AssertionError error = failureIfErrorMessageIsOverriden(info);
+	AssertionError error = failureIfErrorMessageIsOverridden(info);
 	if (error != null) return error;
 	AssertionError assertionError = new AssertionError(message.create(info.description(), info.representation()));
 	removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -115,7 +115,7 @@ public class Failures {
 	return assertionError;
   }
 
-  public AssertionError failureIfErrorMessageIsOverriden(AssertionInfo info) {
+  public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
 	String overridingErrorMessage = info.overridingErrorMessage();
 	return isNullOrEmpty(overridingErrorMessage) ? null :
 	    failure(MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage));

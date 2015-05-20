@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.util.Arrays.array;
 
@@ -63,7 +63,7 @@ public class Diff_diff_File_Test {
     writer.write(actual, content);
     writer.write(expected, content);
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(0, diffs.size());
+    assertThat(diffs).isEmpty();
   }
 
   @Test
@@ -71,9 +71,9 @@ public class Diff_diff_File_Test {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line0", "line1");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(2, diffs.size());
-    assertEquals("line:<1>, expected:<line0> but was:<line_0>", diffs.get(0));
-    assertEquals("line:<2>, expected:<line1> but was:<line_1>", diffs.get(1));
+    assertThat(diffs).hasSize(2);
+    assertThat(diffs.get(0)).isEqualTo("line:<1>, expected:<line0> but was:<line_0>");
+    assertThat(diffs.get(1)).isEqualTo("line:<2>, expected:<line1> but was:<line_1>");
   }
 
   @Test
@@ -81,8 +81,8 @@ public class Diff_diff_File_Test {
     writer.write(actual, "line_0");
     writer.write(expected, "line_0", "line_1");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<2>, expected:<line_1> but was:<EOF>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<line_1> but was:<EOF>");
   }
 
   @Test
@@ -90,7 +90,7 @@ public class Diff_diff_File_Test {
     writer.write(actual, "line_0", "line_1");
     writer.write(expected, "line_0");
     List<String> diffs = diff.diff(actual, expected);
-    assertEquals(1, diffs.size());
-    assertEquals("line:<2>, expected:<EOF> but was:<line_1>", diffs.get(0));
+    assertThat(diffs).hasSize(1);
+    assertThat(diffs.get(0)).isEqualTo("line:<2>, expected:<EOF> but was:<line_1>");
   }
 }

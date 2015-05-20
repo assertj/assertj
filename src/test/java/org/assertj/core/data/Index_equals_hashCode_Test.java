@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
@@ -55,16 +55,16 @@ public class Index_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(index.equals("8"));
+    assertThat(index.equals("8")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(index.equals(null));
+    assertThat(index.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_Index_with_different_value() {
-    assertFalse(index.equals(atIndex(6)));
+    assertThat(index.equals(atIndex(6))).isFalse();
   }
 }

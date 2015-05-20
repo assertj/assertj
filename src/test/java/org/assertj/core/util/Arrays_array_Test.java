@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -26,6 +26,6 @@ public class Arrays_array_Test {
   @Test
   public void should_return_parameter() {
     Object[] array = { "one", "two" };
-    assertSame(Arrays.array(array), array);
+    assertThat(array).isSameAs(Arrays.array(array));
   }
 }

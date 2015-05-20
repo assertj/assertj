@@ -12,8 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class Assertions_assertThat_with_Character_Test {
   public void should_create_Assert() {
     Character a = 'a';
     AbstractCharacterAssert<?> assertions = Assertions.assertThat(a);
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Character b = 'b';
     AbstractCharacterAssert<?> assertions = Assertions.assertThat(b);
-    assertSame(b, assertions.actual);
+    assertThat(assertions.actual).isSameAs(b);
   }
 }

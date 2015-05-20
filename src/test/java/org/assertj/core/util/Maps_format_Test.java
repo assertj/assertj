@@ -13,7 +13,6 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNull;
 
 import java.io.File;
 import java.util.HashMap;
@@ -35,8 +34,8 @@ public class Maps_format_Test {
 
   @Test
   public void should_return_null_if_Map_is_null() {
-    assertNull(Maps.format(standardRepresentation, null));
-    assertNull(Maps.format(null));
+    assertThat(Maps.format(standardRepresentation, null)).isNull();
+    assertThat(Maps.format(null)).isNull();
   }
 
   @Test

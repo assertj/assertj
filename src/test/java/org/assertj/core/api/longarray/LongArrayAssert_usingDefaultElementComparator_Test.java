@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.longarray;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -52,7 +52,7 @@ public class LongArrayAssert_usingDefaultElementComparator_Test extends LongArra
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), objectsBefore);
-    assertSame(getArrays(assertions), LongArrays.instance());
+    assertThat(objectsBefore).isSameAs(getObjects(assertions));
+    assertThat(LongArrays.instance()).isSameAs(getArrays(assertions));
   }
 }

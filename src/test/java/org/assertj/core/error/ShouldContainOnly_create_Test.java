@@ -17,13 +17,13 @@ import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.util.Collections;
+
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Test;
-
-import java.util.Collections;
 
 /**
  * Tests for
@@ -36,8 +36,8 @@ import java.util.Collections;
  */
 public class ShouldContainOnly_create_Test {
 
-  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY = new ComparatorBasedComparisonStrategy(
-	                                                                                                                                  CaseInsensitiveStringComparator.instance);;
+  private static final ComparatorBasedComparisonStrategy CASE_INSENSITIVE_COMPARISON_STRATEGY =
+      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.instance);
 
   @Test
   public void should_create_error_message() {
@@ -46,15 +46,15 @@ public class ShouldContainOnly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", \"Han\"]>\n"
-	                              + "to contain only:\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "elements not found:\n"
-	                              + "  <[\"Luke\"]>\n"
-	                              + "and elements not expected:\n"
-	                              + "  <[\"Han\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Han\"]>%n"
+	                              + "to contain only:%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "elements not found:%n"
+	                              + "  <[\"Luke\"]>%n"
+	                              + "and elements not expected:%n"
+	                              + "  <[\"Han\"]>%n"));
   }
 
   @Test
@@ -67,16 +67,16 @@ public class ShouldContainOnly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\", \"Han\"]>\n"
-	                              + "to contain only:\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "elements not found:\n"
-	                              + "  <[\"Luke\"]>\n"
-	                              + "and elements not expected:\n"
-	                              + "  <[\"Han\"]>\n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\", \"Han\"]>%n"
+	                              + "to contain only:%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "elements not found:%n"
+	                              + "  <[\"Luke\"]>%n"
+	                              + "and elements not expected:%n"
+	                              + "  <[\"Han\"]>%n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 
   @Test
@@ -86,13 +86,13 @@ public class ShouldContainOnly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\"]>\n"
-	                              + "to contain only:\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but could not find the following elements:\n"
-	                              + "  <[\"Luke\"]>\n");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\"]>%n"
+	                              + "to contain only:%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but could not find the following elements:%n"
+	                              + "  <[\"Luke\"]>%n"));
   }
 
   @Test
@@ -105,13 +105,13 @@ public class ShouldContainOnly_create_Test {
 
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
 
-	assertThat(message).isEqualTo("[Test] \n"
-	                              + "Expecting:\n"
-	                              + "  <[\"Yoda\"]>\n"
-	                              + "to contain only:\n"
-	                              + "  <[\"Luke\", \"Yoda\"]>\n"
-	                              + "but could not find the following elements:\n"
-	                              + "  <[\"Luke\"]>\n"
-	                              + "when comparing values using 'CaseInsensitiveStringComparator'");
+	assertThat(message).isEqualTo(String.format("[Test] %n"
+	                              + "Expecting:%n"
+	                              + "  <[\"Yoda\"]>%n"
+	                              + "to contain only:%n"
+	                              + "  <[\"Luke\", \"Yoda\"]>%n"
+	                              + "but could not find the following elements:%n"
+	                              + "  <[\"Luke\"]>%n"
+	                              + "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
 }

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.Test;
@@ -26,10 +26,10 @@ public class ComparatorBasedComparisonStrategy_stringEndsWith_Test extends Abstr
 
   @Test
   public void should_pass() {
-    assertTrue(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "do"));
-    assertTrue(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "DO"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "d"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "Mr Frodo"));
+    assertThat(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "do")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "DO")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "d")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.stringEndsWith("Frodo", "Mr Frodo")).isFalse();
   }
 
 }

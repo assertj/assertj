@@ -51,6 +51,11 @@ public class Name {
   public void setLast(String last) {
     this.last = last;
   }
+  
+  // property without field in order to test field/property combinations
+  public String getName(){
+    return String.format("%s %s", getFirst(), getLast());
+  }
 
   @Override
   public String toString() {

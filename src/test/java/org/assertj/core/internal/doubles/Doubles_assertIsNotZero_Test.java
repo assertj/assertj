@@ -14,7 +14,7 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -40,7 +40,7 @@ public class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
     try {
       doubles.assertIsNotZero(someInfo(), 0.0);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0.0>\nnot to be equal to:\n <0.0>\n");
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
     }
   }
 
@@ -54,7 +54,7 @@ public class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
     try {
       doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), 0.0d);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "\nExpecting:\n <0.0>\nnot to be equal to:\n <0.0>\n");
+      assertThat(e.getMessage()).isEqualTo(String.format("%nExpecting:%n <0.0>%nnot to be equal to:%n <0.0>%n"));
     }
   }
 

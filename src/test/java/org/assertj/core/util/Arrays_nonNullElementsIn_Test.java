@@ -13,7 +13,7 @@
 package org.assertj.core.util;
 
 import static org.assertj.core.util.Arrays.nonNullElementsIn;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -28,25 +28,25 @@ import org.junit.Test;
 public class Arrays_nonNullElementsIn_Test {
   @Test
   public void should_return_empty_Collection_if_given_array_is_null() {
-    assertTrue(Arrays.nonNullElementsIn(null).isEmpty());
+    assertThat(Arrays.nonNullElementsIn(null).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_an_empty_Collection_if_given_array_has_only_null_elements() {
     String[] array = new String[] { null };
-    assertTrue(Arrays.nonNullElementsIn(array).isEmpty());
+    assertThat(Arrays.nonNullElementsIn(array).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_an_empty_Collection_if_given_array_is_empty() {
     String[] array = new String[0];
-    assertTrue(Arrays.nonNullElementsIn(array).isEmpty());
+    assertThat(Arrays.nonNullElementsIn(array).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_a_Collection_without_null_elements() {
     String[] array = { "Frodo", null, "Sam", null };
     List<String> nonNull = nonNullElementsIn(array);
-    assertArrayEquals(new String[] { "Frodo", "Sam" }, nonNull.toArray());
+    assertThat(nonNull.toArray()).isEqualTo(new String[] { "Frodo", "Sam" });
   }
 }

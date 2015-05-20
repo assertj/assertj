@@ -12,7 +12,7 @@
  */
 package org.assertj.core.description;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
 
 import org.assertj.core.description.TextDescription;
@@ -54,16 +54,16 @@ public class TextDescription_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(description.equals("Yoda"));
+    assertThat(description.equals("Yoda")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(description.equals(null));
+    assertThat(description.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_TextDescription_with_different_value() {
-    assertFalse(description.equals(new TextDescription("Luke")));
+    assertThat(description.equals(new TextDescription("Luke"))).isFalse();
   }
 }

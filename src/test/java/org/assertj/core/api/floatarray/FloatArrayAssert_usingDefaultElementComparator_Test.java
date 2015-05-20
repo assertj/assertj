@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.floatarray;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -52,7 +52,7 @@ public class FloatArrayAssert_usingDefaultElementComparator_Test extends FloatAr
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), objectsBefore);
-    assertSame(getArrays(assertions), FloatArrays.instance());
+    assertThat(objectsBefore).isSameAs(getObjects(assertions));
+    assertThat(FloatArrays.instance()).isSameAs(getArrays(assertions));
   }
 }

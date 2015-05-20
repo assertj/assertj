@@ -14,7 +14,7 @@ package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.ObjectArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -22,11 +22,9 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
-
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
-
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -75,7 +73,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     actual.clear();
     iterables.assertContainsOnly(someInfo(), actual, array());
   }
-  
+
   @Test
   public void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     thrown.expect(AssertionError.class);
@@ -95,13 +93,42 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_does_not_contain_given_values_only() {
+  public void should_fail_if_actual_does_not_contain_all_given_values() {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
     try {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_additional_elements() {
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Yoda" };
+    try {
+      iterables.assertContainsOnly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newLinkedHashSet(), newLinkedHashSet("Leia")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_a_subset_of_expected_elements() {
+    AssertionInfo info = someInfo();
+    Object[] expected = { "Luke", "Yoda", "Obiwan", "Leia" };
+    try {
+      iterables.assertContainsOnly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newLinkedHashSet("Obiwan"), newLinkedHashSet()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -131,7 +158,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
   public void should_pass_if_actual_contains_given_values_only_even_if_duplicated_according_to_custom_comparison_strategy() {
     actual.addAll(newArrayList("LUKE"));
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(someInfo(), actual,
-        array("LUke", "LUke", "lukE", "YOda", "Leia"));
+                                                                      array("LUke", "LUke", "lukE", "YOda", "Leia"));
   }
 
   @Test
@@ -141,7 +168,9 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"), comparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"),
+                                                 comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

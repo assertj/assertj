@@ -13,8 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.test.FloatArrays.emptyArray;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -28,13 +27,13 @@ public class Assertions_assertThat_with_FloatArray_Test {
   @Test
   public void should_create_Assert() {
     AbstractFloatArrayAssert<?> assertions = Assertions.assertThat(emptyArray());
-    assertNotNull(assertions);
+    assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     float[] actual = emptyArray();
     AbstractFloatArrayAssert<?> assertions = Assertions.assertThat(actual);
-    assertSame(actual, assertions.actual);
+    assertThat(assertions.actual).isSameAs(actual);
   }
 }

@@ -19,7 +19,7 @@ import org.junit.runners.model.MultipleFailureException;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.fail;
 
 public class JUnitBDDSoftAssertionsFailureTest {
 
@@ -39,15 +39,15 @@ public class JUnitBDDSoftAssertionsFailureTest {
 	  List<Throwable> failures = e.getFailures();
 	  assertThat(failures).hasSize(2).extracting("message")
 		                  .contains("expected:<[2]> but was:<[1]>",
-		                            "\n" +
-		                                "Expecting:\n" +
-		                                "  <[1, 2]>\n" +
-		                                "to contain only:\n" +
-		                                "  <[1, 3]>\n" +
-		                                "elements not found:\n" +
-		                                "  <[3]>\n" +
-		                                "and elements not expected:\n" +
-		                                "  <[2]>\n");
+		                		        String.format("%n" +
+		                                "Expecting:%n" +
+		                                "  <[1, 2]>%n" +
+		                                "to contain only:%n" +
+		                                "  <[1, 3]>%n" +
+		                                "elements not found:%n" +
+		                                "  <[3]>%n" +
+		                                "and elements not expected:%n" +
+		                                "  <[2]>%n"));
 	}
   }
 }

@@ -12,16 +12,15 @@
  */
 package org.assertj.core.groups;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.*;
 
 import java.util.*;
 
-
 import org.assertj.core.groups.Properties;
-import org.assertj.core.internal.PropertySupport;
 import org.assertj.core.test.*;
+import org.assertj.core.util.introspection.PropertySupport;
 import org.junit.*;
 
 /**
@@ -58,6 +57,6 @@ public class Properties_from_with_Collection_Test {
     List<Integer> ages = newArrayList();
     ages.add(yoda.getAge());
     when(propertySupport.propertyValues(propertyName, Integer.class, employees)).thenReturn(ages);
-    assertSame(ages, properties.from(employees));
+    assertThat(properties.from(employees)).isSameAs(ages);
   }
 }

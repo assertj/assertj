@@ -12,7 +12,7 @@
  */
 package org.assertj.core.data;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.Offset.offset;
 
 import org.assertj.core.data.Offset;
@@ -33,6 +33,6 @@ public class Offset_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertEquals("Offset[value=8]", offset.toString());
+    assertThat(offset.toString()).isEqualTo("Offset[value=8]");
   }
 }

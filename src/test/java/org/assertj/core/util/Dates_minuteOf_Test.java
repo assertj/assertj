@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.minuteOf;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.text.*;
@@ -37,7 +37,7 @@ public class Dates_minuteOf_Test {
   public void should_return_minute_of_date() throws ParseException {
     String dateAsString = "26/08/1994T22:35:00";
     Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
-    assertEquals(35, minuteOf(date));
+    assertThat(minuteOf(date)).isEqualTo(35);
   }
 
   @Test

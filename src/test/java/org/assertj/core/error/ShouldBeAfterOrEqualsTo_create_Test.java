@@ -12,8 +12,8 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
-
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
 import static org.assertj.core.util.Dates.parse;
 
@@ -23,9 +23,9 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link ShouldBeAfterOrEqualsTo#create(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldBeAfterOrEqualsTo#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -41,6 +41,10 @@ public class ShouldBeAfterOrEqualsTo_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting:\n  <2011-01-01T00:00:00>\nto be after or equals to:\n  <2012-01-01T00:00:00>", message);
+    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n"
+                                         + "  <2011-01-01T00:00:00>%n"
+                                         + "to be after or equals to:%n"
+                                         + "  <2012-01-01T00:00:00>"
+                                  ));
   }
 }

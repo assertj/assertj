@@ -12,7 +12,7 @@
  */
 package org.assertj.core.condition;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.ArrayList;
@@ -55,6 +55,6 @@ public class Join_constructor_with_Collection_Test {
     Collection<Condition<Object>> conditions = new ArrayList<>();
     conditions.add(new TestCondition<>());
     Join<Object> join = new ConcreteJoin(conditions);
-    assertEquals(conditions, join.conditions);
+    assertThat(join.conditions).isEqualTo(conditions);
   }
 }

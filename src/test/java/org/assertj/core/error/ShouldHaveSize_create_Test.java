@@ -39,12 +39,12 @@ public class ShouldHaveSize_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpected size:<2> but was:<4> in:\n<['a', 'b']>");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpected size:<2> but was:<4> in:%n<['a', 'b']>"));
   }
 
   @Test
   public void should_create_error_message_with_hexadecimal_representation() {
     String message = factory.create(new TextDescription("Test"), new HexadecimalRepresentation());
-    assertThat(message).isEqualTo("[Test] \nExpected size:<2> but was:<4> in:\n<['0x0061', '0x0062']>");
+    assertThat(message).isEqualTo(String.format("[Test] %nExpected size:<2> but was:<4> in:%n<['0x0061', '0x0062']>"));
   }
 }

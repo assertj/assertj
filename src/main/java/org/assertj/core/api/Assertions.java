@@ -15,8 +15,11 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -25,7 +28,11 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
+import org.assertj.core.api.filter.InFilter;
+import org.assertj.core.api.filter.NotFilter;
+import org.assertj.core.api.filter.NotInFilter;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
@@ -123,6 +130,26 @@ public class Assertions {
    */
   public static AbstractBigDecimalAssert<?> assertThat(BigDecimal actual) {
     return new BigDecimalAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UriAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractUriAssert<?> assertThat(URI actual) {
+    return new UriAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link UrlAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractUrlAssert<?> assertThat(URL actual) {
+    return new UrlAssert(actual);
   }
 
   /**
@@ -960,7 +987,7 @@ public class Assertions {
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -974,7 +1001,7 @@ public class Assertions {
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -988,7 +1015,7 @@ public class Assertions {
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
   }
-  
+
   /**
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
@@ -1002,7 +1029,7 @@ public class Assertions {
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
   }
-  
+
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -1139,6 +1166,84 @@ public class Assertions {
     return Filters.filter(iterableToFilter);
   }
 
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches one of the given values.
+   * <p/>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", in(800, 26))
+   *                      .containsOnly(yoda, obiwan, luke);
+   * </code></pre>
+   * 
+   * @param values values to match (one match is sufficient)
+   * @return the created "in" filter
+   */
+  public static InFilter in(Object... values) {
+    return InFilter.in(values);
+  }
+
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches does not match any of the given values.
+   * <p/>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", notIn(800, 50))
+   *                      .containsOnly(luke);
+   * </code></pre>
+   * 
+   * @param valuesNotToMatch values not to match (none of the values must match)
+   * @return the created "not in" filter
+   */
+  public static NotInFilter notIn(Object... valuesNotToMatch) {
+    return NotInFilter.notIn(valuesNotToMatch);
+  }
+
+  /**
+   * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
+   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * value matches does not match the given value.
+   * <p>
+   * As often, an example helps:
+   * 
+   * <pre><code class='java'>
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * Employee noname = new Employee(4L, null, 50);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * 
+   * assertThat(employees).filterOn("age", not(800))
+   *                      .containsOnly(luke, noname);
+   * </code></pre>
+   * 
+   * @param valueNotToMatch the value not to match
+   * @return the created "not" filter
+   */
+  public static NotFilter not(Object valueNotToMatch) {
+    return NotFilter.not(valueNotToMatch);
+  }
+
   // --------------------------------------------------------------------------------------------------
   // File methods : not assertions but here to have a single entry point to all AssertJ features.
   // --------------------------------------------------------------------------------------------------
@@ -1240,6 +1345,44 @@ public class Assertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
+   * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
+   * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
+   * <p/>
+   * With strict parsing, inputs must match exactly date/time format.
+   *
+   * <p>
+   * Example:
+   * </p>
+   * 
+   * <pre><code class='java'>
+   * final Date date = Dates.parse("2001-02-03");
+   * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
+   * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
+   *
+   * Assertions.setLenientDateParsing(true);
+   *
+   * // assertions will pass
+   * assertThat(date).isEqualTo("2001-01-34");
+   * assertThat(date).isEqualTo("2001-02-02T24:00:00");
+   * assertThat(date).isEqualTo("2001-02-04T-24:00:00.000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:05:05.1000");
+   * assertThat(dateTime).isEqualTo("2001-02-03T04:04:66");
+   * assertThat(dateTimeWithMs).isEqualTo("2001-02-03T04:05:07.-300");
+   *
+   * // assertions will fail
+   * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
+   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here
+   * </code></pre>
+   *
+   * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
+   *
+   * @param value whether lenient parsing mode should be enabled or not
+   */
+  public static void setLenientDateParsing(boolean value) {
+    AbstractDateAssert.setLenientDateParsing(value);
+  }
+
+  /**
    * Add the given date format to the ones used to parse date String in String based Date assertions like
    * {@link org.assertj.core.api.AbstractDateAssert#isEqualTo(String)}.
    * <p/>
@@ -1260,7 +1403,7 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   * 
+   *
    * <pre><code class='java'>
    * Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
@@ -1343,6 +1486,7 @@ public class Assertions {
    * Defaults date format are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1350,6 +1494,7 @@ public class Assertions {
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -1361,6 +1506,5 @@ public class Assertions {
   /**
    * Creates a new </code>{@link Assertions}</code>.
    */
-  protected Assertions() {
-  }
+  protected Assertions() {}
 }

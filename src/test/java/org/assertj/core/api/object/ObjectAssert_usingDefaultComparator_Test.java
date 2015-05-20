@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.object;
 
-import static junit.framework.Assert.assertSame;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
@@ -49,6 +49,6 @@ public class ObjectAssert_usingDefaultComparator_Test extends ObjectAssertBaseTe
 
   @Override
   protected void verify_internal_effects() {
-    assertSame(getObjects(assertions), Objects.instance());
+    assertThat(Objects.instance()).isSameAs(getObjects(assertions));
   }
 }

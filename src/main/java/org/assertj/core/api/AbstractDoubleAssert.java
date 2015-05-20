@@ -141,6 +141,20 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
   /**
 	 * Verifies that the actual value is equal to the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertions will pass:
+	 * assertThat(1.0).isEqualTo(1.0);
+	 * assertThat(1D).isEqualTo(1.0);
+	 * 
+	 * // assertions will fail:
+	 * assertThat(0.0).isEqualTo(1.0);
+	 * assertThat(-1.0).isEqualTo(1.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param expected the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.
@@ -192,6 +206,20 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
 	/**
 	 * Verifies that the actual value is not equal to the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertions will pass:
+	 * assertThat(0.0).isNotEqualTo(1.0);
+	 * assertThat(-1.0).isNotEqualTo(1.0);
+	 * 
+	 * // assertions will fail:
+	 * assertThat(1.0).isNotEqualTo(1.0);
+	 * assertThat(1D).isNotEqualTo(1.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param other the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.
@@ -204,6 +232,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
 	/**
 	 * Verifies that the actual value is less than the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertion will pass:
+	 * assertThat(1.0).isLessThan(2.0);
+	 * 
+	 * // assertions will fail:
+	 * assertThat(2.0).isLessThan(1.0);
+	 * assertThat(1.0).isLessThan(1.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param other the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.
@@ -216,6 +257,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
 	/**
 	 * Verifies that the actual value is less than or equal to the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertions will pass:
+	 * assertThat(-1.0).isLessThanOrEqualTo(1.0);
+	 * assertThat(1.0).isLessThanOrEqualTo(1.0);
+	 * 
+	 * // assertion will fail:
+	 * assertThat(2.0).isLessThanOrEqualTo(1.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param other the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.
@@ -228,6 +282,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
 	/**
 	 * Verifies that the actual value is greater than the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertion will pass:
+	 * assertThat(2.0).isGreaterThan(1.0);
+	 * 
+	 * // assertions will fail:
+	 * assertThat(1.0).isGreaterThan(1.0);
+	 * assertThat(1.0).isGreaterThan(2.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param other the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.
@@ -240,6 +307,19 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
 
 	/**
 	 * Verifies that the actual value is greater than or equal to the given one.
+	 * <p>
+	 * Example:
+	 * 
+	 * <pre><code class='java'>
+	 * // assertions will pass:
+	 * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
+	 * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
+	 * 
+	 * // assertion will fail:
+	 * assertThat(1.0).isGreaterThanOrEqualTo(2.0);
+	 * </code></pre>
+	 * </p>
+	 *
 	 * @param other the given value to compare the actual value to.
 	 * @return {@code this} assertion object.
 	 * @throws AssertionError if the actual value is {@code null}.

@@ -21,11 +21,24 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.Before;
@@ -551,5 +564,27 @@ public class BDDAssertions_then_Test {
       }
     }).isInstanceOf(Throwable.class)
       .hasMessage("something was wrong");
+  }
+
+  @Test
+  public void then_of_URI_should_delegate_to_assertThat() throws URISyntaxException {
+	// GIVEN
+	URI actual = new URI("http://assertj.org");
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
+  }
+  
+  @Test
+  public void then_of_URL_should_delegate_to_assertThat() throws MalformedURLException {
+	// GIVEN
+	URL actual = new URL("http://assertj.org");
+	// WHEN
+	then(actual);
+	// THEN
+	verifyStatic();
+	assertThat(actual);
   }
 }

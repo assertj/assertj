@@ -173,7 +173,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
    * 
-   * // Fail if equals has not been overriden in TolkienCharacter as equals default implementation only compares references
+   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
    * assertThat(frodo).isEqualsTo(frodoClone);
    * 
    * // frodo and frodoClone are equals when doing a field by field comparison.

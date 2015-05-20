@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -40,6 +40,6 @@ public class ShouldBeEmpty_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertEquals("[Test] \nExpecting empty but was:<[\"Luke\", \"Yoda\"]>", message);
+    assertThat(message).isEqualTo(String.format("[Test] %nExpecting empty but was:<[\"Luke\", \"Yoda\"]>"));
   }
 }

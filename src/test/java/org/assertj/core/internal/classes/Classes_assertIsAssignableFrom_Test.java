@@ -33,16 +33,23 @@ import org.junit.Test;
 public class Classes_assertIsAssignableFrom_Test extends ClassesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
-    actual = null;
-    thrown.expectAssertionError(actualIsNull());
+  public void should_pass_if_actual_is_assignable_from() {
+    actual = Jedi.class;
+    classes.assertIsAssignableFrom(someInfo(), actual, HumanJedi.class);
+  }
+
+  @Test
+  public void should_fail_if_given_classes_are_empty() {
+    actual = Jedi.class;
+    thrown.expectIllegalArgumentException("Expecting at least one Class to be specified");
     classes.assertIsAssignableFrom(someInfo(), actual);
   }
 
   @Test
-  public void should_pass_if_actual_is_assignable_from() {
-    actual = Jedi.class;
-    classes.assertIsAssignableFrom(someInfo(), actual, HumanJedi.class);
+  public void should_fail_if_actual_is_null() {
+    actual = null;
+    thrown.expectAssertionError(actualIsNull());
+    classes.assertIsAssignableFrom(someInfo(), actual);
   }
 
   @Test

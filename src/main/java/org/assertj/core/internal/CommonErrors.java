@@ -41,4 +41,9 @@ public final class CommonErrors {
 
   private CommonErrors() {
   }
+
+  public static void wrongElementTypeForFlatExtracting(Object group) {
+    throw new IllegalArgumentException("Flat extracting expects extracted values to be Iterables or arrays but was a "
+                                       + group.getClass().getSimpleName());
+  }
 }

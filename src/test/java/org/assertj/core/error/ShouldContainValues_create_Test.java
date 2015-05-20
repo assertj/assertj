@@ -30,11 +30,11 @@ public class ShouldContainValues_create_Test {
 	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
 	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld", "Vader"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n" +
-	                              "Expecting:\n" +
-	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
-	                              "to contain values:\n" +
-	                              "  <[\"VeryOld\", \"Vader\"]>");
+	assertThat(message).isEqualTo(String.format("[Test] %n" +
+	                              "Expecting:%n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>%n" +
+	                              "to contain values:%n" +
+	                              "  <[\"VeryOld\", \"Vader\"]>"));
   }
 
   @Test
@@ -42,11 +42,11 @@ public class ShouldContainValues_create_Test {
 	Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
 	ErrorMessageFactory factory = shouldContainValues(map, newLinkedHashSet("VeryOld"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \n" +
-	                              "Expecting:\n" +
-	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>\n" +
-	                              "to contain value:\n" +
-	                              "  <\"VeryOld\">");
+	assertThat(message).isEqualTo(String.format("[Test] %n" +
+	                              "Expecting:%n" +
+	                              "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>%n" +
+	                              "to contain value:%n" +
+	                              "  <\"VeryOld\">"));
   }
 
 }

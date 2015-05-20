@@ -35,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAssert<S>> extends
-    AbstractUnevenComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal> {
+    AbstractComparableAssert<S, BigDecimal> implements NumberAssert<S, BigDecimal> {
 
   @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
@@ -185,7 +185,8 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));
    * </code></pre>
-   * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are considered equal in value (not like {@link BigDecimal#equals(Object)}.
+   * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
+   * considered equal in value (not like {@link BigDecimal#equals(Object)}.
    * </p>
    */
   @Override
@@ -238,8 +239,8 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   }
 
   /**
-   * Same as {@link AbstractUnevenComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)}
-   * but takes care of converting given String to {@link BigDecimal} for you.
+   * Same as {@link AbstractComparableAssert#isEqualByComparingTo(Comparable) isEqualByComparingTo(BigDecimal)} but
+   * takes care of converting given String to {@link BigDecimal} for you.
    * <p>
    * Example:
    * 
@@ -294,6 +295,7 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
    * assertThat(actual).isCloseTo(other, within(new BigDecimal("0.01")));
    * </code></pre>
    */
+  @Override
   public S isCloseTo(final BigDecimal other, final Offset<BigDecimal> offset) {
     bigDecimals.assertIsCloseTo(info, actual, other, offset);
     return myself;

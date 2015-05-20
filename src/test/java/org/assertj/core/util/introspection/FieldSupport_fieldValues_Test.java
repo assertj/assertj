@@ -14,7 +14,6 @@ package org.assertj.core.util.introspection;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.emptySet;
-import static junit.framework.Assert.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -53,13 +52,13 @@ public class FieldSupport_fieldValues_Test {
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
 	Iterable<Long> ids = fieldSupport.fieldValues("ids", Long.class, (Iterable<Long>) null);
-	assertEquals(emptyList(), ids);
+	assertThat(ids).isEqualTo(emptyList());
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
 	Iterable<Long> ids = fieldSupport.fieldValues("ids", Long.class, emptySet());
-	assertEquals(emptyList(), ids);
+	assertThat(ids).isEqualTo(emptyList());
   }
 
   @Test
@@ -79,13 +78,13 @@ public class FieldSupport_fieldValues_Test {
   @Test
   public void should_return_values_of_simple_field() {
 	Iterable<Long> ids = fieldSupport.fieldValues("id", Long.class, employees);
-	assertEquals(newArrayList(1L, 2L), ids);
+	assertThat(ids).isEqualTo(newArrayList(1L, 2L));
   }
 
   @Test
   public void should_return_values_of_nested_field() {
 	Iterable<String> firstNames = fieldSupport.fieldValues("name.first", String.class, employees);
-	assertEquals(newArrayList("Yoda", "Luke"), firstNames);
+	assertThat(firstNames).isEqualTo(newArrayList("Yoda", "Luke"));
   }
 
   @Test
@@ -98,7 +97,7 @@ public class FieldSupport_fieldValues_Test {
   @Test
   public void should_return_values_of_private_field() {
 	List<Integer> ages = fieldSupport.fieldValues("age", Integer.class, employees);
-	assertEquals(newArrayList(800, 26), ages);
+	assertThat(ages).isEqualTo(newArrayList(800, 26));
   }
 
   @Test

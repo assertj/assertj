@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.junit.Test;
@@ -26,14 +26,14 @@ public class ComparatorBasedComparisonStrategy_stringContains_Test extends Abstr
 
   @Test
   public void should_pass() {
-    assertTrue(caseInsensitiveComparisonStrategy.stringContains("Frodo", "ro"));
-    assertTrue(caseInsensitiveComparisonStrategy.stringContains("Frodo", "RO"));
-    assertTrue(caseInsensitiveComparisonStrategy.stringContains("Frodo", ""));
-    assertFalse(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Fra"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Frodoo"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Froda"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringContains("Frodo", "abcdefg"));
-    assertFalse(caseInsensitiveComparisonStrategy.stringContains("Frodo", "a"));
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "ro")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "RO")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "")).isTrue();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Fra")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Frodoo")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "Froda")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "abcdefg")).isFalse();
+    assertThat(caseInsensitiveComparisonStrategy.stringContains("Frodo", "a")).isFalse();
   }
 
 }

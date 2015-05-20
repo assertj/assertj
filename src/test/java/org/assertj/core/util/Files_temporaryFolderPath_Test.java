@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static java.io.File.separator;
 import static org.assertj.core.util.Strings.append;
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -30,6 +30,6 @@ public class Files_temporaryFolderPath_Test extends Files_TestCase {
   public void should_find_path_of_temporary_folder() {
     String a = Files.temporaryFolderPath();
     String e = append(separator).to(systemTemporaryFolder());
-    assertEquals(e, a);
+    assertThat(a).isEqualTo(e);
   }
 }

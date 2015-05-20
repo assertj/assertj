@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.util.Lists.newArrayList;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
@@ -31,14 +31,14 @@ public class StandardComparisonStrategy_iterableContains_Test extends AbstractTe
   @Test
   public void should_pass() {
     List<?> list = newArrayList("Sam", "Merry", null, "Frodo");
-    assertTrue(standardComparisonStrategy.iterableContains(list, "Frodo"));
-    assertTrue(standardComparisonStrategy.iterableContains(list, null));
-    assertFalse(standardComparisonStrategy.iterableContains(list, "Sauron"));
+    assertThat(standardComparisonStrategy.iterableContains(list, "Frodo")).isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(list, null)).isTrue();
+    assertThat(standardComparisonStrategy.iterableContains(list, "Sauron")).isFalse();
   }
 
   @Test
   public void should_return_false_if_iterable_is_null() {
-    assertFalse(standardComparisonStrategy.iterableContains(null, "Sauron"));
+    assertThat(standardComparisonStrategy.iterableContains(null, "Sauron")).isFalse();
   }
 
 }

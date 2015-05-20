@@ -14,7 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.util.Dates.formatAsDatetime;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
 import java.util.*;
@@ -32,24 +32,24 @@ public class Dates_format_with_date_time_format_Test {
   public void should_format_date_with_date_time_format() throws ParseException {
     String dateAsString = "26/08/1994";
     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    assertEquals("1994-08-26T00:00:00", formatAsDatetime(formatter.parse(dateAsString)));
+    assertThat(formatAsDatetime(formatter.parse(dateAsString))).isEqualTo("1994-08-26T00:00:00");
   }
 
   @Test
   public void should_return_null_if_date_is_null() {
-    assertNull(formatAsDatetime((Date) null));
+    assertThat(formatAsDatetime((Date) null)).isNull();
   }
 
   @Test
   public void should_format_calendar_with_date_time_format() {
     Calendar calendar = new GregorianCalendar();
     calendar.set(2011, 04, 15, 14, 59, 33);
-    assertEquals("2011-05-15T14:59:33", formatAsDatetime(calendar));
+    assertThat(formatAsDatetime(calendar)).isEqualTo("2011-05-15T14:59:33");
   }
 
   @Test
   public void should_return_null_if_calendar_is_null() {
-    assertNull(formatAsDatetime((Calendar) null));
+    assertThat(formatAsDatetime((Calendar) null)).isNull();
   }
 
 }

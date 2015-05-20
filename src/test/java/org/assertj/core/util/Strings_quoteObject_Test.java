@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
@@ -25,12 +25,12 @@ public class Strings_quoteObject_Test {
 
   @Test
   public void should_not_quote_Object_that_is_not_String() {
-    assertEquals(9, Strings.quote(9));
+    assertThat(Strings.quote(9)).isEqualTo(9);
   }
 
   @Test
   public void should_quote_Object_that_is_String() {
     Object o = "Hello";
-    assertEquals("'Hello'", Strings.quote(o));
+    assertThat(Strings.quote(o)).isEqualTo("'Hello'");
   }
 }

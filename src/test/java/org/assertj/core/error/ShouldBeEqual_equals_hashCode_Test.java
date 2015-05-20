@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertFalse;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.test.EqualsHashCodeContractAssert.*;
@@ -57,21 +57,21 @@ public class ShouldBeEqual_equals_hashCode_Test {
 
   @Test
   public void should_not_be_equal_to_Object_of_different_type() {
-    assertFalse(factory.equals("Yoda"));
+    assertThat(factory.equals("Yoda")).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_null() {
-    assertFalse(factory.equals(null));
+    assertThat(factory.equals(null)).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_actual() {
-    assertFalse(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation())));
+    assertThat(factory.equals(shouldBeEqual("Leia", "Luke", new StandardRepresentation()))).isFalse();
   }
 
   @Test
   public void should_not_be_equal_to_IsNotEqual_with_different_expected() {
-    assertFalse(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation())));
+    assertThat(factory.equals(shouldBeEqual("Yoda", "Leia", new StandardRepresentation()))).isFalse();
   }
 }

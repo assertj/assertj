@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static junit.framework.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.*;
@@ -62,7 +62,7 @@ public class ShouldBeEqual_newAssertionError_Test {
   public void should_create_ComparisonFailure_if_JUnit4_is_present_and_trim_spaces_in_formatted_description() {
     when(formatter.format(description)).thenReturn(formattedDescription);
     AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
-    assertEquals(ComparisonFailure.class, error.getClass());
-    assertEquals("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">", error.getMessage());
+    assertThat(error.getClass()).isEqualTo(ComparisonFailure.class);
+    assertThat(error.getMessage()).isEqualTo("[Jedi] expected:<\"[Yoda]\"> but was:<\"[Luke]\">");
   }
 }

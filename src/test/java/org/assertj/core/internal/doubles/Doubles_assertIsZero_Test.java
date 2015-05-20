@@ -14,7 +14,7 @@ package org.assertj.core.internal.doubles;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Doubles;
@@ -40,7 +40,7 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
     try {
       doubles.assertIsZero(someInfo(), 2.0d);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0].0> but was:<[2].0>");
+      assertThat(e.getMessage()).isEqualTo("expected:<[0].0> but was:<[2].0>");
     }
   }
 
@@ -54,7 +54,7 @@ public class Doubles_assertIsZero_Test extends DoublesBaseTest {
     try {
       doublesWithAbsValueComparisonStrategy.assertIsZero(someInfo(), 2.0d);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0].0> but was:<[2].0>");
+      assertThat(e.getMessage()).isEqualTo("expected:<[0].0> but was:<[2].0>");
     }
   }
 

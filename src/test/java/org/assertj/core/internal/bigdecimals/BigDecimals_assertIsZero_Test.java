@@ -14,7 +14,7 @@ package org.assertj.core.internal.bigdecimals;
 
 import static org.assertj.core.test.TestData.someInfo;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
@@ -42,7 +42,7 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
     try {
       bigDecimals.assertIsZero(someInfo(), BigDecimal.ONE);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
     }
   }
 
@@ -56,7 +56,7 @@ public class BigDecimals_assertIsZero_Test extends BigDecimalsBaseTest {
     try {
       bigDecimalsWithComparatorComparisonStrategy.assertIsZero(someInfo(), BigDecimal.ONE);
     } catch (AssertionError e) {
-      assertEquals(e.getMessage(), "expected:<[0]> but was:<[1]>");
+      assertThat(e.getMessage()).isEqualTo("expected:<[0]> but was:<[1]>");
     }
   }
 
