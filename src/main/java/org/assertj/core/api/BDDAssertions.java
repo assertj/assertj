@@ -501,7 +501,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractUriAssert<?> then(URI actual) {
-    return new UriAssert(actual);
+    return assertThat(actual);
   }
 
   /**
@@ -511,7 +511,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractUrlAssert<?> then(URL actual) {
-    return new UrlAssert(actual);
+    return assertThat(actual);
   }
 
   /**
