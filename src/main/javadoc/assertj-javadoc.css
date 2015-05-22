@@ -18,7 +18,6 @@ body {
     background-color:#ffffff;
     color:#353833;
     font-family:Arial, Helvetica, sans-serif;
-    font-size:76%;
     margin:0;
 }
 a:link, a:visited {
@@ -65,13 +64,13 @@ ul {
     list-style-type:disc;
 }
 code, tt {
-    font-size:1.0em;
+    font-size:1.1em;
 }
 dt code {
-    font-size:1.0em;
+    font-size:1.1em;
 }
 table tr td dt code {
-    font-size:1.0em;
+    font-size:1.1em;
     vertical-align:top;
 }
 sup {
@@ -562,4 +561,9 @@ h1.hidden {
 .hljs-sqbracket,
 .hljs-phony {
   color: #4c81c9;
+}
+
+/* Fixes huge font size in <pre>{@code} blocks. */
+pre code {
+    font-size:inherit;
 }
