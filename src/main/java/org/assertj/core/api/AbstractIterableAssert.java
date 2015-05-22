@@ -1392,9 +1392,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * Filter the iterable under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Let's check old employees whose age > 100:
-   * 
-   * 
+   * Example : check old employees whose age > 100:
    * 
    * <pre><code class='java'> 
    * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -1415,7 +1413,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *   }
    * assertThat(employees).filteredOn(oldEmployees)
    *                      .containsOnly(yoda, obiwan);
-   *                      
    * </code></pre>
    * You can combine {@link Condition} with condition operator like {@link Not}:
    * 
