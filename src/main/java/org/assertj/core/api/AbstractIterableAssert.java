@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -62,7 +63,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mathieu Baechler
  * @author Joel Costigliola
  * @author Maciej Jaskowski
- * @author Nicolas François 
+ * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  */
@@ -1043,19 +1044,19 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   @SafeVarargs
   public final ListAssert<Tuple> extracting(Function<T, ?>... extractors) {
-	// combine all extractors into one function
-	Function<T, Tuple> tupleExtractor = objectToExtractValueFrom -> {
-	  Tuple tuple = new Tuple();
-	  for (Function<T, ?> extractor : extractors) {
-		// extract value one by one
-		tuple.addData(extractor.apply(objectToExtractValueFrom));
-	  }
-	  return tuple;
-	};
+    // combine all extractors into one function
+    Function<T, Tuple> tupleExtractor = objectToExtractValueFrom -> {
+      Tuple tuple = new Tuple();
+      for (Function<T, ?> extractor : extractors) {
+        // extract value one by one
+        tuple.addData(extractor.apply(objectToExtractValueFrom));
+      }
+      return tuple;
+    };
 
-	List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
-	                                                        .collect(toList());
-	return new ListAssert<Tuple>(tuples);
+    List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor)
+                                                            .collect(toList());
+    return new ListAssert<Tuple>(tuples);
   }
 
   /**
@@ -1333,8 +1334,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);
    * </code></pre>
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
    * 
    * @param propertyOrFieldName the name of the property or field to read
    * @param expectedValue the value to compare element's property or field with
@@ -1385,8 +1385,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the iterable
    * elements.
    * <p>
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
    * 
    * @param propertyOrFieldName the name of the property or field to read
    * @return a new assertion object with the filtered iterable under test
@@ -1462,8 +1461,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);
    * </code></pre>
-   * If you need more complex filter, use {@link #filteredOn(Condition)} and provide a {@link Condition} to specify the
-   * filter to apply.
+   * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
    * 
    * @param propertyOrFieldName the name of the property or field to read
    * @param filterOperator the filter operator to apply
@@ -1481,9 +1479,9 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
   /**
    * Filter the iterable under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Let's check old employees whose age > 100:
-   * 
-   * 
+   * If you prefer {@link Predicate} over {@link Condition}, use {@link #filteredOn(Predicate)}.
+   * <p>
+   * Example : check old employees whose age > 100:
    * 
    * <pre><code class='java'> 
    * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -1504,7 +1502,6 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *   }
    * assertThat(employees).filteredOn(oldEmployees)
    *                      .containsOnly(yoda, obiwan);
-   *                      
    * </code></pre>
    * You can combine {@link Condition} with condition operator like {@link Not}:
    * 
@@ -1523,6 +1520,32 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
     Filters<? extends T> filter = filter((Iterable<? extends T>) actual);
     Iterable<? extends T> filteredIterable = filter.being(condition).get();
     return (S) new ListAssert<>(newArrayList(filteredIterable));
+  }
+
+  /**
+   * Filter the iterable under test keeping only elements matching the given {@link Predicate}.
+   * <p>
+   * Example : check old employees whose age > 100:
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * 
+   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
+   * 
+   * assertThat(employees).filteredOn(employee -> employee.getAge() > 100)
+   *                      .containsOnly(yoda, obiwan);
+   * </code></pre>
+   * 
+   * @param predicate the filter predicate
+   * @return a new assertion object with the filtered iterable under test
+   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   */
+  @SuppressWarnings("unchecked")
+  public S filteredOn(Predicate<? super T> predicate) {
+    if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
+    return (S) new ListAssert<>(stream(actual.spliterator(), false).filter(predicate).collect(toList()));
   }
 
 }

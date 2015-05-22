@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
@@ -26,6 +27,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -1051,9 +1053,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   /**
    * Filter the array under test keeping only elements matching the given {@link Condition}.
    * <p>
-   * Let's check old employees whose age > 100:
-   * 
-   * 
+   * Example : check old employees whose age > 100:
    * 
    * <pre><code class='java'> 
    * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
@@ -1074,7 +1074,6 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    *   }
    * assertThat(employees).filteredOn(oldEmployees)
    *                      .containsOnly(yoda, obiwan);
-   *                      
    * </code></pre>
    * You can combine {@link Condition} with condition operator like {@link Not}:
    * 
@@ -1092,6 +1091,32 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S filteredOn(Condition<? super T> condition) {
     Iterable<? extends T> filteredIterable = filter(actual).being(condition).get();
     return (S) new ObjectArrayAssert<>(toArray(filteredIterable));
+  }
+
+  /**
+   * Filter the iterable under test keeping only elements matching the given {@link Predicate}.
+   * <p>
+   * Example : check old employees whose age > 100:
+   * 
+   * <pre><code class='java'> 
+   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
+   * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
+   * 
+   * Employee[] employees = new Employee[] { yoda, luke, obiwan };
+   * 
+   * assertThat(employees).filteredOn(employee -> employee.getAge() > 100)
+   *                      .containsOnly(yoda, obiwan);
+   * </code></pre>
+   * 
+   * @param predicate the filter predicate
+   * @return a new assertion object with the filtered array under test
+   * @throws IllegalArgumentException if the given predicate is {@code null}.
+   */
+  @SuppressWarnings("unchecked")
+  public S filteredOn(Predicate<? super T> predicate) {
+    if (predicate == null) throw new IllegalArgumentException("The filter predicate should not be null");
+    return (S) new ObjectArrayAssert<>(stream(actual).filter(predicate).toArray());
   }
 
 }

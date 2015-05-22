@@ -23,7 +23,7 @@ import org.junit.Test;
 
 public class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_baseTest {
 
-  protected Condition<Employee> oldEmployees;
+  private Condition<Employee> oldEmployees;
 
   @Override
   @Before
@@ -50,7 +50,8 @@ public class IterableAssert_filteredOn_condition_Test extends IterableAssert_fil
   @Test
   public void should_fail_if_given_condition_is_null() {
     thrown.expectIllegalArgumentException("The filter condition should not be null");
-    assertThat(employees).filteredOn(null);
+    oldEmployees = null;
+    assertThat(employees).filteredOn(oldEmployees);
   }
 
 }

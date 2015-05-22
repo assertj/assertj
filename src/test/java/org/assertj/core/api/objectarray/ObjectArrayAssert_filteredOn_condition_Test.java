@@ -50,7 +50,8 @@ public class ObjectArrayAssert_filteredOn_condition_Test extends ObjectArrayAsse
   @Test
   public void should_fail_if_given_condition_is_null() {
     thrown.expectIllegalArgumentException("The filter condition should not be null");
-    assertThat(employees).filteredOn(null);
+    oldEmployees = null;
+    assertThat(employees).filteredOn(oldEmployees);
   }
 
 }
