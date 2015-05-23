@@ -34,7 +34,7 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
-      <version>[1.7.1, 1.8.0)</version>
+      <version>[1.7.1,)</version>
     </dependency>
     <!-- test dependencies -->
     <dependency>
@@ -90,10 +90,10 @@
         <version>2.10.1</version>
         <configuration>
           <!-- (1) CSS file location -->
-          <stylesheetfile>src/main/javadoc/assertj-javadoc-code.css</stylesheetfile>
+          <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
           <!-- (2) Highlight Javascript file -->
           <top><![CDATA[
-            <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+            <script src="http://cdn.jsdelivr.net/highlight.js/8.6/highlight.min.js"></script>
           ]]></top>
           <!-- init Highlight -->
           <footer><![CDATA[
