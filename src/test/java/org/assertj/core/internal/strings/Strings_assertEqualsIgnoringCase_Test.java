@@ -16,8 +16,6 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -41,6 +39,18 @@ public class Strings_assertEqualsIgnoringCase_Test extends StringsBaseTest {
       strings.assertEqualsIgnoringCase(info, null, "Luke");
     } catch (AssertionError e) {
       verifyFailureThrownWhenStringsAreNotEqual(info, null, "Luke");
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_is_not_null_and_expected_is() {
+    AssertionInfo info = someInfo();
+    try {
+      strings.assertEqualsIgnoringCase(info, "Luke", null);
+    } catch (AssertionError e) {
+      verifyFailureThrownWhenStringsAreNotEqual(info, "Luke", null);
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

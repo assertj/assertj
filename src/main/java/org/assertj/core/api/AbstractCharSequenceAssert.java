@@ -266,6 +266,33 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring case considerations.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertion will pass
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
+   * assertThat((String)null).isNotEqualToIgnoringCase("Gandalf");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase(null);
+   *
+   * // assertion will fail
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("Gandalf");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("GaNDalf");
+   * assertThat((String)null).isNotEqualToIgnoringCase(null);
+   * </code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
+   */
+  public S isNotEqualToIgnoringCase(CharSequence expected) {
+    strings.assertNotEqualsIgnoringCase(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains only digits. It fails if String contains non-digit
    * characters or is empty.
    * <p>

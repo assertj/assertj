@@ -12,25 +12,25 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
+import static org.mockito.Mockito.verify;
+
 /**
- * Tests for <code>{@link CharSequenceAssert#isEqualToIgnoringCase(CharSequence)}</code>.
- * 
- * @author Alex Ruiz
+ * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isNotEqualToIgnoringCase(CharSequence)}</code>.
+ *
+ * @author Alexander Bischof
  */
-public class CharSequenceAssert_isEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
+public class CharSequenceAssert_isNotEqualToIgnoringCase_Test extends CharSequenceAssertBaseTest {
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.isEqualToIgnoringCase("yoda");
+    return assertions.isNotEqualToIgnoringCase("yoda");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(strings).assertEqualsIgnoringCase(getInfo(assertions), getActual(assertions), "yoda");
+    verify(strings).assertNotEqualsIgnoringCase(getInfo(assertions), getActual(assertions), "yoda");
   }
 }
