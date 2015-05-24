@@ -12,55 +12,70 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Math.abs;
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
-import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.error.ShouldBeEqualWithinPercentage;
 import org.assertj.core.util.*;
+
+import static java.lang.Math.abs;
+import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.internal.CommonValidations.*;
 
 /**
  * Reusable assertions for <code>{@link Byte}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
 public class Bytes extends Numbers<Byte> {
 
-  private static final Bytes INSTANCE = new Bytes();
+    private static final Bytes INSTANCE = new Bytes();
 
-  /**
-   * Returns the singleton instance of this class.
-   * 
-   * @return the singleton instance of this class.
-   */
-  public static Bytes instance() {
-    return INSTANCE;
-  }
-
-  @VisibleForTesting
-  Bytes() {
-    super();
-  }
-
-  public Bytes(ComparisonStrategy comparisonStrategy) {
-    super(comparisonStrategy);
-  }
-
-  @Override
-  protected Byte zero() {
-    return 0;
-  }
-
-  public void assertIsCloseTo(AssertionInfo info, Byte actual, Byte expected, Offset<Byte> offset) {
-      assertNotNull(info, actual);
-      checkOffsetIsNotNull(offset);
-      checkNumberIsNotNull(expected);
-      byte absDiff = (byte) abs(expected - actual);
-      if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+    /**
+     * Returns the singleton instance of this class.
+     *
+     * @return the singleton instance of this class.
+     */
+    public static Bytes instance() {
+        return INSTANCE;
     }
 
+    @VisibleForTesting Bytes() {
+        super();
+    }
 
+    public Bytes(ComparisonStrategy comparisonStrategy) {
+        super(comparisonStrategy);
+    }
+
+    @Override
+    protected Byte zero() {
+        return 0;
+    }
+
+    @Override
+    public void assertIsCloseTo(AssertionInfo info, Byte actual, Byte expected, Offset<Byte> offset) {
+        assertNotNull(info, actual);
+        checkOffsetIsNotNull(offset);
+        checkNumberIsNotNull(expected);
+        byte absDiff = (byte) abs(expected - actual);
+        if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+    }
+
+    public void assertIsCloseToPercentage(AssertionInfo info, Byte actual, Byte other,
+                                Percentage<Byte> percentage) {
+        assertNotNull(info, actual);
+        checkPercentageIsNotNull(percentage);
+        checkNumberIsNotNull(other);
+
+        if (org.assertj.core.util.Objects.areEqual(actual, other)) return;
+
+        Offset<Double> calculatedOffset = offset(percentage.value * other / 100d);
+
+        byte absDiff = (byte) abs(other - actual);
+        if (absDiff > calculatedOffset.value) throw failures.failure(info, ShouldBeEqualWithinPercentage
+            .shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));
+    }
 }

@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
@@ -300,4 +301,11 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
     bigDecimals.assertIsCloseTo(info, actual, other, offset);
     return myself;
   }
+
+    /** {@inheritDoc} */
+    @Override
+    public S isCloseTo(BigDecimal expected, Percentage<BigDecimal> percentage) {
+        bigDecimals.assertIsCloseToPercentage(info, actual, expected, percentage);
+        return myself;
+    }
 }

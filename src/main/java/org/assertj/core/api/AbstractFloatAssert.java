@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
-
 import org.assertj.core.data.Offset;
-import org.assertj.core.internal.*;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Floats;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.util.Comparator;
 
 
 /**
@@ -183,38 +185,43 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
     return myself;
   }
 
-  /**
-   * Verifies that the actual value is close to the given one by less than the given offset.<br>
-   * If difference is equal to offset value, assertion is considered valid.
-   * <p>
-   * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
-   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.2f));
-   *
-   * // if difference is exactly equals to the offset (0.1f), it's ok
-   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.1f));
-   *
-   * // within is an alias of offset
-   * assertThat(8.1f).isEqualTo(new Float(8.2f), within(0.1f));
-   *
-   * // assertion will fail
-   * assertThat(8.1f).isEqualTo(new Float(8.2f), offset(0.01f));
-   * </code></pre>
-   * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below fails:
-   * <pre><code class='java'>
-   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isEqualTo(new Float(8.0f), offset(0.1f));
-   * </code></pre>
-   *
-   * @param expected the given value to compare the actual value to.
-   * @param offset the given positive offset.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the given one.
-   */
+    /** {@inheritDoc} */
+    @Override
+    public S isCloseTo(Float expected, Percentage<Float> percentage) {
+        floats.assertIsCloseToPercentage(info, actual, expected, percentage);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual number is close to the given one within the given percentage.<br>
+     * If difference is equal to the percentage value, assertion is considered valid.
+     * <p>
+     * Example with double:
+     *
+     * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
+     *
+     * // if difference is exactly equals to the computed offset (1.0), it's ok
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
+     *
+     * // assertion will fail
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));
+     * </code></pre>
+     *
+     * @param expected the given number to compare the actual value to.
+     * @param percentage the given positive percentage between 0 and 100.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
+    public S isCloseTo(float expected, Percentage<Float> percentage) {
+        floats.assertIsCloseToPercentage(info, actual, expected, percentage);
+        return myself;
+    }
+
+  /** {@inheritDoc} */
 	@Override
 	public S isEqualTo(Float expected, Offset<Float> offset) {
 		floats.assertEqual(info, actual, expected, offset);

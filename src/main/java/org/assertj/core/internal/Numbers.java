@@ -13,6 +13,8 @@
 package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 /**
  * Base class of reusable assertions for numbers.
@@ -20,7 +22,7 @@ import org.assertj.core.api.AssertionInfo;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Comparables {
+public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extends Comparables {
 
   public Numbers() {
     super();
@@ -136,4 +138,26 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   public void assertIsStrictlyBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
     assertIsBetween(info, actual, start, end, false, false);
   }
+
+    /**
+     * Asserts that the actual value is close to the offset.
+     *
+     * @param info contains information about the assertion.
+     * @param actual the actual value.
+     * @param other the expected value.
+     * @param offset the given positive offset.
+     */
+  public abstract void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+                                final Offset<NUMBER> offset);
+
+    /**
+     * Asserts that the actual value is close to the an offset expressed as an percentage value.
+     *
+     * @param info contains information about the assertion.
+     * @param actual the actual value.
+     * @param other the expected value.
+     * @param percentage the given percentage between 0 and 100.
+     */
+    public abstract void assertIsCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+                                         final Percentage<NUMBER> percentage);
 }

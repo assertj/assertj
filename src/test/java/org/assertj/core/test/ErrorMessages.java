@@ -75,6 +75,10 @@ public final class ErrorMessages {
     return "The value of the offset should be greater than zero";
   }
 
+  public static String percentageValueIsInRange(Number number) {
+        return String.format("The percentage value <%s> should be between zero and hundred.",number.doubleValue());
+    }
+
   public static String regexPatternIsNull() {
     return "The regular expression pattern to match should not be null";
   }

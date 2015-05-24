@@ -39,12 +39,15 @@ import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.RuntimeIOException;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+
+import static org.assertj.core.data.Percentage.withPercentage;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -984,6 +987,104 @@ public class Assertions {
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
   }
+
+    /**
+     * Assertions entry point for BigDecimal {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), withinPercentage(BigDecimal.ONE));
+     * </code></pre>
+     */
+    public static Percentage<BigDecimal> withinPercentage(BigDecimal value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));
+     * </code></pre>
+     */
+    public static Percentage<Double> withinPercentage(Double value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Float {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(10.0f));
+     * </code></pre>
+     */
+    public static Percentage<Float> withinPercentage(Float value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat(11).isCloseTo(10, withinPercentage(10));
+     * </code></pre>
+     */
+    public static Percentage<Integer> withinPercentage(Integer value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
+     * </code></pre>
+     */
+    public static Percentage<Long> withinPercentage(Long value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Short {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)10));
+     * </code></pre>
+     */
+    public static Percentage<Short> withinPercentage(Short value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Byte {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     * <p/>
+     *
+     * <pre><code class='java'>
+     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)10));
+     * </code></pre>
+     */
+    public static Percentage<Byte> withinPercentage(Byte value) {
+        return withPercentage(value);
+    }
 
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.

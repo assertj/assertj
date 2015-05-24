@@ -14,11 +14,14 @@ package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
 
+import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 import static org.assertj.core.internal.CommonValidations.*;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.error.ShouldBeEqualWithinPercentage;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -91,8 +94,26 @@ public class Doubles extends RealNumbers<Double> {
     return abs(expected - actual) <= offset.value.doubleValue();
   }
 
+  @Override
   public void assertIsCloseTo(final AssertionInfo info, final Double actual, final Double other,
                               final Offset<Double> offset) {
     assertEqual(info, actual, other, offset);
   }
+
+  public void assertIsCloseToPercentage(final AssertionInfo info, final Double actual, final Double expected,
+                              final Percentage<Double> percentage) {
+      checkPercentageIsNotNull(percentage);
+      checkNumberIsNotNull(expected);
+      assertNotNull(info, actual);
+
+      // doesn't use areEqual method relying on comparisonStrategy attribute
+      if (Objects.areEqual(actual, expected)) return;
+
+      Offset<Double> calculatedOffset = offset(percentage.value * expected / 100d);
+
+      if (isEqualTo(actual, expected, calculatedOffset)) return;
+      throw failures.failure(info, ShouldBeEqualWithinPercentage
+          .shouldBeEqualWithinPercentage(actual, expected, percentage, abs(expected - actual)));
+    }
+
 }
