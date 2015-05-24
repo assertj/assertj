@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.VisibleForTesting;
@@ -211,35 +212,93 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
   }
 
   /**
-   * Verifies that the actual Integer is close to the given one within the given offset.<br>
+   * Verifies that the actual int is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
    *
    * <pre><code class='java'>
    * // assertions will pass:
-   * assertThat(5).isCloseTo(new Integer(7), within(3));
+   * assertThat(5).isCloseTo(Integer.valueOf(7), within(3));
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(5).isCloseTo(new Integer(7), within(2));
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat(5).isCloseTo(Integer.valueOf(7), within(2));
    *
    * // assertion will fail
-   * assertThat(5).isCloseTo(new Integer(7), within(1));
+   * assertThat(5).isCloseTo(Integer.valueOf(7), within(1));
    * </code></pre>
    *
-   * @param expected the given Integer to compare the actual value to.
+   * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected Integer is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isCloseTo(Integer expected, Offset<Integer> offset) {
     integers.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
-  
-  
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with integer:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(10));
+   *
+   * // assertion will fail
+   * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(5));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(Integer expected, Percentage percentage) {
+    integers.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with integer:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(11).isCloseTo(10, withinPercentage(20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat(11).isCloseTo(10, withinPercentage(10));
+   *
+   * // assertion will fail
+   * assertThat(11).isCloseTo(10, withinPercentage(5));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(int expected, Percentage percentage) {
+    integers.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
   @Override
   public S usingComparator(Comparator<? super Integer> customComparator) {
     super.usingComparator(customComparator);

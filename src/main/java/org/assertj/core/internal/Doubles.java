@@ -12,10 +12,9 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Math.abs;
-
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
@@ -83,16 +82,18 @@ public class Doubles extends RealNumbers<Double> {
     // doesn't use areEqual method relying on comparisonStrategy attribute
     if (Objects.areEqual(actual, expected)) return;
     if (isEqualTo(actual, expected, offset)) return;
-    throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual)));
+    throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff(actual, expected)));
   }
 
   @Override
   protected boolean isEqualTo(Double actual, Double expected, Offset<?> offset) {
-    return abs(expected - actual) <= offset.value.doubleValue();
+    return absDiff(actual, expected) <= offset.value.doubleValue();
   }
 
+  @Override
   public void assertIsCloseTo(final AssertionInfo info, final Double actual, final Double other,
                               final Offset<Double> offset) {
     assertEqual(info, actual, other, offset);
   }
+
 }

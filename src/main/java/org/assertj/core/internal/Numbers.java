@@ -12,7 +12,15 @@
  */
 package org.assertj.core.internal;
 
+import static java.lang.Math.abs;
+import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
+
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 /**
  * Base class of reusable assertions for numbers.
@@ -20,7 +28,7 @@ import org.assertj.core.api.AssertionInfo;
  * @author Joel Costigliola
  * @author Nicolas François
  */
-public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Comparables {
+public abstract class Numbers<NUMBER extends Number & Comparable<NUMBER>> extends Comparables {
 
   public Numbers() {
     super();
@@ -136,4 +144,47 @@ public abstract class Numbers<NUMBER extends Comparable<NUMBER>> extends Compara
   public void assertIsStrictlyBetween(AssertionInfo info, NUMBER actual, NUMBER start, NUMBER end) {
     assertIsBetween(info, actual, start, end, false, false);
   }
+
+  /**
+   * Asserts that the actual value is close to the offset.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the expected value.
+   * @param offset the given positive offset.
+   */
+  public abstract void assertIsCloseTo(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+                                       final Offset<NUMBER> offset);
+
+  /**
+   * Asserts that the actual value is close to the an offset expressed as an percentage value.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual value.
+   * @param other the expected value.
+   * @param percentage the given percentage between 0 and 100.
+   */
+  public void assertIsCloseToPercentage(final AssertionInfo info, final NUMBER actual, final NUMBER other,
+                                        final Percentage percentage) {
+    isCloseToPercentageCommonChecks(info, actual, other, percentage);
+    Offset<Double> offset = computeOffset(other, percentage);
+    double absDiff = absDiff(actual, other);
+    if (absDiff > offset.value)
+      throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));
+  }
+
+  protected void isCloseToPercentageCommonChecks(AssertionInfo info, NUMBER actual, NUMBER other, Percentage percentage) {
+    assertNotNull(info, actual);
+    checkPercentageIsNotNull(percentage);
+    checkNumberIsNotNull(other);
+  }
+
+  protected double absDiff(NUMBER actual, NUMBER expected) {
+    return abs(expected.doubleValue() - actual.doubleValue());
+  }
+
+  private Offset<Double> computeOffset(NUMBER referenceValue, Percentage percentage) {
+    return offset(percentage.value * referenceValue.doubleValue() / 100d);
+  }
+
 }

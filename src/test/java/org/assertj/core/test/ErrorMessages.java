@@ -38,11 +38,11 @@ public final class ErrorMessages {
   public static String descriptionIsNull() {
     return "The description to set should not be null";
   }
-  
+
   public static String keysToLookForIsEmpty() {
     return "The array of keys to look for should not be empty";
   }
-  
+
   public static String keysToLookForIsNull() {
     return "The array of keys to look for should not be null";
   }
@@ -73,6 +73,10 @@ public final class ErrorMessages {
 
   public static String offsetValueIsNotPositive() {
     return "The value of the offset should be greater than zero";
+  }
+
+  public static String percentageValueIsInRange(Number number) {
+    return String.format("The percentage value <%s> should be between 0 and 100.", number.doubleValue());
   }
 
   public static String regexPatternIsNull() {
@@ -119,6 +123,5 @@ public final class ErrorMessages {
     return "The array of values to look for should not be empty";
   }
 
-  private ErrorMessages() {
-  }
+  private ErrorMessages() {}
 }

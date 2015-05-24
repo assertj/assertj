@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.util.VisibleForTesting;
@@ -274,32 +275,90 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
   }
 
   /**
-   * Verifies that the actual Short is close to the given one within the given offset.<br>
+   * Verifies that the actual short is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
    *
    * <pre><code class='java'>
    * // assertions will pass:
-   * assertThat((short)5).isCloseTo(new Short("7"), within((short)3));
+   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)3));
    *
    * // if difference is exactly equals to the offset, it's ok
-   * assertThat((short)5).isCloseTo(new Short("7"), within((short)2));
+   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)2));
    *
    * // assertion will fail
-   * assertThat((short)5).isCloseTo(new Short("7"), within((short)1));
+   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)1));
    * </code></pre>
    *
-   * @param expected the given Short to compare the actual value to.
+   * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected Short is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   @Override
   public S isCloseTo(Short expected, Offset<Short> offset) {
     shorts.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with short:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)10));
+   *
+   * // assertion will fail
+   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)5));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(Short expected, Percentage percentage) {
+    shorts.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with short:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)20));
+   *
+   * // if difference is exactly equals to the computed offset (1), it's ok
+   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)10));
+   *
+   * // assertion will fail
+   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)5));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(short expected, Percentage percentage) {
+    shorts.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 

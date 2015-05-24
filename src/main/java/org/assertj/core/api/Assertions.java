@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.data.Percentage.withPercentage;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -40,6 +42,7 @@ import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
@@ -848,8 +851,7 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
@@ -863,8 +865,7 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * </code></pre>
@@ -877,8 +878,7 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
    * </code></pre>
@@ -891,8 +891,7 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * </code></pre>
@@ -905,8 +904,7 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
    * </code></pre>
@@ -919,8 +917,7 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
    * </code></pre>
@@ -933,8 +930,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat((byte)10).isCloseTo((byte)11, within((byte)1));
    * </code></pre>
@@ -947,8 +943,7 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -961,8 +956,7 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -975,8 +969,7 @@ public class Assertions {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(5l).isCloseTo(7l, within(2l));
    * </code></pre>
@@ -985,6 +978,49 @@ public class Assertions {
     return Offset.offset(value);
   }
 
+  /**
+   * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));
+   * </code></pre>
+   */
+  public static Percentage withinPercentage(Double value) {
+    return withPercentage(value);
+  }
+
+  /**
+   * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+   * assertThat(11).isCloseTo(10, withinPercentage(10));
+   * </code></pre>
+   */
+  public static Percentage withinPercentage(Integer value) {
+    return withPercentage(value);
+  }
+
+  /**
+   * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+     * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
+     * </code></pre>
+   */
+  public static Percentage withinPercentage(Long value) {
+    return withPercentage(value);
+  }
+
+  
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -1300,34 +1336,43 @@ public class Assertions {
   // --------------------------------------------------------------------------------------------------
 
   /**
-   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire contents in memory. </p>
+   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire contents in memory.
+   * </p>
    *
    * @param url the URL.
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws RuntimeIOException   if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
-  public static String contentOf(URL url, Charset charset) { return URLs.contentOf(url, charset); }
+  public static String contentOf(URL url, Charset charset) {
+    return URLs.contentOf(url, charset);
+  }
 
   /**
-   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}. <p> Note that this will
-   * load the entire contents in memory. </p>
+   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire contents in memory.
+   * </p>
    *
    * @param url the URL.
    * @param charsetName the name of the character set to use.
    * @return the content of the URL.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws RuntimeIOException           if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(URL url, String charsetName) {
     return URLs.contentOf(url, charsetName);
   }
 
   /**
-   * Loads the text content of a URL with the default character set, so that it can be passed to {@link
-   * #assertThat(String)}. <p> Note that this will load the entire file in memory; for larger files. </p>
+   * Loads the text content of a URL with the default character set, so that it can be passed to
+   * {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files.
+   * </p>
    *
    * @param url the URL.
    * @return the content of the file.
@@ -1338,7 +1383,8 @@ public class Assertions {
   }
 
   /**
-   * Loads the text content of a URL into a list of strings with the default charset, each string corresponding to a line.
+   * Loads the text content of a URL into a list of strings with the default charset, each string corresponding to a
+   * line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param url the URL.

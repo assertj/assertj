@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
@@ -298,6 +299,36 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
   @Override
   public S isCloseTo(final BigDecimal other, final Offset<BigDecimal> offset) {
     bigDecimals.assertIsCloseTo(info, actual, other, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with BigDecimal:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(BigDecimal.valueOf(11.0)).isCloseTo(BigDecimal.valueOf(10.0), withinPercentage(BigDecimal.valueOf(20d)));
+   *
+   * // if difference is exactly equals to the computed offset (1.0), it's ok
+   * assertThat(BigDecimal.valueOf(11.0)).isCloseTo(BigDecimal.valueOf(10.0), withinPercentage(BigDecimal.valueOf(10d)));
+   *
+   * // assertion will fail
+   * assertThat(BigDecimal.valueOf(11.0)).isCloseTo(BigDecimal.valueOf(10.0), withinPercentage(BigDecimal.valueOf(5d)));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(BigDecimal expected, Percentage percentage) {
+    bigDecimals.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 }
