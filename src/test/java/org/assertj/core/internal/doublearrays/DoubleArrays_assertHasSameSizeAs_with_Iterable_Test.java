@@ -43,7 +43,7 @@ public class DoubleArrays_assertHasSameSizeAs_with_Iterable_Test extends DoubleA
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size()).create(null, info.representation()));
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.size()).create(null, info.representation()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -46,7 +46,7 @@ public class Strings_assertHasSameSizeAs_with_Array_Test extends StringsBaseTest
     try {
       strings.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length(), other.length)
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length(), other.length)
           .create(null, info.representation()));
       return;
     }

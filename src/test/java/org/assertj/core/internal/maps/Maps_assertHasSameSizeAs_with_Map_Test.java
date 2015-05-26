@@ -64,7 +64,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
       failBecauseExpectedAssertionErrorWasNotThrown();
     } catch (AssertionError e) {
       assertThat(e).hasMessage(
-          shouldHaveSameSizeAs(actual, actual.size(), other.size()).create(null, info.representation()));
+          shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create(null, info.representation()));
     }
   }
 

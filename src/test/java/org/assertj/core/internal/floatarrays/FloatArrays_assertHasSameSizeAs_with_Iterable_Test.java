@@ -43,7 +43,7 @@ public class FloatArrays_assertHasSameSizeAs_with_Iterable_Test extends FloatArr
     try {
       arrays.assertHasSameSizeAs(info, actual, other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.size())
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.size())
           .create(null, info.representation()));
       return;
     }
