@@ -57,7 +57,9 @@ public class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
 	  assertThat(e).hasMessage("\nExpecting:\n" +
 		                       " <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>\n" +
 		                       "to contain:\n" +
-		                       " <[MapEntry[key=400, value='violet'], MapEntry[key=100, value='violet'], MapEntry[key=500, value='pink']]>\n" +
+		                       " <[MapEntry[key=400, value='violet'],\n"+
+		                       "    MapEntry[key=100, value='violet'],\n"+
+		                       "    MapEntry[key=500, value='pink']]>\n" +
 		                       "but could not find:\n" +
 		                       " <[MapEntry[key=100, value='violet'], MapEntry[key=500, value='pink']]>\n");
 	  // @format:on

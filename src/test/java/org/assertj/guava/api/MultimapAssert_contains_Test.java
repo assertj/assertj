@@ -16,12 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
 import static org.junit.Assert.fail;
 
-import org.junit.Test;
-
 import org.assertj.core.data.MapEntry;
+import org.junit.Test;
 
 public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
 
@@ -55,17 +53,17 @@ public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Derrick Rose"));
     } catch (AssertionError e) {
-      assertThat(e)
-          .hasMessage(
-              "\nExpecting:\n"
-                  + " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n"
-                  + "to contain:\n"
-                  + " <[MapEntry[key='Lakers', value='Kobe Bryant'], MapEntry[key='Spurs', value='Derrick Rose']]>\n"
-                  + "but could not find:\n" +
-                    " <[MapEntry[key='Spurs', value='Derrick Rose']]>\n");
+      // @format:off
+      assertThat(e).hasMessage("\nExpecting:\n"                                   +
+                               " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n" +
+                               "to contain:\n" +
+                               " <[MapEntry[key='Lakers', value='Kobe Bryant'],\n" +
+                               "    MapEntry[key='Spurs', value='Derrick Rose']]>\n" +
+                               "but could not find:\n" +
+                               " <[MapEntry[key='Spurs', value='Derrick Rose']]>\n");
+      // @format:on
       return;
     }
     fail("Assertion error expected");
   }
-
 }
