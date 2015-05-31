@@ -36,6 +36,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -198,7 +199,14 @@ public class Arrays {
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values)) return;
-	assertHasSameSizeAs(info, actual, values);
+    assertNotNull(info, actual);
+    assertIsArray(info, actual);
+    assertIsArray(info, values);
+    int actualSize = sizeOf(actual);
+    int expectedSize = sizeOf(values);
+    if (actualSize != expectedSize)
+      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
+
 	Set<Object> actualWithoutDuplicates = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
 	Set<Object> notFound = containsOnly(actualWithoutDuplicates, values);
 	if (actualWithoutDuplicates.isEmpty() && notFound.isEmpty()) {

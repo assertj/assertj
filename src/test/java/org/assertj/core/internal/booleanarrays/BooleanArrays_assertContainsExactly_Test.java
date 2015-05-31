@@ -14,6 +14,7 @@ package org.assertj.core.internal.booleanarrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.test.BooleanArrays.arrayOf;
 import static org.assertj.core.test.BooleanArrays.emptyArray;
 import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
@@ -26,6 +27,7 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BooleanArrays;
 import org.assertj.core.internal.BooleanArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -91,6 +93,20 @@ public class BooleanArrays_assertContainsExactly_Test extends BooleanArraysBaseT
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    AssertionInfo info = someInfo();
+    boolean[] expected = { true };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 2, 1, StandardComparisonStrategy.instance()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
 }

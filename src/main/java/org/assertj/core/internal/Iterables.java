@@ -29,6 +29,7 @@ import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.error.ShouldContainNull.shouldContainNull;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
@@ -874,6 +875,10 @@ public class Iterables {
    */
   public void assertContainsExactly(AssertionInfo info, Iterable<?> actual, Object[] values) {
     checkIsNotNull(values);
+    assertNotNull(info, actual);
+    int actualSize = sizeOf(actual);
+    if (values.length != actualSize)
+      throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, values.length, comparisonStrategy));
     assertHasSameSizeAs(info, actual, values); // include check that actual is not null
     Set<Object> notExpected = setFromIterable(actual);
     Set<Object> notFound = containsOnly(notExpected, values);
