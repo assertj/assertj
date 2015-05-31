@@ -108,7 +108,7 @@ public class Maps_assertContainsExactly_Test extends MapsBaseTest {
     try {
       maps.assertContainsExactly(info, linkedActual, expected);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(linkedActual, linkedActual.size(), expected.length).create());
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(linkedActual, expected, linkedActual.size(), expected.length).create());
       return;
     }
     shouldHaveThrown(AssertionError.class);

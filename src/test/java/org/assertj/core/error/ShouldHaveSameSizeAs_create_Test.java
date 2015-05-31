@@ -32,7 +32,7 @@ public class ShouldHaveSameSizeAs_create_Test {
 
   @Before
   public void setUp() {
-    factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), 2, 4);
+    factory = shouldHaveSameSizeAs(newArrayList('a', 'b'), newArrayList('a', 'b', 'c', 'd'), 2, 4);
   }
 
   @Test
@@ -43,6 +43,8 @@ public class ShouldHaveSameSizeAs_create_Test {
                                    " <2>%n" +
                                    "while expected is:%n" +
                                    " <4>%n" +
+                                   "Expected was:%n"+
+                                   "<['a', 'b', 'c', 'd']>%n" +
                                    "Actual was:%n" +
                                    "<['a', 'b']>"));
   }
@@ -55,6 +57,8 @@ public class ShouldHaveSameSizeAs_create_Test {
                                   " <2>%n" +
                                   "while expected is:%n" +
                                   " <4>%n" +
+                                  "Expected was:%n"+
+                                  "<['0x0061', '0x0062', '0x0063', '0x0064']>%n" +
                                   "Actual was:%n<['0x0061', '0x0062']>"));
 }
 }

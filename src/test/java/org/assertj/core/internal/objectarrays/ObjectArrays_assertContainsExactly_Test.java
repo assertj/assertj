@@ -111,7 +111,7 @@ public class ObjectArrays_assertContainsExactly_Test extends ObjectArraysBaseTes
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, expected.length).create(null,
+	  assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create(null,
 		                                                                                           info.representation()));
 	  return;
 	}

@@ -67,7 +67,7 @@ public class ObjectArrayAssert_hasSameSizeAs_with_Arrays_Test {
     try {
       assertThat(actual).hasSameSizeAs(other);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.length, other.length).create());
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.length).create());
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

@@ -111,7 +111,7 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, actual.size(), expected.length)
+      assertThat(e).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.size(), expected.length)
           .create(null, info.representation()));
       return;
     }
