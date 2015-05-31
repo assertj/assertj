@@ -12,18 +12,19 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.assertj.core.error.ShouldBeInSameMonth.shouldBeInSameMonth;
 import static org.assertj.core.util.Dates.parse;
 
-import org.assertj.core.description.*;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link ShouldBeInSameMonth#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldBeInSameMonth#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Joel Costigliola
  */
@@ -33,9 +34,11 @@ public class ShouldBeInSameMonth_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldBeInSameMonth(parse("2010-01-01"), parse("2010-02-01"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2010-01-01T00:00:00>%nto be on same year and month as:%n <2010-02-01T00:00:00>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2010-01-01T00:00:00.000>%n" +
+                                         "to be on same year and month as:%n" +
+                                         " <2010-02-01T00:00:00.000>"));
   }
 
 }

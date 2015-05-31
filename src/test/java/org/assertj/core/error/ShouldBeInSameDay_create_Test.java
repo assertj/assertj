@@ -12,15 +12,15 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.assertj.core.error.ShouldBeInSameDay.shouldBeInSameDay;
 import static org.assertj.core.util.Dates.parse;
 
-import org.assertj.core.description.*;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
-
 
 /**
  * Tests for <code>{@link ShouldBeInSameDay#create(Description, org.assertj.core.presentation.Representation)}</code>.
@@ -33,9 +33,11 @@ public class ShouldBeInSameDay_create_Test {
   public void should_create_error_message() {
     ErrorMessageFactory factory = shouldBeInSameDay(parse("2010-01-01"), parse("2010-01-25"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2010-01-01T00:00:00>%nto be on same year, month and day as:%n <2010-01-25T00:00:00>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2010-01-01T00:00:00.000>%n" +
+                                         "to be on same year, month and day as:%n" +
+                                         " <2010-01-25T00:00:00.000>"));
   }
 
 }

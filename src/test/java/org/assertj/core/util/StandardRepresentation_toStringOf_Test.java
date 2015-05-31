@@ -12,11 +12,10 @@
  */
 package org.assertj.core.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -126,7 +125,7 @@ public class StandardRepresentation_toStringOf_Test {
   @Test
   public void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertThat(new StandardRepresentation().toStringOf(date)).isEqualTo("2011-06-18T23:53:17");
+    assertThat(new StandardRepresentation().toStringOf(date)).isEqualTo("2011-06-18T23:53:17.000");
   }
 
   @Test

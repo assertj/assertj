@@ -13,8 +13,8 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Dates.parseDatetime;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.util.Dates.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -163,7 +163,7 @@ public class BDDSoftAssertionsTest {
 
 	  assertThat(errors.get(11)).isEqualTo("expected:<java.lang.[String]> but was:<java.lang.[Object]>");
 
-	  assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01]> but was:<[1999-12-31T23:59:59]>");
+      assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01].000> but was:<[1999-12-31T23:59:59].000>");
 
 	  assertThat(errors.get(13)).isEqualTo("expected:<[7].0> but was:<[6].0>");
 	  assertThat(errors.get(14)).isEqualTo("expected:<[9].0> but was:<[8].0>");

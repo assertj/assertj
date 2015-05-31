@@ -64,21 +64,9 @@ public class DateAssert_with_string_based_date_representation_Test extends DateA
   }
 
   @Test
-  public void date_assertion_should_support_timestamp_string_representation() {
-    Date date = new Date();
-    Timestamp timestamp = new Timestamp(date.getTime());
-    // 2015-04-12 21:25:12.293
-    String timestampAsString = Dates.newTimestampDateFormat().format(timestamp);
-
-    assertThat(date).isEqualTo(timestampAsString);
-  }
-
-  @Test
-  public void date_assertion_should_support_timestamp_string_representation_in_ms() throws ParseException {
-    Date date = Dates.newTimestampDateFormat().parse("2015-05-08 11:30:00.56");
-    Timestamp timestamp = new Timestamp(date.getTime());
-
-    String timestampAsString = Dates.newTimestampDateFormat().format(timestamp);
+  public void date_assertion_should_support_timestamp_string_representation() throws ParseException {
+    Date date = Dates.newTimestampDateFormat().parse("2015-05-08 11:30:00.560");
+    String timestampAsString = Dates.newTimestampDateFormat().format(new Timestamp(date.getTime()));
 
     assertThat(date).isEqualTo(timestampAsString);
   }

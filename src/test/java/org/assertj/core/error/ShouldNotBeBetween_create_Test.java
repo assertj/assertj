@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotBeBetween.shouldNotBeBetween;
 import static org.assertj.core.util.Dates.parse;
@@ -20,9 +21,10 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link ShouldNotBeBetween#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldNotBeBetween#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Joel Costigliola
  */
@@ -30,33 +32,49 @@ public class ShouldNotBeBetween_create_Test {
 
   @Test
   public void should_create_error_message_with_period_boundaries_included() {
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2009-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, true);
+    ErrorMessageFactory factory = shouldNotBeBetween(parse("2009-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+                                                     true, true);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2009-01-01T00:00:00>%nnot to be in period:%n [2011-01-01T00:00:00, 2012-01-01T00:00:00]"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2009-01-01T00:00:00.000>%n" +
+                                         "not to be in period:%n" +
+                                         " [2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000]"));
   }
 
   @Test
   public void should_create_error_message_with_period_lower_boundary_included() {
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2012-01-01"), parse("2011-01-01"), parse("2012-01-01"), true, false);
+    ErrorMessageFactory factory = shouldNotBeBetween(parse("2012-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+                                                     true, false);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2012-01-01T00:00:00>%nnot to be in period:%n [2011-01-01T00:00:00, 2012-01-01T00:00:00["));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2012-01-01T00:00:00.000>%n" +
+                                         "not to be in period:%n" +
+                                         " [2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000["));
   }
 
   @Test
   public void should_create_error_message_with_period_upper_boundary_included() {
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, true);
+    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+                                                     false, true);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2011-01-01T00:00:00>%nnot to be in period:%n ]2011-01-01T00:00:00, 2012-01-01T00:00:00]"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2011-01-01T00:00:00.000>%n" +
+                                         "not to be in period:%n" +
+                                         " ]2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000]"));
   }
 
   @Test
   public void should_create_error_message_with_period_boundaries_excluded() {
-    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"), false, false);
+    ErrorMessageFactory factory = shouldNotBeBetween(parse("2011-01-01"), parse("2011-01-01"), parse("2012-01-01"),
+                                                     false, false);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <2011-01-01T00:00:00>%nnot to be in period:%n ]2011-01-01T00:00:00, 2012-01-01T00:00:00["));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <2011-01-01T00:00:00.000>%n" +
+                                         "not to be in period:%n" +
+                                         " ]2011-01-01T00:00:00.000, 2012-01-01T00:00:00.000["));
   }
 }

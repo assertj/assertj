@@ -101,7 +101,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String toStringOf(Date d) {
-    return Dates.formatAsDatetime(d);
+    return Dates.formatAsDatetimeWithMs(d);
   }
 
   private static String toStringOf(Float f) {
