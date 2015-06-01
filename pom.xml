@@ -76,8 +76,8 @@
           <instructions>
             <Export-Package>
               !org.assertj.core.internal,
-              org.assertj.core.api.*,
-              org.assertj.core.condition.*
+              !org.assertj.core.util,
+              org.assertj.core.*
             </Export-Package>
             <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
             <_removeheaders>Bnd-LastModified</_removeheaders>
