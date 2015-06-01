@@ -17,7 +17,7 @@ import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

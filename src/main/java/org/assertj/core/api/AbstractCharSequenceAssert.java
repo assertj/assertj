@@ -22,7 +22,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.core.util.Iterables;
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -358,7 +358,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
    */
   public S contains(Iterable<? extends CharSequence> values) {
-    strings.assertContains(info, actual, Iterables.toArray(values, CharSequence.class));
+    strings.assertContains(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
 
@@ -415,7 +415,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    *           order</b>.
    */
   public S containsSequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSequence(info, actual, Iterables.toArray(values, CharSequence.class));
+    strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
 

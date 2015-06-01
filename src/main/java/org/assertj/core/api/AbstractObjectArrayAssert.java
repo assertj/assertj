@@ -16,7 +16,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -37,7 +37,7 @@ import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.util.Iterables;
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -653,7 +653,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
       result.addAll(e);
     }
 
-    return new ObjectArrayAssert<>(Iterables.toArray(result));
+    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
   }
 
   /**

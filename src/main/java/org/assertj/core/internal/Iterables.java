@@ -48,8 +48,8 @@ import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.failIfEmptySinceActualIsNotEmpty;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Comparator;

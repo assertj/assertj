@@ -23,31 +23,31 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Iterables#sizeOf(Iterable)}</code>.
+ * Tests for <code>{@link IterableUtil#sizeOf(Iterable)}</code>.
  * 
  * @author Joel Costigliola
  * @author Alex Ruiz
  */
-public class Iterables_sizeOf_Test {
+public class IterableUtil_sizeOf_Test {
   @Test
   public void should_return_zero_if_iterable_is_empty() {
-    assertThat(Iterables.sizeOf(new ArrayList<String>())).isEqualTo(0);
+    assertThat(IterableUtil.sizeOf(new ArrayList<String>())).isEqualTo(0);
   }
 
   @Test(expected = NullPointerException.class)
   public void should_throws_exception_if_iterable_is_null() {
-    Iterables.sizeOf(null);
+    IterableUtil.sizeOf(null);
   }
 
   @Test
   public void should_return_iterable_size() {
     List<String> list = newArrayList("Frodo", "Sam");
-    assertThat(Iterables.sizeOf(list)).isEqualTo(2);
+    assertThat(IterableUtil.sizeOf(list)).isEqualTo(2);
   }
 
   @Test
   public void should_return_correct_size_for_non_collection_iterable() {
     Iterable<Throwable> sqlException = new SQLException(new Exception(new Exception()));
-    assertThat(Iterables.sizeOf(sqlException)).isEqualTo(3);
+    assertThat(IterableUtil.sizeOf(sqlException)).isEqualTo(3);
   }
 }

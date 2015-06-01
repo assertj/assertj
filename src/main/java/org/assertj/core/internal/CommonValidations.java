@@ -20,7 +20,7 @@ import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmp
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesForIsNull;
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsEmpty;
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;

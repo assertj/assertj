@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
-import org.assertj.core.util.Iterables;
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.Maps;
 
 /**
@@ -43,7 +43,7 @@ public final class DefaultToString {
     if (isArray(o)) {
       return Arrays.format(representation, o);
     } else if (o instanceof Collection<?>) {
-      return Iterables.format(representation, (Iterable<?>) o);
+      return IterableUtil.format(representation, (Iterable<?>) o);
     } else if (o instanceof Map<?, ?>) {
       return Maps.format(representation, (Map<?, ?>) o);
     } else if (o instanceof Tuple) {
@@ -53,7 +53,7 @@ public final class DefaultToString {
   }
 
   public static String toStringOf(Tuple tuple, Representation representation) {
-    return Iterables.singleLineFormat(representation, tuple.toList(), "(", ")");
+    return IterableUtil.singleLineFormat(representation, tuple.toList(), "(", ")");
   }
 
   private static String defaultToString(Object o) {

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import org.assertj.core.internal.*;
 

@@ -58,7 +58,7 @@ import static org.assertj.core.internal.CommonValidations.checkIterableIsNotNull
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;

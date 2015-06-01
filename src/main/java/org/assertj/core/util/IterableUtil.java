@@ -31,7 +31,7 @@ import org.assertj.core.presentation.Representation;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public final class Iterables {
+public final class IterableUtil {
 
   private static final String ELEMENT_SEPARATOR = ",";
   private static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
@@ -138,7 +138,7 @@ public final class Iterables {
     return (T[]) Array.newInstance(type, length);
   }
 
-  private Iterables() {}
+  private IterableUtil() {}
 
   /**
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given

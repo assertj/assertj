@@ -21,37 +21,37 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Iterables#toArray(Iterable)}</code>.
+ * Tests for <code>{@link IterableUtil#toArray(Iterable)}</code>.
  * 
  * @author Jean-Christophe Gay
  */
-public class Iterables_toArray_Test {
+public class IterableUtil_toArray_Test {
 
   private final ArrayList<String> values = newArrayList("one", "two");
 
   @Test
   public void should_return_null_when_given_iterable_is_null() {
-    assertThat(Iterables.toArray(null)).isNull();
-    assertThat(Iterables.toArray(null, Object.class)).isNull();
+    assertThat(IterableUtil.toArray(null)).isNull();
+    assertThat(IterableUtil.toArray(null, Object.class)).isNull();
   }
 
   @Test
   public void should_return_an_object_array_with_given_iterable_elements() {
-    Object[] objects = Iterables.toArray(values);
+    Object[] objects = IterableUtil.toArray(values);
     assertThat(objects).containsExactly("one", "two");
-    String[] strings = Iterables.toArray(values, String.class);
+    String[] strings = IterableUtil.toArray(values, String.class);
     assertThat(strings).containsExactly("one", "two");
   }
 
   @Test
   public void should_return_empty_array_when_given_iterable_is_empty() {
-    assertThat(Iterables.toArray(emptyList())).isEmpty();
-    assertThat(Iterables.toArray(emptyList(), Object.class)).isEmpty();
+    assertThat(IterableUtil.toArray(emptyList())).isEmpty();
+    assertThat(IterableUtil.toArray(emptyList(), Object.class)).isEmpty();
   }
 
   @Test
   public void should_return_an_array_of_given_iterable_type_with_given_iterable_elements() {
-    CharSequence[] result = Iterables.toArray(values, CharSequence.class);
+    CharSequence[] result = IterableUtil.toArray(values, CharSequence.class);
 
     assertThat(result).containsExactly("one", "two");
   }

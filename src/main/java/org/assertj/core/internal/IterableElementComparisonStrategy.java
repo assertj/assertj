@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.util.Comparator;
 import java.util.Iterator;

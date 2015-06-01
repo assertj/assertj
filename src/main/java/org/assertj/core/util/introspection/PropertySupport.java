@@ -14,7 +14,7 @@ package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
 import static java.util.Collections.*;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
 import java.beans.PropertyDescriptor;

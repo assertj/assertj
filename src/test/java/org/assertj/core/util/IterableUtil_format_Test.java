@@ -22,30 +22,30 @@ import java.util.List;
 
 import org.junit.Test;
 
-public class Iterables_format_Test {
+public class IterableUtil_format_Test {
 
   @Test
   public void should_return_null_if_Collection_is_null() {
-    assertThat(Iterables.format(STANDARD_REPRESENTATION, null)).isNull();
+    assertThat(IterableUtil.format(STANDARD_REPRESENTATION, null)).isNull();
   }
 
   @Test
   public void should_return_empty_brackets_if_Collection_is_empty() {
-    assertThat(Iterables.format(STANDARD_REPRESENTATION, new ArrayList<String>())).isEqualTo("[]");
+    assertThat(IterableUtil.format(STANDARD_REPRESENTATION, new ArrayList<String>())).isEqualTo("[]");
     // custom start and end
-    assertThat(Iterables.format(STANDARD_REPRESENTATION, new ArrayList<String>(), ">", "<")).isEqualTo("><");
+    assertThat(IterableUtil.format(STANDARD_REPRESENTATION, new ArrayList<String>(), ">", "<")).isEqualTo("><");
   }
 
   @Test
   public void should_format_Collection() {
     List<? extends Object> list = asList("First", 3);
-    assertThat(Iterables.format(STANDARD_REPRESENTATION, list)).isEqualTo("[\"First\", 3]");
+    assertThat(IterableUtil.format(STANDARD_REPRESENTATION, list)).isEqualTo("[\"First\", 3]");
   }
 
   @Test
   public void should_format_Collection_with_an_element_per_line() {
     List<? extends Object> list = asList("First", 3, "foo", "bar");
-    String formatted = Iterables.multiLineFormat(STANDARD_REPRESENTATION, list);
+    String formatted = IterableUtil.multiLineFormat(STANDARD_REPRESENTATION, list);
     String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +

@@ -20,35 +20,35 @@ import java.util.*;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Iterables#nonNullElementsIn(Iterable)}</code>.
+ * Tests for <code>{@link IterableUtil#nonNullElementsIn(Iterable)}</code>.
  * 
  * @author Joel Costigliola
  * @author Alex Ruiz
  */
-public class Iterables_nonNullElementsIn_Test {
+public class IterableUtil_nonNullElementsIn_Test {
   @Test
   public void should_return_empty_List_if_given_Iterable_is_null() {
     Collection<?> c = null;
-    assertThat(Iterables.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_has_only_null_elements() {
     Collection<String> c = new ArrayList<>();
     c.add(null);
-    assertThat(Iterables.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_empty_List_if_given_Iterable_is_empty() {
     Collection<String> c = new ArrayList<>();
-    assertThat(Iterables.nonNullElementsIn(c).isEmpty()).isTrue();
+    assertThat(IterableUtil.nonNullElementsIn(c).isEmpty()).isTrue();
   }
 
   @Test
   public void should_return_a_list_without_null_elements() {
     List<String> c = newArrayList("Frodo", null, "Sam", null);
-    List<String> nonNull = Iterables.nonNullElementsIn(c);
+    List<String> nonNull = IterableUtil.nonNullElementsIn(c);
     assertThat(nonNull.toArray()).isEqualTo(new String[] { "Frodo", "Sam" });
   }
 }

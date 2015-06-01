@@ -22,38 +22,38 @@ import java.util.List;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Iterables#isNullOrEmpty(Iterable)}</code>.
+ * Tests for <code>{@link IterableUtil#isNullOrEmpty(Iterable)}</code>.
  * 
  * @author Alex Ruiz
  */
-public class Iterables_isNullOrEmpty_Test {
+public class IterableUtil_isNullOrEmpty_Test {
   @Test
   public void should_return_true_if_Collection_is_empty() {
     Iterable<String> c = new ArrayList<>();
-    assertThat(Iterables.isNullOrEmpty(c)).isTrue();
+    assertThat(IterableUtil.isNullOrEmpty(c)).isTrue();
   }
 
   @Test
   public void should_return_false_if_Collection_has_elements() {
     Iterable<String> c = newArrayList("Frodo");
-    assertThat(Iterables.isNullOrEmpty(c)).isFalse();
+    assertThat(IterableUtil.isNullOrEmpty(c)).isFalse();
   }
 
   @Test
   public void should_return_true_if_Iterable_is_empty() {
     Iterable<String> i = new StringIterable();
-    assertThat(Iterables.isNullOrEmpty(i)).isTrue();
+    assertThat(IterableUtil.isNullOrEmpty(i)).isTrue();
   }
 
   @Test
   public void should_return_true_if_Iterable_is_null() {
-    assertThat(Iterables.isNullOrEmpty(null)).isTrue();
+    assertThat(IterableUtil.isNullOrEmpty(null)).isTrue();
   }
 
   @Test
   public void should_return_false_if_Iterable_has_elements() {
     Iterable<String> i = new StringIterable("Frodo");
-    assertThat(Iterables.isNullOrEmpty(i)).isFalse();
+    assertThat(IterableUtil.isNullOrEmpty(i)).isFalse();
   }
 
   private static class StringIterable implements Iterable<String> {
