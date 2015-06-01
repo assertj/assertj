@@ -12,36 +12,31 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.toCalendar;
+import static org.assertj.core.util.DateUtil.parse;
 
 import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
-import java.util.*;
 
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Dates#toCalendar(java.util.Date)}</code>.
+ * Tests for <code>{@link DateUtil#parse(String)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_toCalendar_Test {
+public class DateUtil_parse_Test {
 
   @Test
-  public void should_convert_date_to_calendar() throws ParseException {
+  public void should_parse_string() throws ParseException {
     String dateAsString = "26/08/1994";
-    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
-    Calendar calendar = new GregorianCalendar();
-    // clear all fields to have a Date without time (no hours, minutes...).
-    calendar.clear();
-    calendar.set(1994, 07, 26); // month is 0 value based.
-    assertThat(toCalendar(date)).isEqualTo(calendar);
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    assertThat(parse("1994-08-26")).isEqualTo(formatter.parse(dateAsString));
   }
 
   @Test
-  public void should_return_null_if_date_to_convert_is_null() {
-    assertThat(toCalendar(null)).isNull();
+  public void should_return_null_if_string_to_parse_is_null() {
+    assertThat(parse(null)).isNull();
   }
 
 }

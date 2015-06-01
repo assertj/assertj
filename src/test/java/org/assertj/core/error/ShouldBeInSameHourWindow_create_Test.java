@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInSameHourWindow.shouldBeInSameHourWindow;
-import static org.assertj.core.util.Dates.parseDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.text.ParseException;
 

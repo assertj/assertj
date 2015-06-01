@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualWithTimePrecision.shouldBeEqual;
-import static org.assertj.core.util.Dates.parseDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.text.ParseException;
 import java.util.concurrent.TimeUnit;

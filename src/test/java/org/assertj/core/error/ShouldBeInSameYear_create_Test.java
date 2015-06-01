@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInSameYear.shouldBeInSameYear;
-import static org.assertj.core.util.Dates.parse;
+import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;

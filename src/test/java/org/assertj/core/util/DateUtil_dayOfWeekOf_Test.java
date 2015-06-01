@@ -12,42 +12,38 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.*;
+import static org.assertj.core.util.DateUtil.dayOfWeekOf;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
-import java.util.Date;
+import java.text.*;
+import java.util.*;
 
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#parse(String)}</code>.
+ * Tests for <code>{@link DateUtil#dayOfWeekOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_parse_date_Test {
+public class DateUtil_dayOfWeekOf_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_parse_string_with_date_time_format() {
-    Date date = parse("1994-08-26");
-    assertThat(formatAsDatetime(date)).isEqualTo("1994-08-26T00:00:00");
+  public void should_return_day_of_month_of_date() throws ParseException {
+    String dateAsString = "26/08/1994";
+    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
+    assertThat(dayOfWeekOf(date)).isEqualTo(Calendar.FRIDAY);
   }
 
   @Test
-  public void should_return_null_if_string_to_parse_is_null() {
-    assertThat(parse(null)).isNull();
-  }
-
-  @Test
-  public void should_fail_if_string_does_not_respect_date_format() {
-    thrown.expect(RuntimeException.class);
-    assertThat(parse("invalid date format")).isNull();
+  public void should_throws_NullPointerException_if_date_parameter_is_null() {
+    thrown.expect(NullPointerException.class);
+    dayOfWeekOf(null);
   }
 
 }

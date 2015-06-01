@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,11 +22,11 @@ import java.util.*;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Dates#formatAsDatetime(Calendar)}</code> and <code>{@link Dates#formatAsDatetime(java.util.Date)}</code>
+ * Tests for <code>{@link DateUtil#formatAsDatetime(Calendar)}</code> and <code>{@link DateUtil#formatAsDatetime(java.util.Date)}</code>
  * 
  * @author Joel Costigliola
  */
-public class Dates_format_with_date_time_format_Test {
+public class DateUtil_format_with_date_time_format_Test {
 
   @Test
   public void should_format_date_with_date_time_format() throws ParseException {

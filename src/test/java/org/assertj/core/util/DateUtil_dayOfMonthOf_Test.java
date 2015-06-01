@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.secondOf;
+import static org.assertj.core.util.DateUtil.dayOfMonthOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
@@ -24,26 +24,26 @@ import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#secondOf(Date)}</code>.
+ * Tests for <code>{@link DateUtil#dayOfMonthOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_secondOf_Test {
+public class DateUtil_dayOfMonthOf_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_second_of_date() throws ParseException {
-    String dateAsString = "26/08/1994T22:35:17";
-    Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
-    assertThat(secondOf(date)).isEqualTo(17);
+  public void should_return_day_of_month_of_date() throws ParseException {
+    String dateAsString = "26/08/1994";
+    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
+    assertThat(dayOfMonthOf(date)).isEqualTo(26);
   }
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
     thrown.expect(NullPointerException.class);
-    secondOf(null);
+    dayOfMonthOf(null);
   }
 
 }

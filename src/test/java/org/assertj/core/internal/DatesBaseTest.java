@@ -13,16 +13,13 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.test.ExpectedException.none;
-
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 import java.util.Date;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.Dates;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.test.ExpectedException;
+import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.Before;
 import org.junit.Rule;
@@ -63,30 +60,30 @@ public abstract class DatesBaseTest {
   }
 
   /**
-   * Simply delegate to {@link org.assertj.core.util.Dates#parse(String)}
-   * @param dateAsString see {@link org.assertj.core.util.Dates#parse(String)}
-   * @return see {@link org.assertj.core.util.Dates#parse(String)}
+   * Simply delegate to {@link org.assertj.core.util.DateUtil#parse(String)}
+   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parse(String)}
+   * @return see {@link org.assertj.core.util.DateUtil#parse(String)}
    */
   protected static Date parseDate(String dateAsString) {
-    return org.assertj.core.util.Dates.parse(dateAsString);
+    return DateUtil.parse(dateAsString);
   }
 
   /**
-   * Simply delegate to {@link org.assertj.core.util.Dates#parseDatetime(String)}
-   * @param dateAsString see {@link org.assertj.core.util.Dates#parseDatetime(String)}
-   * @return see {@link org.assertj.core.util.Dates#parseDatetime(String)}
+   * Simply delegate to {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
+   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
+   * @return see {@link org.assertj.core.util.DateUtil#parseDatetime(String)}
    */
   protected static Date parseDatetime(String dateAsString) {
-    return org.assertj.core.util.Dates.parseDatetime(dateAsString);
+    return DateUtil.parseDatetime(dateAsString);
   }
 
   /**
-   * Simply delegate to {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
-   * @param dateAsString see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)} }
-   * @return see {@link org.assertj.core.util.Dates#parseDatetimeWithMs(String)}}
+   * Simply delegate to {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)}}
+   * @param dateAsString see {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)} }
+   * @return see {@link org.assertj.core.util.DateUtil#parseDatetimeWithMs(String)}}
    */
   protected static Date parseDatetimeWithMs(String dateAsString) {
-    return org.assertj.core.util.Dates.parseDatetimeWithMs(dateAsString);
+    return DateUtil.parseDatetimeWithMs(dateAsString);
   }
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {

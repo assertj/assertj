@@ -31,7 +31,7 @@ import java.util.Date;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-public class Dates {
+public class DateUtil {
 
   /**
    * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>

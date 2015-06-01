@@ -16,10 +16,10 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.assertj.core.util.Dates.newIsoDateFormat;
-import static org.assertj.core.util.Dates.newIsoDateTimeFormat;
-import static org.assertj.core.util.Dates.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.Dates.newTimestampDateFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
+import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -1699,7 +1699,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <pre><code class='java'>
    * assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))
    * </code></pre>
-   * see {@link org.assertj.core.util.Dates#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
+   * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
@@ -1773,7 +1773,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare hour only (without day, month and year), you could write :
    * <code>assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))</code><br>
-   * see {@link org.assertj.core.util.Dates#hourOfDayOf(Date)} to get the hour of a given Date.
+   * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(Date)} to get the hour of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
@@ -1926,7 +1926,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare minute field only (without hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinMinute(minuteOf(otherDate))</code><br>
-   * using {@link org.assertj.core.util.Dates#minuteOf(Date)} to get the minute of a given Date.
+   * using {@link org.assertj.core.util.DateUtil#minuteOf(Date)} to get the minute of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
@@ -2081,7 +2081,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare second fields only (without minute, hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinSecond(secondOf(otherDate))</code><br>
-   * using {@link org.assertj.core.util.Dates#secondOf(Date)} to get the second of a given Date.
+   * using {@link org.assertj.core.util.DateUtil#secondOf(Date)} to get the second of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *

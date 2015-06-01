@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.hourOfDayOf;
+import static org.assertj.core.util.DateUtil.monthOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
@@ -24,26 +24,26 @@ import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#hourOfDayOf(Date)}</code>.
+ * Tests for <code>{@link DateUtil#monthOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_hourOfDayOf_Test {
+public class DateUtil_monthOf_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_hour_of_day_of_date() throws ParseException {
-    String dateAsString = "26/08/1994T22:35:00";
-    Date date = new SimpleDateFormat("dd/MM/yyyy'T'hh:mm:ss").parse(dateAsString);
-    assertThat(hourOfDayOf(date)).isEqualTo(22);
+  public void should_return_month_of_date() throws ParseException {
+    String dateAsString = "26/08/1994";
+    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
+    assertThat(monthOf(date)).isEqualTo(8);
   }
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
     thrown.expect(NullPointerException.class);
-    hourOfDayOf(null);
+    monthOf(null);
   }
 
 }

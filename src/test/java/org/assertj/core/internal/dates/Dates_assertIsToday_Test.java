@@ -15,7 +15,7 @@ package org.assertj.core.internal.dates;
 import static org.assertj.core.error.ShouldBeToday.shouldBeToday;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.assertj.core.util.Dates.*;
+import static org.assertj.core.util.DateUtil.*;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 

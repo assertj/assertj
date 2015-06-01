@@ -12,32 +12,36 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.formatAsDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.toCalendar;
 
 import static org.assertj.core.api.Assertions.*;
 
 import java.text.*;
-import java.util.Date;
+import java.util.*;
 
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Dates#formatAsDatetimeWithMs(Date)}</code>.
+ * Tests for <code>{@link DateUtil#toCalendar(java.util.Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_format_with_date_time_with_ms_format_Test {
+public class DateUtil_toCalendar_Test {
 
   @Test
-  public void should_format_date_with_date_time_with_ms_format() throws ParseException {
+  public void should_convert_date_to_calendar() throws ParseException {
     String dateAsString = "26/08/1994";
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    assertThat(formatAsDatetimeWithMs(formatter.parse(dateAsString))).isEqualTo("1994-08-26T00:00:00.000");
+    Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
+    Calendar calendar = new GregorianCalendar();
+    // clear all fields to have a Date without time (no hours, minutes...).
+    calendar.clear();
+    calendar.set(1994, 07, 26); // month is 0 value based.
+    assertThat(toCalendar(date)).isEqualTo(calendar);
   }
 
   @Test
-  public void should_return_null_if_date_is_null() {
-    assertThat(formatAsDatetimeWithMs((Date) null)).isNull();
+  public void should_return_null_if_date_to_convert_is_null() {
+    assertThat(toCalendar(null)).isNull();
   }
 
 }

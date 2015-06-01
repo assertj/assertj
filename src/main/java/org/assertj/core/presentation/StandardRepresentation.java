@@ -21,7 +21,7 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
-import org.assertj.core.util.Dates;
+import org.assertj.core.util.DateUtil;
 
 /**
  * Standard java object representation.
@@ -69,7 +69,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String toStringOf(Calendar c) {
-    return Dates.formatAsDatetime(c);
+    return DateUtil.formatAsDatetime(c);
   }
 
   private static String toStringOf(Class<?> c) {
@@ -85,7 +85,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private static String toStringOf(Date d) {
-    return Dates.formatAsDatetimeWithMs(d);
+    return DateUtil.formatAsDatetimeWithMs(d);
   }
 
   private static String toStringOf(Float f) {

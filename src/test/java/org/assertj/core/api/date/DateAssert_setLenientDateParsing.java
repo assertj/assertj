@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.api.Assertions.setLenientDateParsing;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.assertj.core.util.Dates.parseDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.parseDatetime;
+import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.util.Date;
 

@@ -12,38 +12,38 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.dayOfWeekOf;
+import static org.assertj.core.util.DateUtil.yearOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
 import java.text.*;
-import java.util.*;
+import java.util.Date;
 
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#dayOfWeekOf(Date)}</code>.
+ * Tests for <code>{@link DateUtil#yearOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_dayOfWeekOf_Test {
+public class DateUtil_yearOf_Test {
 
   @Rule
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_day_of_month_of_date() throws ParseException {
+  public void should_return_year_of_date() throws ParseException {
     String dateAsString = "26/08/1994";
     Date date = new SimpleDateFormat("dd/MM/yyyy").parse(dateAsString);
-    assertThat(dayOfWeekOf(date)).isEqualTo(Calendar.FRIDAY);
+    assertThat(yearOf(date)).isEqualTo(1994);
   }
 
   @Test
   public void should_throws_NullPointerException_if_date_parameter_is_null() {
     thrown.expect(NullPointerException.class);
-    dayOfWeekOf(null);
+    yearOf(null);
   }
 
 }

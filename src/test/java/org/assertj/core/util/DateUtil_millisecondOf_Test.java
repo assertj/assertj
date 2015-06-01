@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.millisecondOf;
+import static org.assertj.core.util.DateUtil.millisecondOf;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
@@ -24,11 +24,11 @@ import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#millisecondOf(Date)}</code>.
+ * Tests for <code>{@link DateUtil#millisecondOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_millisecondOf_Test {
+public class DateUtil_millisecondOf_Test {
 
   @Rule
   public ExpectedException thrown = none();

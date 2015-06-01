@@ -12,31 +12,42 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.parse;
+import static org.assertj.core.util.DateUtil.*;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.rules.ExpectedException.none;
 
-import java.text.*;
+import java.util.Date;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
- * Tests for <code>{@link Dates#parse(String)}</code>.
+ * Tests for <code>{@link DateUtil#parse(String)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_parse_Test {
+public class DateUtil_parse_date_Test {
+
+  @Rule
+  public ExpectedException thrown = none();
 
   @Test
-  public void should_parse_string() throws ParseException {
-    String dateAsString = "26/08/1994";
-    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-    assertThat(parse("1994-08-26")).isEqualTo(formatter.parse(dateAsString));
+  public void should_parse_string_with_date_time_format() {
+    Date date = parse("1994-08-26");
+    assertThat(formatAsDatetime(date)).isEqualTo("1994-08-26T00:00:00");
   }
 
   @Test
   public void should_return_null_if_string_to_parse_is_null() {
     assertThat(parse(null)).isNull();
+  }
+
+  @Test
+  public void should_fail_if_string_does_not_respect_date_format() {
+    thrown.expect(RuntimeException.class);
+    assertThat(parse("invalid date format")).isNull();
   }
 
 }

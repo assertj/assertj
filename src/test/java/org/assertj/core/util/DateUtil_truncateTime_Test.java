@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.truncateTime;
+import static org.assertj.core.util.DateUtil.truncateTime;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -22,11 +22,11 @@ import java.util.Date;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link Dates#millisecondOf(Date)}</code>.
+ * Tests for <code>{@link DateUtil#millisecondOf(Date)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_truncateTime_Test {
+public class DateUtil_truncateTime_Test {
 
   @Test
   public void should_return_millisecond_of_date() throws ParseException {

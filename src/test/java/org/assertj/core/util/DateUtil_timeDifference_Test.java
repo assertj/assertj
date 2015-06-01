@@ -14,8 +14,8 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.util.Dates.parseDatetimeWithMs;
-import static org.assertj.core.util.Dates.timeDifference;
+import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.timeDifference;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -26,11 +26,11 @@ import org.junit.Test;
 import org.assertj.core.test.ExpectedException;
 
 /**
- * Tests for <code>{@link org.assertj.core.util.Dates#timeDifference(java.util.Date, java.util.Date)}</code>.
+ * Tests for <code>{@link org.assertj.core.util.DateUtil#timeDifference(java.util.Date, java.util.Date)}</code>.
  *
  * @author Joel Costigliola
  */
-public class Dates_timeDifference_Test {
+public class DateUtil_timeDifference_Test {
 
   @Rule
   public ExpectedException thrown = none();
