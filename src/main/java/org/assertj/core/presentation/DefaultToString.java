@@ -13,7 +13,9 @@
 package org.assertj.core.presentation;
 
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.IterableUtil.singleLineFormat;
 
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 
@@ -32,6 +34,9 @@ import org.assertj.core.util.Maps;
  */
 public final class DefaultToString {
 
+  private static final String TUPPLE_START = "(";
+  private static final String TUPPLE_END = ")";
+
   /**
    * Returns the {@code toString} representation of the given group. It may or not the object's own implementation of
    * {@code toString}.
@@ -40,26 +45,17 @@ public final class DefaultToString {
    * @return the {@code toString} representation of the given object.
    */
   public static String toStringOf(Representation representation, Object o) {
-    if (isArray(o)) {
-      return Arrays.format(representation, o);
-    } else if (o instanceof Collection<?>) {
-      return IterableUtil.format(representation, (Iterable<?>) o);
-    } else if (o instanceof Map<?, ?>) {
-      return Maps.format(representation, (Map<?, ?>) o);
-    } else if (o instanceof Tuple) {
-      return toStringOf((Tuple) o, representation);
-    }
-    return defaultToString(o);
-  }
-
-  public static String toStringOf(Tuple tuple, Representation representation) {
-    return IterableUtil.singleLineFormat(representation, tuple.toList(), "(", ")");
-  }
-
-  private static String defaultToString(Object o) {
+    if (o instanceof Path) return o.toString();
+    if (isArray(o)) return Arrays.format(representation, o);
+    if (o instanceof Collection<?>) return IterableUtil.format(representation, (Collection<?>) o);
+    if (o instanceof Map<?, ?>) return Maps.format(representation, (Map<?, ?>) o);
+    if (o instanceof Tuple) return toStringOf((Tuple) o, representation);
     return o == null ? null : o.toString();
   }
 
-  private DefaultToString() {
+  public static String toStringOf(Tuple tuple, Representation representation) {
+    return singleLineFormat(representation, tuple.toList(), TUPPLE_START, TUPPLE_END);
   }
+
+  private DefaultToString() {}
 }

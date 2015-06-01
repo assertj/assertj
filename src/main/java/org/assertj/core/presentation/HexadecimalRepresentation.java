@@ -21,6 +21,8 @@ import static org.assertj.core.util.Strings.concat;
  */
 public class HexadecimalRepresentation implements Representation {
 
+  public static final HexadecimalRepresentation HEXA_REPRESENTATION = new HexadecimalRepresentation();
+
   public static final String PREFIX = "0x";
   public static final int NIBBLE_SIZE = 4;
 
@@ -46,7 +48,7 @@ public class HexadecimalRepresentation implements Representation {
     else if (number instanceof Long) return toStringOf((Long) number);
     else if (number instanceof Float) return toStringOf((Float) number);
     else if (number instanceof Double) return toStringOf((Double) number);
-    else return number == null ? null : number.toString();
+    else return number.toString();
   }
 
   private static String toStringOf(Byte b) {

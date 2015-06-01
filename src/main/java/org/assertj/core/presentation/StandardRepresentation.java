@@ -51,13 +51,13 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
-    return defaultToString(object, this);
+    return DefaultToString.toStringOf(this, object);
   }
 
   private static String toStringOf(Number number, Representation representation) {
     if (number instanceof Float) return toStringOf((Float) number);
     if (number instanceof Long) return toStringOf((Long) number);
-    return defaultToString(number, representation);
+    return DefaultToString.toStringOf(representation, number);
   }
 
   private static String toStringOf(Comparator<?> comparator) {
@@ -102,10 +102,6 @@ public class StandardRepresentation implements Representation {
 
   private static String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
-  }
-
-  private static String defaultToString(Object object, Representation representation) {
-    return object == null ? null : DefaultToString.toStringOf(representation, object);
   }
 
 }

@@ -13,7 +13,6 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
@@ -24,13 +23,6 @@ import java.util.List;
 
 import org.assertj.core.presentation.Representation;
 
-/**
- * Utility methods related to {@code Iterable}s.
- * 
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 public final class IterableUtil {
 
   private static final String ELEMENT_SEPARATOR = ",";
@@ -39,7 +31,8 @@ public final class IterableUtil {
   private static final String DEFAULT_START = "[";
   // 4 spaces indentation : 2 space indentation after new line + '<' + '['
   private static final String INDENTATION_AFTER_NEWLINE = "    ";
-  private static final String ONE_LINE_INDENTATION = " ";
+  // used when formatting iterable to a single line
+  private static final String INDENTATION_FOR_SINGLE_LINE = " ";
 
   /**
    * Indicates whether the given {@link Iterable} is {@code null} or empty.
@@ -138,12 +131,9 @@ public final class IterableUtil {
     return (T[]) Array.newInstance(type, length);
   }
 
-  private IterableUtil() {}
-
   /**
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
    * {@code Iterable} is {@code null}.
-   * 
    * 
    * @param representation
    * @param iterable the {@code Iterable} to format.
@@ -154,21 +144,8 @@ public final class IterableUtil {
   }
 
   /**
-   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
-   * the given {@code Iterable}, or {@code null} if the given {@code Iterable} is {@code null}.
-   * 
-   * 
-   * @param iterable the {@code Iterable} to format.
-   * @return the {@code String} representation of the given {@code Iterable}.
-   */
-  public static String format(Iterable<?> iterable) {
-    return format(STANDARD_REPRESENTATION, iterable, DEFAULT_START, DEFAULT_END);
-  }
-
-  /**
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
    * {@code Iterable} is {@code null}.
-   * 
    * 
    * @param representation
    * @param iterable the {@code Iterable} to format.
@@ -179,7 +156,7 @@ public final class IterableUtil {
   }
 
   public static String singleLineFormat(Representation representation, Iterable<?> iterable, String start, String end) {
-    return format(representation, iterable, start, end, ELEMENT_SEPARATOR, ONE_LINE_INDENTATION);
+    return format(representation, iterable, start, end, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE);
   }
 
   public static String multiLineFormat(Representation representation, Iterable<?> iterable) {
@@ -208,4 +185,7 @@ public final class IterableUtil {
       desc.append(elementSeparator);
     }
   }
+
+  private IterableUtil() {}
+
 }
