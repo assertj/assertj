@@ -12,62 +12,54 @@
  */
 package org.assertj.core.presentation;
 
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.*;
-import org.assertj.core.util.Collections;
-
 import static org.assertj.core.util.Arrays.isArray;
 
-import java.util.*;
-import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
+
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.util.Arrays;
+import org.assertj.core.util.Iterables;
+import org.assertj.core.util.Maps;
 
 /**
- * Obtains the {@code toString} representation of an collection.
+ * Obtains the {@code toString} representation of a group of values (array, iterable, map, tuple).
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Yvonne Wang
  * @author Mariusz Smykula
  */
-final class CollectionToString {
+public final class DefaultToString {
 
   /**
-   * Returns the {@code toString} representation of the given collection. It may or not the object's own implementation
-   * of {@code toString}.
+   * Returns the {@code toString} representation of the given group. It may or not the object's own implementation of
+   * {@code toString}.
    * 
    * @param o the given object.
    * @return the {@code toString} representation of the given object.
    */
   public static String toStringOf(Representation representation, Object o) {
     if (isArray(o)) {
-      return org.assertj.core.util.Arrays.format(representation, o);
+      return Arrays.format(representation, o);
     } else if (o instanceof Collection<?>) {
-      return toStringOf((Collection<?>) o, representation);
+      return Iterables.format(representation, (Iterable<?>) o);
     } else if (o instanceof Map<?, ?>) {
-      return toStringOf((Map<?, ?>) o, representation);
+      return Maps.format(representation, (Map<?, ?>) o);
     } else if (o instanceof Tuple) {
       return toStringOf((Tuple) o, representation);
     }
     return defaultToString(o);
   }
 
-  private static String toStringOf(Collection<?> c, Representation p) {
-    return org.assertj.core.util.Collections.format(p, c);
-  }
-
-  private static String toStringOf(Map<?, ?> m, Representation p) {
-    return Maps.format(p, m);
-  }
-
-  private static String toStringOf(Tuple tuple, Representation representation) {
-    return Collections.format(representation, Arrays.asList(tuple.toArray()), "(", ")");
+  public static String toStringOf(Tuple tuple, Representation representation) {
+    return Iterables.singleLineFormat(representation, tuple.toList(), "(", ")");
   }
 
   private static String defaultToString(Object o) {
     return o == null ? null : o.toString();
   }
 
-  private CollectionToString() {
-
+  private DefaultToString() {
   }
 }

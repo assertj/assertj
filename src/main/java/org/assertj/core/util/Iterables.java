@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 import static java.util.Collections.emptyList;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.lang.reflect.Array;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
+import org.assertj.core.presentation.Representation;
 
 /**
  * Utility methods related to {@code Iterable}s.
@@ -29,6 +32,15 @@ import java.util.List;
  * @author Joel Costigliola
  */
 public final class Iterables {
+
+  private static final String ELEMENT_SEPARATOR = ",";
+  private static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
+  private static final String DEFAULT_END = "]";
+  private static final String DEFAULT_START = "[";
+  // 4 spaces indentation : 2 space indentation after new line + '<' + '['
+  private static final String INDENTATION_AFTER_NEWLINE = "    ";
+  private static final String ONE_LINE_INDENTATION = " ";
+
   /**
    * Indicates whether the given {@link Iterable} is {@code null} or empty.
    * 
@@ -127,4 +139,73 @@ public final class Iterables {
   }
 
   private Iterables() {}
+
+  /**
+   * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
+   * {@code Iterable} is {@code null}.
+   * 
+   * 
+   * @param representation
+   * @param iterable the {@code Iterable} to format.
+   * @return the {@code String} representation of the given {@code Collection}.
+   */
+  public static String format(Representation representation, Iterable<?> iterable) {
+    return format(representation, iterable, DEFAULT_START, DEFAULT_END);
+  }
+
+  /**
+   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
+   * the given {@code Iterable}, or {@code null} if the given {@code Iterable} is {@code null}.
+   * 
+   * 
+   * @param iterable the {@code Iterable} to format.
+   * @return the {@code String} representation of the given {@code Iterable}.
+   */
+  public static String format(Iterable<?> iterable) {
+    return format(STANDARD_REPRESENTATION, iterable, DEFAULT_START, DEFAULT_END);
+  }
+
+  /**
+   * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
+   * {@code Iterable} is {@code null}.
+   * 
+   * 
+   * @param representation
+   * @param iterable the {@code Iterable} to format.
+   * @return the {@code String} representation of the given {@code Iterable}.
+   */
+  public static String format(Representation representation, Iterable<?> iterable, String start, String end) {
+    return singleLineFormat(representation, iterable, start, end);
+  }
+
+  public static String singleLineFormat(Representation representation, Iterable<?> iterable, String start, String end) {
+    return format(representation, iterable, start, end, ELEMENT_SEPARATOR, ONE_LINE_INDENTATION);
+  }
+
+  public static String multiLineFormat(Representation representation, Iterable<?> iterable) {
+    return format(representation, iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE,
+                  INDENTATION_AFTER_NEWLINE);
+  }
+
+  private static String format(Representation representation, Iterable<?> iterable, String start, String end,
+                               String elementSeparator, String indentation) {
+    if (iterable == null) return null;
+    Iterator<?> iterator = iterable.iterator();
+    if (!iterator.hasNext()) return start + end;
+    // iterable has some elements
+    StringBuilder desc = new StringBuilder(start);
+    boolean firstElement = true;
+    while (true) {
+      Object element = iterator.next();
+      // do not indent first element
+      if (firstElement) firstElement = false;
+      else desc.append(indentation);
+      // add element representation
+      desc.append(element == iterable ? "(this Collection)" : representation.toStringOf(element));
+      // manage end description
+      if (!iterator.hasNext()) return desc.append(end).toString();
+      // there are still elements to be describe
+      desc.append(elementSeparator);
+    }
+  }
 }
