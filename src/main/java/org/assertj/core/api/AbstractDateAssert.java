@@ -2555,8 +2555,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
     date = parseDateWithDefaultDateFormats(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
-                             + info.representation().toStringOf(dateFormatsInOrderOfUsage()));
+    throw new AssertionError(String.format("Failed to parse %s with any of these date formats:%n   %s", dateAsString,
+                                           info.representation().toStringOf(dateFormatsInOrderOfUsage())));
   }
 
   private Date parseDateWithDefaultDateFormats(final String dateAsString) {

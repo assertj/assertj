@@ -23,16 +23,7 @@ import java.util.List;
 
 import org.assertj.core.presentation.Representation;
 
-public final class IterableUtil {
-
-  private static final String ELEMENT_SEPARATOR = ",";
-  private static final String ELEMENT_SEPARATOR_WITH_NEWLINE = ELEMENT_SEPARATOR + System.lineSeparator();
-  private static final String DEFAULT_END = "]";
-  private static final String DEFAULT_START = "[";
-  // 4 spaces indentation : 2 space indentation after new line + '<' + '['
-  private static final String INDENTATION_AFTER_NEWLINE = "    ";
-  // used when formatting iterable to a single line
-  private static final String INDENTATION_FOR_SINGLE_LINE = " ";
+public final class IterableUtil extends GroupFormatUtil {
 
   /**
    * Indicates whether the given {@link Iterable} is {@code null} or empty.
@@ -134,25 +125,18 @@ public final class IterableUtil {
   /**
    * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
    * {@code Iterable} is {@code null}.
-   * 
-   * @param representation
-   * @param iterable the {@code Iterable} to format.
-   * @return the {@code String} representation of the given {@code Collection}.
-   */
-  public static String format(Representation representation, Iterable<?> iterable) {
-    return format(representation, iterable, DEFAULT_START, DEFAULT_END);
-  }
-
-  /**
-   * Returns the {@code String} representation of the given {@code Iterable}, or {@code null} if the given
-   * {@code Iterable} is {@code null}.
+   * <p>
+   * The {@code Iterable} will be formatted to a single line if it does not exceed 100 char, otherwise each elements
+   * will be formatted on a new line with 4 space indentation.
    * 
    * @param representation
    * @param iterable the {@code Iterable} to format.
    * @return the {@code String} representation of the given {@code Iterable}.
    */
-  public static String format(Representation representation, Iterable<?> iterable, String start, String end) {
-    return singleLineFormat(representation, iterable, start, end);
+  public static String smartFormat(Representation representation, Iterable<?> iterable) {
+    String singleLineDescription = singleLineFormat(representation, iterable, DEFAULT_START, DEFAULT_END);
+    return doesDescriptionFitOnSingleLine(singleLineDescription) ?
+        singleLineDescription : multiLineFormat(representation, iterable);
   }
 
   public static String singleLineFormat(Representation representation, Iterable<?> iterable, String start, String end) {
@@ -162,6 +146,10 @@ public final class IterableUtil {
   public static String multiLineFormat(Representation representation, Iterable<?> iterable) {
     return format(representation, iterable, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR_WITH_NEWLINE,
                   INDENTATION_AFTER_NEWLINE);
+  }
+
+  private static boolean doesDescriptionFitOnSingleLine(String singleLineDescription) {
+    return singleLineDescription == null || singleLineDescription.length() < maxLengthForSingleLineDescription;
   }
 
   private static String format(Representation representation, Iterable<?> iterable, String start, String end,

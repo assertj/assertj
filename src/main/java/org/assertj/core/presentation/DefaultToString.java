@@ -47,7 +47,7 @@ public final class DefaultToString {
   public static String toStringOf(Representation representation, Object o) {
     if (o instanceof Path) return o.toString();
     if (isArray(o)) return Arrays.format(representation, o);
-    if (o instanceof Collection<?>) return IterableUtil.format(representation, (Collection<?>) o);
+    if (o instanceof Collection<?>) return IterableUtil.smartFormat(representation, (Collection<?>) o);
     if (o instanceof Map<?, ?>) return Maps.format(representation, (Map<?, ?>) o);
     if (o instanceof Tuple) return toStringOf((Tuple) o, representation);
     return o == null ? null : o.toString();
