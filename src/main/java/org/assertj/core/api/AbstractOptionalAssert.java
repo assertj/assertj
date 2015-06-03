@@ -109,28 +109,29 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument.
+   * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
+   * same instance).
    * </p>
    * Assertion will pass :
    * 
    * <pre><code class='java'>
    * String someString = "something";
-   * assertThat(Optional.of(someString)).contains(someString);
+   * assertThat(Optional.of(someString)).containsSame(someString);
    * 
    * // Java will create the same 'Integer' instance when boxing small ints
-   * assertThat(Optional.of(10)).contains(10);
+   * assertThat(Optional.of(10)).containsSame(10);
    * </code></pre>
    * 
    * Assertion will fail :
    * 
    * <pre><code class='java'>
    * // not even equal:
-   * assertThat(Optional.of("something")).contains("something else");
-   * assertThat(Optional.of(20)).contains(10);
+   * assertThat(Optional.of("something")).containsSame("something else");
+   * assertThat(Optional.of(20)).containsSame(10);
    * 
    * // equal but not the same: 
-   * assertThat(Optional.of(new String("something"))).contains(new String("something"));
-   * assertThat(Optional.of(new Integer(10))).contains(new Integer(10));
+   * assertThat(Optional.of(new String("something"))).containsSame(new String("something"));
+   * assertThat(Optional.of(new Integer(10))).containsSame(new Integer(10));
    * </code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
