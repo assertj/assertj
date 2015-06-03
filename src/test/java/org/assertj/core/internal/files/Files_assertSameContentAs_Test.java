@@ -13,9 +13,9 @@
 package org.assertj.core.internal.files;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.error.ShouldHaveSameContent;
 import org.assertj.core.internal.FilesBaseTest;
-import org.assertj.core.util.RuntimeIOException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

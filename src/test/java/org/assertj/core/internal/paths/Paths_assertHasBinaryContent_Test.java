@@ -30,10 +30,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
-import org.assertj.core.util.RuntimeIOException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

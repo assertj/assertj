@@ -23,9 +23,8 @@ import java.nio.file.Path;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
-import org.assertj.core.util.RuntimeIOException;
-import org.assertj.core.util.PathsException;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

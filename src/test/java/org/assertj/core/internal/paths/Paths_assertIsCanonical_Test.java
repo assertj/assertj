@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.nio.file.Path;
 
-import org.assertj.core.util.PathsException;
+import org.assertj.core.api.exception.PathsException;
 import org.junit.Test;
 
 public class Paths_assertIsCanonical_Test extends MockPathsBaseTest {

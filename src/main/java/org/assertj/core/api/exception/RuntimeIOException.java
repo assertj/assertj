@@ -10,7 +10,10 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.api.exception;
+
+import org.assertj.core.util.Files;
+import org.assertj.core.util.URLs;
 
 /**
  * Exception thrown by <code>{@link Files}</code> and <code>{@link URLs}</code>.

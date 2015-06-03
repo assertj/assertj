@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
-import org.assertj.core.util.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 
 import java.io.File;

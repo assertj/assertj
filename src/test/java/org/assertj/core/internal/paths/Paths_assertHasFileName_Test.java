@@ -13,8 +13,8 @@
 package org.assertj.core.internal.paths;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
 import java.nio.file.FileSystem;

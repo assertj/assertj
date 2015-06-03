@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.api.exception;
 
 public final class PathsException extends RuntimeException {
   private static final long serialVersionUID = 1L;

@@ -13,6 +13,7 @@
 package org.assertj.core.util;
 
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

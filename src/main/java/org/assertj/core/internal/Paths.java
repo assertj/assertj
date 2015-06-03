@@ -43,8 +43,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.RuntimeIOException;
-import org.assertj.core.util.PathsException;
+import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

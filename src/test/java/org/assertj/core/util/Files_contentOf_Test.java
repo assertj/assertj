@@ -18,6 +18,7 @@ import static org.junit.rules.ExpectedException.none;
 import java.io.File;
 import java.nio.charset.Charset;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
