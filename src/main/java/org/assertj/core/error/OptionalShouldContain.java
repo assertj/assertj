@@ -22,11 +22,15 @@ import java.util.OptionalLong;
  * should contain a specific value.
  *
  * @author Jean-Christophe Gay
+ * @author Nicolai Parlog
  */
 public class OptionalShouldContain extends BasicErrorMessageFactory {
 
-  private OptionalShouldContain(Object actual, Object expected) {
-    super("%nExpecting:%n  <%s>%nto contain:%n  <%s>%nbut did not.", actual, expected);
+  private static final String EXPECTING_TO_CONTAIN = "%nExpecting:%n  <%s>%nto contain:%n  <%s>%nbut did not.";
+  private static final String EXPECTING_TO_CONTAIN_SAME = "%nExpecting:%n  <%s>%nto contain the instance (i.e. compared with ==):%n  <%s>%nbut did not.";
+
+  private OptionalShouldContain(String message, Object actual, Object expected) {
+    super(message, actual, expected);
   }
 
   private OptionalShouldContain(Object expected) {
@@ -42,7 +46,7 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static <T> OptionalShouldContain shouldContain(Optional<T> optional, T expectedValue) {
-    return new OptionalShouldContain(optional, expectedValue);
+    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
   }
 
   /**
@@ -53,7 +57,7 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalDouble optional, double expectedValue) {
-    return new OptionalShouldContain(optional, expectedValue);
+    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
   }
 
   /**
@@ -64,7 +68,7 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalInt optional, int expectedValue) {
-    return new OptionalShouldContain(optional, expectedValue);
+    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
   }
 
   /**
@@ -75,7 +79,20 @@ public class OptionalShouldContain extends BasicErrorMessageFactory {
    * @return a error message factory
    */
   public static OptionalShouldContain shouldContain(OptionalLong optional, long expectedValue) {
-    return new OptionalShouldContain(optional, expectedValue);
+    return new OptionalShouldContain(EXPECTING_TO_CONTAIN, optional, expectedValue);
+  }
+
+  /**
+   * Indicates that the provided {@link java.util.Optional} does not contain the provided argument (judging by reference
+   * equality).
+   *
+   * @param optional the {@link java.util.Optional} which contains a value.
+   * @param expectedValue the value we expect to be in the provided {@link java.util.Optional}.
+   * @param <T> the type of the value contained in the {@link java.util.Optional}.
+   * @return a error message factory
+   */
+  public static <T> OptionalShouldContain shouldContainSame(Optional<T> optional, T expectedValue) {
+    return new OptionalShouldContain(EXPECTING_TO_CONTAIN_SAME, optional, expectedValue);
   }
 
   /**
