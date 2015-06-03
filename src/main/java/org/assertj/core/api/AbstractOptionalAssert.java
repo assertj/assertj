@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 
 import java.util.Optional;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
  *
  * @param <T> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
+ * @author Nicolai Parlog
  */
 public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
     AbstractAssert<S, Optional<T>> {
@@ -78,7 +80,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Verifies that the actual {@link java.util.Optional} contains the value in argument.
+   * Verifies that the actual {@link java.util.Optional} contains a value {@link Object#equals(Object) equal} to the
+   * argument.
    * </p>
    * Assertion will pass :
    * 
@@ -102,6 +105,42 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
     if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
     if (!actual.get().equals(expectedValue)) throw failure(shouldContain(actual, expectedValue));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument.
+   * </p>
+   * Assertion will pass :
+   * 
+   * <pre><code class='java'>
+   * String someString = "something";
+   * assertThat(Optional.of(someString)).contains(someString);
+   * 
+   * // Java will create the same 'Integer' instance when boxing small ints
+   * assertThat(Optional.of(10)).contains(10);
+   * </code></pre>
+   * 
+   * Assertion will fail :
+   * 
+   * <pre><code class='java'>
+   * // not even equal:
+   * assertThat(Optional.of("something")).contains("something else");
+   * assertThat(Optional.of(20)).contains(10);
+   * 
+   * // equal but not the same: 
+   * assertThat(Optional.of(new String("something"))).contains(new String("something"));
+   * assertThat(Optional.of(new Integer(10))).contains(new Integer(10));
+   * </code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public S containsSame(T expectedValue) {
+    isNotNull();
+    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
+    if (actual.get() != expectedValue) throw failure(shouldContainSame(actual, expectedValue));
     return myself;
   }
 }
