@@ -40,11 +40,14 @@ import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
+
+import static org.assertj.core.data.Percentage.withPercentage;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
@@ -848,8 +851,7 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
@@ -863,8 +865,7 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * </code></pre>
@@ -877,8 +878,7 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
    * </code></pre>
@@ -891,8 +891,7 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * </code></pre>
@@ -905,8 +904,7 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
    * </code></pre>
@@ -919,8 +917,7 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
    * </code></pre>
@@ -933,8 +930,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat((byte)10).isCloseTo((byte)11, within((byte)1));
    * </code></pre>
@@ -947,8 +943,7 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -961,8 +956,7 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -975,8 +969,7 @@ public class Assertions {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(5l).isCloseTo(7l, within(2l));
    * </code></pre>
@@ -984,6 +977,97 @@ public class Assertions {
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
   }
+
+    /**
+     * Assertions entry point for BigDecimal {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), withinPercentage(BigDecimal.ONE));
+     * </code></pre>
+     */
+    public static Percentage<BigDecimal> withinPercentage(BigDecimal value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));
+     * </code></pre>
+     */
+    public static Percentage<Double> withinPercentage(Double value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Float {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(10.0f));
+     * </code></pre>
+     */
+    public static Percentage<Float> withinPercentage(Float value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat(11).isCloseTo(10, withinPercentage(10));
+     * </code></pre>
+     */
+    public static Percentage<Integer> withinPercentage(Integer value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
+     * </code></pre>
+     */
+    public static Percentage<Long> withinPercentage(Long value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Short {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)10));
+     * </code></pre>
+     */
+    public static Percentage<Short> withinPercentage(Short value) {
+        return withPercentage(value);
+    }
+
+    /**
+     * Assertions entry point for Byte {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for percentages.
+     * <p/>
+     * Typical usage :
+     *
+     * <pre><code class='java'>
+     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)10));
+     * </code></pre>
+     */
+    public static Percentage<Byte> withinPercentage(Byte value) {
+        return withPercentage(value);
+    }
 
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.

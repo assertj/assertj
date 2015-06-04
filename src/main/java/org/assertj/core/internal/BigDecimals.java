@@ -12,18 +12,26 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+import org.assertj.core.error.ShouldBeEqualWithinPercentage;
+import org.assertj.core.util.*;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Offset;
-import org.assertj.core.util.*;
+import static java.math.BigDecimal.ZERO;
+import static java.math.BigDecimal.valueOf;
+import static org.assertj.core.data.Offset.offset;
+import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.*;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
 
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -50,20 +58,30 @@ public class BigDecimals extends Numbers<BigDecimal> {
 
   @Override
   protected BigDecimal zero() {
-    return BigDecimal.ZERO;
+    return ZERO;
   }
 
   public void assertIsCloseTo(final AssertionInfo info, final BigDecimal actual, final BigDecimal other, final Offset<BigDecimal> offset) {
     assertNotNull(info, actual);
-    final BigDecimal differenceAbsoluteValue = abs(actual.subtract(other));
-    if (differenceAbsoluteValue.subtract(offset.value).compareTo(BigDecimal.ZERO) <= 0) return;
-    throw failures.failure(info, shouldBeEqual(actual, other, offset, differenceAbsoluteValue));
+    if (areNotCloseEnough(actual, other, offset))
+        throw failures.failure(info, shouldBeEqual(actual, other, offset, actual.subtract(other).abs()));
   }
 
-  // borrowed from java 7 API ... to remove when we will be using Java 7 instead of java 6.
-  private BigDecimal abs(final BigDecimal bigDecimal) {
-    return (bigDecimal.signum() < 0 ? bigDecimal.negate() : bigDecimal);
-  }
+    private boolean areNotCloseEnough(BigDecimal actual, BigDecimal other, Offset<BigDecimal> offset) {
+        return actual.subtract(other).abs().subtract(offset.value).compareTo(ZERO) > 0;
+    }
 
+    public void assertIsCloseToPercentage(AssertionInfo info, BigDecimal actual, BigDecimal other,
+                                Percentage<BigDecimal> percentage) {
+        assertNotNull(info, actual);
+        checkPercentageIsNotNull(percentage);
+        checkNumberIsNotNull(other);
 
+        Offset<BigDecimal> calculatedOffset = offset(percentage.value.multiply(other).divide(valueOf(100d)));
+
+        if (areNotCloseEnough(actual, other, calculatedOffset))
+            throw failures.failure(info,
+                                   shouldBeEqualWithinPercentage(actual, other, percentage,
+                                                                 actual.subtract(other).abs()));
+    }
 }

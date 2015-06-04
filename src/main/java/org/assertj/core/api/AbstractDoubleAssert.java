@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.*;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -131,12 +132,97 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
     return myself;
   }
 
-  /** {@inheritDoc} */
+    /**
+     * Verifies that the actual number is close to the given one within the given offset.<br>
+     * If difference is equal to offset value, assertion is considered valid.
+     * <p>
+     * Example:
+     *
+     * <pre><code class='java'>
+     * // assertion will pass
+     * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.2));
+     *
+     * // you can use offset if you prefer
+     * assertThat(8.1).isCloseTo(Double.valueOf(8.0), offset(0.2));
+     *
+     * // if difference is exactly equals to 0.1, it's ok
+     * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.1));
+     *
+     * // assertion will fail
+     * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.01));
+     * </code></pre>
+     *
+     * @param other the given number to compare the actual value to.
+     * @param offset the given positive offset.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
   @Override
   public S isCloseTo(Double other, Offset<Double> offset) {
     doubles.assertIsCloseTo(info, actual, other, offset);
     return myself;
   }
+
+    /**
+     * Verifies that the actual number is close to the given one within the given percentage.<br>
+     * If difference is equal to the percentage value, assertion is considered valid.
+     * <p>
+     * Example with double:
+     *
+     * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(20d));
+     *
+     * // if difference is exactly equals to the computed offset (1.0), it's ok
+     * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(10d));
+     *
+     * // assertion will fail
+     * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(5d));
+     * </code></pre>
+     *
+     * @param expected the given number to compare the actual value to.
+     * @param percentage the given positive percentage between 0 and 100.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
+    @Override
+    public S isCloseTo(Double expected, Percentage<Double> percentage) {
+        doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
+        return myself;
+    }
+
+    /**
+     * Verifies that the actual number is close to the given one within the given percentage.<br>
+     * If difference is equal to the percentage value, assertion is considered valid.
+     * <p>
+     * Example with double:
+     *
+     * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat(11.0).isCloseTo(10.0, withinPercentage(20d));
+     *
+     * // if difference is exactly equals to the computed offset (1.0), it's ok
+     * assertThat(11.0).isCloseTo(10.0, withinPercentage(10d));
+     *
+     * // assertion will fail
+     * assertThat(11.0).isCloseTo(10.0, withinPercentage(5d));
+     * </code></pre>
+     *
+     * @param expected the given number to compare the actual value to.
+     * @param percentage the given positive percentage between 0 and 100.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
+    public S isCloseTo(double expected, Percentage<Double> percentage) {
+        doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
+        return myself;
+    }
 
   /**
 	 * Verifies that the actual value is equal to the given one.

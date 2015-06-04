@@ -13,6 +13,9 @@
 package org.assertj.core.api;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
+
+import java.math.BigDecimal;
 
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
@@ -147,4 +150,29 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    */
   S isCloseTo(A expected, Offset<A> offset);
 
+    /**
+     * Verifies that the actual number is close to the given one within the given percentage.<br>
+     * If difference is equal to the percentage value, assertion is considered valid.
+     * <p>
+     * Example with double:
+     *
+     * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
+     *
+     * // if difference is exactly equals to the computed offset (1.0), it's ok
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
+     *
+     * // assertion will fail
+     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));
+     * </code></pre>
+     *
+     * @param expected the given number to compare the actual value to.
+     * @param percentage the given positive percentage between 0 and 100.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
+  S isCloseTo(A expected, Percentage<A> percentage);
 }

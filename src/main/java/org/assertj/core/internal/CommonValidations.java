@@ -25,6 +25,7 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 import java.lang.reflect.Array;
 import java.util.Map;
@@ -49,6 +50,10 @@ final class CommonValidations {
   static void checkOffsetIsNotNull(Offset<?> offset) {
     if (offset == null) throw new NullPointerException("The given offset should not be null");
   }
+
+    static void checkPercentageIsNotNull(Percentage<?> percentage) {
+        if (percentage == null) throw new NullPointerException("The given percentage should not be null");
+    }
 
   static void checkNumberIsNotNull(Number number) {
     if (number == null) throw new NullPointerException("The given number should not be null");
