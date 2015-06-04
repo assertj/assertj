@@ -16,6 +16,7 @@ import static java.lang.Math.abs;
 
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.*;
 import static org.assertj.core.internal.CommonValidations.*;
 
 import org.assertj.core.api.AssertionInfo;
@@ -106,14 +107,11 @@ public class Doubles extends RealNumbers<Double> {
       checkNumberIsNotNull(expected);
       assertNotNull(info, actual);
 
-      // doesn't use areEqual method relying on comparisonStrategy attribute
-      if (Objects.areEqual(actual, expected)) return;
-
       Offset<Double> calculatedOffset = offset(percentage.value * expected / 100d);
 
       if (isEqualTo(actual, expected, calculatedOffset)) return;
-      throw failures.failure(info, ShouldBeEqualWithinPercentage
-          .shouldBeEqualWithinPercentage(actual, expected, percentage, abs(expected - actual)));
+      throw failures.failure(info,
+                             shouldBeEqualWithinPercentage(actual, expected, percentage, abs(expected - actual)));
     }
 
 }

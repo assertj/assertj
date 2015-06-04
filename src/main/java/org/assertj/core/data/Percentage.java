@@ -43,7 +43,7 @@ public class Percentage<T extends Number> {
     private static void checkBoundaries(double value) {
         if (value < 0 || value > 100)
             throw new IllegalArgumentException(
-                String.format("The percentage value <%s> should be between zero and hundred.", value));
+                String.format("The percentage value <%s> should be between 0 and 100.", value));
     }
 
     private Percentage(T value) {

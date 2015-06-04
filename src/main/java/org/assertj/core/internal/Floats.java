@@ -22,6 +22,7 @@ import org.assertj.core.util.VisibleForTesting;
 import static java.lang.Math.abs;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.*;
 import static org.assertj.core.internal.CommonValidations.*;
 
 
@@ -102,13 +103,10 @@ public class Floats extends RealNumbers<Float> {
         checkNumberIsNotNull(expected);
         assertNotNull(info, actual);
 
-        // doesn't use areEqual method relying on comparisonStrategy attribute
-        if (Objects.areEqual(actual, expected)) return;
-
         Offset<Float> calculatedOffset = offset(percentage.value * expected / 100f);
 
         if (isEqualTo(actual, expected, calculatedOffset)) return;
-        throw failures.failure(info, ShouldBeEqualWithinPercentage
-            .shouldBeEqualWithinPercentage(actual, expected, percentage, abs(expected - actual)));
+        throw failures.failure(info,
+                               shouldBeEqualWithinPercentage(actual, expected, percentage, abs(expected - actual)));
     }
 }

@@ -43,7 +43,7 @@ public class ShouldBeEqualWithinPercentage_create_Test {
                                   "  <12.0>%n" +
                                   "to be close to:%n" +
                                   "  <10.0>%n" +
-                                  "by less than <10.0> percent but difference was <20.0> percent.%n" +
+                                  "by less than <10.0>%% but difference was <20.0>%%.%n" +
                                   "(a difference of exactly <10.0> being considered valid)"));
   }
 }

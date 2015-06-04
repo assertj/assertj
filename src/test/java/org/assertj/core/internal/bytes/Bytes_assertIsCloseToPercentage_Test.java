@@ -54,20 +54,20 @@ public class Bytes_assertIsCloseToPercentage_Test extends BytesBaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void should_fail_if_percentage_is_greater_hundred() {
+    public void should_fail_if_percentage_is_greater_than_one_hundred() {
         bytes.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage((byte) 101));
     }
 
     @Test
     public void should_pass_if_difference_is_less_than_given_percentage() {
         bytes.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage((byte) 1));
-        bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((byte) 50));
+        bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((byte) 100));
     }
 
     @Test
     public void should_pass_if_difference_is_equal_to_given_percentage() {
         bytes.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-        bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((byte) 100));
+        bytes.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage((byte) 50));
     }
 
     @Test

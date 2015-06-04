@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.Math.abs;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.*;
 import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
@@ -73,13 +74,12 @@ public class Longs extends Numbers<Long> {
         checkPercentageIsNotNull(percentage);
         checkNumberIsNotNull(other);
 
-        if (org.assertj.core.util.Objects.areEqual(actual, other)) return;
-
         Offset<Double> calculatedOffset = offset(percentage.value * other / 100d);
 
         Long absDiff = abs(other - actual);
-        if (absDiff > calculatedOffset.value) throw failures.failure(info, ShouldBeEqualWithinPercentage
-            .shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));
+        if (absDiff > calculatedOffset.value) throw failures.failure(info,
+                                                                     shouldBeEqualWithinPercentage(actual, other,
+                                                                                                   percentage, absDiff));
     }
 
 }

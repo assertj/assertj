@@ -24,6 +24,7 @@ import static java.math.BigDecimal.ZERO;
 import static java.math.BigDecimal.valueOf;
 import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.*;
 import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
 
@@ -62,11 +63,11 @@ public class BigDecimals extends Numbers<BigDecimal> {
 
   public void assertIsCloseTo(final AssertionInfo info, final BigDecimal actual, final BigDecimal other, final Offset<BigDecimal> offset) {
     assertNotNull(info, actual);
-    if (areNotEqual(actual, other, offset))
+    if (areNotCloseEnough(actual, other, offset))
         throw failures.failure(info, shouldBeEqual(actual, other, offset, actual.subtract(other).abs()));
   }
 
-    private boolean areNotEqual(BigDecimal actual, BigDecimal other,Offset<BigDecimal> offset) {
+    private boolean areNotCloseEnough(BigDecimal actual, BigDecimal other, Offset<BigDecimal> offset) {
         return actual.subtract(other).abs().subtract(offset.value).compareTo(ZERO) > 0;
     }
 
@@ -76,12 +77,11 @@ public class BigDecimals extends Numbers<BigDecimal> {
         checkPercentageIsNotNull(percentage);
         checkNumberIsNotNull(other);
 
-        if (org.assertj.core.util.Objects.areEqual(actual, other)) return;
-
         Offset<BigDecimal> calculatedOffset = offset(percentage.value.multiply(other).divide(valueOf(100d)));
 
-        if (areNotEqual(actual, other, calculatedOffset))
-            throw failures.failure(info, ShouldBeEqualWithinPercentage
-            .shouldBeEqualWithinPercentage(actual, other, percentage, actual.subtract(other).abs()));
+        if (areNotCloseEnough(actual, other, calculatedOffset))
+            throw failures.failure(info,
+                                   shouldBeEqualWithinPercentage(actual, other, percentage,
+                                                                 actual.subtract(other).abs()));
     }
 }

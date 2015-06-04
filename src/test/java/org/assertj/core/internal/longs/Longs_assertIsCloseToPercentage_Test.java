@@ -53,20 +53,20 @@ public class Longs_assertIsCloseToPercentage_Test extends LongsBaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void should_fail_if_percentage_is_greater_hundred() {
+    public void should_fail_if_percentage_is_greater_than_one_hundred() {
         longs.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101L));
     }
 
     @Test
     public void should_pass_if_difference_is_less_than_given_percentage() {
         longs.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(1L));
-        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50L));
+        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100L));
     }
 
     @Test
     public void should_pass_if_difference_is_equal_to_given_percentage() {
         longs.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100L));
+        longs.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50L));
     }
 
     @Test

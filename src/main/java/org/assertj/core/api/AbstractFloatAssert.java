@@ -185,7 +185,30 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
     return myself;
   }
 
-    /** {@inheritDoc} */
+    /**
+     * Verifies that the actual number is close to the given one within the given percentage.<br>
+     * If difference is equal to the percentage value, assertion is considered valid.
+     * <p>
+     * Example with float:
+     *
+     * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(20f));
+     *
+     * // if difference is exactly equals to the computed offset (1.0), it's ok
+     * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(10f));
+     *
+     * // assertion will fail
+     * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(5f));
+     * </code></pre>
+     *
+     * @param expected the given number to compare the actual value to.
+     * @param percentage the given positive percentage between 0 and 100.
+     * @return {@code this} assertion object.
+     * @throws NullPointerException if the given offset is {@code null}.
+     * @throws NullPointerException if the expected number is {@code null}.
+     * @throws AssertionError if the actual value is not equal to the given one.
+     */
     @Override
     public S isCloseTo(Float expected, Percentage<Float> percentage) {
         floats.assertIsCloseToPercentage(info, actual, expected, percentage);
@@ -196,17 +219,17 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
      * Verifies that the actual number is close to the given one within the given percentage.<br>
      * If difference is equal to the percentage value, assertion is considered valid.
      * <p>
-     * Example with double:
+     * Example with float:
      *
      * <pre><code class='java'>
      * // assertions will pass:
-     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
+     * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(20f));
      *
      * // if difference is exactly equals to the computed offset (1.0), it's ok
-     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
+     * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(10f));
      *
      * // assertion will fail
-     * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));
+     * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(5f));
      * </code></pre>
      *
      * @param expected the given number to compare the actual value to.

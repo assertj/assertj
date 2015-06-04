@@ -54,20 +54,20 @@ public class Integers_assertIsCloseToPercentage_Test extends IntegersBaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void should_fail_if_percentage_is_greater_hundred() {
+    public void should_fail_if_percentage_is_greater_than_one_hundred() {
         integers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(101));
     }
 
     @Test
     public void should_pass_if_difference_is_less_than_given_percentage() {
         integers.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(1));
-        integers.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50));
+        integers.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100));
     }
 
     @Test
     public void should_pass_if_difference_is_equal_to_given_percentage() {
         integers.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-        integers.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(100));
+        integers.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(50));
     }
 
     @Test

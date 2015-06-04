@@ -53,20 +53,20 @@ public class BigDecimals_assertIsCloseToPercentage_Test extends BigDecimalsBaseT
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void should_fail_if_percentage_is_greater_hundred() {
+    public void should_fail_if_percentage_is_greater_than_one_hundred() {
         bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(valueOf(101)));
     }
 
     @Test
     public void should_pass_if_difference_is_less_than_given_percentage() {
         bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(valueOf(1)));
-        bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(valueOf(50)));
+        bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(valueOf(100)));
     }
 
     @Test
     public void should_pass_if_difference_is_equal_to_given_percentage() {
         bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, ONE, withPercentage(ZERO));
-        bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(valueOf(100)));
+        bigDecimals.assertIsCloseToPercentage(someInfo(), ONE, TWO, withPercentage(valueOf(50)));
     }
 
     @Test
