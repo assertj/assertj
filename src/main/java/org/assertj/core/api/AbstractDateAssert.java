@@ -2245,8 +2245,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that the actual {@code Date} represents the same time as the given date in {@code String} format.
    * <p>
-   * It is same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of the
-   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * It is the same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of
+   * the supported default date formats or a user custom date format (set with method
+   * {@link #withDateFormat(DateFormat)}).
    * <p>
    * Beware that the default formats are expressed in the current local time zone.
    * <p>
