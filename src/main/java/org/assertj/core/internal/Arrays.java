@@ -111,6 +111,11 @@ public class Arrays {
 	return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
+  @VisibleForTesting
+  public ComparisonStrategy getComparisonStrategy() {
+    return comparisonStrategy;
+  }
+
   public static void assertIsArray(AssertionInfo info, Object array) {
 	if (!isArray(array)) throw Failures.instance().failure(info, shouldBeAnArray(array));
   }
@@ -191,8 +196,8 @@ public class Arrays {
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
 	if (commonChecks(info, actual, values)) return;
-	Set<Object> notExpected = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
-	Set<Object> notFound = containsOnly(notExpected, values);
+    List<Object> notExpected = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
+    List<Object> notFound = containsOnly(notExpected, values);
 	if (notExpected.isEmpty() && notFound.isEmpty()) return;
 	throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
   }
@@ -207,8 +212,8 @@ public class Arrays {
     if (actualSize != expectedSize)
       throw failures.failure(info, shouldHaveSameSize(actual, values, actualSize, expectedSize, comparisonStrategy));
 
-	Set<Object> actualWithoutDuplicates = asSetWithoutDuplicatesAccordingToComparisonStrategy(actual);
-	Set<Object> notFound = containsOnly(actualWithoutDuplicates, values);
+    List<Object> actualWithoutDuplicates = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
+    List<Object> notFound = containsOnly(actualWithoutDuplicates, values);
 	if (actualWithoutDuplicates.isEmpty() && notFound.isEmpty()) {
 	  // actual and values have the same elements but are they in the same order ?
 	  int arrayLength = sizeOf(actual);
@@ -243,9 +248,9 @@ public class Arrays {
 	// assertion succeeded
   }
 
-  private Set<Object> containsOnly(Set<Object> actual, Object values) {
-	Set<Object> notFound = new LinkedHashSet<>();
-	for (Object o : asSetWithoutDuplicatesAccordingToComparisonStrategy(values)) {
+  private List<Object> containsOnly(Collection<Object> actual, Object values) {
+    List<Object> notFound = new ArrayList<>();
+	for (Object o : asListWithoutDuplicatesAccordingToComparisonStrategy(values)) {
 	  if (iterableContains(actual, o)) {
 		collectionRemoves(actual, o);
 	  } else {
@@ -261,14 +266,14 @@ public class Arrays {
    * @param array to feed the Set we want to build
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
-  private Set<Object> asSetWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
-	Set<Object> set = new LinkedHashSet<>();
+  private List<Object> asListWithoutDuplicatesAccordingToComparisonStrategy(Object array) {
+    List<Object> list = new ArrayList<>();
 	int size = sizeOf(array);
 	for (int i = 0; i < size; i++) {
 	  Object element = Array.get(array, i);
-	  if (!iterableContains(set, element)) set.add(element);
+	  if (!iterableContains(list, element)) list.add(element);
 	}
-	return set;
+	return list;
   }
 
   /**

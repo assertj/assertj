@@ -21,7 +21,7 @@ import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -88,8 +88,7 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet(20L), newLinkedHashSet(10L)));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(20L), newArrayList(10L)));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -156,8 +155,9 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet(20L),
-		                                                  newLinkedHashSet(10L), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainExactly(actual, expected, newArrayList(20L), newArrayList(10L),
+                                                    absValueComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

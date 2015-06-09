@@ -21,7 +21,7 @@ import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -88,8 +88,7 @@ public class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet('e'), newLinkedHashSet('c')));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList('e'), newArrayList('c')));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -156,8 +155,8 @@ public class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet('e'),
-		                                                  newLinkedHashSet('c'), caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList('e'), newArrayList('c'),
+                                                    caseInsensitiveComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

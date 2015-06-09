@@ -13,14 +13,13 @@
 package org.assertj.core.internal.intarrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.*;
-import static org.assertj.core.test.IntArrays.*;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.IntArrays.arrayOf;
+import static org.assertj.core.test.IntArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +88,7 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20), newLinkedHashSet(10)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList(20), newArrayList(10)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -141,7 +140,9 @@ public class IntArrays_assertContainsOnly_Test extends IntArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20), newLinkedHashSet(10), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newArrayList(20), newArrayList(10),
+                                                 absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

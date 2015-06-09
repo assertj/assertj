@@ -21,7 +21,7 @@ import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +89,7 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
 	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 10)));
+                                                          newArrayList((byte) 20), newArrayList((byte) 10)));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -156,8 +156,8 @@ public class ByteArrays_assertContainsExactly_Test extends ByteArraysBaseTest {
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet((byte) 20),
-		                                                  newLinkedHashSet((byte) 10), absValueComparisonStrategy));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList((byte) 20),
+                                                          newArrayList((byte) 10), absValueComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

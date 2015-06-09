@@ -13,17 +13,18 @@
 package org.assertj.core.api.iterable;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.junit.Before;
@@ -92,8 +93,16 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
   @Test
   public void successful_containsExactly_assertion_using_field_by_field_element_comparator_with_heterogeneous_list() {
     List<Animal> list1 = newArrayList(new Bird("White"), new Snake(15));
-    System.out.println(new FieldByFieldComparator());
     assertThat(list1).usingFieldByFieldElementComparator().containsExactly(new Bird("White"), new Snake(15));
+  }
+
+  @Test
+  public void successful_containsOnly_assertion_using_field_by_field_element_comparator_with_unordered_list() {
+    Person goodObiwan = new Person("Obi-Wan", "Kenobi", "good man");
+    Person badObiwan = new Person("Obi-Wan", "Kenobi", "bad man");
+
+    List<Person> list = asList(goodObiwan, badObiwan);
+    assertThat(list).usingFieldByFieldElementComparator().containsOnly(badObiwan, goodObiwan);
   }
 
   @Test
@@ -188,4 +197,34 @@ public class IterableAssert_usingFieldByFieldElementComparator_Test extends Iter
       return length;
     }
   }
+
+  private class Person {
+    private String first, last, info;
+
+    public Person(String first, String last, String info) {
+      this.first = first;
+      this.last = last;
+      this.info = info;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      Person person = (Person) o;
+      return Objects.equals(first, person.first) && Objects.equals(last, person.last);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(first, last);
+    }
+
+    @Override
+    public String toString() {
+      return String.format("Person{first='%s', last='%s', info='%s'}",
+                           first, last, info);
+    }
+  }
+
 }

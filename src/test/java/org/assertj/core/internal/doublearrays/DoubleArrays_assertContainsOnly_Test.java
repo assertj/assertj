@@ -13,14 +13,13 @@
 package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.DoubleArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.test.DoubleArrays.emptyArray;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +88,7 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20d), newLinkedHashSet(10d)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -141,7 +140,9 @@ public class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20d), newLinkedHashSet(10d), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newArrayList(20d), newArrayList(10d),
+                                                 absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

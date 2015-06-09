@@ -23,10 +23,9 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.LinkedHashSet;
+import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
@@ -84,8 +83,8 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     try {
       iterables.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
-      LinkedHashSet<String> notFound = newLinkedHashSet("Han");
-      LinkedHashSet<String> notExpected = newLinkedHashSet("Leia");
+      List<String> notFound = newArrayList("Han");
+      List<String> notExpected = newArrayList("Leia");
       verify(failures).failure(info, shouldContainExactly(actual, expected, notFound, notExpected));
       return;
     }
@@ -138,8 +137,8 @@ public class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldContainExactly(actual, expected, newLinkedHashSet("Han"),
-                                                    newLinkedHashSet("Leia"), comparisonStrategy));
+                               shouldContainExactly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                                    comparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
