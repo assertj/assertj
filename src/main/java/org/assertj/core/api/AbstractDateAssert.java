@@ -110,7 +110,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -151,7 +151,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -226,6 +226,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -233,6 +234,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -298,7 +300,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -371,6 +373,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -378,6 +381,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -438,7 +442,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -478,6 +482,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -485,6 +490,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -522,7 +528,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -569,7 +575,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -615,7 +621,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -686,7 +692,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -744,7 +750,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -812,7 +818,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -870,7 +876,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -940,7 +946,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1008,7 +1014,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1082,7 +1088,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1144,7 +1150,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1520,7 +1526,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1583,7 +1589,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1645,7 +1651,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1724,7 +1730,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1797,7 +1803,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1874,7 +1880,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1950,7 +1956,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2031,7 +2037,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2105,7 +2111,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2167,7 +2173,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2266,7 +2272,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Default date formats (expressed in the local time zone) are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2491,7 +2497,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2516,7 +2522,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
