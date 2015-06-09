@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,20 +29,25 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMonth(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertHasHourOfDay(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMonth_Test extends DatesBaseTest {
+public class Dates_assertHasHourOfDay_Test extends DatesBaseTest {
+
+  @Override
+  protected void initActualDate() {
+    actual = parseDatetime("2011-01-01T03:01:02");
+  }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_month() {
+  public void should_fail_if_actual_has_not_given_hour_of_day() {
     AssertionInfo info = someInfo();
-    int month = 5;
+    int hour_of_day = 5;
     try {
-      dates.assertIsWithinMonth(info, actual, month);
+      dates.assertHasHourOfDay(info, actual, hour_of_day);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "month", month));
+      verify(failures).failure(info, shouldHaveDateField(actual, "hour", hour_of_day));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,22 +56,22 @@ public class Dates_assertIsWithinMonth_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMonth(someInfo(), null, 1);
+    dates.assertHasHourOfDay(someInfo(), null, 3);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_month() {
-    dates.assertIsWithinMonth(someInfo(), actual, 1);
+  public void should_pass_if_actual_has_given_hour_of_day() {
+    dates.assertHasHourOfDay(someInfo(), actual, 3);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_month_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_has_not_given_hour_of_day_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int month = 5;
+    int hour_of_day = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMonth(info, actual, month);
+      datesWithCustomComparisonStrategy.assertHasHourOfDay(info, actual, hour_of_day);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "month", month));
+      verify(failures).failure(info, shouldHaveDateField(actual, "hour", hour_of_day));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -75,12 +80,12 @@ public class Dates_assertIsWithinMonth_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), null, 1);
+    datesWithCustomComparisonStrategy.assertHasHourOfDay(someInfo(), null, 3);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_month_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMonth(someInfo(), actual, 1);
+  public void should_pass_if_actual_has_given_hour_of_day_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertHasHourOfDay(someInfo(), actual, 3);
   }
 
 }

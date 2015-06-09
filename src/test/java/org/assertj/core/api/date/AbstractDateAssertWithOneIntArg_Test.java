@@ -62,8 +62,8 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   /**
    * Must be overridden to invoke the {@link DateAssert} assertion method under test with the {@link #intArg} attribute.
    * <p>
-   * example with <code>isWithinMonth</code> date assertion:<br>
-   * <code>assertions.isWithinMonth(5);</code>
+   * example with <code>hasMonth</code> date assertion:<br>
+   * <code>assertions.hasMonth(5);</code>
    * 
    * @return the DateAssert instance called
    */
@@ -72,8 +72,8 @@ public abstract class AbstractDateAssertWithOneIntArg_Test extends DateAssertBas
   /**
    * Must be overridden to verify that the {@link Dates} assertion method was invoked with the {@link #intArg} attribute.
    * <p>
-   * example with <code>isWithinMonth</code> date assertion:<br>
-   * <code>verify(dates).isWithinMonth(getInfo(assertions), getActual(assertions), intArg);</code>
+   * example with <code>hasMonth</code> date assertion:<br>
+   * <code>verify(dates).hasMonth(getInfo(assertions), getActual(assertions), intArg);</code>
    * 
    */
   protected abstract void verifyAssertionInvocation();

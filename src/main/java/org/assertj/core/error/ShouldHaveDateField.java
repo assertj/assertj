@@ -15,25 +15,25 @@ package org.assertj.core.error;
 import java.util.Date;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a {@link Date} is within a year, month, day, ...
+ * Creates an error message indicating that an assertion that verifies that a {@link Date} has a year, month, day, ...
  * failed.
  * 
  * @author Joel Costigliola
  */
-public class ShouldBeWithin extends BasicErrorMessageFactory {
+public class ShouldHaveDateField extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new </code>{@link ShouldBeWithin}</code>.
+   * Creates a new </code>{@link ShouldHaveDateField}</code>.
    * @param actual the actual value in the failed assertion.
    * @param fieldDescription the fieldDescription of value : year, month, day, ...
    * @param fieldValue the field value used in the failed assertion to compare the actual date field value to.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeWithin(Date actual, String fieldDescription, int fieldValue) {
-    return new ShouldBeWithin(actual, fieldDescription, fieldValue);
+  public static ErrorMessageFactory shouldHaveDateField(Date actual, String fieldDescription, int fieldValue) {
+    return new ShouldHaveDateField(actual, fieldDescription, fieldValue);
   }
 
-  private ShouldBeWithin(Date actual, String fieldDescription, int fieldValue) {
+  private ShouldHaveDateField(Date actual, String fieldDescription, int fieldValue) {
     super("%nExpecting:%n <%s>%nto be on %s <%s>", actual, fieldDescription, fieldValue);
   }
 }
