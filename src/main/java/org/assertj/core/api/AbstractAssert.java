@@ -414,6 +414,19 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
     return myself;
   }
 
+  /**
+   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   *
+   * @param newErrorMessage the error message that will replace the default one provided by Assertj.
+   * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @return this assertion object.
+   * @throws Exception see {@link String#format(String, Object...)} exception clause.
+   */
+  public S withFailMessage(String newErrorMessage, Object... args) {
+    overridingErrorMessage(newErrorMessage, args);
+    return myself;
+  }
+
   /** {@inheritDoc} */
   @Override
   public S usingComparator(Comparator<? super A> customComparator) {
