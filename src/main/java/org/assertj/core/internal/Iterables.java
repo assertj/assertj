@@ -110,6 +110,11 @@ public class Iterables {
     return null;
   }
 
+  @VisibleForTesting
+  public ComparisonStrategy getComparisonStrategy() {
+    return comparisonStrategy;
+  }
+
   /**
    * Asserts that the given <code>{@link Iterable}</code> is {@code null} or empty.
    * 
@@ -918,8 +923,4 @@ public class Iterables {
     return new IllegalArgumentException("The iterable to look for should not be empty");
   }
 
-  @VisibleForTesting
-  public ComparisonStrategy getComparisonStrategy() {
-    return comparisonStrategy;
-  }
 }

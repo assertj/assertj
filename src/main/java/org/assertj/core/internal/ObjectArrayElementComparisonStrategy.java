@@ -13,16 +13,15 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Arrays.isArray;
 
 import java.util.Comparator;
-import java.util.Iterator;
 
-public class IterableElementComparisonStrategy<T> extends StandardComparisonStrategy {
+public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private Comparator<? super T> elementComparator;
 
-  public IterableElementComparisonStrategy(Comparator<? super T> elementComparator) {
+  public ObjectArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
 	this.elementComparator = elementComparator;
   }
 
@@ -31,25 +30,22 @@ public class IterableElementComparisonStrategy<T> extends StandardComparisonStra
   public boolean areEqual(Object actual, Object other) {
 	if (actual == null && other == null) return true;
 	if (actual == null || other == null) return false;
-	// expecting actual and other to be iterable<T>
-	return actual instanceof Iterable && other instanceof Iterable
-	       && compareElementsOf((Iterable<T>) actual, (Iterable<T>) other);
+    // expecting actual and other to be T[]
+    return isArray(actual) && isArray(other) && compareElementsOf((T[]) actual, (T[]) other);
   }
 
-  private boolean compareElementsOf(Iterable<T> actual, Iterable<T> other) {
-	if (sizeOf(actual) != sizeOf(other)) return false;
+  private boolean compareElementsOf(T[] actual, T[] other) {
+    if (actual.length != other.length) return false;
 	// compare their elements with elementComparator
-	Iterator<T> iterator = other.iterator();
-	for (T actualElement : actual) {
-	  T otherElement = iterator.next();
-	  if (elementComparator.compare(actualElement, otherElement) != 0) return false;
+    for (int i = 0; i < actual.length; i++) {
+      if (elementComparator.compare(actual[i], other[i]) != 0) return false;
 	}
 	return true;
   }
 
   @Override
   public String toString() {
-	return "IterableElementComparisonStrategy using " + STANDARD_REPRESENTATION.toStringOf(elementComparator);
+    return "ObjectArrayElementComparisonStrategy using " + STANDARD_REPRESENTATION.toStringOf(elementComparator);
   }
   
   @Override

@@ -13,40 +13,36 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.junit.Before;
-import org.mockito.Mock;
 
-/**
- * Tests for <code>{@link ObjectArrayAssert#usingDefaultElementComparator()}</code>.
- * 
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
-public class ObjectArrayAssert_usingDefaultElementComparator_Test extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_usingElementComparatorIgnoringFields_Test extends ObjectArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> elementComparator;
+  private ObjectArrays arraysBefore;
 
   @Before
   public void before() {
-    initMocks(this);
-    assertions.usingElementComparator(elementComparator);
+    arraysBefore = getArrays(assertions);
   }
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.usingDefaultElementComparator();
+	return assertions.usingElementComparatorIgnoringFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(ObjectArrays.instance()).isSameAs(getArrays(assertions));
+    ObjectArrays iterables = getArrays(assertions);
+    assertThat(iterables).isNotSameAs(arraysBefore);
+	assertThat(iterables.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+	ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) iterables.getComparisonStrategy();
+	assertThat(strategy.getComparator()).isInstanceOf(IgnoringFieldsComparator.class);
+	assertThat(((IgnoringFieldsComparator) strategy.getComparator()).getFields()).containsOnly("field");
   }
+
 }

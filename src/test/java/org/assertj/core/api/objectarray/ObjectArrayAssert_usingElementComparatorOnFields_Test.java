@@ -13,40 +13,36 @@
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-import java.util.Comparator;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
+import org.assertj.core.internal.OnFieldsComparator;
 import org.junit.Before;
-import org.mockito.Mock;
 
-/**
- * Tests for <code>{@link ObjectArrayAssert#usingDefaultElementComparator()}</code>.
- * 
- * @author Joel Costigliola
- * @author Mikhail Mazursky
- */
-public class ObjectArrayAssert_usingDefaultElementComparator_Test extends ObjectArrayAssertBaseTest {
+public class ObjectArrayAssert_usingElementComparatorOnFields_Test extends ObjectArrayAssertBaseTest {
 
-  @Mock
-  private Comparator<Object> elementComparator;
+  private ObjectArrays arraysBefore;
 
   @Before
   public void before() {
-    initMocks(this);
-    assertions.usingElementComparator(elementComparator);
+    arraysBefore = getArrays(assertions);
   }
 
   @Override
   protected ObjectArrayAssert<Object> invoke_api_method() {
-    return assertions.usingDefaultElementComparator();
+    return assertions.usingElementComparatorOnFields("field");
   }
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(ObjectArrays.instance()).isSameAs(getArrays(assertions));
+    ObjectArrays arrays = getArrays(assertions);
+    assertThat(arrays).isNotSameAs(arraysBefore);
+    assertThat(arrays.getComparisonStrategy()).isInstanceOf(ComparatorBasedComparisonStrategy.class);
+    ComparatorBasedComparisonStrategy strategy = (ComparatorBasedComparisonStrategy) arrays.getComparisonStrategy();
+	assertThat(strategy.getComparator()).isInstanceOf(OnFieldsComparator.class);
+	assertThat(((OnFieldsComparator)strategy.getComparator()).getFields()).containsOnly("field");
   }
+
 }
