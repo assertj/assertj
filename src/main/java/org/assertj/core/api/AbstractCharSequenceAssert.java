@@ -271,13 +271,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Example :
    *
    * <pre><code class='java'>
-   * // assertion will pass
+   * // assertions will pass
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
    * assertThat((String)null).isNotEqualToIgnoringCase("Gandalf");
    * assertThat("Gandalf").isNotEqualToIgnoringCase(null);
    *
-   * // assertion will fail
+   * // assertions will fail
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Gandalf");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("GaNDalf");
    * assertThat((String)null).isNotEqualToIgnoringCase(null);

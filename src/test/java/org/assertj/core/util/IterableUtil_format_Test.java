@@ -45,7 +45,7 @@ public class IterableUtil_format_Test {
   }
 
   @Test
-  public void should_format_iterable_with_an_element_per_line_if_single_line_description_is_too_long() {
+  public void should_format_iterable_with_one_element_per_line_when_single_line_description_is_too_long() {
     String e1 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription);
     String e2 = stringOfLength(IterableUtil.maxLengthForSingleLineDescription);
     assertThat(smartFormat(STANDARD_REPRESENTATION, asList(e1, e2))).isEqualTo(format("[\"" + e1 + "\",%n" +

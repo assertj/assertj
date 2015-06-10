@@ -46,6 +46,7 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
+import org.assertj.core.util.GroupFormatUtil;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
@@ -722,6 +723,38 @@ public class Assertions {
     Fail.shouldHaveThrown(exceptionClass);
   }
 
+  /**
+   * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
+   * is less than this parameter) or it will be formatted with one element per line.
+   * <p>
+   * The following array will be formatted on one line as its length < 80
+   * 
+   * <pre><code class='java'>
+   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+   * 
+   * // formatted as:
+   * 
+   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]
+   * </code></pre>
+   * whereas this array is formatted on multiple lines (one element per line)
+   * 
+   * <pre><code class='java'>
+   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
+   * 
+   * // formatted as:
+   * 
+   * ["A Game of Thrones",
+   *  "The Lord of the Rings",
+   *  "Assassin's Apprentice",
+   *  "Guards! Guards! (Discworld)"]
+   * </code></pre>
+   * 
+   * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
+   */
+  public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
+    GroupFormatUtil.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // properties methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -1020,7 +1053,6 @@ public class Assertions {
     return withPercentage(value);
   }
 
-  
   // ------------------------------------------------------------------------------------------------------
   // Condition methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
