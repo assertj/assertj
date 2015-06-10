@@ -89,7 +89,7 @@ public class ObjectArrayAssert_filteredOn_not_Test extends ObjectArrayAssert_fil
       failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
     } catch (IllegalArgumentException e) {
       assertThat(e).hasMessage(format("The expected value should not be null.%n"
-                                      + "If you were trying to filter on a null value, please use filterOnNull(String propertyOrFieldName) instead"));
+                                      + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
     }
   }
 

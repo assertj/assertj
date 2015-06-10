@@ -1159,7 +1159,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches one of the given values.
    * <p/>
    * As often, an example helps:
@@ -1172,7 +1172,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", in(800, 26))
+   * assertThat(employees).filteredOn("age", in(800, 26))
    *                      .containsOnly(yoda, obiwan, luke);
    * </code></pre>
    * 
@@ -1185,7 +1185,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches does not match any of the given values.
    * <p/>
    * As often, an example helps:
@@ -1198,7 +1198,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", notIn(800, 50))
+   * assertThat(employees).filteredOn("age", notIn(800, 50))
    *                      .containsOnly(luke);
    * </code></pre>
    * 
@@ -1211,7 +1211,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
@@ -1224,7 +1224,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", not(800))
+   * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke, noname);
    * </code></pre>
    * 
