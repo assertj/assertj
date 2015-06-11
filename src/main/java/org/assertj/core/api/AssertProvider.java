@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import javax.annotation.CheckReturnValue;
+
 /**
  * Provides a {@link Assert} for the current object.
  * 
@@ -53,6 +55,7 @@ public interface AssertProvider<A> {
    * 
    * @return the assert object for use in cunjunction with {@link Assertions#assertThat(AssertProvider)}
    */
+  @CheckReturnValue
   A assertThat();
 
 }
