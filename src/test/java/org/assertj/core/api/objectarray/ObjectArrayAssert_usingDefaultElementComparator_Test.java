@@ -17,11 +17,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.Comparator;
 
-
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.internal.Objects;
 import org.junit.Before;
 import org.mockito.Mock;
 
@@ -36,12 +34,9 @@ public class ObjectArrayAssert_usingDefaultElementComparator_Test extends Object
   @Mock
   private Comparator<Object> elementComparator;
 
-  private Objects objectsBefore;
-
   @Before
   public void before() {
     initMocks(this);
-    objectsBefore = getObjects(assertions);
     assertions.usingElementComparator(elementComparator);
   }
 
@@ -52,7 +47,6 @@ public class ObjectArrayAssert_usingDefaultElementComparator_Test extends Object
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(objectsBefore).isSameAs(getObjects(assertions));
     assertThat(ObjectArrays.instance()).isSameAs(getArrays(assertions));
   }
 }

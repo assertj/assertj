@@ -12,11 +12,12 @@
  */
 package org.assertj.core.util;
 
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 /**
@@ -41,17 +41,17 @@ public class StandardRepresentation_toStringOf_Test {
 
   @Test
   public void should_return_null_if_object_is_null() {
-    assertThat(new StandardRepresentation().toStringOf(null)).isNull();
+    assertThat(STANDARD_REPRESENTATION.toStringOf(null)).isNull();
   }
 
   @Test
   public void should_quote_String() {
-    assertThat(new StandardRepresentation().toStringOf("Hello")).isEqualTo("\"Hello\"");
+    assertThat(STANDARD_REPRESENTATION.toStringOf("Hello")).isEqualTo("\"Hello\"");
   }
 
   @Test
   public void should_quote_empty_String() {
-    assertThat(new StandardRepresentation().toStringOf("")).isEqualTo("\"\"");
+    assertThat(STANDARD_REPRESENTATION.toStringOf("")).isEqualTo("\"\"");
   }
 
   @Test
@@ -64,24 +64,26 @@ public class StandardRepresentation_toStringOf_Test {
         return path;
       }
     };
-    assertThat(new StandardRepresentation().toStringOf(o)).isEqualTo(path);
+    assertThat(STANDARD_REPRESENTATION.toStringOf(o)).isEqualTo(path);
   }
 
   @Test
   public void should_return_toString_of_Class_with_its_name() {
-    assertThat(new StandardRepresentation().toStringOf(Object.class)).isEqualTo("java.lang.Object");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(Object.class)).isEqualTo("java.lang.Object");
   }
 
   @Test
   public void should_return_toString_of_Collection_of_String() {
     Collection<String> collection = newArrayList("s1", "s2");
-    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[\"s1\", \"s2\"]");
+    // assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\",%n" +
+    // "    \"s2\"]"));
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo(format("[\"s1\", \"s2\"]"));
   }
 
   @Test
   public void should_return_toString_of_Collection_of_arrays() {
     List<Boolean[]> collection = newArrayList(array(true, false), array(true, false, true));
-    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[[true, false], [true, false, true]]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, true]]");
   }
 
   @Test
@@ -89,7 +91,7 @@ public class StandardRepresentation_toStringOf_Test {
     Collection<List<String>> collection = new ArrayList<>();
     collection.add(newArrayList("s1", "s2"));
     collection.add(newArrayList("s3", "s4", "s5"));
-    assertThat(new StandardRepresentation().toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
@@ -97,36 +99,36 @@ public class StandardRepresentation_toStringOf_Test {
     Map<String, String> map = new LinkedHashMap<>();
     map.put("key1", "value1");
     map.put("key2", "value2");
-    assertThat(new StandardRepresentation().toStringOf(map)).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"}");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"}");
   }
 
   @Test
   public void should_return_toString_of_array() {
-    assertThat( new StandardRepresentation().toStringOf(array("s1", "s2"))).isEqualTo("[\"s1\", \"s2\"]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array("s1", "s2"))).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
   public void should_return_toString_of_array_of_arrays() {
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
-    assertThat(new StandardRepresentation().toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   public void should_return_toString_of_array_of_Class() {
     Class<?>[] array = { String.class, File.class };
-    assertThat(new StandardRepresentation().toStringOf(array)).isEqualTo("[java.lang.String, java.io.File]");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[java.lang.String, java.io.File]");
   }
 
   @Test
   public void should_return_toString_of_calendar() {
     GregorianCalendar calendar = new GregorianCalendar(2011, Calendar.JANUARY, 18, 23, 53, 17);
-    assertThat(new StandardRepresentation().toStringOf(calendar)).isEqualTo("2011-01-18T23:53:17");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(calendar)).isEqualTo("2011-01-18T23:53:17");
   }
 
   @Test
   public void should_return_toString_of_date() {
     Date date = new GregorianCalendar(2011, Calendar.JUNE, 18, 23, 53, 17).getTime();
-    assertThat(new StandardRepresentation().toStringOf(date)).isEqualTo("2011-06-18T23:53:17");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(date)).isEqualTo("2011-06-18T23:53:17.000");
   }
 
   @Test
@@ -137,12 +139,12 @@ public class StandardRepresentation_toStringOf_Test {
         return s1.length() - s2.length();
       }
     };
-    assertThat(new StandardRepresentation().toStringOf(anonymousComparator)).isEqualTo("'anonymous comparator class'");
+    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'anonymous comparator class'");
   }
 
   @Test
   public void should_format_longs_and_integers() {
-    assertThat(new StandardRepresentation().toStringOf(20L).equals(toStringOf(20))).isFalse();
+    assertThat(STANDARD_REPRESENTATION.toStringOf(20L).equals(toStringOf(20))).isFalse();
     assertThat(toStringOf(20)).isEqualTo("20");
     assertThat(toStringOf(20L)).isEqualTo("20L");
   }
@@ -167,6 +169,6 @@ public class StandardRepresentation_toStringOf_Test {
   }
 
   private String toStringOf(Object o) {
-    return new StandardRepresentation().toStringOf(o);
+    return STANDARD_REPRESENTATION.toStringOf(o);
   }
 }

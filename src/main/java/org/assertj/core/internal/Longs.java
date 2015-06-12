@@ -13,12 +13,16 @@
 package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
+import static org.assertj.core.data.Offset.offset;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualWithinPercentage.shouldBeEqualWithinPercentage;
 import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -54,12 +58,26 @@ public class Longs extends Numbers<Long> {
     super(comparisonStrategy);
   }
 
+  @Override
   public void assertIsCloseTo(AssertionInfo info, Long actual, Long expected, Offset<Long> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
     checkNumberIsNotNull(expected);
     long absDiff = abs(expected - actual);
     if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+  }
+
+  @Override
+  public void assertIsCloseToPercentage(AssertionInfo info, Long actual, Long other, Percentage percentage) {
+    assertNotNull(info, actual);
+    checkPercentageIsNotNull(percentage);
+    checkNumberIsNotNull(other);
+
+    Offset<Double> calculatedOffset = offset(percentage.value * other / 100d);
+
+    Long absDiff = abs(other - actual);
+    if (absDiff > calculatedOffset.value)
+      throw failures.failure(info, shouldBeEqualWithinPercentage(actual, other, percentage, absDiff));
   }
 
 }

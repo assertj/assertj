@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeAfterOrEqualsTo.shouldBeAfterOrEqualsTo;
-import static org.assertj.core.util.Dates.parse;
+import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -41,10 +41,10 @@ public class ShouldBeAfterOrEqualsTo_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(format("[Test] %nExpecting:%n"
-                                         + "  <2011-01-01T00:00:00>%n"
-                                         + "to be after or equals to:%n"
-                                         + "  <2012-01-01T00:00:00>"
-                                  ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <2011-01-01T00:00:00.000>%n" +
+                                         "to be after or equals to:%n" +
+                                         "  <2012-01-01T00:00:00.000>"));
   }
 }

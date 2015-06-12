@@ -33,14 +33,16 @@ public class Assertions_assertThat_with_Iterator_Test {
 
   @Test
   public void should_create_Assert() {
-	AbstractIterableAssert<?, ? extends Iterable<? extends Object>, Object> assertions = Assertions.assertThat(newLinkedHashSet());
+    Object assertions = Assertions.assertThat(newLinkedHashSet());
 	assertThat(assertions).isNotNull();
   }
 
+  @SuppressWarnings("unchecked")
   @Test
   public void should_initialise_actual() {
-    Iterator<String> names = asList("Luke", "Leia").iterator();
-    assertThat(assertThat(names).actual).containsOnly("Leia", "Luke");
+    Iterator<String> iterator = asList("Luke", "Leia").iterator();
+    Iterable<? extends String> actual = assertThat(iterator).actual;
+    assertThat((Iterable<String>) actual).containsOnly("Leia", "Luke");
   }
 
   @Test

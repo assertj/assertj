@@ -13,14 +13,13 @@
 package org.assertj.core.internal.longarrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.*;
-import static org.assertj.core.test.LongArrays.*;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.LongArrays.arrayOf;
+import static org.assertj.core.test.LongArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +88,7 @@ public class LongArrays_assertContainsOnly_Test extends LongArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(10L)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList(20L), newArrayList(10L)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -141,7 +140,9 @@ public class LongArrays_assertContainsOnly_Test extends LongArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20L), newLinkedHashSet(10L), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newArrayList(20L), newArrayList(10L),
+                                                 absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

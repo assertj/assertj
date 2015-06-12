@@ -14,18 +14,20 @@ package org.assertj.core.internal.longarrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.LongArrays.arrayOf;
 import static org.assertj.core.test.LongArrays.emptyArray;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -86,12 +88,29 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet(20L), newLinkedHashSet(10L)));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(20L), newArrayList(10L)));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    AssertionInfo info = someInfo();
+    long[] expected = { 6L, 8L };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
@@ -136,10 +155,26 @@ public class LongArrays_assertContainsExactly_Test extends LongArraysBaseTest {
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet(20L),
-		                                                  newLinkedHashSet(10L), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainExactly(actual, expected, newArrayList(20L), newArrayList(10L),
+                                                    absValueComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    long[] expected = { 6L, 8L };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, absValueComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

@@ -13,15 +13,14 @@
 package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
-
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
-import static org.assertj.core.internal.CommonValidations.*;
+import static org.assertj.core.internal.CommonValidations.checkNumberIsNotNull;
+import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.VisibleForTesting;
-
 
 /**
  * Reusable assertions for <code>{@link Float}</code>s.
@@ -36,6 +35,7 @@ public class Floats extends RealNumbers<Float> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Floats instance() {
@@ -66,6 +66,7 @@ public class Floats extends RealNumbers<Float> {
     return abs(expected - actual) <= offset.value.floatValue();
   }
 
+  @Override
   public void assertIsCloseTo(final AssertionInfo info, final Float actual, final Float expected,
                               final Offset<Float> offset) {
     assertEqual(info, actual, expected, offset);
@@ -73,8 +74,10 @@ public class Floats extends RealNumbers<Float> {
 
   /**
    * Verifies that two floats are equal within a positive offset.<br>
-   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific comparison
+   * It does not rely on the custom comparisonStrategy (if one is set) because using an offset is already a specific
+   * comparison
    * strategy.
+   * 
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
@@ -93,5 +96,4 @@ public class Floats extends RealNumbers<Float> {
     if (isEqualTo(actual, expected, offset)) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, offset, abs(expected - actual)));
   }
-
 }

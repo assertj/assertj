@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.data.Percentage.withPercentage;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -28,6 +30,7 @@ import java.time.ZonedDateTime;
 import java.util.*;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
@@ -40,10 +43,12 @@ import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Files;
-import org.assertj.core.util.FilesException;
+import org.assertj.core.util.GroupFormatUtil;
+import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
@@ -73,6 +78,8 @@ import org.assertj.core.util.introspection.FieldSupport;
  * @author Nicolas François
  * @author Julien Meddah
  * @author William Delanoue
+ * @author Turbo87
+ * @author dorzey
  */
 public class Assertions {
 
@@ -764,6 +771,38 @@ public class Assertions {
     Fail.shouldHaveThrown(exceptionClass);
   }
 
+  /**
+   * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
+   * is less than this parameter) or it will be formatted with one element per line.
+   * <p>
+   * The following array will be formatted on one line as its length < 80
+   * 
+   * <pre><code class='java'>
+   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+   * 
+   * // formatted as:
+   * 
+   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]
+   * </code></pre>
+   * whereas this array is formatted on multiple lines (one element per line)
+   * 
+   * <pre><code class='java'>
+   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
+   * 
+   * // formatted as:
+   * 
+   * ["A Game of Thrones",
+   *  "The Lord of the Rings",
+   *  "Assassin's Apprentice",
+   *  "Guards! Guards! (Discworld)"]
+   * </code></pre>
+   * 
+   * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
+   */
+  public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
+    GroupFormatUtil.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
+  }
+
   // ------------------------------------------------------------------------------------------------------
   // properties methods : not assertions but here to have a single entry point to all AssertJ features.
   // ------------------------------------------------------------------------------------------------------
@@ -893,8 +932,7 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
@@ -908,8 +946,7 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isEqualTo(8.0, offset(0.1));
    * </code></pre>
@@ -922,8 +959,7 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
    * </code></pre>
@@ -936,8 +972,7 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    * </code></pre>
@@ -950,8 +985,7 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
    * </code></pre>
@@ -964,8 +998,7 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
    * </code></pre>
@@ -978,8 +1011,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat((byte)10).isCloseTo((byte)11, within((byte)1));
    * </code></pre>
@@ -992,8 +1024,7 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -1006,8 +1037,7 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(10).isCloseTo(11, within(1));
    * </code></pre>
@@ -1020,14 +1050,55 @@ public class Assertions {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   * <p/>
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(5l).isCloseTo(7l, within(2l));
    * </code></pre>
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
+  }
+
+  /**
+   * Assertions entry point for Double {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));
+   * </code></pre>
+   */
+  public static Percentage withinPercentage(Double value) {
+    return withPercentage(value);
+  }
+
+  /**
+   * Assertions entry point for Integer {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+   * assertThat(11).isCloseTo(10, withinPercentage(10));
+   * </code></pre>
+   */
+  public static Percentage withinPercentage(Integer value) {
+    return withPercentage(value);
+  }
+
+  /**
+   * Assertions entry point for Long {@link org.assertj.core.data.Percentage} to use with isCloseTo assertions for
+   * percentages.
+   * <p/>
+   * Typical usage :
+   *
+   * <pre><code class='java'>
+     * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
+     * </code></pre>
+   */
+  public static Percentage withinPercentage(Long value) {
+    return withPercentage(value);
   }
 
   // ------------------------------------------------------------------------------------------------------
@@ -1168,7 +1239,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches one of the given values.
    * <p/>
    * As often, an example helps:
@@ -1181,7 +1252,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", in(800, 26))
+   * assertThat(employees).filteredOn("age", in(800, 26))
    *                      .containsOnly(yoda, obiwan, luke);
    * </code></pre>
    * 
@@ -1194,7 +1265,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches does not match any of the given values.
    * <p/>
    * As often, an example helps:
@@ -1207,7 +1278,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", notIn(800, 50))
+   * assertThat(employees).filteredOn("age", notIn(800, 50))
    *                      .containsOnly(luke);
    * </code></pre>
    * 
@@ -1220,7 +1291,7 @@ public class Assertions {
 
   /**
    * Create a {@link FilterOperator} to use in {@link AbstractIterableAssert#filteredOn(String, FilterOperator)
-   * filterOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
+   * filteredOn(String, FilterOperation)} to express a filter keeping all Iterable elements whose property/field
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
@@ -1233,7 +1304,7 @@ public class Assertions {
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
-   * assertThat(employees).filterOn("age", not(800))
+   * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke, noname);
    * </code></pre>
    * 
@@ -1259,7 +1330,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, Charset charset) {
     return Files.contentOf(file, charset);
@@ -1276,7 +1347,7 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file, String charsetName) {
     return Files.contentOf(file, charsetName);
@@ -1292,7 +1363,7 @@ public class Assertions {
    *
    * @param file the file.
    * @return the content of the file.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static String contentOf(File file) {
     return Files.contentOf(file, Charset.defaultCharset());
@@ -1306,7 +1377,7 @@ public class Assertions {
    * @param file the file.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file) {
     return Files.linesOf(file, Charset.defaultCharset());
@@ -1320,7 +1391,7 @@ public class Assertions {
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, Charset charset) {
     return Files.linesOf(file, charset);
@@ -1334,10 +1405,103 @@ public class Assertions {
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
-   * @throws FilesException if an I/O exception occurs.
+   * @throws RuntimeIOException if an I/O exception occurs.
    */
   public static List<String> linesOf(File file, String charsetName) {
     return Files.linesOf(file, charsetName);
+  }
+
+  // --------------------------------------------------------------------------------------------------
+  // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.
+  // --------------------------------------------------------------------------------------------------
+
+  /**
+   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire contents in memory.
+   * </p>
+   *
+   * @param url the URL.
+   * @param charset the character set to use.
+   * @return the content of the URL.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static String contentOf(URL url, Charset charset) {
+    return URLs.contentOf(url, charset);
+  }
+
+  /**
+   * Loads the text content of a URL, so that it can be passed to {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire contents in memory.
+   * </p>
+   *
+   * @param url the URL.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the URL.
+   * @throws IllegalArgumentException if the given character set is not supported on this platform.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static String contentOf(URL url, String charsetName) {
+    return URLs.contentOf(url, charsetName);
+  }
+
+  /**
+   * Loads the text content of a URL with the default character set, so that it can be passed to
+   * {@link #assertThat(String)}.
+   * <p>
+   * Note that this will load the entire file in memory; for larger files.
+   * </p>
+   *
+   * @param url the URL.
+   * @return the content of the file.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static String contentOf(URL url) {
+    return URLs.contentOf(url, Charset.defaultCharset());
+  }
+
+  /**
+   * Loads the text content of a URL into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param url the URL.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(URL url) {
+    return URLs.linesOf(url, Charset.defaultCharset());
+  }
+
+  /**
+   * Loads the text content of a URL into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param url the URL.
+   * @param charset the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(URL url, Charset charset) {
+    return URLs.linesOf(url, charset);
+  }
+
+  /**
+   * Loads the text content of a URL into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param url the URL.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws RuntimeIOException if an I/O exception occurs.
+   */
+  public static List<String> linesOf(URL url, String charsetName) {
+    return URLs.linesOf(url, charsetName);
   }
 
   // --------------------------------------------------------------------------------------------------

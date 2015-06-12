@@ -12,21 +12,22 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CaseInsensitiveStringComparator;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ShouldContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldContain#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -43,48 +44,72 @@ public class ShouldContain_create_Test {
 
   @Test
   public void should_create_error_message() {
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[\"Yoda\"]>%nto contain:%n <[\"Luke\", \"Yoda\"]>%nbut could not find:%n"
-            + " <[\"Luke\"]>%n"));
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <[\"Yoda\"]>%n" +
+                                         "to contain:%n" +
+                                         " <[\"Luke\", \"Yoda\"]>%n" +
+                                         "but could not find:%n" +
+                                         " <[\"Luke\"]>%n"));
   }
 
   @Test
   public void should_create_error_message_with_custom_comparison_strategy() {
-    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"), new ComparatorBasedComparisonStrategy(
-        CaseInsensitiveStringComparator.instance));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[\"Yoda\"]>%nto contain:%n <[\"Luke\", \"Yoda\"]>%nbut could not find:%n"
-            + " <[\"Luke\"]>%nwhen comparing values using 'CaseInsensitiveStringComparator'"));
+    factory = shouldContain(newArrayList("Yoda"), newArrayList("Luke", "Yoda"), newLinkedHashSet("Luke"),
+                            new ComparatorBasedComparisonStrategy(
+                                                                  CaseInsensitiveStringComparator.instance));
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <[\"Yoda\"]>%n" +
+                                         "to contain:%n" +
+                                         " <[\"Luke\", \"Yoda\"]>%n" +
+                                         "but could not find:%n" +
+                                         " <[\"Luke\"]>%n" +
+                                         "when comparing values using 'CaseInsensitiveStringComparator'"));
   }
-
 
   @Test
   public void should_create_error_message_differentiating_long_from_integer() {
     factory = shouldContain(5L, 5, 5);
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <5L>%nto contain:%n <5>%nbut could not find:%n"
-        + " <5>%n"));
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <5L>%n" +
+                                         "to contain:%n" +
+                                         " <5>%n" +
+                                         "but could not find:%n" +
+                                         " <5>%n" +
+                                         ""));
   }
 
   @Test
   public void should_create_error_message_differentiating_long_from_integer_in_arrays() {
     factory = shouldContain(newArrayList(5L, 7L), newArrayList(5, 7), newLinkedHashSet(5, 7));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[5L, 7L]>%nto contain:%n <[5, 7]>%nbut could not find:%n"
-        + " <[5, 7]>%n"));
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <[5L, 7L]>%n" +
+                                         "to contain:%n" +
+                                         " <[5, 7]>%n" +
+                                         "but could not find:%n" +
+                                         " <[5, 7]>%n" +
+                                         ""));
   }
 
   @Test
   public void should_create_error_message_differentiating_double_from_float() {
     factory = shouldContain(newArrayList(5d, 7d), newArrayList(5f, 7f), newLinkedHashSet(5f, 7f));
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting:%n <[5.0, 7.0]>%nto contain:%n <[5.0f, 7.0f]>%nbut could not find:%n"
-            + " <[5.0f, 7.0f]>%n"));
+    String message = factory.create(new TextDescription("Test"));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         " <[5.0, 7.0]>%n" +
+                                         "to contain:%n" +
+                                         " <[5.0f, 7.0f]>%n" +
+                                         "but could not find:%n" +
+                                         " <[5.0f, 7.0f]>%n" +
+                                         ""));
   }
 
 }

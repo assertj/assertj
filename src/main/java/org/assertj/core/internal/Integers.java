@@ -33,6 +33,7 @@ public class Integers extends Numbers<Integer> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static Integers instance() {
@@ -52,7 +53,8 @@ public class Integers extends Numbers<Integer> {
   protected Integer zero() {
     return 0;
   }
-  
+
+  @Override
   public void assertIsCloseTo(AssertionInfo info, Integer actual, Integer expected, Offset<Integer> offset) {
     assertNotNull(info, actual);
     checkOffsetIsNotNull(offset);
@@ -61,5 +63,4 @@ public class Integers extends Numbers<Integer> {
     if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
   }
 
-  
 }

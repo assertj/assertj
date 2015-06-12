@@ -13,14 +13,13 @@
 package org.assertj.core.internal.bytearrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ByteArrays.*;
-import static org.assertj.core.test.ErrorMessages.*;
+import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.test.ByteArrays.emptyArray;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +88,8 @@ public class ByteArrays_assertContainsOnly_Test extends ByteArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 10)));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newArrayList((byte) 20), newArrayList((byte) 10)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -142,7 +142,8 @@ public class ByteArrays_assertContainsOnly_Test extends ByteArraysBaseTest {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContainOnly(actual, expected, newLinkedHashSet((byte) 20), newLinkedHashSet((byte) 10), absValueComparisonStrategy));
+                               shouldContainOnly(actual, expected, newArrayList((byte) 20), newArrayList((byte) 10),
+                                                 absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

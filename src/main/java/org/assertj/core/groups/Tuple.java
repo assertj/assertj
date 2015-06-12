@@ -13,7 +13,8 @@
 package org.assertj.core.groups;
 
 import static java.util.Collections.addAll;
-import static org.assertj.core.util.Collections.format;
+import static org.assertj.core.presentation.DefaultToString.toStringOf;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
@@ -34,6 +35,10 @@ public class Tuple {
 	return datas.toArray();
   }
 
+  public List<Object> toList() {
+    return datas;
+  }
+
   @Override
   public int hashCode() {
 	final int prime = 31;
@@ -46,7 +51,7 @@ public class Tuple {
   public boolean equals(Object obj) {
 	if (this == obj) return true;
 	if (obj == null) return false;
-	if (getClass() != obj.getClass()) return false;
+    if (!(obj instanceof Tuple)) return false;
 	Tuple other = (Tuple) obj;
 	// datas can't be null
 	return datas.equals(other.datas);
@@ -54,7 +59,7 @@ public class Tuple {
 
   @Override
   public String toString() {
-	return format(datas, "(", ")");
+    return toStringOf(this, STANDARD_REPRESENTATION);
   }
 
   public static Tuple tuple(Object... values) {

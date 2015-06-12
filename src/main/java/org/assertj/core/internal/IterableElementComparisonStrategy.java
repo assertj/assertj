@@ -12,17 +12,13 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.util.Comparator;
 import java.util.Iterator;
 
-import org.assertj.core.presentation.StandardRepresentation;
-
 public class IterableElementComparisonStrategy<T> extends StandardComparisonStrategy {
-
-  // stateless => can be shared
-  private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   private Comparator<? super T> elementComparator;
 

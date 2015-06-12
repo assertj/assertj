@@ -12,18 +12,18 @@
  */
 package org.assertj.core.internal;
 
+import static java.math.BigDecimal.ZERO;
 import static org.assertj.core.error.ShouldBeEqualWithinOffset.shouldBeEqual;
 
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
-import org.assertj.core.util.*;
-
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.
- * 
+ *
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -33,6 +33,7 @@ public class BigDecimals extends Numbers<BigDecimal> {
 
   /**
    * Returns the singleton instance of this class based on {@link StandardComparisonStrategy}.
+   * 
    * @return the singleton instance of this class based on {@link StandardComparisonStrategy}.
    */
   public static BigDecimals instance() {
@@ -50,20 +51,23 @@ public class BigDecimals extends Numbers<BigDecimal> {
 
   @Override
   protected BigDecimal zero() {
-    return BigDecimal.ZERO;
+    return ZERO;
   }
 
-  public void assertIsCloseTo(final AssertionInfo info, final BigDecimal actual, final BigDecimal other, final Offset<BigDecimal> offset) {
+  @Override
+  public void assertIsCloseTo(final AssertionInfo info, final BigDecimal actual, final BigDecimal other,
+                              final Offset<BigDecimal> offset) {
     assertNotNull(info, actual);
-    final BigDecimal differenceAbsoluteValue = abs(actual.subtract(other));
-    if (differenceAbsoluteValue.subtract(offset.value).compareTo(BigDecimal.ZERO) <= 0) return;
-    throw failures.failure(info, shouldBeEqual(actual, other, offset, differenceAbsoluteValue));
+    if (areNotCloseEnough(actual, other, offset))
+      throw failures.failure(info, shouldBeEqual(actual, other, offset, diff(actual, other)));
   }
 
-  // borrowed from java 7 API ... to remove when we will be using Java 7 instead of java 6.
-  private BigDecimal abs(final BigDecimal bigDecimal) {
-    return (bigDecimal.signum() < 0 ? bigDecimal.negate() : bigDecimal);
+  private BigDecimal diff(final BigDecimal actual, final BigDecimal other) {
+    return actual.subtract(other).abs();
   }
 
+  protected boolean areNotCloseEnough(BigDecimal actual, BigDecimal other, Offset<BigDecimal> offset) {
+    return diff(actual, other).subtract(offset.value).compareTo(ZERO) > 0;
+  }
 
 }

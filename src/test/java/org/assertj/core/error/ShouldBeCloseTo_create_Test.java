@@ -21,7 +21,7 @@ import java.text.ParseException;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.Dates;
+import org.assertj.core.util.DateUtil;
 import org.junit.Test;
 
 
@@ -34,8 +34,8 @@ public class ShouldBeCloseTo_create_Test {
 
   @Test
   public void should_create_error_message_with_period_boundaries_included() throws ParseException {
-    ErrorMessageFactory factory = shouldBeCloseTo(Dates.parseDatetimeWithMs("2011-01-01T00:00:00.000"),
-        Dates.parseDatetimeWithMs("2011-01-01T00:00:00.101"), 100, 101);
+    ErrorMessageFactory factory = shouldBeCloseTo(DateUtil.parseDatetimeWithMs("2011-01-01T00:00:00.000"),
+        DateUtil.parseDatetimeWithMs("2011-01-01T00:00:00.101"), 100, 101);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(String.format(
         "[Test] %nExpecting:%n <2011-01-01T00:00:00.000>%nto be close to:%n <2011-01-01T00:00:00.101>%nby less than 100ms but difference was 101ms"

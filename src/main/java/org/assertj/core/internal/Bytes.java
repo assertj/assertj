@@ -19,11 +19,11 @@ import static org.assertj.core.internal.CommonValidations.checkOffsetIsNotNull;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Offset;
-import org.assertj.core.util.*;
+import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Byte}</code>s.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -33,7 +33,7 @@ public class Bytes extends Numbers<Byte> {
 
   /**
    * Returns the singleton instance of this class.
-   * 
+   *
    * @return the singleton instance of this class.
    */
   public static Bytes instance() {
@@ -54,13 +54,13 @@ public class Bytes extends Numbers<Byte> {
     return 0;
   }
 
+  @Override
   public void assertIsCloseTo(AssertionInfo info, Byte actual, Byte expected, Offset<Byte> offset) {
-      assertNotNull(info, actual);
-      checkOffsetIsNotNull(offset);
-      checkNumberIsNotNull(expected);
-      byte absDiff = (byte) abs(expected - actual);
-      if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
-    }
-
+    assertNotNull(info, actual);
+    checkOffsetIsNotNull(offset);
+    checkNumberIsNotNull(expected);
+    byte absDiff = (byte) abs(expected - actual);
+    if (absDiff > offset.value) throw failures.failure(info, shouldBeEqual(actual, expected, offset, absDiff));
+  }
 
 }

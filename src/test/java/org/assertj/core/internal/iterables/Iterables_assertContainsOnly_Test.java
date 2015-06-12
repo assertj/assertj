@@ -21,7 +21,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import java.util.Collection;
@@ -100,7 +99,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia")));
+                               shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -114,7 +113,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newLinkedHashSet(), newLinkedHashSet("Leia")));
+                               shouldContainOnly(actual, expected, newArrayList(), newArrayList("Leia")));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -128,7 +127,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
       iterables.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newLinkedHashSet("Obiwan"), newLinkedHashSet()));
+                               shouldContainOnly(actual, expected, newArrayList("Obiwan"), newArrayList()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -168,8 +167,7 @@ public class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     try {
       iterablesWithCaseInsensitiveComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info,
-                               shouldContainOnly(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet("Leia"),
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList("Han"), newArrayList("Leia"),
                                                  comparisonStrategy));
       return;
     }

@@ -21,17 +21,14 @@ import static org.mockito.Mockito.mock;
 import java.nio.file.Path;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
 public class ShouldBeSymbolicLink_create_Test {
 
   @Test
   public void should_create_error_message() {
-	final Path actual = mock(Path.class);
-	ErrorMessageFactory factory = shouldBeSymbolicLink(actual);
-	
-	String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    final Path actual = mock(Path.class);
+    String actualMessage = shouldBeSymbolicLink(actual).create(new TextDescription("Test"));
 
 	assertThat(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_SYMBOLIC_LINK, actual));
   }

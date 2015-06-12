@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.SystemProperties.LINE_SEPARATOR;
-
 import java.util.List;
 
 import org.assertj.core.description.Description;
@@ -56,7 +54,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
   protected static String diffsAsString(List<String> diffsList) {
     StringBuilder stringBuilder = new StringBuilder();
     for (String diff : diffsList)
-      stringBuilder.append(LINE_SEPARATOR).append(diff);
+      stringBuilder.append(System.lineSeparator()).append(diff);
     return stringBuilder.toString();
   }
 

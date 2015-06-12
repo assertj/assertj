@@ -13,14 +13,13 @@
 package org.assertj.core.internal.floatarrays;
 
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
-import static org.assertj.core.test.ErrorMessages.*;
-import static org.assertj.core.test.FloatArrays.*;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
+import static org.assertj.core.test.FloatArrays.arrayOf;
+import static org.assertj.core.test.FloatArrays.emptyArray;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
-
-
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -89,7 +88,7 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
     try {
       arrays.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20f), newLinkedHashSet(10f)));
+      verify(failures).failure(info, shouldContainOnly(actual, expected, newArrayList(20f), newArrayList(10f)));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -141,7 +140,9 @@ public class FloatArrays_assertContainsOnly_Test extends FloatArraysBaseTest {
     try {
       arraysWithCustomComparisonStrategy.assertContainsOnly(info, actual, expected);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldContainOnly(actual, expected, newLinkedHashSet(20f), newLinkedHashSet(10f), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainOnly(actual, expected, newArrayList(20f), newArrayList(10f),
+                                                 absValueComparisonStrategy));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

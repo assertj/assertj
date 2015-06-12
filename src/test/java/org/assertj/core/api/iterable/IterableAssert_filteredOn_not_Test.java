@@ -94,7 +94,7 @@ public class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_
       failBecauseExceptionWasNotThrown(IllegalArgumentException.class);
     } catch (IllegalArgumentException e) {
       assertThat(e).hasMessage(format("The expected value should not be null.%n"
-                                      + "If you were trying to filter on a null value, please use filterOnNull(String propertyOrFieldName) instead"));
+                                      + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead"));
     }
   }
 

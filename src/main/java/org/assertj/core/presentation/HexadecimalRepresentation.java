@@ -21,6 +21,8 @@ import static org.assertj.core.util.Strings.concat;
  */
 public class HexadecimalRepresentation implements Representation {
 
+  public static final HexadecimalRepresentation HEXA_REPRESENTATION = new HexadecimalRepresentation();
+
   public static final String PREFIX = "0x";
   public static final int NIBBLE_SIZE = 4;
 
@@ -33,31 +35,20 @@ public class HexadecimalRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
-    if (object instanceof Number) {
-      return toStringOf((Number) object);
-    } else if (object instanceof String) {
-      return toStringOf(this, (String) object);
-    } else if (object instanceof Character) {
-      return toStringOf((Character) object);
-    }
-    return object == null ? null : CollectionToString.toStringOf(this, object);
+    if (object instanceof Number) return toStringOf((Number) object);
+    else if (object instanceof String) return toStringOf(this, (String) object);
+    else if (object instanceof Character) return toStringOf((Character) object);
+    else return DefaultToString.toStringOf(this, object);
   }
 
   private static String toStringOf(Number number) {
-    if (number instanceof Byte) {
-      return toStringOf((Byte) number);
-    } else if (number instanceof Short) {
-      return toStringOf((Short) number);
-    } else if (number instanceof Integer) {
-      return toStringOf((Integer) number);
-    } else if (number instanceof Long) {
-      return toStringOf((Long) number);
-    } else if (number instanceof Float) {
-      return toStringOf((Float) number);
-    } else if (number instanceof Double) {
-      return toStringOf((Double) number);
-    }
-    return number == null ? null : number.toString();
+    if (number instanceof Byte) return toStringOf((Byte) number);
+    else if (number instanceof Short) return toStringOf((Short) number);
+    else if (number instanceof Integer) return toStringOf((Integer) number);
+    else if (number instanceof Long) return toStringOf((Long) number);
+    else if (number instanceof Float) return toStringOf((Float) number);
+    else if (number instanceof Double) return toStringOf((Double) number);
+    else return number.toString();
   }
 
   private static String toStringOf(Byte b) {

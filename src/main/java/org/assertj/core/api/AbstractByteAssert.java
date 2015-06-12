@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.VisibleForTesting;
@@ -318,7 +319,7 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
     bytes.assertIsStrictlyBetween(info, actual, start, end);
     return myself;
   }
-  
+
   /**
    * Verifies that the actual byte is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
@@ -371,11 +372,71 @@ public abstract class AbstractByteAssert<S extends AbstractByteAssert<S>> extend
    * @throws NullPointerException if the expected Byte is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
+  @Override
   public S isCloseTo(Byte expected, Offset<Byte> offset) {
     bytes.assertIsCloseTo(info, actual, expected, offset);
     return myself;
   }
-  
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with byte:
+   *
+   * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)20));
+     *
+     * // if difference is exactly equals to the computed offset (1), it's ok
+     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)10));
+     *
+     * // assertion will fail
+     * assertThat((byte)11).isCloseTo(Byte.valueOf(10), withinPercentage((byte)5));
+     * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(Byte expected, Percentage percentage) {
+    bytes.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with byte:
+   *
+   * <pre><code class='java'>
+     * // assertions will pass:
+     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)20));
+     *
+     * // if difference is exactly equals to the computed offset (1), it's ok
+     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)10));
+     *
+     * // assertion will fail
+     * assertThat((byte)11).isCloseTo((byte)10, withinPercentage((byte)5));
+     * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(byte expected, Percentage percentage) {
+    bytes.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
   @Override
   public S usingComparator(Comparator<? super Byte> customComparator) {
     super.usingComparator(customComparator);

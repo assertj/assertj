@@ -12,9 +12,10 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualsTo.shouldBeBeforeOrEqualsTo;
-import static org.assertj.core.util.Dates.parse;
+import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -22,9 +23,9 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link ShouldBeBeforeOrEqualsTo#create(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldBeBeforeOrEqualsTo#create(Description, org.assertj.core.presentation.Representation)}</code>.
  * 
  * @author Joel Costigliola
  */
@@ -40,8 +41,10 @@ public class ShouldBeBeforeOrEqualsTo_create_Test {
   @Test
   public void should_create_error_message() {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-                                        "[Test] %nExpecting:%n  <2011-01-01T00:00:00>%nto be before or equals to:%n  <2012-01-01T00:00:00>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <2011-01-01T00:00:00.000>%n" +
+                                         "to be before or equals to:%n" +
+                                         "  <2012-01-01T00:00:00.000>"));
   }
 }

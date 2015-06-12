@@ -64,6 +64,11 @@ public class ObjectArrays {
   }
 
   @VisibleForTesting
+  public ComparisonStrategy getComparisonStrategy() {
+    return arrays.getComparisonStrategy();
+  }
+
+  @VisibleForTesting
   Failures failures = Failures.instance();
 
   @VisibleForTesting

@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.time.ZoneOffset.UTC;
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -29,10 +30,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,28 +108,6 @@ public class BDDAssertions_then_Test {
   public void then_of_Class_should_delegate_to_assertThat() {
 	// GIVEN
 	Class<? extends String> actual = "Foo".getClass();
-	// WHEN
-	then(actual);
-	// THEN
-	verifyStatic();
-	assertThat(actual);
-  }
-
-  @Test
-  public void then_of_Iterable_should_delegate_to_assertThat() {
-	// GIVEN
-	Iterable<String> actual = Arrays.asList("1");
-	// WHEN
-	then(actual);
-	// THEN
-	verifyStatic();
-	assertThat(actual);
-  }
-
-  @Test
-  public void then_of_Iterator_should_delegate_to_assertThat() {
-	// GIVEN
-	Iterator<String> actual = Arrays.asList("1").iterator();
 	// WHEN
 	then(actual);
 	// THEN
@@ -471,7 +448,7 @@ public class BDDAssertions_then_Test {
   @Test
   public void then_of_List_should_delegate_to_assertThat() {
 	// GIVEN
-	List<Integer> actual = Arrays.asList(5, 6);
+    List<Integer> actual = asList(5, 6);
 	// WHEN
 	then(actual);
 	// THEN

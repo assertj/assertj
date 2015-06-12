@@ -17,7 +17,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -38,8 +38,13 @@ import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparator;
+import org.assertj.core.internal.IgnoringFieldsComparator;
+import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.util.Iterables;
+import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.OnFieldsComparator;
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -377,8 +382,11 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   }
 
   @Override
-  public S usingElementComparator(Comparator<? super T> customComparator) {
-    this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(customComparator));
+  public S usingElementComparator(Comparator<? super T> elementComparator) {
+    this.arrays = new ObjectArrays(new ComparatorBasedComparisonStrategy(elementComparator));
+    // to have the same semantics on base assertions like isEqualTo, we need to use an iterable comparator comparing
+    // elements with elementComparator parameter
+    objects = new Objects(new ObjectArrayElementComparisonStrategy<>(elementComparator));
     return myself;
   }
 
@@ -386,6 +394,95 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
   public S usingDefaultElementComparator() {
     this.arrays = ObjectArrays.instance();
     return myself;
+  }
+
+  /**
+   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
+   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
+   * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
+   * to the other field/property using its <code>equals</code> method.
+   * </p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * 
+   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
+   * assertThat(array(frodo)).contains(frodoClone);
+   * 
+   * // frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(array(frodo)).usingFieldByFieldElementComparator().contains(frodoClone);
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S usingFieldByFieldElementComparator() {
+    return usingElementComparator(new FieldByFieldComparator());
+  }
+
+  /**
+   * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
+   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * incoming assertion checks. Private fields are included but this can be disabled using
+   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
+   * to the other field/property using its <code>equals</code> method.
+   * </p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+   * 
+   * // frodo and sam both are hobbits, so they are equals when comparing only race
+   * assertThat(array(frodo)).usingElementComparatorOnFields("race").contains(sam); // OK
+   * 
+   * // ... but not when comparing both name and race
+   * assertThat(array(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S usingElementComparatorOnFields(String... fields) {
+    return usingElementComparator(new OnFieldsComparator(fields));
+  }
+
+  /**
+   * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
+   * fields/properties)instead of relying on actual type A <code>equals</code> method to compare group elements for
+   * incoming assertion checks. Private fields are included but this can be disabled using
+   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
+   * <p/>
+   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
+   * to the other field/property using its <code>equals</code> method.
+   * </p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+   * 
+   * // frodo and sam both are hobbits, so they are equals when comparing only race (i.e. ignoring all other fields)
+   * assertThat(array(frodo)).usingElementComparatorIgnoringFields("name", "age").contains(sam); // OK
+   * 
+   * // ... but not when comparing both name and race
+   * assertThat(array(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S usingElementComparatorIgnoringFields(String... fields) {
+    return usingElementComparator(new IgnoringFieldsComparator(fields));
   }
 
   /**
@@ -655,7 +752,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
       result.addAll(e);
     }
 
-    return new ObjectArrayAssert<>(Iterables.toArray(result));
+    return new ObjectArrayAssert<>(IterableUtil.toArray(result));
   }
 
   /**
@@ -875,7 +972,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * 
    * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
    *
-   * assertThat(employees).filterOn("age", 800)
+   * assertThat(employees).filteredOn("age", 800)
    *                      .containsOnly(yoda, obiwan);
    * </code></pre>
    * Nested properties/fields are supported:
@@ -884,10 +981,10 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * // Name is bean class with 'first' and 'last' String properties 
    *
    * // name is null for noname => it does not match the filter on "name.first" 
-   * assertThat(employees).filterOn("name.first", "Luke")
+   * assertThat(employees).filteredOn("name.first", "Luke")
    *                      .containsOnly(luke);
    * 
-   * assertThat(employees).filterOn("name.last", "Vader")
+   * assertThat(employees).filteredOn("name.last", "Vader")
    *                      .isEmpty();
    * </code></pre>
    * <p>
@@ -943,7 +1040,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * 
    * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
    *
-   * assertThat(employees).filterOnNull("name")
+   * assertThat(employees).filteredOnNull("name")
    *                      .containsOnly(noname);
    * </code></pre>
    * Nested properties/fields are supported:
@@ -951,7 +1048,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'>
    * // Name is bean class with 'first' and 'last' String properties 
    *
-   * assertThat(employees).filterOnNull("name.last")
+   * assertThat(employees).filteredOnNull("name.last")
    *                      .containsOnly(yoda, obiwan, noname);
    * </code></pre>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
@@ -966,7 +1063,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    */
   public S filteredOnNull(String propertyOrFieldName) {
     // need to cast nulll to Object otherwise it calls :
-    // filterOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
+    // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
     return filteredOn(propertyOrFieldName, (Object) null);
   }
 
@@ -1000,16 +1097,16 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * Employee[] employees = new Employee[] { yoda, luke, obiwan, noname };
    *
    * // 'not' filter is statically imported from Assertions.not 
-   * assertThat(employees).filterOn("age", not(800))
+   * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke);
    * 
    * // 'in' filter is statically imported from Assertions.in
    * // Name is bean class with 'first' and 'last' String properties 
-   * assertThat(employees).filterOn("name.first", in("Yoda", "Luke"))
+   * assertThat(employees).filteredOn("name.first", in("Yoda", "Luke"))
    *                      .containsOnly(yoda, luke);
    * 
    * // 'notIn' filter is statically imported from Assertions.notIn
-   * assertThat(employees).filterOn("name.first", notIn("Yoda", "Luke"))
+   * assertThat(employees).filteredOn("name.first", notIn("Yoda", "Luke"))
    *                      .containsOnly(obiwan);
    * </code></pre>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
@@ -1020,7 +1117,7 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <pre><code class='java'>
    * // Combining filter operators like not(in(800)) is NOT supported
    * // -&gt; throws UnsupportedOperationException
-   * assertThat(employees).filterOn("age", not(in(800)))
+   * assertThat(employees).filteredOn("age", not(in(800)))
    *                      .contains(luke);
    * </code></pre>
    * <p>

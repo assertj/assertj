@@ -14,9 +14,8 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.nio.charset.Charset;
-
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Files;
-import org.assertj.core.util.FilesException;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -127,7 +126,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    *
    * @deprecated use hasSameContentAs
@@ -147,7 +146,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws IllegalArgumentException if the given {@code File} is not an existing file.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
   public S hasSameContentAs(File expected) {
@@ -163,7 +162,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
   public S hasBinaryContent(byte[] expected) {
@@ -209,7 +208,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
    */
   public S hasContent(String expected) {
@@ -264,7 +263,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * @param expected the expected parent {@code File}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected parent {@code File} is {@code null}.
-   * @throws FilesException if an I/O error occurs.
+   * @throws RuntimeIOException if an I/O error occurs.
    * @throws AssertionError if the actual {@code File} is {@code null}.
    * @throws AssertionError if the actual {@code File} parent is not equal to the expected one.
    * 

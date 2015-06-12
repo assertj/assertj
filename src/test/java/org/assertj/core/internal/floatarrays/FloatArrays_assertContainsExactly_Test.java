@@ -14,18 +14,20 @@ package org.assertj.core.internal.floatarrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
+import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.FloatArrays.arrayOf;
 import static org.assertj.core.test.FloatArrays.emptyArray;
-import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.internal.FloatArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -86,12 +88,29 @@ public class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest 
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet(20f), newLinkedHashSet(10f)));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList(20f), newArrayList(10f)));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    AssertionInfo info = someInfo();
+    float[] expected = { 6f, 8f };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
@@ -136,10 +155,25 @@ public class FloatArrays_assertContainsExactly_Test extends FloatArraysBaseTest 
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet(20f),
-		                                                  newLinkedHashSet(10f), absValueComparisonStrategy));
+      verify(failures).failure(info,
+                               shouldContainExactly(actual, expected, newArrayList(20f), newArrayList(10f),
+                                                    absValueComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    float[] expected = { 6f, -8f };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, absValueComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 }
