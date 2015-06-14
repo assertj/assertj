@@ -12,24 +12,27 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
+
 import org.junit.Test;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
 import org.junit.runner.RunWith;
 
-import java.time.OffsetTime;
-import java.time.ZoneOffset;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-
 @RunWith(Theories.class)
 public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
 
   @Theory
-  public void test_isEqualTo_assertion(OffsetTime referenceTime) {
+  public void test_isEqualTo_assertion(OffsetTime referenceTime, OffsetTime timeBefore, OffsetTime timeEqual,
+                                       OffsetTime timeAfter) {
+    testAssumptions(referenceTime, timeBefore, timeEqual, timeAfter);
     // WHEN
-    assertThat(referenceTime).isEqualTo(referenceTime.toString());
+    assertThat(timeEqual).isEqualTo(referenceTime);
+    assertThat(timeEqual).isEqualTo(referenceTime.toString());
     // THEN
     verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
   }
@@ -46,9 +49,9 @@ public class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
   }
 
   @Test
-  public void should_fail_if_timeTime_as_string_parameter_is_null() {
+  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
     expectException(IllegalArgumentException.class,
-        "The String representing the OffsetTime to compare actual with should not be null");
+                    "The String representing the OffsetTime to compare actual with should not be null");
     assertThat(OffsetTime.now()).isEqualTo((String) null);
   }
 

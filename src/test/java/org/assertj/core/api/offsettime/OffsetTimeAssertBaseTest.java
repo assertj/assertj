@@ -12,35 +12,37 @@
  */
 package org.assertj.core.api.offsettime;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.experimental.theories.DataPoint;
+import static org.junit.Assume.assumeTrue;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import static org.junit.Assume.assumeTrue;
+import org.assertj.core.api.BaseTest;
+import org.junit.experimental.theories.DataPoint;
 
 /**
  * Base test class for {@link org.assertj.core.api.AbstractOffsetTimeAssert} tests.
  */
 public class OffsetTimeAssertBaseTest extends BaseTest {
 
-    @DataPoint
-    public static OffsetTime OffsetTime1 = OffsetTime.of(0, 0, 0, 0, ZoneOffset.UTC);
-    @DataPoint
-    public static OffsetTime OffsetTime2 = OffsetTime.of(23, 59, 59, 999, ZoneOffset.UTC);
-    @DataPoint
-    public static OffsetTime OffsetTime3 = OffsetTime.of(0, 0, 0, 1, ZoneOffset.UTC);
-    @DataPoint
-    public static OffsetTime OffsetTime4 = OffsetTime.of(22, 15, 15, 875, ZoneOffset.UTC);
-    @DataPoint
-    public static OffsetTime OffsetTime5 = OffsetTime.of(22, 15, 15, 874, ZoneOffset.UTC);
-    @DataPoint
-    public static OffsetTime OffsetTime6 = OffsetTime.of(22, 15, 15, 876, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime1 = OffsetTime.of(0, 0, 0, 0, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime2 = OffsetTime.of(23, 59, 59, 999, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime3 = OffsetTime.of(0, 0, 0, 1, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime4 = OffsetTime.of(22, 15, 15, 875, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime5 = OffsetTime.of(22, 15, 15, 874, ZoneOffset.UTC);
+  @DataPoint
+  public static OffsetTime OffsetTime6 = OffsetTime.of(22, 15, 15, 876, ZoneOffset.UTC);
 
-    protected static void testAssumptions(OffsetTime reference, OffsetTime timeBefore, OffsetTime timeAfter) {
-        assumeTrue(timeBefore.isBefore(reference));
-        assumeTrue(timeAfter.isAfter(reference));
-    }
+  protected static void testAssumptions(OffsetTime reference, OffsetTime timeBefore, OffsetTime timeEqual,
+                                        OffsetTime timeAfter) {
+    assumeTrue(timeBefore.isBefore(reference));
+    assumeTrue(timeEqual.isEqual(reference));
+    assumeTrue(timeAfter.isAfter(reference));
+  }
 
 }

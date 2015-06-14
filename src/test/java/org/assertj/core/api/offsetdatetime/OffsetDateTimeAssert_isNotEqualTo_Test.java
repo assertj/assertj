@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -33,22 +34,27 @@ import org.junit.runner.RunWith;
 public class OffsetDateTimeAssert_isNotEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
   @Theory
-  public void test_isNotEqualTo_assertion(OffsetDateTime referenceDate) {
+  public void test_isNotEqualTo_assertion(OffsetDateTime reference, OffsetDateTime before, OffsetDateTime equal,
+                                          OffsetDateTime after) {
+    // GIVEN
+    testAssumptions(reference, before, equal, after);
     // WHEN
-    assertThat(referenceDate).isNotEqualTo(referenceDate.plusDays(1).toString());
+    assertThat(equal).isNotEqualTo(reference.plusDays(1));
+    assertThat(equal).isNotEqualTo(reference.plusDays(1).toString());
     // THEN
-    verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+    verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(reference);
   }
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
     try {
-      assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC))
-                                                                .isNotEqualTo(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0,
-                                                                                                UTC).toString());
+      String offsetDateTimeAsString = OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC).toString();
+      assertThat(OffsetDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isNotEqualTo(offsetDateTimeAsString);
     } catch (AssertionError e) {
-      assertThat(e)
-                   .hasMessage("\nExpecting:\n <2000-01-05T03:00:05Z>\nnot to be equal to:\n <2000-01-05T03:00:05Z>\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + " <2000-01-05T03:00:05Z>%n"
+                                      + "not to be equal to:%n"
+                                      + " <2000-01-05T03:00:05Z>%n"));
       return;
     }
     fail("Should have thrown AssertionError");

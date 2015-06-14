@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,9 +37,12 @@ public class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.plusMinutes(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-01T23:51Z>\nto have same year, month, day, hour and minute as:\n  <2000-01-01T23:52Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <2000-01-01T23:51Z>%n" +
+                                      "to have same year, month, day, hour and minute as:%n" +
+                                      "  <2000-01-01T23:52Z>%n" +
+                                      "but had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -49,9 +53,12 @@ public class OffsetDateTimeAssert_isEqualToIgnoringSeconds_Test extends BaseTest
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringSeconds(refOffsetDateTime.minusNanos(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-01T23:51Z>\nto have same year, month, day, hour and minute as:\n  <2000-01-01T23:50:59.999999999Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <2000-01-01T23:51Z>%n" +
+                                      "to have same year, month, day, hour and minute as:%n" +
+                                      "  <2000-01-01T23:50:59.999999999Z>%n" +
+                                      "but had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

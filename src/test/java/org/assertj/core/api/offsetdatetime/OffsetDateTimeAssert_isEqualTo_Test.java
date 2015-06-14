@@ -34,11 +34,15 @@ import org.junit.runner.RunWith;
 public class OffsetDateTimeAssert_isEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
   @Theory
-  public void test_isEqualTo_assertion(OffsetDateTime referenceDate) {
+  public void test_isEqualTo_assertion(OffsetDateTime reference, OffsetDateTime dateBefore, OffsetDateTime dateEqual,
+                                       OffsetDateTime dateAfter) {
+    // GIVEN
+    testAssumptions(reference, dateBefore, dateEqual, dateAfter);
     // WHEN
-    assertThat(referenceDate).isEqualTo(referenceDate.toString());
+    assertThat(dateEqual).isEqualTo(reference);
+    assertThat(dateEqual).isEqualTo(reference.toString());
     // THEN
-    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(referenceDate);
+    verify_that_isEqualTo_assertion_fails_and_throws_AssertionError(reference);
   }
 
   @Test

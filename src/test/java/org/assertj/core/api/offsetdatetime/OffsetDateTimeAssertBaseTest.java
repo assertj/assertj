@@ -41,10 +41,11 @@ public class OffsetDateTimeAssertBaseTest extends BaseTest {
   @DataPoint
   public static OffsetDateTime offsetDateTime6 = OffsetDateTime.of(2000, 12, 14, 22, 15, 15, 876, ZoneOffset.UTC);
 
-  protected static void testAssumptions(OffsetDateTime reference, OffsetDateTime dateBefore,
-                                        OffsetDateTime dateAfter) {
-    assumeTrue(dateBefore.isBefore(reference));
-    assumeTrue(dateAfter.isAfter(reference));
+  protected static void testAssumptions(OffsetDateTime reference, OffsetDateTime before, OffsetDateTime equal,
+                                        OffsetDateTime after) {
+    assumeTrue(before.isBefore(reference));
+    assumeTrue(equal.isEqual(reference));
+    assumeTrue(after.isAfter(reference));
   }
 
 }

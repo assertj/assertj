@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.parse;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -33,9 +34,10 @@ import org.junit.runner.RunWith;
 public class OffsetDateTimeAssert_isAfter_Test extends OffsetDateTimeAssertBaseTest {
 
   @Theory
-  public void test_isAfter_assertion(OffsetDateTime referenceDate, OffsetDateTime dateBefore, OffsetDateTime dateAfter) {
+  public void test_isAfter_assertion(OffsetDateTime referenceDate, OffsetDateTime dateBefore, OffsetDateTime dateEqual,
+                                     OffsetDateTime dateAfter) {
     // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+    testAssumptions(referenceDate, dateBefore, dateEqual, dateAfter);
     // WHEN
     assertThat(dateAfter).isAfter(referenceDate);
     assertThat(dateAfter).isAfter(referenceDate.toString());
@@ -49,11 +51,11 @@ public class OffsetDateTimeAssert_isAfter_Test extends OffsetDateTimeAssertBaseT
     try {
       assertThat(parse("2000-01-01T03:00:05.123Z")).isAfter(parse("2000-01-01T03:00:05.123456789Z"));
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n" +
-                               "Expecting:\n" +
-                               "  <2000-01-01T03:00:05.123Z>\n" +
-                               "to be strictly after:\n" +
-                               "  <2000-01-01T03:00:05.123456789Z>");
+      assertThat(e).hasMessage(format("%n" +
+                               "Expecting:%n" +
+                               "  <2000-01-01T03:00:05.123Z>%n" +
+                               "to be strictly after:%n" +
+                                      "  <2000-01-01T03:00:05.123456789Z>"));
       return;
     }
     fail("Should have thrown AssertionError");

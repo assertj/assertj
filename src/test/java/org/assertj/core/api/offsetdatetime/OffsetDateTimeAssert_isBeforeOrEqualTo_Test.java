@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,15 +35,17 @@ import org.junit.runner.RunWith;
 public class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends OffsetDateTimeAssertBaseTest {
 
   @Theory
-  public void test_isBeforeOrEqual_assertion(OffsetDateTime referenceDate, OffsetDateTime dateBefore,
-                                             OffsetDateTime dateAfter) {
+  public void test_isBeforeOrEqual_assertion(OffsetDateTime reference, OffsetDateTime dateBefore,
+                                             OffsetDateTime dateEqual, OffsetDateTime dateAfter) {
     // GIVEN
-    testAssumptions(referenceDate, dateBefore, dateAfter);
+    testAssumptions(reference, dateBefore, dateEqual, dateAfter);
     // WHEN
-    assertThat(dateBefore).isBeforeOrEqualTo(referenceDate);
-    assertThat(referenceDate).isBeforeOrEqualTo(referenceDate);
+    assertThat(dateBefore).isBeforeOrEqualTo(reference);
+    assertThat(dateBefore).isBeforeOrEqualTo(reference.toString());
+    assertThat(dateEqual).isBeforeOrEqualTo(reference);
+    assertThat(dateEqual).isBeforeOrEqualTo(reference.toString());
     // THEN
-    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(dateAfter, referenceDate);
+    verify_that_isBeforeOrEqual_assertion_fails_and_throws_AssertionError(dateAfter, reference);
   }
 
   @Test
@@ -50,8 +53,10 @@ public class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends OffsetDateTimeA
     try {
       assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isBeforeOrEqualTo(of(1998, 1, 1, 3, 3, 3, 0, UTC));
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(
-                               "\nExpecting:\n  <2000-01-05T03:00:05Z>\nto be before or equals to:\n  <1998-01-01T03:03:03Z>");
+      assertThat(e).hasMessage(format("%nExpecting:%n" +
+                                      "  <2000-01-05T03:00:05Z>%n" +
+                                      "to be before or equals to:%n" +
+                                      "  <1998-01-01T03:03:03Z>"));
       return;
     }
     fail("Should have thrown AssertionError");

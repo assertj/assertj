@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +47,10 @@ public class OffsetDateTimeAssert_isIn_Test extends OffsetDateTimeAssertBaseTest
     try {
       assertThat(of(2000, 1, 5, 3, 0, 5, 0, UTC)).isIn(of(2012, 1, 1, 3, 3, 3, 0, UTC).toString());
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n <2000-01-05T03:00:05Z>\nto be in:\n <[2012-01-01T03:03:03Z]>\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n" +
+                                      " <2000-01-05T03:00:05Z>%n" +
+                                      "to be in:%n" +
+                                      " <[2012-01-01T03:03:03Z]>%n"));
       return;
     }
     fail("Should have thrown AssertionError");

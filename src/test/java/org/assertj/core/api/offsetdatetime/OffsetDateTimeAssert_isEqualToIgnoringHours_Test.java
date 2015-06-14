@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
@@ -37,9 +38,11 @@ public class OffsetDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringHours(refOffsetDateTime.minusHours(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:00Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <2000-01-02T00:00Z>%n" +
+                                      "to have same year, month and day as:%n" +
+                                      "  <2000-01-01T23:00Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -50,9 +53,12 @@ public class OffsetDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringHours(refOffsetDateTime.minusNanos(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:59:59.999999999Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <2000-01-02T00:00Z>%n" +
+                                      "to have same year, month and day as:%n" +
+                                      "  <2000-01-01T23:59:59.999999999Z>%n" +
+                                      "but had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

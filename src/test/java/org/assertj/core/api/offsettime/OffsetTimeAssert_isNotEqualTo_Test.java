@@ -12,16 +12,17 @@
  */
 package org.assertj.core.api.offsettime;
 
-import org.junit.Test;
-import org.junit.experimental.theories.Theories;
-import org.junit.experimental.theories.Theory;
-import org.junit.runner.RunWith;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
+import org.junit.Test;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
+import org.junit.runner.RunWith;
 
 /**
  * Only test String based assertion (tests with {@link java.time.OffsetTime} are already defined in assertj-core)
@@ -34,42 +35,42 @@ public class OffsetTimeAssert_isNotEqualTo_Test extends OffsetTimeAssertBaseTest
 
   @Theory
   public void test_isNotEqualTo_assertion(OffsetTime referenceTime) {
-	// WHEN
-	assertThat(referenceTime).isNotEqualTo(referenceTime.plusHours(1).toString());
-	// THEN
-	verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
+    // WHEN
+    assertThat(referenceTime).isNotEqualTo(referenceTime.plusHours(1).toString());
+    // THEN
+    verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(referenceTime);
   }
 
   @Test
   public void test_isNotEqualTo_assertion_error_message() {
-	try {
-	  assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isNotEqualTo("03:00:05Z");
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       " <03:00:05Z>\n" +
-		                       "not to be equal to:\n" +
-		                       " <03:00:05Z>\n");
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    try {
+      assertThat(OffsetTime.of(3, 0, 5, 0, ZoneOffset.UTC)).isNotEqualTo("03:00:05Z");
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      " <03:00:05Z>%n" +
+                                      "not to be equal to:%n" +
+                                      " <03:00:05Z>%n"));
+      return;
+    }
+    fail("Should have thrown AssertionError");
   }
 
   @Test
-  public void should_fail_if_timeTime_as_string_parameter_is_null() {
-	expectException(IllegalArgumentException.class,
-	                "The String representing the OffsetTime to compare actual with should not be null");
-	assertThat(OffsetTime.now()).isNotEqualTo((String) null);
+  public void should_fail_if_offsetTime_as_string_parameter_is_null() {
+    expectException(IllegalArgumentException.class,
+                    "The String representing the OffsetTime to compare actual with should not be null");
+    assertThat(OffsetTime.now()).isNotEqualTo((String) null);
   }
 
   private static void verify_that_isNotEqualTo_assertion_fails_and_throws_AssertionError(OffsetTime reference) {
-	try {
-	  assertThat(reference).isNotEqualTo(reference.toString());
-	} catch (AssertionError e) {
-	  // AssertionError was expected
-	  return;
-	}
-	fail("Should have thrown AssertionError");
+    try {
+      assertThat(reference).isNotEqualTo(reference.toString());
+    } catch (AssertionError e) {
+      // AssertionError was expected
+      return;
+    }
+    fail("Should have thrown AssertionError");
   }
 
 }

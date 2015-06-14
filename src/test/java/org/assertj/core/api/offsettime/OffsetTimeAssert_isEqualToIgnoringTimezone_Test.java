@@ -12,15 +12,16 @@
  */
 package org.assertj.core.api.offsettime;
 
-import org.assertj.core.api.BaseTest;
-import org.junit.Test;
+import static java.lang.String.format;
+import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
-import static org.assertj.core.api.AbstractOffsetTimeAssert.NULL_OFFSET_TIME_PARAMETER_MESSAGE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import org.assertj.core.api.BaseTest;
+import org.junit.Test;
 
 public class OffsetTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTest {
 
@@ -28,35 +29,35 @@ public class OffsetTimeAssert_isEqualToIgnoringTimezone_Test extends BaseTest {
 
   @Test
   public void should_pass_if_actual_is_equal_to_other_ignoring_timezone_fields() {
-	assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC));
+    assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC));
   }
 
   @Test
   public void should_fail_if_actual_is_not_equal_to_given_OffsetTime_with_timezone_ignored() {
-	try {
-	  assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC));
-	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n  " +
-		                       "<12:00+18:00>\n" +
-		                       "to have same time fields except timezone as:\n" +
-		                       "  <12:01Z>\n" +
-		                       "but had not.");
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    try {
+      assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC));
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage(format("%nExpecting:%n  " +
+                                      "<12:00+18:00>%n" +
+                                      "to have same time fields except timezone as:%n" +
+                                      "  <12:01Z>%n" +
+                                      "but had not."));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	OffsetTime actual = null;
-	assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.now());
+    expectException(AssertionError.class, actualIsNull());
+    OffsetTime actual = null;
+    assertThat(actual).isEqualToIgnoringTimezone(OffsetTime.now());
   }
 
   @Test
-  public void should_throw_error_if_given_OffsetTimetime_is_null() {
-	expectIllegalArgumentException(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
-	assertThat(actual).isEqualToIgnoringTimezone(null);
+  public void should_throw_error_if_given_offsetTime_is_null() {
+    expectIllegalArgumentException(NULL_OFFSET_TIME_PARAMETER_MESSAGE);
+    assertThat(actual).isEqualToIgnoringTimezone(null);
   }
 
 }

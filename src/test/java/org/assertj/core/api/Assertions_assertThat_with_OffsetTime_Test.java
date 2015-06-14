@@ -36,13 +36,13 @@ public class Assertions_assertThat_with_OffsetTime_Test {
 
   @Test
   public void should_create_Assert() {
-    OffsetTimeAssert assertions = Assertions.assertThat(actual);
+    AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
     assertNotNull(assertions);
   }
 
   @Test
   public void should_pass_actual() {
-    OffsetTimeAssert assertions = Assertions.assertThat(actual);
+    AbstractOffsetTimeAssert<?> assertions = Assertions.assertThat(actual);
     assertSame(actual, assertions.actual);
   }
 }

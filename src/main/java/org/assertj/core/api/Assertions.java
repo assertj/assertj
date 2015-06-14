@@ -92,28 +92,16 @@ import org.assertj.core.util.introspection.FieldSupport;
  */
 public class Assertions {
 
-  
   /**
    * Create assertion for {@link java.util.Optional}.
    *
    * @param optional the actual value.
-   * @param <T>      the type of the value contained in the {@link java.util.Optional}.
+   * @param <T> the type of the value contained in the {@link java.util.Optional}.
    *
    * @return the created assertion object.
    */
   public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
     return new OptionalAssert<>(optional);
-  }
-
-  /**
-   * Create assertion for {@link java.time.OffsetTime}.
-   *
-   * @param offsetTime the actual value.
-   *
-   * @return the created assertion object.
-   */
-  public static OffsetTimeAssert assertThat(OffsetTime offsetTime) {
-      return new OffsetTimeAssert(offsetTime);
   }
 
   /**
@@ -124,7 +112,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
-      return new OptionalDoubleAssert(optionalDouble);
+    return new OptionalDoubleAssert(optionalDouble);
   }
 
   /**
@@ -135,7 +123,7 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static OptionalIntAssert assertThat(OptionalInt optionalInt) {
-      return new OptionalIntAssert(optionalInt);
+    return new OptionalIntAssert(optionalInt);
   }
 
   /**
@@ -146,10 +134,10 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static OptionalLongAssert assertThat(OptionalLong optionalLong) {
-        return new OptionalLongAssert(optionalLong);
-    }
+    return new OptionalLongAssert(optionalLong);
+  }
 
-    /**
+  /**
    * Creates a new instance of <code>{@link BigDecimalAssert}</code>.
    *
    * @param actual the actual value.
@@ -360,7 +348,7 @@ public class Assertions {
    * @param actual the path to test
    * @return the created assertion object
    */
-  public static AbstractPathAssert<?> assertThat(Path actual)  {
+  public static AbstractPathAssert<?> assertThat(Path actual) {
     return new PathAssert(actual);
   }
 
@@ -670,9 +658,19 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractOffsetDateTimeAssert<?> assertThat(OffsetDateTime actual) {
-      return new OffsetDateTimeAssert(actual);
+    return new OffsetDateTimeAssert(actual);
   }
-  
+
+  /**
+   * Create assertion for {@link java.time.OffsetTime}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractOffsetTimeAssert<?> assertThat(OffsetTime offsetTime) {
+    return new OffsetTimeAssert(offsetTime);
+  }
+
   /**
    * Creates a new instance of <code>{@link LocalTimeAssert}</code>.
    *
@@ -680,9 +678,9 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractLocalTimeAssert<?> assertThat(LocalTime actual) {
-	return new LocalTimeAssert(actual);
+    return new LocalTimeAssert(actual);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link LocalDateAssert}</code>.
    *
@@ -690,9 +688,9 @@ public class Assertions {
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {
-	return new LocalDateAssert(localDate);
+    return new LocalDateAssert(localDate);
   }
-  
+
   /**
    * Creates a new instance of <code>{@link ThrowableAssert}</code>.
    *

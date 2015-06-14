@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.offsetdatetime;
 
+import static java.lang.String.format;
 import static java.time.OffsetDateTime.of;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractOffsetDateTimeAssert.NULL_OFFSET_DATE_TIME_PARAMETER_MESSAGE;
@@ -38,22 +39,27 @@ public class OffsetDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends Base
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.plusSeconds(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-01T00:00:01Z>\nto have same year, month, day, hour, minute and second as:\n  <2000-01-01T00:00:02Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%nExpecting:%n" +
+                                      "  <2000-01-01T00:00:01Z>%n" +
+                                      "to have same year, month, day, hour, minute and second as:%n" +
+                                      "  <2000-01-01T00:00:02Z>%nb" +
+                                      "ut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_as_seconds_fields_are_different_even_if_time_difference_is_less_than_a_second() {
+  public void should_fail_as_seconds_fields_are_different() {
     try {
       assertThat(refOffsetDateTime).isEqualToIgnoringNanos(refOffsetDateTime.minusNanos(1));
     } catch (AssertionError e) {
-      assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-01T00:00:01Z>\nto have same year, month, day, hour, minute and second as:\n  <2000-01-01T00:00:00.999999999Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <2000-01-01T00:00:01Z>%n" +
+                                      "to have same year, month, day, hour, minute and second as:%n" +
+                                      "  <2000-01-01T00:00:00.999999999Z>%n" +
+                                      "but had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
