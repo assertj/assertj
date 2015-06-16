@@ -13,6 +13,7 @@
 package org.assertj.core.api.iterable;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
@@ -169,6 +170,13 @@ public class IterableAssert_extracting_Test {
         return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
       }
     }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+  }
+
+  @Test
+  public void should_allow_extracting_by_toString_method() {
+    assertThat(employees).extracting(Extractors.toStringMethod()).containsOnly(
+        "Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
+        "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
   
 }

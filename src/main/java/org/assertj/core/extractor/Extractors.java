@@ -32,7 +32,7 @@ public class Extractors {
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
    */
-  public static Extractor<?, String> toStringMethod() {
+  public static Extractor<Object, String> toStringMethod() {
     return new ToStringExtractor();
   }
   
