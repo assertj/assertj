@@ -74,7 +74,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.empty()).isEmpty();
+   * assertThat(OptionalDouble.empty()).isEmpty();
    * </code></pre>
    * <p>
    * Assertion will fail :

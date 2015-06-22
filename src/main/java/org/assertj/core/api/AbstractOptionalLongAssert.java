@@ -65,7 +65,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.empty()).isEmpty();
+   * assertThat(OptionalLong.empty()).isEmpty();
    * </code></pre>
    * <p>
    * Assertion will fail :
