@@ -40,6 +40,10 @@ a[name]:hover {
     text-decoration:none;
     color:#353833;
 }
+p {
+    margin-top:8px;
+    margin-bottom:4px;
+}
 pre {
     font-size:1.3em;
 }
