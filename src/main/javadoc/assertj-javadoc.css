@@ -43,6 +43,10 @@ a[name]:hover {
     text-decoration:none;
     color:#353833;
 }
+p {
+    margin-top:8px;
+    margin-bottom:4px;
+}
 pre {
     font-family:'DejaVu Sans Mono', monospace;
     font-size:14px;
