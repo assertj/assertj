@@ -23,6 +23,8 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
+import static org.assertj.core.error.ShouldHaveField.shouldHaveField;
+import static org.assertj.core.error.ShouldHaveFieldWithValue.shouldHaveFieldWithValue;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
@@ -679,6 +681,7 @@ public class Objects {
    */
   private <A> Object getFieldOrPropertyValue(A a, String fieldName) {
     // TODO use PropertyOrFieldSupport but the order is not the same
+    if (fieldName == null) throw new IntrospectionError("Field name to obtain the value must not be null");
     try {
       return fieldSupport.fieldValue(fieldName, Object.class, a);
     } catch (IntrospectionError e) {
@@ -740,7 +743,29 @@ public class Objects {
     return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
-  public static class ByFieldsComparison {
+  public <A> void assertHasField(AssertionInfo info, A actual, String name) {
+    assertNotNull(info, actual);
+    try {
+      getFieldOrPropertyValue(actual, name);
+    } catch (IntrospectionError error) {
+      throw failures.failure(info, shouldHaveField(actual, name));
+    }
+  }
+
+  public <A> void assertHasFieldWithValue(AssertionInfo info, A actual, String name, Object value) {
+    assertNotNull(info, actual);
+    assertHasField(info, actual, name);
+    try {
+      Object fieldValue = getFieldOrPropertyValue(actual, name);
+      if (!java.util.Objects.equals(value, fieldValue)) {
+        throw failures.failure(info, shouldHaveFieldWithValue(actual, name, value));
+      }
+    } catch (IntrospectionError error) {
+      throw failures.failure(info, shouldHaveField(actual, name));
+    }
+  }
+
+    public static class ByFieldsComparison {
 
     private final List<String> fieldsNames;
     private final List<Object> expectedValues;

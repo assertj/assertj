@@ -173,8 +173,8 @@ public class PropertySupport {
    * @throws IntrospectionError if target object does not have a property with a matching name.
    */
   public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
-    // returns null if target is null as we can't extract a property from a null object
-    if (target == null) return null;
+    // returns null if target or property name is null as we can't extract a property from a this object
+    if (target == null || propertyName == null) return null;
 
     if (isNestedProperty(propertyName)) {
       String firstPropertyName = popPropertyNameFrom(propertyName);

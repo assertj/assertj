@@ -27,6 +27,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
+ * @author Libor Ondrusek
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
@@ -188,6 +189,87 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    */
   public S isEqualToComparingFieldByField(A other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has specified field.
+   * <p/>
+   * Private fields without getter are not matched.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'>
+   *
+   * public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *   
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * assertThat(frodo).hasField("name");       // pass
+   * assertThat(frodo).hasField("age");        // fail
+   * assertThat(frodo).hasField("not_exists"); // fail
+   * assertThat(frodo).hasField(null);         // fail
+   *
+   * </code></pre>
+   *
+   * @param name the name of asserted field..
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual object has not given field
+   */
+  public S hasField(String name) {
+    objects.assertHasField(info, actual, name);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has specified field with expected value.
+   * <p/>
+   * Private fields without getter are not compared.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'>
+   *
+   * public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * assertThat(frodo).hasField("name", "Frodo");       // pass
+   * assertThat(frodo).hasField("name", "not_equals");  // fail
+   * assertThat(frodo).hasField("age", 33);             // fail because age is private withou public getter
+   * assertThat(frodo).hasField(null, 33);              // fail
+   * assertThat(frodo).hasField("age", null);           // fail
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(null, 33);
+   *
+   * assertThat(frodo).hasField("name", null);          // pass
+   * assertThat(frodo).hasField("name", "Frodo");       // fail
+   *
+   * </code></pre>
+   *
+   * @param name the name of asserted field..
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual object has not given field
+   * @throws AssertionError if the actual object has given field, but value is not equal to expected value
+   *
+   * @see AbstractObjectAssert#hasField(java.lang.String)
+   */
+  public S hasField(String name, Object value) {
+    objects.assertHasFieldWithValue(info, actual, name, value);
     return myself;
   }
 }
