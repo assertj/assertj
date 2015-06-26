@@ -27,6 +27,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
+ * @author Libor Ondrusek
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
@@ -184,12 +185,101 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
-   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   public S isEqualToComparingFieldByField(Object other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has the specified field or property.
+   * <p/>
+   * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *
+   *   private String name;
+   *   private int age;
+   *   // constructor omitted
+   *      
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   * 
+   * // assertions will pass :
+   * assertThat(frodo).hasFieldOrProperty("name")
+   *                  .hasFieldOrProperty("age"); // private field are matched by default
+   *         
+   * // assertions will fail :
+   * assertThat(frodo).hasFieldOrProperty("not_exists");
+   * assertThat(frodo).hasFieldOrProperty(null);
+   * // disable looking for private fields
+   * Assertions.setAllowExtractingPrivateFields(false);
+   * assertThat(frodo).hasFieldOrProperty("age"); </code></pre>
+   *
+   * @param name the field/property name to check 
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws IllegalArgumentException if name is {@code null}.
+   * @throws AssertionError if the actual object has not the given field/property
+   */
+  public S hasFieldOrProperty(String name) {
+    objects.assertHasFieldOrProperty(info, actual, name);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has the specified field or property with the given value.
+   * <p/>
+   * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *   // constructor omitted
+   *
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   * TolkienCharacter noname = new TolkienCharacter(null, 33);
+   *
+   * // assertions will pass :
+   * assertThat(frodo).hasFieldOrProperty("name", "Frodo");
+   * assertThat(frodo).hasFieldOrProperty("age", 33);
+   * assertThat(noname).hasFieldOrProperty("name", null);
+   *
+   * // assertions will fail :
+   * assertThat(frodo).hasFieldOrProperty("name", "not_equals"); 
+   * assertThat(frodo).hasFieldOrProperty(null, 33);             
+   * assertThat(frodo).hasFieldOrProperty("age", null);          
+   * assertThat(noname).hasFieldOrProperty("name", "Frodo");
+   * // disable extracting private fields
+   * Assertions.setAllowExtractingPrivateFields(false);
+   * assertThat(frodo).hasFieldOrProperty("age", 33); </code></pre>
+   *
+   * @param name the field/property name to check 
+   * @param value the field/property expected value 
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws IllegalArgumentException if name is {@code null}.
+   * @throws AssertionError if the actual object has not the given field/property
+   * @throws AssertionError if the actual object has the given field/property but not with the expected value
+   *
+   * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
+   */
+  public S hasFieldOrPropertyWithValue(String name, Object value) {
+    objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
 }

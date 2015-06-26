@@ -22,6 +22,8 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
+import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
+import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
 import static org.assertj.core.error.ShouldHaveToString.shouldHaveToString;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
@@ -89,8 +91,8 @@ public class Objects {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy ?
-        ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator() : null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy
+        ? ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator() : null;
   }
 
   @VisibleForTesting
@@ -687,6 +689,26 @@ public class Objects {
 
   public boolean areEqualToComparingOnlyGivenFields(Object actual, Object other, String... fields) {
     return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
+  }
+
+  public <A> void assertHasFieldOrProperty(AssertionInfo info, A actual, String name) {
+    assertNotNull(info, actual);
+    try {
+      extractPropertyOrField(actual, name);
+    } catch (IntrospectionError error) {
+      throw failures.failure(info, shouldHavePropertyOrField(actual, name));
+    }
+  }
+
+  public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object expectedValue) {
+    assertHasFieldOrProperty(info, actual, name);
+    Object value = extractPropertyOrField(actual, name);
+    if (!java.util.Objects.equals(value, expectedValue))
+      throw failures.failure(info, shouldHavePropertyOrFieldWithValue(actual, name, expectedValue, value));
+  }
+
+  private <A> Object extractPropertyOrField(A actual, String name) {
+    return PropertyOrFieldSupport.EXTRACTION.getValueOf(name, actual);
   }
 
   public static class ByFieldsComparison {
