@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.object;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -48,11 +49,7 @@ public class ObjectAssert_hasField_Test extends ObjectAssertBaseTest {
       assertThat(jedi).hasField("not_exists_in_jedi_object");
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <\"not_exists_in_jedi_object\">");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <\"not_exists_in_jedi_object\">"));
     }
   }
 
@@ -64,11 +61,7 @@ public class ObjectAssert_hasField_Test extends ObjectAssertBaseTest {
       assertThat(jedi).hasField(null);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <null>");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <null>"));
     }
   }
 }
