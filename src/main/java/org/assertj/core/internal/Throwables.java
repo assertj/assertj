@@ -12,12 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveCauseInstance.shouldHaveCauseInstance;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
+import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
 import static org.assertj.core.error.ShouldHaveRootCauseExactlyInstance.shouldHaveRootCauseExactlyInstance;
 import static org.assertj.core.error.ShouldHaveRootCauseInstance.shouldHaveRootCauseInstance;
@@ -33,6 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
  * Reusable assertions for <code>{@link Throwable}</code>s.
  * 
  * @author Joel Costigliola
+ * @author Libor Ondrusek
  */
 public class Throwables {
 
@@ -127,6 +130,23 @@ public class Throwables {
 	assertNotNull(info, actual);
 	if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
 	throw failures.failure(info, shouldContain(actual.getMessage(), description));
+  }
+
+  /**
+   * Asserts that the message of the actual {@code Throwable} matches with the given regular expression.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws NullPointerException if the regex is null
+   */
+  public void assertHasMessageMatching(AssertionInfo info, Throwable actual, String regex) {
+    requireNonNull(regex, "regex must not be null");
+    assertNotNull(info, actual);
+    if (actual.getMessage() != null && actual.getMessage().matches(regex)) return;
+    throw failures.failure(info, shouldHaveMessageMatchingRegex(actual, regex));
   }
 
   /**

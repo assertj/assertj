@@ -10,31 +10,30 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.throwable;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
-import org.assertj.core.internal.Throwables;
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Base class for {@link ThrowableAssert} tests.
+ * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
  * 
- * @author Olivier Michallat
  * @author Libor Ondrusek
  */
-public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert, Throwable> {
-  protected Throwables throwables;
+public class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTest {
+
+  public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
   @Override
-  protected ThrowableAssert create_assertions() {
-    return new ThrowableAssert(new Throwable("throwable message"));
+  protected ThrowableAssert invoke_api_method() {
+    return assertions.hasMessageMatching(REGEX);
   }
 
   @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    throwables = mock(Throwables.class);
-    assertions.throwables = throwables;
+  protected void verify_internal_effects() {
+    verify(throwables).assertHasMessageMatching(getInfo(assertions), getActual(assertions), REGEX);
   }
 
 }
