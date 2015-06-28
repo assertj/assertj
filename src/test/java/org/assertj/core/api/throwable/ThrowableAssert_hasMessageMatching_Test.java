@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.throwable;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
@@ -55,11 +56,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching(REGEX);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting:\n"
-                               + "  <\"Given id='1' not exists\">\n"
-                               + "matches regex:\n"
-                               + "  <\"Given id='\\d{2,4}' not exists\">\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <\"Given id='1' not exists\">%nmatches regex:%n  <\"Given id='\\d{2,4}' not exists\">%n"));
     }
   }
 
@@ -71,11 +68,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching("");
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting:\n"
-                               + "  <\"Given id='1' not exists\">\n"
-                               + "matches regex:\n"
-                               + "  <\"\">\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <\"Given id='1' not exists\">%nmatches regex:%n  <\"\">%n"));
     }
   }
 
@@ -99,11 +92,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching(REGEX);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting:\n"
-                               + "  <null>\n"
-                               + "matches regex:\n"
-                               + "  <\"Given id='\\d{2,4}' not exists\">\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <null>%nmatches regex:%n  <\"Given id='\\d{2,4}' not exists\">%n"));
     }
   }
 }
