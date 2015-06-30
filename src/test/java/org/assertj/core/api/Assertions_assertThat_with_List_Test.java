@@ -14,8 +14,8 @@ package org.assertj.core.api;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class Assertions_assertThat_with_List_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractListAssert<?, ? extends List<? extends Object>, Object> assertions = Assertions.assertThat(emptyList());
+    Object assertions = Assertions.assertThat(emptyList());
     assertThat(assertions).isNotNull();
   }
 
@@ -81,7 +81,6 @@ public class Assertions_assertThat_with_List_Test {
   @Test
   public void should_pass_actual() {
     List<String> names = singletonList("Luke");
-    AbstractListAssert<?, ? extends List<? extends String>, String> assertions = Assertions.assertThat(names);
-    assertThat(assertions.actual).isSameAs(names);
+    assertThat(Assertions.assertThat(names).actual).isSameAs(names);
   }
 }

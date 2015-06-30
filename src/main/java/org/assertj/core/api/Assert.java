@@ -244,7 +244,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
   S hasSameClassAs(Object other);
 
   /**
-   * Verifies that actual<code>actual.toString()</code> is equal to the given <code>String</code>.
+   * Verifies that actual <code>actual.toString()</code> is equal to the given <code>String</code>.
    * <p>
    * Example :
    *
@@ -253,7 +253,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *
    * // Instead of writing ...  
    * assertThat(homer.toString()).isEqualTo("Homer");
-   * // ... you can simply use: 
+   * // ... you can simply write: 
    * assertThat(homer).hasToString("Homer");
    * </code></pre>
    * 

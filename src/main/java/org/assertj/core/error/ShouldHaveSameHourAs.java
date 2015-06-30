@@ -12,32 +12,29 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
-
-import java.time.LocalTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 
 /**
  * Creates an error message indicating that an assertion that verifies that two {@link ZonedDateTime} have same year,
  * month, day and hour fields failed.
- * 
+ *
  * @author Joel Costigliola
  */
 public class ShouldHaveSameHourAs extends BasicErrorMessageFactory {
 
-  /**
-   * Creates a new <code>{@link ShouldHaveSameHourAs}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldHaveSameHourAs(LocalTime actual, LocalTime other) {
-    return new ShouldHaveSameHourAs(actual, other);
-  }
+    /**
+     * Creates a new <code>{@link ShouldHaveSameHourAs}</code>.
+     *
+     * @param actual the actual value in the failed assertion.
+     * @param other  the value used in the failed assertion to compare the actual value to.
+     * @return the created {@code ErrorMessageFactory}.
+     */
+    public static ErrorMessageFactory shouldHaveSameHourAs(Temporal actual, Temporal other) {
+        return new ShouldHaveSameHourAs(actual, other);
+    }
 
-  private ShouldHaveSameHourAs(LocalTime actual, LocalTime other) {
-	super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
-  }
+    private ShouldHaveSameHourAs(Temporal actual, Temporal other) {
+        super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
+    }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 
@@ -20,12 +21,13 @@ import java.util.Date;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.Dates;
+import org.assertj.core.util.DateUtil;
 import org.junit.Test;
 
-
 /**
- * Tests for <code>{@link ShouldHaveTime#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for
+ * <code>{@link ShouldHaveTime#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
+ * .
  * 
  * @author Guillaume Girou
  * @author Nicolas François
@@ -36,10 +38,14 @@ public class ShouldHaveTime_create_Test {
 
   @Test
   public void should_create_error_message() throws ParseException {
-    Date date = Dates.parseDatetime("2011-01-01T05:01:00");
+    Date date = DateUtil.parseDatetime("2011-01-01T05:01:00");
     String message = shouldHaveTime(date, 123).create(new TextDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo(String.format(
-        "[Test] %nExpecting%n <2011-01-01T05:01:00>%nto have time:%n <123L>%nbut was:%n <" + date.getTime() + "L>"
-    ));
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting%n" +
+                                         " <2011-01-01T05:01:00.000>%n" +
+                                         "to have time:%n" +
+                                         " <123L>%n" +
+                                         "but was:%n" +
+                                         " <" + date.getTime() + "L>"));
   }
 }

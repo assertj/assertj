@@ -16,10 +16,10 @@ import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.assertj.core.util.Dates.newIsoDateFormat;
-import static org.assertj.core.util.Dates.newIsoDateTimeFormat;
-import static org.assertj.core.util.Dates.newIsoDateTimeWithMsFormat;
-import static org.assertj.core.util.Dates.newTimestampDateFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeFormat;
+import static org.assertj.core.util.DateUtil.newIsoDateTimeWithMsFormat;
+import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -110,7 +110,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -151,7 +151,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -226,6 +226,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -233,6 +234,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -298,7 +300,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -371,6 +373,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -378,6 +381,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -438,7 +442,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -478,6 +482,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -485,6 +490,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Example of valid string date representations:
    * <ul>
    * <li><code>2003-04-26T03:01:02.999</code></li>
+   * <li><code>2003-04-26 03:01:02.999</code></li>
    * <li><code>2003-04-26T13:01:02</code></li>
    * <li><code>2003-04-26</code></li>
    * </ul>
@@ -522,7 +528,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -569,7 +575,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -615,7 +621,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -686,7 +692,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -744,7 +750,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -812,7 +818,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -870,7 +876,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -940,7 +946,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1008,7 +1014,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1082,7 +1088,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1144,7 +1150,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1520,7 +1526,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1583,7 +1589,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1645,7 +1651,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1699,7 +1705,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <pre><code class='java'>
    * assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))
    * </code></pre>
-   * see {@link org.assertj.core.util.Dates#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
+   * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(java.util.Date) hourOfDayOf} to get the hour of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
@@ -1724,7 +1730,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1773,7 +1779,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare hour only (without day, month and year), you could write :
    * <code>assertThat(myDate).isWithinHour(hourOfDayOf(otherDate))</code><br>
-   * see {@link org.assertj.core.util.Dates#hourOfDayOf(Date)} to get the hour of a given Date.
+   * see {@link org.assertj.core.util.DateUtil#hourOfDayOf(Date)} to get the hour of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
@@ -1797,7 +1803,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1874,7 +1880,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -1926,7 +1932,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare minute field only (without hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinMinute(minuteOf(otherDate))</code><br>
-   * using {@link org.assertj.core.util.Dates#minuteOf(Date)} to get the minute of a given Date.
+   * using {@link org.assertj.core.util.DateUtil#minuteOf(Date)} to get the minute of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
@@ -1950,7 +1956,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2031,7 +2037,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2081,7 +2087,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * If you want to compare second fields only (without minute, hour, day, month and year), you could write :
    * <code>assertThat(myDate).isWithinSecond(secondOf(otherDate))</code><br>
-   * using {@link org.assertj.core.util.Dates#secondOf(Date)} to get the second of a given Date.
+   * using {@link org.assertj.core.util.DateUtil#secondOf(Date)} to get the second of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
    *
@@ -2105,7 +2111,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2167,7 +2173,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2245,8 +2251,9 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * Verifies that the actual {@code Date} represents the same time as the given date in {@code String} format.
    * <p>
-   * It is same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of the
-   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * It is the same assertion as {@link #hasSameTimeAs(Date)} but given date is represented as String either with one of
+   * the supported default date formats or a user custom date format (set with method
+   * {@link #withDateFormat(DateFormat)}).
    * <p>
    * Beware that the default formats are expressed in the current local time zone.
    * <p>
@@ -2265,7 +2272,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Default date formats (expressed in the local time zone) are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2490,7 +2497,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2515,7 +2522,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code> (for {@link Timestamp} String representation support)</li>
+   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
    * <li><code>yyyy-MM-dd</code></li>
    * </ul>
@@ -2555,8 +2562,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
     date = parseDateWithDefaultDateFormats(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw new AssertionError("Failed to parse " + dateAsString + " with any of these date formats: "
-                             + info.representation().toStringOf(dateFormatsInOrderOfUsage()));
+    throw new AssertionError(String.format("Failed to parse %s with any of these date formats:%n   %s", dateAsString,
+                                           info.representation().toStringOf(dateFormatsInOrderOfUsage())));
   }
 
   private Date parseDateWithDefaultDateFormats(final String dateAsString) {

@@ -12,11 +12,10 @@
  */
 package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.api.CharSequenceAssertBaseTest;
-
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#isEqualToIgnoringCase(CharSequence)}</code>.

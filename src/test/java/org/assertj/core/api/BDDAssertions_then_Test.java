@@ -28,12 +28,12 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -109,28 +109,6 @@ public class BDDAssertions_then_Test {
   public void then_of_Class_should_delegate_to_assertThat() {
 	// GIVEN
 	Class<? extends String> actual = "Foo".getClass();
-	// WHEN
-	then(actual);
-	// THEN
-	verifyStatic();
-	assertThat(actual);
-  }
-
-  @Test
-  public void then_of_Iterable_should_delegate_to_assertThat() {
-	// GIVEN
-	Iterable<String> actual = Arrays.asList("1");
-	// WHEN
-	then(actual);
-	// THEN
-	verifyStatic();
-	assertThat(actual);
-  }
-
-  @Test
-  public void then_of_Iterator_should_delegate_to_assertThat() {
-	// GIVEN
-	Iterator<String> actual = Arrays.asList("1").iterator();
 	// WHEN
 	then(actual);
 	// THEN
@@ -469,17 +447,6 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
-  public void then_of_List_should_delegate_to_assertThat() {
-	// GIVEN
-	List<Integer> actual = Arrays.asList(5, 6);
-	// WHEN
-	then(actual);
-	// THEN
-	verifyStatic();
-	assertThat(actual);
-  }
-
-  @Test
   public void then_of_String_should_delegate_to_assertThat() {
 	// GIVEN
 	String actual = "foo";
@@ -554,6 +521,27 @@ public class BDDAssertions_then_Test {
 	// THEN
 	verifyStatic();
 	assertThat(actual);
+  }
+
+  @Test
+  public void then_of_OffsetTime_should_delegate_to_assertThat() {
+      // GIVEN
+      OffsetTime actual = OffsetTime.of(23, 59, 59, 0, ZoneOffset.UTC);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
+  }
+
+  public void then_of_OffsetDateTime_should_delegate_to_assertThat() {
+      // GIVEN
+      OffsetDateTime actual = OffsetDateTime.of(LocalDateTime.now(), ZoneOffset.UTC);
+      // WHEN
+      then(actual);
+      // THEN
+      verifyStatic();
+      assertThat(actual);
   }
 
   public void should_build_ThrowableAssert_with_throwable_thrown() {

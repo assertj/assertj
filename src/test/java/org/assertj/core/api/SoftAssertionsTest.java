@@ -14,14 +14,17 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.shouldHaveThrown;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.util.Dates.parseDatetime;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.time.LocalTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -187,11 +190,15 @@ public class SoftAssertionsTest {
 
       }).hasMessage("something was good");
       softly.assertThat(Maps.mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
+
+      softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13,00));
+      softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(40);
+      assertThat(errors).hasSize(42);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -210,7 +217,7 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(11)).isEqualTo("expected:<java.lang.[String]> but was:<java.lang.[Object]>");
 
-      assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01]> but was:<[1999-12-31T23:59:59]>");
+      assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01].000> but was:<[1999-12-31T23:59:59].000>");
 
       assertThat(errors.get(13)).isEqualTo("expected:<[7].0> but was:<[6].0>");
       assertThat(errors.get(14)).isEqualTo("expected:<[9].0> but was:<[8].0>");
@@ -267,6 +274,9 @@ public class SoftAssertionsTest {
                                            + " <[MapEntry[key='1', value='2']]>%n"
                                            + "but could not find:%n"
                                            + " <[MapEntry[key='1', value='2']]>%n"));
+
+      assertThat(errors.get(40)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
+      assertThat(errors.get(41)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
     }
   }  
 

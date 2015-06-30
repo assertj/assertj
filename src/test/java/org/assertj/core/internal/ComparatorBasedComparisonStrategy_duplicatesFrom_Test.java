@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
-import static org.assertj.core.util.Iterables.sizeOf;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.*;
 

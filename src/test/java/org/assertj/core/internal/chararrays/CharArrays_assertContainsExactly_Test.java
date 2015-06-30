@@ -14,18 +14,20 @@ package org.assertj.core.internal.chararrays;
 
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
+import static org.assertj.core.error.ShouldContainExactly.shouldHaveSameSize;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.CharArrays.emptyArray;
 import static org.assertj.core.test.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.Test;
 
 /**
@@ -86,12 +88,29 @@ public class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 	try {
 	  arrays.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected,
-		                                                  newLinkedHashSet('e'), newLinkedHashSet('c')));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList('e'), newArrayList('c')));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ() {
+    AssertionInfo info = someInfo();
+    char[] expected = { 'a', 'b' };
+    try {
+      arrays.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, StandardComparisonStrategy.instance()));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  // ------------------------------------------------------------------------------------------------------------------
+  // tests using a custom comparison strategy
+  // ------------------------------------------------------------------------------------------------------------------
 
   @Test
   public void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
@@ -136,10 +155,25 @@ public class CharArrays_assertContainsExactly_Test extends CharArraysBaseTest {
 	try {
 	  arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldContainExactly(actual, expected, newLinkedHashSet('e'),
-		                                                  newLinkedHashSet('c'), caseInsensitiveComparisonStrategy));
+      verify(failures).failure(info, shouldContainExactly(actual, expected, newArrayList('e'), newArrayList('c'),
+                                                    caseInsensitiveComparisonStrategy));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
   }
+
+  @Test
+  public void should_fail_if_actual_contains_all_given_values_but_size_differ_according_to_custom_comparison_strategy() {
+    AssertionInfo info = someInfo();
+    char[] expected = { 'a', 'b' };
+    try {
+      arraysWithCustomComparisonStrategy.assertContainsExactly(info, actual, expected);
+    } catch (AssertionError e) {
+      verify(failures).failure(info,
+                               shouldHaveSameSize(actual, expected, 3, 2, caseInsensitiveComparisonStrategy));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
 }

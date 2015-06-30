@@ -3,7 +3,7 @@
 
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assertj-core</artifactId>
-  <version>3.0.1-SNAPSHOT</version>
+  <version>3.1.1-SNAPSHOT</version>
   <packaging>bundle</packaging>
   <name>AssertJ fluent assertions</name>
   <description>Rich and fluent assertions for testing for Java</description>
@@ -151,8 +151,8 @@
           <instructions>
             <Export-Package>
               !org.assertj.core.internal,
-              org.assertj.core.api.*,
-              org.assertj.core.condition.*
+              !org.assertj.core.util,
+              org.assertj.core.*
             </Export-Package>
             <Bundle-RequiredExecutionEnvironment>JavaSE-1.7</Bundle-RequiredExecutionEnvironment>
             <_removeheaders>Bnd-LastModified</_removeheaders>
@@ -234,7 +234,7 @@
           <stylesheetfile>src/main/javadoc/assertj-javadoc.css</stylesheetfile>
           <!-- (2) Highlight Javascript file -->
           <top><![CDATA[
-            <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.3/highlight.min.js"></script>
+            <script src="http://cdn.jsdelivr.net/highlight.js/8.6/highlight.min.js"></script>
           ]]></top>
           <!-- init Highlight -->
           <footer><![CDATA[

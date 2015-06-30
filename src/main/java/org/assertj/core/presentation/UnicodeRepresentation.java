@@ -30,14 +30,9 @@ public class UnicodeRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
-    if (object instanceof String) {
-      return toStringOf((String) object);
-    }
-    if (object instanceof Character) {
-      return toStringOf((Character) object);
-    }
-
-    return object == null ? null : CollectionToString.toStringOf(this, object);
+    if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof Character) return toStringOf((Character) object);
+    return DefaultToString.toStringOf(this, object);
   }
 
   private String toStringOf(Character string) {

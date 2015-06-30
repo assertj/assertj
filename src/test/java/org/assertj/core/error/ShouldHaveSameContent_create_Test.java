@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.SystemProperties.LINE_SEPARATOR;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
@@ -49,7 +48,7 @@ public class ShouldHaveSameContent_create_Test {
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), diffs);
 	StringBuilder b = new StringBuilder(String.format("[Test] %nFile:%n  <abc>%nand file:%n  <xyz>%ndo not have same content:"));
 	for (String diff : diffs)
-	  b.append(LINE_SEPARATOR).append(diff);
+      b.append(System.lineSeparator()).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
   }
 
@@ -60,7 +59,7 @@ public class ShouldHaveSameContent_create_Test {
                                                       diffs);
 	StringBuilder b = new StringBuilder(String.format("[Test] %nInputStreams do not have same content:"));
 	for (String diff : diffs)
-	  b.append(LINE_SEPARATOR).append(diff);
+      b.append(System.lineSeparator()).append(diff);
 	assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(b.toString());
   }
 

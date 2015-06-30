@@ -398,7 +398,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   @Override
   public AbstractListAssert<?, ?, Object> asList() {
     objects.assertIsInstanceOf(info, actual, List.class);
-    return Assertions.assertThat((List<Object>) actual);
+    return new ListAssert<>((List<Object>) actual);
   }
 
   /** {@inheritDoc} */

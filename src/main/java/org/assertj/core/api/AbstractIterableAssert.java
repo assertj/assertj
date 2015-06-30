@@ -18,7 +18,7 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.resultOf;
 import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 
@@ -1302,7 +1302,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    *
-   * assertThat(employees).filterOn("age", 800)
+   * assertThat(employees).filteredOn("age", 800)
    *                      .containsOnly(yoda, obiwan);
    * </code></pre>
    * Nested properties/fields are supported:
@@ -1311,10 +1311,10 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * // Name is bean class with 'first' and 'last' String properties 
    *
    * // name is null for noname => it does not match the filter on "name.first" 
-   * assertThat(employees).filterOn("name.first", "Luke")
+   * assertThat(employees).filteredOn("name.first", "Luke")
    *                      .containsOnly(luke);
    * 
-   * assertThat(employees).filterOn("name.last", "Vader")
+   * assertThat(employees).filteredOn("name.last", "Vader")
    *                      .isEmpty();
    * </code></pre>
    * <p>
@@ -1371,7 +1371,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    *
-   * assertThat(employees).filterOnNull("name")
+   * assertThat(employees).filteredOnNull("name")
    *                      .containsOnly(noname);
    * </code></pre>
    * Nested properties/fields are supported:
@@ -1379,7 +1379,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <pre><code class='java'>
    * // Name is bean class with 'first' and 'last' String properties 
    *
-   * assertThat(employees).filterOnNull("name.last")
+   * assertThat(employees).filteredOnNull("name.last")
    *                      .containsOnly(yoda, obiwan, noname);
    * </code></pre>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the iterable
@@ -1393,7 +1393,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    */
   public S filteredOnNull(String propertyOrFieldName) {
     // need to cast nulll to Object otherwise it calls :
-    // filterOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
+    // filteredOn(String propertyOrFieldName, FilterOperation<?> filterOperation)
     return filteredOn(propertyOrFieldName, (Object) null);
   }
 
@@ -1427,16 +1427,16 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    *
    * // 'not' filter is statically imported from Assertions.not 
-   * assertThat(employees).filterOn("age", not(800))
+   * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke);
    * 
    * // 'in' filter is statically imported from Assertions.in
    * // Name is bean class with 'first' and 'last' String properties 
-   * assertThat(employees).filterOn("name.first", in("Yoda", "Luke"))
+   * assertThat(employees).filteredOn("name.first", in("Yoda", "Luke"))
    *                      .containsOnly(yoda, luke);
    * 
    * // 'notIn' filter is statically imported from Assertions.notIn
-   * assertThat(employees).filterOn("name.first", notIn("Yoda", "Luke"))
+   * assertThat(employees).filteredOn("name.first", notIn("Yoda", "Luke"))
    *                      .containsOnly(obiwan);
    * </code></pre>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the iterable
@@ -1447,7 +1447,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <pre><code class='java'>
    * // Combining filter operators like not(in(800)) is NOT supported
    * // -&gt; throws UnsupportedOperationException
-   * assertThat(employees).filterOn("age", not(in(800)))
+   * assertThat(employees).filteredOn("age", not(in(800)))
    *                      .contains(luke);
    * </code></pre>
    * <p>

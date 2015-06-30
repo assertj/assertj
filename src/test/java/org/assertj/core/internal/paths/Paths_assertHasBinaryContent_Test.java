@@ -30,10 +30,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.internal.PathsBaseTest;
-import org.assertj.core.util.FilesException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -114,8 +114,8 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	try {
 	  paths.assertHasBinaryContent(someInfo(), path, expected);
-	  failBecauseExceptionWasNotThrown(FilesException.class);
-	} catch (FilesException e) {
+	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
+	} catch (RuntimeIOException e) {
 	  assertThat(e.getCause()).isSameAs(cause);
 	}
   }

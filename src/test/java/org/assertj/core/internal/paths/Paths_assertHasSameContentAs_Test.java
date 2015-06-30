@@ -31,8 +31,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
-import org.assertj.core.util.FilesException;
 import org.junit.Test;
 
 /**
@@ -112,8 +112,8 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
 	try {
 	  paths.assertHasSameContentAs(someInfo(), actual, other);
-	  failBecauseExceptionWasNotThrown(FilesException.class);
-	} catch (FilesException e) {
+	  failBecauseExceptionWasNotThrown(RuntimeIOException.class);
+	} catch (RuntimeIOException e) {
 	  assertThat(e.getCause()).isSameAs(cause);
 	}
   }

@@ -22,8 +22,16 @@ import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetTime;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -552,6 +560,16 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
     return proxy(LocalTimeAssert.class, LocalTime.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link OffsetTimeAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public OffsetTimeAssert assertThat(OffsetTime actual) {
+      return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
+  }
+  
   /**
    * Creates a new instance of <code>{@link UriAssert}</code>.
    *

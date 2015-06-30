@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.VisibleForTesting;
@@ -207,32 +208,90 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
   }
 
   /**
-   * Verifies that the actual Long is close to the given one within the given offset.<br>
+   * Verifies that the actual long is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
-   * Example with double:
+   * Example:
    *
    * <pre><code class='java'>
    * // assertions will pass:
-   * assertThat(5l).isCloseTo(new Long(7), within(3l));
+   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(3l));
    *
-   * // if difference is exactly equals to the offset (0.1), it's ok
-   * assertThat(5l).isCloseTo(new Long(7), within(2l));
+   * // if difference is exactly equals to the offset, it's ok
+   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(2l));
    *
    * // assertion will fail
-   * assertThat(5l).isCloseTo(new Long(7), within(1l));
+   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(1l));
    * </code></pre>
    *
-   * @param expected the given Long to compare the actual value to.
+   * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
-   * @throws NullPointerException if the expected Long is {@code null}.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   @Override
   public S isCloseTo(Long expected, Offset<Long> offset) {
     longs.assertIsCloseTo(info, actual, expected, offset);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with long:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(20L));
+   *
+   * // if difference is exactly equals to the computed offset (1L), it's ok
+   * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(10L));
+   *
+   * // assertion will fail
+   * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(5L));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  @Override
+  public S isCloseTo(Long expected, Percentage percentage) {
+    longs.assertIsCloseToPercentage(info, actual, expected, percentage);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with long:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(11L).isCloseTo(10L, withinPercentage(20L));
+   *
+   * // if difference is exactly equals to the computed offset (1L), it's ok
+   * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
+   *
+   * // assertion will fail
+   * assertThat(11L).isCloseTo(10L, withinPercentage(5L));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  public S isCloseTo(long expected, Percentage percentage) {
+    longs.assertIsCloseToPercentage(info, actual, expected, percentage);
     return myself;
   }
 

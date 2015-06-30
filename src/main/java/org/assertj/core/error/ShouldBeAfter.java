@@ -12,7 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.util.Dates.parse;
+import static org.assertj.core.util.DateUtil.parse;
 
 import java.util.Date;
 

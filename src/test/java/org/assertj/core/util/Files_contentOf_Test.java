@@ -18,6 +18,7 @@ import static org.junit.rules.ExpectedException.none;
 import java.io.File;
 import java.nio.charset.Charset;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -52,7 +53,7 @@ public class Files_contentOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile.exists()).isFalse();
 
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     Files.contentOf(missingFile, Charset.defaultCharset());
   }
 

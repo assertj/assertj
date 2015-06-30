@@ -12,7 +12,7 @@
  */
 package org.assertj.core.groups;
 
-import static org.assertj.core.util.Iterables.toArray;
+import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;

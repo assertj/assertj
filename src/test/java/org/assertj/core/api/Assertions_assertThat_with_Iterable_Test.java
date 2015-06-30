@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.junit.Test;
 
@@ -27,14 +27,13 @@ public class Assertions_assertThat_with_Iterable_Test {
 
   @Test
   public void should_create_Assert() {
-    AbstractIterableAssert<?, ? extends Iterable<?>, Object> assertions = Assertions.assertThat( newLinkedHashSet() );
+    Object assertions = Assertions.assertThat(newLinkedHashSet());
     assertThat(assertions).isNotNull();
   }
 
   @Test
   public void should_pass_actual() {
     Iterable<String> names = newLinkedHashSet("Luke");
-    AbstractIterableAssert<?, ? extends Iterable<? extends String>, String> assertions = Assertions.assertThat( names );
-    assertThat(assertions.actual).isSameAs(names);
+    assertThat(Assertions.assertThat(names).actual).isSameAs(names);
   }
 }

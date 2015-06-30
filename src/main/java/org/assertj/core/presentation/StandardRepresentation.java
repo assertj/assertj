@@ -18,14 +18,11 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.util.Collections;
-import org.assertj.core.util.Dates;
+import org.assertj.core.util.DateUtil;
 
 /**
  * Standard java object representation.
@@ -33,6 +30,9 @@ import org.assertj.core.util.Dates;
  * @author Mariusz Smykula
  */
 public class StandardRepresentation implements Representation {
+
+  // can share this at StandardRepresentation has no state
+  public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   /**
    * Returns standard the {@code toString} representation of the given object. It may or not the object's own
@@ -43,52 +43,35 @@ public class StandardRepresentation implements Representation {
    */
   @Override
   public String toStringOf(Object object) {
-    if (object instanceof Calendar) {
-      return toStringOf((Calendar) object);
-    } else if (object instanceof Class<?>) {
-      return toStringOf((Class<?>) object);
-    } else if (object instanceof Date) {
-      return toStringOf((Date) object);
-    } else if (object instanceof Number) {
-      return toStringOf((Number) object, this);
-    } else if (object instanceof File) {
-      return toStringOf((File) object);
-    } else if (object instanceof String) {
-      return toStringOf((String) object);
-    } else if (object instanceof Character) {
-      return toStringOf((Character) object);
-    } else if (object instanceof Comparator) {
-      return toStringOf((Comparator<?>) object);
-    } else if (object instanceof SimpleDateFormat) {
-      return toStringOf((SimpleDateFormat) object);
-    } else if (object instanceof Tuple) {
-      return toStringOf((Tuple) object, this);
-    } else if (object instanceof PredicateDescription) {
-      return toStringOf((PredicateDescription) object);
-    }
-    return defaultToString(object, this);
+    if (object instanceof Calendar) return toStringOf((Calendar) object);
+    if (object instanceof Class<?>) return toStringOf((Class<?>) object);
+    if (object instanceof Date) return toStringOf((Date) object);
+    if (object instanceof Number) return toStringOf((Number) object, this);
+    if (object instanceof File) return toStringOf((File) object);
+    if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof Character) return toStringOf((Character) object);
+    if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
+    if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
+    if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
+    return DefaultToString.toStringOf(this, object);
   }
 
   private static String toStringOf(Number number, Representation representation) {
-    if (number instanceof Float) {
-      return toStringOf((Float) number);
-    }
-    if (number instanceof Long) {
-      return toStringOf((Long) number);
-    }
-    return defaultToString(number, representation);
+    if (number instanceof Float) return toStringOf((Float) number);
+    if (number instanceof Long) return toStringOf((Long) number);
+    return DefaultToString.toStringOf(representation, number);
   }
 
-  private static String toStringOf(Comparator<?> comparator) {	
-	String comparatorSimpleClassName = comparator.getClass().getSimpleName();
-	if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
-	// if toString has not been redefined, let's use comparator simple class name.
-	if (comparator.toString().contains(comparatorSimpleClassName + "@") ) return quote(comparatorSimpleClassName);
-	return quote(comparator.toString());
+  private static String toStringOf(Comparator<?> comparator) {
+    String comparatorSimpleClassName = comparator.getClass().getSimpleName();
+    if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
+    // if toString has not been redefined, let's use comparator simple class name.
+    if (comparator.toString().contains(comparatorSimpleClassName + "@")) return quote(comparatorSimpleClassName);
+    return quote(comparator.toString());
   }
 
   private static String toStringOf(Calendar c) {
-    return Dates.formatAsDatetime(c);
+    return DateUtil.formatAsDatetime(c);
   }
 
   private static String toStringOf(Class<?> c) {
@@ -109,7 +92,7 @@ public class StandardRepresentation implements Representation {
   }
   
   private static String toStringOf(Date d) {
-    return Dates.formatAsDatetime(d);
+    return DateUtil.formatAsDatetimeWithMs(d);
   }
 
   private static String toStringOf(Float f) {
@@ -126,14 +109,6 @@ public class StandardRepresentation implements Representation {
 
   private static String toStringOf(SimpleDateFormat dateFormat) {
     return dateFormat.toPattern();
-  }
-
-  private static String toStringOf(Tuple tuple, Representation representation) {
-    return Collections.format(representation, Arrays.asList(tuple.toArray()), "(", ")");
-  }
-
-  private static String defaultToString(Object object, Representation representation) {
-    return object == null ? null : CollectionToString.toStringOf(representation, object);
   }
 
 }

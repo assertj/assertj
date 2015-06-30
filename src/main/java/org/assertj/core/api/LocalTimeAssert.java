@@ -19,7 +19,6 @@ public class LocalTimeAssert extends AbstractLocalTimeAssert<LocalTimeAssert> {
   /**
    * Creates a new <code>{@link LocalTimeAssert}</code>.
    *
-   * @param selfType the "self type"
    * @param actual the actual value to verify
    */
   protected LocalTimeAssert(LocalTime actual) {

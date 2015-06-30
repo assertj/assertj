@@ -41,7 +41,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(new BigDecimal(&quot;8.00&quot;));
    *
    * // assertion will fail
-   * assertThat(new BigDecimal(1.0).isEqualByComparingTo(2.0);
+   * assertThat(new BigDecimal(1.0)).isEqualByComparingTo(new BigDecimal(2.0));
    * </code></pre>
    * 
    * @param other the given value to compare the actual value to.
@@ -59,7 +59,7 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    *
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(new BigDecimal(1.0).isNotEqualByComparingTo(2.0);
+   * assertThat(new BigDecimal(1.0)).isNotEqualByComparingTo(new BigDecimal(2.0));
    *
    * // assertion will fail
    * assertThat(1.0).isNotEqualByComparingTo(1.0);

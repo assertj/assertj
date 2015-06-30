@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDi
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
@@ -320,8 +321,22 @@ public class Strings {
     if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected));
   }
 
+  /**
+   * Verifies that two {@code CharSequence}s are not equal, ignoring case considerations.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the actual {@code CharSequence}.
+   * @param expected the expected {@code CharSequence}.
+   * @throws AssertionError if the given {@code CharSequence}s are equal ignoring case considerations.
+   */
+  public void assertNotEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    if (areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
+  }
+
   private boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
     if (actual == null) return expected == null;
+    if (expected == null) return false;
     return actual.toString().equalsIgnoreCase(expected.toString());
   }
 
@@ -452,7 +467,7 @@ public class Strings {
   public void assertEndsWith(AssertionInfo info, CharSequence actual, CharSequence suffix) {
     failIfSuffixIsNull(suffix);
     assertNotNull(info, actual);
-    if (!comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString())) 
+    if (!comparisonStrategy.stringEndsWith(actual.toString(), suffix.toString()))
       throw failures.failure(info, shouldEndWith(actual, suffix, comparisonStrategy));
   }
 

@@ -19,6 +19,7 @@ import static org.junit.rules.ExpectedException.none;
 
 import java.io.File;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -36,14 +37,14 @@ public class Files_newFile_Test extends Files_TestCase {
 
   @Test
   public void should_throw_error_if_file_path_belongs_to_directory_that_is_not_empty() {
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     Files.newFile("root");
   }
 
   @Test
   public void should_throw_error_if_file_path_belongs_to_an_existing_file() {
     String path = join("root", "dir_1", "file_1_1").with(separator);
-    thrown.expect(FilesException.class);
+    thrown.expect(RuntimeIOException.class);
     Files.newFile(path);
   }
 

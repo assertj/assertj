@@ -71,7 +71,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * <p>
    * 
    * <pre><code class='java'>
-   * assertThat(Optional.empty()).isEmpty();
+   * assertThat(OptionalInt.empty()).isEmpty();
    * </code></pre>
    * <p>
    * Assertion will fail :

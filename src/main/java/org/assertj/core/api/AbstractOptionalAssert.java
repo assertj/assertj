@@ -16,6 +16,7 @@ import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
+import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
 
 import java.util.Optional;
 
@@ -144,4 +145,33 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     if (actual.get() != expectedValue) throw failure(shouldContainSame(actual, expectedValue));
     return myself;
   }
+
+  /**
+   * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
+   * </p>
+   * Assertions will pass:
+   *
+   * <pre><code class='java'>
+   * assertThat(Optional.of("something")).containsInstanceOf(String.class)
+   *                                     .containsInstanceOf(Object.class);
+   *                                     
+   * assertThat(Optional.of(10)).containsInstanceOf(Integer.class)
+   * </code></pre>
+   *
+   * Assertion will fail:
+   *
+   * <pre><code class='java'>
+   * assertThat(Optional.of("something")).containsInstanceOf(Integer.class)
+   * </code></pre>
+   *
+   * @param clazz the expected class of the value inside the {@link Optional}.
+   * @return this assertion object.
+   */
+  public S containsInstanceOf(Class<?> clazz) {
+    isNotNull();
+    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
+    if (!clazz.isInstance(actual.get())) throw failure(shouldContainInstanceOf(actual, clazz));
+    return myself;
+  }
+
 }

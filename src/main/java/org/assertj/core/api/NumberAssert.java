@@ -13,10 +13,13 @@
 package org.assertj.core.api;
 
 import org.assertj.core.data.Offset;
+import org.assertj.core.data.Percentage;
 
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * 
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
  *
@@ -28,6 +31,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is equal to zero.
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to zero.
@@ -36,6 +40,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is not equal to zero.
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to zero.
@@ -44,6 +49,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is positive.
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not positive.
@@ -52,6 +58,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is negative.
+   * 
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not negative.
@@ -60,6 +67,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is non negative (positive or equal zero).
+   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non negative.
@@ -68,14 +76,16 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
 
   /**
    * Verifies that the actual value is non positive (negative or equal zero).
+   * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not non positive.
    */
   S isNotPositive();
-  
+
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
+   * 
    * <pre><code class='java'>
    * // these assertions succeed ... 
    * assertThat(12).isBetween(10, 14);
@@ -85,6 +95,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * // ... but these one fails
    * assertThat(12).isBetween(14, 16);
    * </code></pre>
+   * 
    * @param start the start value (inclusive), expected not to be null.
    * @param end the end value (inclusive), expected not to be null.
    * @return this assertion object.
@@ -94,7 +105,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
   S isBetween(A start, A end);
-  
+
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
    * 
@@ -117,7 +128,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
   S isStrictlyBetween(A start, A end);
-  
+
   /**
    * Verifies that the actual number is close to the given one within the given offset.<br>
    * If difference is equal to offset value, assertion is considered valid.
@@ -147,4 +158,29 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    */
   S isCloseTo(A expected, Offset<A> offset);
 
+  /**
+   * Verifies that the actual number is close to the given one within the given percentage.<br>
+   * If difference is equal to the percentage value, assertion is considered valid.
+   * <p>
+   * Example with double:
+   *
+   * <pre><code class='java'>
+   * // assertions will pass:
+   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
+   *
+   * // if difference is exactly equals to the computed offset (1.0), it's ok
+   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
+   *
+   * // assertion will fail
+   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));
+   * </code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @param percentage the given positive percentage between 0 and 100.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given offset is {@code null}.
+   * @throws NullPointerException if the expected number is {@code null}.
+   * @throws AssertionError if the actual value is not equal to the given one.
+   */
+  S isCloseTo(A expected, Percentage percentage);
 }

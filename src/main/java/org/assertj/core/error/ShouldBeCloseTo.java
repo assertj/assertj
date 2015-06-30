@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 
-import static org.assertj.core.util.Dates.formatAsDatetimeWithMs;
+import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 
 import java.util.Date;
 

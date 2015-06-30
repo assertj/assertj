@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
 import static java.util.Collections.EMPTY_SET;
-import static org.assertj.core.util.Iterables.isNullOrEmpty;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.lang.reflect.Array;
 import java.util.Set;

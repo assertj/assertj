@@ -14,13 +14,18 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.util.Dates.parseDatetime;
+import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -143,17 +148,24 @@ public class BDDSoftAssertionsTest {
 
 	  }).hasMessage("something was good");
 
-      softly.then(Optional.of("not empty")).isEqualTo("empty");
-      softly.then(OptionalInt.of(0)).isEqualTo(1);
-      softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
-      softly.then(OptionalLong.of(0L)).isEqualTo(1L);
+    softly.then(Optional.of("not empty")).isEqualTo("empty");
+    softly.then(OptionalInt.of(0)).isEqualTo(1);
+    softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
+    softly.then(OptionalLong.of(0L)).isEqualTo(1L);
       softly.then(new URI("http://assertj.org")).hasPort(8888);
+
+    softly.then(LocalTime.of(12,0)).isEqualTo(LocalTime.of(13,0));
+    softly.then(OffsetTime.of(12, 0,0,0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0,0,0, ZoneOffset.UTC));
+    softly.then(OffsetDateTime.MIN).isEqualTo(LocalDateTime.MAX);
+
 	  softly.assertAll();
+
 	  fail("Should not reach here");
 
 	} catch (SoftAssertionError e) {
 	  List<String> errors = e.getErrors();
-	  assertThat(errors).hasSize(44);
+	  assertThat(errors).hasSize(47);
+
 	  assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
 	  assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -172,7 +184,7 @@ public class BDDSoftAssertionsTest {
 
 	  assertThat(errors.get(11)).isEqualTo("expected:<java.lang.[String]> but was:<java.lang.[Object]>");
 
-	  assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01]> but was:<[1999-12-31T23:59:59]>");
+      assertThat(errors.get(12)).isEqualTo("expected:<[2000-01-01T00:00:01].000> but was:<[1999-12-31T23:59:59].000>");
 
 	  assertThat(errors.get(13)).isEqualTo("expected:<[7].0> but was:<[6].0>");
 	  assertThat(errors.get(14)).isEqualTo("expected:<[9].0> but was:<[8].0>");
@@ -229,6 +241,9 @@ public class BDDSoftAssertionsTest {
     assertThat(errors.get(41)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
     assertThat(errors.get(42)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
     assertThat(errors.get(43)).contains(String.format("%nExpecting port of"));
+    assertThat(errors.get(44)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
+    assertThat(errors.get(45)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
+    assertThat(errors.get(46)).isEqualTo("expected:<[+999999999-12-31T23:59:59.999999999]> but was:<[-999999999-01-01T00:00+18:00]>");
 	}
   }
 

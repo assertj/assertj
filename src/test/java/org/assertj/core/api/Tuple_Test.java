@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import org.assertj.core.groups.Tuple;
 import org.junit.Test;
@@ -45,6 +46,12 @@ public class Tuple_Test {
 	assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));
   }
   
+  @Test
+  public void convert_tuple_to_a_list() {
+    Tuple tuple = new Tuple("Yoda", 800, "Jedi");
+    assertThat(tuple.toList()).isEqualTo(newArrayList("Yoda", 800, "Jedi"));
+  }
+
   @Test
   public void tuple_representation() {
 	Tuple tuple = new Tuple("Yoda", 800, "Jedi");

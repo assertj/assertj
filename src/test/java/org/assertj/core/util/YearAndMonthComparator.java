@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.util.Dates.*;
+import static org.assertj.core.util.DateUtil.*;
 
 import java.util.Comparator;
 import java.util.Date;

@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,9 +31,9 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.util.FilesException;
 import org.junit.Test;
 
 /**
@@ -526,7 +527,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = FilesException.class)
+  @Test(expected = RuntimeIOException.class)
   public void withAssertions_contentOf_Test() {
     contentOf(new File("/non-existent file")).contains("a");
   }
@@ -534,7 +535,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = FilesException.class)
+  @Test(expected = RuntimeIOException.class)
   public void withAssertions_contentOf_with_charset_Test() {
     contentOf(new File("/non-existent file", "UTF-8")).contains("a");
   }
@@ -542,7 +543,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = FilesException.class)
+  @Test(expected = RuntimeIOException.class)
   public void withAssertions_linesOf_Test() {
     linesOf(new File("/non-existent file")).contains("a");
   }
@@ -550,7 +551,7 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @Test(expected = FilesException.class)
+  @Test(expected = RuntimeIOException.class)
   public void withAssertions_linesOf_with_charsetTest() {
     linesOf(new File("/non-existent file", "UTF-8")).contains("a");
   }
@@ -669,4 +670,11 @@ public class WithAssertions_delegation_Test implements WithAssertions {
     assertThat(LocalDate.now()).isNotNull();
   }
 
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThat_offset_date_time_Test() {
+        assertThat(OffsetDateTime.now()).isNotNull();
+    }
 }

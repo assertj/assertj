@@ -20,7 +20,7 @@ import org.assertj.core.data.Offset;
  * 
  * @author Joel Costigliola
  */
-public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Numbers<NUMBER> {
+public abstract class RealNumbers<NUMBER extends Number & Comparable<NUMBER>> extends Numbers<NUMBER> {
 
   public RealNumbers() {
     super();
@@ -64,5 +64,4 @@ public abstract class RealNumbers<NUMBER extends Comparable<NUMBER>> extends Num
    * @return true if the two floats parameter are equal within a positive offset, false otherwise.
    */
   protected abstract boolean isEqualTo(NUMBER actual, NUMBER expected, Offset<?> offset);
-
 }

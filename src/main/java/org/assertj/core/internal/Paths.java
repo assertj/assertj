@@ -43,8 +43,8 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.FilesException;
-import org.assertj.core.util.PathsException;
+import org.assertj.core.api.exception.PathsException;
+import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -279,7 +279,7 @@ public class Paths {
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveContent(actualAsFile, charset, diffs));
 	} catch (IOException e) {
-	  throw new FilesException(format("Unable to verify text contents of file:<%s>", actual), e);
+	  throw new RuntimeIOException(format("Unable to verify text contents of file:<%s>", actual), e);
 	}
   }
 
@@ -292,7 +292,7 @@ public class Paths {
 	  if (diffResult.hasNoDiff()) return;
 	  throw failures.failure(info, shouldHaveBinaryContent(actualFile, diffResult));
 	} catch (IOException e) {
-	  throw new FilesException(format("Unable to verify binary contents of file:<%s>", actualFile), e);
+	  throw new RuntimeIOException(format("Unable to verify binary contents of file:<%s>", actualFile), e);
 	}
   }
 
@@ -311,7 +311,7 @@ public class Paths {
 	  if (diffs.isEmpty()) return;
 	  throw failures.failure(info, shouldHaveSameContent(actualFile, expectedFile, diffs));
 	} catch (IOException e) {
-	  throw new FilesException(format("Unable to compare contents of files:<%s> and:<%s>", actualFile, expectedFile), e);
+	  throw new RuntimeIOException(format("Unable to compare contents of files:<%s> and:<%s>", actualFile, expectedFile), e);
 	}
   }
 

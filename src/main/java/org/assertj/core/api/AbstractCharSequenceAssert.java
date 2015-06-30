@@ -22,6 +22,7 @@ import java.util.regex.PatternSyntaxException;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
+import org.assertj.core.util.IterableUtil;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -265,6 +266,33 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring case considerations.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
+   * assertThat((String)null).isNotEqualToIgnoringCase("Gandalf");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase(null);
+   *
+   * // assertions will fail
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("Gandalf");
+   * assertThat("Gandalf").isNotEqualToIgnoringCase("GaNDalf");
+   * assertThat((String)null).isNotEqualToIgnoringCase(null);
+   * </code></pre>
+   *
+   * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
+   */
+  public S isNotEqualToIgnoringCase(CharSequence expected) {
+    strings.assertNotEqualsIgnoringCase(info, actual, expected);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains only digits. It fails if String contains non-digit
    * characters or is empty.
    * <p>
@@ -340,6 +368,28 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable.
+   * <p>
+   * Examples:
+   * 
+   * <pre><code class='java'>
+   * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
+   * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;, &quot;grey&quot;));
+   * </code></pre>
+   *
+   * @param values the Strings to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws IllegalArgumentException if the list of given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings.
+   */
+  public S contains(Iterable<? extends CharSequence> values) {
+    strings.assertContains(info, actual, IterableUtil.toArray(values, CharSequence.class));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
    * <p>
    * Example:
@@ -364,6 +414,35 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable <b>in the Iterable
+   * iteration order</b>.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'>
+   * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   *
+   * // this assertion succeeds ...
+   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   *
+   * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
+   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
+   * </code></pre>
+   *
+   * @param values the Strings to look for, in order.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given
+   *           order</b>.
+   */
+  public S containsSequence(Iterable<? extends CharSequence> values) {
+    strings.assertContainsSequence(info, actual, IterableUtil.toArray(values, CharSequence.class));
     return myself;
   }
 
