@@ -18,20 +18,20 @@ package org.assertj.core.error;
  * 
  * @author Libor Ondrusek
  */
-public class ShouldMatchingRegex extends BasicErrorMessageFactory {
+public class ShouldHaveMessageMatchingRegex extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldMatchingRegex}</code>.
+   * Creates a new <code>{@link ShouldHaveMessageMatchingRegex}</code>.
    *
    * @param actual the actual value in the failed assertion.
    * @param regex the regular expression of value expected to be matched {@code actual}.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldMatchingRegex(CharSequence actual, CharSequence regex) {
-    return new ShouldMatchingRegex("%nExpecting:%n  <%s>%nmatches regex:%n  <%s>%n", actual, regex);
+    return new ShouldHaveMessageMatchingRegex("%nExpecting message:%n <%s>%nto match regex:%n <%s>%nbut did not.", actual, regex);
   }
 
-  private ShouldMatchingRegex(String format, CharSequence actual, CharSequence regex) {
+  private ShouldHaveMessageMatchingRegex(String format, CharSequence actual, CharSequence regex) {
     super(format, actual, regex);
   }
 }

@@ -56,7 +56,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching(REGEX);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <\"Given id='1' not exists\">%nmatches regex:%n  <\"Given id='\\d{2,4}' not exists\">%n"));
+      assertThat(e).hasMessage(format("%nExpecting message:%n <\"Given id='1' not exists\">%nto match regex:%n <\"Given id='\\d{2,4}' not exists\">%nbut did not."));
     }
   }
 
@@ -68,7 +68,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching("");
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <\"Given id='1' not exists\">%nmatches regex:%n  <\"\">%n"));
+      assertThat(e).hasMessage(format("%nExpecting message:%n <\"Given id='1' not exists\">%nto match regex:%n <\"\">%nbut did not."));
     }
   }
 
@@ -92,7 +92,7 @@ public class ThrowableAssert_hasMessageMatching_Test extends ThrowableAssertBase
       assertThat(throwable).hasMessageMatching(REGEX);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting:%n  <null>%nmatches regex:%n  <\"Given id='\\d{2,4}' not exists\">%n"));
+      assertThat(e).hasMessage(format("%nExpecting message:%n <null>%nto match regex:%n <\"Given id='\\d{2,4}' not exists\">%nbut did not."));
     }
   }
 }
