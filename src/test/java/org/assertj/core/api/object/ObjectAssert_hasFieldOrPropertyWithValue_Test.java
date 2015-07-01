@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.object;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.mockito.Mockito.verify;
@@ -22,30 +23,31 @@ import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#hasField(String, Object)}</code>.
+ * Tests for <code>{@link ObjectAssert#hasFieldOrProperty(String, Object)}</code>.
  * 
  * @author Libor Ondrusek
  */
-public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
+public class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest {
 
   public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
   public static final String FIELD_VALUE = "Yoda"; // field value in org.assertj.core.test.Person
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.hasField(FIELD_NAME, FIELD_VALUE);
+    return assertions.hasFieldOrProperty(FIELD_NAME, FIELD_VALUE);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertHasFieldWithValue(getInfo(assertions), getActual(assertions), FIELD_NAME, FIELD_VALUE);
+    verify(objects).assertHasFieldOrPropertyWithValue(getInfo(assertions), getActual(assertions), FIELD_NAME,
+                                                      FIELD_VALUE);
   }
 
   @Test
   public void shoud_pass_if_both_are_null() throws Exception {
     Jedi jedi = new Jedi(null, "Blue");
 
-    assertThat(jedi).hasField(FIELD_NAME, null);
+    assertThat(jedi).hasFieldOrProperty(FIELD_NAME, null);
   }
 
   @Test
@@ -53,14 +55,10 @@ public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField("not_exists_in_jedi_object", FIELD_VALUE);
+      assertThat(jedi).hasFieldOrProperty("not_exists_in_jedi_object", FIELD_VALUE);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <\"not_exists_in_jedi_object\">");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <\"not_exists_in_jedi_object\">"));
     }
   }
 
@@ -69,14 +67,10 @@ public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField(FIELD_NAME, 1000);
+      assertThat(jedi).hasFieldOrProperty(FIELD_NAME, 1000);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <\"name\"> with value <1000>");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <\"name\"> with value <1000>"));
     }
   }
 
@@ -85,14 +79,10 @@ public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField(FIELD_NAME, null);
+      assertThat(jedi).hasFieldOrProperty(FIELD_NAME, null);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <\"name\"> with value <null>");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <\"name\"> with value <null>"));
     }
   }
 
@@ -101,14 +91,10 @@ public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi(null, "Blue");
 
     try {
-      assertThat(jedi).hasField(FIELD_NAME, FIELD_VALUE);
+      assertThat(jedi).hasFieldOrProperty(FIELD_NAME, FIELD_VALUE);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <null the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <\"name\"> with value <\"Yoda\">");
+      assertThat(e).hasMessage(format("%nExpecting%n  <null the Jedi>%nto have field:%n  <\"name\"> with value <\"Yoda\">"));
     }
   }
 
@@ -117,14 +103,10 @@ public class ObjectAssert_hasFieldWithValue_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField(null, FIELD_VALUE);
+      assertThat(jedi).hasFieldOrProperty(null, FIELD_VALUE);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n"
-                               + "Expecting\n"
-                               + "  <Yoda the Jedi>\n"
-                               + "to have field:\n"
-                               + "  <null>");
+      assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <null>"));
     }
   }
 }

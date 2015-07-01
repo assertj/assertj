@@ -23,22 +23,22 @@ import org.assertj.core.test.Jedi;
 import org.junit.Test;
 
 /**
- * Tests for <code>{@link ObjectAssert#hasField(String)}</code>.
+ * Tests for <code>{@link ObjectAssert#hasFieldOrProperty(String)}</code>.
  * 
  * @author Libor Ondrusek
  */
-public class ObjectAssert_hasField_Test extends ObjectAssertBaseTest {
+public class ObjectAssert_hasFieldOrProperty_Test extends ObjectAssertBaseTest {
 
   public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.hasField(FIELD_NAME);
+    return assertions.hasFieldOrProperty(FIELD_NAME);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertHasField(getInfo(assertions), getActual(assertions), FIELD_NAME);
+    verify(objects).assertHasFieldOrProperty(getInfo(assertions), getActual(assertions), FIELD_NAME);
   }
 
   @Test
@@ -46,7 +46,7 @@ public class ObjectAssert_hasField_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField("not_exists_in_jedi_object");
+      assertThat(jedi).hasFieldOrProperty("not_exists_in_jedi_object");
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <\"not_exists_in_jedi_object\">"));
@@ -58,7 +58,7 @@ public class ObjectAssert_hasField_Test extends ObjectAssertBaseTest {
     Jedi jedi = new Jedi("Yoda", "Blue");
 
     try {
-      assertThat(jedi).hasField(null);
+      assertThat(jedi).hasFieldOrProperty(null);
       failBecauseExceptionWasNotThrown(AssertionError.class);
     } catch (AssertionError e) {
       assertThat(e).hasMessage(format("%nExpecting%n  <Yoda the Jedi>%nto have field:%n  <null>"));

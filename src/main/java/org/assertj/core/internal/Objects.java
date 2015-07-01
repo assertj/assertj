@@ -743,7 +743,7 @@ public class Objects {
     return isEqualToComparingOnlyGivenFields(actual, other, fields).isFieldsNamesEmpty();
   }
 
-  public <A> void assertHasField(AssertionInfo info, A actual, String name) {
+  public <A> void assertHasFieldOrProperty(AssertionInfo info, A actual, String name) {
     assertNotNull(info, actual);
     try {
       getFieldOrPropertyValue(actual, name);
@@ -752,9 +752,9 @@ public class Objects {
     }
   }
 
-  public <A> void assertHasFieldWithValue(AssertionInfo info, A actual, String name, Object value) {
+  public <A> void assertHasFieldOrPropertyWithValue(AssertionInfo info, A actual, String name, Object value) {
     assertNotNull(info, actual);
-    assertHasField(info, actual, name);
+    assertHasFieldOrProperty(info, actual, name);
     try {
       Object fieldValue = getFieldOrPropertyValue(actual, name);
       if (!java.util.Objects.equals(value, fieldValue)) {

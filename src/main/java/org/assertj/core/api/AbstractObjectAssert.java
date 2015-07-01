@@ -193,7 +193,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Assert that the actual object has specified field.
+   * Assert that the actual object has specified field or property.
    * <p/>
    * Private fields without getter are not matched.
    * <p/>
@@ -204,6 +204,11 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * public class TolkienCharacter {
    *   private String name;
    *   private int age;
+   *
+   *   public TolkienCharacter(String name, int age) {
+   *     this.name = name;
+   *     this.age = age;
+   *   }
    *   
    *   public String getName() {
    *     return this.name;
@@ -212,10 +217,10 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
    *
-   * assertThat(frodo).hasField("name");       // pass
-   * assertThat(frodo).hasField("age");        // fail
-   * assertThat(frodo).hasField("not_exists"); // fail
-   * assertThat(frodo).hasField(null);         // fail
+   * assertThat(frodo).hasFieldOrProperty("name");       // pass
+   * assertThat(frodo).hasFieldOrProperty("age");        // fail
+   * assertThat(frodo).hasFieldOrProperty("not_exists"); // fail
+   * assertThat(frodo).hasFieldOrProperty(null);         // fail
    *
    * </code></pre>
    *
@@ -223,13 +228,13 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws NullPointerException if the actual or given object is {@code null}.
    * @throws AssertionError if the actual object has not given field
    */
-  public S hasField(String name) {
-    objects.assertHasField(info, actual, name);
+  public S hasFieldOrProperty(String name) {
+    objects.assertHasFieldOrProperty(info, actual, name);
     return myself;
   }
 
   /**
-   * Assert that the actual object has specified field with expected value.
+   * Assert that the actual object has specified field or property with expected value.
    * <p/>
    * Private fields without getter are not compared.
    * <p/>
@@ -248,16 +253,16 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
    *
-   * assertThat(frodo).hasField("name", "Frodo");       // pass
-   * assertThat(frodo).hasField("name", "not_equals");  // fail
-   * assertThat(frodo).hasField("age", 33);             // fail because age is private withou public getter
-   * assertThat(frodo).hasField(null, 33);              // fail
-   * assertThat(frodo).hasField("age", null);           // fail
+   * assertThat(frodo).hasFieldOrProperty("name", "Frodo");        // pass
+   * assertThat(frodo).hasFieldOrProperty("name", "not_equals");   // fail
+   * assertThat(frodo).hasFieldOrProperty("age", 33);              // fail because age is private withou public getter
+   * assertThat(frodo).hasFieldOrProperty(null, 33);               // fail
+   * assertThat(frodo).hasFieldOrProperty("age", null);            // fail
    *
-   * TolkienCharacter frodo = new TolkienCharacter(null, 33);
+   * TolkienCharacter noname = new TolkienCharacter(null, 33);
    *
-   * assertThat(frodo).hasField("name", null);          // pass
-   * assertThat(frodo).hasField("name", "Frodo");       // fail
+   * assertThat(noname).hasFieldOrProperty("name", null);          // pass
+   * assertThat(noname).hasFieldOrProperty("name", "Frodo");       // fail
    *
    * </code></pre>
    *
@@ -266,10 +271,10 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual object has not given field
    * @throws AssertionError if the actual object has given field, but value is not equal to expected value
    *
-   * @see AbstractObjectAssert#hasField(java.lang.String)
+   * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
-  public S hasField(String name, Object value) {
-    objects.assertHasFieldWithValue(info, actual, name, value);
+  public S hasFieldOrProperty(String name, Object value) {
+    objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
 }
