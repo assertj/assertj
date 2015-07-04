@@ -1827,8 +1827,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   }
 
   /**
-   * Verifies that actual and given {@code Date} are chronologically in the same hour (i.e. their time difference <= 1
-   * hour).
+   * Verifies that actual and given {@code Date} are chronologically in the same minute (i.e. their time difference <= 1
+   * minute).
    * <p/>
    * Example:
    * 
