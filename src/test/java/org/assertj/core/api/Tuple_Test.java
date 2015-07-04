@@ -12,9 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
+
+import java.util.List;
 
 import org.assertj.core.groups.Tuple;
 import org.junit.Test;
@@ -28,24 +32,31 @@ public class Tuple_Test {
   }
 
   @Test
-  public void should_create_empty_tuple() {
-	Tuple tuple = new Tuple();
-	assertThat(tuple).isEqualTo(new Tuple());
+  public void tuple_equal_should_support_primitive_array() {
+    Tuple tuple = new Tuple("1".getBytes(), "Name");
+    assertThat(tuple).isEqualTo(new Tuple("1".getBytes(), "Name"));
   }
-  
+
+  @Test
+  public void should_create_empty_tuple() {
+    Tuple tuple = new Tuple();
+    assertThat(tuple).isEqualTo(new Tuple());
+  }
+
+  @SuppressWarnings("deprecation")
   @Test
   public void add_an_element_to_a_tuple() {
-	Tuple tuple = new Tuple("Yoda", 800);
-	tuple.addData("Jedi");
-	assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
+    Tuple tuple = new Tuple("Yoda", 800);
+    tuple.addData("Jedi");
+    assertThat(tuple).isEqualTo(new Tuple("Yoda", 800, "Jedi"));
   }
-  
+
   @Test
   public void convert_tuple_to_an_array() {
-	Tuple tuple = new Tuple("Yoda", 800, "Jedi");
-	assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));
+    Tuple tuple = new Tuple("Yoda", 800, "Jedi");
+    assertThat(tuple.toArray()).isEqualTo(array("Yoda", 800, "Jedi"));
   }
-  
+
   @Test
   public void convert_tuple_to_a_list() {
     Tuple tuple = new Tuple("Yoda", 800, "Jedi");
@@ -54,8 +65,44 @@ public class Tuple_Test {
 
   @Test
   public void tuple_representation() {
-	Tuple tuple = new Tuple("Yoda", 800, "Jedi");
-	assertThat(tuple.toString()).isEqualTo("(\"Yoda\", 800, \"Jedi\")");
+    Tuple tuple = new Tuple("Yoda", 800, "Jedi");
+    assertThat(tuple.toString()).isEqualTo("(\"Yoda\", 800, \"Jedi\")");
   }
-  
+
+  @Test
+  public void test_for_issue_448() throws Exception {
+    SinteticClass item1 = new SinteticClass("1".getBytes(), "Foo");
+    SinteticClass item2 = new SinteticClass("2".getBytes(), "Bar");
+    SinteticClass item3 = new SinteticClass("3".getBytes(), "Baz");
+    List<SinteticClass> list = asList(item1, item2, item3);
+
+    assertThat(list).extracting("pk", "name")
+                    .contains(tuple("1".getBytes(), "Foo"),
+                              tuple("2".getBytes(), "Bar"),
+                              tuple("3".getBytes(), "Baz"));
+
+    assertThat(list).extracting("pk", "name")
+                    .contains(tuple("1".getBytes(), "Foo"))
+                    .contains(tuple("2".getBytes(), "Bar"))
+                    .contains(tuple("3".getBytes(), "Baz"));
+  }
+}
+
+final class SinteticClass {
+
+  private byte[] pk;
+  private String name;
+
+  public SinteticClass(byte[] pk, String name) {
+    this.pk = pk;
+    this.name = name;
+  }
+
+  public byte[] getPk() {
+    return pk;
+  }
+
+  public String getName() {
+    return name;
+  }
 }
