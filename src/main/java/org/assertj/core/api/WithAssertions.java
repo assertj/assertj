@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
 import org.assertj.core.condition.Not;
@@ -606,6 +607,20 @@ public interface WithAssertions {
    */
   default public AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
       return Assertions.assertThat(offsetDateTime);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatThrownBy(ThrowingCallable)}
+   */
+  default public AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(final ThrowingCallable shouldRaiseThrowable) {
+    return Assertions.assertThatThrownBy(shouldRaiseThrowable);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#catchThrowable(ThrowingCallable)}
+   */
+  default public Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
+    return Assertions.catchThrowable(shouldRaiseThrowable);
   }
 
   // --------------------------------------------------------------------------------------------------

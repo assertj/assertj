@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.time.LocalDate;
@@ -676,5 +677,24 @@ public class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   public void withAssertions_assertThat_offset_date_time_Test() {
         assertThat(OffsetDateTime.now()).isNotNull();
-    }
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_assertThatThrownBy_Test() {
+    assertThatThrownBy(() -> { throw new IOException("message"); }).hasMessage("message");
+  }
+
+  /**
+   * Test that the delegate method is called.
+   */
+  @Test
+  public void withAssertions_catchThrowable_Test() {
+    Throwable t = catchThrowable(() -> {
+      throw new IOException("message");
+    });
+    assertThat(t).hasMessage("message");
+  }
 }
