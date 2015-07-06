@@ -16,7 +16,7 @@ import org.assertj.core.data.Index;
 
 /**
  * Assertions methods applicable to indexed groups of objects (e.g. arrays or lists.)
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <T> the type of elements of the "actual" value.
  * 

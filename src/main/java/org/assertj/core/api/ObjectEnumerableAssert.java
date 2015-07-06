@@ -17,7 +17,7 @@ import java.util.HashSet;
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <T> the type of elements of the "actual" value.
