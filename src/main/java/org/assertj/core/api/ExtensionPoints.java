@@ -15,7 +15,7 @@ package org.assertj.core.api;
 
 /**
  * Mechanism for extending assertion classes.
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g" target="_blank">Emulating
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
  * 

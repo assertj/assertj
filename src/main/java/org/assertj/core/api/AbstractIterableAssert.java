@@ -49,7 +49,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
  * <code>{@link Collection}</code>.
  *
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.

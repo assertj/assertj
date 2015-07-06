@@ -96,7 +96,7 @@ import static org.assertj.core.groups.Properties.extractProperty;
  * </p>
  * 
  * <p>
- * BDDSoftAssertions works by providing you with proxyies of the AssertJ assertion objects (those created by
+ * BDDSoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
  * {@link BDDAssertions}#then...) whose assertion failures are caught and stored. Only when you call
  * {@link BDDSoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of
  * those previously caught assertion failures.
