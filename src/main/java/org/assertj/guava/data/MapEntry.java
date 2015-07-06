@@ -55,7 +55,7 @@ public final class MapEntry<K, V> {
 	if (getClass() != obj.getClass()) {
 	  return false;
 	}
-	MapEntry other = (MapEntry) obj;
+    MapEntry<?, ?> other = (MapEntry<?, ?>) obj;
 	return areEqual(key, other.key) && areEqual(value, other.value);
   }
 

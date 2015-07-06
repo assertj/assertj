@@ -75,7 +75,7 @@ public class Assertions {
    * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;));
    * </code></pre>
    */
-  public static MapEntry entry(final Object key, final Object value) {
+  public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
   }
 

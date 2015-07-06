@@ -121,13 +121,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
    */
   @SafeVarargs
-  public final MultimapAssert<K, V> contains(MapEntry... entries) {
+  public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
     Objects.instance().assertNotNull(info, actual);
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
     throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
-    List<MapEntry> entriesNotFound = newArrayList();
-    for (MapEntry entry : entries) {
+    List<MapEntry<K, V>> entriesNotFound = newArrayList();
+    for (MapEntry<K, V> entry : entries) {
       if (!actual.containsEntry(entry.key, entry.value)) {
         entriesNotFound.add(entry);
       }

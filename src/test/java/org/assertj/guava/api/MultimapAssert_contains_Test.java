@@ -39,7 +39,7 @@ public class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
   @Test
   public void should_fail_if_entries_to_look_for_are_null() {
     expectException(IllegalArgumentException.class, "The entries to look for should not be null");
-    assertThat(actual).contains((MapEntry[]) null);
+    assertThat(actual).contains((MapEntry<String, String>[]) null);
   }
 
   @Test
