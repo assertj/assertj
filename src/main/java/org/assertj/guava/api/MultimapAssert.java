@@ -13,11 +13,14 @@
 package org.assertj.guava.api;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newLinkedHashSet;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.util.Sets.newHashSet;
 import static org.assertj.guava.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
@@ -31,7 +34,9 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.VisibleForTesting;
 
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.SetMultimap;
 
 /**
  * Assertions for guava {@link Multimap}.
@@ -75,8 +80,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @param keys the keys to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param keys have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given keys.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} does not contain the given keys.
    */
   public MultimapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
     Objects.instance().assertNotNull(info, actual);
@@ -117,8 +122,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @param entries the entries to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given entries.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} does not contain the given entries.
    */
   @SafeVarargs
   public final MultimapAssert<K, V> contains(MapEntry<K, V>... entries) {
@@ -160,8 +165,8 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @param values the values to look for in actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws IllegalArgumentException if no param values have been set.
-   * @throws AssertionError           if the actual {@link Multimap} is {@code null}.
-   * @throws AssertionError           if the actual {@link Multimap} does not contain the given values.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws AssertionError if the actual {@link Multimap} does not contain the given values.
    */
   public MultimapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
     Objects.instance().assertNotNull(info, actual);
@@ -254,6 +259,46 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
       return this;
     }
     throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, expectedSize));
+  }
+
+  /**
+   * Verifies that the actual {@link Multimap} has the same entries as the given {@link Multimap}.<br>
+   * It allows to compare two multimaps having the same content but who are not equal because being of different types
+   * like {@link SetMultimap} and {@link ListMultimap}.
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Multimap&lt;String, String&gt; listMultimap = ArrayListMultimap.create();
+   * listMultimap.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * listMultimap.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
+   * Multimap&lt;String, String&gt; setMultimap = TreeMultimap.create();
+   * setMultimap.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * setMultimap.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
+   * // assertion will pass as listMultimap and setMultimap have the same content
+   * assertThat(listMultimap).hasSameEntriesAs(setMultimap);
+   * 
+   * // this assertion FAILS even though both multimaps have the same content
+   * assertThat(listMultimap).isEqualTo(setMultimap);
+   * </code></pre>
+   *
+   * @param other {@link Multimap}to compare actual's entries with.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
+   * @throws AssertionError if actual {@link Multimap} does not have the same entries as the other {@link Multimap}.
+   */
+  public final MultimapAssert<K, V> hasSameEntriesAs(Multimap<? extends K, ? extends V> other) {
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
+
+    Set<?> entriesNotExpectedInActual = difference(newHashSet(actual.entries()), newHashSet(other.entries()));
+    Set<?> entriesNotFoundInActual = difference(newHashSet(other.entries()), newHashSet(actual.entries()));
+
+    if (entriesNotFoundInActual.isEmpty() && entriesNotExpectedInActual.isEmpty()) return myself;
+    throw failures.failure(info, shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
   }
 
 }
