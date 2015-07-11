@@ -262,7 +262,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   }
 
   /**
-   * Verifies that the actual {@link Multimap} has the same entries as the given {@link Multimap}.<br>
+   * Verifies that the actual {@link Multimap} has the same entries as the given one.<br>
    * It allows to compare two multimaps having the same content but who are not equal because being of different types
    * like {@link SetMultimap} and {@link ListMultimap}.
    * <p>
@@ -284,7 +284,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(listMultimap).isEqualTo(setMultimap);
    * </code></pre>
    *
-   * @param other {@link Multimap}to compare actual's entries with.
+   * @param other {@link Multimap} to compare actual's entries with.
    * @return this {@link MultimapAssert} for assertions chaining.
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
@@ -296,9 +296,44 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
 
     Set<?> entriesNotExpectedInActual = difference(newHashSet(actual.entries()), newHashSet(other.entries()));
     Set<?> entriesNotFoundInActual = difference(newHashSet(other.entries()), newHashSet(actual.entries()));
-
     if (entriesNotFoundInActual.isEmpty() && entriesNotExpectedInActual.isEmpty()) return myself;
     throw failures.failure(info, shouldContainOnly(actual, other, entriesNotFoundInActual, entriesNotExpectedInActual));
+  }
+
+  /**
+   * Verifies that the actual {@link Multimap} contains all entries of the given one (it might contain more entries).
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'>
+   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+   * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+   *
+   * Multimap&lt;String, String&gt; other = TreeMultimap.create();
+   * other.putAll("Spurs", newHashSet("Tony Parker", "Tim Duncan"));
+   * other.putAll("Bulls", newHashSet("Michael Jordan", "Scottie Pippen"));
+   *
+   * // assertion will pass as other is a subset of actual.
+   * assertThat(actual).containsAllEntriesOf(other);
+   * 
+   * // this assertion FAILS as other does not contain "Spurs -&gt; "Manu Ginobili" and "Bulls" -&gt; "Derrick Rose"
+   * assertThat(other).containsAllEntriesOf(actual);
+   * </code></pre>
+   *
+   * @param other {@link Multimap} to compare actual's entries with.
+   * @return this {@link MultimapAssert} for assertions chaining.
+   * @throws AssertionError if the actual {@link Multimap} is {@code null}.
+   * @throws IllegalArgumentException if the other {@link Multimap} is {@code null}.
+   * @throws AssertionError if actual {@link Multimap} does not have contain all the given {@link Multimap} entries.
+   */
+  public final MultimapAssert<K, V> containsAllEntriesOf(Multimap<? extends K, ? extends V> other) {
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(other == null, "The multimap to compare actual with should not be null");
+
+    Set<?> entriesNotFoundInActual = difference(newHashSet(other.entries()), newHashSet(actual.entries()));
+    if (entriesNotFoundInActual.isEmpty()) return myself;
+    throw failures.failure(info, shouldContain(actual, other, entriesNotFoundInActual));
   }
 
 }
