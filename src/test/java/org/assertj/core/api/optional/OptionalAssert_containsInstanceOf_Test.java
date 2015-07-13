@@ -17,7 +17,7 @@ public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
     Optional<Object> actual = Optional.empty();
 
     Throwable thrown = catchThrowable(() -> {
-      assertThat(actual).containsInstanceOf(Object.class);
+      assertThat(actual).hasInstanceOf(Object.class);
     });
 
     assertThat(thrown).isInstanceOf(AssertionError.class)
@@ -26,13 +26,13 @@ public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 
   @Test
   public void should_pass_if_optional_contains_required_type() {
-    assertThat(Optional.of("something")).containsInstanceOf(String.class)
-                                        .containsInstanceOf(Object.class);
+    assertThat(Optional.of("something")).hasInstanceOf(String.class)
+                                        .hasInstanceOf(Object.class);
   }
 
   @Test
   public void should_pass_if_optional_contains_required_type_subclass() {
-    assertThat(Optional.of(new SubClass())).containsInstanceOf(ParentClass.class);
+    assertThat(Optional.of(new SubClass())).hasInstanceOf(ParentClass.class);
   }
 
   @Test
@@ -40,7 +40,7 @@ public class OptionalAssert_containsInstanceOf_Test extends BaseTest {
     Optional<ParentClass> actual = Optional.of(new ParentClass());
 
     Throwable thrown = catchThrowable(() -> {
-      assertThat(actual).containsInstanceOf(OtherClass.class);
+      assertThat(actual).hasInstanceOf(OtherClass.class);
     });
 
     assertThat(thrown).isInstanceOf(AssertionError.class)

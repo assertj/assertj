@@ -82,14 +82,14 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Verifies that the actual {@link java.util.Optional} contains the value in argument.
    * </p>
    * Assertion will pass :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).contains("something");
    * assertThat(Optional.of(10)).contains(10);
    * </code></pre>
-   * 
+   *
    * Assertion will fail :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).contains("something else");
    * assertThat(Optional.of(20)).contains(10);
@@ -98,12 +98,20 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
-  public S contains(T expectedValue) {
+  public S hasValue(T expectedValue) {
     isNotNull();
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
     if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
     if (!actual.get().equals(expectedValue)) throw failure(shouldContain(actual, expectedValue));
     return myself;
+  }
+
+  /**
+   * @deprecated Use {@link #hasValue} instead.
+   */
+  @Deprecated
+  public S contains(T expectedValue) {
+    return hasValue(expectedValue);
   }
 
   /**
@@ -127,10 +135,18 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * @param clazz the expected class of the value inside the {@link Optional}.
    * @return this assertion object.
    */
-  public S containsInstanceOf(Class<?> clazz) {
+  public S hasInstanceOf(Class<?> clazz) {
     isNotNull();
     if (!actual.isPresent()) throw failure(shouldBePresent(actual));
     if (!clazz.isInstance(actual.get())) throw failure(shouldContainInstanceOf(actual, clazz));
     return myself;
+  }
+
+  /**
+   * @deprecated Use {@link #hasInstanceOf} instead.
+   */
+  @Deprecated
+  public S containsInstanceOf(Class<?> clazz) {
+    return hasInstanceOf(clazz);
   }
 }
