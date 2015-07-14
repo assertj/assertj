@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.exception.RuntimeIOException;
@@ -86,6 +87,18 @@ import org.assertj.core.util.introspection.FieldSupport;
  * @author William Delanoue
  */
 public class StrictAssertions {
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @param future the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @return the created assertion object.
+   */
+  public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> future) {
+    return new CompletableFutureAssert<>(future);
+  }
 
   /**
    * Create assertion for {@link java.util.Optional}.
