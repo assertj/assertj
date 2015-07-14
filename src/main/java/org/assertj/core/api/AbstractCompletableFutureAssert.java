@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import java.util.concurrent.CompletableFuture;
 
+import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+
 /**
  * Assertions for {@link CompletableFuture}.
  *
@@ -24,5 +26,30 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
 
   protected AbstractCompletableFutureAssert(CompletableFuture<T> actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is done.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something")).isDone();
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * assertThat(new CompletableFuture()).isDone();
+   * </code></pre>
+   *
+   * @return this assertion object.
+   *
+   * @see CompletableFuture#isDone()
+   */
+  public S isDone() {
+    isNotNull();
+    if (!actual.isDone()) throw failure(shouldBeDone(actual));
+    return myself;
   }
 }
