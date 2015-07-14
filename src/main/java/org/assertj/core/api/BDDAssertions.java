@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -615,6 +616,18 @@ public class BDDAssertions extends Assertions {
    */
   public static AbstractOffsetDateTimeAssert<?> then(OffsetDateTime actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @param future the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @return the created assertion object.
+   */
+  public static <T> CompletableFutureAssert<T> then(CompletableFuture<T> future) {
+    return assertThat(future);
   }
 
   /**

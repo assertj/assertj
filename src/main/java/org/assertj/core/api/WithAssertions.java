@@ -31,6 +31,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
@@ -556,6 +557,13 @@ public interface WithAssertions {
    */
   default public AbstractZonedDateTimeAssert<?> assertThat(final ZonedDateTime actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletableFuture)}
+   */
+  default public <T> CompletableFutureAssert<T> assertThat(final CompletableFuture<T> future) {
+    return Assertions.assertThat(future);
   }
 
   /**

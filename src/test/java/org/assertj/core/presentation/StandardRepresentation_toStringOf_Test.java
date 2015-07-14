@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.presentation;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;

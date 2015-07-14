@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.StrictAssertions.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;
@@ -32,6 +32,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
@@ -157,6 +158,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
 	return proxy(IterableAssert.class, Iterable.class, actual);
   }
@@ -169,6 +171,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> IterableAssert<T> assertThat(Iterator<T> actual) {
 	return proxy(IterableAssert.class, Iterator.class, actual);
   }
@@ -299,6 +302,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ListAssert<T> assertThat(List<? extends T> actual) {
 	return proxy(ListAssert.class, List.class, actual);
   }
@@ -339,6 +343,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ObjectAssert<T> assertThat(T actual) {
 	return proxy(ObjectAssert.class, Object.class, actual);
   }
@@ -349,6 +354,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ObjectArrayAssert<T> assertThat(T[] actual) {
 	return proxy(ObjectArrayAssert.class, Object[].class, actual);
   }
@@ -361,6 +367,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <K, V> SoftAssertionMapAssert<K, V> assertThat(Map<K, V> actual) {
 	return proxy(SoftAssertionMapAssert.class, Map.class, actual);
   }
@@ -473,6 +480,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    *
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> OptionalAssert<T> assertThat(Optional<T> actual) {
     return proxy(OptionalAssert.class, Optional.class, actual);
   }
@@ -569,4 +577,18 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   public UriAssert assertThat(URI actual) {
     return proxy(UriAssert.class, URI.class, actual);
   }
+
+  /**
+   * Create assertion for {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @param future the actual value.
+   * @param <T> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  public <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+    return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
+  }
+
 }
