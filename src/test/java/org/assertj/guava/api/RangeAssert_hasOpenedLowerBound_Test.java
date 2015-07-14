@@ -39,10 +39,10 @@ public class RangeAssert_hasOpenedLowerBound_Test extends BaseTest {
 	// given
 	final Range<Integer> actual = Range.closedOpen(1, 10);
 	// expect
-	expectException(AssertionError.class, "\n"
-	                                      + "Expecting:\n"
-	                                      + "  <[1‥10)>\n"
-	                                      + "to be opened in the lower bound but was closed");
+	expectException(AssertionError.class, String.format("%n"
+	                                      + "Expecting:%n"
+	                                      + "  <[1‥10)>%n"
+	                                      + "to be opened in the lower bound but was closed"));
 	// when
 	assertThat(actual).hasOpenedLowerBound();
   }

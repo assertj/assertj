@@ -38,10 +38,10 @@ public class ShouldContainValues extends BasicErrorMessageFactory {
   }
 
   private ShouldContainValues(Object actual, Object value) {
-    super("\nExpecting:\n  <%s>\nto contain value:\n  <%s>", actual, value);
+    super("%nExpecting:%n  <%s>%nto contain value:%n  <%s>", actual, value);
   }
 
   private ShouldContainValues(Object actual, Object[] values, Set<?> valuesNotFound) {
-    super("\nExpecting:\n  <%s>\nto contain values:\n  <%s>\nbut could not find:\n  <%s>", actual, values, valuesNotFound);
+    super("%nExpecting:%n  <%s>%nto contain values:%n  <%s>%nbut could not find:%n  <%s>", actual, values, valuesNotFound);
   }
 }

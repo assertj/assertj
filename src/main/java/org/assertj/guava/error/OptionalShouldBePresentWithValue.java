@@ -27,7 +27,7 @@ import com.google.common.base.Optional;
 public final class OptionalShouldBePresentWithValue extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory shouldBePresentWithValue(final Optional<T> actual, final Object value) {
-    return new OptionalShouldBePresentWithValue("\nExpecting Optional to contain value \n<%s>\n but contained \n<%s>",
+    return new OptionalShouldBePresentWithValue("%nExpecting Optional to contain value %n<%s>%n but contained %n<%s>",
         value, actual.get());
   }
 

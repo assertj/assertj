@@ -21,7 +21,7 @@ public class RangeShouldBeClosedInTheLowerBound extends BasicErrorMessageFactory
 
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveClosedLowerBound(final Range<T> actual) {
     return new RangeShouldBeClosedInTheLowerBound(
-        "\nExpecting:\n  <%s>\nto be closed in the lower bound but was opened", actual);
+        "%nExpecting:%n  <%s>%nto be closed in the lower bound but was opened", actual);
   }
 
   /**

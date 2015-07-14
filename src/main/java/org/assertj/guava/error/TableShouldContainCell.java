@@ -39,7 +39,7 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
 
   private <R,C,V> TableShouldContainCell(Table<R,C,V> actual, R row, C column, V expectedValue, V actualValue) {
     // Except for actual, format values using the standard representation instead of a specific one like Hexadecimal
-    super(format("\nExpecting row:<%s> and column:<%s> to have value:\n  <%s>\nbut was:\n  <%s>\nin:\n  <%s>", row, column, expectedValue, actualValue, "%s"), actual);
+    super(format("%nExpecting row:<%s> and column:<%s> to have value:%n  <%s>%nbut was:%n  <%s>%nin:%n  <%s>", row, column, expectedValue, actualValue, "%s"), actual);
   }
 
 }

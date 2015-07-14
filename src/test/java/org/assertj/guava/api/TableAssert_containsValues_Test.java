@@ -53,12 +53,12 @@ public class TableAssert_containsValues_Test extends TableAssertBaseTest {
     try {
       assertThat(actual).containsValues("James A. Garfield", "Andrew Johnson");
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n" +
-                               "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>\n" +
-                               "to contain values:\n" +
-                               "  <[\"James A. Garfield\", \"Andrew Johnson\"]>\n" +
-                               "but could not find:\n" +
-                               "  <[\"Andrew Johnson\", \"James A. Garfield\"]>");
+      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
+                               "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>%n" +
+                               "to contain values:%n" +
+                               "  <[\"James A. Garfield\", \"Andrew Johnson\"]>%n" +
+                               "but could not find:%n" +
+                               "  <[\"Andrew Johnson\", \"James A. Garfield\"]>"));
       return;
     }
     fail("Assertion error expected.");

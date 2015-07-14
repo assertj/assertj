@@ -36,13 +36,13 @@ public class RangeAssert_hasUpperEndpointEqualTo_Test extends BaseTest {
 	// given
 	final Range<Integer> actual = Range.closed(1, 10);
 	// expect
-	expectException(AssertionError.class, "\n" +
-	                                      "Expecting:\n" +
-	                                      "  <[1‥10]>\n" +
-	                                      "to have upper endpoint equal to:\n" +
-	                                      "  <2>\n" +
-	                                      "but was:\n" +
-	                                      "  <10>");
+	expectException(AssertionError.class, String.format("%n" +
+	                                      "Expecting:%n" +
+	                                      "  <[1‥10]>%n" +
+	                                      "to have upper endpoint equal to:%n" +
+	                                      "  <2>%n" +
+	                                      "but was:%n" +
+	                                      "  <10>"));
 	// when
 	assertThat(actual).hasUpperEndpointEqualTo(2);
   }

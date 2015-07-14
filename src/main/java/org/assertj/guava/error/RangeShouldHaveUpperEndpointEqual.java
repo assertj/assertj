@@ -21,12 +21,12 @@ public class RangeShouldHaveUpperEndpointEqual extends BasicErrorMessageFactory 
 
   public static <T extends Comparable<T>> ErrorMessageFactory shouldHaveEqualUpperEndpoint(final Range<T> actual,
 	                                                                                       final Object value) {
-	return new RangeShouldHaveUpperEndpointEqual("\n" +
-	                                             "Expecting:\n" +
-	                                             "  <%s>\n" +
-	                                             "to have upper endpoint equal to:\n" +
-	                                             "  <%s>\n" +
-	                                             "but was:\n" +
+	return new RangeShouldHaveUpperEndpointEqual("%n" +
+	                                             "Expecting:%n" +
+	                                             "  <%s>%n" +
+	                                             "to have upper endpoint equal to:%n" +
+	                                             "  <%s>%n" +
+	                                             "but was:%n" +
 	                                             "  <%s>",
 	                                             actual, value, actual.upperEndpoint());
   }

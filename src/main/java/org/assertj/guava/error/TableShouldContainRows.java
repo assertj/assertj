@@ -29,10 +29,10 @@ public class TableShouldContainRows extends BasicErrorMessageFactory {
   }
 
   private TableShouldContainRows(Object actual, Object row) {
-    super("\nExpecting:\n  <%s>\nto contain row:\n  <%s>", actual, row);
+    super("%nExpecting:%n  <%s>%nto contain row:%n  <%s>", actual, row);
   }
 
   public TableShouldContainRows(Object actual, Object[] rows, Set<?> rowsNotFound) {
-    super("\nExpecting:\n  <%s>\nto contain rows:\n  <%s>\nbut could not find:\n  <%s>", actual, rows, rowsNotFound);
+    super("%nExpecting:%n  <%s>%nto contain rows:%n  <%s>%nbut could not find:%n  <%s>", actual, rows, rowsNotFound);
   }
 }

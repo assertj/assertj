@@ -12,11 +12,10 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
-
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -41,10 +40,10 @@ public class MultimapAssert_isEmpty_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n" +
+      assertThat(e).hasMessage(format("%n" +
                                "Expecting empty but was:<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], " +
                                "Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan," +
-                               " Manu Ginobili]}>");
+                               " Manu Ginobili]}>"));
       return;
     }
     fail("Assertion error expected");

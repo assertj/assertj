@@ -12,10 +12,10 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -50,7 +50,7 @@ public class ByteSourceAssert_isEmpty_Test extends BaseTest {
     try {
       assertThat(actual).isEmpty();
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting empty but was:<ByteSource.wrap(00)>");
+      assertThat(e).hasMessage(format("%nExpecting empty but was:<ByteSource.wrap(00)>"));
       return;
     }
     fail("Assertion error expected");

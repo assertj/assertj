@@ -87,12 +87,12 @@ public class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBase
       assertThat(actual).containsAllEntriesOf(other);
     } catch (AssertionError e) {
       // @format:off
-      assertThat(e).hasMessage("\nExpecting:\n"                                   +
-          " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>\n" +
-          "to contain:\n" +
-          " <{Lakers=[Kobe Bryant, Kareem Abdul Jabbar, Magic Johnson], Bulls=[Michael Jordan, Derrick Rose, Scottie Pippen], Warriors=[Stephen Curry, Klay Thompson], Spurs=[Tim Duncan, Tony Parker, Manu Ginobili]}>\n" +
-          "but could not find:\n" +
-          " <[Warriors=Stephen Curry, Warriors=Klay Thompson]>\n");
+      assertThat(e).hasMessage(String.format("%nExpecting:%n"                                   +
+          " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
+          "to contain:%n" +
+          " <{Lakers=[Kobe Bryant, Kareem Abdul Jabbar, Magic Johnson], Bulls=[Michael Jordan, Derrick Rose, Scottie Pippen], Warriors=[Stephen Curry, Klay Thompson], Spurs=[Tim Duncan, Tony Parker, Manu Ginobili]}>%n" +
+          "but could not find:%n" +
+          " <[Warriors=Stephen Curry, Warriors=Klay Thompson]>%n"));
       // @format:on
       return;
     }

@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -39,7 +40,7 @@ public class RangeMapAssert_isNotEmpty_Test extends RangeMapAssertBaseTest {
 	try {
 	  assertThat(actual).isNotEmpty();
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting actual not to be empty");
+      assertThat(e).hasMessage(format("%nExpecting actual not to be empty"));
 	  return;
 	}
 	fail("Assertion error expected");

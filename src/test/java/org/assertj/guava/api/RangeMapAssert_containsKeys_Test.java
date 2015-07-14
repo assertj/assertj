@@ -57,14 +57,14 @@ public class RangeMapAssert_containsKeys_Test extends RangeMapAssertBaseTest {
 	try {
 	  assertThat(actual).containsKeys(100, 200, 900);
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
+	  assertThat(e).hasMessage(String.format("%n" +
+		                       "Expecting:%n" +
 		                       "  <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)" +
-		                       "=yellow, [590‥620)=orange, [620‥750)=red]>\n" +
-		                       "to contain keys:\n" +
-		                       "  <[100, 200, 900]>\n" +
-		                       "but could not find:\n" +
-		                       "  <[100, 200, 900]>");
+		                       "=yellow, [590‥620)=orange, [620‥750)=red]>%n" +
+		                       "to contain keys:%n" +
+		                       "  <[100, 200, 900]>%n" +
+		                       "but could not find:%n" +
+		                       "  <[100, 200, 900]>"));
 	  return;
 	}
 	fail("Assertion error expected");
@@ -77,11 +77,11 @@ public class RangeMapAssert_containsKeys_Test extends RangeMapAssertBaseTest {
 	} catch (AssertionError e) {
 	  // error message shows that we were looking for a unique key (not many)
 	  // @format:off
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>\n" +
-		                       "to contain key:\n" +
-		                       "  <100>");
+	  assertThat(e).hasMessage(String.format("%n" +
+		                       "Expecting:%n" +
+		                       "  <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>%n" +
+		                       "to contain key:%n" +
+		                       "  <100>"));
 	  // @format:on
 	  return;
 	}

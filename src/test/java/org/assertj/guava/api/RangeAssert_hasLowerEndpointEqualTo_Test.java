@@ -39,13 +39,13 @@ public class RangeAssert_hasLowerEndpointEqualTo_Test extends BaseTest {
 	// given
 	final Range<Integer> actual = Range.closed(1, 10);
 	// expect
-	expectException(AssertionError.class, "\n" +
-	                                      "Expecting:\n" +
-	                                      "  <[1‥10]>\n" +
-	                                      "to have lower endpoint equal to:\n" +
-	                                      "  <2>\n" +
-	                                      "but was:\n" +
-	                                      "  <1>");
+	expectException(AssertionError.class, String.format("%n" +
+	                                      "Expecting:%n" +
+	                                      "  <[1‥10]>%n" +
+	                                      "to have lower endpoint equal to:%n" +
+	                                      "  <2>%n" +
+	                                      "but was:%n" +
+	                                      "  <1>"));
 	// when
 	assertThat(actual).hasLowerEndpointEqualTo(2);
   }

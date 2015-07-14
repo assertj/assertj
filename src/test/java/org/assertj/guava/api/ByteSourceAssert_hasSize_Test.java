@@ -48,9 +48,9 @@ public class ByteSourceAssert_hasSize_Test extends BaseTest {
     try {
       assertThat(ByteSource.wrap(new byte[9])).hasSize(3);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n" +
-                               "Expected size:<3> but was:<9> in:\n" +
-                               "<ByteSource.wrap(000000000000000000)>");
+      assertThat(e).hasMessage(String.format("%n" +
+                               "Expected size:<3> but was:<9> in:%n" +
+                               "<ByteSource.wrap(000000000000000000)>"));
       return;
     }
     fail("Assertion error expected");

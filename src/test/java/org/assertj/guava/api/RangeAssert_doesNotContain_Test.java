@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -40,7 +41,7 @@ public class RangeAssert_doesNotContain_Test extends BaseTest {
     final Range<Integer> actual = Range.closed(1, 10);
     // expect
     expectException(AssertionError.class,
-        "\nExpecting\n <[1‥10]>\nnot to contain\n <[9, 10, 11]>\nbut found\n <[9, 10]>\n");
+                    format("%nExpecting%n <[1‥10]>%nnot to contain%n <[9, 10, 11]>%nbut found%n <[9, 10]>%n"));
     // when
     assertThat(actual).doesNotContain(9, 10, 11);
   }

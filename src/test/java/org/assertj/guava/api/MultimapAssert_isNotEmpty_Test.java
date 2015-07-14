@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -39,8 +40,8 @@ public class MultimapAssert_isNotEmpty_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).isNotEmpty();
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n" +
-                               "Expecting actual not to be empty");
+      assertThat(e).hasMessage(format("%n" +
+                               "Expecting actual not to be empty"));
       return;
     }
     fail("Assertion error expected");

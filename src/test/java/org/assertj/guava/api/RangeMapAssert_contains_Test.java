@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -54,14 +55,15 @@ public class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
 	  assertThat(actual).contains(entry(400, "violet"), entry(100, "violet"), entry(500, "pink"));
 	} catch (AssertionError e) {
 	  // @format:off
-	  assertThat(e).hasMessage("\nExpecting:\n" +
-		                       " <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>\n" +
-		                       "to contain:\n" +
-		                       " <[MapEntry[key=400, value='violet'],\n"+
-		                       "    MapEntry[key=100, value='violet'],\n"+
-		                       "    MapEntry[key=500, value='pink']]>\n" +
-		                       "but could not find:\n" +
-		                       " <[MapEntry[key=100, value='violet'], MapEntry[key=500, value='pink']]>\n");
+	  assertThat(e).hasMessage(format("%n"+
+	                           "Expecting:%n" +
+		                       " <[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>%n" +
+		                       "to contain:%n" +
+		                       " <[MapEntry[key=400, value='violet'],%n"+
+		                       "    MapEntry[key=100, value='violet'],%n"+
+		                       "    MapEntry[key=500, value='pink']]>%n" +
+		                       "but could not find:%n" +
+		                       " <[MapEntry[key=100, value='violet'], MapEntry[key=500, value='pink']]>%n"));
 	  // @format:on
 	  return;
 	}

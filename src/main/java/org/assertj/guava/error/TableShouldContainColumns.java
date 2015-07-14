@@ -28,10 +28,10 @@ public class TableShouldContainColumns extends BasicErrorMessageFactory {
   }
 
   private TableShouldContainColumns(Object actual, Object row) {
-    super("\nExpecting:\n  <%s>\nto contain column:\n  <%s>", actual, row);
+    super("%nExpecting:%n  <%s>%nto contain column:%n  <%s>", actual, row);
   }
 
   public TableShouldContainColumns(Object actual, Object[] rows, Set<?> columnsNotFound) {
-    super("\nExpecting:\n  <%s>\nto contain columns:\n  <%s>\nbut could not find:\n  <%s>", actual, rows, columnsNotFound);
+    super("%nExpecting:%n  <%s>%nto contain columns:%n  <%s>%nbut could not find:%n  <%s>", actual, rows, columnsNotFound);
   }
 }

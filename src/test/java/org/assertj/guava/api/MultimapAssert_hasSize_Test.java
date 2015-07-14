@@ -12,14 +12,11 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
-
 import static org.junit.Assert.fail;
-
-import org.assertj.guava.api.MultimapAssert;
 
 import org.junit.Test;
 
@@ -47,10 +44,10 @@ public class MultimapAssert_hasSize_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).hasSize(3);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\n" +
-                               "Expected size:<3> but was:<9> in:\n" +
+      assertThat(e).hasMessage(format("%n" +
+                               "Expected size:<3> but was:<9> in:%n" +
                                "<{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, " +
-                               "Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>");
+                               "Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>"));
       return;
     }
     fail("Assertion error expected");

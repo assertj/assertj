@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -39,8 +40,8 @@ public class RangeMapAssert_isEmpty_Test extends RangeMapAssertBaseTest {
 	try {
 	  assertThat(actual).isEmpty();
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting empty but was:<[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, "
-		                       + "[570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>");
+      assertThat(e).hasMessage(format("%nExpecting empty but was:<[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, "
+		                       + "[570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>"));
 	  return;
 	}
 	fail("Assertion error expected");
