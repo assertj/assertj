@@ -67,13 +67,11 @@ public class Assertions {
    * <p>
    * Typical usage is to call <code>entry</code> in MultimapAssert <code>contains</code> assertion as shown below :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * actual.putAll(&quot;Lakers&quot;, newArrayList(&quot;Kobe Bryant&quot;, &quot;Magic Johnson&quot;, &quot;Kareem Abdul Jabbar&quot;));
    * actual.putAll(&quot;Spurs&quot;, newArrayList(&quot;Tony Parker&quot;, &quot;Tim Duncan&quot;, &quot;Manu Ginobili&quot;));
    *
-   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;));
-   * </code></pre>
+   * assertThat(actual).contains(entry(&quot;Lakers&quot;, &quot;Kobe Bryant&quot;), entry(&quot;Spurs&quot;, &quot;Tim Duncan&quot;)); </code></pre>
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);

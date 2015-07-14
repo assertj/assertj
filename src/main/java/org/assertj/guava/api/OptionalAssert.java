@@ -56,11 +56,9 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
+   * <pre><code class='java'> Optional&lt;String&gt; optional = Optional.of(&quot;Test&quot;);
    *
-   * assertThat(optional).contains(&quot;Test&quot;);
-   * </code></pre>
+   * assertThat(optional).contains(&quot;Test&quot;);</code></pre>
    *
    * @param value the value to look for in actual {@link Optional}.
    * @return this {@link OptionalAssert} for assertions chaining.
@@ -84,11 +82,9 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Optional&lt;String&gt; optional = Optional.absent();
+   * <pre><code class='java'> Optional&lt;String&gt; optional = Optional.absent();
    *
-   * assertThat(optional).isAbsent();
-   * </code></pre>
+   * assertThat(optional).isAbsent();</code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    *
@@ -108,11 +104,9 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Optional&lt;String&gt; optional = Optional.of(&quot;value&quot;);
+   * <pre><code class='java'> Optional&lt;String&gt; optional = Optional.of(&quot;value&quot;);
    *
-   * assertThat(optional).isPresent();
-   * </code></pre>
+   * assertThat(optional).isPresent();</code></pre>
    *
    * @return this {@link OptionalAssert} for assertions chaining.
    *
@@ -128,17 +122,13 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
   }
 
   /**
-   * Chain assertion on the content of the Optional<br>
+   * Chain assertion on the content of the {@link Optional}.
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Optional&lt;Number&gt; optional = Optional.of(12L);
+   * <pre><code class='java'> Optional&lt;Number&gt; optional = Optional.of(12L);
    *
-   * assertThat(optional).extractingValue().isInstanceOf(Long.class);
-   * </code></pre>
-   *
-   * </p>
+   * assertThat(optional).extractingValue().isInstanceOf(Long.class);</code></pre>
    *
    * @return a new {@link AbstractObjectAssert} for assertions chaining on the content of the Optional.
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
@@ -150,17 +140,13 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
   }
 
   /**
-   * Chain assertion on the content of the Optional<br>
+   * Chain assertion on the content of the {@link Optional}.
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Optional&lt;String&gt; optional = Optional.of("Bill");
+   * <pre><code class='java'> Optional&lt;String&gt; optional = Optional.of("Bill");
    *
-   * assertThat(optional).extractingCharSequence().startsWith("Bi");
-   * </code></pre>
-   *
-   * </p>
+   * assertThat(optional).extractingCharSequence().startsWith("Bi");</code></pre>
    *
    * @return a new {@link AbstractCharSequenceAssert} for assertions chaining on the content of the Optional.
    * @throws AssertionError if the actual {@link Optional} is {@code null}.

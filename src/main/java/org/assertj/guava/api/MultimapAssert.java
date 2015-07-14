@@ -64,15 +64,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * 
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
    * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
-   * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);
-   * </code></pre>
+   * assertThat(actual).containsKeys(&quot;Lakers&quot;, &quot;Bulls&quot;);</code></pre>
    *
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -105,16 +103,14 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
    * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
    * // entry can be statically imported from org.assertj.guava.api.Assertions or org.assertj.guava.data.MapEntry
-   * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));
-   * </code></pre>
+   * assertThat(actual).contains(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Tim Duncan"));</code></pre>
    *
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -148,16 +144,14 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
    * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
    * // note that given values are not linked to same key
-   * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);
-   * </code></pre>
+   * assertThat(actual).containsValues(&quot;Kobe Bryant&quot;, &quot;Michael Jordan&quot;);</code></pre>
    *
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -191,11 +185,9 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> ArrayListMultimap.create();
    *
-   * assertThat(actual).isEmpty();
-   * </code></pre>
+   * assertThat(actual).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} is not empty.
@@ -213,13 +205,11 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; nba = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * nba.put("Bulls", "Derrick Rose");
    * nba.put("Bulls", "Joachim Noah");
    * 
-   * assertThat(nba).isNotEmpty();
-   * </code></pre>
+   * assertThat(nba).isNotEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@link Multimap} is {@code null}.
    * @throws AssertionError if the actual {@link Multimap} is empty.
@@ -237,15 +227,13 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
    * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
-   * assertThat(actual).hasSize(9);
-   * </code></pre>
+   * assertThat(actual).hasSize(9);</code></pre>
    *
    * @param expectedSize the expected size of actual {@link Multimap}.
    * @return this {@link MultimapAssert} for assertions chaining.
@@ -268,8 +256,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; listMultimap = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * listMultimap.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * listMultimap.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
@@ -281,8 +268,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(listMultimap).hasSameEntriesAs(setMultimap);
    * 
    * // this assertion FAILS even though both multimaps have the same content
-   * assertThat(listMultimap).isEqualTo(setMultimap);
-   * </code></pre>
+   * assertThat(listMultimap).isEqualTo(setMultimap);</code></pre>
    *
    * @param other {@link Multimap} to compare actual's entries with.
    * @return this {@link MultimapAssert} for assertions chaining.
@@ -305,8 +291,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    * actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
    * actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
    *
@@ -318,8 +303,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * assertThat(actual).containsAllEntriesOf(other);
    * 
    * // this assertion FAILS as other does not contain "Spurs -&gt; "Manu Ginobili" and "Bulls" -&gt; "Derrick Rose"
-   * assertThat(other).containsAllEntriesOf(actual);
-   * </code></pre>
+   * assertThat(other).containsAllEntriesOf(actual);</code></pre>
    *
    * @param other {@link Multimap} to compare actual's entries with.
    * @return this {@link MultimapAssert} for assertions chaining.

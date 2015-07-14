@@ -51,12 +51,12 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
   Failures failures = Failures.instance();
 
   protected RangeMapAssert(final RangeMap<K, V> actual) {
-	super(actual, RangeMapAssert.class);
+    super(actual, RangeMapAssert.class);
   }
 
   // visible for test
   protected RangeMap<K, V> getActual() {
-	return actual;
+    return actual;
   }
 
   /**
@@ -64,8 +64,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
+   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
    *
    * spectralColors.put(Range.closedOpen(380, 450), "violet");
    * spectralColors.put(Range.closedOpen(450, 495), "blue");
@@ -74,8 +73,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * spectralColors.put(Range.closedOpen(590, 620), "orange");
    * spectralColors.put(Range.closedOpen(620, 750), "red");
    *
-   * assertThat(spectralColors).containsKeys(380, 600, 700);
-   * </code></pre>
+   * assertThat(spectralColors).containsKeys(380, 600, 700);</code></pre>
    *
    * If the <code>keys</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -87,21 +85,21 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given keys.
    */
   public RangeMapAssert<K, V> containsKeys(@SuppressWarnings("unchecked") K... keys) {
-	Objects.instance().assertNotNull(info, actual);
-	throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
-	throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(keys == null, "The keys to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(keys.length == 0, "The keys to look for should not be empty");
 
-	Set<K> keysNotFound = newLinkedHashSet();
-	for (K key : keys) {
-	  if (actual.get(key) == null) {
-		keysNotFound.add(key);
-	  }
-	}
-	if (!keysNotFound.isEmpty()) {
-	  throw failures.failure(info, shouldContainKeys(actual, keys, keysNotFound));
-	}
+    Set<K> keysNotFound = newLinkedHashSet();
+    for (K key : keys) {
+      if (actual.get(key) == null) {
+        keysNotFound.add(key);
+      }
+    }
+    if (!keysNotFound.isEmpty()) {
+      throw failures.failure(info, shouldContainKeys(actual, keys, keysNotFound));
+    }
 
-	return myself;
+    return myself;
   }
 
   /**
@@ -109,8 +107,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
+   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
    *
    * spectralColors.put(Range.closedOpen(380, 450), "violet");
    * spectralColors.put(Range.closedOpen(450, 495), "blue");
@@ -120,8 +117,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * spectralColors.put(Range.closedOpen(620, 750), "red");
    *
    * // entry can be statically imported from {@link org.assertj.guava.data.MapEntry}
-   * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));
-   * </code></pre>
+   * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));</code></pre>
    *
    * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -134,21 +130,21 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    */
   @SafeVarargs
   public final RangeMapAssert<K, V> contains(MapEntry<K, V>... entries) {
-	Objects.instance().assertNotNull(info, actual);
-	throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
-	throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
 
-	List<MapEntry<K, V>> entriesNotFound = newArrayList();
-	for (MapEntry<K, V> entry : entries) {
-	  final V value = actual.get(entry.key);
-	  if (value == null || !value.equals(entry.value)) {
-		entriesNotFound.add(entry);
-	  }
-	}
-	if (!entriesNotFound.isEmpty()) {
-	  throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
-	}
-	return myself;
+    List<MapEntry<K, V>> entriesNotFound = newArrayList();
+    for (MapEntry<K, V> entry : entries) {
+      final V value = actual.get(entry.key);
+      if (value == null || !value.equals(entry.value)) {
+        entriesNotFound.add(entry);
+      }
+    }
+    if (!entriesNotFound.isEmpty()) {
+      throw failures.failure(info, shouldContain(actual, entries, entriesNotFound));
+    }
+    return myself;
   }
 
   /**
@@ -156,8 +152,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
+   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
    *
    * spectralColors.put(Range.closedOpen(380, 450), "violet");
    * spectralColors.put(Range.closedOpen(450, 495), "blue");
@@ -166,8 +161,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * spectralColors.put(Range.closedOpen(590, 620), "orange");
    * spectralColors.put(Range.closedOpen(620, 750), "red");
    *
-   * assertThat(actual).containsValues(&quot;violet&quot;, &quot;orange&quot;);
-   * </code></pre>
+   * assertThat(actual).containsValues(&quot;violet&quot;, &quot;orange&quot;);</code></pre>
    *
    * If the <code>values</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
    * <p>
@@ -179,21 +173,21 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given values.
    */
   public RangeMapAssert<K, V> containsValues(@SuppressWarnings("unchecked") V... values) {
-	Objects.instance().assertNotNull(info, actual);
-	throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
-	throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
+    Objects.instance().assertNotNull(info, actual);
+    throwIllegalArgumentExceptionIfTrue(values == null, "The values to look for should not be null");
+    throwIllegalArgumentExceptionIfTrue(values.length == 0, "The values to look for should not be empty");
 
-	final Map<Range<K>, V> mapOfRanges = actual.asMapOfRanges();
-	Set<V> valuesNotFound = newLinkedHashSet();
-	for (V value : values) {
-	  if (!mapOfRanges.containsValue(value)) {
-		valuesNotFound.add(value);
-	  }
-	}
-	if (!valuesNotFound.isEmpty()) {
-	  throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
-	}
-	return myself;
+    final Map<Range<K>, V> mapOfRanges = actual.asMapOfRanges();
+    Set<V> valuesNotFound = newLinkedHashSet();
+    for (V value : values) {
+      if (!mapOfRanges.containsValue(value)) {
+        valuesNotFound.add(value);
+      }
+    }
+    if (!valuesNotFound.isEmpty()) {
+      throw failures.failure(info, shouldContainValues(actual, values, valuesNotFound));
+    }
+    return myself;
   }
 
   /**
@@ -202,21 +196,19 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * RangeMap&lt;Integer, String&gt; actual = TreeRangeMap.create();
+   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
    *
-   * assertThat(actual).isEmpty();
-   * </code></pre>
+   * assertThat(actual).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is not empty.
    */
   public RangeMapAssert<K, V> isEmpty() {
-	Objects.instance().assertNotNull(info, actual);
-	if (!actual.asMapOfRanges().isEmpty()) {
-	  throw failures.failure(info, shouldBeEmpty(actual));
-	}
-	return myself;
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.asMapOfRanges().isEmpty()) {
+      throw failures.failure(info, shouldBeEmpty(actual));
+    }
+    return myself;
   }
 
   /**
@@ -225,8 +217,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
+   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
    * spectralColors.put(Range.closedOpen(380, 450), "violet");
    * spectralColors.put(Range.closedOpen(450, 495), "blue");
    * spectralColors.put(Range.closedOpen(495, 570), "green");
@@ -234,18 +225,17 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * spectralColors.put(Range.closedOpen(590, 620), "orange");
    * spectralColors.put(Range.closedOpen(620, 750), "red");
    *
-   * assertThat(spectralColors).isNotEmpty();
-   * </code></pre>
+   * assertThat(spectralColors).isNotEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is empty.
    */
   public RangeMapAssert<K, V> isNotEmpty() {
-	Objects.instance().assertNotNull(info, actual);
-	if (actual.asMapOfRanges().isEmpty()) {
-	  throw failures.failure(info, shouldNotBeEmpty());
-	}
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.asMapOfRanges().isEmpty()) {
+      throw failures.failure(info, shouldNotBeEmpty());
+    }
 
-	return myself;
+    return myself;
   }
 }

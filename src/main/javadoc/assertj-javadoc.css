@@ -40,9 +40,20 @@ a[name]:hover {
     text-decoration:none;
     color:#353833;
 }
-pre {
-    font-size:1.3em;
+p {
+    margin-bottom:0.3em;
 }
+pre {
+    font-size:1.25em;
+    margin-top: 0.5em;
+    margin-top: 0.3em;
+}
+/* Fixes huge font size in <pre>{@code} blocks. */
+pre code {
+    /* font-size:inherit; */
+    font-size: 1.0em;
+}
+
 h1 {
     font-size:1.8em;
 }
@@ -491,10 +502,10 @@ h1.hidden {
 .hljs {
   display: block;
   overflow-x: auto;
-  padding-left: 0.6em;
+  padding-left: 0.2em;
   padding-right: 0.6em;
-  padding-top: 0em;
-  padding-bottom: 0em;
+  padding-top: 0.6em;
+  padding-bottom: 0.6em;
   margin-right: 1.0em;
   background: #eaeef3;
   -webkit-text-size-adjust: none;
@@ -564,7 +575,3 @@ h1.hidden {
   color: #4c81c9;
 }
 
-/* Fixes huge font size in <pre>{@code} blocks. */
-pre code {
-    font-size:inherit;
-}

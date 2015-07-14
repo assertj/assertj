@@ -15,11 +15,11 @@ package org.assertj.guava.api;
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.guava.error.TableShouldContainCell.tableShouldContainCell;
 import static org.assertj.guava.error.TableShouldContainColumns.tableShouldContainColumns;
 import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainRows;
-import static org.assertj.guava.error.TableShouldContainCell.tableShouldContainCell;
-import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
+import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
 import java.util.Set;
 
@@ -50,15 +50,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).hasRowCount(2);
-   * </code></pre>
+   * assertThat(actual).hasRowCount(2);</code></pre>
    *
    * @param expectedSize The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -82,15 +80,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).hasColumnCount(3);
-   * </code></pre>
+   * assertThat(actual).hasColumnCount(3);</code></pre>
    *
    * @param expectedSize The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -114,15 +110,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).hasSize(3);
-   * </code></pre>
+   * assertThat(actual).hasSize(3);</code></pre>
    *
    * @param expectedSize The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -146,15 +140,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).containsRows(1, 2);
-   * </code></pre>
+   * assertThat(actual).containsRows(1, 2);</code></pre>
    *
    * @param rows The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -186,15 +178,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).containsColumns(3, 4);
-   * </code></pre>
+   * assertThat(actual).containsColumns(3, 4);</code></pre>
    *
    * @param columns The columns to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -227,15 +217,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).containsValues("Franklin Pierce", "Millard Fillmore");
-   * </code></pre>
+   * assertThat(actual).containsValues("Franklin Pierce", "Millard Fillmore");</code></pre>
    *
    * @param values The values to look for in the actual {@link Table}
    * @return this {@link TableAssert} for assertion chaining.
@@ -268,15 +256,13 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
    * actual.put(1, 3, "Millard Fillmore");
    * actual.put(1, 4, "Franklin Pierce");
    * actual.put(2, 5, "Grover Cleveland");
    *
-   * assertThat(actual).containsCell(1, 3, "Millard Fillmore");
-   * </code></pre>
+   * assertThat(actual).containsCell(1, 3, "Millard Fillmore");</code></pre>
    *
    * @param row The row key to lookup in the actual {@link Table}
    * @param column The column key to lookup in the actual {@link Table}
@@ -307,11 +293,9 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * <p>
    * Example :
    *
-   * <pre><code class='java'>
-   * Table<Integer, Integer, String> actual = HashBasedTable.create();
+   * <pre><code class='java'> Table<Integer, Integer, String> actual = HashBasedTable.create();
    *
-   * assertThat(actual).isEmpty();
-   * </code></pre>
+   * assertThat(actual).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@link Table} is {@code null}.
    * @throws AssertionError if the actual {@link Table} is not empty.
@@ -322,7 +306,7 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
       throw failures.failure(info, ShouldBeEmpty.shouldBeEmpty(actual));
     }
   }
-  
+
   private void checkExpectedSizeArgument(int expectedSize) {
     checkArgument(expectedSize >= 0, "The expected size should not be negative.");
   }
