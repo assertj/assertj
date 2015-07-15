@@ -13,11 +13,14 @@
 package org.assertj.core.api;
 
 import org.assertj.core.internal.Failures;
+import org.assertj.core.presentation.PredicateDescription;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Predicate;
 
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
@@ -266,6 +269,62 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
     T actualResult = actual.join();
     if (!Objects.equals(actualResult, expected))
       throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
+
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedMatching(result -> result.equals("something"));
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedMatching(result -> result.equals("something else"));
+   * </code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isCompletedMatching(Predicate<? super T> predicate) {
+    return isCompletedMatching(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedMatching(result -> result.equals("something"));
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedMatching(result -> result.equals("something else"));
+   * </code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isCompletedMatching(Predicate<? super T> predicate, String description) {
+    return isCompletedMatching(predicate, new PredicateDescription(description));
+  }
+
+  private S isCompletedMatching(Predicate<? super T> predicate, PredicateDescription description) {
+    isCompleted();
+
+    T actualResult = actual.join();
+    if (!predicate.test(actualResult))
+      throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
 
     return myself;
   }
