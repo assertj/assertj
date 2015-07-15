@@ -17,8 +17,10 @@ import org.assertj.core.presentation.PredicateDescription;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.function.Predicate;
 
+import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
@@ -384,5 +386,42 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
     isNotNull();
     if (actual.isCompletedExceptionally() && !actual.isCancelled()) throw failure(shouldNotHaveFailed(actual));
     return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} has completed exceptionally and returns an exception assertion object.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * CompletableFuture future = new CompletableFuture();
+   * future.completeExceptionally(new RuntimeException());
+   *
+   * assertThat(future).hasFailedWithThrowableThat()
+   *         .isInstanceOf(RuntimeException.class);
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * CompletableFuture future = new CompletableFuture();
+   * future.completeExceptionally(new RuntimeException());
+   *
+   * assertThat(future).hasFailedWithThrowableThat()
+   *         .isInstanceOf(IllegalArgumentException.class);
+   * </code></pre>
+   *
+   * @return an exception assertion object.
+   */
+  public AbstractThrowableAssert<?, ? extends Throwable> hasFailedWithThrowableThat() {
+    hasFailed();
+
+    try {
+      actual.join();
+      return assertThat((Throwable) null);
+
+    } catch (CompletionException e) {
+      return assertThat(e.getCause());
+    }
   }
 }
