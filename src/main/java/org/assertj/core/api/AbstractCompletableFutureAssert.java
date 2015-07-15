@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.concurrent.CompletableFuture;
 
+import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 import static org.assertj.core.error.future.ShouldHaveCompletedExceptionally.shouldHaveCompletedExceptionally;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
@@ -132,6 +133,33 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
   public S isNotCompletedExceptionally() {
     isNotNull();
     if (actual.isCompletedExceptionally()) throw failure(shouldNotHaveCompletedExceptionally(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is cancelled.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * CompletableFuture future = new CompletableFuture();
+   * future.cancel(true);
+   * assertThat(future).isCancelled();
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * assertThat(new CompletableFuture()).isCancelled();
+   * </code></pre>
+   *
+   * @return this assertion object.
+   *
+   * @see CompletableFuture#isCancelled()
+   */
+  public S isCancelled() {
+    isNotNull();
+    if (!actual.isCancelled()) throw failure(shouldBeCancelled(actual));
     return myself;
   }
 }
