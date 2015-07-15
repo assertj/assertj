@@ -12,8 +12,12 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Failures;
+
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
@@ -236,6 +240,33 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
   public S isNotCompleted() {
     isNotNull();
     if (actual.isDone() && !actual.isCompletedExceptionally()) throw failure(shouldNotBeCompleted(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} is completed normally with the {@code expected} result.
+   * <p>
+   * Assertion will pass :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something")).isCompletedWith("something");
+   * </code></pre>
+   *
+   * Assertion will fail :
+   *
+   * <pre><code class='java'>
+   * assertThat(CompletableFuture.completedFuture("something")).isCompletedWith("something else");
+   * </code></pre>
+   *
+   * @return this assertion object.
+   */
+  public S isCompletedWith(T expected) {
+    isCompleted();
+
+    T actualResult = actual.join();
+    if (!Objects.equals(actualResult, expected))
+      throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
+
     return myself;
   }
 }
