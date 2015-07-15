@@ -344,7 +344,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
-   * Condition&lt;String&gt; singleCharacterString = new Condition&gt;String&lt;() {
+   * Condition&lt;String&gt; singleCharacterString = new Condition&lt;String&gt;() {
    *   public boolean matches(String value) {
    *     return value.length() == 1;
    *   }
@@ -375,7 +375,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
-   * Condition&lt;String&gt; longerThanOneCharacter = new Condition&gt;String&lt;() {
+   * Condition&lt;String&gt; longerThanOneCharacter = new Condition&lt;String&gt() {
    *   public boolean matches(String value) {
    *     return value.length() > 1;
    *   }
@@ -437,7 +437,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
-   * Condition&lt;String&gt; longerThanOneCharacterString = new Condition&gt;String&lt;() {
+   * Condition&lt;String&gt; longerThanOneCharacterString = new Condition&lt;String&gt() {
    *   public boolean matches(String value) {
    *     return value.length() > 1;
    *   }
