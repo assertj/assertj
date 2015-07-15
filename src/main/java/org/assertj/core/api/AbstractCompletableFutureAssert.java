@@ -50,15 +50,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is done.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isDone();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isDone();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isDone();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isDone();
    * </code></pre>
    *
    * @return this assertion object.
@@ -75,15 +71,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is not done.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isNotDone();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isNotDone();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isNotDone();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotDone();
    * </code></pre>
    *
    * @return this assertion object.
@@ -100,17 +92,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} has completed exceptionally.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).isCompletedExceptionally();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isCompletedExceptionally();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isCompletedExceptionally();
    * </code></pre>
    *
    * @return this assertion object.
@@ -127,15 +115,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} has not completed exceptionally.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isNotCompletedExceptionally();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotCompletedExceptionally();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).isNotCompletedExceptionally();
    * </code></pre>
@@ -154,17 +138,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is cancelled.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).isCancelled();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isCancelled();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isCancelled();
    * </code></pre>
    *
    * @return this assertion object.
@@ -181,15 +161,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is not cancelled.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isNotCancelled();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isNotCancelled();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).isNotCancelled();
    * </code></pre>
@@ -208,15 +184,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed normally.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isCompleted();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isCompleted();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isCompleted();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isCompleted();
    * </code></pre>
    *
    * @return this assertion object.
@@ -231,15 +203,11 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is not completed normally (i.e. incomplete, failed or cancelled).
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(new CompletableFuture()).isNotCompleted();
+   * <pre><code class='java'> assertThat(new CompletableFuture()).isNotCompleted();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isNotCompleted();
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotCompleted();
    * </code></pre>
    *
    * @return this assertion object.
@@ -254,15 +222,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed normally with the {@code expected} result.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isCompletedWith("something");
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedWith("something");
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something")).isCompletedWith("something else");
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
+   *         .isCompletedWith("something else");
    * </code></pre>
    *
    * @return this assertion object.
@@ -281,16 +247,12 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something"))
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *         .isCompletedMatching(result -> result.equals("something"));
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something"))
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *         .isCompletedMatching(result -> result.equals("something else"));
    * </code></pre>
    *
@@ -304,16 +266,12 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something"))
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *         .isCompletedMatching(result -> result.equals("something"));
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * assertThat(CompletableFuture.completedFuture("something"))
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *         .isCompletedMatching(result -> result.equals("something else"));
    * </code></pre>
    *
@@ -337,17 +295,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} has completed exceptionally, but has not been cancelled.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).hasFailed();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).hasFailed();
    * </code></pre>
@@ -365,17 +319,13 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * (i.e. incomplete, completed or cancelled).
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).hasNotFailed();
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).hasNotFailed();
    * </code></pre>
@@ -392,9 +342,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * Verifies that the {@link CompletableFuture} has completed exceptionally and returns an exception assertion object.
    * <p>
    * Assertion will pass :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    *
    * assertThat(future).hasFailedWithThrowableThat()
@@ -402,9 +350,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    * </code></pre>
    *
    * Assertion will fail :
-   *
-   * <pre><code class='java'>
-   * CompletableFuture future = new CompletableFuture();
+   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    *
    * assertThat(future).hasFailedWithThrowableThat()
