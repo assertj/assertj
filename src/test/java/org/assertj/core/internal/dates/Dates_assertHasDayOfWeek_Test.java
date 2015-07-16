@@ -12,7 +12,9 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
+import static java.util.Calendar.*;
+
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,25 +31,20 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMillisecond(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertHasDayOfWeek(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMillisecond_Test extends DatesBaseTest {
-
-  @Override
-  protected void initActualDate() {
-    actual = new Date(parseDatetime("2011-01-01T03:49:17").getTime() + 13);
-  }
+public class Dates_assertHasDayOfWeek_Test extends DatesBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_millisecond() {
+  public void should_fail_if_actual_has_not_given_day_of_week() {
     AssertionInfo info = someInfo();
-    int millisecond = 5;
+    int day_of_week = SUNDAY;
     try {
-      dates.assertIsWithinMillisecond(info, actual, millisecond);
+      dates.assertHasDayOfWeek(info, actual, day_of_week);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "millisecond", millisecond));
+      verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -56,22 +53,22 @@ public class Dates_assertIsWithinMillisecond_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMillisecond(someInfo(), null, 13);
+    dates.assertHasDayOfWeek(someInfo(), null, 1);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_millisecond() {
-    dates.assertIsWithinMillisecond(someInfo(), actual, 13);
+  public void should_pass_if_actual_has_given_day_of_week() {
+    dates.assertHasDayOfWeek(someInfo(), actual, SATURDAY);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_millisecond_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_has_not_given_day_of_week_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int millisecond = 5;
+    int day_of_week = SUNDAY;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMillisecond(info, actual, millisecond);
+      datesWithCustomComparisonStrategy.assertHasDayOfWeek(info, actual, day_of_week);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "millisecond", millisecond));
+      verify(failures).failure(info, shouldHaveDateField(actual, "day of week", day_of_week));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,12 +77,12 @@ public class Dates_assertIsWithinMillisecond_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMillisecond(someInfo(), null, 13);
+    datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), null, 1);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_millisecond_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMillisecond(someInfo(), actual, 13);
+  public void should_pass_if_actual_has_given_day_of_week_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertHasDayOfWeek(someInfo(), actual, SATURDAY);
   }
 
 }

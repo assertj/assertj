@@ -18,20 +18,20 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link DateAssert#isWithinDayOfWeek(int)}</code>.
+ * Tests for <code>{@link DateAssert#hasDayOfWeek(int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isWithinDayOfWeek_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class DateAssert_hasDayOfWeek_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinDayOfWeek(intArg);
+    return assertions.hasDayOfWeek(intArg);
   }
 
   @Override
   protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinDayOfWeek(getInfo(assertions), getActual(assertions), intArg);
+    verify(dates).assertHasDayOfWeek(getInfo(assertions), getActual(assertions), intArg);
   }
 
 }

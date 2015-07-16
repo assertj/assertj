@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,25 +29,25 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinMinute(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertHasMillisecond(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinMinute_Test extends DatesBaseTest {
+public class Dates_assertHasMillisecond_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
-    actual = parseDatetime("2011-01-01T03:49:02");
+    actual = new Date(parseDatetime("2011-01-01T03:49:17").getTime() + 13);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_minute() {
+  public void should_fail_if_actual_has_not_given_millisecond() {
     AssertionInfo info = someInfo();
-    int minute = 5;
+    int millisecond = 5;
     try {
-      dates.assertIsWithinMinute(info, actual, minute);
+      dates.assertHasMillisecond(info, actual, millisecond);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "minute", minute));
+      verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -56,22 +56,22 @@ public class Dates_assertIsWithinMinute_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinMinute(someInfo(), null, 49);
+    dates.assertHasMillisecond(someInfo(), null, 13);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_minute() {
-    dates.assertIsWithinMinute(someInfo(), actual, 49);
+  public void should_pass_if_actual_has_given_millisecond() {
+    dates.assertHasMillisecond(someInfo(), actual, 13);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_minute_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_has_not_given_millisecond_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int minute = 5;
+    int millisecond = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinMinute(info, actual, minute);
+      datesWithCustomComparisonStrategy.assertHasMillisecond(info, actual, millisecond);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "minute", minute));
+      verify(failures).failure(info, shouldHaveDateField(actual, "millisecond", millisecond));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,12 +80,12 @@ public class Dates_assertIsWithinMinute_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinMinute(someInfo(), null, 49);
+    datesWithCustomComparisonStrategy.assertHasMillisecond(someInfo(), null, 13);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_minute_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinMinute(someInfo(), actual, 49);
+  public void should_pass_if_actual_has_given_millisecond_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertHasMillisecond(someInfo(), actual, 13);
   }
 
 }

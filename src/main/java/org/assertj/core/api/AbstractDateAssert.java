@@ -1294,10 +1294,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinYear(2002);
+   * assertThat(theTwoTowers.getReleaseDate()).hasYear(2002);
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinYear(2004);
+   * assertThat(theTwoTowers.getReleaseDate()).hasYear(2004);
    * </code></pre>
    *
    * @param year the year to compare actual year to
@@ -1305,8 +1305,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} year is not equal to the given year.
    */
-  public S isWithinYear(int year) {
-    dates.assertIsWithinYear(info, actual, year);
+  public S hasYear(int year) {
+    dates.assertHasYear(info, actual, year);
     return myself;
   }
 
@@ -1320,10 +1320,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinMonth(12);
+   * assertThat(theTwoTowers.getReleaseDate()).hasMonth(12);
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinMonth(10);
+   * assertThat(theTwoTowers.getReleaseDate()).hasMonth(10);
    * </code></pre>
    *
    * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
@@ -1331,8 +1331,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} month is not equal to the given month.
    */
-  public S isWithinMonth(int month) {
-    dates.assertIsWithinMonth(info, actual, month);
+  public S hasMonth(int month) {
+    dates.assertHasMonth(info, actual, month);
     return myself;
   }
 
@@ -1345,10 +1345,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinDayOfMonth(18);
+   * assertThat(theTwoTowers.getReleaseDate()).hasDayOfMonth(18);
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isWithinDayOfMonth(20);
+   * assertThat(theTwoTowers.getReleaseDate()).hasDayOfMonth(20);
    * </code></pre>
    *
    * @param dayOfMonth the day of month to compare actual day of month to
@@ -1356,8 +1356,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} month is not equal to the given day of month.
    */
-  public S isWithinDayOfMonth(int dayOfMonth) {
-    dates.assertIsWithinDayOfMonth(info, actual, dayOfMonth);
+  public S hasDayOfMonth(int dayOfMonth) {
+    dates.assertHasDayOfMonth(info, actual, dayOfMonth);
     return myself;
   }
 
@@ -1371,10 +1371,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinDayOfWeek(Calendar.SATURDAY);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasDayOfWeek(Calendar.SATURDAY);
    *
    * // assertion will fail
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinDayOfWeek(Calendar.MONDAY);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasDayOfWeek(Calendar.MONDAY);
    * </code></pre>
    *
    * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
@@ -1383,8 +1383,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} week is not equal to the given day of week.
    */
-  public S isWithinDayOfWeek(int dayOfWeek) {
-    dates.assertIsWithinDayOfWeek(info, actual, dayOfWeek);
+  public S hasDayOfWeek(int dayOfWeek) {
+    dates.assertHasDayOfWeek(info, actual, dayOfWeek);
     return myself;
   }
 
@@ -1397,10 +1397,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinHourOfDay(13);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasHourOfDay(13);
    *
    * // assertion will fail
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinHourOfDay(22);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasHourOfDay(22);
    * </code></pre>
    *
    * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
@@ -1408,8 +1408,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} hour is not equal to the given hour.
    */
-  public S isWithinHourOfDay(int hourOfDay) {
-    dates.assertIsWithinHourOfDay(info, actual, hourOfDay);
+  public S hasHourOfDay(int hourOfDay) {
+    dates.assertHasHourOfDay(info, actual, hourOfDay);
     return myself;
   }
 
@@ -1422,10 +1422,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinMinute(20);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasMinute(20);
    *
    * // assertion will fail
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinMinute(17);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasMinute(17);
    * </code></pre>
    *
    * @param minute the minute to compare actual minute to
@@ -1433,8 +1433,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} minute is not equal to the given minute.
    */
-  public S isWithinMinute(int minute) {
-    dates.assertIsWithinMinute(info, actual, minute);
+  public S hasMinute(int minute) {
+    dates.assertHasMinute(info, actual, minute);
     return myself;
   }
 
@@ -1447,10 +1447,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinSecond(35);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasSecond(35);
    *
    * // assertion will fail
-   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).isWithinSecond(11);
+   * assertThat(new Date(parseDatetime("2003-04-26T13:20:35").getTime()).hasSecond(11);
    * </code></pre>
    *
    * @param second the second to compare actual second to
@@ -1458,8 +1458,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} second is not equal to the given second.
    */
-  public S isWithinSecond(int second) {
-    dates.assertIsWithinSecond(info, actual, second);
+  public S hasSecond(int second) {
+    dates.assertHasSecond(info, actual, second);
     return myself;
   }
 
@@ -1470,10 +1470,10 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * 
    * <pre><code class='java'>
    * // assertion will pass
-   * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).isWithinMillisecond(17);
+   * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).hasMillisecond(17);
    *
    * // assertion will fail
-   * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).isWithinMillisecond(25);
+   * assertThat(parseDatetimeWithMs("2003-04-26T13:20:35.017")).hasMillisecond(25);
    * </code></pre>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}.
    *
@@ -1482,8 +1482,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * @throws AssertionError if the actual {@code Date} is {@code null}.
    * @throws AssertionError if the actual {@code Date} millisecond is not equal to the given millisecond.
    */
-  public S isWithinMillisecond(int millisecond) {
-    dates.assertIsWithinMillisecond(info, actual, millisecond);
+  public S hasMillisecond(int millisecond) {
+    dates.assertHasMillisecond(info, actual, millisecond);
     return myself;
   }
 
@@ -1931,7 +1931,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <code>isInSameMinuteAs</code> succeeds then <code>isInSameMinuteWindowAs</code> will succeed too).
    * <p/>
    * If you want to compare minute field only (without hour, day, month and year), you could write :
-   * <code>assertThat(myDate).isWithinMinute(minuteOf(otherDate))</code><br>
+   * <code>assertThat(myDate).hasMinute(minuteOf(otherDate))</code><br>
    * using {@link org.assertj.core.util.DateUtil#minuteOf(Date)} to get the minute of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
@@ -2086,7 +2086,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * {@link #isInSameSecondWindowAs(java.util.Date) isInSameSecondWindowAs} assertion.
    * <p/>
    * If you want to compare second fields only (without minute, hour, day, month and year), you could write :
-   * <code>assertThat(myDate).isWithinSecond(secondOf(otherDate))</code><br>
+   * <code>assertThat(myDate).hasSecond(secondOf(otherDate))</code><br>
    * using {@link org.assertj.core.util.DateUtil#secondOf(Date)} to get the second of a given Date.
    * <p/>
    * Note that using a custom comparator has no effect on this assertion (see {@link #usingComparator(Comparator)}).
