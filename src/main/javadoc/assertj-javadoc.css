@@ -41,12 +41,19 @@ a[name]:hover {
     color:#353833;
 }
 p {
-    margin-top:8px;
-    margin-bottom:4px;
+    margin-bottom:0.3em;
 }
 pre {
-    font-size:1.3em;
+    font-size:1.25em;
+    margin-top: 0.5em;
+    margin-top: 0.3em;
 }
+/* Fixes huge font size in <pre>{@code} blocks. */
+pre code {
+    /* font-size:inherit; */
+    font-size: 1.0em;
+}
+
 h1 {
     font-size:1.8em;
 }
@@ -69,13 +76,13 @@ ul {
     list-style-type:disc;
 }
 code, tt {
-    font-size:1.1em;
+    font-size:1.15em;
 }
 dt code {
-    font-size:1.1em;
+    font-size:1.15em;
 }
 table tr td dt code {
-    font-size:1.1em;
+    font-size:1.15em;
     vertical-align:top;
 }
 sup {
@@ -495,10 +502,10 @@ h1.hidden {
 .hljs {
   display: block;
   overflow-x: auto;
-  padding-left: 0.6em;
+  padding-left: 0.4em;
   padding-right: 0.6em;
-  padding-top: 0em;
-  padding-bottom: 0em;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
   margin-right: 1.0em;
   background: #eaeef3;
   -webkit-text-size-adjust: none;
@@ -568,7 +575,3 @@ h1.hidden {
   color: #4c81c9;
 }
 
-/* Fixes huge font size in <pre>{@code} blocks. */
-pre code {
-    font-size:inherit;
-}

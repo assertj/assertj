@@ -97,16 +97,13 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Verifies that the actual array contains the given values only once.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(1.0f, 2.0f);
    * 
    * // assertions will fail
    * assertThat(new float[] { 1.0f, 2.0f, 1.0f }).containsOnlyOnce(1.0f);
    * assertThat(new float[] { 1.0f, 2.0f, 3.0f }).containsOnlyOnce(4.0f);
-   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 3.0f }).containsOnlyOnce(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);
-   * </code></pre>
+   * assertThat(new float[] { 1.0f, 2.0f, 3.0f, 3.0f }).containsOnlyOnce(0.0f, 1.0f, 2.0f, 3.0f, 4.0f, 5.0f);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -125,15 +122,12 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Verifies that the actual array contains the given sequence, without any other values between them.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new float[] { 1, 2, 3 }).containsSequence(1, 2);
    * 
    * // assertion will fail
    * assertThat(new float[] { 1, 2, 3 }).containsSequence(1, 3);
-   * assertThat(new float[] { 1, 2, 3 }).containsSequence(2, 1);
-   * </code></pre>
+   * assertThat(new float[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
    * 
    * </p>
    * 
@@ -152,15 +146,12 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Verifies that the actual array contains the given subsequence (possibly with other values between them).
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(1, 2);
    * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(1, 3);
    * 
    * // assertion will fail
-   * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(2, 1);
-   * </code></pre>
+   * assertThat(new float[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
    * 
    * </p>
    * 
@@ -174,6 +165,7 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
     arrays.assertContainsSubsequence(info, actual, subsequence);
     return myself;
   }
+  
   /**
    * Verifies that the actual array contains the given value at the given index.
    * 
@@ -299,16 +291,13 @@ public abstract class AbstractFloatArrayAssert<S extends AbstractFloatArrayAsser
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * float[] floats = { 1.0f, 2.0f, 3.0f };
+   * <pre><code class='java'> float[] floats = { 1.0f, 2.0f, 3.0f };
    * 
    * // assertion will pass
    * assertThat(floats).containsExactly(1.0f, 2.0f, 3.0f);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(floats).containsExactly(2.0f, 1.0f, 3.0f);
-   * </code></pre>
+   * assertThat(floats).containsExactly(2.0f, 1.0f, 3.0f);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

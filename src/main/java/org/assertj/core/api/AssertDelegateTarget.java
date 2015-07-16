@@ -16,9 +16,7 @@ package org.assertj.core.api;
  * A marker interface that can be used to wrap your assertion within assertThat method for better readability.
  * <p>
  * Consider the following MyButton and MyButtonAssert classes:
- * 
- * <pre><code class='java'>
- * public class MyButton extends JButton {
+ * <pre><code class='java'> public class MyButton extends JButton {
  *
  *   private boolean blinking;
  *
@@ -42,14 +40,12 @@ package org.assertj.core.api;
  *     // standard assertion from core Assertions.assertThat
  *     assertThat(button.isBlinking()).isFalse();
  *   }
- * }
- * </code></pre>
+ * }</code></pre>
  *
  * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
  * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
  *
- * <pre><code class='java'>
- * {@literal @}Test
+ * <pre><code class='java'> {@literal @}Test
  * public void AssertDelegateTarget_example() {
  *
  *   MyButton button = new MyButton();
@@ -61,8 +57,7 @@ package org.assertj.core.api;
  *   button.setBlinking(true);
  *
  *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
- * }
- * </code></pre>
+ * }</code></pre>
  *
  * @author Christian Rösch
  */

@@ -31,9 +31,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.2));
    *
    * // if difference is exactly equals to the offset (0.1), it's ok
@@ -43,8 +41,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * assertThat(8.1).isEqualTo(new Double(8.0), within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));
-   * </code></pre>
+   * assertThat(8.1).isEqualTo(new Double(8.0), offset(0.01));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -60,9 +57,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
    *
    * // you can use offset if you prefer
@@ -72,8 +67,7 @@ public interface FloatingPointNumberAssert<S extends  FloatingPointNumberAssert<
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));
-   * </code></pre>
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.

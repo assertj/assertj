@@ -35,9 +35,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given values, in any order.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * 
    * // assertions will pass
@@ -45,8 +43,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).contains("b", "a", "b");
    * 
    * // assertions will fail
-   * assertThat(abc).contains("d");
-   * </code></pre>
+   * assertThat(abc).contains("d");</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -61,17 +58,14 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains only the given values and nothing else, in any order.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    *  // assertion will pass
    * assertThat(abc).containsOnly("c", "b", "a");
    * 
    *  // assertion will fail as some elements of abc are missing
-   * assertThat(abc).containsOnly("a", "b");
-   * </code></pre>
+   * assertThat(abc).containsOnly("a", "b");</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -87,9 +81,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given values only once.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // lists are used in the examples but it would also work with arrays
+   * <pre><code class='java'> // lists are used in the examples but it would also work with arrays
    * 
    * // assertions will pass
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;winter&quot;);
@@ -98,8 +90,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertions will fail
    * assertThat(newArrayList(&quot;winter&quot;, &quot;is&quot;, &quot;coming&quot;)).containsOnlyOnce(&quot;Lannister&quot;);
    * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;);
-   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Aria&quot;);
-   * </code></pre>
+   * assertThat(newArrayList(&quot;Aria&quot;, &quot;Stark&quot;, &quot;daughter&quot;, &quot;of&quot;, &quot;Ned&quot;, &quot;Stark&quot;)).containsOnlyOnce(&quot;Stark&quot;, &quot;Lannister&quot;, &quot;Aria&quot;);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -117,17 +108,14 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * {@link HashSet}, prefer {@link #containsOnly(Object...)} in that case).
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(vilya, nenya, narya);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(elvesRings).containsExactly(nenya, vilya, narya);
-   * </code></pre>
+   * assertThat(elvesRings).containsExactly(nenya, vilya, narya);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -143,9 +131,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given sequence, without any other values between them.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
@@ -153,8 +139,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertions will fail
    * assertThat(elvesRings).containsSequence(vilya, narya);
-   * assertThat(elvesRings).containsSequence(nenya, vilya);
-   * </code></pre>
+   * assertThat(elvesRings).containsSequence(nenya, vilya);</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -168,9 +153,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains the given subsequence (possibly with other values between them).
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass
@@ -178,8 +161,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(elvesRings).containsSubsequence(vilya, narya);
    * 
    * // assertion will fail
-   * assertThat(elvesRings).containsSubsequence(nenya, vilya);
-   * </code></pre>
+   * assertThat(elvesRings).containsSubsequence(nenya, vilya);</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -193,14 +175,11 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group does not contain the given values.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
-   * assertThat(abc).doesNotContain("d", "e");
-   * </code></pre>
+   * assertThat(abc).doesNotContain("d", "e");</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -215,9 +194,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group does not contain duplicates.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; lotsOfAs = newArrayList("a", "a", "a");
    *
@@ -225,8 +202,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).doesNotHaveDuplicates();
    * 
    * // assertion will fail
-   * assertThat(lotsOfAs).doesNotHaveDuplicates();
-   * </code></pre>
+   * assertThat(lotsOfAs).doesNotHaveDuplicates();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -240,17 +216,14 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * sequence is also first element of the actual group.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
    * assertThat(abc).startsWith("a", "b");
    * 
    * // assertion will fail
-   * assertThat(abc).startsWith("c");
-   * </code></pre>
+   * assertThat(abc).startsWith("c");</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -267,17 +240,14 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * sequence is also last element of the actual group.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    *
    * // assertion will pass
    * assertThat(abc).endsWith("b", "c");
    * 
    * // assertion will fail
-   * assertThat(abc).endsWith("a");
-   * </code></pre>
+   * assertThat(abc).endsWith("a");</code></pre>
    * 
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
@@ -292,9 +262,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains at least a null element.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
    *
@@ -302,8 +270,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abNull).containsNull();
    * 
    * // assertion will fail
-   * assertThat(abc).containsNull();
-   * </code></pre>
+   * assertThat(abc).containsNull();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -315,9 +282,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group does not contain null elements.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
    *
@@ -325,8 +290,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).doesNotContainNull();
    *
    * // assertion will fail
-   * assertThat(abNull).doesNotContainNull();
-   * </code></pre>
+   * assertThat(abNull).doesNotContainNull();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
@@ -338,9 +302,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that each element value satisfies the given condition
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
@@ -354,8 +316,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).are(singleCharacterString);
    * 
    * // assertion will fail
-   * assertThat(abcc).are(singleCharacterString);
-   * </code></pre>
+   * assertThat(abcc).are(singleCharacterString);</code></pre>
    *
    * @param condition the given condition.
    * @return {@code this} object.
@@ -369,9 +330,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that each element value does not satisfy the given condition
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
@@ -385,8 +344,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).areNot(longerThanOneCharacter);
    * 
    * // assertion will fail
-   * assertThat(abcc).areNot(longerThanOneCharacter);
-   * </code></pre>
+   * assertThat(abcc).areNot(longerThanOneCharacter);</code></pre>
    * 
    * @param condition the given condition.
    * @return {@code this} object.
@@ -400,9 +358,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that all elements satisfy the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
@@ -416,8 +372,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).have(singleCharacterStringOnly);
    * 
    * // assertion will fail
-   * assertThat(abcc).have(singleCharacterStringOnly);
-   * </code></pre>
+   * assertThat(abcc).have(singleCharacterStringOnly);</code></pre>
    * 
    * @param condition the given condition.
    * @return {@code this} object.
@@ -431,9 +386,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that all elements don't satisfy the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
    *
@@ -447,8 +400,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(abc).doNotHave(longerThanOneCharacterString);
    * 
    * // assertion will fail
-   * assertThat(abcc).doNotHave(longerThanOneCharacterString);
-   * </code></pre>
+   * assertThat(abcc).doNotHave(longerThanOneCharacterString);</code></pre>
    * 
    * @param condition the given condition.
    * @return {@code this} object.
@@ -462,9 +414,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>at least</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -477,8 +427,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * oneTwoThree.areAtLeast(2, odd);
    * 
    * // assertion will fail
-   * oneTwoThree.areAtLeast(3, odd);
-   * </code></pre>
+   * oneTwoThree.areAtLeast(3, odd);</code></pre>
    * 
    * @param n the minimum number of times the condition should be verified.
    * @param condition the given condition.
@@ -495,13 +444,10 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * This method is an alias for {@code areAtLeast(1, condition)}.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * 
    * // jedi is a Condition&lt;String&gt;
-   * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);
-   * </code></pre>
+   * assertThat(newLinkedHashSet("Luke", "Solo", "Leia")).areAtLeastOne(jedi);</code></pre>
    *
    * @see #haveAtLeast(int, Condition)
    */
@@ -511,9 +457,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -527,8 +471,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * oneTwoThree.areAtMost(3, odd);
    * 
    * // assertions will fail
-   * oneTwoThree.areAtMost(1, odd);
-   * </code></pre>
+   * oneTwoThree.areAtMost(1, odd);</code></pre>
    * 
    * @param n the number of times the condition should be at most verified.
    * @param condition the given condition.
@@ -543,9 +486,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -559,8 +500,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertions will fail
    * oneTwoThree.areExactly(1, odd);
-   * oneTwoThree.areExactly(3, odd);
-   * </code></pre>
+   * oneTwoThree.areExactly(3, odd);</code></pre>
    * 
    * @param n the exact number of times the condition should be verified.
    * @param condition the given condition.
@@ -577,15 +517,12 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * This method is an alias for {@code haveAtLeast(1, condition)}.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * 
    * List&lt;BasketBallPlayer&gt; bullsPlayers = newArrayList(noah, rose);
    * 
    * // potentialMvp is a Condition&lt;BasketBallPlayer&gt;
-   * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);
-   * </code></pre>
+   * assertThat(bullsPlayers).haveAtLeastOne(potentialMvp);</code></pre>
    *
    * @see #haveAtLeast(int, Condition)
    */
@@ -595,9 +532,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>at least <i>n</i></b> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -610,8 +545,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * oneTwoThree.haveAtLeast(2, odd);
    * 
    * // assertion will fail
-   * oneTwoThree.haveAtLeast(3, odd);
-   * </code></pre>
+   * oneTwoThree.haveAtLeast(3, odd);</code></pre>
    *
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
@@ -621,9 +555,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>at most</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -637,8 +569,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * oneTwoThree.haveAtMost(3, odd);
    * 
    * // assertion will fail
-   * oneTwoThree.haveAtMost(1, odd);
-   * </code></pre>
+   * oneTwoThree.haveAtMost(1, odd);</code></pre>
    *
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
@@ -648,9 +579,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that there is <b>exactly</b> <i>n</i> elements in the actual group satisfying the given condition.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Integer&gt; oneTwoThree = newArrayList(1, 2, 3);
    *
    * Condition&lt;Integer&gt; odd = new Condition&lt;Integer&gt;() {
@@ -664,8 +593,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertions will fail
    * oneTwoThree.haveExactly(1, odd);
-   * oneTwoThree.haveExactly(3, odd);
-   * </code></pre>
+   * oneTwoThree.haveExactly(3, odd);</code></pre>
    *
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
@@ -675,15 +603,12 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that the actual group contains all the elements of given {@code Iterable}, in any order.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;String&gt; cb = newArrayList("c", "b");
    *
    * // assertion will pass
-   * assertThat(abc).containsAll(cb);
-   * </code></pre>
+   * assertThat(abc).containsAll(cb);</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
@@ -698,9 +623,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * includes subclasses of the given type).
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an array is used in the example but it would also work with an Iterable
+   * <pre><code class='java'> // an array is used in the example but it would also work with an Iterable
    * 
    * Number[] numbers = { 2, 6L, 8.0 };
    * 
@@ -708,8 +631,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(numbers).hasAtLeastOneElementOfType(Long.class);
    * 
    * // assertion failure:
-   * assertThat(numbers).hasAtLeastOneElementOfType(Float.class);
-   * </code></pre>
+   * assertThat(numbers).hasAtLeastOneElementOfType(Float.class);</code></pre>
    *
    * @param expectedType the expected type.
    * @return this assertion object.
@@ -723,9 +645,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * subclasses of the given type).
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an array is used in the example but it would also work with an Iterable
+   * <pre><code class='java'> // an array is used in the example but it would also work with an Iterable
    * 
    * Number[] numbers = { 2, 6, 8 };
    * 
@@ -733,8 +653,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(numbers).hasOnlyElementsOfType(Integer.class);
    * 
    * // assertion failure:
-   * assertThat(numbers).hasOnlyElementsOfType(Long.class);
-   * </code></pre>
+   * assertThat(numbers).hasOnlyElementsOfType(Long.class);</code></pre>
    *
    * @param expectedType the expected type.
    * @return this assertion object.
@@ -748,17 +667,14 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * actual contains all the elements of the given iterable and nothing else <b>in the same order</b>.
    * <p/>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(vilya, nenya, narya));
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));
-   * </code></pre>
+   * assertThat(elvesRings).containsExactlyElementsOf(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
@@ -769,9 +685,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * iterable and nothing else, <b>in any order</b>.
    * <p/>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
    * 
    * // assertion will pass
@@ -781,8 +695,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // assertion will fail as actual does not contain narya.
    * assertThat(rings).containsOnlyElementsOf(newLinkedList(nenya, vilya, narya));
    * // assertion will fail as actual contain nenya.
-   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));
-   * </code></pre>
+   * assertThat(rings).containsOnlyElementsOf(newLinkedList(vilya));</code></pre>
    * 
    * @param iterable the given {@code Iterable} we will get elements from.
    */
@@ -793,9 +706,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * given iterable and nothing else, <b>in any order</b>.
    * </p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertions will pass:
@@ -804,8 +715,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * 
    * // assertions will fail:
    * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya));
-   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));
-   * </code></pre>
+   * assertThat(elvesRings).hasSameElementsAs(newArrayList(nenya, narya, vilya, oneRing));</code></pre>
    * 
    * @param iterable the Iterable whose elements we expect to be present
    * @return this assertion object
@@ -820,9 +730,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that actual does not contain any elements of the given {@link Iterable} (i.e. none).
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * 
    * // These assertions succeed:
    * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;CVS&quot;, &quot;SOURCESAFE&quot;);
@@ -832,8 +740,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * // These fail:
    * List&lt;String&gt; actual = newArrayList(&quot;GIT&quot;, &quot;cvs&quot;, &quot;SOURCESAFE&quot;);
    * List&lt;String&gt; values = newArrayList(&quot;git&quot;, &quot;cvs&quot;, &quot;subversion&quot;);
-   * assertThat(actual).doesNotContainAnyElementsOf(values);
-   * </code></pre>
+   * assertThat(actual).doesNotContainAnyElementsOf(values);</code></pre>
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual group.
    * @return {@code this} assertion object.
@@ -848,9 +755,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * Verifies that all the elements of actual are present in the given {@code Iterable}.
    *
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // an Iterable is used in the example but it would also work with an array
+   * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
    * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
@@ -858,8 +763,7 @@ public interface ObjectEnumerableAssert<S extends ObjectEnumerableAssert<S, T>, 
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);
    * 
    * // assertions will fail:
-   * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));
-   * </code></pre>
+   * assertThat(elvesRings).isSubsetOf(newArrayList(nenya, narya));</code></pre>
    * 
    * @param values the {@code Iterable} that should contain all actual elements.
    * @return this assertion object.

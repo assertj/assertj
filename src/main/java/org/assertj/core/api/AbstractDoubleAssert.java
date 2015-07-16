@@ -106,9 +106,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
    *
    * // you can use offset if you prefer
@@ -118,8 +116,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * assertThat(8.1).isCloseTo(8.0, within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isCloseTo(8.0, within(0.01));
-   * </code></pre>
+   * assertThat(8.1).isCloseTo(8.0, within(0.01));</code></pre>
    *
    * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -139,9 +136,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.2));
    *
    * // you can use offset if you prefer
@@ -151,8 +146,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.01));
-   * </code></pre>
+   * assertThat(8.1).isCloseTo(Double.valueOf(8.0), within(0.01));</code></pre>
    *
    * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -172,17 +166,14 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(20d));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(10d));
    *
    * // assertion will fail
-   * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(5d));
-   * </code></pre>
+   * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -202,17 +193,14 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(20d));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(10d));
    *
    * // assertion will fail
-   * assertThat(11.0).isCloseTo(10.0, withinPercentage(5d));
-   * </code></pre>
+   * assertThat(11.0).isCloseTo(10.0, withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -230,16 +218,13 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
 	 * assertThat(1.0).isEqualTo(1.0);
 	 * assertThat(1D).isEqualTo(1.0);
 	 * 
 	 * // assertions will fail:
 	 * assertThat(0.0).isEqualTo(1.0);
-	 * assertThat(-1.0).isEqualTo(1.0);
-	 * </code></pre>
+	 * assertThat(-1.0).isEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param expected the given value to compare the actual value to.
@@ -264,9 +249,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(8.1).isEqualTo(8.0, offset(0.2));
    *
    * // if difference is exactly equals to the offset (0.1), it's ok
@@ -276,8 +259,7 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * assertThat(8.1).isEqualTo(8.0, within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isEqualTo(8.0, offset(0.01));
-   * </code></pre>
+   * assertThat(8.1).isEqualTo(8.0, offset(0.01));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
@@ -295,16 +277,13 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is not equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
 	 * assertThat(0.0).isNotEqualTo(1.0);
 	 * assertThat(-1.0).isNotEqualTo(1.0);
 	 * 
 	 * // assertions will fail:
 	 * assertThat(1.0).isNotEqualTo(1.0);
-	 * assertThat(1D).isNotEqualTo(1.0);
-	 * </code></pre>
+	 * assertThat(1D).isNotEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -321,15 +300,12 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
 	 * assertThat(1.0).isLessThan(2.0);
 	 * 
 	 * // assertions will fail:
 	 * assertThat(2.0).isLessThan(1.0);
-	 * assertThat(1.0).isLessThan(1.0);
-	 * </code></pre>
+	 * assertThat(1.0).isLessThan(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -346,15 +322,12 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is less than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
 	 * assertThat(-1.0).isLessThanOrEqualTo(1.0);
 	 * assertThat(1.0).isLessThanOrEqualTo(1.0);
 	 * 
 	 * // assertion will fail:
-	 * assertThat(2.0).isLessThanOrEqualTo(1.0);
-	 * </code></pre>
+	 * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -371,15 +344,12 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is greater than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
 	 * assertThat(2.0).isGreaterThan(1.0);
 	 * 
 	 * // assertions will fail:
 	 * assertThat(1.0).isGreaterThan(1.0);
-	 * assertThat(1.0).isGreaterThan(2.0);
-	 * </code></pre>
+	 * assertThat(1.0).isGreaterThan(2.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -396,15 +366,12 @@ public abstract class AbstractDoubleAssert<S extends AbstractDoubleAssert<S>> ex
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-	 * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
 	 * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
 	 * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
 	 * 
 	 * // assertion will fail:
-	 * assertThat(1.0).isGreaterThanOrEqualTo(2.0);
-	 * </code></pre>
+	 * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
