@@ -24,9 +24,7 @@ import java.util.List;
  * Same as {@link SoftAssertions}, but with the following differences: <br/>
  * First, it's a junit rule, which can be used without having to call {@link SoftAssertions#assertAll() assertAll()},
  * example:
- *
- * <pre><code class='java'>
- *   public class SoftlyTest {
+ * <pre><code class='java'> public class SoftlyTest {
  *
  *     &#064;Rule
  *     public final JUnitSoftAssertions softly = new JUnitSoftAssertions();
@@ -36,8 +34,7 @@ import java.util.List;
  *       softly.assertThat(1).isEqualTo(2);
  *       softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 2);
  *     }
- *  }
- * </code></pre>
+ *  }</code></pre>
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */

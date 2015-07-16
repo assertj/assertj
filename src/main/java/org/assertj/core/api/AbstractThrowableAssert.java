@@ -61,12 +61,8 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message
    * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
    *
-   * <p>
    * Example:
-   * </p>
-   *
-   * <pre><code class='java'>
-   * Throwable invalidArgException = new IllegalArgumentException("invalid arg");
+   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
    * Throwable throwable = new Throwable(invalidArgException);
    *
    * // This assertion succeeds:
@@ -75,8 +71,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * // These assertions fail:
    * assertThat(throwable).hasCause(new IllegalArgumentException("bad arg"));
    * assertThat(throwable).hasCause(new NullPointerException());
-   * assertThat(throwable).hasCause(null); // prefer hasNoCause()
-   * </code></pre>
+   * assertThat(throwable).hasCause(null); // prefer hasNoCause()</code></pre>
    * 
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
@@ -142,18 +137,14 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Verifies that the cause of the actual {@code Throwable} is an instance of the given type.
    * <p>
    * Example:
-   * </p>
-   *
-   * <pre><code class='java'>
-   * Throwable throwable = new Throwable(new NullPointerException());
+   * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
    *
    * // assertion will pass
    * assertThat(throwable).hasCauseInstanceOf(NullPointerException.class);
    * assertThat(throwable).hasCauseInstanceOf(RuntimeException.class);
    *
    * // assertion will fail
-   * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);
-   * </code></pre>
+   * assertThat(throwable).hasCauseInstanceOf(IllegalArgumentException.class);</code></pre>
    *
    * @param type the expected cause type.
    * @return this assertion object.
@@ -171,17 +162,14 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Verifies that the cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-	 * Throwable throwable = new Throwable(new NullPointerException());
+   * <pre><code class='java'> Throwable throwable = new Throwable(new NullPointerException());
 	 *
 	 * // assertion will pass
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(NullPointerException.class);
 	 *
 	 * // assertions will fail (even if NullPointerException is a RuntimeException since we want an exact match)
 	 * assertThat(throwable).hasCauseExactlyInstanceOf(RuntimeException.class);
-	 * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);
-	 * </code></pre>
+	 * assertThat(throwable).hasCauseExactlyInstanceOf(IllegalArgumentException.class);</code></pre>
    *
    * </p>
    *
@@ -202,17 +190,14 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Verifies that the root cause of the actual {@code Throwable} is an instance of the given type.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
+   * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
 	 * assertThat(throwable).hasRootCauseInstanceOf(NullPointerException.class);
 	 * assertThat(throwable).hasRootCauseInstanceOf(RuntimeException.class);
 	 *
 	 * // assertion will fail
-	 * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);
-	 * </code></pre>
+	 * assertThat(throwable).hasRootCauseInstanceOf(IllegalStateException.class);</code></pre>
    *
    * </p>
    *
@@ -232,17 +217,14 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
    * Verifies that the root cause of the actual {@code Throwable} is <b>exactly</b> an instance of the given type.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-	 * Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
+   * <pre><code class='java'> Throwable throwable = new Throwable(new IllegalStateException(new NullPointerException()));
 	 *
 	 * // assertion will pass
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(NullPointerException.class);
 	 *
 	 * // assertion will fail (even if NullPointerException is a RuntimeException since we want an exact match)
 	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(RuntimeException.class);
-	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);
-	 * </code></pre>
+	 * assertThat(throwable).hasRootCauseExactlyInstanceOf(IllegalStateException.class);</code></pre>
    *
    * </p>
    *

@@ -64,14 +64,11 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
    * 
    * // assertions will pass
-   * assertThat(elvesRings).hasSameSizeAs(abc);
-   * </code></pre>
+   * assertThat(elvesRings).hasSameSizeAs(abc);</code></pre>
    * 
    * @param other the {@code Iterable} to compare size with actual group.
    * @return {@code this} assertion object.
@@ -87,14 +84,11 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * Parameter is declared as Object to accept both Object[] and primitive arrays (e.g. int[]).
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * int[] oneTwoThree = {1, 2, 3};
+   * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
    * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya); 
    * 
    * // assertions will pass
-   * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);
-   * </code></pre>
+   * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);</code></pre>
    * 
    * @param array the array to compare size with actual group.
    * @return {@code this} assertion object.
@@ -113,9 +107,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * comparison strategy.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // compares invoices by payee 
+   * <pre><code class='java'> // compares invoices by payee
    * assertThat(invoiceList).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceList).
    * 
    * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
@@ -131,8 +123,7 @@ public interface EnumerableAssert<S extends EnumerableAssert<S, E>, E> {
    * 
    * // ... but if we compare only races, Sauron is in fellowshipOfTheRing because he's a Maia like Gandalf.
    * assertThat(fellowshipOfTheRing).usingElementComparator(raceComparator)
-   *                                .contains(sauron);
-   * </code></pre>
+   *                                .contains(sauron);</code></pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.

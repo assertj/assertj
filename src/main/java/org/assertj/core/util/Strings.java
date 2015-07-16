@@ -94,10 +94,7 @@ public final class Strings {
   /**
    * Joins the given {@code String}s using a given delimiter. The following example illustrates proper usage of this
    * method:
-   * 
-   * <pre><code class='java'>
-   * Strings.join(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;).with(&quot;|&quot;)
-   * </code></pre>
+   * <pre><code class='java'> Strings.join(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;).with(&quot;|&quot;);</code></pre>
    * 
    * which will result in the {@code String} <code>"a|b|c"</code>.
    * 
@@ -112,10 +109,7 @@ public final class Strings {
   /**
    * Joins the given {@code Object}s using a given delimiter. The following example illustrates proper usage of this
    * method:
-   * 
-   * <pre><code class='java'>
-   * Strings.join(new ArrayList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)).with(&quot;|&quot;)
-   * </code></pre>
+   * <pre><code class='java'> Strings.join(new ArrayList(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;)).with(&quot;|&quot;);</code></pre>
    * 
    * which will result in the {@code String} <code>"a|b|c"</code>.
    * 
@@ -194,11 +188,8 @@ public final class Strings {
   /**
    * Appends a given {@code String} to the given target, only if the target does not end with the given {@code String}
    * to append. The following example illustrates proper usage of this method:
-   * 
-   * <pre><code class='java'>
-   * Strings.append(&quot;c&quot;).to(&quot;ab&quot;);
-   * Strings.append(&quot;c&quot;).to(&quot;abc&quot;);
-   * </code></pre>
+   * <pre><code class='java'> Strings.append(&quot;c&quot;).to(&quot;ab&quot;);
+   * Strings.append(&quot;c&quot;).to(&quot;abc&quot;);</code></pre>
    * 
    * resulting in the {@code String} <code>"abc"</code> for both cases.
    * 

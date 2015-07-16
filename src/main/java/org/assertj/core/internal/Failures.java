@@ -146,8 +146,7 @@ public class Failures {
    * by removing stack trace elements related to AssertJ in order to get a more readable stack trace.
    * <p>
    * See example below :
-   * <pre><code class='java'>
---------------- stack trace not filtered -----------------
+   * <pre><code class='java'> --------------- stack trace not filtered -----------------
 org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
@@ -167,8 +166,7 @@ org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)
-   * </code></pre>
+  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
    * 
    * Method is public because we need to call it from {@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)} that is building a junit ComparisonFailure by reflection.
    *  

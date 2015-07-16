@@ -55,15 +55,11 @@ import org.assertj.core.util.introspection.FieldSupport;
  * type-specific assertion objects. The purpose of this class is to make test code more readable.
  * <p>
  * For example:
- * <p/>
- *
- * <pre><code class='java'>
- * int removed = employees.removeFired();
+ * <pre><code class='java'> int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
- * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
- * </code></pre>
+ * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
  * <p/>
  * </p>
  *
@@ -423,9 +419,7 @@ public class Assertions {
    * <code>assertThat</code>.
    * <p>
    * Consider for example the following MyButton and MyButtonAssert classes:
-   *
-   * <pre><code class='java'>
-   * public class MyButton extends JButton {
+   * <pre><code class='java'> public class MyButton extends JButton {
    *
    *   private boolean blinking;
    *
@@ -449,14 +443,11 @@ public class Assertions {
    *     // standard assertion from core Assertions.assertThat
    *     assertThat(button.isBlinking()).isFalse();
    *   }
-   * }
-   * </code></pre>
+   * }</code></pre>
    *
    * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
-   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
-   *
-   * <pre><code class='java'>
-   * {@literal @}Test
+   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions:
+   * <pre><code class='java'> {@literal @}Test
    * public void AssertDelegateTarget_example() {
    *
    *   MyButton button = new MyButton();
@@ -468,8 +459,7 @@ public class Assertions {
    *   button.setBlinking(true);
    *
    *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
-   * }
-   * </code></pre>
+   * }</code></pre>
    * 
    * @param <T> the generic type of the user-defined assert.
    * @param assertion the assertion to return.
@@ -592,22 +582,15 @@ public class Assertions {
    * 
    * <p>
    * Java 8 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   *  {@literal @}Test
+   * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
    *    assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                              .hasMessageContaining("boom");
-   *  }
-   * </code></pre>
+   *  }</code></pre>
    * 
    * <p>
    * Java 7 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * assertThatThrownBy(new ThrowingCallable()
+   * <pre><code class='java'> assertThatThrownBy(new ThrowingCallable() {
    * 
    *   {@literal @}Override
    *   public void call() throws Exception {
@@ -615,8 +598,7 @@ public class Assertions {
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");
-   * </code></pre>
+   *   .hasMessageContaining("boom");</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -634,10 +616,7 @@ public class Assertions {
    * 
    * <p>
    * Java 8 example:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   *  {@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    // when
    *    Throwable thrown = catchThrowable(() -> { throw new Exception("boom!") });
@@ -645,18 +624,14 @@ public class Assertions {
    *    // then
    *    assertThat(thrown).isInstanceOf(Exception.class)
    *                      .hasMessageContaining("boom");
-   *  }
-   * </code></pre>
+   *  }</code></pre>
    *
    * <p>
    * Java 7 example:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * {@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(new ThrowingCallable()
+   *   Throwable thrown = catchThrowable(new ThrowingCallable() {
    *   
    *     {@literal @}Override
    *     public void call() throws Exception {
@@ -667,8 +642,7 @@ public class Assertions {
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
    *                     .hasMessageContaining("boom");
-   * }
-   * </code></pre>
+   * }</code></pre>
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -727,27 +701,22 @@ public class Assertions {
    * In error messages, sets the threshold when iterable/array formatting will on one line (if their String description
    * is less than this parameter) or it will be formatted with one element per line.
    * <p>
-   * The following array will be formatted on one line as its length < 80
-   * 
-   * <pre><code class='java'>
-   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
+   * The following array will be formatted on one line as its length < 80:
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    * 
    * // formatted as:
    * 
-   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]
-   * </code></pre>
-   * whereas this array is formatted on multiple lines (one element per line)
+   * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
    * 
-   * <pre><code class='java'>
-   * String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
+   * whereas this array is formatted on multiple lines (one element per line):
+   * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards! (Discworld)");
    * 
    * // formatted as:
    * 
    * ["A Game of Thrones",
    *  "The Lord of the Rings",
    *  "Assassin's Apprentice",
-   *  "Guards! Guards! (Discworld)"]
-   * </code></pre>
+   *  "Guards! Guards! (Discworld)"]</code></pre>
    * 
    * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
    */
@@ -765,10 +734,7 @@ public class Assertions {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * // extract simple property values having a java standard type (here String)
+   * <pre><code class='java'> // extract simple property values having a java standard type (here String)
    * assertThat(extractProperty(&quot;name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Boromir&quot;, &quot;Gandalf&quot;, &quot;Frodo&quot;,
    *     &quot;Legolas&quot;).doesNotContain(&quot;Sauron&quot;, &quot;Elrond&quot;);
@@ -780,8 +746,7 @@ public class Assertions {
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing)).contains(&quot;
    * Hobbit&quot;, &quot;Elf&quot;)
-   *     .doesNotContain(&quot;Orc&quot;);
-   * </code></pre>
+   *     .doesNotContain(&quot;Orc&quot;);</code></pre>
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -793,10 +758,7 @@ public class Assertions {
    * all AssertJ features (but you can use {@link Properties} if you prefer).
    * <p/>
    * Typical usage is to chain <code>extractProperty</code> with <code>from</code> method, see examples below :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * // extract simple property values, as no type has been defined the extracted property will be considered as Object
+   * <pre><code class='java'> // extract simple property values, as no type has been defined the extracted property will be considered as Object
    * // to define the real property type (here String) use extractProperty(&quot;name&quot;, String.class) instead.
    * assertThat(extractProperty(&quot;name&quot;).from(fellowshipOfTheRing)).contains(&quot;Boromir&quot;,
    * &quot;Gandalf&quot;, &quot;Frodo&quot;, &quot;Legolas&quot;)
@@ -808,8 +770,7 @@ public class Assertions {
    *
    * // extract nested property on Race
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;,
-   * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);
-   * </code></pre>
+   * &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;);</code></pre>
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -867,13 +828,9 @@ public class Assertions {
    * AssertJ features (but you can use {@link MapEntry} if you prefer).
    * <p/>
    * Typical usage is to call <code>entry</code> in MapAssert <code>contains</code> assertion, see examples below :
-   * <p/>
+   * <pre><code class='java'> Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
    * 
-   * <pre><code class='java'>
-   * Map<Ring, TolkienCharacter> ringBearers = ... // init omitted
-   * 
-   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));
-   * </code></pre>
+   * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
     return MapEntry.entry(key, value);
@@ -884,11 +841,8 @@ public class Assertions {
    * features (but you can use {@link Index} if you prefer).
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
-   * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));
-   * </code></pre>
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
    */
   public static Index atIndex(int index) {
     return Index.atIndex(index);
@@ -898,10 +852,7 @@ public class Assertions {
    * Assertions entry point for double {@link Offset}.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(8.1).isEqualTo(8.0, offset(0.1));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
    */
   public static Offset<Double> offset(Double value) {
     return Offset.offset(value);
@@ -911,10 +862,7 @@ public class Assertions {
    * Assertions entry point for float {@link Offset}.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, offset(0.2f));</code></pre>
    */
   public static Offset<Float> offset(Float value) {
     return Offset.offset(value);
@@ -924,10 +872,7 @@ public class Assertions {
    * Alias for {@link #offset(Double)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(8.1).isCloseTo(8.0, within(0.1));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(8.1).isCloseTo(8.0, within(0.1));</code></pre>
    */
   public static Offset<Double> within(Double value) {
     return Offset.offset(value);
@@ -937,10 +882,7 @@ public class Assertions {
    * Alias for {@link #offset(Float)} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(8.2f).isCloseTo(8.0f, within(0.2f));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(8.2f).isCloseTo(8.0f, within(0.2f));</code></pre>
    */
   public static Offset<Float> within(Float value) {
     return Offset.offset(value);
@@ -950,10 +892,7 @@ public class Assertions {
    * Assertions entry point for BigDecimal {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(BigDecimal.TEN).isCloseTo(new BigDecimal("10.5"), within(BigDecimal.ONE));</code></pre>
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
     return Offset.offset(value);
@@ -963,10 +902,7 @@ public class Assertions {
    * Assertions entry point for Byte {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat((byte)10).isCloseTo((byte)11, within((byte)1));
-   * </code></pre>
+   * <pre><code class='java'> assertThat((byte)10).isCloseTo((byte)11, within((byte)1));</code></pre>
    */
   public static Offset<Byte> within(Byte value) {
     return Offset.offset(value);
@@ -976,10 +912,7 @@ public class Assertions {
    * Assertions entry point for Integer {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(10).isCloseTo(11, within(1));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    */
   public static Offset<Integer> within(Integer value) {
     return Offset.offset(value);
@@ -989,10 +922,7 @@ public class Assertions {
    * Assertions entry point for Short {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(10).isCloseTo(11, within(1));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(10).isCloseTo(11, within(1));</code></pre>
    */
   public static Offset<Short> within(Short value) {
     return Offset.offset(value);
@@ -1002,10 +932,7 @@ public class Assertions {
    * Assertions entry point for Long {@link Offset} to use with isCloseTo assertions.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(5l).isCloseTo(7l, within(2l));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(5l).isCloseTo(7l, within(2l));</code></pre>
    */
   public static Offset<Long> within(Long value) {
     return Offset.offset(value);
@@ -1016,10 +943,7 @@ public class Assertions {
    * percentages.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(11.0).isCloseTo(10.0, withinPercentage(10.0));</code></pre>
    */
   public static Percentage withinPercentage(Double value) {
     return withPercentage(value);
@@ -1030,10 +954,7 @@ public class Assertions {
    * percentages.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-   * assertThat(11).isCloseTo(10, withinPercentage(10));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(11).isCloseTo(10, withinPercentage(10));</code></pre>
    */
   public static Percentage withinPercentage(Integer value) {
     return withPercentage(value);
@@ -1044,10 +965,7 @@ public class Assertions {
    * percentages.
    * <p/>
    * Typical usage :
-   *
-   * <pre><code class='java'>
-     * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
-     * </code></pre>
+   * <pre><code class='java'> assertThat(11L).isCloseTo(10L, withinPercentage(10L));</code></pre>
    */
   public static Percentage withinPercentage(Long value) {
     return withPercentage(value);
@@ -1089,11 +1007,7 @@ public class Assertions {
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p/>
    * Typical usage (<code>jedi</code> and <code>sith</code> are {@link Condition}) :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
    */
   @SafeVarargs
   public static <T> Condition<T> anyOf(Condition<? super T>... conditions) {
@@ -1144,20 +1058,11 @@ public class Assertions {
    * Note that the given array is not modified, the filters are performed on an {@link Iterable} copy of the array.
    * <p/>
    * Typical usage with {@link Condition} :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p/>
    * and with filter language based on java bean property :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
-   * .greaterThan(7).get())
-   *     .containsOnly(james, rose);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
+   *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -1170,20 +1075,11 @@ public class Assertions {
    * Note that the given {@link Iterable} is not modified, the filters are performed on a copy.
    * <p/>
    * Typical usage with {@link Condition} :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
    * <p/>
    * and with filter language based on java bean property :
-   * <p/>
-   * 
-   * <pre><code class='java'>
-   * assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
-   * .greaterThan(7).get())
-   *     .containsOnly(james, rose);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(filter(players).with(&quot;pointsPerGame&quot;).greaterThan(20).and(&quot;assistsPerGame&quot;)
+   *     .greaterThan(7).get()).containsOnly(james, rose);</code></pre>
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);
@@ -1195,9 +1091,7 @@ public class Assertions {
    * value matches one of the given values.
    * <p/>
    * As often, an example helps:
-   * 
-   * <pre><code class='java'>
-   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
@@ -1205,8 +1099,7 @@ public class Assertions {
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
    * assertThat(employees).filteredOn("age", in(800, 26))
-   *                      .containsOnly(yoda, obiwan, luke);
-   * </code></pre>
+   *                      .containsOnly(yoda, obiwan, luke);</code></pre>
    * 
    * @param values values to match (one match is sufficient)
    * @return the created "in" filter
@@ -1221,9 +1114,7 @@ public class Assertions {
    * value matches does not match any of the given values.
    * <p/>
    * As often, an example helps:
-   * 
-   * <pre><code class='java'>
-   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
@@ -1231,8 +1122,7 @@ public class Assertions {
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
    * assertThat(employees).filteredOn("age", notIn(800, 50))
-   *                      .containsOnly(luke);
-   * </code></pre>
+   *                      .containsOnly(luke);</code></pre>
    * 
    * @param valuesNotToMatch values not to match (none of the values must match)
    * @return the created "not in" filter
@@ -1247,9 +1137,7 @@ public class Assertions {
    * value matches does not match the given value.
    * <p>
    * As often, an example helps:
-   * 
-   * <pre><code class='java'>
-   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
@@ -1257,8 +1145,7 @@ public class Assertions {
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
    * 
    * assertThat(employees).filteredOn("age", not(800))
-   *                      .containsOnly(luke, noname);
-   * </code></pre>
+   *                      .containsOnly(luke, noname);</code></pre>
    * 
    * @param valueNotToMatch the value not to match
    * @return the created "not" filter
@@ -1468,10 +1355,7 @@ public class Assertions {
    *
    * <p>
    * Example:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * final Date date = Dates.parse("2001-02-03");
+   * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
    *
@@ -1487,8 +1371,7 @@ public class Assertions {
    *
    * // assertions will fail
    * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
-   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here
-   * </code></pre>
+   * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here</code></pre>
    *
    * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
    *
@@ -1519,9 +1402,7 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   *
-   * <pre><code class='java'>
-   * Date date = ... // set to 2003 April the 26th
+   * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
    * try {
@@ -1537,8 +1418,7 @@ public class Assertions {
    * assertThat(date).isEqualTo("2003/04/26");
    *
    * // the default formats are still available and should work
-   * assertThat(date).isEqualTo("2003-04-26");
-   * </code></pre>
+   * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
    */
@@ -1567,9 +1447,7 @@ public class Assertions {
    * {@link org.assertj.core.api.AbstractDateAssert#withDefaultDateFormatsOnly()}.
    * <p/>
    * Code examples:
-   * 
-   * <pre><code class='java'>
-   * Date date = ... // set to 2003 April the 26th
+   * <pre><code class='java'> Date date = ... // set to 2003 April the 26th
    * assertThat(date).isEqualTo("2003-04-26");
    *
    * try {
@@ -1585,8 +1463,7 @@ public class Assertions {
    * assertThat(date).isEqualTo("2003/04/26");
    *
    * // the default formats are still available and should work
-   * assertThat(date).isEqualTo("2003-04-26");
-   * </code></pre>
+   * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
    */

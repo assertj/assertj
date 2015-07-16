@@ -50,19 +50,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p/>
    * 
    * Example:
-   * 
-   * <pre><code class='java'>
-   * 
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
    * 
    * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
    * assertThat(frodo).isEqualToIgnoringNullFields(mysteriousHobbit); // OK
    * 
    * // ... but the lenient equality is not reversible !
-   * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL
-   * 
-   * </code></pre>
+   * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or other object is {@code null}.
@@ -89,9 +84,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p/>
    * 
    * Example:
-   * 
-   * <pre><code class='java'>
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
    * 
    * // frodo and sam both are hobbits, so they are equals when comparing only race
@@ -101,9 +94,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race.name&quot;); // OK
    * 
    * // ... but not when comparing both name and race
-   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL
-   * 
-   * </code></pre>
+   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @param fieldsUsedInComparison accepted fieldsUsedInComparison for lenient equality.
@@ -131,18 +122,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p/>
    * 
    * Example:
-   * <pre><code class='java'>
-   * 
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
    * 
    * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
    * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
    * 
    * // ... but they are not equals if only age is ignored as their names differ.
-   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL
-   * 
-   * </code></pre>
+   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @param fieldsToIgnore ignored fieldsToIgnore for lenient equality.
@@ -168,18 +155,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * <p/>
    * 
    * Example:
-   * <pre><code class='java'>
-   * 
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
    * 
    * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
    * assertThat(frodo).isEqualsTo(frodoClone);
    * 
    * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);
-   * 
-   * </code></pre>
+   * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
    * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or given object is {@code null}.

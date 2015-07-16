@@ -91,12 +91,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
    * files). The default charset is used to read each files.
    * 
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // use the default charset 
+   * <pre><code class="java"> // use the default charset
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
    * Path xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes());
    * Path xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes());
@@ -105,8 +101,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(xFile).hasSameContentAs(xFileClone);
    * 
    * // The following assertion fails:
-   * assertThat(xFile).hasSameContentAs(xFileFrench);
-   * </code></pre>
+   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
    * 
    * @param expected the given {@code Path} to compare the actual {@code Path} to.
    * @return {@code this} assertion object.
@@ -124,12 +119,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   /**
    * Verifies that the binary content of the actual {@code Path} is <b>exactly</b> equal to the given one.
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // using the default charset, the following assertion succeeds:
+   * <pre><code class="java"> // using the default charset, the following assertion succeeds:
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
    * assertThat(xFile).hasBinaryContent("The Truth Is Out There".getBytes());
    *
@@ -143,8 +134,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(xFileTurkish).hasBinaryContent(binaryContent);
    * 
    * // The following assertion fails ... unless you are in Turkey ;-):
-   * assertThat(xFileTurkish).hasBinaryContent("Gerçek Başka bir yerde mi".getBytes());
-   * </code></pre>
+   * assertThat(xFileTurkish).hasBinaryContent("Gerçek Başka bir yerde mi".getBytes());</code></pre>
    * 
    * @param expected the expected binary content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
@@ -163,17 +153,12 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * Specifies the name of the charset to use for text-based assertions on the path's contents (path must be a readable
    * file).
    * 
-   * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class="java">
-   * Charset turkishCharset = Charset.forName("windows-1254");
+   * <pre><code class="java"> Charset turkishCharset = Charset.forName("windows-1254");
    * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
    * 
    * // The following assertion succeeds:
-   * assertThat(xFileTurkish).usingCharset("windows-1254").hasContent("Gerçek Başka bir yerde mi");
-   * </code></pre>
+   * assertThat(xFileTurkish).usingCharset("windows-1254").hasContent("Gerçek Başka bir yerde mi");</code></pre>
    * 
    * @param charsetName the name of the charset to use.
    * @return {@code this} assertion object.
@@ -188,17 +173,12 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   /**
    * Specifies the charset to use for text-based assertions on the path's contents (path must be a readable file).
    * 
-   * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class="java">
-   * Charset turkishCharset = Charset.forName("windows-1254");
+   * <pre><code class="java"> Charset turkishCharset = Charset.forName("windows-1254");
    * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
    * 
    * // The following assertion succeeds:
-   * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek Başka bir yerde mi");
-   * </code></pre>
+   * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek Başka bir yerde mi");</code></pre>
    * 
    * @param charset the charset to use.
    * @return {@code this} assertion object.
@@ -217,12 +197,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
    * 
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // use the default charset 
+   * <pre><code class="java"> // use the default charset
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
    * 
    * // The following assertion succeeds (default charset is used):
@@ -240,8 +216,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(xFileTurkish).usingCharset(turkishCharset).hasContent("Gerçek Başka bir yerde mi");
    * 
    * // The following assertion fails ... unless you are in Turkey ;-):
-   * assertThat(xFileTurkish).hasContent("Gerçek Başka bir yerde mi");
-   * </code></pre>
+   * assertThat(xFileTurkish).hasContent("Gerçek Başka bir yerde mi");</code></pre>
    *
    * @param expected the expected text content to compare the actual {@code File}'s content to.
    * @return {@code this} assertion object.
@@ -260,12 +235,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * Assert that the tested {@link Path} is a readable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is readable(according to {@link Files#isReadable(Path)}).
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // Create a file and set permissions to be readable by all.
+   * <pre><code class="java"> // Create a file and set permissions to be readable by all.
    * Path readableFile = Paths.get("readableFile");
    * Set&lt;PosixFilePermission&gt; perms = PosixFilePermissions.fromString("r--r--r--");
    * Files.createFile(readableFile, PosixFilePermissions.asFileAttribute(perms));
@@ -286,8 +257,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // The following assertions fail:
    * assertThat(nonReadableFile).isReadable();
-   * assertThat(nonExistentPath).isReadable();
-   * </code></pre>
+   * assertThat(nonExistentPath).isReadable();</code></pre>
    *
    * @return self
    *
@@ -302,12 +272,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * Assert that the tested {@link Path} is a writable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is writable(according to {@link Files#isWritable(Path)}).
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // Create a file and set permissions to be writable by all.
+   * <pre><code class="java"> Create a file and set permissions to be writable by all.
    * Path writableFile = Paths.get("writableFile");
    * Set&lt;PosixFilePermission&gt; perms = PosixFilePermissions.fromString("rw-rw-rw-");
    * Files.createFile(writableFile, PosixFilePermissions.asFileAttribute(perms));
@@ -328,8 +294,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // The following assertions fail:
    * assertThat(nonWritableFile).isWritable();
-   * assertThat(nonExistentPath).isWritable();
-   * </code></pre>
+   * assertThat(nonExistentPath).isWritable();</code></pre>
    *
    * @return self
    *
@@ -345,12 +310,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@link Files#exists(Path, LinkOption...)}) and that it is executable(according to {@link Files#isExecutable(Path)}
    * ).
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // Create a file and set permissions to be executable by all.
+   * <pre><code class="java"> // Create a file and set permissions to be executable by all.
    * Path executableFile = Paths.get("executableFile");
    * Set&lt;PosixFilePermission&gt; perms = PosixFilePermissions.fromString("r-xr-xr-x");
    * Files.createFile(executableFile, PosixFilePermissions.asFileAttribute(perms));
@@ -371,8 +332,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // The following assertions fail:
    * assertThat(nonExecutableFile).isExecutable();
-   * assertThat(nonExistentPath).isExecutable();
-   * </code></pre>
+   * assertThat(nonExistentPath).isExecutable();</code></pre>
    *
    * @return self
    *
@@ -397,12 +357,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@link #existsNoFollowLinks()} instead.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * // Create a regular file, and a symbolic link pointing to it
    * final Path existingFile = fs.getPath("somefile");
    * Files.createFile(existingFile);
@@ -420,8 +376,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // The following assertions fail:
    * assertThat(nonExistentPath).exists();
-   * assertThat(symlinkToNonExistentPath).exists();
-   * </code></pre>
+   * assertThat(symlinkToNonExistentPath).exists();</code></pre>
    *
    * @return self
    *
@@ -441,12 +396,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * symbolic link even if its target is invalid.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * // Create a regular file, and a symbolic link pointing to it
    * final Path existingFile = fs.getPath("somefile");
    * Files.createFile(existingFile);
@@ -464,8 +415,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(symlinkToNonExistentPath).existsNoFollowLinks();
    *
    * // The following assertion fails
-   * assertThat(nonExistentPath).existsNoFollowLinks();
-   * </code></pre>
+   * assertThat(nonExistentPath).existsNoFollowLinks();</code></pre>
    *
    * @return self
    *
@@ -492,10 +442,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * <p>
    * If you are a Windows user, the above does not apply to you; if you are a Unix user however, this is important.
    * Consider the following:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a FileSystem
+   * <pre><code class="java"> // fs is a FileSystem
    * // Create a regular file, and a symbolic link pointing to it
    * final Path existingFile = fs.getPath("somefile");
    * Files.createFile(existingFile);
@@ -514,8 +461,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(existingFile).doesNotExist();
    * assertThat(symlinkToExistingFile).doesNotExist();
    * // fail because symlinkToNonExistentPath exists even though its target does not.
-   * assertThat(symlinkToNonExistentPath).doesNotExist();
-   * </code></pre>
+   * assertThat(symlinkToNonExistentPath).doesNotExist();</code></pre>
    *
    * @return self
    *
@@ -540,12 +486,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * regular file.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // Create a regular file, and a symbolic link to that regular file
    * final Path existingFile = fs.getPath("existingFile");
@@ -574,8 +516,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // the following assertions fail because paths exist but are not regular files:
    * assertThat(dir).isRegularFile();
-   * assertThat(dirSymlink).isRegularFile();
-   * </code></pre>
+   * assertThat(dirSymlink).isRegularFile();</code></pre>
    *
    * @return self
    */
@@ -596,12 +537,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * directory.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // Create a regular file, and a symbolic link to that regular file
    * final Path existingFile = fs.getPath("existingFile");
@@ -630,8 +567,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // the following assertions fail because paths exist but are not directories:
    * assertThat(existingFile).isDirectory();
-   * assertThat(symlinkToExistingFile).isDirectory();
-   * </code></pre>
+   * assertThat(symlinkToExistingFile).isDirectory();</code></pre>
    *
    * @return self
    */
@@ -647,12 +583,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * the path is a symbolic link.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // Create a regular file, and a symbolic link to that regular file
    * final Path existingFile = fs.getPath("existingFile");
@@ -681,8 +613,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // the following assertions fail because paths exist but are not symbolic links
    * assertThat(existingFile).isSymbolicLink();
-   * assertThat(dir).isSymbolicLink();
-   * </code></pre>
+   * assertThat(dir).isSymbolicLink();</code></pre>
    *
    * @return self
    */
@@ -699,12 +630,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@code /foo/..} is absolute, for instance, but it is not normalized.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // unixFs is a Unix FileSystem
+   * <pre><code class="java"> // unixFs is a Unix FileSystem
    *
    * // The following assertion succeeds:
    * assertThat(unixFs.getPath("/foo/bar")).isAbsolute();
@@ -720,8 +647,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // The following assertions fail:
    * assertThat(windowsFs.getPath("foo\\bar")).isAbsolute();
    * assertThat(windowsFs.getPath("c:foo")).isAbsolute();
-   * assertThat(windowsFs.getPath("\\foo\\bar")).isAbsolute();
-   * </code></pre>
+   * assertThat(windowsFs.getPath("\\foo\\bar")).isAbsolute();</code></pre>
    *
    * @return self
    *
@@ -735,12 +661,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
   /**
    * Assert that the tested {@link Path} is relative (opposite to {@link Path#isAbsolute()}).
    *
-   * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class="java">
-   * // unixFs is a Unix FileSystem
+   * <pre><code class="java"> // unixFs is a Unix FileSystem
    *
    * // The following assertions succeed:
    * assertThat(unixFs.getPath("./foo/bar")).isRelative();
@@ -757,8 +679,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(windowsFs.getPath("\\foo\\bar")).isRelative();
    *
    * // The following assertions fail:
-   * assertThat(windowsFs.getPath("c:\\foo")).isRelative();
-   * </code></pre>
+   * assertThat(windowsFs.getPath("c:\\foo")).isRelative();</code></pre>
    *
    * @return self
    *
@@ -778,12 +699,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * beginning of the path.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // the following assertions succeed:
    * assertThat(fs.getPath("/usr/lib")).isNormalized();
@@ -793,8 +710,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // the following assertions fail:
    * assertThat(fs.getPath("/a/./b")).isNormalized();
    * assertThat(fs.getPath("c/b/..")).isNormalized();
-   * assertThat(fs.getPath("/../../e")).isNormalized();
-   * </code></pre>
+   * assertThat(fs.getPath("/../../e")).isNormalized();</code></pre>
    *
    * @return self
    */
@@ -813,12 +729,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@link Files#isSymbolicLink(Path) symbolic link} to the actual resource, even if the path is absolute.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * // Create a directory
    * final Path basedir = fs.getPath("/tmp/foo");
    * Files.createDirectories(basedir);
@@ -835,8 +747,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(existingFile).isCanonical();
    *
    * // The following assertion fails:
-   * assertThat(symlinkToExistingFile).isCanonical();
-   * </code></pre>
+   * assertThat(symlinkToExistingFile).isCanonical();</code></pre>
    *
    * @throws PathsException an I/O error occurred while evaluating the path
    *
@@ -854,12 +765,9 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * <p>
    * Note that the path does not need to exist to check its file name.
    * </p>
-   * <p>
-   * Examples:
-   * </p>
    *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * Examples:
+   * <pre><code class="java"> // fs is a Unix filesystem
    * final Path file = fs.getPath("/foo/foo.txt");
    * final Path symlink = fs.getPath("/home/symlink-to-foo");
    * Files.createSymbolicLink(symlink, file);
@@ -876,8 +784,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // fail because, last element is "." 
    * assertThat(fs.getPath("/dir1/.")).hasFileName("dir1");
    * // fail because a link filename is not the same as its target filename
-   * assertThat(symlink).hasFileName("file.txt");
-   * </code></pre>
+   * assertThat(symlink).hasFileName("file.txt");</code></pre>
    *
    * @param fileName the expected filename
    * @return self
@@ -903,12 +810,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * or has a different parent than what is expected.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * final Path actual = fs.getPath("/dir1/dir2/file");
    *
    * // the following assertion succeeds:
@@ -917,8 +820,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(actual).hasParent(fs.getPath("/dir1/dir3/../dir2/."));
    *
    * // the following assertion fails:
-   * assertThat(actual).hasParent(fs.getPath("/dir1"));
-   * </code></pre>
+   * assertThat(actual).hasParent(fs.getPath("/dir1"));</code></pre>
    *
    * @param expected the expected parent path
    * @return self
@@ -958,12 +860,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * directory respectively. In fact, it is not even required that a {@link FileSystem} be hierarchical at all.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * final Path actual = fs.getPath("/dir1/dir2/file");
    *
    * // the following assertion succeeds:
@@ -972,8 +870,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // the following assertions fails:
    * assertThat(actual).hasParent(fs.getPath("/dir1"));
    * // ... and this one too as expected path is not canonicalized.
-   * assertThat(actual).hasParentRaw(fs.getPath("/dir1/dir3/../dir2"));
-   * </code></pre>
+   * assertThat(actual).hasParentRaw(fs.getPath("/dir1/dir3/../dir2"));</code></pre>
    *
    * @param expected the expected parent path
    * @return self
@@ -999,12 +896,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * about canonicalization.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // the following assertion succeeds:
    * assertThat(fs.getPath("/")).hasNoParent();
@@ -1013,8 +906,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    *
    * // the following assertions fail:
    * assertThat(fs.getPath("/usr/lib")).hasNoParent();
-   * assertThat(fs.getPath("/usr")).hasNoParent();
-   * </code></pre>
+   * assertThat(fs.getPath("/usr")).hasNoParent();</code></pre>
    *
    * @return self
    *
@@ -1045,12 +937,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * parent is {@code /usr}.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    *
    * // the following assertions succeed:
    * assertThat(fs.getPath("/")).hasNoParentRaw();
@@ -1060,8 +948,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(fs.getPath("/usr/lib")).hasNoParentRaw();
    * assertThat(fs.getPath("/usr")).hasNoParentRaw();
    * // this one fails as canonicalization is not performed, leading to parent being /usr
-   * assertThat(fs.getPath("/usr/..")).hasNoParent();
-   * </code></pre>
+   * assertThat(fs.getPath("/usr/..")).hasNoParent();</code></pre>
    *
    * @return self
    *
@@ -1086,12 +973,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@code /home/foo}.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * final Path tested = fs.getPath("/home/joe/myfile");
    *
    * // the following assertion succeeds:
@@ -1102,8 +985,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * assertThat(tested).startsWith(fs.getPath("/home/jane/../joe/."));
    *
    * // the following assertion fails:
-   * assertThat(tested).startsWith(fs.getPath("/home/harry"));
-   * </code></pre>
+   * assertThat(tested).startsWith(fs.getPath("/home/harry"));</code></pre>
    *
    * @param other the other path
    * @return self
@@ -1141,12 +1023,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * the latter ({@code home}).
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * final Path tested = fs.getPath("/home/joe/myfile");
    *
    * // the following assertion succeeds:
@@ -1155,8 +1033,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // the following assertion fails:
    * assertThat(tested).startsWithRaw(fs.getPath("/home/harry"));
    * // .... and this one too as given path is not canonicalized
-   * assertThat(tested).startsWithRaw(fs.getPath("/home/joe/.."));
-   * </code></pre>
+   * assertThat(tested).startsWithRaw(fs.getPath("/home/joe/.."));</code></pre>
    *
    * @param other the other path
    * @return self
@@ -1183,12 +1060,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * {@code /home/foobar/baz} does <em>not</em> end with {@code bar/baz}.
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem.
+   * <pre><code class="java"> // fs is a Unix filesystem.
    * // the current directory is supposed to be /home.
    * final Path tested = fs.getPath("/home/joe/myfile");
    * // as tested will be canonicalized, it could have been written: /home/jane/../joe/myfile
@@ -1199,8 +1072,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // the following assertions fail:
    * assertThat(tested).endsWith(fs.getPath("joe/otherfile"));
    * // this path will be normalized to joe/otherfile
-   * assertThat(tested).endsWith(fs.getPath("joe/myfile/../otherfile"));
-   * </code></pre>
+   * assertThat(tested).endsWith(fs.getPath("joe/myfile/../otherfile"));</code></pre>
    *
    * @param other the other path
    * @return self
@@ -1233,12 +1105,8 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * the latter ({@code .}).
    * </p>
    *
-   * <p>
    * Examples:
-   * </p>
-   *
-   * <pre><code class="java">
-   * // fs is a Unix filesystem
+   * <pre><code class="java"> // fs is a Unix filesystem
    * // the current directory is supposed to be /home.
    * final Path tested = fs.getPath("/home/joe/myfile");
    *
@@ -1248,8 +1116,7 @@ public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extend
    * // But the following assertion fails:
    * assertThat(tested).endsWithRaw(fs.getPath("harry/myfile"));
    * // and this one too as the given path is not normalized
-   * assertThat(tested).endsWithRaw(fs.getPath("harry/../joe/myfile"));
-   * </code></pre>
+   * assertThat(tested).endsWithRaw(fs.getPath("harry/../joe/myfile"));</code></pre>
    *
    * @param other the other path
    * @return self

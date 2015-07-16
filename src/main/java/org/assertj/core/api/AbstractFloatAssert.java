@@ -117,9 +117,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(8.1f).isCloseTo(8.2f, within(0.2f));
    *
    * // you can use offset if you prefer
@@ -129,15 +127,12 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * assertThat(8.1f).isCloseTo(8.2f, within(0.1f));
    *
    * // assertion will fail
-   * assertThat(8.1f).isCloseTo(8.2f, within(0.01f));
-   * </code></pre>
+   * assertThat(8.1f).isCloseTo(8.2f, within(0.01f));</code></pre>
+   * 
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
    * fails:
-   * 
-   * <pre><code class='java'>
-   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isCloseTo(8.0f, within(0.1f));
-   * </code></pre>
+   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isCloseTo(8.0f, within(0.1f));</code></pre>
    *
    * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -156,9 +151,7 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.2f));
    *
    * // you can use offset if you prefer
@@ -168,15 +161,12 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.1f));
    *
    * // assertion will fail
-   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.01f));
-   * </code></pre>
+   * assertThat(8.1f).isCloseTo(new Float(8.2f), within(0.01f));</code></pre>
+   * 
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
    * fails:
-   * 
-   * <pre><code class='java'>
-   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isCloseTo(new Float(8.0f), within(0.1f));
-   * </code></pre>
+   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isCloseTo(new Float(8.0f), within(0.1f));</code></pre>
    *
    * @param other the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -196,17 +186,14 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with float:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(20f));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(10f));
    *
    * // assertion will fail
-   * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(5f));
-   * </code></pre>
+   * assertThat(11.0f).isCloseTo(new Float(10.0f), withinPercentage(5f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -226,17 +213,14 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with float:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(20f));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(10f));
    *
    * // assertion will fail
-   * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(5f));
-   * </code></pre>
+   * assertThat(11.0f).isCloseTo(10.0f, withinPercentage(5f));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -262,25 +246,19 @@ public abstract class AbstractFloatAssert<S extends AbstractFloatAssert<S>> exte
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(8.1f).isEqualTo(8.2f, offset(0.1f));
    *
    * // within is an alias of offset
    * assertThat(8.1f).isEqualTo(8.2f, within(0.1f));
    *
    * // assertion will fail
-   * assertThat(8.1f).isEqualTo(8.2f, offset(0.01f));
-   * </code></pre>
+   * assertThat(8.1f).isEqualTo(8.2f, offset(0.01f));</code></pre>
    *
    * Beware that java floating point number precision might have some unexpected behavior, e.g. the assertion below
    * fails:
-   * 
-   * <pre><code class='java'>
-   *  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
-   * assertThat(8.1f).isEqualTo(8.0f, offset(0.1f));
-   * </code></pre>
+   * <pre><code class='java'>  // fails because 8.1f - 8.0f is evaluated to 0.10000038f in java.
+   * assertThat(8.1f).isEqualTo(8.0f, offset(0.1f));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
    * @param offset the given positive offset.
