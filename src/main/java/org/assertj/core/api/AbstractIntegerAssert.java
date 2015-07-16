@@ -188,17 +188,14 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(5).isCloseTo(7, within(3));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat(5).isCloseTo(7, within(2));
    *
    * // assertion will fail
-   * assertThat(5).isCloseTo(7, within(1));
-   * </code></pre>
+   * assertThat(5).isCloseTo(7, within(1));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
@@ -216,17 +213,14 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(5).isCloseTo(Integer.valueOf(7), within(3));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat(5).isCloseTo(Integer.valueOf(7), within(2));
    *
    * // assertion will fail
-   * assertThat(5).isCloseTo(Integer.valueOf(7), within(1));
-   * </code></pre>
+   * assertThat(5).isCloseTo(Integer.valueOf(7), within(1));</code></pre>
    *
    * @param expected the given int to compare the actual value to.
    * @param offset the given positive offset.
@@ -245,17 +239,14 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with integer:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
    * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(10));
    *
    * // assertion will fail
-   * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(5));
-   * </code></pre>
+   * assertThat(11).isCloseTo(Integer.valueOf(10), withinPercentage(5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -275,17 +266,14 @@ public abstract class AbstractIntegerAssert<S extends AbstractIntegerAssert<S>> 
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with integer:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11).isCloseTo(10, withinPercentage(20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
    * assertThat(11).isCloseTo(10, withinPercentage(10));
    *
    * // assertion will fail
-   * assertThat(11).isCloseTo(10, withinPercentage(5));
-   * </code></pre>
+   * assertThat(11).isCloseTo(10, withinPercentage(5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.

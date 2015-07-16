@@ -184,17 +184,14 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(5l).isCloseTo(7l, within(3l));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat(5l).isCloseTo(7l, within(2l));
    *
    * // assertion will fail
-   * assertThat(5l).isCloseTo(7l, within(1l));
-   * </code></pre>
+   * assertThat(5l).isCloseTo(7l, within(1l));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
@@ -212,17 +209,14 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(5l).isCloseTo(Long.valueOf(7l), within(3l));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat(5l).isCloseTo(Long.valueOf(7l), within(2l));
    *
    * // assertion will fail
-   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(1l));
-   * </code></pre>
+   * assertThat(5l).isCloseTo(Long.valueOf(7l), within(1l));</code></pre>
    *
    * @param expected the given long to compare the actual value to.
    * @param offset the given positive offset.
@@ -241,17 +235,14 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with long:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(20L));
    *
    * // if difference is exactly equals to the computed offset (1L), it's ok
    * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(10L));
    *
    * // assertion will fail
-   * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(5L));
-   * </code></pre>
+   * assertThat(11L).isCloseTo(Long.valueOf(10L), withinPercentage(5L));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -271,17 +262,14 @@ public abstract class AbstractLongAssert<S extends AbstractLongAssert<S>> extend
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with long:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11L).isCloseTo(10L, withinPercentage(20L));
    *
    * // if difference is exactly equals to the computed offset (1L), it's ok
    * assertThat(11L).isCloseTo(10L, withinPercentage(10L));
    *
    * // assertion will fail
-   * assertThat(11L).isCloseTo(10L, withinPercentage(5L));
-   * </code></pre>
+   * assertThat(11L).isCloseTo(10L, withinPercentage(5L));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.

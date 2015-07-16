@@ -32,19 +32,14 @@ public interface Descriptable<S extends Descriptable<S>> {
    * Sets the description of this object supporting {@link String#format(String, Object...)} syntax.
    * <p>
    * Example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * try {
+   * <pre><code class='java'> try {
    *   // set a bad age to Mr Frodo which is really 33 years old.
    *   frodo.setAge(50);
    *   // you can specify a test description with as() method or describedAs(), it supports String format args
    *   assertThat(frodo.getAge()).as(&quot;check %s's age&quot;, frodo.getName()).isEqualTo(33);
    * } catch (AssertionError e) {
    *   assertThat(e).hasMessage(&quot;[check Frodo's age] expected:&lt;[33]&gt; but was:&lt;[50]&gt;&quot;);
-   * }
-   * 
-   * </code></pre>
+   * }</code></pre>
    * 
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.

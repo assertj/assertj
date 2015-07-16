@@ -248,16 +248,13 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    *
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * File xFile = new File(&quot;mulder/xFile&quot;);
+   * <pre><code class='java'> File xFile = new File(&quot;mulder/xFile&quot;);
    * 
    * // assertion will pass
    * assertThat(xFile).hasParent(new File(&quot;mulder&quot;));
    *
    * // assertion will fail
-   * assertThat(xFile).hasParent(new File(&quot;scully&quot;));
-   * </code></pre>
+   * assertThat(xFile).hasParent(new File(&quot;scully&quot;));</code></pre>
    * 
    * </p>
    * 
@@ -280,16 +277,13 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * File xFile = new File(&quot;mulder/xFile&quot;);
+   * <pre><code class='java'> File xFile = new File(&quot;mulder/xFile&quot;);
    * 
    * // assertion will pass
    * assertThat(xFile).hasParent(&quot;mulder&quot;);
    *
    * // assertion will fail
-   * assertThat(xFile).hasParent(&quot;scully&quot;);
-   * </code></pre>
+   * assertThat(xFile).hasParent(&quot;scully&quot;);</code></pre>
    * 
    * </p>
    */
@@ -303,16 +297,13 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * File xFile = new File(&quot;xFile.java&quot;);
+   * <pre><code class='java'> File xFile = new File(&quot;xFile.java&quot;);
    * 
    * // assertion will pass
    * assertThat(xFile).hasExtension(&quot;java&quot;);
    * 
    * // assertion will fail
-   * assertThat(xFile).hasExtension(&quot;png&quot;);
-   * </code></pre>
+   * assertThat(xFile).hasExtension(&quot;png&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -335,9 +326,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
    * File xDirectory = new File(&quot;somewhere/xDirectory&quot;);
    * 
    * // assertion will pass
@@ -346,8 +335,7 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * // assertion will fail
    * assertThat(xFile).hasName(&quot;xFile&quot;);
-   * assertThat(xDirectory).hasName(&quot;somewhere&quot;);
-   * </code></pre>
+   * assertThat(xDirectory).hasName(&quot;somewhere&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -369,17 +357,14 @@ public abstract class AbstractFileAssert<S extends AbstractFileAssert<S>> extend
    * 
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * File xFile = new File(&quot;somewhere/xFile.java&quot;);
+   * <pre><code class='java'> File xFile = new File(&quot;somewhere/xFile.java&quot;);
    * File xDirectory = new File(&quot;xDirectory&quot;);
    * 
    * // assertion will pass
    * assertThat(xDirectory).hasNoParent();
    * 
    * // assertion will fail
-   * assertThat(xFile).hasNoParent();
-   * </code></pre>
+   * assertThat(xFile).hasNoParent();</code></pre>
    * 
    * </p>
    * 

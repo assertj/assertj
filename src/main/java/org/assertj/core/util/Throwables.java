@@ -54,9 +54,7 @@ public final class Throwables {
 /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
    * end user. Therefore, instead of seeing this:
-   *
-   * <pre><code class='java'>
-   * org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
@@ -68,18 +66,14 @@ public final class Throwables {
    *   at org.assertj.core.internal.Failures.failure(Failures.java:76)
    *   at org.assertj.core.internal.Objects.assertEqual(Objects.java:116)
    *   at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
-   *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
-   * </code></pre>
+   *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)</code></pre>
    *
    * We get this:
-   *
-   * <pre><code class='java'>
-   * org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
+   * <pre><code class='java'> org.junit.ComparisonFailure: expected:<'[Ronaldo]'> but was:<'[Messi]'>
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
    *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-   *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)
-   * </code></pre>
+   *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
    * @param throwable the {@code Throwable} to filter stack trace.
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {

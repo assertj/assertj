@@ -32,9 +32,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  * <code>assertThat</code>.
  * <p>
  * For example:
- * 
- * <pre><code class='java'>
- * {@literal @}Test
+ * <pre><code class='java'> {@literal @}Test
  * public void bdd_assertions_examples() {
  *
  *   //given
@@ -45,8 +43,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
  *   bulls.add(noah);
  *
  *   then(bulls).contains(rose, noah).doesNotContain(james);
- * }
- * </code></pre>
+ * }</code></pre>
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -461,22 +458,14 @@ public class BDDAssertions extends Assertions {
    * 
    * <p>
    * Java 8 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   *  {@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                        .hasMessageContaining("boom");
-   *  }
-   * </code></pre>
+   *  }</code></pre>
    * 
-   * <p>
    * Java 7 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * thenThrownBy(new ThrowingCallable()
+   * <pre><code class='java'> thenThrownBy(new ThrowingCallable() {
    * 
    *   {@literal @}Override
    *   public Void call() throws Exception {
@@ -484,8 +473,7 @@ public class BDDAssertions extends Assertions {
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");
-   * </code></pre>
+   *   .hasMessageContaining("boom");</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.

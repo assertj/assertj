@@ -141,10 +141,9 @@ public class DateUtil {
 
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
-   * <p> Example:
-   * <pre><code class='java'>
-   * Date date = parseDatetime("2003-04-26T03:01:02");
-   * </code></pre>
+   * <p> 
+   * Example:
+   * <pre><code class='java'> Date date = parseDatetime("2003-04-26T03:01:02");</code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
@@ -161,10 +160,10 @@ public class DateUtil {
 
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}, returns null if the given String is
-   * null. <p> Example:
-   * <pre><code class='java'>
-   * Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");
-   * </code></pre>
+   * null.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");</code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}

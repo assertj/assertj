@@ -83,9 +83,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * public TolkienCharacterAssert hasName(String name) {
+   * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
    * 
@@ -96,8 +94,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * 
    *   // return the current assertion for method chaining
    *   return this;
-   * }
-   * </code></pre>
+   * }</code></pre>
    * 
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
@@ -128,28 +125,22 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * thus impossible to find differences from the standard error message:
    * <p/>
    * With standard message:
-   * 
-   * <pre><code class='java'>
-   * assertThat("µµµ").contains("μμμ");
+   * <pre><code class='java'> assertThat("µµµ").contains("μμμ");
    *
    * java.lang.AssertionError:
    * Expecting:
    *   <"µµµ">
    * to contain:
-   *   <"μμμ">
-   * </code></pre>
+   *   <"μμμ"></code></pre>
    *
    * With Hexadecimal message:
-   * 
-   * <pre><code class='java'>
-   * assertThat("µµµ").inHexadecimal().contains("μμμ");
+   * <pre><code class='java'> assertThat("µµµ").inHexadecimal().contains("μμμ");
    *
    * java.lang.AssertionError:
    * Expecting:
    *   <"['00B5', '00B5', '00B5']">
    * to contain:
-   *   <"['03BC', '03BC', '03BC']">
-   * </code></pre>
+   *   <"['03BC', '03BC', '03BC']"></code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -162,14 +153,11 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * Use binary object representation instead of standard representation in error messages.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * assertThat(1).inBinary().isEqualTo(2);
+   * <pre><code class='java'> assertThat(1).inBinary().isEqualTo(2);
    *
    * org.junit.ComparisonFailure:
    * Expected :0b00000000_00000000_00000000_00000010
-   * Actual   :0b00000000_00000000_00000000_00000001
-   * </code></pre>
+   * Actual   :0b00000000_00000000_00000000_00000001</code></pre>
    * 
    * @return {@code this} assertion object.
    */
@@ -398,11 +386,8 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * don't, the error message is taken as it is).
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
-   *                              .isTrue();
-   * </code></pre>
+   * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
+   *                              .isTrue();</code></pre>
    * 
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
    * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
