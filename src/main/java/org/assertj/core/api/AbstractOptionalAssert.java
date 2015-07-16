@@ -12,12 +12,18 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.FieldByFieldComparator;
+import org.assertj.core.internal.StandardComparisonStrategy;
+
+import java.util.Comparator;
+import java.util.Optional;
+
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
-
-import java.util.Optional;
 
 /**
  * Assertions for {@link java.util.Optional}.
@@ -28,21 +34,24 @@ import java.util.Optional;
 public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
     AbstractAssert<S, Optional<T>> {
 
+  private ComparisonStrategy comparisonStrategy;
+
   protected AbstractOptionalAssert(Optional<T> actual, Class<?> selfType) {
     super(actual, selfType);
+    this.comparisonStrategy = StandardComparisonStrategy.instance();
   }
 
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}.
    * </p>
    * Assertion will pass :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).isPresent();
    * </code></pre>
-   * 
+   *
    * Assertion will fail :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.empty()).isPresent();
    * </code></pre>
@@ -59,13 +68,13 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Verifies that the actual {@link java.util.Optional} is empty.
    * </p>
    * Assertion will pass :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.empty()).isEmpty();
    * </code></pre>
-   * 
+   *
    * Assertion will fail :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).isEmpty();
    * </code></pre>
@@ -82,14 +91,14 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * Verifies that the actual {@link java.util.Optional} contains the value in argument.
    * </p>
    * Assertion will pass :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).contains("something");
    * assertThat(Optional.of(10)).contains(10);
    * </code></pre>
-   * 
+   *
    * Assertion will fail :
-   * 
+   *
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).contains("something else");
    * assertThat(Optional.of(20)).contains(10);
@@ -102,7 +111,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     isNotNull();
     if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
     if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (!actual.get().equals(expectedValue)) throw failure(shouldContain(actual, expectedValue));
+    if (!comparisonStrategy.areEqual(actual.get(), expectedValue)) throw failure(shouldContain(actual, expectedValue));
     return myself;
   }
 
@@ -114,7 +123,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * <pre><code class='java'>
    * assertThat(Optional.of("something")).containsInstanceOf(String.class)
    *                                     .containsInstanceOf(Object.class);
-   *                                     
+   *
    * assertThat(Optional.of(10)).containsInstanceOf(Integer.class)
    * </code></pre>
    *
@@ -133,4 +142,81 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     if (!clazz.isInstance(actual.get())) throw failure(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
+
+  /**
+   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
+   * actual type A <code>equals</code> method to compare the {@link Optional} value's object for incoming assertion
+   * checks. Private fields are included but this can be disabled using
+   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
+   * <p/>
+   * This can be handy if <code>equals</code> method of the {@link Optional} value's object to compare does not suit
+   * you.
+   * <p/>
+   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be
+   * compared to the other field/property using its <code>equals</code> method.
+   * </p>
+   * Example:
+   * <p/>
+   * <pre><code class='java'>
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * <p/>
+   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares
+   * references
+   * assertThat(Optional.of(frodo)).contains(frodoClone);
+   * <p/>
+   * // frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(Optional.of(frodo)).usingFieldByFieldValueComparator().contains(frodoClone);
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  public S usingFieldByFieldValueComparator() {
+    return usingValueComparator(new FieldByFieldComparator());
+  }
+
+  /**
+   * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare the
+   * {@link Optional} value's object for incoming assertion checks.
+   * <p>
+   * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
+   * comparison strategy.
+   * <p>
+   * Examples :
+   *
+   <pre><code class='java'>
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * <p/>
+   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares
+   * references
+   * assertThat(Optional.of(frodo)).contains(frodoClone);
+   * <p/>
+   * // frodo and frodoClone are equals when doing a field by field comparison.
+   * assertThat(Optional.of(frodo)).usingValueComparator(new FieldByFieldComparator()).contains(frodoClone);
+   * </code></pre>
+   *
+   * @param customComparator the comparator to use for incoming assertion checks.
+   * @throws NullPointerException if the given comparator is {@code null}.
+   * @return {@code this} assertion object.
+   */
+  public S usingValueComparator(Comparator<? super T> customComparator) {
+    comparisonStrategy = new ComparatorBasedComparisonStrategy(customComparator);
+    return myself;
+  }
+
+  /**
+   * Revert to standard comparison for incoming assertion {@link Optional} value checks.
+   * <p>
+   * This method should be used to disable a custom comparison strategy set by calling
+   * {@link #usingValueComparator(Comparator)}.
+   *
+   * @return {@code this} assertion object.
+   */
+  public S usingDefaultValueComparator() {
+    // fall back to default strategy to compare actual with other objects.
+    comparisonStrategy = StandardComparisonStrategy.instance();
+    return myself;
+  }
+
 }
