@@ -19,12 +19,13 @@ import static org.assertj.core.util.Objects.areEqual;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
 
 
 /**
- * Compares the contents of two files or two streams.
+ * Compares the contents of two files, inputStreams or paths.
  * 
  * @author David DIDIER
  * @author Alex Ruiz
@@ -61,11 +62,16 @@ public class Diff {
 
   @VisibleForTesting
   public List<String> diff(File actual, File expected) throws IOException {
+    return diff(actual.toPath(), expected.toPath());
+  }
+  
+  @VisibleForTesting
+  public List<String> diff(Path actual, Path expected) throws IOException {
     BufferedReader reader1 = null;
     BufferedReader reader2 = null;
     try {
-      reader1 = readerFor(actual);
-      reader2 = readerFor(expected);
+      reader1 = Files.newBufferedReader(actual, Charset.defaultCharset());
+      reader2 = Files.newBufferedReader(expected, Charset.defaultCharset());
       return unmodifiableList(diff(reader1, reader2));
     } finally {
       closeQuietly(reader1);
@@ -75,9 +81,14 @@ public class Diff {
 
   @VisibleForTesting
   public List<String> diff(File actual, String expected, Charset charset) throws IOException {
+    return diff(actual.toPath(), expected, charset);
+  }
+  
+  @VisibleForTesting
+  public List<String> diff(Path actual, String expected, Charset charset) throws IOException {
     BufferedReader reader1 = null;
     try {
-      reader1 = readerFor(actual, charset);
+      reader1 = Files.newBufferedReader(actual, charset); 
       BufferedReader reader2 = readerFor(expected);
       return unmodifiableList(diff(reader1, reader2));
     } finally {
@@ -87,18 +98,6 @@ public class Diff {
 
   private BufferedReader readerFor(InputStream stream) {
     return new BufferedReader(new InputStreamReader(stream));
-  }
-
-  private BufferedReader readerFor(InputStream stream, Charset charset) {
-    return new BufferedReader(new InputStreamReader(stream, charset));
-  }
-
-  private BufferedReader readerFor(File file) throws IOException {
-    return readerFor(new FileInputStream(file));
-  }
-
-  private BufferedReader readerFor(File file, Charset charset) throws IOException {
-    return readerFor(new FileInputStream(file), charset);
   }
 
   private BufferedReader readerFor(String string) {

@@ -14,15 +14,16 @@ package org.assertj.core.internal;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.assertj.core.util.VisibleForTesting;
 
 
 /**
- * Compares the binary content of two streams.
+ * Compares the binary content of two inputStreams/paths.
  * 
  * @author Olivier Michallat
  */
@@ -31,11 +32,16 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
+    return diff(actual.toPath(), expected);
+  }
+
+  @VisibleForTesting
+  public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
     InputStream expectedStream = new ByteArrayInputStream(expected);
     InputStream actualStream = null;
     boolean threw = true;
     try {
-      actualStream = new FileInputStream(actual);
+      actualStream = Files.newInputStream(actual);
       BinaryDiffResult result = diff(actualStream, expectedStream);
       threw = false;
       return result;
