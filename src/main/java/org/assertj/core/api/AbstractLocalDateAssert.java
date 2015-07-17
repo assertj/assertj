@@ -49,10 +49,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * Verifies that the actual {@code LocalDate} is <b>strictly</b> before the given one.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01")).isBefore(parse("2000-01-02"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01")).isBefore(parse("2000-01-02"));</code></pre>
    * 
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
@@ -74,11 +71,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01")).isBefore("2000-01-02");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01")).isBefore("2000-01-02");</code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -96,11 +90,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * Verifies that the actual {@code LocalDate} is before or equals to the given one.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01")).isBeforeOrEqualTo(parse("2000-01-01"))
-   *                                .isBeforeOrEqualTo(parse("2000-01-02"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01")).isBeforeOrEqualTo(parse("2000-01-01"))
+   *                                .isBeforeOrEqualTo(parse("2000-01-02"));</code></pre>
    * 
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
@@ -124,12 +115,9 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
+   * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isBeforeOrEqualTo("2000-01-01")
-   *                                .isBeforeOrEqualTo("2000-01-02");
-   * </code></pre>
+   *                                .isBeforeOrEqualTo("2000-01-02");</code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -147,11 +135,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * Verifies that the actual {@code LocalDate} is after or equals to the given one.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01")).isAfterOrEqualTo(parse("2000-01-01"))
-   *                                .isAfterOrEqualTo(parse("1999-12-31"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01")).isAfterOrEqualTo(parse("2000-01-01"))
+   *                                .isAfterOrEqualTo(parse("1999-12-31"));</code></pre>
    * 
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
@@ -175,12 +160,9 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
+   * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01")).isAfterOrEqualTo("2000-01-01")
-   *                                .isAfterOrEqualTo("1999-12-31");
-   * </code></pre>
+   *                                .isAfterOrEqualTo("1999-12-31");</code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -198,10 +180,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * Verifies that the actual {@code LocalDate} is <b>strictly</b> after the given one.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01")).isAfter(parse("1999-12-31"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01")).isAfter(parse("1999-12-31"));</code></pre>
    * 
    * @param other the given {@link LocalDate}.
    * @return this assertion object.
@@ -225,11 +204,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
-   * assertThat(parse("2000-01-01")).isAfter("1999-12-31");
-   * </code></pre>
+   * <pre><code class='java'> // use String in comparison to avoid conversion
+   * assertThat(parse("2000-01-01")).isAfter("1999-12-31");</code></pre>
    * 
    * @param localDateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -250,11 +226,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01")).isEqualTo("2000-01-01");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01")).isEqualTo("2000-01-01");</code></pre>
    * 
    * @param dateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -275,11 +248,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01")).isNotEqualTo("2000-01-15");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01")).isNotEqualTo("2000-01-15");</code></pre>
    * 
    * @param dateTimeAsString String representing a {@link LocalDate}.
    * @return this assertion object.
@@ -300,11 +270,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use String based representation of LocalDate
-   * assertThat(parse("2000-01-01")).isIn("1999-12-31", "2000-01-01");
-   * </code></pre>
+   * <pre><code class='java'> // use String based representation of LocalDate
+   * assertThat(parse("2000-01-01")).isIn("1999-12-31", "2000-01-01");</code></pre>
    * 
    * @param dateTimesAsString String array representing {@link LocalDate}s.
    * @return this assertion object.
@@ -325,11 +292,8 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // use String based representation of LocalDate
-   * assertThat(parse("2000-01-01")).isNotIn("1999-12-31", "2000-01-02");
-   * </code></pre>
+   * <pre><code class='java'> // use String based representation of LocalDate
+   * assertThat(parse("2000-01-01")).isNotIn("1999-12-31", "2000-01-02");</code></pre>
    * 
    * @param dateTimesAsString Array of String representing a {@link LocalDate}.
    * @return this assertion object.
