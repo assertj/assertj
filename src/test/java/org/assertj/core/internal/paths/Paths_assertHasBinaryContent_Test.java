@@ -61,7 +61,7 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   
   @Test
   public void should_pass_if_path_has_expected_text_content() throws IOException {
-	when(binaryDiff.diff(path.toFile(), expected)).thenReturn(noDiff());
+	when(binaryDiff.diff(path, expected)).thenReturn(noDiff());
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	paths.assertHasBinaryContent(someInfo(), path, expected);
@@ -109,7 +109,7 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
 	IOException cause = new IOException();
-	when(binaryDiff.diff(path.toFile(), expected)).thenThrow(cause);
+	when(binaryDiff.diff(path, expected)).thenThrow(cause);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	try {
@@ -123,14 +123,14 @@ public class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
   @Test
   public void should_fail_if_path_does_not_have_expected_binary_content() throws IOException {
 	BinaryDiffResult binaryDiffs = new BinaryDiffResult(15, (byte) 0xCA, (byte) 0xFE);
-	when(binaryDiff.diff(path.toFile(), expected)).thenReturn(binaryDiffs);
+	when(binaryDiff.diff(path, expected)).thenReturn(binaryDiffs);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	AssertionInfo info = someInfo();
 	try {
 	  paths.assertHasBinaryContent(info, path, expected);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveBinaryContent(path.toFile(), binaryDiffs));
+	  verify(failures).failure(info, shouldHaveBinaryContent(path, binaryDiffs));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

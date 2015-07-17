@@ -42,7 +42,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 
   @Test
   public void should_pass_if_path_has_same_content_as_other() throws IOException {
-	when(diff.diff(actual.toFile(), other.toFile())).thenReturn(new ArrayList<String>());
+	when(diff.diff(actual, other)).thenReturn(new ArrayList<String>());
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
@@ -106,7 +106,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
 	IOException cause = new IOException();
-	when(diff.diff(actual.toFile(), other.toFile())).thenThrow(cause);
+	when(diff.diff(actual, other)).thenThrow(cause);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
@@ -121,7 +121,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
   @Test
   public void should_fail_if_actual_and_given_path_does_not_have_the_same_content() throws IOException {
 	List<String> diffs = newArrayList("line:1, other:<line1> but was:<EOF>");
-	when(diff.diff(actual.toFile(), other.toFile())).thenReturn(diffs);
+	when(diff.diff(actual, other)).thenReturn(diffs);
 	when(nioFilesWrapper.exists(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(actual)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(other)).thenReturn(true);
@@ -129,7 +129,7 @@ public class Paths_assertHasSameContentAs_Test extends MockPathsBaseTest {
 	try {
 	  paths.assertHasSameContentAs(info, actual, other);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveSameContent(actual.toFile(), other.toFile(), diffs));
+	  verify(failures).failure(info, shouldHaveSameContent(actual, other, diffs));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
