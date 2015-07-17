@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -42,12 +43,13 @@ public class TableAssert_containsCells_Test extends TableAssertBaseTest {
       assertThat(actual).containsCell(1, 4, "Millard Fillmore");
       fail("Assertion error expected.");
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%nExpecting row:<1> and column:<4> to have value:%n" +
-                               "  <Millard Fillmore>%n" +
-                               "but was:%n" +
-                               "  <Franklin Pierce>%n" +
-                               "in:%n" +
-                               "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>"));
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting row:<1> and column:<4> to have value:%n" +
+                                      "  <Millard Fillmore>%n" +
+                                      "but was:%n" +
+                                      "  <Franklin Pierce>%n" +
+                                      "in:%n" +
+                                      "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>"));
       return;
     }
   }

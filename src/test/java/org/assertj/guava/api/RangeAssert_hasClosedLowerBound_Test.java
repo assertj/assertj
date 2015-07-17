@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -26,36 +27,36 @@ public class RangeAssert_hasClosedLowerBound_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	// given
-	Range<Integer> actual = null;
-	// expect
-	expectException(AssertionError.class, actualIsNull());
-	// when
-	assertThat(actual).hasClosedLowerBound();
+    // given
+    Range<Integer> actual = null;
+    // expect
+    expectException(AssertionError.class, actualIsNull());
+    // when
+    assertThat(actual).hasClosedLowerBound();
   }
 
   @Test
   public void should_fail_when_range_has_opened_lower_bound() {
-	// given
-	final Range<Integer> actual = Range.openClosed(1, 10);
-	// expect
-	expectException(AssertionError.class, String.format("%n" +
-	                                      "Expecting:%n" +
-	                                      "  <(1‥10]>%n" +
-	                                      "to be closed in the lower bound but was opened"));
-	// when
-	assertThat(actual).hasClosedLowerBound();
+    // given
+    final Range<Integer> actual = Range.openClosed(1, 10);
+    // expect
+    expectException(AssertionError.class, format("%n" +
+                                                 "Expecting:%n" +
+                                                 "  <(1‥10]>%n" +
+                                                 "to be closed in the lower bound but was opened"));
+    // when
+    assertThat(actual).hasClosedLowerBound();
   }
 
   @Test
   public void should_pass_if_range_has_closed_lower_bound() throws Exception {
-	// given
-	final Range<Integer> actual = Range.closed(1, 10);
+    // given
+    final Range<Integer> actual = Range.closed(1, 10);
 
-	// when
-	assertThat(actual).hasClosedLowerBound();
+    // when
+    assertThat(actual).hasClosedLowerBound();
 
-	// then
-	// pass
+    // then
+    // pass
   }
 }

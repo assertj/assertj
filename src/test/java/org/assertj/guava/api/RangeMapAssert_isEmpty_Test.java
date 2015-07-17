@@ -24,27 +24,26 @@ public class RangeMapAssert_isEmpty_Test extends RangeMapAssertBaseTest {
 
   @Test
   public void should_pass_if_actual_is_empty() {
-	actual.clear();
-	assertThat(actual).isEmpty();
+    actual.clear();
+    assertThat(actual).isEmpty();
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	expectException(AssertionError.class, actualIsNull());
-	actual = null;
-	assertThat(actual).containsValues("blue", "red");
+    expectException(AssertionError.class, actualIsNull());
+    actual = null;
+    assertThat(actual).containsValues("blue", "red");
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
-	try {
-	  assertThat(actual).isEmpty();
-	} catch (AssertionError e) {
-      assertThat(e).hasMessage(format("%nExpecting empty but was:<[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, "
-		                       + "[570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>"));
-	  return;
-	}
-	fail("Assertion error expected");
+    try {
+      assertThat(actual).isEmpty();
+    } catch (AssertionError e) {
+      assertThat(e).hasMessage(format("%nExpecting empty but was:<[[380‥450)=violet, [450‥495)=blue, [495‥570)=green, [570‥590)=yellow, [590‥620)=orange, [620‥750)=red]>"));
+      return;
+    }
+    fail("Assertion error expected");
   }
 
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -26,36 +27,36 @@ public class RangeAssert_hasClosedUpperBound_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	// given
-	Range<Integer> actual = null;
-	// expect
-	expectException(AssertionError.class, actualIsNull());
-	// when
-	assertThat(actual).hasClosedUpperBound();
+    // given
+    Range<Integer> actual = null;
+    // expect
+    expectException(AssertionError.class, actualIsNull());
+    // when
+    assertThat(actual).hasClosedUpperBound();
   }
 
   @Test
   public void should_fail_when_range_has_opened_upper_bound() {
-	// given
-	final Range<Integer> actual = Range.closedOpen(1, 10);
-	// expect
-	expectException(AssertionError.class, String.format("%n" +
-	                                      "Expecting:%n" +
-	                                      "  <[1‥10)>%n" +
-	                                      "to be closed in the upper bound but was opened"));
-	// when
-	assertThat(actual).hasClosedUpperBound();
+    // given
+    final Range<Integer> actual = Range.closedOpen(1, 10);
+    // expect
+    expectException(AssertionError.class, format("%n" +
+                                                 "Expecting:%n" +
+                                                 "  <[1‥10)>%n" +
+                                                 "to be closed in the upper bound but was opened"));
+    // when
+    assertThat(actual).hasClosedUpperBound();
   }
 
   @Test
   public void should_pass_if_range_has_closed_upper_bound() throws Exception {
-	// given
-	final Range<Integer> actual = Range.closed(1, 10);
+    // given
+    final Range<Integer> actual = Range.closed(1, 10);
 
-	// when
-	assertThat(actual).hasClosedUpperBound();
+    // when
+    assertThat(actual).hasClosedUpperBound();
 
-	// then
-	// pass
+    // then
+    // pass
   }
 }

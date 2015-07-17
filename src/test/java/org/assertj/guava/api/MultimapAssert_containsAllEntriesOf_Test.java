@@ -14,6 +14,7 @@ package org.assertj.guava.api;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -87,7 +88,7 @@ public class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBase
       assertThat(actual).containsAllEntriesOf(other);
     } catch (AssertionError e) {
       // @format:off
-      assertThat(e).hasMessage(String.format("%nExpecting:%n"                                   +
+      assertThat(e).hasMessage(format("%nExpecting:%n"                                   +
           " <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n" +
           "to contain:%n" +
           " <{Lakers=[Kobe Bryant, Kareem Abdul Jabbar, Magic Johnson], Bulls=[Michael Jordan, Derrick Rose, Scottie Pippen], Warriors=[Stephen Curry, Klay Thompson], Spurs=[Tim Duncan, Tony Parker, Manu Ginobili]}>%n" +

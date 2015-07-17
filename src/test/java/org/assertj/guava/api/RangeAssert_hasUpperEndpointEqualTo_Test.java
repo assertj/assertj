@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -23,40 +24,40 @@ public class RangeAssert_hasUpperEndpointEqualTo_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	// given
-	Range<Integer> actual = null;
-	// expect
-	expectException(AssertionError.class, actualIsNull());
-	// when
-	assertThat(actual).hasUpperEndpointEqualTo(1);
+    // given
+    Range<Integer> actual = null;
+    // expect
+    expectException(AssertionError.class, actualIsNull());
+    // when
+    assertThat(actual).hasUpperEndpointEqualTo(1);
   }
 
   @Test
   public void should_fail_when_range_has_not_the_expected_upper_endpoint() {
-	// given
-	final Range<Integer> actual = Range.closed(1, 10);
-	// expect
-	expectException(AssertionError.class, String.format("%n" +
-	                                      "Expecting:%n" +
-	                                      "  <[1‥10]>%n" +
-	                                      "to have upper endpoint equal to:%n" +
-	                                      "  <2>%n" +
-	                                      "but was:%n" +
-	                                      "  <10>"));
-	// when
-	assertThat(actual).hasUpperEndpointEqualTo(2);
+    // given
+    final Range<Integer> actual = Range.closed(1, 10);
+    // expect
+    expectException(AssertionError.class, format("%n" +
+                                                 "Expecting:%n" +
+                                                 "  <[1‥10]>%n" +
+                                                 "to have upper endpoint equal to:%n" +
+                                                 "  <2>%n" +
+                                                 "but was:%n" +
+                                                 "  <10>"));
+    // when
+    assertThat(actual).hasUpperEndpointEqualTo(2);
   }
 
   @Test
   public void should_pass_if_range_has_expected_upper_endpoint() throws Exception {
-	// given
-	final Range<Integer> actual = Range.closedOpen(1, 10);
+    // given
+    final Range<Integer> actual = Range.closedOpen(1, 10);
 
-	// when
-	assertThat(actual).hasUpperEndpointEqualTo(10);
+    // when
+    assertThat(actual).hasUpperEndpointEqualTo(10);
 
-	// then
-	// pass
+    // then
+    // pass
   }
 
 }

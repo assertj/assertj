@@ -12,10 +12,10 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
-
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
@@ -52,12 +52,12 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
     try {
       assertThat(actual).containsValues("Magic Johnson", "Lebron James");
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%nExpecting:%n"
-                                   + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
-                                   + "to contain values:%n"
-                                   + "  <[\"Magic Johnson\", \"Lebron James\"]>%n"
-                                   + "but could not find:%n"
-                                   + "  <[\"Lebron James\"]>"));
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
+                                      + "to contain values:%n"
+                                      + "  <[\"Magic Johnson\", \"Lebron James\"]>%n"
+                                      + "but could not find:%n"
+                                      + "  <[\"Lebron James\"]>"));
       return;
     }
     fail("Assertion error expected");
@@ -69,10 +69,10 @@ public class MultimapAssert_containsValues_Test extends MultimapAssertBaseTest {
       assertThat(actual).containsValues("Lebron James");
     } catch (AssertionError e) {
       // error message shows that we were looking for a unique value (not many)
-      assertThat(e).hasMessage(String.format("%nExpecting:%n"
-                                   + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
-                                   + "to contain value:%n"
-                                   + "  <\"Lebron James\">"));
+      assertThat(e).hasMessage(format("%nExpecting:%n"
+                                      + "  <{Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}>%n"
+                                      + "to contain value:%n"
+                                      + "  <\"Lebron James\">"));
       return;
     }
     fail("Assertion error expected");

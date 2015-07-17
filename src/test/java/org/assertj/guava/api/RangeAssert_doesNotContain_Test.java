@@ -40,8 +40,13 @@ public class RangeAssert_doesNotContain_Test extends BaseTest {
     // given
     final Range<Integer> actual = Range.closed(1, 10);
     // expect
-    expectException(AssertionError.class,
-                    format("%nExpecting%n <[1‥10]>%nnot to contain%n <[9, 10, 11]>%nbut found%n <[9, 10]>%n"));
+    expectException(AssertionError.class, format("%n" +
+                                                 "Expecting%n" +
+                                                 " <[1‥10]>%n" +
+                                                 "not to contain%n" +
+                                                 " <[9, 10, 11]>%n" +
+                                                 "but found%n" +
+                                                 " <[9, 10]>%n"));
     // when
     assertThat(actual).doesNotContain(9, 10, 11);
   }

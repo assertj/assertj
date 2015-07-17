@@ -42,7 +42,7 @@ public class RangeAssert_contains_Test extends BaseTest {
     // expect
     expectException(IllegalArgumentException.class, "The values to look for should not be null");
     // when
-    assertThat(actual).contains((Integer[])null);
+    assertThat(actual).contains((Integer[]) null);
   }
 
   @Test
@@ -70,8 +70,12 @@ public class RangeAssert_contains_Test extends BaseTest {
     // given
     final Range<Integer> actual = Range.closedOpen(1, 10);
     // expect
-    expectException(AssertionError.class,
-                    format("%nExpecting:%n <[1‥10)>%nto contain:%n <[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>%nbut could not find:%n <[10]>%n"));
+    expectException(AssertionError.class, format("%nExpecting:%n" +
+                                                 " <[1‥10)>%n" +
+                                                 "to contain:%n" +
+                                                 " <[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]>%n" +
+                                                 "but could not find:%n" +
+                                                 " <[10]>%n"));
     // when
     assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }

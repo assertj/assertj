@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
@@ -48,9 +49,9 @@ public class ByteSourceAssert_hasSize_Test extends BaseTest {
     try {
       assertThat(ByteSource.wrap(new byte[9])).hasSize(3);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%n" +
-                               "Expected size:<3> but was:<9> in:%n" +
-                               "<ByteSource.wrap(000000000000000000)>"));
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expected size:<3> but was:<9> in:%n" +
+                                      "<ByteSource.wrap(000000000000000000)>"));
       return;
     }
     fail("Assertion error expected");

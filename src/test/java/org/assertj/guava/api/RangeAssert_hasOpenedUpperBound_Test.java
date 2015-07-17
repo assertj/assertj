@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -26,36 +27,36 @@ public class RangeAssert_hasOpenedUpperBound_Test extends BaseTest {
 
   @Test
   public void should_fail_if_actual_is_null() {
-	// given
-	Range<Integer> actual = null;
-	// expect
-	expectException(AssertionError.class, actualIsNull());
-	// when
-	assertThat(actual).hasOpenedUpperBound();
+    // given
+    Range<Integer> actual = null;
+    // expect
+    expectException(AssertionError.class, actualIsNull());
+    // when
+    assertThat(actual).hasOpenedUpperBound();
   }
 
   @Test
   public void should_fail_when_range_has_closed_upper_bound() {
-	// given
-	final Range<Integer> actual = Range.openClosed(1, 10);
-	// expect
-	expectException(AssertionError.class, String.format("%n"
-	                                      + "Expecting:%n"
-	                                      + "  <(1‥10]>%n"
-	                                      + "to be opened in the upper bound but was closed"));
-	// when
-	assertThat(actual).hasOpenedUpperBound();
+    // given
+    final Range<Integer> actual = Range.openClosed(1, 10);
+    // expect
+    expectException(AssertionError.class, format("%n"
+                                                 + "Expecting:%n"
+                                                 + "  <(1‥10]>%n"
+                                                 + "to be opened in the upper bound but was closed"));
+    // when
+    assertThat(actual).hasOpenedUpperBound();
   }
 
   @Test
   public void should_pass_if_range_has_opened_upper_bound() throws Exception {
-	// given
-	final Range<Integer> actual = Range.closedOpen(1, 10);
+    // given
+    final Range<Integer> actual = Range.closedOpen(1, 10);
 
-	// when
-	assertThat(actual).hasOpenedUpperBound();
+    // when
+    assertThat(actual).hasOpenedUpperBound();
 
-	// then
-	// pass
+    // then
+    // pass
   }
 }

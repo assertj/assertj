@@ -12,6 +12,7 @@
  */
 package org.assertj.guava.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -53,12 +54,13 @@ public class TableAssert_containsColumns_Test extends TableAssertBaseTest {
     try {
       assertThat(actual).containsColumns(9, 6);
     } catch (AssertionError e) {
-      assertThat(e).hasMessage(String.format("%nExpecting:%n" +
-                               "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>%n" +
-                               "to contain columns:%n" +
-                               "  <[9, 6]>%n" +
-                               "but could not find:%n" +
-                               "  <[6, 9]>"));
+      assertThat(e).hasMessage(format("%n" +
+                                      "Expecting:%n" +
+                                      "  <{1={4=Franklin Pierce, 3=Millard Fillmore}, 2={5=Grover Cleveland}}>%n" +
+                                      "to contain columns:%n" +
+                                      "  <[9, 6]>%n" +
+                                      "but could not find:%n" +
+                                      "  <[6, 9]>"));
       return;
     }
     fail("Assertion error expected.");
