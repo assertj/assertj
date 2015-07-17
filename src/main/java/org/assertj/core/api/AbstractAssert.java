@@ -116,14 +116,10 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p>
    * Instead of writing ...
    * 
-   * <pre><code class='java'>
-   * throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());
-   * </code></pre>
+   * <pre><code class='java'> throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());</code></pre>
    * ... you can simply write :
    * 
-   * <pre><code class='java'>
-   * failure(info, ShouldBePresent.shouldBePresent());
-   * </code></pre>
+   * <pre><code class='java'> failure(info, ShouldBePresent.shouldBePresent());</code></pre>
    * 
    * 
    * @param errorMessageFactory used to define the erro message.
@@ -487,9 +483,7 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p>
    * Example :
    * 
-   * <pre><code class='java'>
-   * assertThat(player).matches(p -> p.isRookie());
-   * </code></pre>
+   * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie());</code></pre>
    * 
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
@@ -507,17 +501,13 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
    * <p>
    * Example :
    * 
-   * <pre><code class='java'>
-   * assertThat(player).matches(p -> p.isRookie(), "is rookie");
-   * </code></pre>
+   * <pre><code class='java'> assertThat(player).matches(p -> p.isRookie(), "is rookie");</code></pre>
    * 
    * The error message contains the predicate description, if the previous assertion fails, it will be:
    * 
-   * <pre><code class='java'>
-   * Expecting:
+   * <pre><code class='java'> Expecting:
    *   &lt;player&gt;
-   * to match 'is rookie' predicate.
-   * </code></pre>
+   * to match 'is rookie' predicate.</code></pre>
    * 
    * @param predicate the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message

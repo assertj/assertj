@@ -1129,16 +1129,14 @@ public abstract class AbstractObjectArrayAssert<S extends AbstractObjectArrayAss
    * <p>
    * Example : check old employees whose age > 100:
    * 
-   * <pre><code class='java'> 
-   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * 
    * Employee[] employees = new Employee[] { yoda, luke, obiwan };
    * 
    * assertThat(employees).filteredOn(employee -> employee.getAge() > 100)
-   *                      .containsOnly(yoda, obiwan);
-   * </code></pre>
+   *                      .containsOnly(yoda, obiwan);</code></pre>
    * 
    * @param predicate the filter predicate
    * @return a new assertion object with the filtered array under test

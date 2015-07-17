@@ -65,24 +65,19 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    * args to build the description as in {@link String#format(String, Object...)}.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // build condition with Predicate&lt;String&gt; and set description using String#format pattern.
+   * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.
    * Condition&lt;String&gt; fairyTale = new Condition&lt;String&gt;(s -> s.startsWith("Once upon a time"), "a %s tale", "fairy");
    * 
    * String littleRedCap = "Once upon a time there was a dear little girl ...";
-   * assertThat(littleRedCap).is(fairyTale);
-   * </code></pre>
-   * Error message example:
+   * assertThat(littleRedCap).is(fairyTale);</code></pre>
    * 
-   * <pre><code class='java'>
-   * // unfortunately this assertion fails ... but contact me if you can make it pass :)
+   * Error message example:
+   * <pre><code class='java'> // unfortunately this assertion fails ... but contact me if you can make it pass :)
    * assertThat("life").is(fairyTale);
    * // error message
    * Expecting:
    *  &lt;"life"&gt;
-   * to be &lt;a fairy tale&gt;
-   * </code></pre>
+   * to be &lt;a fairy tale&gt;</code></pre>
    * 
    * @param predicate the {@link Predicate} used to build the condition.
    * @param description the description of this condition.

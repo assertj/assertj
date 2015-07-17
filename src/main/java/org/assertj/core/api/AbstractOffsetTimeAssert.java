@@ -57,9 +57,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("12:00:00Z")).isBefore(parse("13:00:00Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("12:00:00Z")).isBefore(parse("13:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -86,10 +84,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
-   * assertThat(parse("12:59Z")).isBefore("13:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * assertThat(parse("12:59Z")).isBefore("13:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -110,10 +106,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("12:00:00Z")).isBeforeOrEqualTo(parse("12:00:00Z"))
-   *                               .isBeforeOrEqualTo(parse("12:00:01Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("12:00:00Z")).isBeforeOrEqualTo(parse("12:00:00Z"))
+   *                               .isBeforeOrEqualTo(parse("12:00:01Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -140,19 +134,16 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("12:00:00Z")).isBeforeOrEqualTo("12:00:00Z")
-   *                               .isBeforeOrEqualTo("13:00:00Z");
-   * </code></pre>
+   *                               .isBeforeOrEqualTo("13:00:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link java.time.OffsetTime}.
    * @throws AssertionError if the actual {@code OffsetTime} is not before or equals to the {@link java.time.OffsetTime}
-   *           built from
-   *           given String.
+   *           built from given String.
    */
   public S isBeforeOrEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
@@ -165,10 +156,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("13:00:00Z")).isAfterOrEqualTo(parse("13:00:00Z"))
-   *                               .isAfterOrEqualTo(parse("12:00:00Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("13:00:00Z")).isAfterOrEqualTo(parse("13:00:00Z"))
+   *                               .isAfterOrEqualTo(parse("12:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -195,11 +184,9 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
    * assertThat(parse("13:00:00Z")).isAfterOrEqualTo("13:00:00Z")
-   *                              .isAfterOrEqualTo("12:00:00Z");
-   * </code></pre>
+   *                               .isAfterOrEqualTo("12:00:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -220,9 +207,7 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("13:00:00Z")).isAfter(parse("12:00:00Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("13:00:00Z")).isAfter(parse("12:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -249,18 +234,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
-   * assertThat(parse("13:00:00Z")).isAfter("12:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * assertThat(parse("13:00:00Z")).isAfter("12:00:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link java.time.OffsetTime}.
    * @throws AssertionError if the actual {@code OffsetTime} is not strictly after the {@link java.time.OffsetTime}
-   *           built
-   *           from given String.
+   *           built from given String.
    */
   public S isAfter(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
@@ -277,10 +259,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
-   * assertThat(parse("13:00:00Z")).isEqualTo("13:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * assertThat(parse("13:00:00Z")).isEqualTo("13:00:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -304,18 +284,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
-   * assertThat(parse("13:00:00Z")).isNotEqualTo("12:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTime as String (AssertJ taking care of the conversion)
+   * assertThat(parse("13:00:00Z")).isNotEqualTo("12:00:00Z");</code></pre>
    *
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link java.time.OffsetTime}.
    * @throws AssertionError if the actual {@code OffsetTime} is equal to the {@link java.time.OffsetTime} built from
-   *           given
-   *           String.
+   *           given String.
    */
   public S isNotEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
@@ -332,18 +309,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
-   * assertThat(parse("13:00:00Z")).isIn("12:00:00Z", "13:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
+   * assertThat(parse("13:00:00Z")).isIn("12:00:00Z", "13:00:00Z");</code></pre>
    *
    * @param offsetTimesAsString String array representing {@link java.time.OffsetTime}s.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
    * @throws IllegalArgumentException if given String is null or can't be converted to a {@link java.time.OffsetTime}.
    * @throws AssertionError if the actual {@code OffsetTime} is not in the {@link java.time.OffsetTime}s built from
-   *           given
-   *           Strings.
+   *           given Strings.
    */
   public S isIn(String... offsetTimesAsString) {
     checkIsNotNullAndNotEmpty(offsetTimesAsString);
@@ -360,10 +334,8 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
-   * assertThat(parse("13:00:00Z")).isNotIn("12:00:00Z", "14:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // you can express expected OffsetTimes as String (AssertJ taking care of the conversion)
+   * assertThat(parse("13:00:00Z")).isNotIn("12:00:00Z", "14:00:00Z");</code></pre>
    *
    * @param offsetTimesAsString Array of String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -429,17 +401,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(12, 0, 1, 456, ZoneOffset.UTC);
    * assertThat(OffsetTime1).isEqualToIgnoringNanos(OffsetTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ns)
    * OffsetTime OffsetTimeA = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(12, 0, 0, 999999999, ZoneOffset.UTC);
-   * assertThat(OffsetTimeA).isEqualToIgnoringNanos(OffsetTimeB);
-   * </code></pre>
+   * assertThat(OffsetTimeA).isEqualToIgnoringNanos(OffsetTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -470,17 +440,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 50, 10, 456, ZoneOffset.UTC);
    * assertThat(OffsetTime1).isEqualToIgnoringSeconds(OffsetTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime OffsetTimeA = OffsetTime.of(23, 50, 00, 000, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(23, 49, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetTimeA).isEqualToIgnoringSeconds(OffsetTimeB);
-   * </code></pre>
+   * assertThat(OffsetTimeA).isEqualToIgnoringSeconds(OffsetTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -504,17 +472,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Code examples :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetTime offsetTime = OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC);
    * OffsetTime offsetTime2 = OffsetTime.of(12, 0, 0, 0, ZoneOffset.MAX);
    * assertThat(offsetTime).isEqualToIgnoringTimezone(offsetTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime offsetTime = OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC);
    * OffsetTime offsetTime2 = OffsetTime.of(12, 1, 0, 0, ZoneOffset.UTC);
-   * assertThat(offsetTime).isEqualToIgnoringTimezone(offsetTime2);
-   * </code></pre>
+   * assertThat(offsetTime).isEqualToIgnoringTimezone(offsetTime2); </code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.
@@ -544,17 +510,15 @@ public abstract class AbstractOffsetTimeAssert<S extends AbstractOffsetTimeAsser
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetTime OffsetTime2 = OffsetTime.of(23, 00, 2, 7, ZoneOffset.UTC);
    * assertThat(OffsetTime1).hasSameHourAs(OffsetTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetTime OffsetTimeA = OffsetTime.of(01, 00, 00, 000, ZoneOffset.UTC);
    * OffsetTime OffsetTimeB = OffsetTime.of(00, 59, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetTimeA).hasSameHourAs(OffsetTimeB);
-   * </code></pre>
+   * assertThat(OffsetTimeA).hasSameHourAs(OffsetTimeB); </code></pre>
    *
    * @param other the given {@link java.time.OffsetTime}.
    * @return this assertion object.

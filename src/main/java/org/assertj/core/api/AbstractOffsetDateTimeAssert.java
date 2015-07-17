@@ -60,9 +60,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01T23:59:59Z")).isBefore(parse("2000-01-02T00:00:00Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBefore(parse("2000-01-02T00:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -89,10 +87,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01T23:59:59Z")).isBefore("2000-01-02T00:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01T23:59:59Z")).isBefore("2000-01-02T00:00:00Z");</code></pre>
    *
    * @param offsetDateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -114,10 +110,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59Z"))
-   *                                         .isBeforeOrEqualTo(parse("2000-01-02T00:00:00Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo(parse("2000-01-01T23:59:59Z"))
+   *                                          .isBeforeOrEqualTo(parse("2000-01-02T00:00:00Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -144,11 +138,9 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
+   * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01T23:59:59Z")).isBeforeOrEqualTo("2000-01-01T23:59:59Z")
-   *                                         .isBeforeOrEqualTo("2000-01-02T00:00:00Z");
-   * </code></pre>
+   *                                          .isBeforeOrEqualTo("2000-01-02T00:00:00Z");</code></pre>
    *
    * @param offsetDateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -169,10 +161,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T00:00:00Z"))
-   *                                         .isAfterOrEqualTo(parse("1999-12-31T23:59:59Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo(parse("2000-01-01T00:00:00Z"))
+   *                                          .isAfterOrEqualTo(parse("1999-12-31T23:59:59Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -199,11 +189,9 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
+   * <pre><code class='java'> // use String in comparison to avoid conversion
    * assertThat(parse("2000-01-01T00:00:00Z")).isAfterOrEqualTo("2000-01-01T00:00:00Z")
-   *                                         .isAfterOrEqualTo("1999-12-31T23:59:59Z");
-   * </code></pre>
+   *                                          .isAfterOrEqualTo("1999-12-31T23:59:59Z");</code></pre>
    *
    * @param offsetDateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -224,9 +212,7 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(parse("2000-01-01T00:00:00Z")).isAfter(parse("1999-12-31T23:59:59Z"));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(parse("2000-01-01T00:00:00Z")).isAfter(parse("1999-12-31T23:59:59Z"));</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -253,10 +239,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use String in comparison to avoid conversion
-   * assertThat(parse("2000-01-01T00:00:00Z")).isAfter("1999-12-31T23:59:59Z");
-   * </code></pre>
+   * <pre><code class='java'> // use String in comparison to avoid conversion
+   * assertThat(parse("2000-01-01T00:00:00Z")).isAfter("1999-12-31T23:59:59Z");</code></pre>
    *
    * @param offsetDateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -281,10 +265,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01T00:00:00Z")).isEqualTo("2000-01-01T00:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01T00:00:00Z")).isEqualTo("2000-01-01T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -309,10 +291,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use directly String in comparison to avoid writing the code to perform the conversion
-   * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo("2000-01-15T00:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // use directly String in comparison to avoid writing the code to perform the conversion
+   * assertThat(parse("2000-01-01T00:00:00Z")).isNotEqualTo("2000-01-15T00:00:00Z");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -337,10 +317,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use String based representation of OffsetDateTime
-   * assertThat(parse("2000-01-01T00:00:00Z")).isIn("1999-12-31T00:00:00Z", "2000-01-01T00:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // use String based representation of OffsetDateTime
+   * assertThat(parse("2000-01-01T00:00:00Z")).isIn("1999-12-31T00:00:00Z", "2000-01-01T00:00:00Z");</code></pre>
    *
    * @param dateTimesAsString String array representing {@link java.time.OffsetDateTime}s.
    * @return this assertion object.
@@ -365,10 +343,8 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // use String based representation of OffsetDateTime
-   * assertThat(parse("2000-01-01T00:00:00Z")).isNotIn("1999-12-31T00:00:00Z", "2000-01-02T00:00:00Z");
-   * </code></pre>
+   * <pre><code class='java'> // use String based representation of OffsetDateTime
+   * assertThat(parse("2000-01-01T00:00:00Z")).isNotIn("1999-12-31T00:00:00Z", "2000-01-02T00:00:00Z");</code></pre>
    *
    * @param dateTimesAsString Array of String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -396,17 +372,15 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 456, ZoneOffset.UTC);
-   * assertThat(OffsetDateTime1).isEqualToIgnoringNanos(OffsetDateTime2);
-   * <p>
-   * // failing assertions (even if time difference is only 1ns)
+   * assertThat(OffsetDateTime1).isEqualToIgnoringNanos(OffsetDateTime2);</code></pre>
+   * 
+   * <pre><code class='java'> // failing assertions (even if time difference is only 1ns)
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 0, 0, 0, 999999999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringNanos(OffsetDateTimeB);
-   * </code></pre>
+   * assertThat(OffsetDateTimeA).isEqualToIgnoringNanos(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -431,17 +405,15 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.MAX);
    * assertThat(OffsetDateTime1).isEqualToIgnoringTimezone(OffsetDateTime2);
-   * <p>
+   * 
    * // failing assertions
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 0, 0, 0, 999999999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringTimezone(OffsetDateTimeB);
-   * </code></pre>
+   * assertThat(OffsetDateTimeA).isEqualToIgnoringTimezone(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -472,17 +444,15 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 50, 10, 456, ZoneOffset.UTC);
    * assertThat(OffsetDateTime1).isEqualToIgnoringSeconds(OffsetDateTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 23, 50, 00, 000, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 23, 49, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringSeconds(OffsetDateTimeB);
-   * </code></pre>
+   * assertThat(OffsetDateTimeA).isEqualToIgnoringSeconds(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -514,17 +484,15 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 00, 2, 7, ZoneOffset.UTC);
    * assertThat(OffsetDateTime1).isEqualToIgnoringMinutes(OffsetDateTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 01, 00, 00, 000, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 00, 59, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringMinutes(OffsetDateTimeB);
-   * </code></pre>
+   * assertThat(OffsetDateTimeA).isEqualToIgnoringMinutes(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.
@@ -556,17 +524,15 @@ public abstract class AbstractOffsetDateTimeAssert<S extends AbstractOffsetDateT
    * Code example :
    * <p>
    * 
-   * <pre><code class='java'>
-   * // successful assertions
+   * <pre><code class='java'> // successful assertions
    * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 00, 00, 00, 000, ZoneOffset.UTC);
    * assertThat(OffsetDateTime1).isEqualToIgnoringHours(OffsetDateTime2);
-   * <p>
+   * 
    * // failing assertions (even if time difference is only 1ms)
    * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 2, 00, 00, 00, 000, ZoneOffset.UTC);
    * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringHours(OffsetDateTimeB);
-   * </code></pre>
+   * assertThat(OffsetDateTimeA).isEqualToIgnoringHours(OffsetDateTimeB);</code></pre>
    *
    * @param other the given {@link java.time.OffsetDateTime}.
    * @return this assertion object.

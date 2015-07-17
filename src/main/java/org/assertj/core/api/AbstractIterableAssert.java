@@ -965,8 +965,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <p/>
    * Let's take an example to make things clearer :
    * 
-   * <pre><code class='java'>
-   * // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
+   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
    * // they can be public field or properties, both can be extracted.
    * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
    * 
@@ -991,8 +990,7 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    *                                              tuple("Pippin", 28, HOBBIT),
    *                                              tuple("Gimli", 139, DWARF),
    *                                              tuple("Aragorn", 87, MAN),
-   *                                              tuple("Boromir", 37, MAN));
-   * </code></pre>
+   *                                              tuple("Boromir", 37, MAN));</code></pre>
    * You can use lambda expression or a method reference to extract the expected values.
    * <p/>
    * Use {@link Tuple#tuple(Object...)} to initialize the expected values.
@@ -1027,15 +1025,13 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <p/>
    * Example :
    * 
-   * <pre><code class='java'>
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
    * 
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(newLinkedList(vilya, nenya, narya));
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(elvesRings).containsExactly(newLinkedList(nenya, vilya, narya));
-   * </code></pre>
+   * assertThat(elvesRings).containsExactly(newLinkedList(nenya, vilya, narya));</code></pre>
    *
    * @param iterable the given {@code Iterable} we will get elements from.
    */
@@ -1438,16 +1434,14 @@ public abstract class AbstractIterableAssert<S extends AbstractIterableAssert<S,
    * <p>
    * Example : check old employees whose age > 100:
    * 
-   * <pre><code class='java'> 
-   * Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
+   * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * 
    * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
    * 
    * assertThat(employees).filteredOn(employee -> employee.getAge() > 100)
-   *                      .containsOnly(yoda, obiwan);
-   * </code></pre>
+   *                      .containsOnly(yoda, obiwan);</code></pre>
    * 
    * @param predicate the filter predicate
    * @return a new assertion object with the filtered iterable under test

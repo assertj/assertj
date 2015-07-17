@@ -37,16 +37,12 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.of(10)).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.of(10)).isPresent();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.empty()).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if actual value is empty.
@@ -64,16 +60,12 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.empty()).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.empty()).isEmpty();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.of(10)).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.of(10)).isEmpty();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if actual value is present.
@@ -91,18 +83,14 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.of(8)).hasValue(8);
-   * assertThat(OptionalLong.of(8)).hasValue(Integer.valueOf(8));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.of(8)).hasValue(8);
+   * assertThat(OptionalLong.of(8)).hasValue(Integer.valueOf(8));</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalLong.empty()).hasValue(8);
-   * assertThat(OptionalLong.of(7)).hasValue(8);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalLong.empty()).hasValue(8);
+   * assertThat(OptionalLong.of(7)).hasValue(8);</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalLong}.
    * @return this assertion object.

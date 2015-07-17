@@ -43,16 +43,12 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.of(10)).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.of(10)).isPresent();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.empty()).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if actual value is empty.
@@ -70,16 +66,12 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.empty()).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.empty()).isEmpty();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.of(10)).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.of(10)).isEmpty();</code></pre>
    *
    * @return this assertion object.
    * @throws AssertionError if actual value is present.
@@ -97,18 +89,14 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.of(8)).hasValue(8);
-   * assertThat(OptionalInt.of(8)).hasValue(Integer.valueOf(8));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.of(8)).hasValue(8);
+   * assertThat(OptionalInt.of(8)).hasValue(Integer.valueOf(8));</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalInt.empty()).hasValue(8);
-   * assertThat(OptionalInt.of(7)).hasValue(8);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalInt.empty()).hasValue(8);
+   * assertThat(OptionalInt.of(7)).hasValue(8);</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalInt}.
    * @return this assertion object.

@@ -46,16 +46,12 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.of(10.0)).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isPresent();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.empty()).isPresent();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
    * @throws java.lang.AssertionError if actual value is empty.
@@ -73,16 +69,12 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.empty()).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).isEmpty();</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.of(10.0)).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalDouble.of(10.0)).isEmpty();</code></pre>
    *
    * @return this assertion object.
    * @throws java.lang.AssertionError if actual value is present.
@@ -100,19 +92,15 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
+   * <pre><code class='java'> assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
    * assertThat(OptionalDouble.of(8.0)).hasValue(Double.valueOf(8.0));
-   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN);
-   * </code></pre>
+   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN); </code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.empty()).hasValue(8.0);
-   * assertThat(OptionalDouble.of(7)).hasValue(8.0);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValue(8.0);
+   * assertThat(OptionalDouble.of(7)).hasValue(8.0);</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
    * @return this assertion object.
@@ -133,21 +121,17 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    * Assertion will pass :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.of(8)).hasValueCloseTo(8.0, within(0d));
+   * <pre><code class='java'> assertThat(OptionalDouble.of(8)).hasValueCloseTo(8.0, within(0d));
    * assertThat(OptionalDouble.of(8)).hasValueCloseTo(8.0, within(1d));
-   * assertThat(OptionalDouble.of(7)).hasValueCloseTo(8.0, within(1d));
-   * </code></pre>
+   * assertThat(OptionalDouble.of(7)).hasValueCloseTo(8.0, within(1d));</code></pre>
    * <p>
    * Assertion will fail :
    * <p>
    * 
-   * <pre><code class='java'>
-   * assertThat(OptionalDouble.empty()).hasValueCloseTo(8.0, within(1d));
+   * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValueCloseTo(8.0, within(1d));
    * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, within(1d));
    * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, null);
-   * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, within(-1d));
-   * </code></pre>
+   * assertThat(OptionalDouble.of(7)).hasValueCloseTo(1.0, within(-1d));</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
    * @param offset the given positive offset.
