@@ -100,6 +100,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isEqualTo("2002-12-18");
    *
    * // assertion will fail
@@ -409,7 +410,8 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * Beware that the default formats are expressed in the current local timezone.
    * <p/>
    * Example:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertion will pass 
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isNotEqualTo("2002-12-19");
    *
    * // assertion will fail
@@ -448,6 +450,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isIn("2002-12-17", "2002-12-18", "2002-12-19");
    *
    * // assertion will fail
@@ -490,12 +493,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(
-   *     Arrays.asList("2002-12-17", "2002-12-18", "2002-12-19"));
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-18", "2002-12-19"));
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(
-   *     Arrays.asList("2002-12-17", "2002-12-19", "2002-12-20"));</code></pre>
+   * assertThat(theTwoTowers.getReleaseDate()).isInWithStringDateCollection(asList("2002-12-17", "2002-12-19", "2002-12-20"));</code></pre>
    *
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
@@ -537,6 +539,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isNotIn("2002-12-17", "2002-12-19");
    *
    * // assertion will fail
@@ -579,12 +582,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17",
-   * "2002-12-19"));
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-19"));
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17",
-   * "2002-12-18"));</code></pre>
+   * assertThat(theTwoTowers.getReleaseDate()).isNotInWithStringDateCollection(Arrays.asList("2002-12-17", "2002-12-18"));</code></pre>
    * 
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
@@ -622,6 +624,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBefore(theReturnOfTheKing.getReleaseDate());
    *
    * // assertion will fail
@@ -646,6 +649,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBefore("2002-12-19");
    *
    * // assertion will fail
@@ -702,6 +706,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-19");
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-18");
    *
@@ -741,6 +746,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isAfter(theFellowshipOfTheRing.getReleaseDate());
    *
    * // assertion will fail
@@ -765,6 +771,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isAfter("2002-12-17");
    *
    * // assertion will fail
@@ -821,6 +828,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-17");
    * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-18");
    *
@@ -860,12 +868,11 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isBetween(theFellowshipOfTheRing.getReleaseDate(),
-   *     theReturnOfTheKing.getReleaseDate());
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isBetween(theFellowshipOfTheRing.getReleaseDate(), theReturnOfTheKing.getReleaseDate());
    *
    * // assertion will fail
-   * assertThat(theFellowshipOfTheRing.getReleaseDate()).isBetween(theTwoTowers.getReleaseDate(),
-   *     theReturnOfTheKing.getReleaseDate());</code></pre>
+   * assertThat(theFellowshipOfTheRing.getReleaseDate()).isBetween(theTwoTowers.getReleaseDate(), theReturnOfTheKing.getReleaseDate());</code></pre>
    *
    * @param start the period start (inclusive), expected not to be null.
    * @param end the period end (exclusive), expected not to be null.
@@ -887,6 +894,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-19");
    *
    * // assertion will fail
@@ -952,6 +960,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-17", "2002-12-18", false, true);
    * assertThat(theTwoTowers.getReleaseDate()).isBetween("2002-12-18", "2002-12-19", true, false);
    *
@@ -1021,14 +1030,12 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
-   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false,
-   * false);
+   * // theTwoTowers release date : 2002-12-18
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false, false);
    *
    * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false,
-   * true);
-   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true,
-   * false);</code></pre>
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-17", "2002-12-18", false, true);
+   * assertThat(theTwoTowers.getReleaseDate()).isNotBetween("2002-12-18", "2002-12-19", true, false);</code></pre>
    * 
    * Defaults date format (expressed in the local time zone) are :
    * <ul>
@@ -1176,6 +1183,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isBeforeYear(2004);
    *
    * // assertion will fail
@@ -1197,6 +1205,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isAfterYear(2001);
    *
    * // assertion will fail
@@ -1220,6 +1229,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isWithinYear(2002);
    *
    * // assertion will fail
@@ -1243,6 +1253,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isWithinMonth(12);
    *
    * // assertion will fail
@@ -1265,6 +1276,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
    * <p/>
    * Example:
    * <pre><code class='java'> // assertion will pass
+   * // theTwoTowers release date : 2002-12-18
    * assertThat(theTwoTowers.getReleaseDate()).isWithinDayOfMonth(18);
    *
    * // assertion will fail

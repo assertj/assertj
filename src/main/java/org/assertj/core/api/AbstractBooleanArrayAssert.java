@@ -67,7 +67,7 @@ public abstract class AbstractBooleanArrayAssert<S extends AbstractBooleanArrayA
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass

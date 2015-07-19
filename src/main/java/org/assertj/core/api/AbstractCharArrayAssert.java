@@ -68,7 +68,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -303,7 +303,7 @@ public abstract class AbstractCharArrayAssert<S extends AbstractCharArrayAssert<
    * assertThat(new char[] { 'a', 'b', 'c' }).doesNotHaveDuplicates();
    * 
    * // assertion will fail
-   * assertThat(new byte[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();</code></pre>
+   * assertThat(new char[] { 'a', 'a', 'b', 'c' }).doesNotHaveDuplicates();</code></pre>
    * 
    * </p>
    * 

@@ -67,7 +67,7 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Examples :
    * <pre><code class='java'> // assertion will pass
@@ -94,8 +94,6 @@ public abstract class AbstractDoubleArrayAssert<S extends AbstractDoubleArrayAss
    * // assertions will fail
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(1.0, 4.0);
    * assertThat(new double[] { 1.0, 2.0, 3.0 }).contains(4.0, 7.0);</code></pre>
-   * 
-   * </p>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

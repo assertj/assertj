@@ -67,7 +67,7 @@ public abstract class AbstractByteArrayAssert<S extends AbstractByteArrayAssert<
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p/>
    * Examples:
    * <pre><code class='java'> // assertion will pass
