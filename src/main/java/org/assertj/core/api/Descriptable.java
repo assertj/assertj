@@ -67,7 +67,7 @@ public interface Descriptable<S extends Descriptable<S>> {
 
   /**
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy.codehaus.org/" target="_blank">Groovy</a>.
+   * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
    * 
    * @param description the new description to set.
    * @return {@code this} object.
@@ -77,7 +77,7 @@ public interface Descriptable<S extends Descriptable<S>> {
 
   /**
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy.codehaus.org/" target="_blank">Groovy</a>. To remove or clear the description, pass a
+   * href="http://groovy-lang.org/" target="_blank">Groovy</a>. To remove or clear the description, pass a
    * <code>{@link EmptyTextDescription}</code> as argument.
    * <p>
    * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
