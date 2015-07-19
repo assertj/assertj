@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.dates;
 
-import static org.assertj.core.error.ShouldBeWithin.shouldBeWithin;
+import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -29,25 +29,25 @@ import org.junit.Test;
 
 
 /**
- * Tests for <code>{@link Dates#assertIsWithinHourOfDay(AssertionInfo, Date, int)}</code>.
+ * Tests for <code>{@link Dates#assertHasSecond(AssertionInfo, Date, int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class Dates_assertIsWithinHourOfDay_Test extends DatesBaseTest {
+public class Dates_assertHasSecond_Test extends DatesBaseTest {
 
   @Override
   protected void initActualDate() {
-    actual = parseDatetime("2011-01-01T03:01:02");
+    actual = parseDatetime("2011-01-01T03:49:17");
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_hour_of_day() {
+  public void should_fail_if_actual_has_not_given_second() {
     AssertionInfo info = someInfo();
-    int hour_of_day = 5;
+    int second = 5;
     try {
-      dates.assertIsWithinHourOfDay(info, actual, hour_of_day);
+      dates.assertHasSecond(info, actual, second);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "hour", hour_of_day));
+      verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -56,22 +56,22 @@ public class Dates_assertIsWithinHourOfDay_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null() {
     thrown.expectAssertionError(actualIsNull());
-    dates.assertIsWithinHourOfDay(someInfo(), null, 3);
+    dates.assertHasSecond(someInfo(), null, 17);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_hour_of_day() {
-    dates.assertIsWithinHourOfDay(someInfo(), actual, 3);
+  public void should_pass_if_actual_has_given_second() {
+    dates.assertHasSecond(someInfo(), actual, 17);
   }
 
   @Test
-  public void should_fail_if_actual_is_not_within_given_hour_of_day_whatever_custom_comparison_strategy_is() {
+  public void should_fail_if_actual_has_not_given_second_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
-    int hour_of_day = 5;
+    int second = 5;
     try {
-      datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(info, actual, hour_of_day);
+      datesWithCustomComparisonStrategy.assertHasSecond(info, actual, second);
     } catch (AssertionError e) {
-      verify(failures).failure(info, shouldBeWithin(actual, "hour", hour_of_day));
+      verify(failures).failure(info, shouldHaveDateField(actual, "second", second));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -80,12 +80,12 @@ public class Dates_assertIsWithinHourOfDay_Test extends DatesBaseTest {
   @Test
   public void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     thrown.expectAssertionError(actualIsNull());
-    datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(someInfo(), null, 3);
+    datesWithCustomComparisonStrategy.assertHasSecond(someInfo(), null, 17);
   }
 
   @Test
-  public void should_pass_if_actual_is_within_given_hour_of_day_whatever_custom_comparison_strategy_is() {
-    datesWithCustomComparisonStrategy.assertIsWithinHourOfDay(someInfo(), actual, 3);
+  public void should_pass_if_actual_has_given_second_whatever_custom_comparison_strategy_is() {
+    datesWithCustomComparisonStrategy.assertHasSecond(someInfo(), actual, 17);
   }
 
 }

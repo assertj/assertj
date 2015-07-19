@@ -18,20 +18,20 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link DateAssert#isWithinHourOfDay(int)}</code>.
+ * Tests for <code>{@link DateAssert#hasMonth(int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isWithinHourOfDay_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class DateAssert_hasMonth_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinHourOfDay(intArg);
+    return assertions.hasMonth(intArg);
   }
 
   @Override
   protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinHourOfDay(getInfo(assertions), getActual(assertions), intArg);
+    verify(dates).assertHasMonth(getInfo(assertions), getActual(assertions), intArg);
   }
 
 }

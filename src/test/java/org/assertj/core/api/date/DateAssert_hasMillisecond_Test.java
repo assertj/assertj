@@ -18,20 +18,20 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link DateAssert#isWithinMonth(int)}</code>.
+ * Tests for <code>{@link DateAssert#hasMillisecond(int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isWithinMonth_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class DateAssert_hasMillisecond_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinMonth(intArg);
+    return assertions.hasMillisecond(intArg);
   }
 
   @Override
   protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinMonth(getInfo(assertions), getActual(assertions), intArg);
+    verify(dates).assertHasMillisecond(getInfo(assertions), getActual(assertions), intArg);
   }
 
 }
