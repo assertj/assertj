@@ -14,26 +14,36 @@ package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.Throwables;
 
-
 /**
- * Base class for {@link ThrowableAssertAssert} tests.
+ * Base class for {@link ThrowableAssert} tests.
  * 
  * @author Olivier Michallat
+ * @author Libor Ondrusek
  */
 public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert, Throwable> {
   protected Throwables throwables;
-  
+
   @Override
   protected ThrowableAssert create_assertions() {
     return new ThrowableAssert(new Throwable("throwable message"));
   }
-  
+
   @Override
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     throwables = mock(Throwables.class);
     assertions.throwables = throwables;
+  }
+
+  protected ThrowingCallable raisingException(final String reason) {
+    return new ThrowingCallable() {
+      @Override
+      public void call() throws Throwable {
+        throw new Exception(reason);
+      }
+    };
   }
 }

@@ -121,6 +121,20 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   }
 
   /**
+   * Verifies that the message of the actual {@code Throwable} matches with the given regular expression.
+   *
+   * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws NullPointerException if the regex is null
+   */
+  public S hasMessageMatching(String regex) {
+    throwables.assertHasMessageMatching(info, actual, regex);
+    return myself;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} ends with the given description.
    *
    * @param description the description expected to end the actual {@code Throwable}'s message.
