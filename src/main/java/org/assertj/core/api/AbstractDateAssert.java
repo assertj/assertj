@@ -1248,6 +1248,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasYear(int)} instead.
    */
+  @Deprecated
   public S isWithinYear(int year) {
     dates.assertHasYear(info, actual, year);
     return myself;
@@ -1280,6 +1281,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasMonth(int)} instead.
    */
+  @Deprecated
   public S isWithinMonth(int month) {
     dates.assertHasMonth(info, actual, month);
     return myself;
@@ -1311,6 +1313,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasDayOfMonth(int)} instead.
    */
+  @Deprecated
   public S isWithinDayOfMonth(int dayOfMonth) {
     dates.assertHasDayOfMonth(info, actual, dayOfMonth);
     return myself;
@@ -1343,6 +1346,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasDayOfWeek(int)} instead.
    */
+  @Deprecated
   public S isWithinDayOfWeek(int dayOfWeek) {
     dates.assertHasDayOfWeek(info, actual, dayOfWeek);
     return myself;
@@ -1373,6 +1377,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasHourOfDay(int)} instead.
    */
+  @Deprecated
   public S isWithinHourOfDay(int hourOfDay) {
     dates.assertHasHourOfDay(info, actual, hourOfDay);
     return myself;
@@ -1403,6 +1408,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasMinute(int)} instead.
    */
+  @Deprecated
   public S isWithinMinute(int minute) {
     dates.assertHasMinute(info, actual, minute);
     return myself;
@@ -1433,6 +1439,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasSecond(int)} instead.
    */
+  @Deprecated
   public S isWithinSecond(int second) {
     dates.assertHasSecond(info, actual, second);
     return myself;
@@ -1463,6 +1470,7 @@ public abstract class AbstractDateAssert<S extends AbstractDateAssert<S>> extend
   /**
    * @deprecated use {@link #hasMillisecond(int)} instead.
    */
+  @Deprecated
   public S isWithinMillisecond(int second) {
     dates.assertHasMillisecond(info, actual, second);
     return myself;
