@@ -185,7 +185,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * <p>
    * Example :
    *
-   * <pre><code class='java'> ArrayListMultimap.create();
+   * <pre><code class='java'> Multimap&lt;String, String&gt; actual = ArrayListMultimap.create();
    *
    * assertThat(actual).isEmpty();</code></pre>
    *
