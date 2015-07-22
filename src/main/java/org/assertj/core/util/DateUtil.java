@@ -85,7 +85,7 @@ public class DateUtil {
 
   /**
    * Formats the given date using the ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss).<br>
-   * Method in synchronized
+   * Method is synchronized
    * because SimpleDateFormat is not thread safe (sigh).
    * <p/>
    * Returns null if given the date is null.
@@ -98,8 +98,9 @@ public class DateUtil {
   }
 
   /**
-   * Formats the given date using the ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss:SSS).<br> Method
-   * in synchronized because SimpleDateFormat is not thread safe (sigh).
+   * Formats the given date using the ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss:SSS).<br>
+   * Method
+   * is synchronized because SimpleDateFormat is not thread safe (sigh).
    * <p/>
    * Returns null if given the date is null.
    *
@@ -140,10 +141,9 @@ public class DateUtil {
 
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT}, returns null if the given String is null.
-   * <p> Example:
-   * <pre><code class='java'>
-   * Date date = parseDatetime("2003-04-26T03:01:02");
-   * </code></pre>
+   * <p> 
+   * Example:
+   * <pre><code class='java'> Date date = parseDatetime("2003-04-26T03:01:02");</code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT}
@@ -160,10 +160,10 @@ public class DateUtil {
 
   /**
    * Utility method to parse a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}, returns null if the given String is
-   * null. <p> Example:
-   * <pre><code class='java'>
-   * Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");
-   * </code></pre>
+   * null.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Date date = parseDatetimeWithMs("2003-04-26T03:01:02.999");</code></pre>
    * </p>
    *
    * @param dateAsString the string to parse as a Date following {@link #ISO_DATE_TIME_FORMAT_WITH_MS}

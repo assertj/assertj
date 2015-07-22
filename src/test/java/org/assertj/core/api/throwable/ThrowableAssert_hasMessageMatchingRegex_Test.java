@@ -10,28 +10,30 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.date;
-
-import org.assertj.core.api.DateAssert;
+package org.assertj.core.api.throwable;
 
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssertBaseTest;
 
 /**
- * Tests for <code>{@link DateAssert#isWithinMinute(int)}</code>.
+ * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
  * 
- * @author Joel Costigliola
+ * @author Libor Ondrusek
  */
-public class DateAssert_isWithinMinute_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class ThrowableAssert_hasMessageMatchingRegex_Test extends ThrowableAssertBaseTest {
+
+  public static final String REGEX = "Given id='\\d{2,4}' not exists";
 
   @Override
-  protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinMinute(intArg);
+  protected ThrowableAssert invoke_api_method() {
+    return assertions.hasMessageMatching(REGEX);
   }
 
   @Override
-  protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinMinute(getInfo(assertions), getActual(assertions), intArg);
+  protected void verify_internal_effects() {
+    verify(throwables).assertHasMessageMatching(getInfo(assertions), getActual(assertions), REGEX);
   }
 
 }

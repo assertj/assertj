@@ -23,7 +23,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Short}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  *
@@ -48,14 +48,11 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isEqualTo((short) 1);
    * 
    * // assertion will fail:
-   * assertThat(Short.valueOf(&quot;-1&quot;)).isEqualTo((short) 1);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;-1&quot;)).isEqualTo((short) 1);</code></pre>
    * </p>
    *
    * @param expected the given value to compare the actual value to.
@@ -72,14 +69,11 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is not equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf((&quot;-1&quot;)).isNotEqualTo((short) 1);
    * 
    * // assertion will fail:
-   * assertThat(Short.valueOf(&quot;1&quot;)).isNotEqualTo((short) 1);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;1&quot;)).isNotEqualTo((short) 1);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -138,15 +132,12 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 2);
    * 
    * // assertion will fail:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 0);
-   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 1);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThan((short) 1);</code></pre>
    * </p>
    * 
    * @param other the given value to compare the actual value to.
@@ -163,14 +154,11 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is less than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 1);
    * 
    * // assertion will fail:
-   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 0);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;1&quot;)).isLessThanOrEqualTo((short) 0);</code></pre>
    * </p>
    * 
    * @param other the given value to compare the actual value to.
@@ -187,15 +175,12 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is greater than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThan((short) 0);
    * 
    * // assertions will fail:
    * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 1);
-   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 0);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThan((short) 0);</code></pre>
    * </p>
    * 
    * @param other the given value to compare the actual value to.
@@ -212,14 +197,11 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass:
+   * <pre><code class='java'> // assertion will pass:
    * assertThat(Short.valueOf(&quot;1&quot;)).isGreaterThanOrEqualTo((short) 1);
    * 
    * // assertion will fail:
-   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThanOrEqualTo((short) 1);
-   * </code></pre>
+   * assertThat(Short.valueOf(&quot;0&quot;)).isGreaterThanOrEqualTo((short) 1);</code></pre>
    * </p>
    *
    * @param other the given value to compare the actual value to.
@@ -251,17 +233,14 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((short)5).isCloseTo((short)7, within((short)3));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat((short)5).isCloseTo((short)7, within((short)2));
    *
    * // assertion will fail
-   * assertThat((short)5).isCloseTo((short)7, within((short)1));
-   * </code></pre>
+   * assertThat((short)5).isCloseTo((short)7, within((short)1));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -279,17 +258,14 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)3));
    *
    * // if difference is exactly equals to the offset, it's ok
    * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)2));
    *
    * // assertion will fail
-   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)1));
-   * </code></pre>
+   * assertThat((short)5).isCloseTo(Short.valueOf(7), within((short)1));</code></pre>
    *
    * @param expected the given short to compare the actual value to.
    * @param offset the given positive offset.
@@ -308,17 +284,14 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with short:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
    * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)10));
    *
    * // assertion will fail
-   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)5));
-   * </code></pre>
+   * assertThat((short)11).isCloseTo(Short.valueOf(10), withinPercentage((short)5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.
@@ -338,17 +311,14 @@ public abstract class AbstractShortAssert<S extends AbstractShortAssert<S>> exte
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with short:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)20));
    *
    * // if difference is exactly equals to the computed offset (1), it's ok
    * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)10));
    *
    * // assertion will fail
-   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)5));
-   * </code></pre>
+   * assertThat((short)11).isCloseTo((short)10, withinPercentage((short)5));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.

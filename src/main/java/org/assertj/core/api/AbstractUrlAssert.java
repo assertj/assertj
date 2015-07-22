@@ -36,15 +36,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected protocol.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("ftp://helloworld.org")).hasProtocol("ftp");
    * 
    * // These assertion fails:
-   * assertThat(new URL("http://helloworld.org")).hasProtocol("ftp");
-   * </code></pre>
+   * assertThat(new URL("http://helloworld.org")).hasProtocol("ftp");</code></pre>
    *
    * @param expected the expected protocol of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -59,10 +55,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected path (which must not be null).
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URL("http://helloworld.org/pages")).hasPath("/pages");
    * assertThat(new URL("http://www.helloworld.org")).hasPath("");
    * // or preferably:  
@@ -72,8 +65,7 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * assertThat(new URL("http://helloworld.org/pickme")).hasPath("/pages/");
    * 
    * // this assertion throws an IllegalArgumentException:
-   * assertThat(new URL("http://helloworld.org/pages")).hasPath(null);
-   * </code></pre>
+   * assertThat(new URL("http://helloworld.org/pages")).hasPath(null);</code></pre>
    *
    * @param expected the expected path of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -89,15 +81,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has no path.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org")).hasNoPath();
    * 
    * // this assertion fails:
-   * assertThat(new URL("http://helloworld.org/france")).hasNoPath();
-   * </code></pre>
+   * assertThat(new URL("http://helloworld.org/france")).hasNoPath();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a path.
@@ -111,16 +99,12 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected port.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URL("http://helloworld.org:8080")).hasPort(8080);
    * 
    * // These assertions fail:
    * assertThat(new URL("http://helloworld.org:8080")).hasPort(9876);
-   * assertThat(new URL("http://helloworld.org")).hasPort(8080);
-   * </code></pre>
+   * assertThat(new URL("http://helloworld.org")).hasPort(8080);</code></pre>
    *
    * @param expected the expected port of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -135,15 +119,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has no port.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://helloworld.org")).hasNoPort();
    * 
-   * // These assertion fails:
-   * assertThat(new URL("http://helloworld.org:8080")).hasNoPort();
-   * </code></pre>
+   * // This assertion fails:
+   * assertThat(new URL("http://helloworld.org:8080")).hasNoPort();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a port.
@@ -157,17 +137,13 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected host.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URL("http://helloworld.org/pages")).hasHost("helloworld.org");
    * assertThat(new URL("http://helloworld.org:8080")).hasHost("helloworld.org");
    * 
    * // These assertions fail:
    * assertThat(new URL("http://www.helloworld.org")).hasHost("helloworld.org");
-   * assertThat(new URL("http://www.helloworld.org:8080")).hasHost("helloworld.org");
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org:8080")).hasHost("helloworld.org");</code></pre>
    *
    * @param expected the expected host of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -182,18 +158,14 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected authority.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URL("http://helloworld.org")).hasAuthority("helloworld.org");
    * assertThat(new URL("http://helloworld.org:8080")).hasAuthority("helloworld.org:8080");
    * assertThat(new URL("http://www.helloworld.org:8080/news")).hasAuthority("www.helloworld.org:8080");
    * 
    * // These assertions fail:
    * assertThat(new URL("http://www.helloworld.org:8080")).hasAuthority("www.helloworld.org");
-   * assertThat(new URL("http://www.helloworld.org")).hasAuthority("www.helloworld.org:8080");
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org")).hasAuthority("www.helloworld.org:8080");</code></pre>
    *
    * @param expected the expected authority of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -208,16 +180,12 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected query.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org/index.html?type=test")).hasQuery("type=test");
    * 
    * // These assertions fail:
    * assertThat(new URL("http://www.helloworld.org/index.html?type=test")).hasQuery("type=hello");
-   * assertThat(new URL("http://www.helloworld.org/index.html")).hasQuery("type=hello");
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasQuery("type=hello");</code></pre>
    *
    * @param expected the expected query of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -232,15 +200,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has no query.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org/index.html")).hasNoQuery();
    * 
    * // These assertions fail:
-   * assertThat(new URL("http://www.helloworld.org/index.html?type=test")).hasNoQuery();
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org/index.html?type=test")).hasNoQuery();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a query.
@@ -254,16 +218,12 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected anchor.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasAnchor("sport");
    * 
    * // These assertions fail:
    * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasAnchor("war");
-   * assertThat(new URL("http://www.helloworld.org/news.html")).hasAnchor("sport");
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org/news.html")).hasAnchor("sport");</code></pre>
    *
    * @param expected the expected anchor of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -278,15 +238,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has no anchor.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org/news.html")).hasNoAnchor();
    * 
    * // These assertions fail:
-   * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasNoAnchor();
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasNoAnchor();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has a anchor.
@@ -300,18 +256,14 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has the expected userinfo.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // These assertions succeed:
+   * <pre><code class='java'> // These assertions succeed:
    * assertThat(new URL("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test:pass");
    * assertThat(new URL("http://test@www.helloworld.org/index.html")).hasUserInfo("test");
    * assertThat(new URL("http://:pass@www.helloworld.org/index.html")).hasUserInfo(":pass");
    * 
    * // These assertions fail:
    * assertThat(new URL("http://test:pass@www.helloworld.org/index.html")).hasUserInfo("test:fail");
-   * assertThat(new URL("http://www.helloworld.org/index.html")).hasUserInfo("test:pass");
-   * </code></pre>
+   * assertThat(new URL("http://www.helloworld.org/index.html")).hasUserInfo("test:pass");</code></pre>
    *
    * @param expected the expected userinfo of the actual {@code URL}.
    * @return {@code this} assertion object.
@@ -326,15 +278,11 @@ public abstract class AbstractUrlAssert<S extends AbstractUrlAssert<S>> extends 
    * Verifies that the actual {@code URL} has no userinfo.
    * <p>
    * Examples:
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * // This assertion succeeds:
+   * <pre><code class='java'> // This assertion succeeds:
    * assertThat(new URL("http://www.helloworld.org/index.html")).hasNoUserInfo();
    * 
    * // This assertion fails:
-   * assertThat(new URL("http://test:pass@www.helloworld.org/index.html")).hasNoUserInfo();
-   * </code></pre>
+   * assertThat(new URL("http://test:pass@www.helloworld.org/index.html")).hasNoUserInfo();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual has some userinfo.

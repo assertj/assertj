@@ -21,10 +21,7 @@ import java.util.List;
  * Suppose we have a test case and in it we'd like to make numerous BDD assertions. In this case, we're hosting a dinner
  * party and we want to ensure not only that all our guests survive but also that nothing in the mansion has been unduly
  * disturbed:
- * </p>
- * 
- * <pre><code class='java'>
- * &#064;Test
+ * <pre><code class='java'> &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
@@ -35,16 +32,12 @@ import java.util.List;
  *   then(mansion.candlestick()).as(&quot;Candlestick&quot;).isEqualTo(&quot;pristine&quot;);
  *   then(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   then(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
- * }
- * </code></pre>
+ * }</code></pre>
+ * </p>
  * 
  * <p>
  * After running the test, JUnit provides us with the following exception message:
- * </p>
- * 
- * <pre><code class='java'>
- * org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
- * </code></pre>
+ * <pre><code class='java'> org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;</code></pre>
  * 
  * <p>
  * Oh no! A guest has been murdered! But where, how, and by whom?
@@ -59,10 +52,7 @@ import java.util.List;
  * <p>
  * Instead let's change the test so that at its completion we get the result of all assertions at once. We can do that
  * by using a BDDSoftAssertions instance instead of the static methods on {@link BDDAssertions} as follows:
- * </p>
- * 
- * <pre><code class='java'>
- * &#064;Test
+ * <pre><code class='java'> &#064;Test
  * public void host_dinner_party_where_nobody_dies() {
  *   Mansion mansion = new Mansion();
  *   mansion.hostPotentiallyMurderousDinnerParty();
@@ -75,20 +65,15 @@ import java.util.List;
  *   softly.then(mansion.colonel()).as(&quot;Colonel&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.then(mansion.professor()).as(&quot;Professor&quot;).isEqualTo(&quot;well kempt&quot;);
  *   softly.assertAll();
- * }
- * </code></pre>
+ * } </code></pre>
  * 
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
- * </p>
- * 
- * <pre><code class='java'>
- * org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
+ * <pre><code class='java'> org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
  * 1) [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
  * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
  * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
- * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;
- * </code></pre>
+ * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;</code></pre>
  * 
  * <p>
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
@@ -96,7 +81,7 @@ import java.util.List;
  * </p>
  * 
  * <p>
- * BDDSoftAssertions works by providing you with proxyies of the AssertJ assertion objects (those created by
+ * BDDSoftAssertions works by providing you with proxies of the AssertJ assertion objects (those created by
  * {@link BDDAssertions}#then...) whose assertion failures are caught and stored. Only when you call
  * {@link BDDSoftAssertions#assertAll()} will a {@link SoftAssertionError} be thrown containing the error messages of
  * those previously caught assertion failures.

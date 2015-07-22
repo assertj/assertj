@@ -17,7 +17,7 @@ import java.util.Comparator;
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
@@ -66,9 +66,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Verifies that the actual value is the same as the given one, ie using == comparison.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
    * Name tyrion = new Name("Tyrion", "Lannister");
    * Name alias  = tyrion;
    * Name clone  = new Name("Tyrion", "Lannister");
@@ -78,8 +76,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *                   .isEqualTo(clone);
    *                      
    * // assertion fails:
-   * assertThat(tyrion).isSameAs(clone);
-   * </code></pre>
+   * assertThat(tyrion).isSameAs(clone);</code></pre>
    * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -91,9 +88,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Verifies that the actual value is not the same as the given one, ie using == comparison.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
    * Name tyrion = new Name("Tyrion", "Lannister");
    * Name alias  = tyrion;
    * Name clone  = new Name("Tyrion", "Lannister");
@@ -103,8 +98,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    *                  .isEqualTo(tyrion);
    *                      
    * // assertion fails:
-   * assertThat(alias).isNotSameAs(tyrion);
-   * </code></pre>
+   * assertThat(alias).isNotSameAs(tyrion);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -163,12 +157,9 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * comparison strategy.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // frodo and sam are instances of Character with Hobbit race (obviously :).
+   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
    * // raceComparator implements Comparator&lt;Character&gt; 
-   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam); 
-   * </code></pre>
+   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam);</code></pre>
    * 
    * @param customComparator the comparator to use for incoming assertion checks.
    * @throws NullPointerException if the given comparator is {@code null}.
@@ -247,15 +238,12 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * Verifies that actual <code>actual.toString()</code> is equal to the given <code>String</code>.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * CartoonCaracter homer = new CartoonCaracter("Homer");
+   * <pre><code class='java'> CartoonCaracter homer = new CartoonCaracter("Homer");
    *
    * // Instead of writing ...  
    * assertThat(homer.toString()).isEqualTo("Homer");
    * // ... you can simply write: 
-   * assertThat(homer).hasToString("Homer");
-   * </code></pre>
+   * assertThat(homer).hasToString("Homer");</code></pre>
    * 
    * @param expectedToString the expected String description of actual.
    * @return this assertion object.
@@ -325,12 +313,9 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertions from this call.
    * <p>
    * Example :
+   * <pre><code class='java'> Object listAsObject = newArrayList(1, 2, 3);
    *
-   * <pre><code class='java'>
-   * Object listAsObject = newArrayList(1, 2, 3);
-   *
-   * assertThat(listAsObject).asList().isSorted();
-   * </code></pre>
+   * assertThat(listAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
    */
@@ -342,12 +327,9 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * assertions from this call.
    * <p>
    * Example :
+   * <pre><code class='java'> Object stringAsObject = "hello world";
    *
-   * <pre><code class='java'>
-   * Object stringAsObject = "hello world";
-   *
-   * assertThat(stringAsObject).asString().contains("hello");
-   * </code></pre>
+   * assertThat(stringAsObject).asString().contains("hello");</code></pre>
    *
    * @return a string assertion object
    */
@@ -367,14 +349,10 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * In case of assertion error, the thread dump will be printed on {@link System#err}.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");
-   * </code></pre>
-   * will print the thread dump, something looking like:
+   * <pre><code class='java'> assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");</code></pre>
    * 
-   * <pre><code>
-   * "JDWP Command Reader"
+   * will print the thread dump, something looking like:
+   * <pre><code>"JDWP Command Reader"
    * 	java.lang.Thread.State: RUNNABLE
    * 
    * "JDWP Event Helper Thread"
@@ -408,8 +386,7 @@ public interface Assert<S extends Assert<S, A>, A> extends Descriptable<S>, Exte
    * 		at org.assertj.core.internal.Failures.failure(Failures.java:91)
    * 		at org.assertj.core.internal.Objects.assertEqual(Objects.java:314)
    * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
-   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)
-   * </code></pre>
+   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)</code></pre>
    * 
    * @return this assertion object.
    */

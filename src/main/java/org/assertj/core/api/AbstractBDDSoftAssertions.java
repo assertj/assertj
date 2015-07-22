@@ -441,24 +441,16 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * 
    * <p>
    * Java 8 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   *  {@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
    *    BDDSoftAssertions softly = new BDDSoftAssertions();
    *    softly.thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                               .hasMessageContaining("boom");
-   *  }
-   * </code></pre>
+   *  }</code></pre>
    * 
-   * <p>
    * Java 7 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * BDDSoftAssertions softly = new BDDSoftAssertions();
-   * softly.thenThrownBy(new ThrowingCallable()
+   * <pre><code class='java'> BDDSoftAssertions softly = new BDDSoftAssertions();
+   * softly.thenThrownBy(new ThrowingCallable() {
    * 
    *   {@literal @}Override
    *   public Void call() throws Exception {
@@ -466,8 +458,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");
-   * </code></pre>
+   *   .hasMessageContaining("boom");</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.

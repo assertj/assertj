@@ -20,10 +20,8 @@ import org.assertj.core.groups.Tuple;
  * <p>
  * 
  * For example:
- * <pre><code class='java'>
- * assertThat(objectsList).extracting(toStringMethod()).contains("toString 1", "toString 2");
- * assertThat(objectsList).extracting(byName("field")).contains("someResult1", "someResult2");
- * </code></pre>
+ * <pre><code class='java'> assertThat(objectsList).extracting(toStringMethod()).contains("toString 1", "toString 2");
+ * assertThat(objectsList).extracting(byName("field")).contains("someResult1", "someResult2");</code></pre>
  * 
  * @author Mateusz Haligowski
  *
@@ -32,7 +30,7 @@ public class Extractors {
   /**
    * Provides extractor for extracting {@link java.lang.Object#toString} from any object
    */
-  public static Extractor<?, String> toStringMethod() {
+  public static Extractor<Object, String> toStringMethod() {
     return new ToStringExtractor();
   }
   

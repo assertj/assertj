@@ -14,11 +14,12 @@ package org.assertj.core.error;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.nio.file.Path;
 import java.util.List;
 
 
 /**
- * Creates an error message indicating that an assertion that verifies that a file has a given text content failed.
+ * Creates an error message indicating that an assertion that verifies that a file/path has a given text content failed.
  * 
  * @author Olivier Michallat
  */
@@ -34,9 +35,25 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
   public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<String> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
+  
+  /**
+   * Creates a new <code>{@link ShouldHaveContent}</code>.
+   * @param actual the actual path in the failed assertion.
+   * @param charset the charset that was used to read the the path.
+   * @param diffs the differences between {@code actual} and the expected text that was provided in the assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveContent(Path actual, Charset charset, List<String> diffs) {
+    return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
+  }
 
   private ShouldHaveContent(File actual, Charset charset, String diffs) {
     super("%nFile:%n  <%s>%nread with charset <%s> does not have the expected content:", actual, charset);
+    this.diffs = diffs;
+  }
+  
+  private ShouldHaveContent(Path actual, Charset charset, String diffs) {
+    super("%nPath:%n  <%s>%nread with charset <%s> does not have the expected content:", actual, charset);
     this.diffs = diffs;
   }
 }

@@ -10,31 +10,28 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.api.date;
 
-import static org.mockito.Mockito.mock;
+import org.assertj.core.api.DateAssert;
 
-import org.assertj.core.internal.Throwables;
+import static org.mockito.Mockito.verify;
+
 
 /**
- * Base class for {@link ThrowableAssert} tests.
+ * Tests for <code>{@link DateAssert#hasMonth(int)}</code>.
  * 
- * @author Olivier Michallat
- * @author Libor Ondrusek
+ * @author Joel Costigliola
  */
-public abstract class ThrowableAssertBaseTest extends BaseTestTemplate<ThrowableAssert, Throwable> {
-  protected Throwables throwables;
+public class DateAssert_hasMonth_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
-  protected ThrowableAssert create_assertions() {
-    return new ThrowableAssert(new Throwable("throwable message"));
+  protected DateAssert assertionInvocationWithOneIntArg() {
+    return assertions.hasMonth(intArg);
   }
 
   @Override
-  protected void inject_internal_objects() {
-    super.inject_internal_objects();
-    throwables = mock(Throwables.class);
-    assertions.throwables = throwables;
+  protected void verifyAssertionInvocation() {
+    verify(dates).assertHasMonth(getInfo(assertions), getActual(assertions), intArg);
   }
 
 }

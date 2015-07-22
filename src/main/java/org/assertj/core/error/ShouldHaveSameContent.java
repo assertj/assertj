@@ -15,10 +15,11 @@ package org.assertj.core.error;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.List;
 
 /**
- * Creates an error message indicating that an assertion that verifies that two files/inputStreams have same content failed.
+ * Creates an error message indicating that an assertion that verifies that two files/inputStreams/paths have same content failed.
  * 
  * @author Yvonne Wang
  * @author Matthieu Baechler
@@ -40,11 +41,22 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
   /**
    * Creates a new <code>{@link ShouldHaveSameContent}</code>.
    * @param actual the actual InputStream in the failed assertion.
-   * @param expected the expected Stream in the failed assertion.
+   * @param expected the expected InputStream in the failed assertion.
    * @param diffs the differences between {@code actual} and {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, InputStream expected, List<String> diffs) {
+    return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
+  }
+  
+  /**
+   * Creates a new <code>{@link ShouldHaveSameContent}</code>.
+   * @param actual the actual Path in the failed assertion.
+   * @param expected the expected Path in the failed assertion.
+   * @param diffs the differences between {@code actual} and {@code expected}.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldHaveSameContent(Path actual, Path expected, List<String> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
 
@@ -55,6 +67,11 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
 
   private ShouldHaveSameContent(InputStream actual, InputStream expected, String diffs) {
     super("%nInputStreams do not have same content:", actual, expected);
+    this.diffs = diffs;
+  }
+  
+  private ShouldHaveSameContent(Path actual, Path expected, String diffs) {
+    super("%nPath:%n  <%s>%nand path:%n  <%s>%ndo not have same content:", actual, expected);
     this.diffs = diffs;
   }
 }

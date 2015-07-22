@@ -10,28 +10,28 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.date;
+package org.assertj.core.api.abstract_;
 
-import org.assertj.core.api.DateAssert;
-
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.Assertions;
+import org.junit.Test;
 
 /**
- * Tests for <code>{@link DateAssert#isWithinMonth(int)}</code>.
- * 
- * @author Joel Costigliola
+ * Tests for <code>{@link org.assertj.core.api.AbstractAssert#withFailMessage(String, Object...)}</code>.
+ *
+ * @author Alexander Bischof
  */
-public class DateAssert_isWithinMonth_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class AbstractAssert_withFailMessage_Test {
 
-  @Override
-  protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinMonth(intArg);
+  @Test
+  public void should_delegate_to_overridingErrorMessage() {
+    AbstractAssert suT = spy(Assertions.assertThat("test"));
+
+    suT.withFailMessage("test", "eins");
+
+    verify(suT).overridingErrorMessage("test", "eins");
   }
-
-  @Override
-  protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinMonth(getInfo(assertions), getActual(assertions), intArg);
-  }
-
 }

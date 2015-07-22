@@ -16,9 +16,13 @@ import static java.util.Collections.addAll;
 import static org.assertj.core.presentation.DefaultToString.toStringOf;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Objects.areEqual;
 
 import java.util.List;
 
+/**
+ * Will be immutable when {@link #addData(Object)} witll be removed.
+ */
 public class Tuple {
 
   private final List<Object> datas = newArrayList();
@@ -27,6 +31,7 @@ public class Tuple {
 	addAll(datas, values);
   }
 
+  @Deprecated
   public void addData(Object data) {
 	datas.add(data);
   }
@@ -54,7 +59,7 @@ public class Tuple {
     if (!(obj instanceof Tuple)) return false;
 	Tuple other = (Tuple) obj;
 	// datas can't be null
-	return datas.equals(other.datas);
+    return areEqual(datas.toArray(), other.datas.toArray());
   }
 
   @Override

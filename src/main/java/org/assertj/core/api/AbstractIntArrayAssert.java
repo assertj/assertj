@@ -97,16 +97,13 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * Verifies that the actual array contains the given values only once.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsOnlyOnce(1, 2);
    * 
    * // assertions will fail
    * assertThat(new int[] { 1, 2, 1 }).containsOnlyOnce(1);
    * assertThat(new int[] { 1, 2, 3 }).containsOnlyOnce(4);
-   * assertThat(new int[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);
-   * </code></pre>
+   * assertThat(new int[] { 1, 2, 3, 3 }).containsOnlyOnce(0, 1, 2, 3, 4, 5);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -125,15 +122,12 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * Verifies that the actual array contains the given sequence, without any other values between them.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsSequence(1, 2);
    * 
    * // assertion will fail
    * assertThat(new int[] { 1, 2, 3 }).containsSequence(1, 3);
-   * assertThat(new int[] { 1, 2, 3 }).containsSequence(2, 1);
-   * </code></pre>
+   * assertThat(new int[] { 1, 2, 3 }).containsSequence(2, 1);</code></pre>
    * 
    * </p>
    * 
@@ -152,15 +146,12 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * Verifies that the actual array contains the given subsequence (possibly with other values between them).
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(1, 2);
    * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(1, 3);
    * 
    * // assertion will fail
-   * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(2, 1);
-   * </code></pre>
+   * assertThat(new int[] { 1, 2, 3 }).containsSubsequence(2, 1);</code></pre>
    * 
    * </p>
    * 
@@ -299,16 +290,13 @@ public abstract class AbstractIntArrayAssert<S extends AbstractIntArrayAssert<S>
    * Verifies that the actual group contains only the given values and nothing else, <b>in order</b>.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * int[] ints = { 1, 2, 3 };
+   * <pre><code class='java'> int[] ints = { 1, 2, 3 };
    * 
    * // assertion will pass
    * assertThat(ints).containsExactly(1, 2, 3);
    * 
    * // assertion will fail as actual and expected orders differ.
-   * assertThat(ints).containsExactly(2, 1, 3);
-   * </code></pre>
+   * assertThat(ints).containsExactly(2, 1, 3);</code></pre>
    * 
    * @param values the given values.
    * @return {@code this} assertion object.

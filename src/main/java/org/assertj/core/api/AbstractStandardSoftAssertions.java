@@ -438,26 +438,17 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
   /**
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    * 
-   * <p>
    * Java 8 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   *  {@literal @}Test
+   * <pre><code class='java'>  {@literal @}Test
    *  public void testException() {
    *    SoftAssertions softly = new SoftAssertions();
    *    softly.assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                                     .hasMessageContaining("boom");
-   *  }
-   * </code></pre>
+   *  }</code></pre>
    * 
-   * <p>
    * Java 7 example :
-   * </p>
-   * 
-   * <pre><code class='java'>
-   * SoftAssertions softly = new SoftAssertions();
-   * softly.assertThatThrownBy(new ThrowingCallable()
+   * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
+   * softly.assertThatThrownBy(new ThrowingCallable() {
    * 
    *   {@literal @}Override
    *   public Void call() throws Exception {
@@ -465,8 +456,7 @@ public abstract class AbstractStandardSoftAssertions extends AbstractSoftAsserti
    *   }
    *   
    * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");
-   * </code></pre>
+   *   .hasMessageContaining("boom");</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.

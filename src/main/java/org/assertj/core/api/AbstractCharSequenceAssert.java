@@ -28,7 +28,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <A> the type of the "actual" value.
@@ -57,14 +57,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isEmpty()} instead.
    * <p>
    * Both of these assertions will succeed:
-   * 
-   * <pre><code class='java'>
-   * String emptyString = &quot;&quot;
+   * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNullOrEmpty();
    * 
    * String nullString = null;
-   * assertThat(nullString).isNullOrEmpty();
-   * </code></pre>
+   * assertThat(nullString).isNullOrEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length.
    */
@@ -80,18 +77,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isNullOrEmpty()} instead.
    * <p>
    * This assertion will succeed:
-   * 
-   * <pre><code class='java'>
-   * String emptyString = &quot;&quot;
-   * assertThat(emptyString).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> String emptyString = &quot;&quot;
+   * assertThat(emptyString).isEmpty();</code></pre>
    * 
    * Whereas this assertion will fail:
-   * 
-   * <pre><code class='java'>
-   * String nullString = null;
-   * assertThat(nullString).isEmpty();
-   * </code></pre>
+   * <pre><code class='java'> String nullString = null;
+   * assertThat(nullString).isEmpty();</code></pre>
    *
    * @throws AssertionError if the actual {@code CharSequence} has a non-zero length or is null.
    */
@@ -105,18 +96,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * more.
    * <p>
    * This assertion will succeed:
-   * 
-   * <pre><code class='java'>
-   * String bookName = &quot;A Game of Thrones&quot;
-   * assertThat(bookName).isNotEmpty();
-   * </code></pre>
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).isNotEmpty();</code></pre>
    * 
    * Whereas this assertion will fail:
-   * 
-   * <pre><code class='java'>
-   * String emptyString = &quot;&quot;
-   * assertThat(emptyString).isNotEmpty();
-   * </code></pre>
+   * <pre><code class='java'> String emptyString = &quot;&quot;
+   * assertThat(emptyString).isNotEmpty();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is empty (has a length of 0).
@@ -131,18 +116,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
    * This assertion will succeed:
-   * 
-   * <pre><code class='java'>
-   * String bookName = &quot;A Game of Thrones&quot;
-   * assertThat(bookName).hasSize(17);
-   * </code></pre>
+   * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
+   * assertThat(bookName).hasSize(17);</code></pre>
    * 
    * Whereas this assertion will fail:
-   * 
-   * <pre><code class='java'>
-   * String bookName = &quot;A Clash of Kings&quot;
-   * assertThat(bookName).hasSize(4);
-   * </code></pre>
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
+   * assertThat(bookName).hasSize(4);</code></pre>
    *
    * @param expected the expected length of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
@@ -161,18 +140,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
    * <p>
    * This assertion will succeed:
-   * 
-   * <pre><code class='java'>
-   * String multiLine = &quot;First line\n&quot; +
+   * <pre><code class='java'> String multiLine = &quot;First line\n&quot; +
    *                    &quot;Last line&quot;;
-   * assertThat(multiLine).hasLineCount(2);
-   * </code></pre>
-   * Whereas this assertion will fail:
+   * assertThat(multiLine).hasLineCount(2);</code></pre>
    * 
-   * <pre><code class='java'>
-   * String bookName = &quot;A Clash of Kings&quot;;
-   * assertThat(bookName).hasLineCount(3);
-   * </code></pre>
+   * Whereas this assertion will fail:
+   * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;;
+   * assertThat(bookName).hasLineCount(3);</code></pre>
    *
    * @param expectedLineCount the expected line count of the actual {@code CharSequence}.
    * @return {@code this} assertion object.
@@ -188,14 +162,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * {@code CharSequence}.
    * <p>
    * Examples :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;C-3PO&quot;).hasSameSizeAs(&quot;R2-D2&quot;);
    * 
    * // assertion will fail as actual and expected sizes differ
-   * assertThat(&quot;C-3PO&quot;).hasSameSizeAs(&quot;B1 battle droid&quot;);
-   * </code></pre>
+   * assertThat(&quot;C-3PO&quot;).hasSameSizeAs(&quot;B1 battle droid&quot;);</code></pre>
    * 
    * @param other the given {@code CharSequence} to be used for size comparison.
    * @return {@code this} assertion object.
@@ -244,15 +215,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} is equal to the given one, ignoring case considerations.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;GaNdAlF tHe GREY&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the grey&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the white&quot;);
-   * </code></pre>
+   * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the white&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -269,9 +237,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} is not equal to the given one, ignoring case considerations.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // assertions will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Hobbit");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("HOBit");
    * assertThat((String)null).isNotEqualToIgnoringCase("Gandalf");
@@ -280,8 +246,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertions will fail
    * assertThat("Gandalf").isNotEqualToIgnoringCase("Gandalf");
    * assertThat("Gandalf").isNotEqualToIgnoringCase("GaNDalf");
-   * assertThat((String)null).isNotEqualToIgnoringCase(null);
-   * </code></pre>
+   * assertThat((String)null).isNotEqualToIgnoringCase(null);</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
@@ -297,17 +262,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * characters or is empty.
    * <p>
    * This assertion succeeds:
-   *
-   * <pre><code class='java'>
-   * assertThat("10").containsOnlyDigits();
-   * </code></pre>
+   * <pre><code class='java'> assertThat("10").containsOnlyDigits();</code></pre>
    *
    * Whereas these assertions fail:
-   *
-   * <pre><code class='java'>
-   * assertThat("10$").containsOnlyDigits();
-   * assertThat("").containsOnlyDigits();
-   * </code></pre>
+   * <pre><code class='java'> assertThat("10$").containsOnlyDigits();
+   * assertThat("").containsOnlyDigits();</code></pre>
    *
    * </p>
    *
@@ -324,14 +283,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains the given sequence <b>only once</b>.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;do&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -349,11 +305,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains all the given strings.
    * <p>
    * You can use one or several strings as in this example:
-   *
-   * <pre><code class='java'>
-   * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
-   * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);
-   * </code></pre>
+   * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;);
+   * assertThat(&quot;Gandalf the grey&quot;).contains(&quot;alf&quot;, &quot;grey&quot;);</code></pre>
    *
    * @param values the Strings to look for.
    * @return {@code this} assertion object.
@@ -371,11 +324,8 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains all the strings of the given Iterable.
    * <p>
    * Examples:
-   * 
-   * <pre><code class='java'>
-   * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
-   * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;, &quot;grey&quot;));
-   * </code></pre>
+   * <pre><code class='java'> assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;));
+   * assertThat(&quot;Gandalf the grey&quot;).contains(Arrays.asList(&quot;alf&quot;, &quot;grey&quot;));</code></pre>
    *
    * @param values the Strings to look for.
    * @return {@code this} assertion object.
@@ -393,16 +343,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains all the given strings <b>in the given order</b>.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    * 
    * // this assertion succeeds ...
    * assertThat(book).containsSequence(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
    * 
    * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
-   * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);
-   * </code></pre>
+   * assertThat(book).containsSequence(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;);</code></pre>
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
@@ -422,16 +369,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * iteration order</b>.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
+   * <pre><code class='java'> String book = &quot;{ 'title':'A Game of Thrones', 'author':'George Martin'}&quot;;
    *
    * // this assertion succeeds ...
    * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;title&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
    *
    * // ... but this one fails as &quot;author&quot; must come after &quot;A Game of Thrones&quot;
-   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));
-   * </code></pre>
+   * assertThat(book).containsSequence(Arrays.asList(&quot;{&quot;, &quot;author&quot;, &quot;A Game of Thrones&quot;, &quot;}&quot;));</code></pre>
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
@@ -450,14 +394,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} contains the given sequence, ignoring case considerations.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;gandalf&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;white&quot;);
-   * </code></pre>
+   * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;white&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -476,15 +417,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not contain the given sequence.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;fro&quot;);
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;gandalf&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -503,16 +441,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} starts with the given prefix.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;Fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;Gandalf&quot;);
    * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;fro&quot;);
-   * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);
-   * </code></pre>
+   * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -531,16 +466,13 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not start with the given prefix.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertions will pass
+   * <pre><code class='java'> // assertions will pass
    * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWith(&quot;grey&quot;);
    *
    * // assertions will fail
    * assertThat(&quot;Gandalf the grey&quot;).doesNotStartWith(&quot;Gandalf&quot;);
-   * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).doesNotStartWith(&quot;&quot;);</code></pre>
    *
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
@@ -557,14 +489,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} ends with the given suffix.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).endsWith(&quot;do&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).endsWith(&quot;Fro&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).endsWith(&quot;Fro&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -583,15 +512,12 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not end with the given suffix.
    * <p/>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;Fro&quot;);
    *
    * // assertions will fail
    * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;do&quot;);
-   * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).doesNotEndWith(&quot;&quot;);</code></pre>
    *
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
@@ -608,14 +534,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} matches the given regular expression.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(&quot;..o.o&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).matches(&quot;.*d&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).matches(&quot;.*d&quot;);</code></pre>
    * 
    * </p>
    * 
@@ -635,14 +558,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not match the given regular expression.
    * <p>
    * Example :
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;.*d&quot;);
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);</code></pre>
    *
    * </p>
    *
@@ -662,14 +582,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} matches the given regular expression pattern.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;..o.o&quot;));
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));</code></pre>
    *
    * </p>
    *
@@ -688,14 +605,11 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * Verifies that the actual {@code CharSequence} does not match the given regular expression pattern.
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;.*d&quot;));
    * 
    * // assertion will fail
-   * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));
-   * </code></pre>
+   * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));</code></pre>
    *
    * </p>
    *
@@ -714,10 +628,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * formatted the same way.
    * <p>
    * Example :
-   * </p>
-   *
-   * <pre><code class='java'>
-   * String expectedXml =
+   * <pre><code class='java'> String expectedXml =
    *     &quot;&lt;rings&gt;\n&quot; +
    *         &quot;  &lt;bearer&gt;\n&quot; +
    *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
@@ -748,8 +659,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
    * 
    * // Tip : use isXmlEqualToContentOf assertion to compare your XML String with the content of an XML file :
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
-   * </code></pre>
+   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
    *
    * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
    * @return {@code this} assertion object to chain other assertions.
@@ -767,15 +677,10 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <p/>
    * This is an handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
    * </p>
-   * <p>
    * Example :
-   * </p>
-   *
-   * <pre><code class='java'>
-   * // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
+   * <pre><code class='java'> // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
    * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));
-   * </code></pre>
+   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
    * 
    * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
    * @return {@code this} assertion object to chain other assertions.
@@ -838,28 +743,22 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * thus impossible to find differences from the standard error message:
    * <p/>
    * With standard message:
-   * 
-   * <pre><code class='java'>
-   * assertThat("µµµ").contains("μμμ");
+   * <pre><code class='java'> assertThat("µµµ").contains("μμμ");
    * 
    * java.lang.AssertionError:
    * Expecting:
    *   <"µµµ">
    * to contain:
-   *   <"μμμ">
-   * </code></pre>
+   *   <"μμμ"></code></pre>
    *
    * With Hexadecimal message:
-   * 
-   * <pre><code class='java'>
-   * assertThat("µµµ").inUnicode().contains("μμμ");
+   * <pre><code class='java'> assertThat("µµµ").inUnicode().contains("μμμ");
    * 
    * java.lang.AssertionError:
    * Expecting:
    *   <\u00b5\u00b5\u00b5>
    * to contain:
-   *   <\u03bc\u03bc\u03bc>
-   * </code></pre>
+   *   <\u03bc\u03bc\u03bc></code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -878,9 +777,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * </ul>
    * <p>
    * Example :
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(&quot;my      foo bar&quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
    * assertThat(&quot;  my foo bar  &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
    * assertThat(&quot; my     foo bar &quot;).isEqualToIgnoringWhitespace(&quot;my foo bar&quot;);
@@ -888,8 +785,7 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * assertThat(&quot;my foo bar&quot;).isEqualToIgnoringWhitespace(&quot;   my foo bar   &quot;);
    *
    * // assertion will fail
-   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foobar&quot;);
-   * </code></pre>
+   * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foobar&quot;);</code></pre>
    *
    * </p>
    *

@@ -68,7 +68,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   
   @Test
   public void should_pass_if_path_has_expected_text_content() throws IOException {
-	when(diff.diff(path.toFile(), expected, charset)).thenReturn(new ArrayList<String>());
+	when(diff.diff(path, expected, charset)).thenReturn(new ArrayList<String>());
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	paths.assertHasContent(someInfo(), path, expected, charset);
@@ -116,7 +116,7 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   @Test
   public void should_throw_error_wrapping_catched_IOException() throws IOException {
 	IOException cause = new IOException();
-	when(diff.diff(path.toFile(), expected, charset)).thenThrow(cause);
+	when(diff.diff(path, expected, charset)).thenThrow(cause);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	try {
@@ -130,14 +130,14 @@ public class Paths_assertHasContent_Test extends PathsBaseTest {
   @Test
   public void should_fail_if_path_does_not_have_expected_text_content() throws IOException {
 	List<String> diffs = newArrayList("line:1, expected:<line1> but was:<EOF>");
-	when(diff.diff(path.toFile(), expected, charset)).thenReturn(diffs);
+	when(diff.diff(path, expected, charset)).thenReturn(diffs);
 	when(nioFilesWrapper.exists(path)).thenReturn(true);
 	when(nioFilesWrapper.isReadable(path)).thenReturn(true);
 	AssertionInfo info = someInfo();
 	try {
 	  paths.assertHasContent(info, path, expected, charset);
 	} catch (AssertionError e) {
-	  verify(failures).failure(info, shouldHaveContent(path.toFile(), charset, diffs));
+	  verify(failures).failure(info, shouldHaveContent(path, charset, diffs));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

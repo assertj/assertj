@@ -21,7 +21,7 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Character}s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * 
@@ -72,16 +72,13 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is less than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('A').isLessThan('a');
    * assertThat('a').isLessThan('b');
    *
    * // assertion will fail
    * assertThat('a').isLessThan('A');
-   * assertThat('b').isLessThan('a');
-   * </code></pre>
+   * assertThat('b').isLessThan('a');</code></pre>
    * 
    * </p>
    * 
@@ -99,15 +96,12 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is less than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('A').isLessThanOrEqualTo('a');
    * assertThat('A').isLessThanOrEqualTo('A');
    *
    * // assertion will fail
-   * assertThat('b').isLessThanOrEqualTo('a');
-   * </code></pre>
+   * assertThat('b').isLessThanOrEqualTo('a');</code></pre>
    * 
    * </p>
    * 
@@ -125,16 +119,13 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is greater than the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('a').isGreaterThan('A');
    * assertThat('b').isGreaterThan('a');
    *
    * // assertion will fail
    * assertThat('A').isGreaterThan('a');
-   * assertThat('a').isGreaterThan('b');
-   * </code></pre>
+   * assertThat('a').isGreaterThan('b');</code></pre>
    * 
    * </p>
    * 
@@ -155,22 +146,18 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * it is thus impossible to find differences from the standard error message:
    * <p/>
    * With standard error message:
-   * <pre><code class='java'>
-   * assertThat('µ').isEqualTo('μ');
+   * <pre><code class='java'> assertThat('µ').isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
    * Expected :'μ'
-   * Actual   :'µ'
-   * </code></pre>
+   * Actual   :'µ'</code></pre>
    *
    * With unicode based error message:
-   * <pre><code class='java'>
-   * assertThat('µ').inUnicode().isEqualTo('μ');
+   * <pre><code class='java'> assertThat('µ').inUnicode().isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
    * Expected :\u03bc
-   * Actual   :\u00b5
-   * </code></pre>
+   * Actual   :\u00b5</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -183,15 +170,12 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is greater than or equal to the given one.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('A').isGreaterThanOrEqualTo('A');
    * assertThat('b').isGreaterThanOrEqualTo('a');
    * 
    * // assertion will fail
-   * assertThat('a').isGreaterThanOrEqualTo('b');
-   * </code></pre>
+   * assertThat('a').isGreaterThanOrEqualTo('b');</code></pre>
    * 
    * </p>
    * 
@@ -209,14 +193,11 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is a lowercase character.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('a').isLowerCase();
    *
    * // assertion will fail
-   * assertThat('A').isLowerCase();
-   * </code></pre>
+   * assertThat('A').isLowerCase();</code></pre>
    *
    * </p>
    * 
@@ -234,14 +215,11 @@ public abstract class AbstractCharacterAssert<S extends AbstractCharacterAssert<
    * Verifies that the actual value is a uppercase character.
    * <p>
    * Example:
-   * 
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat('A').isLowerCase();
    * 
    * // assertion will fail
-   * assertThat('a').isLowerCase();
-   * </code></pre>
+   * assertThat('a').isLowerCase();</code></pre>
    * 
    * </p>
    * 

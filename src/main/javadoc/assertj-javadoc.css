@@ -44,18 +44,13 @@ a[name]:hover {
     color:#353833;
 }
 p {
-    margin-top:8px;
-    margin-bottom:4px;
+    margin-bottom:0.3em;
 }
 pre {
     font-family:'DejaVu Sans Mono', monospace;
     font-size:14px;
-    margin-top:2px;
-    margin-bottom:2px;
-}
-p {
-    margin-top:10px;
-    margin-bottom:4px;
+    margin-top: 0.5em;
+    margin-top: 0.3em;
 }
 h1 {
     font-size:20px;
@@ -602,10 +597,11 @@ div.contentContainer ul.blockList li.blockList h2{
 .hljs {
   display: block;
   overflow-x: auto;
-  padding-left: 0.6em;
+  padding-left: 0.4em;
   padding-right: 0.6em;
-  padding-top: 0em;
-  padding-bottom: 0em;
+  padding-top: 0.7em;
+  padding-bottom: 0.7em;
+  margin-right: 1.0em;
   background: #eaeef3;
   -webkit-text-size-adjust: none;
 }
@@ -673,3 +669,4 @@ div.contentContainer ul.blockList li.blockList h2{
 .hljs-phony {
   color: #4c81c9;
 }
+

@@ -17,8 +17,8 @@ package org.assertj.core.api;
  * 
  * <p>Used to map an object to its Assert without having to create a new "Assertions" class.</p>
  * 
- * Usage: <pre><code class='java'>
- * public class Button implements AssertProvider&lt;ButtonAssert&gt; {
+ * Usage:
+ * <pre><code class='java'> public class Button implements AssertProvider&lt;ButtonAssert&gt; {
  *   public ButtonAssert assertThat() { 
  *     return new ButtonAssert(this); 
  *   } 
@@ -38,8 +38,7 @@ package org.assertj.core.api;
  *   
  *   // Second option
  *   button.assertThat().containsText("Test");
- * }
- * </code></pre>
+ * }</code></pre>
  * 
  * @param <A>
  *          the type of the assert (not typed - to allow any kind of assert)

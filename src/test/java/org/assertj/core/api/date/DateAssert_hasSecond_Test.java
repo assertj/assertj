@@ -18,20 +18,20 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link DateAssert#isWithinSecond(int)}</code>.
+ * Tests for <code>{@link DateAssert#hasSecond(int)}</code>.
  * 
  * @author Joel Costigliola
  */
-public class DateAssert_isWithinSecond_Test extends AbstractDateAssertWithOneIntArg_Test {
+public class DateAssert_hasSecond_Test extends AbstractDateAssertWithOneIntArg_Test {
 
   @Override
   protected DateAssert assertionInvocationWithOneIntArg() {
-    return assertions.isWithinSecond(intArg);
+    return assertions.hasSecond(intArg);
   }
 
   @Override
   protected void verifyAssertionInvocation() {
-    verify(dates).assertIsWithinSecond(getInfo(assertions), getActual(assertions), intArg);
+    verify(dates).assertHasSecond(getInfo(assertions), getActual(assertions), intArg);
   }
 
 }

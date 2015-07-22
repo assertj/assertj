@@ -18,7 +18,7 @@ import org.assertj.core.data.Percentage;
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
@@ -86,15 +86,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included).
    * 
-   * <pre><code class='java'>
-   * // these assertions succeed ... 
+   * <pre><code class='java'> // these assertions succeed ...
    * assertThat(12).isBetween(10, 14);
    * assertThat(12).isBetween(12, 14);
    * assertThat(12).isBetween(10, 12);
    * 
    * // ... but these one fails
-   * assertThat(12).isBetween(14, 16);
-   * </code></pre>
+   * assertThat(12).isBetween(14, 16);</code></pre>
    * 
    * @param start the start value (inclusive), expected not to be null.
    * @param end the end value (inclusive), expected not to be null.
@@ -109,15 +107,13 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
   /**
    * Verifies that the actual value is in ]start, end[ range (start excluded, end excluded).
    * 
-   * <pre><code class='java'>
-   * // this assertion succeeds ... 
+   * <pre><code class='java'> // this assertion succeeds ...
    * assertThat(12).isBetween(10, 14);
    * 
    * // ... but these one fails
    * assertThat(12).isBetween(12, 14);
    * assertThat(12).isBetween(10, 12);
-   * assertThat(12).isBetween(16, 18);
-   * </code></pre>
+   * assertThat(12).isBetween(16, 18);</code></pre>
    * 
    * @param start the start value (exclusive), expected not to be null.
    * @param end the end value (exclusive), expected not to be null.
@@ -134,9 +130,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * If difference is equal to offset value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.2));
    *
    * // you can use offset if you prefer
@@ -146,8 +140,7 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * assertThat(8.1).isCloseTo(new Double(8.0), within(0.1));
    *
    * // assertion will fail
-   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));
-   * </code></pre>
+   * assertThat(8.1).isCloseTo(new Double(8.0), within(0.01));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param offset the given positive offset.
@@ -163,17 +156,14 @@ public interface NumberAssert<S extends NumberAssert<S, A>, A extends Number> {
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with double:
-   *
-   * <pre><code class='java'>
-   * // assertions will pass:
+   * <pre><code class='java'> // assertions will pass:
    * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(20d));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(10d));
    *
    * // assertion will fail
-   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));
-   * </code></pre>
+   * assertThat(11.0).isCloseTo(new Double(10.0), withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
    * @param percentage the given positive percentage between 0 and 100.

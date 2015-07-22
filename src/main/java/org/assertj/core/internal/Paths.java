@@ -35,7 +35,6 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.LinkOption;
@@ -274,25 +273,23 @@ public class Paths {
 	if (expected == null) throw new NullPointerException("The text to compare to should not be null");
 	assertIsReadable(info, actual);
 	try {
-	  File actualAsFile = actual.toFile();
-	  List<String> diffs = diff.diff(actualAsFile, expected, charset);
+	  List<String> diffs = diff.diff(actual, expected, charset);
 	  if (diffs.isEmpty()) return;
-	  throw failures.failure(info, shouldHaveContent(actualAsFile, charset, diffs));
+	  throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to verify text contents of file:<%s>", actual), e);
+	  throw new RuntimeIOException(format("Unable to verify text contents of path:<%s>", actual), e);
 	}
   }
 
   public void assertHasBinaryContent(AssertionInfo info, Path actual, byte[] expected) {
 	if (expected == null) throw new NullPointerException("The binary content to compare to should not be null");
 	assertIsReadable(info, actual);
-	File actualFile = actual.toFile();
 	try {
-	  BinaryDiffResult diffResult = binaryDiff.diff(actualFile, expected);
+	  BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
 	  if (diffResult.hasNoDiff()) return;
-	  throw failures.failure(info, shouldHaveBinaryContent(actualFile, diffResult));
+	  throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to verify binary contents of file:<%s>", actualFile), e);
+	  throw new RuntimeIOException(format("Unable to verify binary contents of path:<%s>", actual), e);
 	}
   }
 
@@ -304,14 +301,12 @@ public class Paths {
 	  throw new IllegalArgumentException(format("The given Path <%s> to compare actual content to should be readable", expected));
 	// @format:on
 	assertIsReadable(info, actual);
-	File expectedFile = expected.toFile();
-	File actualFile = actual.toFile();
 	try {
-	  List<String> diffs = diff.diff(actualFile, expectedFile);
+	  List<String> diffs = diff.diff(actual, expected);
 	  if (diffs.isEmpty()) return;
-	  throw failures.failure(info, shouldHaveSameContent(actualFile, expectedFile, diffs));
+	  throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
 	} catch (IOException e) {
-	  throw new RuntimeIOException(format("Unable to compare contents of files:<%s> and:<%s>", actualFile, expectedFile), e);
+	  throw new RuntimeIOException(format("Unable to compare contents of paths:<%s> and:<%s>", actual, expected), e);
 	}
   }
 

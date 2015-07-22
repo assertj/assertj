@@ -31,7 +31,7 @@ import org.junit.Test;
  * 
  * @author Joel Costigliola
  */
-public class Throwables_assertHasMessageContainingWith_Test extends ThrowablesBaseTest {
+public class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
   @Test
   public void should_pass_if_actual_has_message_containing_with_expected_description() {

@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 /**
  * Assertion methods applicable to <code>{@link Comparable}</code>s.
  * 
- * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/anMa4g"
+ * @param <S> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <A> the type of the "actual" value.
@@ -33,16 +33,13 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * <code>{@link Comparable#compareTo(Object)}</code>.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(1.0).isEqualByComparingTo(1.0);
    * // assertion will pass because 8.0 is equal to 8.00 using {@link BigDecimal#compareTo(BigDecimal)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(new BigDecimal(&quot;8.00&quot;));
    *
    * // assertion will fail
-   * assertThat(new BigDecimal(1.0)).isEqualByComparingTo(new BigDecimal(2.0));
-   * </code></pre>
+   * assertThat(new BigDecimal(1.0)).isEqualByComparingTo(new BigDecimal(2.0));</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -56,16 +53,13 @@ public interface ComparableAssert<S extends ComparableAssert<S, A>, A extends Co
    * <code>{@link Comparable#compareTo(Object)}</code>.
    * <p>
    * Example:
-   *
-   * <pre><code class='java'>
-   * // assertion will pass
+   * <pre><code class='java'> // assertion will pass
    * assertThat(new BigDecimal(1.0)).isNotEqualByComparingTo(new BigDecimal(2.0));
    *
    * // assertion will fail
    * assertThat(1.0).isNotEqualByComparingTo(1.0);
    * // assertion will fail because 8.0 is equal to 8.00 using {@link BigDecimal#compareTo(BigDecimal)}
-   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(new BigDecimal(&quot;8.00&quot;));
-   * </code></pre>
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(new BigDecimal(&quot;8.00&quot;));</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.

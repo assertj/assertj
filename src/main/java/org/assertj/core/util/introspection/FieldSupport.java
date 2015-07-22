@@ -148,8 +148,7 @@ public enum FieldSupport {
   }
 
   /**
-   * <pre><code class='java'>
-   * isNestedField(&quot;address.street&quot;); // true
+   * <pre><code class='java'> isNestedField(&quot;address.street&quot;); // true
    * isNestedField(&quot;address.street.name&quot;); // true
    * isNestedField(&quot;person&quot;); // false
    * isNestedField(&quot;.name&quot;); // false
@@ -157,8 +156,7 @@ public enum FieldSupport {
    * isNestedField(&quot;person.name.&quot;); // false
    * isNestedField(&quot;.person.name&quot;); // false
    * isNestedField(&quot;.&quot;); // false
-   * isNestedField(&quot;&quot;); // false
-   * </code></pre>
+   * isNestedField(&quot;&quot;); // false</code></pre>
    */
   private boolean isNestedField(String fieldName) {
 	return fieldName.contains(SEPARATOR) && !fieldName.startsWith(SEPARATOR) && !fieldName.endsWith(SEPARATOR);
@@ -168,10 +166,7 @@ public enum FieldSupport {
    * Return the value of field from a target object.
    * <p>
    * Return null if field is nested and one of the nested value is null, ex :
-   * 
-   * <pre><code class='java'>
-   * fieldValue(race.name, String.class, frodo) will return null if frodo.race is null
-   * </code></pre>
+   * <pre><code class='java'> fieldValue(race.name, String.class, frodo); // will return null if frodo.race is null</code></pre>
    * 
    * @param fieldName the name of the field. It may be a nested field. It is left to the clients to validate for
    *          {@code null} or empty.

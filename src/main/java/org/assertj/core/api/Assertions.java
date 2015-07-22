@@ -23,13 +23,11 @@ import java.util.Map;
  * <p>
  * For example:
  *
- * <pre><code class='java'>
- * int removed = employees.removeFired();
+ * <pre><code class='java'> int removed = employees.removeFired();
  * {@link Assertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
  *
  * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
- * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);
- * </code></pre>
+ * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6); </code></pre>
  * The difference with {@link StrictAssertions} is that this class contains assertThat methods with interface parameter
  * to avoid Java 8 ambiguous method error (see
  * http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
@@ -152,9 +150,7 @@ public class Assertions extends StrictAssertions {
    * <code>assertThat</code>.
    * <p>
    * Consider for example the following MyButton and MyButtonAssert classes:
-   *
-   * <pre><code class='java'>
-   * public class MyButton extends JButton {
+   * <pre><code class='java'> public class MyButton extends JButton {
    *
    *   private boolean blinking;
    *
@@ -178,14 +174,11 @@ public class Assertions extends StrictAssertions {
    *     // standard assertion from core Assertions.assertThat
    *     assertThat(button.isBlinking()).isFalse();
    *   }
-   * }
-   * </code></pre>
+   * }</code></pre>
    *
    * As MyButtonAssert implements AssertDelegateTarget, you can use <code>assertThat(buttonAssert).isBlinking();</code>
-   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions.
-   *
-   * <pre><code class='java'>
-   * {@literal @}Test
+   * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions:
+   * <pre><code class='java'> {@literal @}Test
    * public void AssertDelegateTarget_example() {
    *
    *   MyButton button = new MyButton();
@@ -197,8 +190,7 @@ public class Assertions extends StrictAssertions {
    *   button.setBlinking(true);
    *
    *   assertThat(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
-   * }
-   * </code></pre>
+   * }</code></pre>
    * 
    * @param <T> the generic type of the user-defined assert.
    * @param assertion the assertion to return.
