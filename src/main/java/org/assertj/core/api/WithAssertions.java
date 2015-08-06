@@ -607,6 +607,13 @@ public interface WithAssertions {
   default public AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
       return Assertions.assertThat(offsetDateTime);
   }
+  
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThatException(Class)}
+   */
+  default public <T extends Throwable> ExpectThrowableAssert<T> assertThatException(final Class<? extends T> exceptionType) {
+      return Assertions.assertThatException(exceptionType);
+  }
 
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a complete entry point to all AssertJ features.
