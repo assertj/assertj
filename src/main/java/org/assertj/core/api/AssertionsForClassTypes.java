@@ -537,7 +537,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   * Allows to capture and then assert on a {@link Throwable}.
    * 
    * <p>
    * Example :
@@ -545,9 +545,11 @@ public class AssertionsForClassTypes {
    * 
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
-   *   assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
-   *                                                             .hasMessageContaining("boom");
+   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                              .hasMessageContaining("boom");
    * }</code></pre>
+   * 
+   * Another (probably more natural) way of checking that sonme code throws an exception is {@link #assertThatExceptionOfType(Class)}.
    * 
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -556,6 +558,24 @@ public class AssertionsForClassTypes {
     return new ThrowableAssert(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
   }
 
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}  
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
+   *              .isThrownBy(() -> { throw new IOException("boom!"); })
+   *              .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * 
+   * @param actual the actual value.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
+    return new ThrowableTypeAssert<>(exceptionType);
+  }
+  
   /**
    * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
    *
@@ -570,7 +590,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!") });
+   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)

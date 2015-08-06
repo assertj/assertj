@@ -60,7 +60,7 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
   /**
    * Verifies that the actual {@code Throwable} has a cause similar to the given one, that is with same type and message
    * (it does not use {@link Throwable#equals(Object) equals} method for comparison).
-   *
+   * <p>
    * Example:
    * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
    * Throwable throwable = new Throwable(invalidArgException);

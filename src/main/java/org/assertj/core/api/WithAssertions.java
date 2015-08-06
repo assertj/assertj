@@ -642,6 +642,22 @@ public interface WithAssertions {
   default public Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
     return Assertions.catchThrowable(shouldRaiseThrowable);
   }
+  
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}  
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatExceptionOfType(IOException.class).isThrownBy(() -> { throw new IOException("boom!"); })
+   *                                       .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * @param actual the actual value.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  default public <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
+      return Assertions.assertThatExceptionOfType(exceptionType);
+  }
 
   // --------------------------------------------------------------------------------------------------
   // Filter methods : not assertions but here to have a complete entry point to all AssertJ features.

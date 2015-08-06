@@ -573,8 +573,8 @@ public class Assertions {
    * 
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
-   *   assertThatThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
-   *                                                             .hasMessageContaining("boom");
+   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                              .hasMessageContaining("boom");
    * }</code></pre>
    * 
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
@@ -595,10 +595,10 @@ public class Assertions {
    * Example:
    * </p>
    * 
-   * <pre><code class='java'>{@literal @}Test
+   * <pre><code class='java'> {@literal @}Test
    * public void testException() {
    *   // when
-   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!") });
+   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
    *
    *   // then
    *   assertThat(thrown).isInstanceOf(Exception.class)
@@ -610,6 +610,23 @@ public class Assertions {
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
+  }
+
+  /**
+   * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}  
+   * which allows to chain assertions on the thrown exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
+   *           .isThrownBy(() -> { throw new IOException("boom!"); })
+   *           .withMessage("boom!"); </code></pre>
+   *
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way.
+   * @param actual the actual value.
+   * @return the created {@link ThrowableTypeAssert}.
+   */
+  public static <T extends Throwable> ThrowableTypeAssert<T> assertThatExceptionOfType(final Class<? extends T> exceptionType) {
+    return new ThrowableTypeAssert<T>(exceptionType);
   }
 
   // -------------------------------------------------------------------------------------------------
@@ -1645,4 +1662,5 @@ public class Assertions {
    * Creates a new </code>{@link Assertions}</code>.
    */
   protected Assertions() {}
+
 }

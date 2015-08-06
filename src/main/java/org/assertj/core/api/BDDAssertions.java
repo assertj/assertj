@@ -516,21 +516,10 @@ public class BDDAssertions extends Assertions {
    * Java 8 example :
    * <pre><code class='java'> {@literal @}Test
    *  public void testException() {
-   *    thenThrownBy(() -> { throw new Exception("boom!") }).isInstanceOf(Exception.class)
-   *                                                        .hasMessageContaining("boom");
+   *    thenThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                         .hasMessageContaining("boom");
    *  }</code></pre>
    * 
-   * Java 7 example :
-   * <pre><code class='java'> thenThrownBy(new ThrowingCallable() {
-   * 
-   *   {@literal @}Override
-   *   public Void call() throws Exception {
-   *     throw new Exception("boom!");
-   *   }
-   *   
-   * }).isInstanceOf(Exception.class)
-   *   .hasMessageContaining("boom");</code></pre>
-   *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    */

@@ -280,7 +280,7 @@ public class BDDAssertions_then_Test {
   }
 
   @Test
-  public void thenExceptionThrownBy_of_Callable_should_delegate_to_assertThatExceptionThrownBy() {
+  public void thenExceptionThrownBy_of_Callable_should_delegate_to_assertThatExceptionOfTypeThrownBy() {
     // GIVEN
     ThrowingCallable actual = () -> {
       throw new Exception("Boom !");
