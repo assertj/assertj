@@ -3,7 +3,6 @@ package org.assertj.core.api.throwable;
 import static org.assertj.core.api.Fail.shouldHaveThrown;
 import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.api.StrictAssertions.assertThatException;
-import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
 
 import java.util.NoSuchElementException;
 
@@ -18,8 +17,10 @@ public class ExpectThrowableAssertTest {
     assertThatException(NoSuchElementException.class)
       .isThrownBy(() -> {throw ex;})
         .isSameAs(ex)
-      .isThrownBy(() -> {throw new NoSuchElementException("this too");})
-        .hasMessage("this too")
+        .withNoCause()
+      .isThrownBy(() -> {throw new NoSuchElementException("this too").initCause(new IllegalArgumentException("The cause"));})
+        .withMessage("this too")
+        .withCauseInstanceOf(IllegalArgumentException.class)
     ;
     // @format:on
   }
