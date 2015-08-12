@@ -33,6 +33,6 @@ public class MapEntry_toString_Test {
 
   @Test
   public void should_implement_toString() {
-    assertThat(entry.toString()).isEqualTo("MapEntry[key='name', value='Yoda']");
+    assertThat(entry.toString()).isEqualTo("MapEntry[key=\"name\", value=\"Yoda\"]");
   }
 }
