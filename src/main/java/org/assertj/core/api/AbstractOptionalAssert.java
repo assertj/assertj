@@ -76,7 +76,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
-   * Verifies that the actual {@link java.util.Optional} contains the value in argument.
+   * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #hasValue(Object)}).
    * </p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(Optional.of("something")).contains("something");
@@ -98,12 +98,29 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   }
 
   /**
+   * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
+   * </p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something");
+   * assertThat(Optional.of(10)).contains(10);</code></pre>
+   * 
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something else");
+   * assertThat(Optional.of(20)).contains(10);</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public S hasValue(T expectedValue) {
+    return contains(expectedValue);
+  }
+
+  /**
    * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
    * </p>
    * Assertions will pass:
    *
-   * <pre><code class='java'>
-   * assertThat(Optional.of("something")).containsInstanceOf(String.class)
+   * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(String.class)
    *                                     .containsInstanceOf(Object.class);
    *                                     
    * assertThat(Optional.of(10)).containsInstanceOf(Integer.class);</code></pre>
@@ -139,8 +156,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
    *  
-   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares
-   * references
+   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
    * assertThat(Optional.of(frodo)).contains(frodoClone);
    *  
    * // frodo and frodoClone are equals when doing a field by field comparison.
