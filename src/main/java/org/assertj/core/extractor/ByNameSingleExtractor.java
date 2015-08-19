@@ -23,18 +23,18 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
     if (input == null)
       throw new IllegalArgumentException("The object to extract field/property from should not be null");
 
-    // first try to get given property values from objects, then try properties
+    // first try to get given property values from objects, then try fields
     try {
       return PropertySupport.instance().propertyValueOf(propertyOrFieldName, Object.class, input);
-    } catch (IntrospectionError fieldIntrospectionError) {
+    } catch (IntrospectionError propertyIntrospectionError) {
       // no luck with properties, let's try fields
       try {
         return FieldSupport.instance().fieldValue(propertyOrFieldName, Object.class, input);
-      } catch (IntrospectionError propertyIntrospectionError) {
+      } catch (IntrospectionError fieldIntrospectionError) {
         // no field nor property found with given name, it is considered as an error
         String message = format(
-            "\nCan't find any field or property with name '%s'.\nError when introspecting fields was :\n- %s \nError when introspecting properties was :\n- %s",
-            propertyOrFieldName, fieldIntrospectionError.getMessage(), propertyIntrospectionError.getMessage());
+            "\nCan't find any property or field with name '%s'.\nError when introspecting properties was :\n- %s \nError when introspecting fields was :\n- %s",
+            propertyOrFieldName, propertyIntrospectionError.getMessage(), fieldIntrospectionError.getMessage());
         throw new IntrospectionError(message);
       }
     }
