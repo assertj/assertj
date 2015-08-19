@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
 
 import java.util.Comparator;
@@ -30,6 +31,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  *
  * @param <T> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
+ * @author Nicolai Parlog
  */
 public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S, T>, T> extends
     AbstractAssert<S, Optional<T>> {
@@ -91,7 +93,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    */
   public S contains(T expectedValue) {
     isNotNull();
-    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
+    checkNotNull(expectedValue);
     if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) throw failure(shouldContain(actual, expectedValue));
     return myself;
@@ -207,6 +209,43 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     // fall back to default strategy to compare actual with other objects.
     optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
+   * same instance).
+   * </p>
+   * Assertion will pass :
+   * 
+   * <pre><code class='java'> String someString = "something";
+   * assertThat(Optional.of(someString)).containsSame(someString);
+   * 
+   * // Java will create the same 'Integer' instance when boxing small ints
+   * assertThat(Optional.of(10)).containsSame(10);</code></pre>
+   * 
+   * Assertion will fail :
+   * 
+   * <pre><code class='java'> // not even equal:
+   * assertThat(Optional.of("something")).containsSame("something else");
+   * assertThat(Optional.of(20)).containsSame(10);
+   * 
+   * // equal but not the same: 
+   * assertThat(Optional.of(new String("something"))).containsSame(new String("something"));
+   * assertThat(Optional.of(new Integer(10))).containsSame(new Integer(10));</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public S containsSame(T expectedValue) {
+    isNotNull();
+    checkNotNull(expectedValue);
+    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
+    if (actual.get() != expectedValue) throw failure(shouldContainSame(actual, expectedValue));
+    return myself;
+  }
+
+  private void checkNotNull(T expectedValue) {
+    if (expectedValue == null) throw new IllegalArgumentException("The expected value should not be <null>.");
   }
 
 }
