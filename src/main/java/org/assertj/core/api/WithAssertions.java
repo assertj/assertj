@@ -28,6 +28,7 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.time.*;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  *
@@ -543,6 +544,13 @@ public interface WithAssertions {
    */
   default public AbstractZonedDateTimeAssert<?> assertThat(final ZonedDateTime actual) {
     return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(CompletableFuture)}
+   */
+  default public <T> CompletableFutureAssert<T> assertThat(final CompletableFuture<T> future) {
+    return Assertions.assertThat(future);
   }
 
   /**

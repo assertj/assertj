@@ -21,6 +21,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import org.assertj.core.util.DateUtil;
 
@@ -53,6 +56,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
     if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
+    if (object instanceof CompletableFuture) return toStringOf((CompletableFuture) object);
     return DefaultToString.toStringOf(this, object);
   }
 
@@ -111,4 +115,20 @@ public class StandardRepresentation implements Representation {
     return dateFormat.toPattern();
   }
 
+  private String toStringOf(CompletableFuture future) {
+    String className = toStringOf(future.getClass());
+
+    if (!future.isDone())
+      return concat(className, "[Incomplete]");
+
+    try {
+      return concat(className, "[Completed: ", toStringOf(future.join()), "]");
+
+    } catch (CompletionException e) {
+      return concat(className, "[Failed: ", toStringOf(e.getCause()), "]");
+
+    } catch (CancellationException e) {
+      return concat(className, "[Cancelled]");
+    }
+  }
 }
