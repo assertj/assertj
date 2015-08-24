@@ -12,10 +12,10 @@
  */
 package org.assertj.core.api.charsequence;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-
-import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isEqualToIgnoringWhitespace(CharSequence)}</code>.
@@ -24,13 +24,13 @@ import static org.mockito.Mockito.verify;
  */
 public class CharSequenceAssert_isEqualToIgnoringWhitespace_Test extends CharSequenceAssertBaseTest {
 
-    @Override
-    protected CharSequenceAssert invoke_api_method() {
-        return assertions.isEqualToIgnoringWhitespace(" my foo bar ");
-    }
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.isEqualToIgnoringWhitespace(" my foo bar ");
+  }
 
-    @Override
-    protected void verify_internal_effects() {
-        verify(strings).assertEqualsIgnoringWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
-    }
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertEqualsIgnoringWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
+  }
 }

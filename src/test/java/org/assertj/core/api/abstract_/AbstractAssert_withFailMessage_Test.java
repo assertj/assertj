@@ -28,7 +28,7 @@ public class AbstractAssert_withFailMessage_Test {
 
   @Test
   public void should_delegate_to_overridingErrorMessage() {
-    AbstractAssert suT = spy(Assertions.assertThat("test"));
+    AbstractAssert<?, ?> suT = spy(Assertions.assertThat("test"));
 
     suT.withFailMessage("test", "eins");
 

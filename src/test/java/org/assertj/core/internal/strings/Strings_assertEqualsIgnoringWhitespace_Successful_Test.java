@@ -52,8 +52,8 @@ public class Strings_assertEqualsIgnoringWhitespace_Successful_Test extends Stri
         { " my foo    bar ", "  my foo bar   " },
         { "       ", " " },
         { " my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r')) },
-        { " my\tfoo bar ", " my\tfoo bar " }, // same
-        { null, null }, // null
+        { " my\tfoo bar ", " my\tfoo bar " },   // same
+        { null, null },   // null
         { " \t \t", " " },
         { " abc", "abc " }
     });

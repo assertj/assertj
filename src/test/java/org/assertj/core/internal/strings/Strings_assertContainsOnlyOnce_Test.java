@@ -17,8 +17,6 @@ import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -33,7 +31,7 @@ import org.junit.Test;
 public class Strings_assertContainsOnlyOnce_Test extends StringsBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_contains_given_string_only_once() {
+  public void should_pass_if_actual_contains_given_string_only_once() {
     strings.assertContainsOnlyOnce(someInfo(), "Yoda", "Yo");
   }
 
