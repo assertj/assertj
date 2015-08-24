@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
+import static org.assertj.core.error.ShouldBeSubstring.shouldBeSubstring;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
@@ -42,6 +43,7 @@ import static org.assertj.core.internal.CommonValidations.checkOtherIsNotNull;
 import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.io.IOException;
@@ -616,6 +618,13 @@ public class Strings {
     if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
       throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
                                                  info.representation()));
+  }
+
+  public void assertIsSubstringOf(AssertionInfo info, CharSequence actual, CharSequence sequence) {
+    assertNotNull(info, actual);
+    checkNotNull(sequence, "Expecting CharSequence not to be null");
+    if (stringContains(sequence.toString(), actual.toString())) return;
+    throw failures.failure(info, shouldBeSubstring(actual, sequence, comparisonStrategy));
   }
 
 }
