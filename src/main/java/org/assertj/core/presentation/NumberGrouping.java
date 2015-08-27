@@ -25,11 +25,7 @@ final class NumberGrouping {
   private static Pattern binaryGroupPattern = Pattern.compile("([0-1]{8})");
 
   static String toHexLiteral(String value) {
-    if (value.length() > 4) {
-      return toHexLiteral(hexGroupPattern, value);
-    } else {
-      return value;
-    }
+    return value.length() > 4 ? toHexLiteral(hexGroupPattern, value) : value;
   }
 
   static String toBinaryLiteral(String value) {

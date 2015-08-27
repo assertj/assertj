@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualWithTimePrecision.shouldBeEqual;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
-import java.text.ParseException;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.description.TextDescription;
@@ -34,7 +33,7 @@ import org.junit.Test;
 public class ShouldBeEqualWithTimePrecision_create_Test {
 
   @Test
-  public void should_create_error_message_ignoring_millisseconds() throws ParseException {
+  public void should_create_error_message_ignoring_millisseconds() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MILLISECONDS);
 
@@ -47,7 +46,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_seconds() throws ParseException {
+  public void should_create_error_message_ignoring_seconds() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.SECONDS);
 
@@ -60,7 +59,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_miinutes() throws ParseException {
+  public void should_create_error_message_ignoring_miinutes() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.MINUTES);
 
@@ -73,7 +72,7 @@ public class ShouldBeEqualWithTimePrecision_create_Test {
   }
 
   @Test
-  public void should_create_error_message_ignoring_hours() throws ParseException {
+  public void should_create_error_message_ignoring_hours() {
     ErrorMessageFactory factory = shouldBeEqual(parseDatetimeWithMs("2011-01-01T05:00:00.000"),
                                                 parseDatetimeWithMs("2011-01-01T06:05:17.003"), TimeUnit.HOURS);
 

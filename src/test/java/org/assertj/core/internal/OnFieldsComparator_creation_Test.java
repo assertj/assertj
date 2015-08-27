@@ -31,36 +31,42 @@ public class OnFieldsComparator_creation_Test {
 	assertThat(comparator.getFields()).containsExactly("a", "b");
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_no_fields_are_given() {
 	thrown.expectIllegalArgumentException("No fields specified");
 	new OnFieldsComparator();
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_null_array_fields_is_given() {
 	thrown.expectIllegalArgumentException("No fields specified");
 	new OnFieldsComparator((String[]) null);
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_empty_array_fields_is_given() {
 	thrown.expectIllegalArgumentException("No fields specified");
 	new OnFieldsComparator(new String[0]);
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_null() {
 	thrown.expectIllegalArgumentException("Null/blank fields are invalid, fields were [\"a\", null]");
 	new OnFieldsComparator("a", null);
   }
   
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_empty() {
 	thrown.expectIllegalArgumentException("Null/blank fields are invalid, fields were [\"a\", \"\"]");
 	new OnFieldsComparator("a", "");
   }
   
+  @SuppressWarnings("unused")
   @Test
   public void should_fail_if_some_fields_are_blank() {
 	thrown.expectIllegalArgumentException("Null/blank fields are invalid, fields were [\"a\", \" \"]");

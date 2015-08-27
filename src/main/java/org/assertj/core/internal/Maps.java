@@ -191,7 +191,7 @@ public class Maps {
       }
     }
     if (notFound.isEmpty()) return;
-    else throw failures.failure(info, shouldContain(actual, entries, notFound));
+    throw failures.failure(info, shouldContain(actual, entries, notFound));
   }
 
   /**
@@ -217,7 +217,7 @@ public class Maps {
       }
     }
     if (found.isEmpty()) return;
-    else throw failures.failure(info, shouldNotContain(actual, entries, found));
+    throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
   /**
@@ -238,7 +238,7 @@ public class Maps {
       }
     }
     if (notFound.isEmpty()) return;
-    else throw failures.failure(info, shouldContainKeys(actual, notFound));
+    throw failures.failure(info, shouldContainKeys(actual, notFound));
   }
 
   /**

@@ -12,18 +12,16 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.formatTimeDifference;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
-import java.text.ParseException;
 import java.util.Date;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link DateUtil#timeDifference(java.util.Date, java.util.Date)}</code>.
@@ -36,7 +34,7 @@ public class DateUtil_formatTimeDifference_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_dates_time_difference() throws ParseException {
+  public void should_return_dates_time_difference() {
     final Date date1 = parseDatetimeWithMs("2003-01-01T00:00:00.888");
     assertThat(formatTimeDifference(date1, parseDatetimeWithMs("2003-01-01T00:00:00.999"))).isEqualTo("111ms");
     assertThat(formatTimeDifference(date1, parseDatetimeWithMs("2003-01-01T00:00:01.999"))).isEqualTo("1s and 111ms");

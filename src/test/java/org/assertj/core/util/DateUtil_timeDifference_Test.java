@@ -17,13 +17,11 @@ import static org.assertj.core.test.ExpectedException.none;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 import static org.assertj.core.util.DateUtil.timeDifference;
 
-import java.text.ParseException;
 import java.util.Date;
 
+import org.assertj.core.test.ExpectedException;
 import org.junit.Rule;
 import org.junit.Test;
-
-import org.assertj.core.test.ExpectedException;
 
 /**
  * Tests for <code>{@link org.assertj.core.util.DateUtil#timeDifference(java.util.Date, java.util.Date)}</code>.
@@ -36,7 +34,7 @@ public class DateUtil_timeDifference_Test {
   public ExpectedException thrown = none();
 
   @Test
-  public void should_return_dates_time_difference() throws ParseException {
+  public void should_return_dates_time_difference() {
     final Date date1 = parseDatetimeWithMs("2003-04-26T03:01:02.999");
     final Date date2 = parseDatetimeWithMs("2003-04-26T03:01:02.888");
     assertThat(timeDifference(date1, date2)).isEqualTo(111);

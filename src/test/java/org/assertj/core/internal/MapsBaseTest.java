@@ -20,8 +20,6 @@ import static org.mockito.Mockito.spy;
 import java.util.Map;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
@@ -45,7 +43,7 @@ public class MapsBaseTest {
 
   @Before
   public void setUp() {
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("color", "green"));
+    actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
     failures = spy(new Failures());
     maps = new Maps();
     maps.failures = failures;

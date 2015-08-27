@@ -12,20 +12,20 @@
  */
 package org.assertj.core.internal.maps;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
+import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+
+import java.util.Map;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldHaveSameSizeAs.*;
-import static org.assertj.core.test.Maps.*;
-import static org.assertj.core.test.TestData.*;
-import static org.assertj.core.test.TestFailures.*;
-import static org.assertj.core.util.FailureMessages.*;
 
 /**
  * Tests for
@@ -40,7 +40,7 @@ public class Maps_assertHasSameSizeAs_with_Map_Test extends MapsBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
+    actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
   }
 
   @Test

@@ -21,8 +21,6 @@ import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErr
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
@@ -41,7 +39,7 @@ public class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
+    actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
   }
 
   @Test

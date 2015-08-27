@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameTime.shouldHaveSameTime;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.assertj.core.description.TextDescription;
@@ -34,7 +33,7 @@ import org.junit.Test;
 public class ShouldHaveSameTime_create_Test {
 
   @Test
-  public void should_create_error_message() throws ParseException {
+  public void should_create_error_message() {
     Date actual = DateUtil.parseDatetime("2011-01-01T05:01:00");
     Date expected = DateUtil.parseDatetime("2011-01-01T05:01:01");
     String message = shouldHaveSameTime(actual, expected).create(new TextDescription("Test"),

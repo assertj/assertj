@@ -14,7 +14,8 @@ package org.assertj.core.error;
 
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -56,7 +57,7 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
 	                                                  Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
 	if (isNullOrEmpty(notExpected)) return new ShouldContainOnly(actual, expected, notFound, comparisonStrategy);
-	else return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
+    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   /**

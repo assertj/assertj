@@ -12,16 +12,14 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.test.ExpectedException.none;
+import static org.assertj.core.test.TestData.someInfo;
+import static org.mockito.Mockito.spy;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.test.ExpectedException;
 import org.junit.Before;
 import org.junit.Rule;
-
-import java.io.IOException;
-
-import static org.assertj.core.test.ExpectedException.none;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.mockito.Mockito.spy;
 
 /**
  * Base test class for {@link java.net.URI} tests.
@@ -38,7 +36,7 @@ public abstract class UrisBaseTest {
 
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
 	failures = spy(new Failures());
 	uris = new Uris();
 	uris.failures = failures;

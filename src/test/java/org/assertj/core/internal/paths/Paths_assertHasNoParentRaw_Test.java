@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.junit.Test;
@@ -33,7 +32,7 @@ public class Paths_assertHasNoParentRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_fail_if_actual_has_parent() throws IOException {
+  public void should_fail_if_actual_has_parent() {
 	final Path parent = mock(Path.class);
 	when(actual.getParent()).thenReturn(parent);
 
@@ -46,7 +45,7 @@ public class Paths_assertHasNoParentRaw_Test extends MockPathsBaseTest {
   }
 
   @Test
-  public void should_succeed_if_actual_has_no_parent() throws IOException {
+  public void should_succeed_if_actual_has_no_parent() {
 	// This is the default, but let's make that clear
 	when(actual.getParent()).thenReturn(null);
 

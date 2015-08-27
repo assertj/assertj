@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInSameMinuteWindow.shouldBeInSameMinuteWindow;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
-import java.text.ParseException;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
@@ -34,7 +32,7 @@ import org.junit.Test;
 public class ShouldBeInSameMinuteWindow_create_Test {
 
   @Test
-  public void should_create_error_message() throws ParseException {
+  public void should_create_error_message() {
     ErrorMessageFactory factory = shouldBeInSameMinuteWindow(parseDatetime("2011-01-01T05:00:00"),
                                                              parseDatetime("2011-01-01T05:02:01"));
 
