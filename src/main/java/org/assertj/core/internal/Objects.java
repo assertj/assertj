@@ -535,7 +535,7 @@ public class Objects {
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
-  public <A> void assertIsLenientEqualsToIgnoringNullFields(AssertionInfo info, A actual, A other) {
+  public <A> void assertIsEqualToIgnoringNullFields(AssertionInfo info, A actual, A other) {
     assertNotNull(info, actual);
     assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<>();

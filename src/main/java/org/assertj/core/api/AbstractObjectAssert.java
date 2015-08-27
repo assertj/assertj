@@ -65,7 +65,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the other object is not an instance of the actual type.
    */
   public S isEqualToIgnoringNullFields(A other) {
-    objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+    objects.assertIsEqualToIgnoringNullFields(info, actual, other);
     return myself;
   }
 

@@ -39,7 +39,7 @@ import org.junit.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertIsLenientEqualsToByIgnoringFields_Test extends ObjectsBaseTest {
+public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBaseTest {
 
   @Test
   public void should_pass_when_fields_are_equal() {

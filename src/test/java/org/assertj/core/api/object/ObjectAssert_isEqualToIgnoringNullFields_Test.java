@@ -20,22 +20,22 @@ import static org.mockito.Mockito.verify;
 
 
 /**
- * Tests for <code>{@link ObjectAssert#isEqualToComparingOnlyGivenFields(Object, String...)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToIgnoringNullFields(Object)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_isLenientEqualsToByAcceptingFields_Test extends ObjectAssertBaseTest {
+public class ObjectAssert_isEqualToIgnoringNullFields_Test extends ObjectAssertBaseTest {
 
-  private Jedi other = new Jedi("Yoda", "Blue");
+  private Jedi other = new Jedi("Yoda", "Green");
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isEqualToComparingOnlyGivenFields(other, "name");
+    return assertions.isEqualToIgnoringNullFields(other);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other, "name");
+    verify(objects).assertIsEqualToIgnoringNullFields(getInfo(assertions), getActual(assertions), other);
   }
 }

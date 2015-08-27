@@ -35,27 +35,27 @@ import org.junit.Test;
  * @author Nicolas François
  * @author Joel Costigliola
  */
-public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends ObjectsBaseTest {
+public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseTest {
 
   @Test
   public void should_pass_when_fields_are_equal() {
 	Jedi actual = new Jedi("Yoda", "Green");
 	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsLenientEqualsToIgnoringNullFields(someInfo(), actual, other);
+	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
   public void should_pass_when_some_other_field_is_null_but_not_actual() {
 	Jedi actual = new Jedi("Yoda", "Green");
 	Jedi other = new Jedi("Yoda", null);
-	objects.assertIsLenientEqualsToIgnoringNullFields(someInfo(), actual, other);
+	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
 	thrown.expectAssertionError(actualIsNull());
 	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsLenientEqualsToIgnoringNullFields(someInfo(), null, other);
+	objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other);
   }
 
   @Test
@@ -64,7 +64,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
 	Jedi actual = new Jedi("Yoda", null);
 	Jedi other = new Jedi("Yoda", "Green");
 	try {
-	  objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
 	} catch (AssertionError err) {
 	  verify(failures).failure(info,
 		                       shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"),
@@ -82,7 +82,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
 	Jedi actual = new Jedi("Yoda", "Green");
 	Jedi other = new Jedi("Soda", "Green");
 	try {
-	  objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
 	} catch (AssertionError err) {
 	  verify(failures).failure(info,
 		                       shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"),
@@ -100,7 +100,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
 	Jedi actual = new Jedi("Yoda", "Green");
 	Employee other = new Employee();
 	try {
-	  objects.assertIsLenientEqualsToIgnoringNullFields(info, actual, other);
+	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
 	} catch (AssertionError err) {
 	  verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
 	  return;
@@ -115,7 +115,7 @@ public class Objects_assertIsLenientEqualsToByIgnoringNullFields_Test extends Ob
 	TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
 	TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
 	// s field is ignored because null in other, and id also because it is private without public getter
-	objects.assertIsLenientEqualsToIgnoringNullFields(someInfo(), actual, other);
+	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
 	// reset
 	Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
