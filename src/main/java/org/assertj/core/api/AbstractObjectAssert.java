@@ -27,6 +27,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
+ * @author Libor Ondrusek
  */
 public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>, A> extends AbstractAssert<S, A> {
 
@@ -171,6 +172,92 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    */
   public S isEqualToComparingFieldByField(A other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has specified field or property.
+   * <p/>
+   * Private fields without getter are not matched.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'>
+   *
+   * public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *
+   *   public TolkienCharacter(String name, int age) {
+   *     this.name = name;
+   *     this.age = age;
+   *   }
+   *   
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * assertThat(frodo).hasFieldOrProperty("name");       // pass
+   * assertThat(frodo).hasFieldOrProperty("age");        // fail
+   * assertThat(frodo).hasFieldOrProperty("not_exists"); // fail
+   * assertThat(frodo).hasFieldOrProperty(null);         // fail
+   *
+   * </code></pre>
+   *
+   * @param name the name of asserted field..
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual object has not given field
+   */
+  public S hasFieldOrProperty(String name) {
+    objects.assertHasFieldOrProperty(info, actual, name);
+    return myself;
+  }
+
+  /**
+   * Assert that the actual object has specified field or property with expected value.
+   * <p/>
+   * Private fields without getter are not compared.
+   * <p/>
+   *
+   * Example:
+   * <pre><code class='java'>
+   *
+   * public class TolkienCharacter {
+   *   private String name;
+   *   private int age;
+   *
+   *   public String getName() {
+   *     return this.name;
+   *   }
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   *
+   * assertThat(frodo).hasFieldOrProperty("name", "Frodo");        // pass
+   * assertThat(frodo).hasFieldOrProperty("name", "not_equals");   // fail
+   * assertThat(frodo).hasFieldOrProperty("age", 33);              // fail because age is private withou public getter
+   * assertThat(frodo).hasFieldOrProperty(null, 33);               // fail
+   * assertThat(frodo).hasFieldOrProperty("age", null);            // fail
+   *
+   * TolkienCharacter noname = new TolkienCharacter(null, 33);
+   *
+   * assertThat(noname).hasFieldOrProperty("name", null);          // pass
+   * assertThat(noname).hasFieldOrProperty("name", "Frodo");       // fail
+   *
+   * </code></pre>
+   *
+   * @param name the name of asserted field..
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError if the actual object has not given field
+   * @throws AssertionError if the actual object has given field, but value is not equal to expected value
+   *
+   * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
+   */
+  public S hasFieldOrProperty(String name, Object value) {
+    objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
     return myself;
   }
 }
