@@ -13,7 +13,8 @@
 package org.assertj.core.data;
 
 import static org.assertj.core.util.Objects.*;
-import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.presentation.DefaultToString.toStringOf;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.Map;
 
@@ -62,6 +63,6 @@ public class MapEntry<K, V> {
 
   @Override
   public String toString() {
-    return String.format("%s[key=%s, value=%s]", getClass().getSimpleName(), quote(key), quote(value));
+    return toStringOf(this, STANDARD_REPRESENTATION);
   }
 }

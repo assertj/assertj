@@ -19,6 +19,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 
+import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Arrays;
 import org.assertj.core.util.IterableUtil;
@@ -50,11 +51,16 @@ public final class DefaultToString {
     if (o instanceof Collection<?>) return IterableUtil.smartFormat(representation, (Collection<?>) o);
     if (o instanceof Map<?, ?>) return Maps.format(representation, (Map<?, ?>) o);
     if (o instanceof Tuple) return toStringOf((Tuple) o, representation);
+    if (o instanceof MapEntry) return toStringOf((MapEntry<?, ?>) o, representation);
     return o == null ? null : o.toString();
   }
 
   public static String toStringOf(Tuple tuple, Representation representation) {
     return singleLineFormat(representation, tuple.toList(), TUPPLE_START, TUPPLE_END);
+  }
+
+  public static String toStringOf(MapEntry<?, ?> mapEntry, Representation representation) {
+    return String.format("MapEntry[key=%s, value=%s]", representation.toStringOf(mapEntry.key), representation.toStringOf(mapEntry.value));
   }
 
   private DefaultToString() {}
