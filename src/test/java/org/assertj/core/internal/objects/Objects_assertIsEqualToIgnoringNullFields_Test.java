@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
@@ -23,10 +24,13 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 /**
@@ -39,85 +43,96 @@ public class Objects_assertIsEqualToIgnoringNullFields_Test extends ObjectsBaseT
 
   @Test
   public void should_pass_when_fields_are_equal() {
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
   public void should_pass_when_some_other_field_is_null_but_not_actual() {
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", null);
-	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", null);
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other);
-  }
-
-  @Test
-  public void should_fail_when_some_actual_field_is_null_but_not_other() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", null);
-	Jedi other = new Jedi("Yoda", "Green");
-	try {
-	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
-	} catch (AssertionError err) {
-	  verify(failures).failure(info,
-		                       shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"),
-		                                                          newArrayList((Object) null),
-		                                                          newArrayList((Object) "Green"),
-		                                                          newArrayList("strangeNotReadablePrivateField")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_when_a_field_differ() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Soda", "Green");
-	try {
-	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
-	} catch (AssertionError err) {
-	  verify(failures).failure(info,
-		                       shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"),
-		                                                          newArrayList((Object) "Yoda"),
-		                                                          newArrayList((Object) "Soda"),
-		                                                          newArrayList("strangeNotReadablePrivateField")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
-  }
-
-  @Test
-  public void should_fail_when_objects_to_compare_are_of_different_types() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", "Green");
-	Employee other = new Employee();
-	try {
-	  objects.assertIsEqualToIgnoringNullFields(info, actual, other);
-	} catch (AssertionError err) {
-	  verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
+    Person actual = new Person("Homer Simpson");
+    CartoonCharacter other = new CartoonCharacter("Homer Simpson");
+    try {
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    } catch (AssertionError e) {
+      // jacoco instruments code adding properties that will make the test fails => ignore such failure
+      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
+    }
   }
 
   @Test
   public void should_pass_when_private_fields_differ_but_are_not_compared() {
-	boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
+    boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
-	TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
-	TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
-	// s field is ignored because null in other, and id also because it is private without public getter
-	objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
-	// reset
-	Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
+    TestClassWithRandomId actual = new TestClassWithRandomId("1", 1);
+    TestClassWithRandomId other = new TestClassWithRandomId(null, 1);
+    // s field is ignored because null in other, and id also because it is private without public getter
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+    // reset
+    Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
+  }
+
+  @Test
+  public void should_fail_if_actual_is_null() {
+    thrown.expectAssertionError(actualIsNull());
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsEqualToIgnoringNullFields(someInfo(), null, other);
+  }
+
+  @Test
+  public void should_fail_when_some_actual_field_is_null_but_not_other() {
+    AssertionInfo info = someInfo();
+    Jedi actual = new Jedi("Yoda", null);
+    Jedi other = new Jedi("Yoda", "Green");
+    try {
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other);
+    } catch (AssertionError err) {
+      verify(failures).failure(info,
+                               shouldBeEqualToIgnoringGivenFields(actual, newArrayList("lightSaberColor"),
+                                                                  newArrayList((Object) null),
+                                                                  newArrayList((Object) "Green"),
+                                                                  newArrayList("strangeNotReadablePrivateField")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_a_field_differ() {
+    AssertionInfo info = someInfo();
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Soda", "Green");
+    try {
+      objects.assertIsEqualToIgnoringNullFields(info, actual, other);
+    } catch (AssertionError err) {
+      verify(failures).failure(info,
+                               shouldBeEqualToIgnoringGivenFields(actual, newArrayList("name"),
+                                                                  newArrayList((Object) "Yoda"),
+                                                                  newArrayList((Object) "Soda"),
+                                                                  newArrayList("strangeNotReadablePrivateField")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
+  }
+
+  @Test
+  public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
+    Jedi actual = new Jedi("Yoda", "Green");
+    Employee other = new Employee();
+    try {
+      objects.assertIsEqualToIgnoringNullFields(someInfo(), actual, other);
+      failBecauseExceptionWasNotThrown(IntrospectionError.class);
+    } catch (IntrospectionError err) {
+      assertThat(err).hasMessageStartingWith("Unable to obtain the value of <'lightSaberColor'> field/property");
+      return;
+    }
   }
 
 }

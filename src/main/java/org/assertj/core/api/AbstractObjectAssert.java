@@ -44,9 +44,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * <p/>
+   * If an object has a field and a property with the same name, the field value will be used over the property.
+   * <p/>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
+   * The objects to compare can be of different types but the fields/properties used in comparison must exist in both, 
+   * for example if actual objct has a name String field, it is expected other object to also have one.
    * <p/>
    * 
    * Example:
@@ -62,7 +67,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or other object is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
-   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringNullFields(A other) {
     objects.assertIsEqualToIgnoringNullFields(info, actual, other);
@@ -72,15 +77,19 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   /**
    * Assert that the actual object is equal to given one using a field by field comparison on the given fields only
    * (fields can be inherited fields or nested fields). This can be handy if <code>equals</code> implementation of
-   * objects to compare
-   * does not suit you.
+   * objects to compare does not suit you.
    * <p/>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * <p/>
+   * If an object has a field and a property with the same name, the field value will be used over the property.
+   * <p/>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
+   * The objects to compare can be of different types but the fields/properties used in comparison must exist in both, 
+   * for example if actual objct has a name String field, it is expected other object to also have one.
    * <p/>
    * 
    * Example:
@@ -100,7 +109,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param fieldsUsedInComparison accepted fieldsUsedInComparison for lenient equality.
    * @throws NullPointerException if the actual or other is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
-   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    * @throws IntrospectionError if a field does not exist in actual.
    */
   public S isEqualToComparingOnlyGivenFields(A other, String... fieldsUsedInComparison) {
@@ -116,9 +125,14 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * <p/>
+   * If an object has a field and a property with the same name, the field value will be used over the property.
+   * <p/>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
+   * The objects to compare can be of different types but the fields/properties used in comparison must exist in both, 
+   * for example if actual objct has a name String field, it is expected other object to also have one.
    * <p/>
    * 
    * Example:
@@ -135,7 +149,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @param fieldsToIgnore ignored fieldsToIgnore for lenient equality.
    * @throws NullPointerException if the actual or given object is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
-   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public S isEqualToIgnoringGivenFields(A other, String... fieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, fieldsToIgnore);
@@ -143,15 +157,20 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
   }
 
   /**
-   * Assert that the actual object is equal to the given object based on a field by field comparison (including
+   * Assert that the actual object is equal to the given object based on a field/property by field/property comparison (including
    * inherited fields). This can be handy if <code>equals</code> implementation of objects to compare does not suit you.
    * <p/>
    * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
    * field using its <code>equals</code> method.
    * <p/>
+   * If an object has a field and a property with the same name, the field value will be used over the property.
+   * <p/>
    * Private fields are used in comparison but this can be disabled using
    * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
    * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p/>
+   * The objects to compare can be of different types but the fields/properties used in comparison must exist in both, 
+   * for example if actual objct has a name String field, it is expected other object to also have one.
    * <p/>
    * 
    * Example:
@@ -166,8 +185,8 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * 
    * @param other the object to compare {@code actual} to.
    * @throws NullPointerException if the actual or given object is {@code null}.
-   * @throws AssertionError if the actual and the given object are not equals field by field.
-   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws AssertionError if the actual and the given object are not equals field/property by field/property.
+   * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
   public S isEqualToComparingFieldByField(A other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);

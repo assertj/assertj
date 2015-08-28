@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqual
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
@@ -537,26 +536,24 @@ public class Objects {
    */
   public <A> void assertIsEqualToIgnoringNullFields(AssertionInfo info, A actual, A other) {
     assertNotNull(info, actual);
-    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     List<String> fieldsNames = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
     List<Object> expectedValues = new LinkedList<>();
     List<String> nullFields = new LinkedList<>();
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
-      try {
-        Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
-        if (otherFieldValue == null) {
-          nullFields.add(field.getName());
-        } else {
-          Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
-          if (!otherFieldValue.equals(actualFieldValue)) {
-            fieldsNames.add(field.getName());
-            rejectedValues.add(actualFieldValue);
-            expectedValues.add(otherFieldValue);
-          }
+      if (!canReadFieldValue(field, actual)) {
+        continue;
+      }
+      Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+      if (otherFieldValue == null) {
+        nullFields.add(field.getName());
+      } else {
+        Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
+        if (!otherFieldValue.equals(actualFieldValue)) {
+          fieldsNames.add(field.getName());
+          rejectedValues.add(actualFieldValue);
+          expectedValues.add(otherFieldValue);
         }
-      } catch (IntrospectionError e) {
-        // Not readable field, skip.
       }
     }
     if (!fieldsNames.isEmpty())
@@ -579,7 +576,6 @@ public class Objects {
    */
   public <A> void assertIsEqualToComparingOnlyGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
-    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     ByFieldsComparison byFieldsComparison = isEqualToComparingOnlyGivenFields(actual, other, fields);
     if (byFieldsComparison.isFieldsNamesNotEmpty())
       throw failures.failure(info, shouldBeEqualComparingOnlyGivenFields(actual, byFieldsComparison.fieldsNames,
@@ -619,7 +615,6 @@ public class Objects {
    */
   public <A> void assertIsEqualToIgnoringGivenFields(AssertionInfo info, A actual, A other, String... fields) {
     assertNotNull(info, actual);
-    assertOtherTypeIsCompatibleWithActualClass(info, other, actual.getClass());
     ByFieldsComparison byFieldsComparison = isEqualToIgnoringGivenFields(actual, other, fields);
     if (byFieldsComparison.isFieldsNamesNotEmpty())
       throw failures.failure(info, shouldBeEqualToIgnoringGivenFields(actual, byFieldsComparison.fieldsNames,
@@ -711,25 +706,6 @@ public class Objects {
       superclazz = superclazz.getSuperclass();
     }
     return declaredFields;
-  }
-
-  /**
-   * Verifies that other object is an instance of the given type.
-   *
-   * @param info contains information about the assertion.
-   * @param other the object to check type against given class.
-   * @param clazz the type to check the given object against.
-   * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if other is {@code null}.
-   * @throws AssertionError if other is not an instance of the given type.
-   */
-  private void assertOtherTypeIsCompatibleWithActualClass(AssertionInfo info, Object other, Class<?> clazz) {
-    if (other == null) throw failures.failure(info, shouldBeInstanceButWasNull("other", clazz));
-    isInstanceOf(other, clazz, info);
-  }
-
-  private void isInstanceOf(Object object, Class<?> clazz, AssertionInfo info) {
-    if (!clazz.isInstance(object)) throw failures.failure(info, shouldBeInstance(object, clazz));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other, String... fields) {

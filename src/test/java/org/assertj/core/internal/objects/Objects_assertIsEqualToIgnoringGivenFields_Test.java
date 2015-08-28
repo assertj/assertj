@@ -12,8 +12,9 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -26,10 +27,13 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
+import org.assertj.core.test.Person;
 import org.assertj.core.test.TestClassWithRandomId;
 import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Test;
 
 
@@ -69,6 +73,18 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
     objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "name");
+  }
+
+  @Test
+  public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
+    CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
+    Person other = new Person("Homer Simpson");
+    try {
+      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "children");
+    } catch (AssertionError e) {
+      // jacoco instruments code adding properties that will make the test fails => ignore such failure
+      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
+    }
   }
 
   @Test
@@ -130,17 +146,16 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   }
 
   @Test
-  public void should_fail_when_objects_to_compare_are_of_different_types() {
-    AssertionInfo info = someInfo();
+  public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
     Jedi actual = new Jedi("Yoda", "Green");
     Employee other = new Employee();
     try {
-      objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "name");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
+      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "name");
+      failBecauseExceptionWasNotThrown(IntrospectionError.class);
+    } catch (IntrospectionError err) {
+      assertThat(err).hasMessageStartingWith("Unable to obtain the value of <'lightSaberColor'> field/property");
       return;
     }
-    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
