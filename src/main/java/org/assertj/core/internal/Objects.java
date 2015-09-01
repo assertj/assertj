@@ -48,6 +48,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.assertj.core.util.introspection.PropertySupport;
 
 /**
@@ -541,14 +542,12 @@ public class Objects {
     List<Object> expectedValues = new LinkedList<>();
     List<String> nullFields = new LinkedList<>();
     for (Field field : getDeclaredFieldsIncludingInherited(actual.getClass())) {
-      if (!canReadFieldValue(field, actual)) {
-        continue;
-      }
-      Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+      if (!canReadFieldValue(field, actual)) continue;
+      Object otherFieldValue = getPropertyOrFieldValue(other, field.getName());
       if (otherFieldValue == null) {
         nullFields.add(field.getName());
       } else {
-        Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
+        Object actualFieldValue = getPropertyOrFieldValue(actual, field.getName());
         if (!otherFieldValue.equals(actualFieldValue)) {
           fieldsNames.add(field.getName());
           rejectedValues.add(actualFieldValue);
@@ -589,8 +588,8 @@ public class Objects {
     List<Object> expectedValues = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
     for (String fieldName : fields) {
-      Object actualFieldValue = getFieldOrPropertyValue(actual, fieldName);
-      Object otherFieldValue = getFieldOrPropertyValue(other, fieldName);
+      Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
+      Object otherFieldValue = getPropertyOrFieldValue(other, fieldName);
       if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
         rejectedFieldsNames.add(fieldName);
         expectedValues.add(otherFieldValue);
@@ -635,8 +634,8 @@ public class Objects {
       if (ignoredFields.contains(field.getName()) || !canReadFieldValue(field, actual)) {
         continue;
       }
-      Object actualFieldValue = getFieldOrPropertyValue(actual, field.getName());
-      Object otherFieldValue = getFieldOrPropertyValue(other, field.getName());
+      Object actualFieldValue = getPropertyOrFieldValue(actual, field.getName());
+      Object otherFieldValue = getPropertyOrFieldValue(other, field.getName());
       if (!org.assertj.core.util.Objects.areEqual(actualFieldValue, otherFieldValue)) {
         fieldsNames.add(field.getName());
         rejectedValues.add(actualFieldValue);
@@ -662,8 +661,7 @@ public class Objects {
   }
 
   /**
-   * Get field value first and in case of error try its value from property getter (property name being field
-   * name)
+   * Get property value first and in case of error try field value.
    * <p>
    * This method supports nested field/property (e.g. "address.street.number").
    *
@@ -672,21 +670,8 @@ public class Objects {
    * @return (nested) field value or property value if field was not accessible.
    * @throws IntrospectionError is field value can't get retrieved.
    */
-  private <A> Object getFieldOrPropertyValue(A a, String fieldName) {
-    // TODO use PropertyOrFieldSupport but the order is not the same
-    try {
-      return fieldSupport.fieldValue(fieldName, Object.class, a);
-    } catch (IntrospectionError e) {
-      try {
-        // field is not accessible, let's try to get its value from its getter if any.
-        return propertySupport.propertyValueOf(fieldName, Object.class, a);
-      } catch (IntrospectionError e2) {
-        // this time, we really fail
-        String msg = format("Unable to obtain the value of <'%s'> field/property from <%s>, expecting a public field or getter",
-                            fieldName, a);
-        throw new IntrospectionError(msg);
-      }
-    }
+  private <A> Object getPropertyOrFieldValue(A a, String fieldName) {
+    return PropertyOrFieldSupport.COMPARISON.getValueOf(fieldName, a);
   }
 
   /**

@@ -21,7 +21,9 @@ public class PropertyOrFieldSupport {
   private PropertySupport propertySupport;
   private FieldSupport fieldSupport;
 
-  public static final PropertyOrFieldSupport INSTANCE = new PropertyOrFieldSupport();
+  public static final PropertyOrFieldSupport EXTRACTION = new PropertyOrFieldSupport();
+  public static final PropertyOrFieldSupport COMPARISON = new PropertyOrFieldSupport(PropertySupport.instance(),
+                                                                                     FieldSupport.COMPARISON);
 
   PropertyOrFieldSupport() {
     this.propertySupport = PropertySupport.instance();

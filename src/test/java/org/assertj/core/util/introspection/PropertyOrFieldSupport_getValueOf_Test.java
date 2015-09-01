@@ -32,7 +32,7 @@ public class PropertyOrFieldSupport_getValueOf_Test {
 
   @Before
   public void setup() {
-    propertyOrFieldSupport = PropertyOrFieldSupport.INSTANCE;
+    propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
   }
 
   @Rule
