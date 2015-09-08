@@ -12,6 +12,26 @@
  */
 package org.assertj.core.api;
 
+import java.io.File;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.DoesNotHave;
@@ -21,14 +41,6 @@ import org.assertj.core.data.MapEntry;
 import org.assertj.core.data.Offset;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-
-import java.io.File;
-import java.io.InputStream;
-import java.math.BigDecimal;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.time.*;
-import java.util.*;
 
 /**
  *
@@ -592,21 +604,21 @@ public interface WithAssertions {
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(LocalTime)}
    */
   default public AbstractLocalTimeAssert<?> assertThat(final LocalTime localTime) {
-      return Assertions.assertThat(localTime);
+    return Assertions.assertThat(localTime);
   }
 
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(OffsetTime)}
    */
   default public AbstractOffsetTimeAssert<?> assertThat(final OffsetTime offsetTime) {
-      return Assertions.assertThat(offsetTime);
+    return Assertions.assertThat(offsetTime);
   }
-  
+
   /**
    * Delegate call to {@link org.assertj.core.api.Assertions#assertThat(OffsetDateTime)}
    */
   default public AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
-      return Assertions.assertThat(offsetDateTime);
+    return Assertions.assertThat(offsetDateTime);
   }
 
   /**
