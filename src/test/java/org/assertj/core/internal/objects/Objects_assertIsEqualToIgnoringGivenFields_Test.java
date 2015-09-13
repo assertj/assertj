@@ -68,6 +68,19 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
   }
 
   @Test
+  public void should_pass_when_not_ignored_fields_are_equal_even_if_one_ignored_field_is_not_defined() {
+    Person actual = new Person("Yoda");
+    Jedi other = new Jedi("Yoda", "Green");
+    try {
+      objects.assertIsEqualToIgnoringGivenFields(someInfo(), actual, other, "lightSaberColor");
+    } catch (AssertionError e) {
+      // jacoco instruments code adding properties that will make the test fails => ignore such failure
+      assertThat(e).as("check that failure only comes from jacoco").hasMessageContaining("$jacocoData");
+    }
+
+  }
+
+  @Test
   public void should_pass_when_field_values_are_null() {
     Jedi actual = new Jedi("Yoda", null);
     Jedi other = new Jedi("Yoda", null);
@@ -158,16 +171,6 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
       assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
       return;
     }
-  }
-
-  @Test
-  public void should_fail_when_asked_to_ignore_non_existent_fields() {
-    thrown.expect(RuntimeException.class,
-                  "Fields to ignore <[field1, field2]> not defined for type <org.assertj.core.test.Jedi>");
-    AssertionInfo info = someInfo();
-    Jedi actual = new Jedi("Yoda", "Green");
-    Jedi other = new Jedi("Yoda", "Green");
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, "field1", "field2");
   }
 
   @Test

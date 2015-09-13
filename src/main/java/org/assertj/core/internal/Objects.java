@@ -624,7 +624,6 @@ public class Objects {
 
   private <A> ByFieldsComparison isEqualToIgnoringGivenFields(A actual, A other, String[] givenIgnoredFields) {
     Set<Field> declaredFieldsIncludingInherited = getDeclaredFieldsIncludingInherited(actual.getClass());
-    verifyIgnoredFieldsExist(actual, declaredFieldsIncludingInherited, givenIgnoredFields);
     List<String> fieldsNames = new LinkedList<>();
     List<Object> expectedValues = new LinkedList<>();
     List<Object> rejectedValues = new LinkedList<>();
@@ -647,17 +646,6 @@ public class Objects {
 
   private <A> boolean canReadFieldValue(Field field, A actual) {
     return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
-  }
-
-  private <A> void verifyIgnoredFieldsExist(A actual, Set<Field> declaredFields, String[] ignoredFields) {
-    Set<String> ignoredFieldsNotDefined = newLinkedHashSet(ignoredFields);
-    for (Field f : declaredFields) {
-      ignoredFieldsNotDefined.remove(f.getName());
-    }
-    if (!ignoredFieldsNotDefined.isEmpty()) {
-      throw new IllegalArgumentException(format("Fields to ignore <%s> not defined for type <%s>",
-                                                ignoredFieldsNotDefined, actual.getClass().getCanonicalName()));
-    }
   }
 
   /**
