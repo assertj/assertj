@@ -22,6 +22,8 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -81,20 +83,20 @@ public class SoftAssertionsTest {
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
-      List<String> errors = e.getErrors( );
+      List<String> errors = e.getErrors();
       assertThat(errors).contains(String.format("%nExpecting:%n"
-                                  + " <{\"54\"=\"55\"}>%n"
-                                  + "to contain:%n"
-                                  + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                  + "but could not find:%n"
-                                  + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+                                                + " <{\"54\"=\"55\"}>%n"
+                                                + "to contain:%n"
+                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
+                                                + "but could not find:%n"
+                                                + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
     }
   }
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -175,8 +177,7 @@ public class SoftAssertionsTest {
         }
       } });
 
-      final IllegalArgumentException illegalArgumentException = new IllegalArgumentException
-          ("IllegalArgumentException message");
+      final IllegalArgumentException illegalArgumentException = new IllegalArgumentException("IllegalArgumentException message");
       softly.assertThat(illegalArgumentException).hasMessage("NullPointerException message");
       softly.assertThatThrownBy(new ThrowingCallable() {
 
@@ -187,11 +188,13 @@ public class SoftAssertionsTest {
 
       }).hasMessage("something was good");
       softly.assertThat(Maps.mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
+      softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
+
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(40);
+      assertThat(errors).hasSize(41);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -223,8 +226,8 @@ public class SoftAssertionsTest {
       assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
       assertThat(errors.get(20)).isEqualTo(String.format("%nInputStreams do not have same content:"
-                                           + System.getProperty("line.separator")
-                                           + "line:<1>, expected:<B> but was:<A>"));
+                                                         + System.getProperty("line.separator")
+                                                         + "line:<1>, expected:<B> but was:<A>"));
 
       assertThat(errors.get(21)).isEqualTo("expected:<2[1]> but was:<2[0]>");
       assertThat(errors.get(22)).isEqualTo("expected:<2[3]> but was:<2[2]>");
@@ -232,11 +235,11 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
       assertThat(errors.get(25)).isEqualTo(String.format("%nExpecting:%n" +
-                                           " <[\"28\"]>%n" +
-                                           "to contain:%n" +
-                                           " <[\"29\"]>%n" +
-                                           "but could not find:%n" +
-                                           " <[\"29\"]>%n"));
+                                                         " <[\"28\"]>%n" +
+                                                         "to contain:%n" +
+                                                         " <[\"29\"]>%n" +
+                                                         "but could not find:%n" +
+                                                         " <[\"29\"]>%n"));
       assertThat(errors.get(26)).isEqualTo("expected:<[\"3[1]\"]> but was:<[\"3[0]\"]>");
 
       assertThat(errors.get(27)).isEqualTo("expected:<3[3]L> but was:<3[2]L>");
@@ -254,19 +257,20 @@ public class SoftAssertionsTest {
       assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
       assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
       assertThat(errors.get(37)).isEqualTo(String.format("%nExpecting message:%n"
-                                           + " <\"NullPointerException message\">%n"
-                                           + "but was:%n"
-                                           + " <\"IllegalArgumentException message\">"));
+                                                         + " <\"NullPointerException message\">%n"
+                                                         + "but was:%n"
+                                                         + " <\"IllegalArgumentException message\">"));
       assertThat(errors.get(38)).isEqualTo(String.format("%nExpecting message:%n"
-                                           + " <\"something was good\">%n"
-                                           + "but was:%n"
-                                           + " <\"something was wrong\">"));
+                                                         + " <\"something was good\">%n"
+                                                         + "but was:%n"
+                                                         + " <\"something was wrong\">"));
       assertThat(errors.get(39)).isEqualTo(String.format("%nExpecting:%n"
-                                           + " <{\"54\"=\"55\"}>%n"
-                                           + "to contain:%n"
-                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
-                                           + "but could not find:%n"
-                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+                                                         + " <{\"54\"=\"55\"}>%n"
+                                                         + "to contain:%n"
+                                                         + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
+                                                         + "but could not find:%n"
+                                                         + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
+      assertThat(errors.get(40)).contains("Expecting port of");
     }
   }
 
@@ -493,6 +497,24 @@ public class SoftAssertionsTest {
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
       assertThat(e.getErrors()).containsExactly("error 1", "error 2");
+    }
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_filtering() throws Exception {
+
+    List<CartoonCharacter> characters = asList(homer, fred);
+
+    softly.assertThat(characters)
+          .overridingErrorMessage("error 1")
+          .filteredOn("name", "Homer Simpson")
+          .isEmpty();
+
+    try {
+      softly.assertAll();
+      shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+      assertThat(e.getErrors()).containsExactly("error 1");
     }
   }
 
