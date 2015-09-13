@@ -56,7 +56,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    */
   public S isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
   }
 
@@ -79,7 +79,7 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    */
   public S isEmpty() {
     isNotNull();
-    if (actual.isPresent()) throw failure(shouldBeEmpty(actual));
+    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
@@ -106,8 +106,8 @@ public abstract class AbstractOptionalIntAssert<S extends AbstractOptionalIntAss
    */
   public S hasValue(int expectedValue) {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsInt()) throw failure(shouldContain(actual, expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (expectedValue != actual.getAsInt()) throwAssertionError(shouldContain(actual, expectedValue));
     return myself;
   }
 }

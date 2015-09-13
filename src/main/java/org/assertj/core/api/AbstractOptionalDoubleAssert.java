@@ -59,7 +59,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    */
   public S isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
   }
 
@@ -82,7 +82,7 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    */
   public S isEmpty() {
     isNotNull();
-    if (actual.isPresent()) throw failure(shouldBeEmpty(actual));
+    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
@@ -110,8 +110,8 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    */
   public S hasValue(double expectedValue) {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsDouble()) throw failure(shouldContain(actual, expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (expectedValue != actual.getAsDouble()) throwAssertionError(shouldContain(actual, expectedValue));
     return myself;
   }
 
@@ -144,12 +144,12 @@ public abstract class AbstractOptionalDoubleAssert<S extends AbstractOptionalDou
    */
   public S hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldHaveValueCloseTo(expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseTo(expectedValue));
     // Reuses doubles functionality, catches poyential assertion error and throw correct one
     try {
       doubles.assertIsCloseTo(info, actual.getAsDouble(), expectedValue, offset);
     } catch (AssertionError assertionError) {
-      throw failure(shouldHaveValueCloseTo(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble())));
+      throwAssertionError(shouldHaveValueCloseTo(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble())));
     }
     return myself;
   }

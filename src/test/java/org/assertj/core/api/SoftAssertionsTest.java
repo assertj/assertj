@@ -35,6 +35,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.CompletableFuture;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -196,23 +197,24 @@ public class SoftAssertionsTest {
         }
 
       }).hasMessage("something was good");
+
       softly.assertThat(Maps.mapOf(MapEntry.entry("54", "55"))).contains(MapEntry.entry("1", "2"));
 
       softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13,00));
       softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
-      // TODO softly.assertThat(completedFuture("done")).hasFailed();
 
       softly.assertThat(Optional.of("not empty")).isEqualTo("empty");
       softly.assertThat(OptionalInt.of(0)).isEqualTo(1);
       softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
+      softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(47);
+      assertThat(errors).hasSize(48);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -296,8 +298,8 @@ public class SoftAssertionsTest {
       assertThat(errors.get(43)).isEqualTo("expected:<[1]> but was:<[OptionalInt[0]]>");
       assertThat(errors.get(44)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
       assertThat(errors.get(45)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
-      assertThat(errors.get(46)).contains(String.format("%nExpecting port of"));
-
+      assertThat(errors.get(46)).contains("Expecting port of");
+      assertThat(errors.get(47)).contains("to have failed");
     }
   }  
 
@@ -524,6 +526,24 @@ public class SoftAssertionsTest {
       shouldHaveThrown(SoftAssertionError.class);
     } catch (SoftAssertionError e) {
       assertThat(e.getErrors()).containsExactly("error 1", "error 2");
+    }
+  }
+
+  @Test
+  public void should_collect_all_errors_when_using_filtering() throws Exception {
+
+    List<CartoonCharacter> characters = asList(homer, fred);
+
+    softly.assertThat(characters)
+          .overridingErrorMessage("error 1")
+          .filteredOn("name", "Homer Simpson")
+          .containsOnly(fred);
+
+    try {
+      softly.assertAll();
+      shouldHaveThrown(SoftAssertionError.class);
+    } catch (SoftAssertionError e) {
+      assertThat(e.getErrors()).containsExactly("error 1");
     }
   }
 

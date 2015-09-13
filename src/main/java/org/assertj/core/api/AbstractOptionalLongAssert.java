@@ -50,7 +50,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    */
   public S isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
   }
 
@@ -73,7 +73,7 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    */
   public S isEmpty() {
     isNotNull();
-    if (actual.isPresent()) throw failure(shouldBeEmpty(actual));
+    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
@@ -100,8 +100,8 @@ public abstract class AbstractOptionalLongAssert<S extends AbstractOptionalLongA
    */
   public S hasValue(long expectedValue) {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsLong()) throw failure(shouldContain(actual, expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (expectedValue != actual.getAsLong()) throwAssertionError(shouldContain(actual, expectedValue));
     return myself;
   }
 }

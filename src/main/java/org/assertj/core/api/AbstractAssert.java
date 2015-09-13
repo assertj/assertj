@@ -113,22 +113,22 @@ public abstract class AbstractAssert<S extends AbstractAssert<S, A>, A> implemen
   }
 
   /**
-   * Utility method to create an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
+   * Utility method to throw an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
    * <p>
    * Instead of writing ...
    * 
    * <pre><code class='java'> throw Failures.instance().failure(info, ShouldBePresent.shouldBePresent());</code></pre>
    * ... you can simply write :
    * 
-   * <pre><code class='java'> failure(info, ShouldBePresent.shouldBePresent());</code></pre>
+   * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    * 
-   * 
-   * @param errorMessageFactory used to define the erro message.
+   * @param errorMessageFactory used to define the error message.
    * @return an {@link AssertionError} with a message corresponding to the given {@link BasicErrorMessageFactory}.
    */
-  protected AssertionError failure(ErrorMessageFactory errorMessageFactory) {
-	return Failures.instance().failure(info, errorMessageFactory);
+  protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
+    throw Failures.instance().failure(info, errorMessageFactory);
   }
+
 
   /** {@inheritDoc} */
   @Override

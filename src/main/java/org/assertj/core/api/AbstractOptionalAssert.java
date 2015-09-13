@@ -56,7 +56,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    */
   public S isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
     return myself;
   }
 
@@ -73,7 +73,7 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    */
   public S isEmpty() {
     isNotNull();
-    if (actual.isPresent()) throw failure(shouldBeEmpty(actual));
+    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
     return myself;
   }
 
@@ -94,8 +94,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   public S contains(T expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) throw failure(shouldContain(actual, expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) throwAssertionError(shouldContain(actual, expectedValue));
     return myself;
   }
 
@@ -136,8 +136,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
    */
   public S containsInstanceOf(Class<?> clazz) {
     isNotNull();
-    if (!actual.isPresent()) throw failure(shouldBePresent(actual));
-    if (!clazz.isInstance(actual.get())) throw failure(shouldContainInstanceOf(actual, clazz));
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
 
@@ -239,8 +239,8 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
   public S containsSame(T expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throw failure(shouldContain(expectedValue));
-    if (actual.get() != expectedValue) throw failure(shouldContainSame(actual, expectedValue));
+    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
     return myself;
   }
 

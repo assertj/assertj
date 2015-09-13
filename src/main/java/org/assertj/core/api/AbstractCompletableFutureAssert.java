@@ -61,7 +61,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isDone() {
     isNotNull();
-    if (!actual.isDone()) throw failure(shouldBeDone(actual));
+    if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
     return myself;
   }
 
@@ -80,7 +80,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isNotDone() {
     isNotNull();
-    if (actual.isDone()) throw failure(shouldNotBeDone(actual));
+    if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
     return myself;
   }
 
@@ -104,7 +104,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isCompletedExceptionally() {
     isNotNull();
-    if (!actual.isCompletedExceptionally()) throw failure(shouldHaveCompletedExceptionally(actual));
+    if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
     return myself;
   }
 
@@ -125,7 +125,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isNotCompletedExceptionally() {
     isNotNull();
-    if (actual.isCompletedExceptionally()) throw failure(shouldNotHaveCompletedExceptionally(actual));
+    if (actual.isCompletedExceptionally()) throwAssertionError(shouldNotHaveCompletedExceptionally(actual));
     return myself;
   }
 
@@ -146,7 +146,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isCancelled() {
     isNotNull();
-    if (!actual.isCancelled()) throw failure(shouldBeCancelled(actual));
+    if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
     return myself;
   }
 
@@ -167,7 +167,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isNotCancelled() {
     isNotNull();
-    if (actual.isCancelled()) throw failure(shouldNotBeCancelled(actual));
+    if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
     return myself;
   }
 
@@ -184,7 +184,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isCompleted() {
     isNotNull();
-    if (!actual.isDone() || actual.isCompletedExceptionally()) throw failure(shouldBeCompleted(actual));
+    if (!actual.isDone() || actual.isCompletedExceptionally()) throwAssertionError(shouldBeCompleted(actual));
     return myself;
   }
 
@@ -201,7 +201,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S isNotCompleted() {
     isNotNull();
-    if (actual.isDone() && !actual.isCompletedExceptionally()) throw failure(shouldNotBeCompleted(actual));
+    if (actual.isDone() && !actual.isCompletedExceptionally()) throwAssertionError(shouldNotBeCompleted(actual));
     return myself;
   }
 
@@ -292,7 +292,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S hasFailed() {
     isNotNull();
-    if (!actual.isCompletedExceptionally() || actual.isCancelled()) throw failure(shouldHaveFailed(actual));
+    if (!actual.isCompletedExceptionally() || actual.isCancelled()) throwAssertionError(shouldHaveFailed(actual));
     return myself;
   }
 
@@ -314,7 +314,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
    */
   public S hasNotFailed() {
     isNotNull();
-    if (actual.isCompletedExceptionally() && !actual.isCancelled()) throw failure(shouldNotHaveFailed(actual));
+    if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
     return myself;
   }
 
