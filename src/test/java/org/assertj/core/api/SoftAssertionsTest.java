@@ -14,20 +14,27 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.api.Assertions.shouldHaveThrown;
-import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.fail;
+import static org.assertj.core.api.StrictAssertions.shouldHaveThrown;
+import static org.assertj.core.api.StrictAssertions.tuple;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.iterable.Extractor;
@@ -97,7 +104,7 @@ public class SoftAssertionsTest {
 
   @SuppressWarnings("unchecked")
   @Test
-  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() {
+  public void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws URISyntaxException {
     try {
       softly.assertThat(BigDecimal.ZERO).isEqualTo(BigDecimal.ONE);
 
@@ -193,12 +200,19 @@ public class SoftAssertionsTest {
 
       softly.assertThat(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13,00));
       softly.assertThat(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
+      // TODO softly.assertThat(completedFuture("done")).hasFailed();
+
+      softly.assertThat(Optional.of("not empty")).isEqualTo("empty");
+      softly.assertThat(OptionalInt.of(0)).isEqualTo(1);
+      softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
+      softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
+      softly.assertThat(new URI("http://assertj.org")).hasPort(8888);
 
       softly.assertAll();
       fail("Should not reach here");
     } catch (SoftAssertionError e) {
       List<String> errors = e.getErrors();
-      assertThat(errors).hasSize(42);
+      assertThat(errors).hasSize(47);
       assertThat(errors.get(0)).isEqualTo("expected:<[1]> but was:<[0]>");
 
       assertThat(errors.get(1)).isEqualTo("expected:<[tru]e> but was:<[fals]e>");
@@ -277,6 +291,13 @@ public class SoftAssertionsTest {
 
       assertThat(errors.get(40)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
       assertThat(errors.get(41)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");
+
+      assertThat(errors.get(42)).isEqualTo("expected:<[\"empty\"]> but was:<[Optional[not empty]]>");
+      assertThat(errors.get(43)).isEqualTo("expected:<[1]> but was:<[OptionalInt[0]]>");
+      assertThat(errors.get(44)).isEqualTo("expected:<[1.0]> but was:<[OptionalDouble[0.0]]>");
+      assertThat(errors.get(45)).isEqualTo("expected:<[1L]> but was:<[OptionalLong[0]]>");
+      assertThat(errors.get(46)).contains(String.format("%nExpecting port of"));
+
     }
   }  
 
