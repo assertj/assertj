@@ -12,30 +12,30 @@
  */
 package org.assertj.core.api.object;
 
+import static org.mockito.Mockito.verify;
+
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.test.Jedi;
 
-import static org.mockito.Mockito.verify;
-
 
 /**
- * Tests for <code>{@link ObjectAssert#isEqualToIgnoringNullFields(Object)}</code>.
+ * Tests for <code>{@link ObjectAssert#isEqualToComparingOnlyGivenFields(Object, String...)}</code>.
  * 
  * @author Nicolas François
  * @author Mikhail Mazursky
  */
-public class ObjectAssert_isLenientEqualsToByIgnoringNullFields_Test extends ObjectAssertBaseTest {
+public class ObjectAssert_isEqualToComparingOnlyGivenFields_Test extends ObjectAssertBaseTest {
 
-  private Jedi other = new Jedi("Yoda", "Green");
+  private Jedi other = new Jedi("Yoda", "Blue");
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.isEqualToIgnoringNullFields(other);
+    return assertions.isEqualToComparingOnlyGivenFields(other, "name");
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(objects).assertIsLenientEqualsToIgnoringNullFields(getInfo(assertions), getActual(assertions), other);
+    verify(objects).assertIsEqualToComparingOnlyGivenFields(getInfo(assertions), getActual(assertions), other, "name");
   }
 }

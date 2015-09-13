@@ -10,28 +10,22 @@
  *
  * Copyright 2012-2015 the original author or authors.
  */
-package org.assertj.core.api.abstract_;
+package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.Assertions;
-import org.junit.Test;
+import org.assertj.core.api.CharSequenceAssert;
+import org.assertj.core.api.CharSequenceAssertBaseTest;
 
-/**
- * Tests for <code>{@link org.assertj.core.api.AbstractAssert#withFailMessage(String, Object...)}</code>.
- *
- * @author Alexander Bischof
- */
-public class AbstractAssert_withFailMessage_Test {
+public class CharSequenceAssert_isSubstringOf_Test extends CharSequenceAssertBaseTest {
 
-  @Test
-  public void should_delegate_to_overridingErrorMessage() {
-    AbstractAssert<?, ?> suT = spy(Assertions.assertThat("test"));
+  @Override
+  protected CharSequenceAssert invoke_api_method() {
+    return assertions.isSubstringOf("foo");
+  }
 
-    suT.withFailMessage("test", "eins");
-
-    verify(suT).overridingErrorMessage("test", "eins");
+  @Override
+  protected void verify_internal_effects() {
+    verify(strings).assertIsSubstringOf(getInfo(assertions), getActual(assertions), "foo");
   }
 }

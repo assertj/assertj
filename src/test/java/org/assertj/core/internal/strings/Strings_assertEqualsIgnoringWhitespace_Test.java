@@ -12,15 +12,15 @@
  */
 package org.assertj.core.internal.strings;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.StringsBaseTest;
-import org.junit.Test;
-
 import static org.assertj.core.error.ShouldBeEqualIgnoringWhitespace.shouldBeEqualIgnoringWhitespace;
 import static org.assertj.core.test.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.mockito.Mockito.verify;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.StringsBaseTest;
+import org.junit.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsIgnoringWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.

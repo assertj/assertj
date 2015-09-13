@@ -25,8 +25,8 @@ public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
 
   private static final String EXPECTED_MULTIPLE = "%nExpecting values:%n  <%s>%nin fields:%n  <%s>%nbut were:%n  <%s>%nin <%s>.%n";
   private static final String EXPECTED_SINGLE = "%nExpecting value <%s> in field <%s> but was <%s> in <%s>.%n";
-  private static final String COMPARISON  = "Comparison was performed on all fields";
-  private static final String EXCLUDING  = " but <%s>";
+  private static final String COMPARISON = "Comparison was performed on all fields";
+  private static final String EXCLUDING = " but <%s>";
 
   /**
    * Creates a new </code>{@link ShouldBeEqualToIgnoringFields}</code>.
@@ -39,41 +39,42 @@ public class ShouldBeEqualToIgnoringFields extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeEqualToIgnoringGivenFields(Object actual, List<String> rejectedFields,
-                                                                       List<Object> rejectedValues, List<Object> expectedValues,
+                                                                       List<Object> rejectedValues,
+                                                                       List<Object> expectedValues,
                                                                        List<String> ignoredFields) {
     if (rejectedFields.size() == 1) {
       if (ignoredFields.isEmpty()) {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0));
-      } else {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0),
-            ignoredFields);
+        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0),
+                                                 expectedValues.get(0));
       }
-    } else {
-      if (ignoredFields.isEmpty()) {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues);
-      } else {
-        return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues, ignoredFields);
-      }
+      return new ShouldBeEqualToIgnoringFields(actual, rejectedFields.get(0), rejectedValues.get(0),
+                                               expectedValues.get(0), ignoredFields);
     }
+    if (ignoredFields.isEmpty()) {
+      return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues);
+    }
+    return new ShouldBeEqualToIgnoringFields(actual, rejectedFields, rejectedValues, expectedValues, ignoredFields);
   }
 
   private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                         List<Object> expectedValues, List<String> ignoredFields) {
-    super(EXPECTED_MULTIPLE + COMPARISON  + EXCLUDING , expectedValues, rejectedFields, rejectedValues, actual, ignoredFields);
+    super(EXPECTED_MULTIPLE + COMPARISON + EXCLUDING, expectedValues, rejectedFields, rejectedValues, actual,
+          ignoredFields);
   }
 
   private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue,
                                         List<String> ignoredFields) {
-    super(EXPECTED_SINGLE + COMPARISON  + EXCLUDING , expectedValue, rejectedField, rejectedValue, actual, ignoredFields);
+    super(EXPECTED_SINGLE + COMPARISON + EXCLUDING, expectedValue, rejectedField, rejectedValue, actual, ignoredFields);
   }
 
   private ShouldBeEqualToIgnoringFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,
                                         List<Object> expectedValue) {
-    super(EXPECTED_MULTIPLE + COMPARISON , expectedValue, rejectedFields, rejectedValues, actual);
+    super(EXPECTED_MULTIPLE + COMPARISON, expectedValue, rejectedFields, rejectedValues, actual);
   }
 
-  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue, Object expectedValue) {
-    super(EXPECTED_SINGLE + COMPARISON , expectedValue, rejectedField, rejectedValue, actual);
+  private ShouldBeEqualToIgnoringFields(Object actual, String rejectedField, Object rejectedValue,
+                                        Object expectedValue) {
+    super(EXPECTED_SINGLE + COMPARISON, expectedValue, rejectedField, rejectedValue, actual);
   }
 
 }

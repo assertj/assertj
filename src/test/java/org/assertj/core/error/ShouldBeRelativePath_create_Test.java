@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeRelativePath.SHOULD_BE_RELATIVE_PAT
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.mockito.Mockito.mock;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
@@ -46,7 +45,7 @@ public class ShouldBeRelativePath_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path() throws IOException {
+  public void should_create_error_message_for_Path() {
 	final Path path = mock(Path.class);
 	ErrorMessageFactory factory = shouldBeRelativePath(path);
 

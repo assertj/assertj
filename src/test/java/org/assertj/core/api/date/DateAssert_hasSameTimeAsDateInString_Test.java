@@ -19,7 +19,6 @@ import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.sql.Timestamp;
-import java.text.ParseException;
 import java.util.Date;
 
 import org.assertj.core.api.DateAssertBaseTest;
@@ -45,13 +44,13 @@ public class DateAssert_hasSameTimeAsDateInString_Test extends DateAssertBaseTes
   }
 
   @Test
-  public void should_verify_that_date_has_same_time_as_string_from_date() throws ParseException {
+  public void should_verify_that_date_has_same_time_as_string_from_date() {
     Date date = parseDatetime("2003-04-26T12:00:00");
     assertThat(date).hasSameTimeAs("2003-04-26T12:00:00");
   }
 
   @Test
-  public void should_fail_when_checking_if_date_has_same_time_as_other_date() throws ParseException {
+  public void should_fail_when_checking_if_date_has_same_time_as_other_date() {
     Date date = parseDatetime("2003-04-26T12:00:00");
     thrown.expect(AssertionError.class);
     assertThat(date).hasSameTimeAs("2003-04-27T12:00:00");

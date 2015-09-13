@@ -22,7 +22,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
-import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Maps;
@@ -42,7 +41,7 @@ public class Maps_assertHasSameSizeAs_with_Iterable_Test extends MapsBaseTest {
   @Before
   public void setUp() {
     super.setUp();
-    actual = (Map<String, String>) mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
+    actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
   }
 
   @Test

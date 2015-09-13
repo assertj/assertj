@@ -96,9 +96,9 @@ public class SoftAssertionsTest {
       assertThat(errors).contains(String.format("%nExpecting:%n"
                                   + " <{\"54\"=\"55\"}>%n"
                                   + "to contain:%n"
-                                  + " <[MapEntry[key='1', value='2']]>%n"
+                                  + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
                                   + "but could not find:%n"
-                                  + " <[MapEntry[key='1', value='2']]>%n"));
+                                  + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
     }
   }
@@ -287,9 +287,9 @@ public class SoftAssertionsTest {
       assertThat(errors.get(39)).isEqualTo(String.format("%nExpecting:%n"
                                            + " <{\"54\"=\"55\"}>%n"
                                            + "to contain:%n"
-                                           + " <[MapEntry[key='1', value='2']]>%n"
+                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"
                                            + "but could not find:%n"
-                                           + " <[MapEntry[key='1', value='2']]>%n"));
+                                           + " <[MapEntry[key=\"1\", value=\"2\"]]>%n"));
 
       assertThat(errors.get(40)).isEqualTo("expected:<1[3]:00> but was:<1[2]:00>");
       assertThat(errors.get(41)).isEqualTo("expected:<1[3]:00Z> but was:<1[2]:00Z>");

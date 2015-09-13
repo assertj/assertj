@@ -12,8 +12,9 @@
  */
 package org.assertj.core.internal.objects;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.failBecauseExceptionWasNotThrown;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
-import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -25,9 +26,11 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
+import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Employee;
 import org.assertj.core.test.Jedi;
 import org.assertj.core.test.Name;
+import org.assertj.core.test.Person;
 import org.assertj.core.test.Player;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -37,125 +40,137 @@ public class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends Object
 
   @Test
   public void should_pass_when_selected_fields_are_equal() {
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
   }
 
   @Test
   public void should_pass_when_selected_fields_and_nested_fields_accessed_with_getters_are_equal() {
-	Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
-	Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "team", "name.first");
+    Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
+    Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "team", "name.first");
   }
 
   @Test
   public void should_pass_when_selected_fields_and_nested_public_fields_are_equal() {
-	Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
-	rose.nickname = new Name("Crazy", "Duncks");
-	Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
-	jalen.nickname = new Name("Crazy", "Defense");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "team", "nickname.first");
+    Player rose = new Player(new Name("Derrick", "Rose"), "Chicago Bulls");
+    rose.nickname = new Name("Crazy", "Duncks");
+    Player jalen = new Player(new Name("Derrick", "Coleman"), "Chicago Bulls");
+    jalen.nickname = new Name("Crazy", "Defense");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), rose, jalen, "team", "nickname.first");
   }
 
   @Test
   public void should_pass_even_if_non_accepted_fields_differ() {
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Blue");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name");
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name");
   }
 
   @Test
   public void should_pass_when_field_value_is_null() {
-	Jedi actual = new Jedi("Yoda", null);
-	Jedi other = new Jedi("Yoda", null);
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
+    Jedi actual = new Jedi("Yoda", null);
+    Jedi other = new Jedi("Yoda", null);
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name", "lightSaberColor");
+  }
+
+  @Test
+  public void should_pass_when_fields_are_equal_even_if_objects_types_differ() {
+    CartoonCharacter actual = new CartoonCharacter("Homer Simpson");
+    Person other = new Person("Homer Simpson");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "name");
   }
 
   @Test
   public void should_fail_if_actual_is_null() {
-	thrown.expectAssertionError(actualIsNull());
-	Jedi other = new Jedi("Yoda", "Green");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, "name", "lightSaberColor");
+    thrown.expectAssertionError(actualIsNull());
+    Jedi other = new Jedi("Yoda", "Green");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), null, other, "name", "lightSaberColor");
   }
 
   @Test
   public void should_fail_when_some_selected_field_values_differ() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Blue");
-	try {
-	  objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
-	} catch (AssertionError err) {
-	  List<Object> expected = newArrayList((Object) "Blue");
-	  List<Object> rejected = newArrayList((Object) "Green");
-	  verify(failures).failure(info,
-		                       shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("lightSaberColor"), rejected,
-		                                                             expected,
-		                                                             newArrayList("name", "lightSaberColor")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    try {
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
+    } catch (AssertionError err) {
+      List<Object> expected = newArrayList((Object) "Blue");
+      List<Object> rejected = newArrayList((Object) "Green");
+      verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
+                                                                           newArrayList("lightSaberColor"),
+                                                                           rejected,
+                                                                           expected,
+                                                                           newArrayList("name", "lightSaberColor")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
   public void should_fail_when_some_inherited_field_values_differ() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Luke", "Green");
-	try {
-	  objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
-	} catch (AssertionError err) {
-	  List<Object> expected = newArrayList((Object) "Luke");
-	  List<Object> rejected = newArrayList((Object) "Yoda");
-	  verify(failures).failure(info,
-		                       shouldBeEqualComparingOnlyGivenFields(actual, newArrayList("name"), rejected, expected,
-		                                                             newArrayList("name", "lightSaberColor")));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+    AssertionInfo info = someInfo();
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Luke", "Green");
+    try {
+      objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name", "lightSaberColor");
+    } catch (AssertionError err) {
+      List<Object> expected = newArrayList((Object) "Luke");
+      List<Object> rejected = newArrayList((Object) "Yoda");
+      verify(failures).failure(info, shouldBeEqualComparingOnlyGivenFields(actual,
+                                                                           newArrayList("name"),
+                                                                           rejected,
+                                                                           expected,
+                                                                           newArrayList("name", "lightSaberColor")));
+      return;
+    }
+    failBecauseExpectedAssertionErrorWasNotThrown();
   }
 
   @Test
-  public void should_fail_when_objects_to_compare_are_of_different_types() {
-	AssertionInfo info = someInfo();
-	Jedi actual = new Jedi("Yoda", "Green");
-	Employee other = new Employee();
-	try {
-	  objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, "name");
-	} catch (AssertionError err) {
-	  verify(failures).failure(info, shouldBeInstance(other, actual.getClass()));
-	  return;
-	}
-	failBecauseExpectedAssertionErrorWasNotThrown();
+  public void should_fail_when_one_of_actual_field_to_compare_can_not_be_found_in_the_other_object() {
+    Jedi actual = new Jedi("Yoda", "Green");
+    Employee other = new Employee();
+    try {
+      objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "lightSaberColor");
+      failBecauseExceptionWasNotThrown(IntrospectionError.class);
+    } catch (IntrospectionError err) {
+      assertThat(err).hasMessageContaining("Can't find any field or property with name 'lightSaberColor'");
+      return;
+    }
   }
 
   @Test
   public void should_fail_when_selected_field_does_not_exist() {
-	thrown.expect(IntrospectionError.class,
-	              "Unable to obtain the value of <'age'> field/property from <Yoda the Jedi>, expecting a public field or getter");
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Blue");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "age");
+    thrown.expect(IntrospectionError.class, "\nCan't find any field or property with name 'age'.\n" +
+                                            "Error when introspecting properties was :\n" +
+                                            "- No getter for property 'age' in org.assertj.core.test.Jedi \n" +
+                                            "Error when introspecting fields was :\n" +
+                                            "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>");
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "age");
   }
-  
+
   @Test
   public void should_fail_when_selected_field_is_not_accessible_and_private_field_use_is_forbidden() {
-	boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
+    boolean allowedToUsePrivateFields = FieldSupport.comparison().isAllowedToUsePrivateFields();
     Assertions.setAllowComparingPrivateFields(false);
-	thrown.expect(IntrospectionError.class,
-		"Unable to obtain the value of <'strangeNotReadablePrivateField'> field/property from <Yoda the Jedi>, expecting a public field or getter");
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Blue");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
+    thrown.expect(IntrospectionError.class,
+                  "Can't find any field or property with name 'strangeNotReadablePrivateField'.");
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
 
   @Test
   public void should_pass_when_selected_field_is_private_and_private_field_use_is_allowed() {
-	Jedi actual = new Jedi("Yoda", "Green");
-	Jedi other = new Jedi("Yoda", "Blue");
-	objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
+    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi other = new Jedi("Yoda", "Blue");
+    objects.assertIsEqualToComparingOnlyGivenFields(someInfo(), actual, other, "strangeNotReadablePrivateField");
   }
-  
+
 }

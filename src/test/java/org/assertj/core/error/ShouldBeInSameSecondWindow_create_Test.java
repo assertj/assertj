@@ -17,8 +17,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeInSameSecondWindow.shouldBeInSameSecondWindow;
 import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
-import java.text.ParseException;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
@@ -34,7 +32,7 @@ import org.junit.Test;
 public class ShouldBeInSameSecondWindow_create_Test {
 
   @Test
-  public void should_create_error_message() throws ParseException {
+  public void should_create_error_message() {
     ErrorMessageFactory factory = shouldBeInSameSecondWindow(parseDatetimeWithMs("2011-01-01T05:00:01.000"),
                                                              parseDatetimeWithMs("2011-01-01T05:00:02.001"));
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

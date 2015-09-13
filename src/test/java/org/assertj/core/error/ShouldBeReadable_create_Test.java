@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeReadable.SHOULD_BE_READABLE;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
 import static org.mockito.Mockito.mock;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
@@ -41,7 +40,7 @@ public class ShouldBeReadable_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path() throws IOException {
+  public void should_create_error_message_for_Path() {
 	final Path path = mock(Path.class);
 	ErrorMessageFactory factory = shouldBeReadable(path);
 

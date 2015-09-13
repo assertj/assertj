@@ -58,7 +58,7 @@ public class Filters<E> {
   final Iterable<E> initialIterable;
   Iterable<E> filteredIterable;
 
-  private final PropertyOrFieldSupport propertyOrFieldSupport = PropertyOrFieldSupport.INSTANCE;
+  private final PropertyOrFieldSupport propertyOrFieldSupport = PropertyOrFieldSupport.EXTRACTION;
 
   /**
    * The name of the property used for filtering.

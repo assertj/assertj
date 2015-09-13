@@ -96,7 +96,7 @@ public class IntArrays_assertContainsOnlyOnce_Test extends IntArraysBaseTest {
       arrays.assertContainsOnlyOnce(info, actual, expected);
     } catch (AssertionError e) {
       verify(failures).failure(info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((int) 20), newLinkedHashSet()));
+                               shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20), newLinkedHashSet()));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -122,7 +122,7 @@ public class IntArrays_assertContainsOnlyOnce_Test extends IntArraysBaseTest {
     } catch (AssertionError e) {
       verify(failures).failure(
           info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((int) 20), newLinkedHashSet((int) 6, (int) -8),
+          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20), newLinkedHashSet(6, -8),
               absValueComparisonStrategy));
       return;
     }
@@ -161,7 +161,7 @@ public class IntArrays_assertContainsOnlyOnce_Test extends IntArraysBaseTest {
     } catch (AssertionError e) {
       verify(failures).failure(
           info,
-          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet((int) 20), newLinkedHashSet(),
+          shouldContainsOnlyOnce(actual, expected, newLinkedHashSet(20), newLinkedHashSet(),
               absValueComparisonStrategy));
       return;
     }

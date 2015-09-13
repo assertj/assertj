@@ -25,31 +25,29 @@ public final class Preconditions {
   public static final String ARGUMENT_EMPTY = "Argument expected not to be empty!";
 
   /**
-   * Verifies that the given {@code String} is not {@code null} or empty.
+   * Verifies that the given {@code CharSequence} is not {@code null} or empty.
    * 
-   * @param s the given {@code String}.
-   * @return the validated {@code String}.
-   * @throws NullPointerException if the given {@code String} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code String} is empty.
+   * @param s the given {@code CharSequence}.
+   * @return the validated {@code CharSequence}.
+   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code CharSequence} is empty.
    */
-  public static String checkNotNullOrEmpty(String s) {
+  public static CharSequence checkNotNullOrEmpty(CharSequence s) {
     return checkNotNullOrEmpty(s, ARGUMENT_EMPTY);
   }
 
   /**
-   * Verifies that the given {@code String} is not {@code null} or empty.
+   * Verifies that the given {@code CharSequence} is not {@code null} or empty.
    * 
-   * @param s the given {@code String}.
+   * @param s the given {@code CharSequence}.
    * @param message error message in case of empty {@code String}.
-   * @return the validated {@code String}.
-   * @throws NullPointerException if the given {@code String} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code String} is empty.
+   * @return the validated {@code CharSequence}.
+   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
+   * @throws IllegalArgumentException if the given {@code CharSequence} is empty.
    */
-  public static String checkNotNullOrEmpty(String s, String message) {
+  public static CharSequence checkNotNullOrEmpty(CharSequence s, String message) {
     checkNotNull(s, message);
-    if (s.isEmpty()) {
-      throwExceptionForBeingEmpty(message);
-    }
+    if (s.length() == 0) throwExceptionForBeingEmpty(message);
     return s;
   }
 
@@ -63,9 +61,7 @@ public final class Preconditions {
    */
   public static <T> T[] checkNotNullOrEmpty(T[] array) {
     T[] checked = checkNotNull(array);
-    if (checked.length == 0) {
-      throwExceptionForBeingEmpty();
-    }
+    if (checked.length == 0) throwExceptionForBeingEmpty();
     return checked;
   }
 
@@ -77,9 +73,7 @@ public final class Preconditions {
    * @throws NullPointerException if the given object reference is {@code null}.
    */
   public static <T> T checkNotNull(T reference) {
-    if (reference == null) {
-      throw new NullPointerException();
-    }
+    if (reference == null) throw new NullPointerException();
     return reference;
   }
 
@@ -92,9 +86,7 @@ public final class Preconditions {
    * @throws NullPointerException if the given object reference is {@code null}.
    */
   public static <T> T checkNotNull(T reference, String message) {
-    if (reference == null) {
-      throw new NullPointerException(message);
-    }
+    if (reference == null) throw new NullPointerException(message);
     return reference;
   }
 

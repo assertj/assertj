@@ -70,7 +70,7 @@ public abstract class PathsBaseTest {
   protected BinaryDiff binaryDiff;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
 	failures = spy(new Failures());
 	nioFilesWrapper = mock(NioFilesWrapper.class);
 	paths = new Paths(nioFilesWrapper);

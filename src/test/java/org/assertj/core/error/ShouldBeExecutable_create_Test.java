@@ -18,7 +18,6 @@ import static org.assertj.core.error.ShouldBeExecutable.SHOULD_BE_EXECUTABLE;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.mockito.Mockito.mock;
 
-import java.io.IOException;
 import java.nio.file.Path;
 
 import org.assertj.core.internal.TestDescription;
@@ -47,7 +46,7 @@ public class ShouldBeExecutable_create_Test {
   }
 
   @Test
-  public void should_create_error_message_for_Path() throws IOException {
+  public void should_create_error_message_for_Path() {
 	final Path path = mock(Path.class);
 	ErrorMessageFactory factory = shouldBeExecutable(path);
 

@@ -17,12 +17,14 @@ import static java.lang.String.format;
 import java.nio.charset.Charset;
 import java.nio.file.ClosedFileSystemException;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 
+import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.api.exception.RuntimeIOException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.VisibleForTesting;
@@ -75,7 +77,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see FileSystems#getDefault()
  * @see Files
  */
-public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extends AbstractAssert<S, Path> {
+public abstract class AbstractPathAssert<S extends AbstractPathAssert<S>> extends AbstractComparableAssert<S, Path> {
 
   @VisibleForTesting
   protected Paths paths = Paths.instance();

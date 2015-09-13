@@ -12,9 +12,12 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_EXPECTED;
+import static org.assertj.core.error.ShouldContainOnly.ErrorType.NOT_FOUND;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
-import org.assertj.core.internal.*;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains only a given set of
@@ -37,26 +40,13 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
-	                                                  Object notExpected,
-	                                                  ComparisonStrategy comparisonStrategy) {
-	return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
-  }
-
-  /**
-   * Creates a new </code>{@link ShouldContainOnly}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
-	                                                  Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
-	if (isNullOrEmpty(notExpected)) return new ShouldContainOnly(actual, expected, notFound, comparisonStrategy);
-	else return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
+  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+                                                      Iterable<?> notExpected, ComparisonStrategy comparisonStrategy) {
+    if (isNullOrEmpty(notExpected))
+      return new ShouldContainOnly(actual, expected, notFound, NOT_FOUND, comparisonStrategy);
+    if (isNullOrEmpty(notFound))
+      return new ShouldContainOnly(actual, expected, notExpected, NOT_EXPECTED, comparisonStrategy);
+    return new ShouldContainOnly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
   /**
@@ -68,48 +58,41 @@ public class ShouldContainOnly extends BasicErrorMessageFactory {
    * @param notExpected values in {@code actual} that were not in {@code expected}.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
-	                                                  Object notExpected) {
-	return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Iterable<?> notFound,
+                                                      Iterable<?> notExpected) {
+    return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
-  /**
-   * Creates a new </code>{@link ShouldContainOnly}</code>.
-   * 
-   * @param actual the actual value in the failed assertion.
-   * @param expected values expected to be contained in {@code actual}.
-   * @param notFound values in {@code expected} not found in {@code actual}.
-   * @param notExpected values in {@code actual} that were not in {@code expected}.
-   * @return the created {@code ErrorMessageFactory}.
-   */
-  public static ErrorMessageFactory shouldContainOnly(Object actual, Object expected, Object notFound,
-	                                                  Iterable<?> notExpected) {
-	return shouldContainOnly(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+  private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFound, Iterable<?> notExpected,
+                            ComparisonStrategy comparisonStrategy) {
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to contain only:%n" +
+          "  <%s>%n" +
+          "elements not found:%n" +
+          "  <%s>%n" +
+          "and elements not expected:%n" +
+          "  <%s>%n%s", actual,
+          expected, notFound, notExpected, comparisonStrategy);
   }
 
-  private ShouldContainOnly(Object actual, Object expected, Object notFound, Object notExpected,
-	                        ComparisonStrategy comparisonStrategy) {
-	super("%n" +
-	      "Expecting:%n" +
-	      "  <%s>%n" +
-	      "to contain only:%n" +
-	      "  <%s>%n" +
-	      "elements not found:%n" +
-	      "  <%s>%n" +
-	      "and elements not expected:%n" +
-	      "  <%s>%n%s", actual,
-	      expected, notFound, notExpected, comparisonStrategy);
+  private ShouldContainOnly(Object actual, Object expected, Iterable<?> notFoundOrNotExpected, ErrorType errorType,
+                            ComparisonStrategy comparisonStrategy) {
+    // @format:off
+    super("%n" +
+          "Expecting:%n" +
+          "  <%s>%n" +
+          "to contain only:%n" +
+          "  <%s>%n" + (errorType == NOT_FOUND ? 
+          "but could not find the following elements:%n" : "but the following elements were unexpected:%n") +
+          "  <%s>%n%s",
+          actual, expected, notFoundOrNotExpected, comparisonStrategy);
+    // @format:on
   }
 
-  private ShouldContainOnly(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-	super("%n" +
-	      "Expecting:%n" +
-	      "  <%s>%n" +
-	      "to contain only:%n" +
-	      "  <%s>%n" +
-	      "but could not find the following elements:%n" +
-	      "  <%s>%n%s",
-	      actual, expected, notFound, comparisonStrategy);
+  public enum ErrorType {
+    NOT_FOUND, NOT_EXPECTED
   }
 
 }

@@ -15,7 +15,6 @@ package org.assertj.core.api.date;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -71,13 +70,13 @@ public abstract class AbstractDateAssertWithDateArg_Test extends DateAssertBaseT
   }
 
   @Test
-  public void should_verify_assertion_with_date_arg_string_with_default_format() throws ParseException {
+  public void should_verify_assertion_with_date_arg_string_with_default_format() {
     assertionInvocationWithStringArg(dateAsStringWithDefaultFormat);
     verifyAssertionInvocation(parse(dateAsStringWithDefaultFormat));
   }
 
   @Test
-  public void should_verify_assertion_with_date_arg_string_following_custom_format() throws ParseException {
+  public void should_verify_assertion_with_date_arg_string_following_custom_format() {
     assertions.withDateFormat(customDateFormat);
     assertionInvocationWithStringArg(dateAsStringWithCustomFormat);
     verifyAssertionInvocation(parse(dateAsStringWithCustomFormat));

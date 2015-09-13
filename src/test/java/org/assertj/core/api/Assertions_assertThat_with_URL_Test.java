@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import org.junit.BeforeClass;
@@ -31,13 +30,13 @@ public class Assertions_assertThat_with_URL_Test {
   }
 
   @Test
-  public void should_create_Assert() throws URISyntaxException {
+  public void should_create_Assert() {
     AbstractUrlAssert<?> assertions = Assertions.assertThat(url);
     assertThat(assertions).isNotNull();
   }
 
   @Test
-  public void should_pass_actual() throws URISyntaxException {
+  public void should_pass_actual() {
     AbstractUrlAssert<?> assertions = Assertions.assertThat(url);
     assertThat(assertions.actual).isSameAs(url);
   }

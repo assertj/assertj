@@ -40,9 +40,9 @@ public class ShouldBeEqualByComparingOnlyGivenFields extends BasicErrorMessageFa
     if (rejectedFields.size() == 1) {
       return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields.get(0), rejectedValues.get(0), expectedValues.get(0),
           acceptedFields);
-    } else {
-      return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields, rejectedValues, expectedValues, acceptedFields);
     }
+    return new ShouldBeEqualByComparingOnlyGivenFields(actual, rejectedFields, rejectedValues, expectedValues,
+                                                       acceptedFields);
   }
 
   private ShouldBeEqualByComparingOnlyGivenFields(Object actual, List<String> rejectedFields, List<Object> rejectedValues,

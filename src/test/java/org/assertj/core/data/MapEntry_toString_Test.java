@@ -15,8 +15,7 @@ package org.assertj.core.data;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
 
-import org.assertj.core.data.MapEntry;
-import org.junit.*;
+import org.junit.Test;
 
 /**
  * Tests for <{@link MapEntry#toString()}.
@@ -24,15 +23,16 @@ import org.junit.*;
  * @author Alex Ruiz
  */
 public class MapEntry_toString_Test {
-  private static MapEntry<String, String> entry;
-
-  @BeforeClass
-  public static void setUpOnce() {
-    entry = entry("name", "Yoda");
-  }
 
   @Test
   public void should_implement_toString() {
-    assertThat(entry.toString()).isEqualTo("MapEntry[key='name', value='Yoda']");
+    MapEntry<String, String> entry = entry("name", "Yoda");
+    assertThat(entry.toString()).isEqualTo("MapEntry[key=\"name\", value=\"Yoda\"]");
+  }
+
+  @Test
+  public void should_implement_toString_using_standard_representation() {
+    MapEntry<String, String[]> entry = entry("name", new String[] { "Yoda" });
+    assertThat(entry.toString()).isEqualTo("MapEntry[key=\"name\", value=[\"Yoda\"]]");
   }
 }

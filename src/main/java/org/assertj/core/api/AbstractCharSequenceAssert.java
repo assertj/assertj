@@ -222,8 +222,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Gandalf the grey&quot;).isEqualToIgnoringCase(&quot;Gandalf the white&quot;);</code></pre>
    * 
-   * </p>
-   * 
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
@@ -268,8 +266,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * <pre><code class='java'> assertThat("10$").containsOnlyDigits();
    * assertThat("").containsOnlyDigits();</code></pre>
    *
-   * </p>
-   *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters.
    * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
@@ -288,8 +284,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).containsOnlyOnce(&quot;o&quot;);</code></pre>
-   * 
-   * </p>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
@@ -400,8 +394,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Gandalf the grey&quot;).containsIgnoringCase(&quot;white&quot;);</code></pre>
    * 
-   * </p>
-   * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
@@ -423,8 +415,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotContain(&quot;Fro&quot;);</code></pre>
-   * 
-   * </p>
    * 
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
@@ -448,8 +438,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).startsWith(&quot;fro&quot;);
    * assertThat(&quot;Gandalf the grey&quot;).startsWith(&quot;grey&quot;);</code></pre>
-   * 
-   * </p>
    * 
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
@@ -495,8 +483,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).endsWith(&quot;Fro&quot;);</code></pre>
    * 
-   * </p>
-   * 
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
@@ -540,8 +526,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).matches(&quot;.*d&quot;);</code></pre>
    * 
-   * </p>
-   * 
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -563,8 +547,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(&quot;..o.o&quot;);</code></pre>
-   *
-   * </p>
    *
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -588,8 +570,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).matches(Pattern.compile(&quot;.*d&quot;));</code></pre>
    *
-   * </p>
-   *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
@@ -610,8 +590,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * 
    * // assertion will fail
    * assertThat(&quot;Frodo&quot;).doesNotMatch(Pattern.compile(&quot;..o.o&quot;));</code></pre>
-   *
-   * </p>
    *
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
@@ -787,8 +765,6 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    * // assertion will fail
    * assertThat(&quot; my\tfoo bar &quot;).isEqualToIgnoringWhitespace(&quot; my foobar&quot;);</code></pre>
    *
-   * </p>
-   *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given
@@ -796,6 +772,26 @@ public abstract class AbstractCharSequenceAssert<S extends AbstractCharSequenceA
    */
   public S isEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is a substring of the given one (opposite assertion of {@link #contains(CharSequence...) contains(CharSequence cs)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;Lego&quot;).isSubstringOf(&quot;Legolas&quot;);
+   * assertThat(&quot;Legolas&quot;).isSubstringOf(&quot;Legolas&quot;);
+   * 
+   * // assertion will fail
+   * assertThat(&quot;Frodo&quot;).isSubstringOf(&quot;Frod&quot;);</code></pre>
+   * 
+   * @param sequence the sequence that is expected to contain actual.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not a substring of the given parameter.
+   */
+  public S isSubstringOf(CharSequence sequence) {
+    strings.assertIsSubstringOf(info, actual, sequence);
     return myself;
   }
 }

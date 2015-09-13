@@ -13,10 +13,7 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-
-import java.text.ParseException;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
@@ -33,7 +30,7 @@ import org.junit.Test;
 public class ShouldBeCloseTo_create_Test {
 
   @Test
-  public void should_create_error_message_with_period_boundaries_included() throws ParseException {
+  public void should_create_error_message_with_period_boundaries_included() {
     ErrorMessageFactory factory = shouldBeCloseTo(DateUtil.parseDatetimeWithMs("2011-01-01T00:00:00.000"),
         DateUtil.parseDatetimeWithMs("2011-01-01T00:00:00.101"), 100, 101);
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());

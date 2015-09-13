@@ -259,9 +259,8 @@ public class Iterables {
     // check for elements in values that are missing in actual.
     List<Object> notExpected = asListWithoutDuplicatesAccordingToComparisonStrategy(actual);
     List<Object> notFound = containsOnly(notExpected, values);
-    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
+    if (!notExpected.isEmpty() || !notFound.isEmpty())
       throw failures.failure(info, shouldContainOnly(actual, values, notFound, notExpected, comparisonStrategy));
-    }
   }
 
   private List<Object> containsOnly(Collection<Object> actual, Object[] values) {
@@ -287,9 +286,7 @@ public class Iterables {
    * @return a Set without duplicates <b>according to given comparison strategy</b>
    */
   private List<Object> asListWithoutDuplicatesAccordingToComparisonStrategy(Iterable<?> iterable) {
-    if (iterable == null) {
-      return null;
-    }
+    if (iterable == null) return null;
     List<Object> list = new ArrayList<>();
     for (Object e : iterable) {
       // only add is not already there
@@ -313,8 +310,7 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
-      return;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<>();
     Set<Object> notOnlyOnce = new LinkedHashSet<>();
@@ -326,9 +322,8 @@ public class Iterables {
         notOnlyOnce.add(expectedOnlyOnce);
       }
     }
-    if (!notFound.isEmpty() || !notOnlyOnce.isEmpty()) {
+    if (!notFound.isEmpty() || !notOnlyOnce.isEmpty())
       throw failures.failure(info, shouldContainsOnlyOnce(actual, values, notFound, notOnlyOnce, comparisonStrategy));
-    }
     // assertion succeeded
   }
 
@@ -371,25 +366,17 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given subsequence of objects.
    */
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) {
-      return;
-    }
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
 
     Iterator<?> actualIterator = actual.iterator();
     int subsequenceIndex = 0;
-
     while (actualIterator.hasNext() && subsequenceIndex < subsequence.length) {
       Object actualNext = actualIterator.next();
       Object subsequenceNext = subsequence[subsequenceIndex];
-
-      if (areEqual(actualNext, subsequenceNext)) {
-        subsequenceIndex++;
-      }
+      if (areEqual(actualNext, subsequenceNext)) subsequenceIndex++;
     }
 
-    if (subsequenceIndex < subsequence.length) {
-      throw actualDoesNotContainSubsequence(info, actual, subsequence);
-    }
+    if (subsequenceIndex < subsequence.length) throw actualDoesNotContainSubsequence(info, actual, subsequence);
   }
 
   /**
@@ -412,9 +399,7 @@ public class Iterables {
         extra.add(actualElement);
       }
     }
-    if (extra.size() > 0) {
-      throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
-    }
+    if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
   /**
@@ -429,9 +414,7 @@ public class Iterables {
     // check that, starting from given index, actualAsList has enough remaining elements to contain sequence
     if (actualAsList.size() - startingIndex < sequence.length) return false;
     for (int i = 0; i < sequence.length; i++) {
-      if (!areEqual(actualAsList.get(startingIndex + i), sequence[i])) {
-        return false;
-      }
+      if (!areEqual(actualAsList.get(startingIndex + i), sequence[i])) return false;
     }
     return true;
   }
@@ -467,9 +450,7 @@ public class Iterables {
     assertNotNull(info, actual);
     Set<Object> found = new LinkedHashSet<>();
     for (Object o : values) {
-      if (iterableContains(actual, o)) {
-        found.add(o);
-      }
+      if (iterableContains(actual, o)) found.add(o);
     }
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, values, found, comparisonStrategy));
   }
@@ -505,9 +486,8 @@ public class Iterables {
   public void assertDoesNotHaveDuplicates(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
     Iterable<?> duplicates = comparisonStrategy.duplicatesFrom(actual);
-    if (!isNullOrEmpty(duplicates)) {
+    if (!isNullOrEmpty(duplicates))
       throw failures.failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
-    }
   }
 
   /**
@@ -524,14 +504,11 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence))
-      return;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
-      if (i >= sequence.length)
-        break;
-      if (areEqual(actualCurrentElement, sequence[i++]))
-        continue;
+      if (i >= sequence.length) break;
+      if (areEqual(actualCurrentElement, sequence[i++])) continue;
       throw actualDoesNotStartWithSequence(info, actual, sequence);
     }
     if (sequence.length > i) {
@@ -558,19 +535,16 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not end with the given sequence of objects.
    */
   public void assertEndsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence))
-      return;
+    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+
     int sizeOfActual = sizeOf(actual);
-    if (sizeOfActual < sequence.length) {
-      throw actualDoesNotEndWithSequence(info, actual, sequence);
-    }
+    if (sizeOfActual < sequence.length) throw actualDoesNotEndWithSequence(info, actual, sequence);
+
     int start = sizeOfActual - sequence.length;
     int sequenceIndex = 0, indexOfActual = 0;
     for (Object actualElement : actual) {
-      if (indexOfActual++ < start)
-        continue;
-      if (areEqual(actualElement, sequence[sequenceIndex++]))
-        continue;
+      if (indexOfActual++ < start) continue;
+      if (areEqual(actualElement, sequence[sequenceIndex++])) continue;
       throw actualDoesNotEndWithSequence(info, actual, sequence);
     }
   }
@@ -898,9 +872,7 @@ public class Iterables {
   private <E> List<E> notSatisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
     List<E> notSatisfiesCondition = new LinkedList<>();
     for (E o : actual) {
-      if (!condition.matches(o)) {
-        notSatisfiesCondition.add(o);
-      }
+      if (!condition.matches(o)) notSatisfiesCondition.add(o);
     }
     return notSatisfiesCondition;
   }
@@ -908,9 +880,7 @@ public class Iterables {
   private <E> List<E> satisfiesCondition(Iterable<? extends E> actual, Condition<? super E> condition) {
     List<E> satisfiesCondition = new LinkedList<>();
     for (E o : actual) {
-      if (condition.matches(o)) {
-        satisfiesCondition.add(o);
-      }
+      if (condition.matches(o)) satisfiesCondition.add(o);
     }
     return satisfiesCondition;
   }

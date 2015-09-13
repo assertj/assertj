@@ -16,8 +16,8 @@ import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.rules.ExpectedException.none;
 
-import org.assertj.core.description.TextDescription;
-import org.junit.*;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /**
@@ -42,6 +42,7 @@ public class TextDescription_constructor_Test {
     return randomUUID().toString();
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_throw_error_if_value_is_null() {
     thrown.expect(NullPointerException.class);

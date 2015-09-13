@@ -42,7 +42,7 @@ class ByNameSingleExtractor<T> implements Extractor<T, Object> {
       return map.get(propertyOrFieldName);
     }
 
-    return PropertyOrFieldSupport.INSTANCE.getValueOf(propertyOrFieldName, input);
+    return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
   }
 
 }

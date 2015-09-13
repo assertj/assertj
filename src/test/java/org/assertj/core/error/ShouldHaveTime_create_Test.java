@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveTime.shouldHaveTime;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import org.assertj.core.description.TextDescription;
@@ -37,7 +36,7 @@ import org.junit.Test;
 public class ShouldHaveTime_create_Test {
 
   @Test
-  public void should_create_error_message() throws ParseException {
+  public void should_create_error_message() {
     Date date = DateUtil.parseDatetime("2011-01-01T05:01:00");
     String message = shouldHaveTime(date, 123).create(new TextDescription("Test"), new StandardRepresentation());
     assertThat(message).isEqualTo(format("[Test] %n" +
