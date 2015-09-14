@@ -15,10 +15,13 @@ package org.assertj.core.util.introspection;
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
-import static org.assertj.core.util.Preconditions.*;
+import static org.assertj.core.util.Preconditions.checkNotNull;
+import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
-import java.beans.*;
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 
 /**
@@ -46,7 +49,7 @@ public final class Introspection {
 	// if not a java 7 property, check if there is a default getter method
 	if (prop == null) prop = digForDefaultImplementations(target.getClass(), propertyName);
 	if (prop != null) return prop;
-	else throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
+    throw new IntrospectionError(propertyNotFoundErrorMessage(propertyName, target));
   }
 
   private static PropertyDescriptor digForDefaultImplementations(Class<?> type, String propertyName) {
@@ -87,7 +90,7 @@ public final class Introspection {
 	Method getter = findMethod("get" + capitalized, target);
 	if (getter != null) return getter;
 	// try to find isProperty for boolean properties
-	else return findMethod("is" + capitalized, target);
+    return findMethod("is" + capitalized, target);
   }
 
   private static Method findMethod(String name, Object target) {

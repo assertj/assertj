@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -43,7 +44,6 @@ public class Tuple_Test {
     assertThat(tuple).isEqualTo(new Tuple());
   }
 
-  @SuppressWarnings("deprecation")
   @Test
   public void add_an_element_to_a_tuple() {
     Tuple tuple = new Tuple("Yoda", 800);

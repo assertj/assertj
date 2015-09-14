@@ -17,7 +17,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.test.ExpectedException.none;
 
 import java.util.function.Predicate;
@@ -38,6 +38,7 @@ public class Condition_constructor_with_predicate_Test {
 	assertThat(littleRedCap).is(fairyTale);
   }
 
+  @SuppressWarnings("unused")
   @Test
   public void should_throw_error_if_predicate_is_null() {
 	thrown.expect(NullPointerException.class);

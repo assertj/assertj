@@ -31,7 +31,6 @@ public class Tuple {
 	addAll(datas, values);
   }
 
-  @Deprecated
   public void addData(Object data) {
 	datas.add(data);
   }

@@ -61,7 +61,7 @@ public abstract class AbstractLocalDateAssert<S extends AbstractLocalDateAssert<
 	Objects.instance().assertNotNull(info, actual);
 	assertLocalDateParameterIsNotNull(other);
 	if (!actual.isBefore(other)) throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-	else return myself;
+    return myself;
   }
 
   /**

@@ -164,6 +164,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     return string.contains(sequence);
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean isGreaterThan(Object actual, Object other) {
     if (!(actual instanceof Comparable)) {
@@ -172,6 +173,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
     return Comparable.class.cast(actual).compareTo(other) > 0;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public boolean isLessThan(Object actual, Object other) {
     if (!(actual instanceof Comparable)) {

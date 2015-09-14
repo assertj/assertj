@@ -159,6 +159,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> IterableAssert<T> then(Iterable<? extends T> actual) {
     return proxy(IterableAssert.class, Iterable.class, actual);
   }
@@ -171,6 +172,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> IterableAssert<T> then(Iterator<T> actual) {
     return proxy(IterableAssert.class, Iterator.class, actual);
   }
@@ -301,6 +303,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ListAssert<T> then(List<? extends T> actual) {
     return proxy(ListAssert.class, List.class, actual);
   }
@@ -341,6 +344,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ObjectAssert<T> then(T actual) {
     return proxy(ObjectAssert.class, Object.class, actual);
   }
@@ -351,6 +355,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <T> ObjectArrayAssert<T> then(T[] actual) {
     return proxy(ObjectArrayAssert.class, Object[].class, actual);
   }
@@ -363,6 +368,7 @@ public abstract class AbstractBDDSoftAssertions extends AbstractSoftAssertions {
    * @param actual the actual value.
    * @return the created assertion object.
    */
+  @SuppressWarnings("unchecked")
   public <K, V> SoftAssertionMapAssert<K, V> then(Map<K, V> actual) {
     return proxy(SoftAssertionMapAssert.class, Map.class, actual);
   }

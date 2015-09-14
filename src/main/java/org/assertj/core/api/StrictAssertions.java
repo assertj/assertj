@@ -94,8 +94,8 @@ public class StrictAssertions {
    *
    * @return the created assertion object.
    */
-  public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> future) {
-    return new CompletableFutureAssert<>(future);
+  public static <T> CompletableFutureAssert<T> assertThat(CompletableFuture<T> actual) {
+    return new CompletableFutureAssert<>(actual);
   }
 
   /**
@@ -106,8 +106,8 @@ public class StrictAssertions {
    *
    * @return the created assertion object.
    */
-  public static <T> OptionalAssert<T> assertThat(Optional<T> optional) {
-    return new OptionalAssert<>(optional);
+  public static <T> OptionalAssert<T> assertThat(Optional<T> actual) {
+    return new OptionalAssert<>(actual);
   }
 
   /**
@@ -117,8 +117,8 @@ public class StrictAssertions {
    *
    * @return the created assertion object.
    */
-  public static OptionalDoubleAssert assertThat(OptionalDouble optionalDouble) {
-    return new OptionalDoubleAssert(optionalDouble);
+  public static OptionalDoubleAssert assertThat(OptionalDouble actual) {
+    return new OptionalDoubleAssert(actual);
   }
 
   /**
@@ -128,8 +128,8 @@ public class StrictAssertions {
    *
    * @return the created assertion object.
    */
-  public static OptionalIntAssert assertThat(OptionalInt optionalInt) {
-    return new OptionalIntAssert(optionalInt);
+  public static OptionalIntAssert assertThat(OptionalInt actual) {
+    return new OptionalIntAssert(actual);
   }
 
   /**
@@ -139,8 +139,8 @@ public class StrictAssertions {
    *
    * @return the created assertion object.
    */
-  public static OptionalLongAssert assertThat(OptionalLong optionalLong) {
-    return new OptionalLongAssert(optionalLong);
+  public static OptionalLongAssert assertThat(OptionalLong actual) {
+    return new OptionalLongAssert(actual);
   }
 
   /**
