@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.optional;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

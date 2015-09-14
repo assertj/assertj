@@ -11,10 +11,9 @@ package org.assertj.core.api;
 
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
-import static org.assertj.core.api.StrictAssertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.assertThatThrownBy;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 

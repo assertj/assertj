@@ -59,32 +59,15 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
- * Entry point for assertion methods for different data types. Each method in this class is a static factory for the
- * type-specific assertion objects. The purpose of this class is to make test code more readable.
+ * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
+ * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve 
+ * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
+ * if that occured <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
  * <p>
- * For example:
- *
- * <pre><code class='java'> int removed = employees.removeFired();
- * {@link StrictAssertions#assertThat(int) assertThat}(removed).{@link IntegerAssert#isZero isZero}();
- *
- * List&lt;Employee&gt; newEmployees = employees.hired(TODAY);
- * {@link Assertions#assertThat(Iterable) assertThat}(newEmployees).{@link IterableAssert#hasSize(int) hasSize}(6);</code></pre>
- * <p/>
- * This class only contains assertThat methods that don't take an interface as parameter to avoid Java 8 ambiguous
- * method error (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
- *
- * @author Alex Ruiz
- * @author Yvonne Wang
- * @author David DIDIER
- * @author Ted Young
- * @author Joel Costigliola
- * @author Matthieu Baechler
- * @author Mikhail Mazursky
- * @author Nicolas François
- * @author Julien Meddah
- * @author William Delanoue
+ * This why {@link Assertions} have been split in {@link AssertionsForClassTypes} and {@link AssertionsForInterfaceTypes}
+ * (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
  */
-public class StrictAssertions {
+public class AssertionsForClassTypes {
 
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
@@ -1483,7 +1466,7 @@ public class StrictAssertions {
   }
 
   /**
-   * Creates a new </code>{@link StrictAssertions}</code>.
+   * Creates a new </code>{@link AssertionsForClassTypes}</code>.
    */
-  protected StrictAssertions() {}
+  protected AssertionsForClassTypes() {}
 }

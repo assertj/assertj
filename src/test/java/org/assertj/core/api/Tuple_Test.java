@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;

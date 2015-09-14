@@ -10,8 +10,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.fail;
+import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;

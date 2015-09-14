@@ -9,7 +9,7 @@
  */
 package org.assertj.core.error.future;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
 
 import java.util.concurrent.CompletableFuture;

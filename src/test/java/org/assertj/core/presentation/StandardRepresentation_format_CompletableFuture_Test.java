@@ -10,7 +10,7 @@
 package org.assertj.core.presentation;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.CompletableFuture;

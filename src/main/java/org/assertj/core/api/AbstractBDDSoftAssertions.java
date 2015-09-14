@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.StrictAssertions.catchThrowable;
+import static org.assertj.core.api.AssertionsForClassTypes.catchThrowable;
 
 import java.io.File;
 import java.io.InputStream;

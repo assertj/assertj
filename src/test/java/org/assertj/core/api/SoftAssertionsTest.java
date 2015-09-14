@@ -14,10 +14,9 @@ package org.assertj.core.api;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.fail;
-import static org.assertj.core.api.StrictAssertions.shouldHaveThrown;
-import static org.assertj.core.api.StrictAssertions.tuple;
+import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.Assertions.shouldHaveThrown;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 
 import java.io.ByteArrayInputStream;
