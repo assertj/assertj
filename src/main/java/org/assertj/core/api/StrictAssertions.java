@@ -574,6 +574,36 @@ public class StrictAssertions {
   }
 
   /**
+   * Check for thrown exception.
+   * <p>
+   * This method is more or less the same of {@link #assertThatThrownBy(ThrowingCallable)} but in a more natural way:
+   * 
+   * <pre>
+   * <code class='java'>
+   * // create a function that takes the exception message as parameter.
+   * Function&lt;String, ThrowingCallable&gt; lambda = message -&gt; {
+   *   throw new IllegalArgumentException(message);
+   * };
+   * assertThatException(IllegalArgumentException.class)
+   *   .isThrownBy(lambda.apply("this is illegal"))
+   *     .hasMessage("this is illegal")
+   *   .isThrownBy(lambda.apply("this is also illegal"))
+   *     .hasMessage("this is also illegal") 
+   * ;
+   * </code>
+   * </pre>
+   * 
+   * @implNotes the name differs from other method (assertThat) because there already exists an
+   *            {@link #assertThat(Class)} method.
+   * @param exceptionType the expected exception type.
+   * @return the created {@link ExpectThrowableAssert}.
+   */
+  public static <T extends Throwable> ExpectThrowableAssert<T> assertThatException(final Class<? extends T> exceptionType) {
+    return new ExpectThrowableAssert<>(exceptionType);
+  }
+  
+
+  /**
    * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
