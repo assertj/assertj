@@ -12,6 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.StrictAssertions.assertThat;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Supplier;
+
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -192,4 +199,67 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
     return myself;
   }
+  
+  /**
+   * This method will check that {@link Object#equals(Object)} and {@link #hashCode()} follows the
+   * rules described in javadoc of {@link Object#equals(Object)} and {@link Object#hashCode()}.
+   *
+   * @param supplierOfTThatAreEqualsTo provide a set of object that should be equals to the actual
+   *          value. The actual value is always checked!
+   * @param supplierOfTThatAreNotEqualsTo a set of object that are not equals to the actual value.
+   * @return this object for chaining purpose.
+   */
+  public final S hasValidEqualsAndHashCode(final Supplier<List<? extends A>> supplierOfTThatAreEqualsTo,
+                                           final Supplier<List<?>> supplierOfTThatAreNotEqualsTo) {
+    // @formatter:off
+    this.isNotNull()
+        .isEqualTo(actual)
+        .isNotEqualTo(null);
+    // @formatter:on
+
+    final List<A> equalToList = new ArrayList<>();
+    equalToList.add(actual);
+    equalToList.addAll(supplierOfTThatAreEqualsTo.get());
+    final List<Object> notEqualToList = new ArrayList<>();
+    notEqualToList.add(new Object());
+    notEqualToList.addAll(supplierOfTThatAreNotEqualsTo.get());
+
+    // the object should not have changed its value, the hashCode should remain the
+    // same.
+    final AbstractIntegerAssert<?> assertThatActualHashCode = assertThat(actual.hashCode()).as("%s hashCode()", this.info.descriptionText());
+
+    equalToList.forEach(other -> {
+      this.isEqualTo(other);
+      assertThatActualHashCode.isEqualTo(other.hashCode());
+    });
+
+    notEqualToList.forEach(other -> {
+      this.isNotEqualTo(other);
+    });
+
+    return myself;
+  }
+
+  /**
+   * This method will check that {@link Object#equals(Object)} and {@link #hashCode()} follows the
+   * rules described in javadoc of {@link Object#equals(Object)} and {@link Object#hashCode()}.
+   *
+   * @param supplierOfTThatAreNotEqualsTo a set of object that are not equals to the actual value.
+   * @return this object for chaining purpose.
+   * @see #hasValidEqualsAndHashCode(Supplier, Supplier)
+   */
+  public final S hasValidEqualsAndHashCode(final Supplier<List<?>> supplierOfTThatAreNotEqualsTo) {
+    return hasValidEqualsAndHashCode(Collections::emptyList, supplierOfTThatAreNotEqualsTo);
+  }
+
+  /**
+   * This method will check that {@link Object#equals(Object)} and {@link #hashCode()} follows the
+   * rules described in javadoc of {@link Object#equals(Object)} and {@link Object#hashCode()}.
+   *
+   * @return this object for chaining purpose.
+   * @see #hasValidEqualsAndHashCode(Supplier, Supplier)
+   */
+  public final S hasValidEqualsAndHashCode() {
+    return hasValidEqualsAndHashCode(Collections::emptyList, Collections::emptyList);
+  }  
 }
