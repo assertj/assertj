@@ -19,7 +19,7 @@ import org.assertj.core.error.ErrorMessageFactory;
 
 public class ShouldHaveFailed extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_FAILED = "%nExpecting%n  <%s>%nto have failed";
+  private static final String SHOULD_HAVE_FAILED = "%nExpecting%n  <%s>%nto have failed (i.e. completed exceptionally and not cancelled)";
 
   public static ErrorMessageFactory shouldHaveFailed(CompletableFuture<?> actual) {
     return new ShouldHaveFailed(actual);

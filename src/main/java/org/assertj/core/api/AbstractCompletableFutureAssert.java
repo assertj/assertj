@@ -47,7 +47,7 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
   }
 
   /**
-   * Verifies that the {@link CompletableFuture} is done.
+   * Verifies that the {@link CompletableFuture} is done i.e. completed normally, exceptionally, or via cancellation.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isDone();</code></pre>
@@ -172,7 +172,8 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
   }
 
   /**
-   * Verifies that the {@link CompletableFuture} is completed normally.
+   * Verifies that the {@link CompletableFuture} is completed normally (i.e.{@link CompletableFuture#isDone() done} 
+   * but not {@link CompletableFuture#isCompletedExceptionally() completed exceptionally}).
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isCompleted();</code></pre>
@@ -246,15 +247,20 @@ public abstract class AbstractCompletableFutureAssert<S extends AbstractCompleta
   }
 
   /**
-   * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}, the description parameter is used in the error message.
+   * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}, 
+   * the String parameter is used in the error message.
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something"));</code></pre>
+   *           .isCompletedWithValueMatching(result -> result != null, "expected not null");</code></pre>
    *
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
-   *           .isCompletedWithValueMatching(result -> result.equals("something else"));</code></pre>
+   *           .isCompletedWithValueMatching(result -> result == null, "expected null");</code></pre>
+   * Error message is:            
+   * <pre><code class='java'> Expecting:
+   *   <"something">
+   * to match 'expected null' predicate.</code></pre>
    *
    * @return this assertion object.
    */

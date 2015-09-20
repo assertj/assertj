@@ -26,7 +26,7 @@ public class ShouldHaveFailed_create_Test {
     assertThat(error).isEqualTo("[TEST] \n" +
                                 "Expecting\n" +
                                 "  <CompletableFuture[Incomplete]>\n" +
-                                "to have failed");
+                                "to have failed (i.e. completed exceptionally and not cancelled)");
   }
 
 }
