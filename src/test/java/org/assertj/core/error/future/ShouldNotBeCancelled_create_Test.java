@@ -9,6 +9,7 @@
  */
 package org.assertj.core.error.future;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 
@@ -26,10 +27,10 @@ public class ShouldNotBeCancelled_create_Test {
 
     String error = shouldNotBeCancelled(future).create(new TestDescription("TEST"));
 
-    assertThat(error).isEqualTo("[TEST] \n" +
-                                "Expecting\n" +
-                                "  <CompletableFuture[Cancelled]>\n" +
-                                "not to be cancelled");
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                "Expecting%n" +
+                                "  <CompletableFuture[Cancelled]>%n" +
+                                "not to be cancelled"));
   }
 
 }

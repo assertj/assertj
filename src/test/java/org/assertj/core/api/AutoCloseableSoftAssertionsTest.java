@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -190,7 +191,7 @@ public class AutoCloseableSoftAssertionsTest {
 	  assertThat(errors.get(18)).isEqualTo("expected:<1[5].0f> but was:<1[4].0f>");
 	  assertThat(errors.get(19)).isEqualTo("expected:<[1[7].0f]> but was:<[1[6].0f]>");
 
-	  assertThat(errors.get(20)).isEqualTo(String.format("%nInputStreams do not have same content:"
+	  assertThat(errors.get(20)).isEqualTo(format("%nInputStreams do not have same content:"
 		                                   + System.getProperty("line.separator")
 		                                   + "line:<1>, expected:<B> but was:<A>"));
 
@@ -199,7 +200,7 @@ public class AutoCloseableSoftAssertionsTest {
 	  assertThat(errors.get(23)).isEqualTo("expected:<[2[5]]> but was:<[2[4]]>");
 
 	  assertThat(errors.get(24)).isEqualTo("expected:<[\"2[7]\"]> but was:<[\"2[6]\"]>");
-	  assertThat(errors.get(25)).isEqualTo(String.format("%nExpecting:%n" +
+	  assertThat(errors.get(25)).isEqualTo(format("%nExpecting:%n" +
 		                                   " <[\"28\"]>%n" +
 		                                   "to contain:%n" +
 		                                   " <[\"29\"]>%n" +
@@ -221,14 +222,14 @@ public class AutoCloseableSoftAssertionsTest {
 
 	  assertThat(errors.get(35)).isEqualTo("expected:<5[1]> but was:<5[0]>");
 	  assertThat(errors.get(36)).isEqualTo("expected:<[5[3]]> but was:<[5[2]]>");
-	  assertThat(errors.get(37)).isEqualTo(String.format("%nExpecting message:%n"
+	  assertThat(errors.get(37)).isEqualTo(format("%nExpecting message:%n"
 		                                   + " <\"NullPointerException message\">%n"
 		                                   + "but was:%n"
 		                                   + " <\"IllegalArgumentException message\">"));
-	  assertThat(errors.get(38)).isEqualTo("\nExpecting message:\n"
-		                                   + " <\"something was good\">\n"
-		                                   + "but was:\n"
-		                                   + " <\"something was wrong\">");
+	  assertThat(errors.get(38)).isEqualTo(format("%nExpecting message:%n"
+		                                   + " <\"something was good\">%n"
+		                                   + "but was:%n"
+		                                   + " <\"something was wrong\">"));
 	  assertThat(errors.get(39)).isEqualTo("expected:<Optional[[goo]d option]> but was:<Optional[[ba]d option]>");
 	  assertThat(errors.get(40)).isEqualTo("expected:<2015-01-0[2]> but was:<2015-01-0[1]>");
 	  assertThat(errors.get(41)).isEqualTo("expected:<2015-01-01T23:59[]> but was:<2015-01-01T23:59[:59]>");

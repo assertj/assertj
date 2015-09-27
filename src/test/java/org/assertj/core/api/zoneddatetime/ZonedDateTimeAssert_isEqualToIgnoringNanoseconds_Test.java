@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.ZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
@@ -38,8 +39,8 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
       assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.plusSeconds(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-01T00:00:01Z>\nto have same year, month, day, hour, minute and second as:\n  <2000-01-01T00:00:02Z>\nbut had not.");
+          .isEqualTo(format(
+              "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:02Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,8 +52,8 @@ public class ZonedDateTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseT
       assertThat(refDatetime).isEqualToIgnoringNanos(refDatetime.minusNanos(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-01T00:00:01Z>\nto have same year, month, day, hour, minute and second as:\n  <2000-01-01T00:00:00.999999999Z>\nbut had not.");
+          .isEqualTo(format(
+              "%nExpecting:%n  <2000-01-01T00:00:01Z>%nto have same year, month, day, hour, minute and second as:%n  <2000-01-01T00:00:00.999999999Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

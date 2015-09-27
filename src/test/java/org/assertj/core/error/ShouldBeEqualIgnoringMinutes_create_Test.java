@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 
@@ -38,12 +39,12 @@ public class ShouldBeEqualIgnoringMinutes_create_Test {
       factory = shouldBeEqualIgnoringMinutes(LocalTime.of(12, 0), LocalTime.of(12, 1));
 
       String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-      assertThat(message).isEqualTo("[Test] \n" +
-                                    "Expecting:\n" +
-                                    "  <12:00>\n" +
-                                    "to have same hour as:\n" +
-                                    "  <12:01>\n" +
-                                    "but had not.");
+      assertThat(message).isEqualTo(format("[Test] %n" +
+                                           "Expecting:%n" +
+                                           "  <12:00>%n" +
+                                           "to have same hour as:%n" +
+                                           "  <12:01>%n" +
+                                           "but had not."));
   }
 
   @Test
@@ -52,11 +53,11 @@ public class ShouldBeEqualIgnoringMinutes_create_Test {
     factory = shouldBeEqualIgnoringMinutes(OffsetTime.of(12,0,0,0, ZoneOffset.UTC),OffsetTime.of(12,1,0,0, ZoneOffset.UTC));
 
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <12:00Z>\n" +
-                                  "to have same hour as:\n" +
-                                  "  <12:01Z>\n" +
-                                  "but had not.");
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <12:00Z>%n" +
+                                         "to have same hour as:%n" +
+                                         "  <12:01Z>%n" +
+                                         "but had not."));
   }
 }

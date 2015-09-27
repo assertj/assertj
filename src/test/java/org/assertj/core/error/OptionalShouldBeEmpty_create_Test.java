@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 
@@ -28,7 +29,7 @@ public class OptionalShouldBeEmpty_create_Test {
   @Test
   public void should_create_error_message_for_optional() {
     String errorMessage = shouldBeEmpty(Optional.of("not-empty")).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting an empty Optional but was containing value: <\"not-empty\">.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting an empty Optional but was containing value: <\"not-empty\">."));
   }
 
   @Test(expected = NoSuchElementException.class)
@@ -39,18 +40,18 @@ public class OptionalShouldBeEmpty_create_Test {
   @Test
   public void should_create_error_message_for_optionaldouble() {
     String errorMessage = shouldBeEmpty(OptionalDouble.of(1)).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting an empty OptionalDouble but was containing value: <1.0>.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting an empty OptionalDouble but was containing value: <1.0>."));
   }
 
   @Test
   public void should_create_error_message_for_optionalint() {
     String errorMessage = shouldBeEmpty(OptionalInt.of(1)).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting an empty OptionalInt but was containing value: <1>.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting an empty OptionalInt but was containing value: <1>."));
   }
 
   @Test
   public void should_create_error_message_for_optionallong() {
     String errorMessage = shouldBeEmpty(OptionalLong.of(1L)).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting an empty OptionalLong but was containing value: <1L>.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting an empty OptionalLong but was containing value: <1L>."));
   }
 }

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -47,7 +48,7 @@ public class LocalDateTimeAssert_isBefore_Test extends LocalDateTimeAssertBaseTe
     try {
       assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5)).isBefore(LocalDateTime.of(1998, 1, 1, 3, 3, 3));
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n  <2000-01-05T03:00:05>\nto be strictly before:\n  <1998-01-01T03:03:03>");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <2000-01-05T03:00:05>%nto be strictly before:%n  <1998-01-01T03:03:03>"));
       return;
     }
     fail("Should have thrown AssertionError");

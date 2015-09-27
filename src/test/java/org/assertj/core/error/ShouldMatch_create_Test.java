@@ -1,5 +1,6 @@
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.test.ExpectedException.none;
@@ -20,7 +21,7 @@ public class ShouldMatch_create_Test {
   public void should_create_error_message_with_default_predicate_description() {
 	ErrorMessageFactory factory = shouldMatch("Yoda", color -> color.equals("green"), PredicateDescription.GIVEN);
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \nExpecting:\n  <\"Yoda\">\nto match given predicate." + ShouldMatch.ADVICE);
+	assertThat(message).isEqualTo(format("[Test] %nExpecting:%n  <\"Yoda\">%nto match given predicate." + ShouldMatch.ADVICE));
   }
 
   @Test
@@ -28,7 +29,7 @@ public class ShouldMatch_create_Test {
 	ErrorMessageFactory factory = shouldMatch("Yoda", (String color) -> color.equals("green"),
 	                                          new PredicateDescription("green light saber"));
 	String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
-	assertThat(message).isEqualTo("[Test] \nExpecting:\n  <\"Yoda\">\nto match 'green light saber' predicate.");
+	assertThat(message).isEqualTo(format("[Test] %nExpecting:%n  <\"Yoda\">%nto match 'green light saber' predicate."));
   }
   
   @Test

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
@@ -25,15 +26,15 @@ import org.assertj.core.presentation.PredicateDescription;
 public class ShouldMatch extends BasicErrorMessageFactory {
 
   // @format:off
-  public static final String ADVICE = "\n\n"+
-	                                  "You can use 'matches(Predicate p, String description)' to have a better error message\n" +
-	                                  "For example:\n" +
-	                                  "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");\n" +
-	                                  "will give an error message looking like:\n" +
-	                                  "\n" +
-	                                  "Expecting:\n" +
-	                                  "  <player>\n" +
-	                                  "to match 'is rookie' predicate";
+  public static final String ADVICE = format("%n%n"+
+	                                         "You can use 'matches(Predicate p, String description)' to have a better error message%n" +
+	                                         "For example:%n" +
+	                                         "  assertThat(player).matches(p -> p.isRookie(), \"is rookie\");%n" +
+	                                         "will give an error message looking like:%n" +
+	                                         "%n" +
+	                                         "Expecting:%n" +
+	                                         "  <player>%n" +
+	                                         "to match 'is rookie' predicate");
   // @format:on
 
   /**
@@ -52,6 +53,6 @@ public class ShouldMatch extends BasicErrorMessageFactory {
   }
 
   private ShouldMatch(Object actual, Predicate<?> predicate, PredicateDescription description) {
-	super("\nExpecting:\n  <%s>\nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
+	super("%nExpecting:%n  <%s>%nto match %s predicate." + (description.isDefault() ? ADVICE : ""), actual, description);
   }
 }

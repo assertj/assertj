@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -45,7 +46,7 @@ public class LocalDateTimeAssert_isNotEqualTo_Test extends LocalDateTimeAssertBa
       assertThat(LocalDateTime.of(2000, 1, 5, 3, 0, 5))
           .isNotEqualTo(LocalDateTime.of(2000, 1, 5, 3, 0, 5).toString());
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n <2000-01-05T03:00:05>\nnot to be equal to:\n <2000-01-05T03:00:05>\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n <2000-01-05T03:00:05>%nnot to be equal to:%n <2000-01-05T03:00:05>%n"));
       return;
     }
     fail("Should have thrown AssertionError");

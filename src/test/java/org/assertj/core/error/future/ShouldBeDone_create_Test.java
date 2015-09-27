@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import java.util.concurrent.CompletableFuture;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 
@@ -23,10 +24,10 @@ public class ShouldBeDone_create_Test {
   public void should_create_error_message() throws Exception {
     String error = shouldBeDone(new CompletableFuture<Object>()).create(new TestDescription("TEST"));
 
-    assertThat(error).isEqualTo("[TEST] \n" +
-                                "Expecting\n" +
-                                "  <CompletableFuture[Incomplete]>\n" +
-                                "to be done");
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                       "Expecting%n" +
+                                       "  <CompletableFuture[Incomplete]>%n" +
+                                       "to be done"));
   }
 
 }

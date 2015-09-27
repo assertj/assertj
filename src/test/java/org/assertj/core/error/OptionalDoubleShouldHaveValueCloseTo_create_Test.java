@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import java.util.OptionalDouble;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseTo.shouldHaveValueCloseTo;
@@ -25,16 +26,16 @@ public class OptionalDoubleShouldHaveValueCloseTo_create_Test {
     @Test
     public void should_create_error_message_when_optionaldouble_is_empty() throws Exception {
         String errorMessage = shouldHaveValueCloseTo(10.0).create();
-        assertThat(errorMessage).isEqualTo("\nExpecting an OptionalDouble with value:\n" +
-                                           "  <10.0>\n" +
-                                           "but was empty.");
+        assertThat(errorMessage).isEqualTo(format("%nExpecting an OptionalDouble with value:%n" +
+                                                  "  <10.0>%n" +
+                                                  "but was empty."));
     }
 
     @Test
     public void should_create_error_message() throws Exception {
         String errorMessage = shouldHaveValueCloseTo(OptionalDouble.of(20.0), 10.0, within(2.0), 3).create();
-        assertThat(errorMessage).isEqualTo("\nExpecting:\n  <OptionalDouble[20.0]>\nto be close to:\n  <10.0>\n" +
-                                           "by less than <2.0> but difference was <3.0>.\n" +
-                                           "(a difference of exactly <2.0> being considered valid)");
+        assertThat(errorMessage).isEqualTo(format("%nExpecting:%n  <OptionalDouble[20.0]>%nto be close to:%n  <10.0>%n" +
+                                                  "by less than <2.0> but difference was <3.0>.%n" +
+                                                  "(a difference of exactly <2.0> being considered valid)"));
     }
 }

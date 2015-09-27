@@ -65,14 +65,14 @@ public class ShouldBeEqualIgnoringMinutes extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringMinutes(Object actual, Object other) {
-    super("\nExpecting:\n  <%s>\nto have same year, month, day and hour as:\n  <%s>\nbut had not.", actual, other);
+    super("%nExpecting:%n  <%s>%nto have same year, month, day and hour as:%n  <%s>%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringMinutes(LocalTime actual, LocalTime other) {
-      super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
+      super("%nExpecting:%n  <%s>%nto have same hour as:%n  <%s>%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringMinutes(OffsetTime actual, OffsetTime other) {
-      super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
+      super("%nExpecting:%n  <%s>%nto have same hour as:%n  <%s>%nbut had not.", actual, other);
   }
 }

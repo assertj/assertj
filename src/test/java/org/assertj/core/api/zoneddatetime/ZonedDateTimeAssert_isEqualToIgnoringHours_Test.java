@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.AbstractZonedDateTimeAssert.NULL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,7 +45,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
       // DateTime(2013, 6, 10, 0, 0, cestTimeZone) = DateTime(2013, 6, 9, 22, 0, DateTimeZone.UTC)
       assertThat(utcDateTime).isEqualToIgnoringHours(ZonedDateTime.of(2013, 6, 10, 0, 0, 0, 0, cestTimeZone));
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n  <2013-06-10T00:00Z>\nto have same year, month and day as:\n  <2013-06-09T22:00Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <2013-06-10T00:00Z>%nto have same year, month and day as:%n  <2013-06-09T22:00Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -55,7 +56,7 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
     try {
       assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1));
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:00Z>\nbut had not.");
+      assertThat(e).hasMessage(format("%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:00Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -67,8 +68,8 @@ public class ZonedDateTimeAssert_isEqualToIgnoringHours_Test extends BaseTest {
       assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-                                .isEqualTo(
-                                           "\nExpecting:\n  <2000-01-02T00:00Z>\nto have same year, month and day as:\n  <2000-01-01T23:59:59.999999999Z>\nbut had not.");
+                                .isEqualTo(format(
+                                           "%nExpecting:%n  <2000-01-02T00:00Z>%nto have same year, month and day as:%n  <2000-01-01T23:59:59.999999999Z>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
