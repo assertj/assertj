@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -36,11 +37,11 @@ public class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest 
 	try {
 	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.plusSeconds(1));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n  " +
-		                       "<00:00:01>\n" +
-		                       "to have same hour, minute and second as:\n" +
-		                       "  <00:00:02>\n" +
-		                       "but had not.");
+	  assertThat(e).hasMessage(format("%nExpecting:%n  " +
+		                              "<00:00:01>%n" +
+		                              "to have same hour, minute and second as:%n" +
+		                              "  <00:00:02>%n" +
+		                              "but had not."));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,11 +52,11 @@ public class LocalTimeAssert_isEqualToIgnoringNanoseconds_Test extends BaseTest 
 	try {
 	  assertThat(refLocalTime).isEqualToIgnoringNanos(refLocalTime.minusNanos(1));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n" +
-		                       "  <00:00:01>\n" +
-		                       "to have same hour, minute and second as:\n" +
-		                       "  <00:00:00.999999999>\n" +
-		                       "but had not.");
+	  assertThat(e).hasMessage(format("%nExpecting:%n" +
+		                              "  <00:00:01>%n" +
+		                              "to have same hour, minute and second as:%n" +
+		                              "  <00:00:00.999999999>%n" +
+		                              "but had not."));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

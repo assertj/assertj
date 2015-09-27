@@ -1,5 +1,5 @@
 /**
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * Licensed under the Apache License, Version 2.0 (the "License")); you may not use this file except in compliance with
  * the License. You may obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 
@@ -27,24 +28,24 @@ public class OptionalShouldBePresent_create_Test {
   @Test
   public void should_create_error_message_with_optional() throws Exception {
     String errorMessage = shouldBePresent(Optional.empty()).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting Optional to contain a value but was empty.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionaldouble() throws Exception {
     String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting OptionalDouble to contain a value but was empty.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionalint() throws Exception {
     String errorMessage = shouldBePresent(OptionalInt.empty()).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting OptionalInt to contain a value but was empty.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but was empty."));
   }
 
   @Test
   public void should_create_error_message_with_optionallong() throws Exception {
     String errorMessage = shouldBePresent(OptionalLong.empty()).create();
-    assertThat(errorMessage).isEqualTo("\nExpecting OptionalLong to contain a value but was empty.");
+    assertThat(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but was empty."));
   }
 }

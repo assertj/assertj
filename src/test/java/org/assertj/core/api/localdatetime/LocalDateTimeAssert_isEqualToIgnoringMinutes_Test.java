@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdatetime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -37,8 +38,8 @@ public class LocalDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest 
       assertThat(refLocalDateTime).isEqualToIgnoringMinutes(refLocalDateTime.minusMinutes(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-01T23:00>\nto have same year, month, day and hour as:\n  <2000-01-01T22:59>\nbut had not.");
+          .isEqualTo(format(
+              "%nExpecting:%n  <2000-01-01T23:00>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();
@@ -50,8 +51,8 @@ public class LocalDateTimeAssert_isEqualToIgnoringMinutes_Test extends BaseTest 
       assertThat(refLocalDateTime).isEqualToIgnoringMinutes(refLocalDateTime.minusNanos(1));
     } catch (AssertionError e) {
       assertThat(e.getMessage())
-          .isEqualTo(
-              "\nExpecting:\n  <2000-01-01T23:00>\nto have same year, month, day and hour as:\n  <2000-01-01T22:59:59.999999999>\nbut had not.");
+          .isEqualTo(format(
+              "%nExpecting:%n  <2000-01-01T23:00>%nto have same year, month, day and hour as:%n  <2000-01-01T22:59:59.999999999>%nbut had not."));
       return;
     }
     failBecauseExpectedAssertionErrorWasNotThrown();

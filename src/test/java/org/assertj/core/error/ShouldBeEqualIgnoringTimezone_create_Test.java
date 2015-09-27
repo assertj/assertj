@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.MIN;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,12 +43,12 @@ public class ShouldBeEqualIgnoringTimezone_create_Test {
                                             OffsetTime.of(12, 0, 0, 0, MIN));
 
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <12:00Z>\n" +
-                                  "to have same time fields except timezone as:\n" +
-                                  "  <12:00-18:00>\n" +
-                                  "but had not.");
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <12:00Z>%n" +
+                                         "to have same time fields except timezone as:%n" +
+                                         "  <12:00-18:00>%n" +
+                                         "but had not."));
   }
 
   @Test
@@ -57,11 +58,11 @@ public class ShouldBeEqualIgnoringTimezone_create_Test {
                                             OffsetDateTime.of(2000, 5, 13, 12, 0, 0, 0, MIN));
 
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
-    assertThat(message).isEqualTo("[Test] \n" +
-                                  "Expecting:\n" +
-                                  "  <2000-05-13T12:00Z>\n" +
-                                  "to have same time fields except timezone as:\n" +
-                                  "  <2000-05-13T12:00-18:00>\n" +
-                                  "but had not.");
+    assertThat(message).isEqualTo(format("[Test] %n" +
+                                         "Expecting:%n" +
+                                         "  <2000-05-13T12:00Z>%n" +
+                                         "to have same time fields except timezone as:%n" +
+                                         "  <2000-05-13T12:00-18:00>%n" +
+                                         "but had not."));
   }
 }

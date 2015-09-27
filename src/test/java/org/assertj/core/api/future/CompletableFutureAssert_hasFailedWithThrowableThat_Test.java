@@ -46,10 +46,10 @@ public class CompletableFutureAssert_hasFailedWithThrowableThat_Test extends Bas
     // @format:off
     assertThatThrownBy(() -> assertThat(future).hasFailedWithThrowableThat().isInstanceOf(IllegalArgumentException.class))
                .isInstanceOf(AssertionError.class)
-               .hasMessageContaining("Expecting:\n" +
-                                     " <java.lang.RuntimeException: some random error>\n" +
-                                     "to be an instance of:\n" +
-                                     " <java.lang.IllegalArgumentException>\n");
+               .hasMessageContaining(format("Expecting:%n" +
+                                            " <java.lang.RuntimeException: some random error>%n" +
+                                            "to be an instance of:%n" +
+                                            " <java.lang.IllegalArgumentException>%n"));
     // @format:on
   }
 

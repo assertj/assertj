@@ -9,6 +9,7 @@
  */
 package org.assertj.core.error.future;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 
@@ -26,10 +27,10 @@ public class ShouldNotHaveFailed_create_Test {
 
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
 
-    assertThat(error).isEqualTo("[TEST] \n" +
-                                "Expecting\n" +
-                                "  <CompletableFuture[Failed: java.lang.RuntimeException]>\n" +
-                                "to not have failed");
+    assertThat(error).isEqualTo(format("[TEST] %n" +
+                                "Expecting%n" +
+                                "  <CompletableFuture[Failed: java.lang.RuntimeException]>%n" +
+                                "to not have failed"));
   }
 
 }

@@ -66,15 +66,15 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
-	super("\nExpecting:\n  <%s>\nto have same year, month, day, hour, minute and second as:\n  <%s>\nbut had not.",
+	super("%nExpecting:%n  <%s>%nto have same year, month, day, hour, minute and second as:%n  <%s>%nbut had not.",
 	      actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {
-	super("\nExpecting:\n  <%s>\nto have same hour, minute and second as:\n  <%s>\nbut had not.", actual, other);
+	super("%nExpecting:%n  <%s>%nto have same hour, minute and second as:%n  <%s>%nbut had not.", actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(OffsetTime actual, OffsetTime other) {
-      super("\nExpecting:\n  <%s>\nto have same hour, minute and second as:\n  <%s>\nbut had not.", actual, other);
+      super("%nExpecting:%n  <%s>%nto have same hour, minute and second as:%n  <%s>%nbut had not.", actual, other);
   }
 }

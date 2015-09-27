@@ -46,6 +46,6 @@ public class ShouldBeEqualIgnoringTimezone extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringTimezone(Object actual, Object other) {
-    super("\nExpecting:\n  <%s>\nto have same time fields except timezone as:\n  <%s>\nbut had not.", actual, other);
+    super("%nExpecting:%n  <%s>%nto have same time fields except timezone as:%n  <%s>%nbut had not.", actual, other);
   }
 }

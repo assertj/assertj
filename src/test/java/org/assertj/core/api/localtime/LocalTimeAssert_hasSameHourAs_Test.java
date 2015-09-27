@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localtime;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalTimeAssert.NULL_LOCAL_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -35,12 +36,12 @@ public class LocalTimeAssert_hasSameHourAs_Test extends BaseTest {
 	try {
 	  assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusMinutes(1));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <23:00>\n" +
-		                       "to have same hour as:\n" +
-		                       "  <22:59>\n" +
-		                       "but had not.");
+	  assertThat(e).hasMessage(format("%n" +
+		                              "Expecting:%n" +
+		                              "  <23:00>%n" +
+		                              "to have same hour as:%n" +
+		                              "  <22:59>%n" +
+		                              "but had not."));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();
@@ -51,12 +52,12 @@ public class LocalTimeAssert_hasSameHourAs_Test extends BaseTest {
 	try {
 	  assertThat(refLocalTime).hasSameHourAs(refLocalTime.minusNanos(1));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <23:00>\n" +
-		                       "to have same hour as:\n" +
-		                       "  <22:59:59.999999999>\n" +
-		                       "but had not.");
+	  assertThat(e).hasMessage(format("%n" +
+		                              "Expecting:%n" +
+		                              "  <23:00>%n" +
+		                              "to have same hour as:%n" +
+		                              "  <22:59:59.999999999>%n" +
+		                              "but had not."));
 	  return;
 	}
 	failBecauseExpectedAssertionErrorWasNotThrown();

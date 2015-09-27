@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.localdate;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -41,7 +42,7 @@ public class LocalDateAssert_isNotEqualTo_Test extends LocalDateAssertBaseTest {
 	try {
 	  assertThat(LocalDate.of(2000, 1, 5)).isNotEqualTo(LocalDate.of(2000, 1, 5).toString());
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\nExpecting:\n <2000-01-05>\nnot to be equal to:\n <2000-01-05>\n");
+	  assertThat(e).hasMessage(format("%nExpecting:%n <2000-01-05>%nnot to be equal to:%n <2000-01-05>%n"));
 	  return;
 	}
 	fail("Should have thrown AssertionError");

@@ -35,6 +35,6 @@ public class ShouldHaveSameHourAs extends BasicErrorMessageFactory {
     }
 
     private ShouldHaveSameHourAs(Temporal actual, Temporal other) {
-        super("\nExpecting:\n  <%s>\nto have same hour as:\n  <%s>\nbut had not.", actual, other);
+        super("%nExpecting:%n  <%s>%nto have same hour as:%n  <%s>%nbut had not.", actual, other);
     }
 }

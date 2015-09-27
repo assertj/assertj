@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.zoneddatetime;
 
+import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
@@ -46,7 +47,7 @@ public class ZonedDateTimeAssert_isNotEqualTo_errors_Test extends ZonedDateTimeA
       ZonedDateTime date = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
       assertThat(date).isNotEqualTo(date.toString());
     } catch (AssertionError e) {
-      assertThat(e).hasMessage("\nExpecting:\n <2000-01-05T03:00:05Z>\nnot to be equal to:\n <2000-01-05T03:00:05Z>\n");
+      assertThat(e).hasMessage(format("%nExpecting:%n <2000-01-05T03:00:05Z>%nnot to be equal to:%n <2000-01-05T03:00:05Z>%n"));
       return;
     }
     fail("Should have thrown AssertionError");

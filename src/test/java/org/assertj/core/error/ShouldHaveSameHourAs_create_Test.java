@@ -20,6 +20,7 @@ import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 
@@ -36,7 +37,7 @@ public class ShouldHaveSameHourAs_create_Test {
     public void should_create_error_message_localtime() {
         factory = shouldHaveSameHourAs(LocalTime.of(12, 0), LocalTime.of(13, 0));
         assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation()))
-            .isEqualTo("[Test] \nExpecting:\n  <12:00>\nto have same hour as:\n  <13:00>\nbut had not.");
+            .isEqualTo(format("[Test] %nExpecting:%n  <12:00>%nto have same hour as:%n  <13:00>%nbut had not."));
     }
 
     @Test
@@ -44,6 +45,6 @@ public class ShouldHaveSameHourAs_create_Test {
         factory = shouldHaveSameHourAs(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC),
                                        OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
         assertThat(factory.create(new TextDescription("Test"), new StandardRepresentation()))
-            .isEqualTo("[Test] \nExpecting:\n  <12:00Z>\nto have same hour as:\n  <13:00Z>\nbut had not.");
+            .isEqualTo(format("[Test] %nExpecting:%n  <12:00Z>%nto have same hour as:%n  <13:00Z>%nbut had not."));
     }
 }

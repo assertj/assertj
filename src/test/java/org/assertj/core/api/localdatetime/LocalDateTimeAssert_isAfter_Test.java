@@ -49,11 +49,11 @@ public class LocalDateTimeAssert_isAfter_Test extends LocalDateTimeAssertBaseTes
 	try {
 	  assertThat(parse("2000-01-01T03:00:05.123")).isAfter(parse("2000-01-01T03:00:05.123456789"));
 	} catch (AssertionError e) {
-	  assertThat(e).hasMessage("\n" +
-		                       "Expecting:\n" +
-		                       "  <2000-01-01T03:00:05.123>\n" +
-		                       "to be strictly after:\n" +
-		                       "  <2000-01-01T03:00:05.123456789>");
+	  assertThat(e).hasMessage(String.format("%n" +
+		                       "Expecting:%n" +
+		                       "  <2000-01-01T03:00:05.123>%n" +
+		                       "to be strictly after:%n" +
+		                       "  <2000-01-01T03:00:05.123456789>"));
 	  return;
 	}
 	fail("Should have thrown AssertionError");
