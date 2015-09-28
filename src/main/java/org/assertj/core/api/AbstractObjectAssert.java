@@ -70,7 +70,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
    */
-  public S isEqualToIgnoringNullFields(A other) {
+  public S isEqualToIgnoringNullFields(Object other) {
     objects.assertIsEqualToIgnoringNullFields(info, actual, other);
     return myself;
   }
@@ -112,7 +112,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    * @throws IntrospectionError if a property/field does not exist in actual.
    */
-  public S isEqualToComparingOnlyGivenFields(A other, String... propertiesOrFieldsUsedInComparison) {
+  public S isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, propertiesOrFieldsUsedInComparison);
     return myself;
   }
@@ -150,7 +150,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
-  public S isEqualToIgnoringGivenFields(A other, String... propertiesOrFieldsToIgnore) {
+  public S isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, propertiesOrFieldsToIgnore);
     return myself;
   }
@@ -188,7 +188,7 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
-  public S isEqualToComparingFieldByField(A other) {
+  public S isEqualToComparingFieldByField(Object other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other);
     return myself;
   }
