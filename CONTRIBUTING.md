@@ -5,7 +5,9 @@ Thank you for your interest in contributing to AssertJ assertions!
 
 We appreciate your effort and to make sure that your pull request is easy to review, we ask you to make note of the following guidelines including legal contributor agreement:
 
-* If you contribute to Java 8 feature, please work in java-8 branch.
+* If you contribute to Java 8 feature (3.x versions), please work in **master** branch.
+* If you contribute to Java 7 feature (2.x versions), please work in **2.x** branch.
+* If you contribute to Java 6 feature (1.x versions), please work in **1.x** branch.
 * Use **[AssertJ code Eclipse formatting preferences](src/ide-support/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it)
 * Write complete Javadocs for each assertion method and include a code example.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
