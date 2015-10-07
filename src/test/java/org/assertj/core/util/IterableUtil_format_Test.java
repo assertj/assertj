@@ -62,7 +62,7 @@ public class IterableUtil_format_Test {
   @Test
   public void should_format_iterable_with_an_element_per_line() {
     String formatted = multiLineFormat(STANDARD_REPRESENTATION, asList("First", 3, "foo", "bar"));
-    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[\"First\",%n" +
                                                        "    3,%n" +
@@ -73,7 +73,7 @@ public class IterableUtil_format_Test {
   @Test
   public void should_format_iterable_with_an_element_per_line_according_the_given_representation() {
     String formatted = multiLineFormat(HEXA_REPRESENTATION, asList(1, 2, 3));
-    String formattedAfterNewLine = System.lineSeparator() + "  <" + formatted + ">";
+    String formattedAfterNewLine = org.assertj.core.util.Compatibility.System.lineSeparator() + "  <" + formatted + ">";
     assertThat(formattedAfterNewLine).isEqualTo(format("%n" +
                                                        "  <[0x0000_0001,%n" +
                                                        "    0x0000_0002,%n" +
