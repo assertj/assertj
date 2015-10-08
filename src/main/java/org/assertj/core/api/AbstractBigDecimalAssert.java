@@ -259,6 +259,10 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
     return isEqualByComparingTo(new BigDecimal(expected));
   }
 
+  public S isNotEqualByComparingTo(String expected) {
+    return isNotEqualByComparingTo(new BigDecimal(expected));
+  }
+  
   @Override
   public S usingComparator(Comparator<? super BigDecimal> customComparator) {
     super.usingComparator(customComparator);
