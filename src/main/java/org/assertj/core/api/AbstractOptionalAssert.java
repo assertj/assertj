@@ -20,6 +20,7 @@ import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldConta
 
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -95,7 +96,37 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     isNotNull();
     checkNotNull(expectedValue);
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) throwAssertionError(shouldContain(actual, expectedValue));
+    if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
+      throwAssertionError(shouldContain(actual, expectedValue));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link java.util.function.Consumer} for further assertions. Should be used as a way of deeper asserting on the
+   * containing object, as further requirement(s) for the value.
+   * </p>
+   * Assertions will pass :
+   * <pre><code class='java'> // one requirement 
+   * assertThat(Optional.of(10)).satisfies(i -> {assertThat(i).isGreaterThan(9);});
+   * // multiple requirements
+   * assertThat(Optional.of(someString)).satisfies(s -> {
+   *   assertThat(s).isEqualTo("something");
+   *   assertThat(s).startsWith("some");
+   *   assertThat(s).endsWith("thing");
+   * }); </code></pre>
+   *
+   * Assertions will fail :
+   * <pre><code class='java'> assertThat(Optional.of("something")).satisfies(s -> {assertThat(s).isEqualTo("something else");});
+   * assertThat(Optional.empty()).satisfies(o -> {});</code></pre>
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public S satisfies(Consumer<T> requirement) {
+    isNotNull();
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    requirement.accept(actual.get());
     return myself;
   }
 
