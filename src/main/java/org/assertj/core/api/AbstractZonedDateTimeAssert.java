@@ -258,7 +258,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * Assertion fails as second fields differ even if time difference is only 1ns.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0);
    * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 456);
    * assertThat(dateTime1).isEqualToIgnoringNanos(dateTime2);
@@ -297,7 +297,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * Assertion fails as minute fields differ even if time difference is only 1ns.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 50, 0, 0);
    * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 23, 50, 10, 456);
    * assertThat(dateTime1).isEqualToIgnoringSeconds(dateTime2);
@@ -337,7 +337,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * Time difference is only 1s but hour fields differ.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 50, 0, 0);
    * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 23, 00, 2, 7);
    * assertThat(dateTime1).isEqualToIgnoringMinutes(dateTime2);
@@ -377,7 +377,7 @@ public abstract class AbstractZonedDateTimeAssert<S extends AbstractZonedDateTim
    * Time difference is only 1min but day fields differ.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneId.systemDefault());
    * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 00, 00, 00, 000, ZoneId.systemDefault());
    * assertThat(dateTime1).isEqualToIgnoringHours(dateTime2);

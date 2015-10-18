@@ -372,7 +372,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Assertion fails as second fields differ even if time difference is only 1ns.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 456);
    * assertThat(localDateTime1).isEqualToIgnoringNanos(localDateTime2);
@@ -482,7 +482,7 @@ public abstract class AbstractLocalDateTimeAssert<S extends AbstractLocalDateTim
    * Time difference is only 1min but day fields differ.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 23, 59, 59, 999);
    * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 00, 00, 00, 000);
    * assertThat(localDateTime1).isEqualToIgnoringHours(localDateTime2);
