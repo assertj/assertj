@@ -360,7 +360,7 @@ public abstract class AbstractLocalTimeAssert<S extends AbstractLocalTimeAssert<
    * Assertion fails as second fields differ even if time difference is only 1ns.
    * <p>
    * Code example :
-   * <pre><code class='java'> // successfull assertions
+   * <pre><code class='java'> // successful assertions
    * LocalTime localTime1 = LocalTime.of(12, 0, 1, 0);
    * LocalTime localTime2 = LocalTime.of(12, 0, 1, 456);
    * assertThat(localTime1).isEqualToIgnoringNanos(localTime2);
