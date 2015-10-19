@@ -1,5 +1,12 @@
 language: java
 script: mvn clean verify
-jdk:
-  - oraclejdk8
 
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+jdk:  
+   - oraclejdk8
