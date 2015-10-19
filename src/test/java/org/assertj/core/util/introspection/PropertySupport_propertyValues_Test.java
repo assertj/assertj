@@ -24,7 +24,6 @@ import org.assertj.core.test.Employee;
 import org.assertj.core.test.ExpectedException;
 import org.assertj.core.test.Name;
 import org.assertj.core.test.VehicleFactory;
-import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -102,6 +101,12 @@ public class PropertySupport_propertyValues_Test {
   public void should_throw_error_if_property_not_found() {
     thrown.expect(IntrospectionError.class);
     PropertySupport.instance().propertyValues("foo", Integer.class, employees);
+  }
+
+  @Test
+  public void should_throw_error_if_property_name_is_null() {
+    thrown.expect(IllegalArgumentException.class);
+    PropertySupport.instance().propertyValueOf(null, Integer.class, employees);
   }
 
   @Test

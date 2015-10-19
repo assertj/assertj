@@ -13,7 +13,8 @@
 package org.assertj.core.util.introspection;
 
 import static java.lang.String.format;
-import static java.util.Collections.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.introspection.Introspection.getProperty;
 
@@ -169,9 +170,12 @@ public class PropertySupport {
    * @param target the given Object to extract property from.
    * @return the value of the given property name given target.
    * @throws IntrospectionError if target object does not have a property with a matching name.
+   * @throws IllegalArgumentException if propertyName is null.
    */
   public <T> T propertyValueOf(String propertyName, Class<T> clazz, Object target) {
+    if (propertyName == null) throw new IllegalArgumentException("the property name should not be null.");
     // returns null if target is null as we can't extract a property from a null object
+    // but don't want to raise an exception if we were looking at a nested property
     if (target == null) return null;
 
     if (isNestedProperty(propertyName)) {
