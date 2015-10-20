@@ -204,4 +204,35 @@ public class Objects_assertIsEqualToIgnoringGivenFields_Test extends ObjectsBase
     Assertions.setAllowComparingPrivateFields(allowedToUsePrivateFields);
   }
 
+  @Test
+  public void should_be_able_to_compare_objects_of_different_types() {
+    Dude person = new Dude("John", "Doe");
+    DudeDAO personDAO = new DudeDAO("John", "Doe", 1L);
+    //
+    assertThat(person).isEqualToComparingFieldByField(personDAO);
+    assertThat(personDAO).isEqualToIgnoringGivenFields(person, "id");
+  }
+
+  private static class Dude {
+    @SuppressWarnings("unused")
+    String firstname, lastname;
+
+    public Dude(String firstname, String lastname) {
+      this.firstname = firstname;
+      this.lastname = lastname;
+    }
+  }
+
+  private static class DudeDAO {
+    @SuppressWarnings("unused")
+    String firstname, lastname;
+    @SuppressWarnings("unused")
+    Long id;
+
+    public DudeDAO(String firstname, String lastname, Long id) {
+      this.firstname = firstname;
+      this.lastname = lastname;
+      this.id = id;
+    }
+  }
 }

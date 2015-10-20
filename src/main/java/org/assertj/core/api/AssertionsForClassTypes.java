@@ -62,7 +62,7 @@ import org.assertj.core.util.introspection.FieldSupport;
  * Java 8 is picky when choosing the right <code>assertThat</code> method if the object under test is generic and bounded, 
  * for example if foo is instance of T that extends Exception, java 8  will complain that it can't resolve 
  * the proper <code>assertThat</code> method (normally <code>assertThat(Throwable)</code> as foo might implement an interface like List,
- * if that occured <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
+ * if that occurred <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
  * <p>
  * This why {@link Assertions} have been split in {@link AssertionsForClassTypes} and {@link AssertionsForInterfaceTypes}
  * (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
@@ -549,7 +549,7 @@ public class AssertionsForClassTypes {
    *                                                              .hasMessageContaining("boom");
    * }</code></pre>
    * 
-   * Another (probably more natural) way of checking that sonme code throws an exception is {@link #assertThatExceptionOfType(Class)}.
+   * Another (probably more natural) way of checking that some code throws an exception is {@link #assertThatExceptionOfType(Class)}.
    * 
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
@@ -672,7 +672,7 @@ public class AssertionsForClassTypes {
    *  "Assassin's Apprentice",
    *  "Guards! Guards! (Discworld)"]</code></pre>
    * 
-   * @param maxLengthForSingleLineDescription the maximum lenght for an iterable/array to be displayed on one line
+   * @param maxLengthForSingleLineDescription the maximum length for an iterable/array to be displayed on one line
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
     GroupFormatUtil.setMaxLengthForSingleLineDescription(maxLengthForSingleLineDescription);
