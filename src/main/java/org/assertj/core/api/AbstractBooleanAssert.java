@@ -41,6 +41,15 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is {@code true}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(true).isTrue();
+   * assertThat(Boolean.TRUE).isTrue();
+   *
+   * // assertions will fail
+   * assertThat(false).isTrue();
+   * assertThat(Boolean.FALSE).isTrue();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -52,6 +61,15 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is {@code false}.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(false).isFalse();
+   * assertThat(Boolean.FALSE).isFalse();
+   *
+   * // assertions will fail
+   * assertThat(true).isFalse();
+   * assertThat(Boolean.TRUE).isFalse();</code></pre>
    * 
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is {@code null}.
@@ -63,6 +81,15 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is equal to the given one.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(true).isEqualTo(true);
+   * assertThat(Boolean.FALSE).isEqualTo(false);
+   * 
+   * // assertions will fail
+   * assertThat(true).isEqualTo(false);
+   * assertThat(Boolean.TRUE).isEqualTo(false);</code></pre>
    * 
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
@@ -76,6 +103,15 @@ public abstract class AbstractBooleanAssert<S extends AbstractBooleanAssert<S>> 
 
   /**
    * Verifies that the actual value is not equal to the given one.
+   * <p/>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(true).isNotEqualTo(false);
+   * assertThat(Boolean.FALSE).isNotEqualTo(true);
+   *
+   * // assertions will fail
+   * assertThat(true).isNotEqualTo(true);
+   * assertThat(Boolean.FALSE).isNotEqualTo(false);</code></pre>
    * 
    * @param other the given value to compare the actual value to.
    * @return {@code this} assertion object.
