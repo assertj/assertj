@@ -58,4 +58,13 @@ public class MapRepresentation_Test {
         String output = mapRepresentation.toStringOf(null);
         assertThat(output).isNull();
     }
+
+    @Test
+    public void should_return_empty_map_representation() {
+        Representation mapRepresentation = new MapRepresentation();
+        String output = mapRepresentation.toStringOf(new HashMap());
+        assertThat(output).isEqualTo("{}");
+    }
+
+
 }
