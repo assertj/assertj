@@ -38,6 +38,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author dorzey
+ * @author Vojislav Marinkovic
  */
 public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
     extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry<? extends K, ? extends V>> {
@@ -59,6 +60,12 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   @Override
   public void isEmpty() {
     maps.assertEmpty(info, actual);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public S isEqualTo(Object object) {
+      throw new UnsupportedOperationException();
   }
 
   /** {@inheritDoc} */

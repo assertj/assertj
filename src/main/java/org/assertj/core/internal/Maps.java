@@ -48,6 +48,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Alex Ruiz
  * @author Nicolas François
  * @author dorzey
+ * @author Vojislav Marinkovic
  */
 public class Maps {
 
@@ -516,5 +517,9 @@ public class Maps {
 
   private static <K, V> void failIfEmptySinceActualIsNotEmpty(MapEntry<? extends K, ? extends V>[] values) {
     if (values.length == 0) throw new AssertionError("actual is not empty");
+  }
+
+  public void assertEqual(AssertionInfo assertionInfo, Map<String, Integer> actual, Map<String, Integer> expected, ComparisonStrategy comparisonStrategy) {
+      throw new UnsupportedOperationException();
   }
 }
