@@ -62,11 +62,14 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
     maps.assertEmpty(info, actual);
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public S isEqualTo(Object object) {
-      throw new UnsupportedOperationException();
-  }
+    /**
+     * Same as {@link AbstractAssert#isEqualTo(Object)} but gives better output highlighting the difference
+     * between the actual and expected map.
+     */
+    public S isEqualTo(Map<?, ?> expected) {
+        maps.assertEqual(info, actual, expected, objects.getComparisonStrategy());
+        return myself;
+    }
 
   /** {@inheritDoc} */
   @Override
