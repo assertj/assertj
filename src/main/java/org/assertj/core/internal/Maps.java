@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -40,6 +41,7 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.presentation.MapRepresentation;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -519,7 +521,19 @@ public class Maps {
     if (values.length == 0) throw new AssertionError("actual is not empty");
   }
 
-  public void assertEqual(AssertionInfo assertionInfo, Map<String, Integer> actual, Map<String, Integer> expected, ComparisonStrategy comparisonStrategy) {
-      throw new UnsupportedOperationException();
+  public void assertEqual(AssertionInfo info, Map<?, ?> actual, Map<?, ?> expected, ComparisonStrategy comparisonStrategy) {
+      if (areEqual(actual, expected)) {
+          return;
+      }
+      MapRepresentation mapRepresentation = new MapRepresentation();
+      for (Map.Entry<?, ?> mapEntry : actual.entrySet()){
+          if (!expected.containsKey(mapEntry.getKey())){
+              mapRepresentation.addUnequalEntry(mapEntry.getKey());
+          }
+          else if (!expected.get(mapEntry.getKey()).equals(mapEntry.getValue())){
+              mapRepresentation.addUnequalEntry(mapEntry.getKey());
+          }
+      }
+      throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, mapRepresentation));
   }
 }

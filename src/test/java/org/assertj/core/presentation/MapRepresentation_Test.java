@@ -65,6 +65,4 @@ public class MapRepresentation_Test {
         String output = mapRepresentation.toStringOf(new HashMap());
         assertThat(output).isEqualTo("{}");
     }
-
-
 }

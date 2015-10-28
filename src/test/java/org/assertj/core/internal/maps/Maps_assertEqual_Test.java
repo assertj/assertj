@@ -62,7 +62,6 @@ public class Maps_assertEqual_Test extends MapsBaseTest {
         try {
             maps.assertEqual(someInfo(), actual, expected, StandardComparisonStrategy.instance());
         } catch (AssertionError e) {
-            //TODO
             verify(failures).failure(info, shouldBeEqual(actual, expected, new MapRepresentation()));
             return;
         }
