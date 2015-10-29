@@ -130,6 +130,29 @@ public abstract class AbstractOptionalAssert<S extends AbstractOptionalAssert<S,
     return myself;
   }
 
+	/**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link java.util.function.Consumer} for further assertions. Should be used as a way of deeper asserting on the
+   * containing object, as further requirement(s) for the value.
+   * </p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(Optional.of("something")).satisfies(s -> {assertThat(s).isEqualTo("something");});
+   * assertThat(Optional.of(10)).satisfies(i -> {assertThat(i).isGreaterThan(9);});</code></pre>
+   *
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(Optional.of("something")).satisfies(s -> {assertThat(s).isEqualTo("something else");});
+   * assertThat(Optional.empty()).satisfies(o -> {});</code></pre>
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public S satisfies(Consumer<T> requirement) {
+    isNotNull();
+    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    requirement.accept(actual.get());
+    return myself;
+  }
+
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
    * </p>
