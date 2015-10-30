@@ -13,37 +13,31 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.Map;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.assertj.core.data.MapEntry;
 import org.junit.Test;
 
+public class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAssertBaseTest {
 
-/**
- * Tests for <code>{@link MapAssert#doesNotContain(MapEntry...)}</code>.
- * 
- * @author Alex Ruiz
- * @author Nicolas François
- */
-public class MapAssert_doesNotContain_Test extends MapAssertBaseTest {
+  final Map.Entry<String, String>[] entries = array(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.doesNotContain(entry("key1", "value1"), entry("key2", "value2"));
+    return assertions.containsOnly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
   }
 
   @Override
   protected void verify_internal_effects() {
-    MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
-    verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsOnly(getInfo(assertions), getActual(assertions), entries);
   }
   
   @Test
   public void invoke_api_like_user() {
-     assertThat(map("key1", "value1")).doesNotContain(entry("key2", "value2"), entry("key3", "value3"));
+     assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
   }
 }

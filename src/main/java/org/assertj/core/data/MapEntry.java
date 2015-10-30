@@ -23,7 +23,7 @@ import java.util.Map;
  *
  * @author Yvonne Wang
  */
-public class MapEntry<K, V> {
+public class MapEntry<K, V> implements Map.Entry<K, V>{
   
   public final K key;
   public final V value;
@@ -64,5 +64,28 @@ public class MapEntry<K, V> {
   @Override
   public String toString() {
     return toStringOf(this, STANDARD_REPRESENTATION);
+  }
+
+  @Override
+  public K getKey() {
+    return key;
+  }
+
+  @Override
+  public V getValue() {
+    return value;
+  }
+  
+  /**
+   * Always throws <tt>UnsupportedOperationException</tt>,
+   * as this class represents an <i>immutable</i> map entry.
+   *
+   * @param value ignored
+   * @return (Does not return)
+   * @throws UnsupportedOperationException always
+   */
+  @Override
+  public V setValue(V value) {
+      throw new UnsupportedOperationException();
   }
 }
