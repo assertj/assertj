@@ -38,6 +38,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas François
  * @author dorzey
+ * @author Vojislav Marinkovic
  */
 public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>, A extends Map<K, V>, K, V>
     extends AbstractAssert<S, A> implements EnumerableAssert<S, MapEntry<? extends K, ? extends V>> {
@@ -60,6 +61,15 @@ public abstract class AbstractMapAssert<S extends AbstractMapAssert<S, A, K, V>,
   public void isEmpty() {
     maps.assertEmpty(info, actual);
   }
+
+    /**
+     * Same as {@link AbstractAssert#isEqualTo(Object)} but gives better output highlighting the difference
+     * between the actual and expected map.
+     */
+    public S isEqualTo(Map<?, ?> expected) {
+        maps.assertEqual(info, actual, expected, objects.getComparisonStrategy());
+        return myself;
+    }
 
   /** {@inheritDoc} */
   @Override
