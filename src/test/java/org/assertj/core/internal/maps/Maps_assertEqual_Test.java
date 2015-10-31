@@ -13,21 +13,28 @@
 package org.assertj.core.internal.maps;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.*;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.ShouldBe;
+import org.assertj.core.error.ShouldBeEqual;
+import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.internal.Maps;
+import org.assertj.core.internal.MapsBaseTest;
+import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.MapRepresentation;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.test.TestFailures.failBecauseExpectedAssertionErrorWasNotThrown;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -56,7 +63,7 @@ public class Maps_assertEqual_Test extends MapsBaseTest {
     }
 
     @Test
-    public void should_fail_if_map_entry_values_are_not_equal() {
+    public void should_fail_if_map_entry_values_are_not_equal() throws NoSuchFieldException, IllegalAccessException {
         AssertionInfo info = someInfo();
         Map<String, String> expected = new HashMap<String, String>();
         expected.put("a", "1");
@@ -65,14 +72,25 @@ public class Maps_assertEqual_Test extends MapsBaseTest {
         try {
             maps.assertEqual(someInfo(), actual, expected, StandardComparisonStrategy.instance());
         } catch (AssertionError e) {
-            verify(failures).failure(info, shouldBeEqual(actual, expected, new MapRepresentation()));
+            ArgumentCaptor<ShouldBeEqual> shouldBeEqualArgumentCaptor = ArgumentCaptor.forClass(ShouldBeEqual.class);
+            verify(failures).failure(eq(info), shouldBeEqualArgumentCaptor.capture());
+            ShouldBeEqual shouldBeEqual = shouldBeEqualArgumentCaptor.getValue();
+
+            Field representation = shouldBeEqual.getClass().getDeclaredField("representation");
+            representation.setAccessible(true);
+            MapRepresentation mapRepresentation = (MapRepresentation)representation.get(shouldBeEqual);
+            Field unequalEntryByValueField = mapRepresentation.getClass().getDeclaredField("unequalEntryByValue");
+            unequalEntryByValueField.setAccessible(true);
+            Set unequalEntryByValue = (Set) unequalEntryByValueField.get(mapRepresentation);
+            assertThat(unequalEntryByValue.size()).isEqualTo(1);
+            assertThat(unequalEntryByValue).contains("c");
             return;
         }
         failBecauseExpectedAssertionErrorWasNotThrown();
     }
 
     @Test
-    public void should_fail_if_map_entry_keys_are_not_equal() {
+    public void should_fail_if_map_entry_keys_are_not_equal() throws NoSuchFieldException, IllegalAccessException {
         AssertionInfo info = someInfo();
         Map<String, String> expected = new HashMap<String, String>();
         expected.put("a", "1");
@@ -81,7 +99,19 @@ public class Maps_assertEqual_Test extends MapsBaseTest {
         try {
             maps.assertEqual(someInfo(), actual, expected, StandardComparisonStrategy.instance());
         } catch (AssertionError e) {
-            verify(failures).failure(info, shouldBeEqual(actual, expected, new MapRepresentation()));
+            ArgumentCaptor<ShouldBeEqual> shouldBeEqualArgumentCaptor = ArgumentCaptor.forClass(ShouldBeEqual.class);
+            verify(failures).failure(eq(info), shouldBeEqualArgumentCaptor.capture());
+            ShouldBeEqual shouldBeEqual = shouldBeEqualArgumentCaptor.getValue();
+
+            Field representation = shouldBeEqual.getClass().getDeclaredField("representation");
+            representation.setAccessible(true);
+            MapRepresentation mapRepresentation = (MapRepresentation)representation.get(shouldBeEqual);
+            Field unequalEntryByKeyField = mapRepresentation.getClass().getDeclaredField("unequalEntryByKey");
+            unequalEntryByKeyField.setAccessible(true);
+            Set unequalEntryByKey = (Set) unequalEntryByKeyField.get(mapRepresentation);
+            assertThat(unequalEntryByKey.size()).isEqualTo(2);
+            assertThat(unequalEntryByKey).contains("c");
+            assertThat(unequalEntryByKey).contains("d");
             return;
         }
         failBecauseExpectedAssertionErrorWasNotThrown();
