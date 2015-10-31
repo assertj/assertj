@@ -528,10 +528,10 @@ public class Maps {
       MapRepresentation mapRepresentation = new MapRepresentation();
       for (Map.Entry<?, ?> mapEntry : actual.entrySet()){
           if (!expected.containsKey(mapEntry.getKey())){
-              mapRepresentation.addUnequalEntry(mapEntry.getKey());
+              mapRepresentation.addUnequalEntryByKey(mapEntry.getKey());
           }
           else if (!expected.get(mapEntry.getKey()).equals(mapEntry.getValue())){
-              mapRepresentation.addUnequalEntry(mapEntry.getKey());
+              mapRepresentation.addUnequalEntryByKey(mapEntry.getKey());
           }
       }
       throw failures.failure(info, shouldBeEqual(actual, expected, comparisonStrategy, mapRepresentation));

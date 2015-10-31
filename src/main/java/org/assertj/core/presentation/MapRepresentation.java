@@ -9,15 +9,21 @@ import java.util.*;
  */
 public class MapRepresentation implements Representation {
     private static final String NORMAL_REPRESENTATION = "%s=%s";
-    private static final String DIFF_REPRESENTATION = "[%s=%s]";
+    private static final String KEY_DIFF_REPRESENTATION = "[%s=%s]";
+    private static final String VALUE_DIFF_REPRESENTATION = "%s=[%s]";
 
     Representation elementsRepresentation = new StandardRepresentation();
     Representation valueRepresentation = new StandardRepresentation();
 
-    Set unequalEntries = new HashSet();
+    private Set unequalEntryByKey = new HashSet();
+    private Set unequalEntryByValue = new HashSet();
 
-    public void addUnequalEntry(Object key) {
-        this.unequalEntries.add(key);
+    public void addUnequalEntryByKey(Object entryKey) {
+        this.unequalEntryByKey.add(entryKey);
+    }
+
+    public void addUnequalEntryByValue(Object entryKey) {
+        this.unequalEntryByValue.add(entryKey);
     }
 
     /** {@inheritDoc} */
@@ -38,8 +44,11 @@ public class MapRepresentation implements Representation {
             String key = elementsRepresentation.toStringOf(e.getKey());
             String value = valueRepresentation.toStringOf(e.getValue());
             String representation = NORMAL_REPRESENTATION;
-            if (unequalEntries.contains(e.getKey())){
-                representation = DIFF_REPRESENTATION;
+            if (unequalEntryByKey.contains(e.getKey())){
+                representation = KEY_DIFF_REPRESENTATION;
+            }
+            else if (unequalEntryByValue.contains(e.getKey())){
+                representation = VALUE_DIFF_REPRESENTATION;
             }
             formatter.format(representation, key, value);
             if (i.hasNext()) {
