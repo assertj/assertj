@@ -34,7 +34,6 @@ public class MapRepresentation_Test {
         map.put("a", 1);
 
         Representation mapRepresentation = new MapRepresentation();
-        ((MapRepresentation) mapRepresentation).addUnequalEntryByKey("a");
         String output = mapRepresentation.toStringOf(map);
         assertThat(output).isNotNull();
         assertThat(output).isEqualTo(String.format("{\"%s\"=%d}", "a", 1));
