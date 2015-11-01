@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursive.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqualToIgnoringGivenFields;
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
@@ -37,6 +38,7 @@ import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
+import static org.assertj.core.internal.DeepDifference.determineDifferences;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkNotNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -50,6 +52,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -628,6 +631,23 @@ public class Objects {
   }
 
   /**
+   * Assert that the given object is "deeply" equals to other by comparing all fields recursively.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the actual and the given object are not "deeply" equal.
+   */
+  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other) {
+    assertNotNull(info, actual);
+    List<Difference> differences = determineDifferences(actual, other);
+    if (!differences.isEmpty()) {
+      throw failures.failure(info, shouldBeEqualByComparingFieldByFieldRecursive(actual, other, differences));
+    }
+  }
+
+  /**
    * Get property value first and in case of error try field value.
    * <p>
    * This method supports nested field/property (e.g. "address.street.number").
@@ -648,7 +668,7 @@ public class Objects {
    * @param clazz the class we want the declared fields.
    * @return the declared fields of given class and its superclasses.
    */
-  private static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
+  public static Set<Field> getDeclaredFieldsIncludingInherited(Class<?> clazz) {
     checkNotNull(clazz, "expecting Class parameter not to be null");
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSynthetic(clazz);
     // get fields declared in superclass
