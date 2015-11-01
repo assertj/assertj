@@ -47,6 +47,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.core.util.DeepEquals;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -650,6 +652,23 @@ public class Objects {
     return fieldSupport.isAllowedToRead(field) || propertySupport.publicGetterExistsFor(field.getName(), actual);
   }
 
+  /**
+   * Assert that the given object is "deeply" equals to the other by comparing all fields recursively.
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given object.
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if actual is {@code null}.
+   * @throws AssertionError if the other object is not an instance of the actual type.
+   * @throws AssertionError if the actual and the given object are not "deeply" equal.
+   */
+  public <A> void assertIsEqualToComparingFieldByFieldRecursively(AssertionInfo info, A actual, A other) {
+    assertNotNull(info, actual);
+    assertHasSameClassAs(info, actual, other);
+    if (!DeepEquals.deepEquals(actual, other))
+        throw failures.failure(info, shouldBeEqual(actual, other, StandardRepresentation.STANDARD_REPRESENTATION));
+  }
+  
   /**
    * Get property value first and in case of error try field value.
    * <p>
