@@ -430,4 +430,57 @@ public abstract class AbstractObjectAssert<S extends AbstractObjectAssert<S, A>,
     Tuple values = byName(propertiesOrFields).extract(actual);
     return new ObjectArrayAssert<Object>(values.toArray());
   }
+
+  /**
+   * Assert that actual object is equal to the given object based on recursive a property/field by property/field comparison (including
+   * inherited ones). This can be handy if actual's <code>equals</code> implementation does not suit you.
+   * <p/>
+   * Note that the recursive property/field comparison is stopped for fields with a custom <code>equals</code> implementation, i.e. 
+   * the overriden <code>equals</code> method will be used instead of a field by field comparison.
+   * <p/>
+   * If an object has a field and a property with the same name, the property value will be used over the field.
+   * <p/>
+   * The objects to compare can be of different types but must have the same properties/fields.
+   * For example if actual object has a name String field, it is expected the other object to also have one.
+   * <p/>
+   * The recursive comparison handles cycle.
+   * <p/>
+   * 
+   * Example:
+   * <pre><code class='java'> public class Person {
+   *   public String name;
+   *   public Home home = new Home();
+   * }
+   *
+   * public class Home {
+   *   public Address address = new Address();
+   * }
+   *
+   * public static class Address {
+   *   public int number = 1;
+   * }
+   * 
+   * Person jack = new Person();
+   * jack.name = "Jack";
+   * jack.home.address.number = 1;
+   * 
+   * Person jackClone = new Person();
+   * jackClone.name = "Jack";
+   * jackClone.home.address.number = 1;
+   * 
+   * // will fail as equals compares object references
+   * assertThat(jack).isEqualsTo(jackClone);
+   * 
+   * // jack and jackClone are equals when doing a recursive field by field comparison
+   * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
+   * 
+   * @param other the object to compare {@code actual} to.
+   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
+   * @throws IntrospectionError if one property/field to compare can not be found.
+   */
+  public S isEqualToComparingFieldByFieldRecursively(Object other) {
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other);
+    return myself;
+  }
 }
