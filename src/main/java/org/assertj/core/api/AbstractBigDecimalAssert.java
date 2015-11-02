@@ -230,6 +230,18 @@ public abstract class AbstractBigDecimalAssert<S extends AbstractBigDecimalAsser
     return isEqualByComparingTo(new BigDecimal(expected));
   }
 
+  /**
+   * Same as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(BigDecimal)} but takes care of converting
+   * given String to {@link BigDecimal} for you.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(&quot;7.99&quot;);
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(&quot;8.00&quot;);</code></pre>
+   */
   public S isNotEqualByComparingTo(String expected) {
     return isNotEqualByComparingTo(new BigDecimal(expected));
   }
