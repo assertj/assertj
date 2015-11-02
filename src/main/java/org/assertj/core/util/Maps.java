@@ -12,11 +12,8 @@
  */
 package org.assertj.core.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -89,7 +86,8 @@ public class Maps {
     if (map == null) {
       return null;
     }
-    Iterator<?> i = map.entrySet().iterator();
+    Map sortedMap = new TreeMap(map);
+    Iterator<?> i = sortedMap.entrySet().iterator();
     if (!i.hasNext()) {
       return "{}";
     }
@@ -97,9 +95,9 @@ public class Maps {
     buffer.append("{");
     for (;;) {
       Entry<?, ?> e = (Entry<?, ?>) i.next();
-      buffer.append(format(map, e.getKey(), p));
+      buffer.append(format(sortedMap, e.getKey(), p));
       buffer.append('=');
-      buffer.append(format(map, e.getValue(), p));
+      buffer.append(format(sortedMap, e.getValue(), p));
       if (!i.hasNext()) {
         return buffer.append("}").toString();
       }

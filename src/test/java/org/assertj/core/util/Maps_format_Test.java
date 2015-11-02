@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.Test;
 
@@ -27,6 +28,7 @@ import org.junit.Test;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author gabga
  */
 public class Maps_format_Test {
 
@@ -61,4 +63,30 @@ public class Maps_format_Test {
     assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
     assertThat(Maps.format(map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
   }
+
+    @Test
+    public void should_sort_Map_before_formatting() {
+        Map<Comparable, Integer> map = Maps.newHashMap();
+        final Comparable a = new Comparable() {
+            @Override public int compareTo(Object o) {
+                return 1; // always last;
+            }
+        };
+        final Comparable b = new Comparable() {
+            @Override public int compareTo(Object o) {
+                return -1; // always first;
+            }
+        };
+        final Comparable c = new Comparable() {
+            @Override public int compareTo(Object o) {
+                return o.equals(b) ? 1 : -1; // always in the middle;
+            }
+        };
+        map.put(a, 99);
+        map.put(b, 100);
+        map.put(c, 101);
+
+        assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"" + b.toString() + "\"=100, \"" + c.toString() + "\"=101, \"" + a.toString() + "\"=99}");
+        assertThat(Maps.format(map)).isEqualTo("{\"" + b.toString() + "\"=100, \"" + c.toString() + "\"=101, \"" + a.toString() + "\"=99}");
+    }
 }
