@@ -89,4 +89,18 @@ public class Maps_format_Test {
         assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{" + b.toString() + "=100, " + c.toString() + "=101, " + a.toString() + "=99}");
         assertThat(Maps.format(map)).isEqualTo("{" + b.toString() + "=100, " + c.toString() + "=101, " + a.toString() + "=99}");
     }
+
+    @Test
+    public void should_not_fail_with_non_comparable_types() {
+        Map<Object, Integer> map = Maps.newHashMap();
+        String a = "A";
+        Boolean b = false;
+        Object c = new Object(){};
+        map.put(a, 99);
+        map.put(b, 100);
+        map.put(c, 101);
+
+        Maps.format(standardRepresentation, map);
+        Maps.format(map);
+    }
 }
