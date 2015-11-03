@@ -76,34 +76,43 @@ public class Maps {
     return format(new StandardRepresentation(), map);
   }
 
-  /**
-   * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
-   * 
-   * @param map the map to format.
-   * @return the {@code String} representation of the given map.
-   */
-  public static String format(Representation p, Map<?, ?> map) {
-    if (map == null) {
-      return null;
+    /**
+     * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
+     *
+     * @param map the map to format.
+     * @return the {@code String} representation of the given map.
+     */
+    public static String format(Representation p, Map<?, ?> map) {
+        if (map == null) {
+            return null;
+        }
+        Map sortedMap = new TreeMap();
+        for (Map.Entry mapEntry : map.entrySet()){
+            if (mapEntry.getKey() instanceof Comparable){
+                sortedMap.put(mapEntry.getKey(), mapEntry.getValue());
+            }
+            else {
+                sortedMap = map;
+                break;
+            }
+        }
+        Iterator<?> i = sortedMap.entrySet().iterator();
+        if (!i.hasNext()) {
+            return "{}";
+        }
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("{");
+        for (;;) {
+            Entry<?, ?> e = (Entry<?, ?>) i.next();
+            buffer.append(format(map, e.getKey(), p));
+            buffer.append('=');
+            buffer.append(format(map, e.getValue(), p));
+            if (!i.hasNext()) {
+                return buffer.append("}").toString();
+            }
+            buffer.append(", ");
+        }
     }
-    Map sortedMap = new TreeMap(map);
-    Iterator<?> i = sortedMap.entrySet().iterator();
-    if (!i.hasNext()) {
-      return "{}";
-    }
-    StringBuilder buffer = new StringBuilder();
-    buffer.append("{");
-    for (;;) {
-      Entry<?, ?> e = (Entry<?, ?>) i.next();
-      buffer.append(format(sortedMap, e.getKey(), p));
-      buffer.append('=');
-      buffer.append(format(sortedMap, e.getValue(), p));
-      if (!i.hasNext()) {
-        return buffer.append("}").toString();
-      }
-      buffer.append(", ");
-    }
-  }
 
   private static Object format(Map<?, ?> map, Object o, Representation p) {
     return o == map ? "(this Map)" : p.toStringOf(o);

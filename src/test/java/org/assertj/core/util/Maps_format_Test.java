@@ -60,8 +60,8 @@ public class Maps_format_Test {
     Map<String, Object> map = Maps.newHashMap();
     map.put("One", "First");
     map.put("Myself", map);
-    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
-    assertThat(Maps.format(map)).isEqualTo("{\"One\"=\"First\", \"Myself\"=(this Map)}");
+    assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
+    assertThat(Maps.format(map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
   }
 
     @Test
@@ -86,7 +86,7 @@ public class Maps_format_Test {
         map.put(b, 100);
         map.put(c, 101);
 
-        assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{\"" + b.toString() + "\"=100, \"" + c.toString() + "\"=101, \"" + a.toString() + "\"=99}");
-        assertThat(Maps.format(map)).isEqualTo("{\"" + b.toString() + "\"=100, \"" + c.toString() + "\"=101, \"" + a.toString() + "\"=99}");
+        assertThat(Maps.format(standardRepresentation, map)).isEqualTo("{" + b.toString() + "=100, " + c.toString() + "=101, " + a.toString() + "=99}");
+        assertThat(Maps.format(map)).isEqualTo("{" + b.toString() + "=100, " + c.toString() + "=101, " + a.toString() + "=99}");
     }
 }
