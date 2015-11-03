@@ -89,10 +89,10 @@ public class Maps {
         }
         Map sortedMap = new TreeMap();
         for (Map.Entry mapEntry : map.entrySet()){
-            if (mapEntry.getKey() instanceof Comparable){
+            try {
                 sortedMap.put(mapEntry.getKey(), mapEntry.getValue());
             }
-            else {
+            catch (ClassCastException | NullPointerException e){
                 sortedMap = map;
                 break;
             }
