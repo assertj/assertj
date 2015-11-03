@@ -25,6 +25,7 @@ import org.assertj.core.presentation.StandardRepresentation;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author gabga
  */
 public class Maps {
 
