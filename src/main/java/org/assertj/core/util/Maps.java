@@ -87,16 +87,14 @@ public class Maps {
         if (map == null) {
             return null;
         }
-        Map sortedMap = new TreeMap();
-        for (Map.Entry mapEntry : map.entrySet()){
-            try {
-                sortedMap.put(mapEntry.getKey(), mapEntry.getValue());
-            }
-            catch (ClassCastException | NullPointerException e){
-                sortedMap = map;
-                break;
-            }
+        Map sortedMap;
+        try{
+            sortedMap = new TreeMap(map);
         }
+        catch (ClassCastException | NullPointerException e){
+            sortedMap = map;
+        }
+
         Iterator<?> i = sortedMap.entrySet().iterator();
         if (!i.hasNext()) {
             return "{}";
