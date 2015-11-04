@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
@@ -523,6 +524,54 @@ public class Assertions {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThat(Throwable actual) {
     return new ThrowableAssert(actual);
+  }
+
+  /**
+   * Allows to capture and then assert on a {@link Throwable} more easily when used with lambdas.
+   *
+   * <p>
+   * Example :
+   * </p>
+   *
+   * <pre><code class='java'>{@literal @}Test
+   * public void testException() {
+   *   assertThatThrownBy(() -> { throw new Exception("boom!"); }).isInstanceOf(Exception.class)
+   *                                                              .hasMessageContaining("boom");
+   * }</code></pre>
+   *
+   * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable) {
+    return assertThat(catchThrowable(shouldRaiseThrowable)).hasBeenThrown();
+  }
+
+  /**
+   * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * <p>
+   * This caught {@link Throwable} can then be asserted.
+   * </p>
+   *
+   * <p>
+   * Example:
+   * </p>
+   *
+   * <pre><code class='java'> {@literal @}Test
+   * public void testException() {
+   *   // when
+   *   Throwable thrown = catchThrowable(() -> { throw new Exception("boom!"); });
+   *
+   *   // then
+   *   assertThat(thrown).isInstanceOf(Exception.class)
+   *                     .hasMessageContaining("boom");
+   * } </code></pre>
+   *
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   */
+  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
+    return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
   }
 
   // -------------------------------------------------------------------------------------------------

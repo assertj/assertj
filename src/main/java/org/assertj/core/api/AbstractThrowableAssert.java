@@ -14,6 +14,7 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -37,6 +38,11 @@ public abstract class AbstractThrowableAssert<S extends AbstractThrowableAssert<
 
 	protected AbstractThrowableAssert(A actual, Class<?> selfType) {
 		super(actual, selfType);
+	}
+
+	protected S hasBeenThrown() {
+		if (actual == null) throw Failures.instance().failure("Expecting code to raise a throwable.");
+		return myself;
 	}
 
 	/**

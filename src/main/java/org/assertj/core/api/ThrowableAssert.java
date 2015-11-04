@@ -27,7 +27,20 @@ package org.assertj.core.api;
  */
 public class ThrowableAssert extends AbstractThrowableAssert<ThrowableAssert, Throwable> {
 
+  public interface ThrowingCallable {
+    void call() throws Throwable;
+  }
+
   protected ThrowableAssert(Throwable actual) {
     super(actual, ThrowableAssert.class);
+  }
+
+  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
+    try {
+      shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return throwable;
+    }
+    return null;
   }
 }
