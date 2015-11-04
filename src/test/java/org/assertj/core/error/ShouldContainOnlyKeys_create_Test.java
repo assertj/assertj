@@ -44,7 +44,7 @@ public class ShouldContainOnlyKeys_create_Test {
 
 	assertThat(message).isEqualTo(String.format("[Test] %n"
 	                              + "Expecting:%n"
-	                              + "  <{\"name\"=\"Yoda\", \"color\"=\"green\"}>%n"
+	                              + "  <{\"color\"=\"green\", \"name\"=\"Yoda\"}>%n"
 	                              + "to contain only following keys:%n"
 	                              + "  <[\"jedi\", \"color\"]>%n"
 	                              + "keys not found:%n"

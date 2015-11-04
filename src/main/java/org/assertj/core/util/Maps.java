@@ -12,11 +12,8 @@
  */
 package org.assertj.core.util;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.WeakHashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -28,6 +25,7 @@ import org.assertj.core.presentation.StandardRepresentation;
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
+ * @author gabga
  */
 public class Maps {
 
@@ -79,33 +77,41 @@ public class Maps {
     return format(new StandardRepresentation(), map);
   }
 
-  /**
-   * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
-   * 
-   * @param map the map to format.
-   * @return the {@code String} representation of the given map.
-   */
-  public static String format(Representation p, Map<?, ?> map) {
-    if (map == null) {
-      return null;
+    /**
+     * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
+     *
+     * @param map the map to format.
+     * @return the {@code String} representation of the given map.
+     */
+    public static String format(Representation p, Map<?, ?> map) {
+        if (map == null) {
+            return null;
+        }
+        Map sortedMap;
+        try{
+            sortedMap = new TreeMap(map);
+        }
+        catch (ClassCastException | NullPointerException e){
+            sortedMap = map;
+        }
+
+        Iterator<?> i = sortedMap.entrySet().iterator();
+        if (!i.hasNext()) {
+            return "{}";
+        }
+        StringBuilder buffer = new StringBuilder();
+        buffer.append("{");
+        for (;;) {
+            Entry<?, ?> e = (Entry<?, ?>) i.next();
+            buffer.append(format(map, e.getKey(), p));
+            buffer.append('=');
+            buffer.append(format(map, e.getValue(), p));
+            if (!i.hasNext()) {
+                return buffer.append("}").toString();
+            }
+            buffer.append(", ");
+        }
     }
-    Iterator<?> i = map.entrySet().iterator();
-    if (!i.hasNext()) {
-      return "{}";
-    }
-    StringBuilder buffer = new StringBuilder();
-    buffer.append("{");
-    for (;;) {
-      Entry<?, ?> e = (Entry<?, ?>) i.next();
-      buffer.append(format(map, e.getKey(), p));
-      buffer.append('=');
-      buffer.append(format(map, e.getValue(), p));
-      if (!i.hasNext()) {
-        return buffer.append("}").toString();
-      }
-      buffer.append(", ");
-    }
-  }
 
   private static Object format(Map<?, ?> map, Object o, Representation p) {
     return o == map ? "(this Map)" : p.toStringOf(o);
